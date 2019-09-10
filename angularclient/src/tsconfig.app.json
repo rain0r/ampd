@@ -1,0 +1,28 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "lib": [ "es2015", "dom" ],
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "noImplicitAny": false,
+    "outDir": "../out-tsc/app",
+    "sourceMap": true,
+    "suppressImplicitAnyIndexErrors": true,
+    "target": "es5",
+    "types": [],
+    "allowUnreachableCode": false,  
+	"allowUnusedLabels": false,
+	"declaration": true,
+	"forceConsistentCasingInFileNames": true,
+	"noFallthroughCasesInSwitch": true,
+	"noImplicitReturns": true,
+	"pretty": false,
+	"strict": true
+  },
+  "exclude": [
+    "src/test.ts",
+    "**/*.spec.ts"
+  ]
+}

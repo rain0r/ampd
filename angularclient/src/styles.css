@@ -1,0 +1,73 @@
+/* You can add global styles to this file, and also import other style files */
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+/* @import "~@angular/material/prebuilt-themes/deeppurple-amber.css"; */
+/* @import "~@angular/material/prebuilt-themes/pink-bluegrey.css"; */
+/* @import "~@angular/material/prebuilt-themes/purple-green.css"; */
+
+body {
+  margin: 0px;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+* {
+  margin: 0;
+  padding: 0
+}
+
+.fill-space {
+  flex: 1 1 auto;
+}
+
+@media (max-width: 600px) {
+  .only-on-big-screen {
+    display: none;
+  }
+}
+
+@media (min-width: 700px) {
+  .only-on-small-screen {
+    display: none;
+  }
+}
+
+.space-divider {
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+.chip {
+  padding: 0px !important;
+  background-color: #e0e0e0;
+  display: inline-flex;
+  border-radius: 24px;
+}
+
+mat-toolbar {
+  justify-content: center;
+  padding-bottom: 0px;
+}
+
+.space-right {
+  padding-right: 0.5em;
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+.text-muted {
+  color: #868e96 !important;
+}
+
+table {
+  width: 100%;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.half-width {
+  width: 50%;
+}
+

@@ -1,0 +1,362 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://musicbrainz.org/ns/mmd-2.0#" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="metadata" type="mmd:metadataType" xmlns:mmd="http://musicbrainz.org/ns/mmd-2.0#"/>
+  <xs:complexType name="aliasType">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute type="xs:string" name="sort-name" use="optional"/>
+        <xs:attribute type="xs:string" name="locale" use="optional"/>
+        <xs:attribute type="xs:string" name="type" use="optional"/>
+        <xs:attribute type="xs:string" name="type-id" use="optional"/>
+        <xs:attribute type="xs:string" name="primary" use="optional"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="alias-listType">
+    <xs:sequence>
+      <xs:element type="mmd:aliasType" name="alias" maxOccurs="unbounded" minOccurs="0" xmlns:mmd="http://musicbrainz.org/ns/mmd-2.0#"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="artistType">
+    <xs:sequence>
+      <xs:element type="xs:string" name="name"/>
+      <xs:element type="xs:string" name="sort-name"/>
+      <xs:element name="disambiguation" minOccurs="0">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration>
+              <value>US TV/film composer, conductor &amp; producer</value>
+            </xs:enumeration>
+            <xs:enumeration>
+              <value>soundtrack composer &amp; conductor</value>
+            </xs:enumeration>
+            <xs:enumeration>
+              <value>add compilations to this artist</value>
+            </xs:enumeration>
+            <xs:enumeration>
+              <value>UK progressive rock "Canterbury style" from '60</value>
+            </xs:enumeration>
+            <xs:enumeration>
+              <value>Former Trip Shakespeare members reunite.</value>
+            </xs:enumeration>
+            <xs:enumeration>
+              <value>UK punk band</value>
+            </xs:enumeration>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element type="mmd:alias-listType" name="alias-list" minOccurs="0" xmlns:mmd="http://musicbrainz.org/ns/mmd-2.0#"/>
+    </xs:sequence>
+    <xs:attribute type="xs:string" name="id" use="optional"/>
+  </xs:complexType>
+  <xs:complexType name="name-creditType">
+    <xs:sequence>
+      <xs:element type="mmd:artistType" name="artist" xmlns:mmd="http://musicbrainz.org/ns/mmd-2.0#"/>
+    </xs:sequence>
+    <xs:attribute type="xs:string" name="joinphrase" use="optional"/>
+  </xs:complexType>
+  <xs:complexType name="artist-creditType">
+    <xs:sequence>
+      <xs:element type="mmd:name-creditType" name="name-credit" maxOccurs="unbounded" minOccurs="0" xmlns:mmd="http://musicbrainz.org/ns/mmd-2.0#"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="primary-typeType">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute type="xs:string" name="id" use="optional"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="release-groupType">
+    <xs:sequence>
+      <xs:element type="xs:string" name="title"/>
+      <xs:element type="mmd:primary-typeType" name="primary-type" xmlns:mmd="http://musicbrainz.org/ns/mmd-2.0#"/>
+      <xs:element type="mmd:secondary-type-listType" name="secondary-type-list" minOccurs="0" xmlns:mmd="http://musicbrainz.org/ns/mmd-2.0#"/>
+    </xs:sequence>
+    <xs:attribute type="xs:string" name="id" use="optional"/>
+    <xs:attribute type="xs:string" name="type" use="optional"/>
+    <xs:attribute type="xs:string" name="type-id" use="optional"/>
+  </xs:complexType>
+  <xs:complexType name="iso-3166-1-code-listType">
+    <xs:sequence>
+      <xs:element name="iso-3166-1-code">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration>
+              <value>US</value>
+            </xs:enumeration>
+            <xs:enumeration>
+              <value>JP</value>
+            </xs:enumeration>
+            <xs:enumeration>
+              <value>GB</value>
+            </xs:enumeration>
+            <xs:enumeration>
+              <value>ES</value>
+            </xs:enumeration>
+            <xs:enumeration>
+              <value>IT</value>
+            </xs:enumeration>
+            <xs:enumeration>
+              <value>XW</value>
+            </xs:enumeration>
+            <xs:enumeration>
+              <value>XE</value>
+            </xs:enumeration>
+            <xs:enumeration>
+              <value>DE</value>
+            </xs:enumeration>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="areaType">
+    <xs:sequence>
+      <xs:element name="name">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration>
+              <value>United States</value>
+            </xs:enumeration>
+            <xs:enumeration>
+              <value>Japan</value>
+            </xs:enumeration>
+            <xs:enumeration>
+              <value>United Kingdom</value>
+            </xs:enumeration>
+            <xs:enumeration>
+              <value>Spain</value>
+            </xs:enumeration>
+            <xs:enumeration>
+              <value>Italy</value>
+            </xs:enumeration>
+            <xs:enumeration>
+              <value>[Worldwide]</value>
+            </xs:enumeration>
+            <xs:enumeration>
+              <value>Europe</value>
+            </xs:enumeration>
+            <xs:enumeration>
+              <value>Germany</value>
+            </xs:enumeration>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="sort-name">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration>
+              <value>United States</value>
+            </xs:enumeration>
+            <xs:enumeration>
+              <value>Japan</value>
+            </xs:enumeration>
+            <xs:enumeration>
+              <value>United Kingdom</value>
+            </xs:enumeration>
+            <xs:enumeration>
+              <value>Spain</value>
+            </xs:enumeration>
+            <xs:enumeration>
+              <value>Italy</value>
+            </xs:enumeration>
+            <xs:enumeration>
+              <value>[Worldwide]</value>
+            </xs:enumeration>
+            <xs:enumeration>
+              <value>Europe</value>
+            </xs:enumeration>
+            <xs:enumeration>
+              <value>Germany</value>
+            </xs:enumeration>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element type="mmd:iso-3166-1-code-listType" name="iso-3166-1-code-list" xmlns:mmd="http://musicbrainz.org/ns/mmd-2.0#"/>
+    </xs:sequence>
+    <xs:attribute type="xs:string" name="id" use="optional"/>
+  </xs:complexType>
+  <xs:complexType name="release-eventType">
+    <xs:sequence>
+      <xs:element type="xs:string" name="date"/>
+      <xs:element type="mmd:areaType" name="area" xmlns:mmd="http://musicbrainz.org/ns/mmd-2.0#"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="release-event-listType">
+    <xs:sequence>
+      <xs:element type="mmd:release-eventType" name="release-event" xmlns:mmd="http://musicbrainz.org/ns/mmd-2.0#"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="trackType">
+    <xs:sequence>
+      <xs:element type="xs:byte" name="number"/>
+      <xs:element type="xs:string" name="title"/>
+      <xs:element type="xs:int" name="length" minOccurs="0"/>
+    </xs:sequence>
+    <xs:attribute type="xs:string" name="id" use="optional"/>
+  </xs:complexType>
+  <xs:complexType name="track-listType">
+    <xs:sequence>
+      <xs:element type="mmd:trackType" name="track" xmlns:mmd="http://musicbrainz.org/ns/mmd-2.0#"/>
+    </xs:sequence>
+    <xs:attribute type="xs:byte" name="count" use="optional"/>
+    <xs:attribute type="xs:byte" name="offset" use="optional"/>
+  </xs:complexType>
+  <xs:complexType name="mediumType">
+    <xs:sequence>
+      <xs:element name="position">
+        <xs:simpleType>
+          <xs:restriction base="xs:byte">
+            <xs:enumeration>
+              <value>1</value>
+            </xs:enumeration>
+            <xs:enumeration>
+              <value>2</value>
+            </xs:enumeration>
+            <xs:enumeration>
+              <value>3</value>
+            </xs:enumeration>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="format" minOccurs="0">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration>
+              <value>CD</value>
+            </xs:enumeration>
+            <xs:enumeration>
+              <value>Digital Media</value>
+            </xs:enumeration>
+            <xs:enumeration>
+              <value>DVD</value>
+            </xs:enumeration>
+            <xs:enumeration>
+              <value>VHS</value>
+            </xs:enumeration>
+            <xs:enumeration>
+              <value>DVD-Video</value>
+            </xs:enumeration>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element type="mmd:track-listType" name="track-list" xmlns:mmd="http://musicbrainz.org/ns/mmd-2.0#"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="medium-listType">
+    <xs:sequence>
+      <xs:element type="xs:short" name="track-count"/>
+      <xs:element type="mmd:mediumType" name="medium" xmlns:mmd="http://musicbrainz.org/ns/mmd-2.0#"/>
+    </xs:sequence>
+    <xs:attribute type="xs:byte" name="count" use="optional"/>
+  </xs:complexType>
+  <xs:complexType name="releaseType">
+    <xs:choice maxOccurs="unbounded" minOccurs="0">
+      <xs:element type="xs:string" name="title"/>
+      <xs:element type="xs:string" name="status"/>
+      <xs:element type="mmd:artist-creditType" name="artist-credit" xmlns:mmd="http://musicbrainz.org/ns/mmd-2.0#"/>
+      <xs:element name="disambiguation">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration>
+              <value>40th Anniversary Edition</value>
+            </xs:enumeration>
+            <xs:enumeration>
+              <value>40th anniversary edition</value>
+            </xs:enumeration>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element type="mmd:release-groupType" name="release-group" xmlns:mmd="http://musicbrainz.org/ns/mmd-2.0#"/>
+      <xs:element type="xs:string" name="date"/>
+      <xs:element name="country">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration>
+              <value>US</value>
+            </xs:enumeration>
+            <xs:enumeration>
+              <value>JP</value>
+            </xs:enumeration>
+            <xs:enumeration>
+              <value>GB</value>
+            </xs:enumeration>
+            <xs:enumeration>
+              <value>ES</value>
+            </xs:enumeration>
+            <xs:enumeration>
+              <value>IT</value>
+            </xs:enumeration>
+            <xs:enumeration>
+              <value>XW</value>
+            </xs:enumeration>
+            <xs:enumeration>
+              <value>XE</value>
+            </xs:enumeration>
+            <xs:enumeration>
+              <value>DE</value>
+            </xs:enumeration>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element type="mmd:release-event-listType" name="release-event-list" xmlns:mmd="http://musicbrainz.org/ns/mmd-2.0#"/>
+      <xs:element type="mmd:medium-listType" name="medium-list" xmlns:mmd="http://musicbrainz.org/ns/mmd-2.0#"/>
+    </xs:choice>
+    <xs:attribute type="xs:string" name="id" use="optional"/>
+  </xs:complexType>
+  <xs:complexType name="release-listType">
+    <xs:sequence>
+      <xs:element type="mmd:releaseType" name="release" maxOccurs="unbounded" minOccurs="0" xmlns:mmd="http://musicbrainz.org/ns/mmd-2.0#"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="tagType">
+    <xs:sequence>
+      <xs:element type="xs:string" name="name"/>
+    </xs:sequence>
+    <xs:attribute type="xs:byte" name="count"/>
+  </xs:complexType>
+  <xs:complexType name="tag-listType">
+    <xs:sequence>
+      <xs:element type="mmd:tagType" name="tag" xmlns:mmd="http://musicbrainz.org/ns/mmd-2.0#"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="recordingType">
+    <xs:sequence>
+      <xs:element type="xs:string" name="title"/>
+      <xs:element type="xs:int" name="length" minOccurs="0"/>
+      <xs:element type="xs:string" name="disambiguation" minOccurs="0"/>
+      <xs:element type="xs:string" name="video" minOccurs="0"/>
+      <xs:element type="mmd:artist-creditType" name="artist-credit" xmlns:mmd="http://musicbrainz.org/ns/mmd-2.0#"/>
+      <xs:element type="mmd:release-listType" name="release-list" xmlns:mmd="http://musicbrainz.org/ns/mmd-2.0#"/>
+      <xs:element type="mmd:tag-listType" name="tag-list" minOccurs="0" xmlns:mmd="http://musicbrainz.org/ns/mmd-2.0#"/>
+    </xs:sequence>
+    <xs:attribute type="xs:string" name="id" use="optional"/>
+    <xs:attribute ref="ext:score" xmlns:ext="http://musicbrainz.org/ns/ext#-2.0"/>
+  </xs:complexType>
+  <xs:complexType name="secondary-typeType">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute type="xs:string" name="id" use="optional"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="secondary-type-listType">
+    <xs:sequence>
+      <xs:element type="mmd:secondary-typeType" name="secondary-type" maxOccurs="unbounded" minOccurs="0" xmlns:mmd="http://musicbrainz.org/ns/mmd-2.0#"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="recording-listType">
+    <xs:sequence>
+      <xs:element type="mmd:recordingType" name="recording" maxOccurs="unbounded" minOccurs="0" xmlns:mmd="http://musicbrainz.org/ns/mmd-2.0#"/>
+    </xs:sequence>
+    <xs:attribute type="xs:byte" name="count"/>
+    <xs:attribute type="xs:byte" name="offset"/>
+  </xs:complexType>
+  <xs:complexType name="metadataType">
+    <xs:sequence>
+      <xs:element type="mmd:recording-listType" name="recording-list" xmlns:mmd="http://musicbrainz.org/ns/mmd-2.0#"/>
+    </xs:sequence>
+    <xs:attribute type="xs:dateTime" name="created"/>
+  </xs:complexType>
+</xs:schema>

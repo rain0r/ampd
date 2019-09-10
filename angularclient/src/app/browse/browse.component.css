@@ -1,0 +1,76 @@
+.browse-list {
+  background: white;
+  border-bottom: 1px solid rgba(0, 0, 0, .12);
+}
+
+.browse-list-item {
+  color: black;
+  text-decoration: none;
+}
+
+.list-header {
+  color: rgba(0, 0, 0, 0.54);
+  font-size: 1.17em;
+  font-weight: bold;
+}
+
+.browse-list:hover {
+  cursor: pointer;
+  background: #eeee;
+}
+
+.breadcrumb {
+  color: rgba(0, 0, 0, 0.54);
+  text-decoration: none;
+}
+
+.breadcrumb:hover {
+  text-decoration: underline;
+}
+
+.title-length {
+  float: right;
+}
+
+.clear-queue {
+  width: 100%;
+  background: #eee;
+  margin-top: 1em;
+}
+
+.list-item:hover {
+  background: #eee;
+}
+
+.mat-standard-chip {
+  padding: 0px !important;
+}
+
+.playlist-count {
+  float: right;
+}
+
+div.sub-menu {
+  display: flex;
+  margin-bottom: 1.5em;
+  padding: 2px;
+  background: white;
+  justify-content: flex-end;
+  align-items: baseline;
+}
+
+div.sub-menu > div {
+  flex: 1 1 5em;
+}
+
+div.sub-menu > div:first-child {
+  margin-left: 0;
+}
+
+div.sub-menu > div.two {
+  flex: 2 2 calc(10em + 10px); /** 10px is the missing margin of the missing box */
+}
+
+.mat-small {
+  min-width: 1%;
+}

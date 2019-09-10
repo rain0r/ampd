@@ -1,0 +1,38 @@
+<block-ui>
+  <div style="height: 100vh;">
+    <mat-toolbar color="primary">
+      <mat-toolbar-row>
+        <a routerLink="/" mat-button>
+          <mat-icon>format_list_bulleted</mat-icon>
+          <span class="only-on-big-screen">
+              Queue
+            </span>
+        </a>
+        <a routerLink="/browse" mat-button>
+          <mat-icon>folder_open</mat-icon>
+          <span class="only-on-big-screen">
+              Browse
+            </span>
+        </a>
+        <a routerLink="/search" mat-button>
+          <mat-icon>search</mat-icon>
+          <span class="only-on-big-screen">
+              Search
+            </span>
+        </a>
+        <a routerLink="/settings" mat-button>
+          <mat-icon>settings</mat-icon>
+          <span class="only-on-big-screen">
+              Settings
+            </span>
+        </a>
+        <span class="fill-space"></span>
+        <mat-icon>{{connectedStatusIcon}}</mat-icon>
+      </mat-toolbar-row>
+    </mat-toolbar>
+
+    <div class="app-content">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</block-ui>

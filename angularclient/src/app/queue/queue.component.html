@@ -1,0 +1,218 @@
+<div class="centered">
+  <div class="container">
+    <div>
+      <span class="mat-h1 title">
+        {{currentSong.title}}
+      </span>
+      <br *ngIf="currentSong.albumName" />
+      <span class="mat-h3 queue-sub-title" *ngIf="currentSong.albumName">
+        「{{currentSong.albumName}}」
+      </span>
+      <br/>
+      <span class="mat-h3 queue-sub-title">
+        {{currentSong.artistName}}
+      </span>
+    </div>
+    <div *ngIf="currentState != 'stop'">
+      <img src="{{currentSong.coverUrl()}}"
+           alt="No cover"
+           (click)="openCoverModal()"
+           class="album-art"/>
+    </div>
+    <div *ngIf="currentState == 'stop'">
+      Stopped.
+    </div>
+  </div>
+
+  <mat-divider class="divide-space-up-down"></mat-divider>
+
+  <!-- Control buttons (play, pause, ...) -->
+
+  <div class="container" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%"
+       fxLayoutAlign="center">
+    <div fxFlex="100%">
+      <div class="sub-menu">
+        <button mat-raised-button (click)="handleControlButton($event)" id="btn-prev">
+          <i class="material-icons">skip_previous</i>
+        </button>
+        <button mat-raised-button (click)="handleControlButton($event)" id="btn-stop">
+          <i class="material-icons">stop</i>
+        </button>
+        <button mat-raised-button *ngIf="currentState == 'play'" (click)="handleControlButton($event)"
+                id="btn-pause">
+          <i class="material-icons">pause</i>
+        </button>
+        <button mat-raised-button *ngIf="currentState != 'play'" (click)="handleControlButton($event)"
+                id="btn-play">
+          <i class="material-icons">play_arrow</i>
+        </button>
+        <button mat-raised-button (click)="handleControlButton($event)" id="btn-next">
+          <i class="material-icons">skip_next</i>
+        </button>
+
+        <span class="clear-queue-container">
+          <button mat-raised-button
+                  (click)="onClearQueue()"
+                  title="Remove all items from the queue"
+                  class="valign-top clear-queue">
+            <i class="material-icons clickable">delete</i>
+            Clear
+          </button>
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <mat-divider class="divide-space-up-down"></mat-divider>
+
+  <!-- Current song progress and readable song lengthAsSeconds -->
+  <mat-grid-list cols="10" rowHeight="1.5em">
+    <mat-grid-tile>
+      {{currentSong.elapsedFormatted}}
+    </mat-grid-tile>
+    <mat-grid-tile colspan="7">
+      <mat-slider class="full-width"
+                  min="1" max="{{currentSong.length}}" step="1"
+                  [(ngModel)]="currentSong.progress"
+                  (input)="handleCurrentSongProgressSlider($event)"></mat-slider>
+    </mat-grid-tile>
+    <mat-grid-tile colspan="2">
+      {{currentSong.durationFormatted()}}
+    </mat-grid-tile>
+  </mat-grid-list>
+
+  <mat-divider class="divide-space-up-down"></mat-divider>
+
+  <!-- Volume slider -->
+  <mat-grid-list cols="10" rowHeight="1.5em">
+    <mat-grid-tile>
+      <i class="material-icons">volume_down</i>
+    </mat-grid-tile>
+    <mat-grid-tile colspan="7">
+      <mat-slider class="full-width"
+                  min="1" max="100" step="1"
+                  [(ngModel)]="volume"
+                  (input)="handleVolumeSlider($event)"></mat-slider>
+    </mat-grid-tile>
+    <mat-grid-tile colspan="2">
+      {{volume}} &#37;
+    </mat-grid-tile>
+  </mat-grid-list>
+
+  <mat-divider class="divide-space-up-down"></mat-divider>
+
+  <mat-button-toggle-group multiple (change)="toggleCtrl($event)">
+    <mat-button-toggle value="random"
+                       [checked]="controlPanel.random"
+                       (change)="controlPanel.random = $event.source.checked">
+      <i class="material-icons">
+        shuffle
+      </i>
+      <span class="only-on-big-screen">
+      random
+        </span>
+    </mat-button-toggle>
+    <mat-button-toggle value="consume"
+                       [checked]="controlPanel.consume"
+                       (change)="controlPanel.consume = $event.source.checked">
+      <i class="material-icons">
+        whatshot
+      </i>
+      <span class="only-on-big-screen">
+        consume
+      </span>
+    </mat-button-toggle>
+    <mat-button-toggle value="single"
+                       [checked]="controlPanel.single"
+                       (change)="controlPanel.single = $event.source.checked">
+      <i class="material-icons">
+        star_border
+      </i>
+      <span class="only-on-big-screen">
+        single
+      </span>
+    </mat-button-toggle>
+    <mat-button-toggle value="crossfade"
+                       [checked]="controlPanel.crossfade"
+                       (change)="controlPanel.crossfade = $event.source.checked">
+      <i class="material-icons">
+        compare_arrows
+      </i>
+      <span class="only-on-big-screen">
+        crossfade
+      </span>
+    </mat-button-toggle>
+    <mat-button-toggle value="repeat"
+                       [checked]="controlPanel.repeat"
+                       (change)="controlPanel.repeat = $event.source.checked">
+      <i class="material-icons">
+        repeat
+      </i>
+      <span class="only-on-big-screen">
+        repeat
+      </span>
+    </mat-button-toggle>
+  </mat-button-toggle-group>
+
+  <mat-divider class="divide-space-up-down"></mat-divider>
+
+  <!-- QueueItem table -->
+  <table mat-table class="queue-table" [dataSource]="queue" *ngIf="queue.length > 0">
+    <ng-container matColumnDef="pos">
+      <mat-header-cell *matHeaderCellDef>#</mat-header-cell>
+      <mat-cell *matCellDef="let row"
+                (click)="onRowClick(row.file)">
+        {{row.pos}}
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="artist">
+      <mat-header-cell *matHeaderCellDef>Artist</mat-header-cell>
+      <mat-cell *matCellDef="let row"
+                (click)="onRowClick(row.file)">
+        {{row.artistName}}
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="album">
+      <mat-header-cell *matHeaderCellDef>Album</mat-header-cell>
+      <mat-cell *matCellDef="let row"
+                (click)="onRowClick(row.file)">
+        {{row.albumName}}
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="title">
+      <mat-header-cell *matHeaderCellDef>Title</mat-header-cell>
+      <mat-cell *matCellDef="let row"
+                (click)="onRowClick(row.file)">
+        {{row.title}}
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="length">
+      <mat-header-cell *matHeaderCellDef>Duration</mat-header-cell>
+      <mat-cell *matCellDef="let song">
+        {{song.durationFormatted()}}
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="remove">
+      <mat-header-cell *matHeaderCellDef></mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        <button mat-button
+                class="btn-remove-track"
+                title="Remove from queue"
+                (click)="onRemoveTrack(element.position)">
+          <mat-icon>backspace</mat-icon>
+        </button>
+      </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="getDisplayedColumns()"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: getDisplayedColumns()"
+             class="table-row"
+             [ngClass]="{'playing': row.playing == true}">
+    </mat-row>
+  </table>
+</div>

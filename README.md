@@ -38,9 +38,6 @@ Build the jar file:
 
 ```
 mvn clean package spring-boot:repackage
-
-# Build in quiet mode, with 1 thread per cpu core
-mvn -T 1C clean package spring-boot:repackage -q
 ```
 
 Start it!

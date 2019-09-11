@@ -6,7 +6,7 @@ export const environment = {
   production: false,
   coverServer: '',
   webSocketServer: '',
-  ampdVersion: 'live', // REPLACE_AMPD_VERSION
+  ampdVersion: 'live',
 };
 
 /*

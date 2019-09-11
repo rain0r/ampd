@@ -1,16 +1,18 @@
 const replace = require('replace-in-file');
 const spawn = require('child_process').spawn;
+var dateFormat = require('dateformat');
 
 const CONTEXT_PATH = '/ampd/';
 
 const prod = process.argv.includes('--prod');
 
 // Write down the build date
+const now = new Date();
 const options = {
   files: 'src/environments/environment.prod.ts',
   //Replacement to make (string or regex)
-  from: /REPLACE_AMPD_VERSION/g,
-  to: new Date().toISOString(),
+  from: /ampdVersion: '.*'/,
+  to: `ampdVersion: '${dateFormat(now, "yyyy-mm-dd HH:mm")}'`,
 };
 
 try {

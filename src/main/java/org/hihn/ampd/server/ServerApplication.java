@@ -1,28 +1,27 @@
 package org.hihn.ampd.server;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
-import org.springframework.core.env.Environment;
 
 
 @SpringBootApplication
 public class ServerApplication {
+  @Value("${server.address}")
+  private String address;
 
-    @Autowired
-    Environment environment;
+  @Value("${server.port}")
+  private int port;
 
-    public static void main(String[] args) {
-        SpringApplication.run(ServerApplication.class, args);
+  public static void main(String[] args) {
+    SpringApplication.run(ServerApplication.class, args);
 
-    }
+  }
 
-    @EventListener(ApplicationReadyEvent.class)
-    public void doSomethingAfterStartup() {
-        String address = environment.getProperty("local.server.address");
-        String port = environment.getProperty("local.server.port");
-        System.out.println("ampd is running on: "address + ":" + port);
-    }
+  @EventListener(ApplicationReadyEvent.class)
+  public void doSomethingAfterStartup() {
+    System.out.println("ampd is running on: " + address + ":" + port);
+  }
 }

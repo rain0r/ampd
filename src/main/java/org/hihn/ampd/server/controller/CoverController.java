@@ -1,6 +1,5 @@
 package org.hihn.ampd.server.controller;
 
-import static org.hihn.ampd.server.service.CoverCacheService.COVER_TYPE.ALBUM;
 import java.util.Optional;
 import org.hihn.ampd.server.service.CoverArtFetcherService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +32,7 @@ public class CoverController {
       @RequestParam("album") Optional<String> albumName) {
 
     Optional<byte[]> ret =
-        coverArtFetcherService.getAlbumCover(ALBUM, filePath, artistName, albumName);
+        coverArtFetcherService.getAlbumCover(filePath, artistName, albumName);
 
     if (ret.isPresent()) {
       return ret.get();

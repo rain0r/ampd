@@ -12,6 +12,12 @@ Set `AMPD_URL` to the url of your server in `angularclient/src/environments/envi
 const AMPD_URL = 'punica:8003';
 ```
 
+Also, check the context path under which ampd will be accessed later in `angularclient/build.js`:
+
+```
+const CONTEXT_PATH = '/ampd/';
+```
+
 Build Angular:
 
 ```

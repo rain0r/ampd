@@ -4,9 +4,9 @@
 
 export const environment = {
   production: false,
-  coverServer: 'http://punica:8080',
-  webSocketServer: 'ws://punica:8080/mpd',
-  ampdVersion: 'live', // R_AMPD_VERSION
+  coverServer: '',
+  webSocketServer: '',
+  ampdVersion: 'live', // REPLACE_AMPD_VERSION
 };
 
 /*

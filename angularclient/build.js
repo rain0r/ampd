@@ -1,9 +1,11 @@
 const replace = require('replace-in-file');
 const spawn = require('child_process').spawn;
 
-let prod = process.argv.includes('--prod');
-console.log(prod);
+const CONTEXT_PATH = '/ampd/';
 
+const prod = process.argv.includes('--prod');
+
+// Write down the build date
 const options = {
   files: 'src/environments/environment.prod.ts',
   //Replacement to make (string or regex)
@@ -12,7 +14,7 @@ const options = {
 };
 
 try {
-  let changedFiles = replace.sync(options);
+  replace.sync(options);
 } catch (error) {
   console.error('Error occurred:', error);
 }
@@ -22,7 +24,7 @@ if (prod) {
     'build',
     '--es5-browser-support',
     '--configuration=production',
-    '--base-href=/ampd/',
+    `--base-href=${CONTEXT_PATH}`,
   ]);
 } else {
   spawn('ng', [
@@ -30,6 +32,6 @@ if (prod) {
     '--source-map',
     '--prod=false',
     '--build-optimizer=false',
-    '--base-href=/ampd/',
+    `--base-href=${CONTEXT_PATH}`,
   ]);
 }

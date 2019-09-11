@@ -4,5 +4,5 @@ export const environment = {
   production: true,
   coverServer: `http://${AMPD_URL}`,
   webSocketServer: `ws://${AMPD_URL}/mpd`,
-  ampdVersion: '2019-06-23 17:33:12',
+  ampdVersion: '2019-09-11T08:22:12.430Z',
 };

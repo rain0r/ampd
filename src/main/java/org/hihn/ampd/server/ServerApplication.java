@@ -22,6 +22,11 @@ public class ServerApplication {
 
   @EventListener(ApplicationReadyEvent.class)
   public void doSomethingAfterStartup() {
+    System.out.println("\n==========");
     System.out.println("ampd is running on: " + address + ":" + port);
+    System.out.println("Visit http://localhost:" + port + " to configure it.");
+    System.out.println(
+        "(If you haven't already. Also notice the context path the frontend was built with.)");
+    System.out.println("==========");
   }
 }

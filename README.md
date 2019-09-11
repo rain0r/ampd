@@ -17,12 +17,6 @@ Build Angular:
 ```
 cd angularclient
 npm install
-
-# Optional: Update the version string for the web ui
-version=$(date +%Y-%m-%d\ %H:%M:%S)
-substitue="ampdVersion: '${version}',"
-sed -i "s/ampdVersion.*/${substitue}/" src/environments/environment.prod.ts
-
 npm run build-prod
 ```
 
@@ -37,11 +31,20 @@ Open `src/main/resources/application.properties` and fill in the address of your
 Build the jar file:
 
 ```
-mvn package spring-boot:repackage
+mvn clean package spring-boot:repackage
+
+# Build in quiet mode, with 1 thread per cpu core
+mvn -T 1C clean package spring-boot:repackage -q
 ```
 
 Start it!
 
 ```
 java -jar target/server-0.0.1-SNAPSHOT.jar
+```
+
+Every property from `src/main/resources/application.properties` can be overwritten by command line aruments:
+
+```
+java -jar -Dserver.port=8082 target/server-0.0.1-SNAPSHOT.jar
 ```

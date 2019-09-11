@@ -31,8 +31,7 @@ public class CoverController {
       @RequestParam("artist") Optional<String> artistName,
       @RequestParam("album") Optional<String> albumName) {
 
-    Optional<byte[]> ret =
-        coverArtFetcherService.getAlbumCover(filePath, artistName, albumName);
+    Optional<byte[]> ret = coverArtFetcherService.getAlbumCover(filePath, artistName, albumName);
 
     if (ret.isPresent()) {
       return ret.get();

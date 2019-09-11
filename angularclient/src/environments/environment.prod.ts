@@ -2,7 +2,7 @@ const AMPD_URL = 'punica:8003';
 
 export const environment = {
   production: true,
-  coverServer: ``,
-  webSocketServer: ``,
+    coverServer: `http://${AMPD_URL}`,
+    webSocketServer: `ws://${AMPD_URL}/mpd`,
   ampdVersion: '2019-09-11 17:09',
 };

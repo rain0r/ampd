@@ -2,10 +2,12 @@
 // `ng build ---prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
+const AMPD_URL = 'punica:8003';
+
 export const environment = {
   production: false,
-  coverServer: '',
-  webSocketServer: '',
+  coverServer: `http://${AMPD_URL}`,
+  webSocketServer: `ws://${AMPD_URL}/mpd`,
   ampdVersion: 'live',
 };
 

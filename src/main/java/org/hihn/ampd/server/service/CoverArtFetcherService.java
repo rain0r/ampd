@@ -39,8 +39,8 @@ public class CoverArtFetcherService {
     this.coverCacheService = coverCacheService;
   }
 
-  public Optional<byte[]> getAlbumCover(CoverCacheService.COVER_TYPE album, String filePath,
-      Optional<String> artistName, Optional<String> albumName) {
+  public Optional<byte[]> getAlbumCover(String filePath,
+                                        Optional<String> artistName, Optional<String> albumName) {
     Optional<byte[]> cover = fileStorageService.loadFileAsResource(filePath);
 
     if (!cover.isPresent()) {

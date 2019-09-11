@@ -28,7 +28,7 @@ public class FileStorageService {
 
   public Optional<byte[]> loadFileAsResource(String albumDir) {
 
-    Optional<Path> p = Optional.empty();
+    Optional<Path> p;
     Optional<Path> coverFile = Optional.empty();
     Optional<byte[]> ret = Optional.empty();
 

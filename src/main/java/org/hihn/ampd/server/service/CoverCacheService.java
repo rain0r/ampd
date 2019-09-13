@@ -1,19 +1,18 @@
 package org.hihn.ampd.server.service;
 
-import static org.hihn.ampd.server.util.AmpdUtils.loadFile;
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.Optional;
-import org.apache.commons.io.FileUtils;
 import org.hihn.ampd.server.util.AmpdUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Optional;
+import static org.hihn.ampd.server.util.AmpdUtils.loadFile;
 
 @Service
 public class CoverCacheService {
@@ -57,7 +56,7 @@ public class CoverCacheService {
   private String buildAmpdHome() {
     String ret = ampdHome;
     if (StringUtils.isEmpty(ret)) {
-      Path p = Paths.get(FileUtils.getUserDirectoryPath(), ".local/share/ampd");
+      Path p = Paths.get(System.getProperty("user.home"), ".local", "share", "ampd");
       ret = p.toString();
     }
     return ret;
@@ -69,17 +68,19 @@ public class CoverCacheService {
     return loadFile(fullPath);
   }
 
-  public boolean saveCover(COVER_TYPE coverType, String artist, String titleOrAlbum, byte[] file) {
+  public void saveCover(COVER_TYPE coverType, String artist, String titleOrAlbum, byte[] file) {
     LOG.info("Saving cover: " + coverType + " :: " + artist + " - " + titleOrAlbum);
+
     try {
       String fileName = buildFileName(coverType, artist, titleOrAlbum);
       Path fullPath = Paths.get(buildAmpdHome(), CACHE_DIR, fileName).toAbsolutePath();
-      Files.write(fullPath, file);
 
-      return true;
+      if (!fullPath.toFile().exists()) {
+        // Don't write the file if it already exists
+        Files.write(fullPath, file);
+      }
     } catch (IOException e) {
       LOG.error(e.getMessage(), e);
-      return false;
     }
   }
 

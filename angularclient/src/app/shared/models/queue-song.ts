@@ -1,7 +1,4 @@
 import { MpdSong } from '../mpd/mpd-messages';
-import { fromByteArray } from 'base64-js/index';
-
-import { TextEncoderLite } from 'text-encoder-lite/text-encoder-lite';
 import { ConnectionConfiguration } from '../../connection-configuration';
 
 export class QueueSong implements MpdSong {
@@ -50,46 +47,7 @@ export class QueueSong implements MpdSong {
 
   coverUrl(): string {
     const cc = ConnectionConfiguration.get();
-    let ret: string = cc.coverServer;
-
-    if (this.albumName) {
-      ret += this.buildAlbumCoverUrl();
-    } else {
-      ret += this.buildSingletonCoverUrl();
-    }
-
-    return ret;
-  }
-
-  private buildAlbumCoverUrl(): string {
-    let ret = '/album-cover/';
-    const bytes = new TextEncoderLite('utf-8').encode(this.file);
-    ret += fromByteArray(bytes);
-    ret += '?';
-
-    const params: string[] = [];
-    if (this.artistName) {
-      params.push('artist=' + encodeURIComponent(this.artistName));
-    }
-    if (this.artistName) {
-      params.push('album=' + encodeURIComponent(this.albumName));
-    }
-    ret += params.join('&');
-
-    return ret;
-  }
-
-  private buildSingletonCoverUrl(): string {
-    let ret = '/singleton-cover/?';
-    const params: string[] = [];
-    if (this.artistName) {
-      params.push('artist=' + encodeURIComponent(this.artistName));
-    }
-    if (this.artistName) {
-      params.push('title=' + encodeURIComponent(this.title));
-    }
-    ret += params.join('&');
-    return ret;
+    return `${cc.coverServer}/cover`;
   }
 
   durationFormatted(): string {

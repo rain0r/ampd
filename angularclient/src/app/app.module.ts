@@ -9,7 +9,6 @@ import { AppRoutingModule } from './shared/routing/app-routing.module';
 import { SharedModule } from './shared/shared.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { StompConfig, StompService } from '@stomp/ng2-stompjs';
-import { Base64EncodePipe } from './shared/pipes/Base64EncodePipe';
 import { BlockUIModule } from 'ng-block-ui';
 import { WebSocketService } from './shared/services/web-socket.service';
 import { SearchComponent } from './search/search.component';
@@ -25,7 +24,6 @@ import { AmpdBlockUiService } from './shared/block/ampd-block-ui.service';
     BrowseComponent,
     SearchComponent,
     SecondsToMmSsPipe,
-    Base64EncodePipe,
     SearchComponent,
     SettingsComponent,
     CoverModalComponent,

@@ -33,7 +33,6 @@
     "npm": "^6.11.3",
     "npm-install-peers": "^1.2.1",
     "rxjs": "^6.5.3",
-    "text-encoder-lite": "github:rain0r/TextEncoderLite#master",
     "tslib": "^1.10.0",
     "zone.js": "^0.9.1"
   },

@@ -1,28 +1,21 @@
 package org.hihn.ampd.server.service;
 
-import static org.hihn.ampd.server.service.CoverCacheService.COVER_TYPE.ALBUM;
-import static org.hihn.ampd.server.service.CoverCacheService.COVER_TYPE.SINGLETON;
-import static org.hihn.ampd.server.util.AmpdUtils.loadFile;
-import fm.last.musicbrainz.coverart.CoverArt;
-import fm.last.musicbrainz.coverart.CoverArtArchiveClient;
-import fm.last.musicbrainz.coverart.impl.DefaultCoverArtArchiveClient;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URLEncoder;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
-import org.apache.commons.io.IOUtils;
-import org.musicbrainz.controller.Recording;
-import org.musicbrainz.controller.Release;
-import org.musicbrainz.model.entity.ReleaseWs2;
-import org.musicbrainz.model.searchresult.RecordingResultWs2;
-import org.musicbrainz.model.searchresult.ReleaseResultWs2;
+import org.bff.javampd.album.MPDAlbum;
+import org.bff.javampd.art.MPDArtwork;
+import org.bff.javampd.server.MPD;
+import org.bff.javampd.song.MPDSong;
+import org.hihn.ampd.server.config.MpdConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
+import static org.hihn.ampd.server.service.CoverCacheService.COVER_TYPE.ALBUM;
+import static org.hihn.ampd.server.service.CoverCacheService.COVER_TYPE.SINGLETON;
+import static org.hihn.ampd.server.util.AmpdUtils.loadFile;
 
 @Service
 public class CoverArtFetcherService {
@@ -33,23 +26,41 @@ public class CoverArtFetcherService {
 
   private final CoverCacheService coverCacheService;
 
+  private final MPD mpd;
+
   public CoverArtFetcherService(FileStorageService fileStorageService,
-      CoverCacheService coverCacheService) {
+      CoverCacheService coverCacheService, MpdConfiguration mpdConfiguration) {
+
     this.fileStorageService = fileStorageService;
     this.coverCacheService = coverCacheService;
+    this.mpd = mpdConfiguration.mpd();
   }
 
-  public Optional<byte[]> getAlbumCover(String filePath, Optional<String> artistName,
-      Optional<String> albumName) {
-    Optional<byte[]> cover = fileStorageService.loadFileAsResource(filePath);
+  public Optional<byte[]> getAlbumCover() {
+    MPDSong song = mpd.getPlayer().getCurrentSong();
+    CoverCacheService.COVER_TYPE coverType = (song.getAlbumName().isEmpty()) ? SINGLETON : ALBUM;
 
+    // Try to load the cover from cache
+    Optional<byte[]> cover =
+        coverCacheService.loadCover(coverType, song.getArtistName(), song.getTitle());
+
+    // If the cover is not in the cache, try to load it from the MPD music directory
     if (!cover.isPresent()) {
-      if (artistName.isPresent() && albumName.isPresent()) {
-        /* Huh, maybe this is a singleton with an 'album' id3 tag */
-        cover = getAlbumCoverFromWeb(artistName.get(), albumName.get());
-      }
+      String songFilePath = song.getFile();
+      cover = fileStorageService.loadFileAsResource(songFilePath);
     }
 
+    // Now check the musicbrainz cover api
+    if (!cover.isPresent()) {
+      cover = downloadCover();
+    }
+
+    // Save the cover in the cache
+    if (cover.isPresent()) {
+      coverCacheService.saveCover(coverType, song.getArtistName(), song.getTitle(), cover.get());
+    }
+
+    // Show a transparent image
     if (!cover.isPresent()) {
       cover = loadFallbackCover();
     }
@@ -57,137 +68,29 @@ public class CoverArtFetcherService {
     return cover;
   }
 
-  public Optional<byte[]> getSingletonCoverFromWeb(String artist, String title) {
-    Optional<byte[]> cover;
-
-    cover = coverCacheService.loadCover(SINGLETON, artist, title);
-    if (cover.isPresent()) {
-      LOG.info("Found cached cover for: " + artist + " - " + title);
-      return cover;
-    }
-
-    cover = searchSingletonMusicBrainzCover(artist, title);
-    if (!cover.isPresent()) {
-      LOG.info("No cover available for: " + artist + " - " + title);
-      return Optional.empty();
-    }
-
-    coverCacheService.saveCover(SINGLETON, artist, title, cover.get());
-    LOG.info("Found cover for: " + artist + " - " + title);
-    return cover;
-  }
-
-  private Optional<byte[]> getAlbumCoverFromWeb(String artistName, String albumName) {
-    Optional<byte[]> cover;
-
-    cover = coverCacheService.loadCover(ALBUM, artistName, albumName);
-    if (cover.isPresent()) {
-      LOG.info("Found cached cover for: " + artistName + " - " + albumName);
-      return cover;
-    }
-
-    cover = searchAlbumMusicBrainzCover(artistName, albumName);
-    if (!cover.isPresent()) {
-      LOG.info("No cover available for: " + artistName + " - " + albumName);
-      return Optional.empty();
-    }
-
-    coverCacheService.saveCover(ALBUM, artistName, albumName, cover.get());
-    LOG.info("Found cover for: " + artistName + " - " + albumName);
-    return cover;
-
-  }
-
-  private Optional<byte[]> searchAlbumMusicBrainzCover(String artistName, String albumName) {
-    Optional<byte[]> cover = Optional.empty();
-    Release releaseController = new Release();
-    releaseController.getSearchFilter().setLimit((long) 10);
-    releaseController.getSearchFilter().setMinScore((long) 60);
-    String query;
-    List<ReleaseResultWs2> releaseResults = null;
-    try {
-      query = String.format("artist:%s%%20AND%%title:%s", URLEncoder.encode(artistName, "UTF-8"),
-          URLEncoder.encode(albumName, "UTF-8"));
-      releaseController.search(query);
-      releaseResults = releaseController.getFirstSearchResultPage();
-    } catch (Exception e) {
-      LOG.error(e.getMessage(), e);
-    }
-
-    if (releaseResults == null) {
-      LOG.info("No search results available for: " + artistName + " - " + albumName);
-      return Optional.empty();
-    }
-
-    for (ReleaseResultWs2 releaseResultWs2 : releaseResults) {
-      cover = downloadCover(releaseResultWs2.getRelease().getId());
-      if (cover.isPresent()) {
-        break;
-      }
-    }
-
-    return cover;
-  }
-
-  private Optional<byte[]> searchSingletonMusicBrainzCover(String artist, String title) {
-    Optional<byte[]> cover = Optional.empty();
-    Recording recordingController = new Recording();
-    recordingController.getSearchFilter().setLimit((long) 10);
-    recordingController.getSearchFilter().setMinScore((long) 60);
-    String query;
-    List<RecordingResultWs2> recordingResults = null;
-    try {
-      query = String.format("artist:%s%%20AND%%20title:%s", URLEncoder.encode(artist, "UTF-8"),
-          URLEncoder.encode(title, "UTF-8"));
-      recordingController.search(query);
-      recordingResults = recordingController.getFirstSearchResultPage();
-    } catch (Exception e) {
-      LOG.error(e.getMessage(), e);
-    }
-
-    if (recordingResults == null) {
-      LOG.info("No search results available for: " + artist + " - " + title);
-      return Optional.empty();
-    }
-
-    boolean running = true;
-    for (RecordingResultWs2 recordingResult : recordingResults) {
-      for (ReleaseWs2 release : recordingResult.getRecording().getReleases()) {
-        cover = downloadCover(release.getId());
-        if (cover.isPresent()) {
-          running = false;
-          break;
-        }
-      }
-
-      if (!running) {
-        break;
-      }
-    }
-
-    return cover;
-  }
-
-  private Optional<byte[]> downloadCover(String uuid) {
-    Optional<byte[]> ret = Optional.empty();
-    CoverArtArchiveClient client = new DefaultCoverArtArchiveClient();
-    UUID mbId = UUID.fromString(uuid);
-    CoverArt coverArt = client.getByMbid(mbId);
-    if (coverArt != null) {
-      InputStream inputStream;
-      try {
-        inputStream = coverArt.getFrontImage().getImage();
-        ret = Optional.of(IOUtils.toByteArray(inputStream));
-      } catch (IOException e) {
-        LOG.error(e.getMessage(), e);
-      }
-    }
-
-    return ret;
-  }
-
   private Optional<byte[]> loadFallbackCover() {
     Path transparentFile = Paths.get(getClass().getResource("/transparent.png").getFile());
     return loadFile(transparentFile);
+  }
+
+
+  private Optional<byte[]> downloadCover() {
+    MPDSong song = mpd.getPlayer().getCurrentSong();
+    Collection<MPDAlbum> albums =
+        mpd.getMusicDatabase().getAlbumDatabase().findAlbum(song.getAlbumName());
+
+    MPDAlbum foundAlbum =
+        albums.stream().filter(album -> song.getArtistName().equals(album.getArtistName()))
+            .findFirst().orElse(null);
+
+    if (foundAlbum != null) {
+      List<MPDArtwork> foundArtworks = mpd.getArtworkFinder().find(foundAlbum);
+      if (foundArtworks.size() > 0) {
+        MPDArtwork artwork = foundArtworks.get(0);
+        return Optional.of(artwork.getBytes());
+      }
+    }
+
+    return Optional.empty();
   }
 }

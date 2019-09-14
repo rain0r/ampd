@@ -10,7 +10,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MpdCommands } from '../shared/mpd/mpd-commands';
 import { MpdTypes } from '../shared/mpd/mpd-types';
 import { Observable } from 'rxjs';
-import { Message } from '@stomp/stompjs';
 import { MpdSong } from '../shared/mpd/mpd-messages';
 import { MatSnackBar } from '@angular/material';
 import { AppComponent } from '../app.component';
@@ -18,6 +17,7 @@ import { StompService, StompState } from '@stomp/ng2-stompjs';
 import { map } from 'rxjs/internal/operators';
 import { QueueSong } from '../shared/models/queue-song';
 import { AmpdBlockUiService } from '../shared/block/ampd-block-ui.service';
+import { RootObjectImpl } from '../shared/mpd/state-messages-impl';
 
 @Component({
   selector: 'app-search',
@@ -25,7 +25,7 @@ import { AmpdBlockUiService } from '../shared/block/ampd-block-ui.service';
   styleUrls: ['./search.component.css'],
 })
 export class SearchComponent implements AfterViewInit {
-  stompSubscription: Observable<Message>;
+  stompSubscription: Observable<RootObjectImpl>;
   titleQueue: MpdSong[] = [];
   searchResultCount = 0;
   // query: string = '';

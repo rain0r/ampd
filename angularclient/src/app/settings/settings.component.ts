@@ -4,9 +4,8 @@ import { environment } from '../../environments/environment';
 import { ConnectionConfiguration } from '../connection-configuration';
 import { StompService } from '@stomp/ng2-stompjs';
 import { WebSocketService } from '../shared/services/web-socket.service';
-import { Message } from '@stomp/stompjs';
 import { Observable } from 'rxjs';
-import { AppComponent } from '../app.component';
+import { RootObjectImpl } from '../shared/mpd/state-messages-impl';
 
 @Component({
   selector: 'app-settings',
@@ -17,11 +16,10 @@ export class SettingsComponent {
   ampdVersion: string = environment.ampdVersion;
   model: ConnectionConfiguration;
   submitted = false;
-  stompSubscription: Observable<Message>;
+  stompSubscription: Observable<RootObjectImpl>;
 
   constructor(
     private snackBar: MatSnackBar,
-    private appComponent: AppComponent,
     private stompService: StompService,
     private webSocketService: WebSocketService
   ) {

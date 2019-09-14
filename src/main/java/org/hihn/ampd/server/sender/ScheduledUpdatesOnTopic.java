@@ -34,9 +34,7 @@ public class ScheduledUpdatesOnTopic {
     StatePayload statePayload =
         new StatePayload(mpd.getServerStatus(), mpd.getPlayer().getCurrentSong(), controlPanel);
 
-    StateMessage message = new StateMessage();
-    message.setPayload(statePayload);
-
+    StateMessage message = new StateMessage(statePayload);
     template.convertAndSend("/topic/messages", message);
   }
 }

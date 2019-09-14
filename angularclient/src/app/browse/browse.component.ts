@@ -5,13 +5,13 @@ import { AppComponent } from '../app.component';
 import { MpdCommands } from '../shared/mpd/mpd-commands';
 import { StompService, StompState } from '@stomp/ng2-stompjs';
 import { map } from 'rxjs/internal/operators';
-import { MpdTypes } from '../shared/mpd/mpd-types';
-import { Message } from '@stomp/stompjs';
 import { Observable } from 'rxjs';
 import { Directory, Playlist } from '../shared/models/browse-elements';
-import { MpdSong } from '../shared/mpd/mpd-messages';
 import { WebSocketService } from '../shared/services/web-socket.service';
 import { AmpdBlockUiService } from '../shared/block/ampd-block-ui.service';
+import { MpdSong } from '../shared/mpd/mpd-messages';
+import { RootObjectImpl } from '../shared/mpd/state-messages-impl';
+import { MpdTypes } from '../shared/mpd/mpd-types';
 
 export interface BreadcrumbItem {
   text: string;
@@ -29,7 +29,7 @@ export class BrowseComponent {
   titleQueue: MpdSong[] = [];
   breadcrumb: BreadcrumbItem[] = [];
   getParamDir = '';
-  stompSubscription: Observable<Message>;
+  stompSubscription: Observable<RootObjectImpl>;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -200,9 +200,11 @@ export class BrowseComponent {
     this.titleQueue = [];
 
     payload.directories.forEach(item => {
-      const directory = new Directory();
-      directory.path = item.path;
-      directory.splittedDir = this.splitDir(item.path);
+      const directory = new Directory(
+        this.splitDir(item.path),
+        item.path,
+        item.artist
+      );
       this.dirQueue.push(directory);
     });
     payload.songs.forEach(item => {
@@ -214,13 +216,13 @@ export class BrowseComponent {
   }
 
   private buildMessageReceiver(): void {
-    this.stompSubscription.subscribe((message: any) => {
-      if (message && 'type' in message) {
-        switch (message.type) {
-          case MpdTypes.BROWSE:
-            this.onBrowseResponse(message.payload);
-            break;
-        }
+    this.stompSubscription.subscribe((message: RootObjectImpl) => {
+      switch (message.type) {
+        case MpdTypes.BROWSE:
+          this.onBrowseResponse(message.payload);
+          break;
+        default:
+        // Ignore it
       }
     });
   }

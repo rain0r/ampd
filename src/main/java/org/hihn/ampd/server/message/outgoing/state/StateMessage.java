@@ -8,7 +8,9 @@ public class StateMessage extends AmpdMessage {
 
   private StatePayload payload;
 
-  public StateMessage() {}
+  public StateMessage(StatePayload payload) {
+    this.payload = payload;
+  }
 
   @Override
   public AmpdMessage.MESSAGE_TYPE getType() {

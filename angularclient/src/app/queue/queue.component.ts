@@ -1,16 +1,9 @@
 import { Component, HostListener } from '@angular/core';
-import { Message } from '@stomp/stompjs';
 
 import { AppComponent } from '../app.component';
 import { QueueSong } from '../shared/models/queue-song';
 import { MpdTypes } from '../shared/mpd/mpd-types';
 import { MatDialog, MatSliderChange } from '@angular/material';
-import {
-  ControlPanel,
-  MpdSong,
-  ServerStatus,
-  State,
-} from '../shared/mpd/mpd-messages';
 import { StompService, StompState } from '@stomp/ng2-stompjs';
 import { map } from 'rxjs/internal/operators';
 import { Observable } from 'rxjs';
@@ -18,6 +11,12 @@ import { MpdCommands } from '../shared/mpd/mpd-commands';
 import { WebSocketService } from '../shared/services/web-socket.service';
 import { CoverModalComponent } from '../shared/cover-modal/cover-modal.component';
 import { AmpdBlockUiService } from '../shared/block/ampd-block-ui.service';
+import { ControlPanel, ServerStatus } from 'StateMessage';
+import { MpdSong, State } from '../shared/mpd/mpd-messages';
+import {
+  ControlPanelImpl,
+  RootObjectImpl,
+} from '../shared/mpd/state-messages-impl';
 
 @Component({
   selector: 'app-queue',
@@ -25,7 +24,7 @@ import { AmpdBlockUiService } from '../shared/block/ampd-block-ui.service';
   styleUrls: ['./queue.component.css'],
 })
 export class QueueComponent {
-  controlPanel: ControlPanel = new ControlPanel();
+  controlPanel: ControlPanel = new ControlPanelImpl();
   queue: QueueSong[] = [];
 
   currentSong: QueueSong = new QueueSong();
@@ -39,7 +38,7 @@ export class QueueComponent {
     { name: 'remove', showMobile: true },
   ];
   volume: number = 0;
-  stompSubscription: Observable<Message>;
+  stompSubscription: Observable<RootObjectImpl>;
 
   constructor(
     private appComponent: AppComponent,

@@ -15,7 +15,7 @@ import { ControlPanel, ServerStatus } from 'StateMessage';
 import { MpdSong, State } from '../shared/mpd/mpd-messages';
 import {
   ControlPanelImpl,
-  RootObjectImpl,
+  ServerStatusRootImpl,
 } from '../shared/mpd/state-messages-impl';
 
 @Component({
@@ -38,7 +38,7 @@ export class QueueComponent {
     { name: 'remove', showMobile: true },
   ];
   volume: number = 0;
-  stompSubscription: Observable<RootObjectImpl>;
+  stompSubscription: Observable<ServerStatusRootImpl>;
 
   constructor(
     private appComponent: AppComponent,

@@ -10,7 +10,7 @@ import { Directory, Playlist } from '../shared/models/browse-elements';
 import { WebSocketService } from '../shared/services/web-socket.service';
 import { AmpdBlockUiService } from '../shared/block/ampd-block-ui.service';
 import { MpdSong } from '../shared/mpd/mpd-messages';
-import { RootObjectImpl } from '../shared/mpd/state-messages-impl';
+import { ServerStatusRootImpl } from '../shared/mpd/state-messages-impl';
 import { MpdTypes } from '../shared/mpd/mpd-types';
 
 export interface BreadcrumbItem {
@@ -29,7 +29,7 @@ export class BrowseComponent {
   titleQueue: MpdSong[] = [];
   breadcrumb: BreadcrumbItem[] = [];
   getParamDir = '';
-  stompSubscription: Observable<RootObjectImpl>;
+  stompSubscription: Observable<ServerStatusRootImpl>;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -216,7 +216,7 @@ export class BrowseComponent {
   }
 
   private buildMessageReceiver(): void {
-    this.stompSubscription.subscribe((message: RootObjectImpl) => {
+    this.stompSubscription.subscribe((message: ServerStatusRootImpl) => {
       switch (message.type) {
         case MpdTypes.BROWSE:
           this.onBrowseResponse(message.payload);

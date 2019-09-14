@@ -1,4 +1,4 @@
-import { ControlPanel, Payload, RootObject } from 'StateMessage';
+import { ControlPanel, Payload, ServerStatusRoot } from 'StateMessage';
 
 export class ControlPanelImpl implements ControlPanel {
   random: boolean;
@@ -18,7 +18,7 @@ export class ControlPanelImpl implements ControlPanel {
   }
 }
 
-export class RootObjectImpl implements RootObject {
+export class ServerStatusRootImpl implements ServerStatusRoot {
   payload: Payload;
   type: string;
 

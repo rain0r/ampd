@@ -4,7 +4,7 @@ import { REMOTE_QUEUE } from '../mpd/mpd-commands';
 import { map } from 'rxjs/internal/operators';
 import { Observable } from 'rxjs';
 import { Message } from '@stomp/stompjs';
-import { RootObjectImpl } from '../mpd/state-messages-impl';
+import { ServerStatusRootImpl } from '../mpd/state-messages-impl';
 
 @Injectable()
 export class WebSocketService {
@@ -26,12 +26,12 @@ export class WebSocketService {
     this.stompService.publish(REMOTE_QUEUE, data);
   }
 
-  getStompSubscription(): Observable<RootObjectImpl> {
+  getStompSubscription(): Observable<ServerStatusRootImpl> {
     return this.stompService.subscribe('/topic/messages').pipe(
       map((message: Message) => message.body),
       map(body => {
         const jsonObj: any = JSON.parse(body); // string to generic object first
-        const employee: RootObjectImpl = <RootObjectImpl>jsonObj;
+        const employee: ServerStatusRootImpl = <ServerStatusRootImpl>jsonObj;
         return employee;
       })
     );

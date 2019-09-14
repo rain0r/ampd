@@ -17,7 +17,7 @@ import { StompService, StompState } from '@stomp/ng2-stompjs';
 import { map } from 'rxjs/internal/operators';
 import { QueueSong } from '../shared/models/queue-song';
 import { AmpdBlockUiService } from '../shared/block/ampd-block-ui.service';
-import { RootObjectImpl } from '../shared/mpd/state-messages-impl';
+import { ServerStatusRootImpl } from '../shared/mpd/state-messages-impl';
 
 @Component({
   selector: 'app-search',
@@ -25,7 +25,7 @@ import { RootObjectImpl } from '../shared/mpd/state-messages-impl';
   styleUrls: ['./search.component.css'],
 })
 export class SearchComponent implements AfterViewInit {
-  stompSubscription: Observable<RootObjectImpl>;
+  stompSubscription: Observable<ServerStatusRootImpl>;
   titleQueue: MpdSong[] = [];
   searchResultCount = 0;
   // query: string = '';

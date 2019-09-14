@@ -49,7 +49,7 @@ declare module 'StateMessage' {
     controlPanel: ControlPanel;
   }
 
-  export interface RootObject {
+  export interface ServerStatusRoot {
     payload: Payload;
     type: string;
   }

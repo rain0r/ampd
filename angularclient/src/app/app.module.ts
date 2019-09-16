@@ -16,7 +16,7 @@ import { SettingsComponent } from './settings/settings.component';
 import { CoverModalComponent } from 'src/app/shared/cover-modal/cover-modal.component';
 import { ConnectionConfiguration } from './connection-configuration';
 import { AmpdBlockUiService } from './shared/block/ampd-block-ui.service';
-import {APP_BASE_HREF} from "@angular/common";
+import { APP_BASE_HREF } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -48,7 +48,7 @@ import {APP_BASE_HREF} from "@angular/common";
     {
       provide: APP_BASE_HREF,
       useValue: window['base-href'],
-    }
+    },
   ],
   entryComponents: [CoverModalComponent],
   bootstrap: [AppComponent],

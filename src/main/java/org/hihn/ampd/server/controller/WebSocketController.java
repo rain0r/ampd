@@ -37,7 +37,6 @@ public class WebSocketController {
   private final EnumMap<AmpdMessage.MESSAGE_TYPE, AmpdCommandRunner> commands =
       new EnumMap<>(AmpdMessage.MESSAGE_TYPE.class);
 
-
   private final SearchService searchService;
 
   @Autowired

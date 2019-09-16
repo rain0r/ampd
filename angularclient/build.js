@@ -2,7 +2,7 @@ const replace = require('replace-in-file');
 const spawn = require('child_process').spawn;
 var dateFormat = require('dateformat');
 
-const CONTEXT_PATH = '/';
+const CONTEXT_PATH = '/ampd/';
 
 const prod = process.argv.includes('--prod');
 

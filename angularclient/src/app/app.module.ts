@@ -47,7 +47,7 @@ import { APP_BASE_HREF } from '@angular/common';
     },
     {
       provide: APP_BASE_HREF,
-      useValue: window['base-href'],
+      useValue: AppModule.getBaseHref(),
     },
   ],
   entryComponents: [CoverModalComponent],
@@ -77,5 +77,9 @@ export class AppModule {
       debug: false,
     };
     return stompConfig;
+  }
+
+  static getBaseHref(): string {
+    return window.location.pathname.slice(0, -1);
   }
 }

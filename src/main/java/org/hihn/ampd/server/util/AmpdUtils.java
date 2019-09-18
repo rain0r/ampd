@@ -20,7 +20,7 @@ public class AmpdUtils {
     try {
       ret = Optional.of(Files.readAllBytes(path));
     } catch (IOException e) {
-      LOG.error("File not found: " + path);
+      LOG.warn("File not found: " + path);
     }
     return ret;
   }

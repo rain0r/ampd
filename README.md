@@ -4,18 +4,28 @@
 
 ampd is a web-based client for MPD. It is build with Angular and Spring Boot.
 
+## Running
+
+To run ampd, just execute the jar-file:
+
+```
+java -jar server-0.0.1-SNAPSHOT.jar
+```
+
+Additional options can be passed via the `-D` arguments, for example:
+
+```
+java -jar -Dserver.port=8082 server-0.0.1-SNAPSHOT.jar
+```
+
+For a full list of options, see [`application.properties`](src/main/resources/application.properties)
+
 ## Building
 
 Set `AMPD_URL` to the url of your server in `angularclient/src/environments/environment.prod.ts`:
 
 ```
 const AMPD_URL = 'punica:8003';
-```
-
-Also, check the context path under which ampd will be accessed later in `angularclient/build.js`:
-
-```
-const CONTEXT_PATH = '/ampd/';
 ```
 
 Build Angular:

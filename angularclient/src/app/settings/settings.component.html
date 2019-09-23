@@ -4,10 +4,15 @@
       <label for="coverServer">coverServer</label>
     </mat-grid-tile>
     <mat-grid-tile>
-      <input type="text" class="form-control" id="coverServer"
-             required
-             [(ngModel)]="model.coverServer" name="coverServer"
-             #coverServer="ngModel">
+      <input
+        type="text"
+        class="form-control"
+        id="coverServer"
+        required
+        [(ngModel)]="model.coverServer"
+        name="coverServer"
+        #coverServer="ngModel"
+      />
       <div [hidden]="coverServer.valid || coverServer.pristine">
         coverServer is required
       </div>
@@ -16,16 +21,23 @@
       <label for="webSocketServer">webSocketServer</label>
     </mat-grid-tile>
     <mat-grid-tile>
-      <input type="text" class="form-control" id="webSocketServer"
-             required
-             [(ngModel)]="model.webSocketServer" name="webSocketServer"
-             #webSocketServer="ngModel">
+      <input
+        type="text"
+        class="form-control"
+        id="webSocketServer"
+        required
+        [(ngModel)]="model.webSocketServer"
+        name="webSocketServer"
+        #webSocketServer="ngModel"
+      />
       <div [hidden]="webSocketServer.valid || webSocketServer.pristine">
         webSocketServer is required
       </div>
     </mat-grid-tile>
     <mat-grid-tile>
-      <button mat-stroked-button type="submit" (click)="saveSettings()">Submit</button>
+      <button mat-stroked-button type="submit" (click)="saveSettings()">
+        Submit
+      </button>
     </mat-grid-tile>
     <mat-grid-tile></mat-grid-tile>
   </mat-grid-list>
@@ -33,6 +45,4 @@
 
 <mat-divider></mat-divider>
 
-<div class="version-info">
-      Version: {{ampdVersion}}
-</div>
+<div class="version-info">Version: {{ ampdVersion }}</div>

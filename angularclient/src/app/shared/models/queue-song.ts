@@ -1,5 +1,5 @@
-import { MpdSong } from '../mpd/mpd-messages';
 import { ConnectionConfiguration } from '../../connection-configuration';
+import { MpdSong } from 'QueueMsg';
 
 export class QueueSong implements MpdSong {
   /* Override */
@@ -47,8 +47,9 @@ export class QueueSong implements MpdSong {
 
   coverUrl(): string {
     const cc = ConnectionConfiguration.get();
+    const currentCoverUrl = '/current-cover';
     // Add a query param to trigger an image change in the browser
-    return `${cc.coverServer}/cover?title=${this.title}`;
+    return `${cc.coverServer}/${currentCoverUrl}?title=${this.title}`;
   }
 
   durationFormatted(): string {

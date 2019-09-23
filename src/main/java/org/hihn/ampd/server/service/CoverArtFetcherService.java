@@ -7,9 +7,14 @@ import org.bff.javampd.song.MPDSong;
 import org.hihn.ampd.server.config.MpdConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import java.io.IOException;
+import java.nio.file.DirectoryStream;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -28,6 +33,10 @@ public class CoverArtFetcherService {
 
   private final MPD mpd;
 
+  @Value("${mpd.music.directory:}") // ':' sets an empty str if the prop is not set
+  private String musicDirectory;
+
+
   public CoverArtFetcherService(FileStorageService fileStorageService,
       CoverCacheService coverCacheService, MpdConfiguration mpdConfiguration) {
 
@@ -36,7 +45,7 @@ public class CoverArtFetcherService {
     this.mpd = mpdConfiguration.mpd();
   }
 
-  public Optional<byte[]> getAlbumCover() {
+  public Optional<byte[]> getCurrentAlbumCover() {
     MPDSong song = mpd.getPlayer().getCurrentSong();
     CoverCacheService.COVER_TYPE coverType = (song.getAlbumName().isEmpty()) ? SINGLETON : ALBUM;
 
@@ -93,4 +102,34 @@ public class CoverArtFetcherService {
 
     return Optional.empty();
   }
+
+  /**
+   * See if path leads to an album directory and try to load the cover.
+   *
+   * @param pathStr
+   * @return
+   */
+  public Optional<byte[]> findAlbumCover(Optional<String> pathStr) {
+
+    if (!pathStr.isPresent()) {
+      return Optional.empty();
+    }
+
+    List<Path> covers = new ArrayList<>();
+    Path path = Paths.get(musicDirectory, pathStr.get());
+
+    try (DirectoryStream<Path> stream = Files.newDirectoryStream(path, "cover.{jpg,jpeg,png}")) {
+      stream.forEach(file -> covers.add(file));
+    } catch (IOException e) {
+      LOG.info("Could not load art in {}", path, e);
+    }
+    if (covers.size() > 0) {
+      Path coverPath = covers.get(0);
+      return loadFile(coverPath);
+    }
+
+    return Optional.empty();
+  }
+
+
 }

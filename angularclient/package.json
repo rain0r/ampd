@@ -9,7 +9,7 @@
     "e2e": "ng e2e",
     "build-prod": "node build.js --prod",
     "build-dev": "node build.js",
-    "format": "ng lint ampd --tslint-config tslint.json --fix && prettier --write \"src/**/*.ts\""
+    "format": "ng lint ampd --tslint-config tslint.json --fix && prettier --write \"src/**/*.ts\" \"src/**/*.html\""
   },
   "private": true,
   "dependencies": {

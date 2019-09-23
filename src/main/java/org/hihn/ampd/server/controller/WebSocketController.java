@@ -32,6 +32,8 @@ public class WebSocketController {
 
   private static final Logger LOG = LoggerFactory.getLogger(WebSocketController.class);
 
+  private static final String PAYLOAD_VALUE = "value";
+
   private final MPD mpd;
 
   private final EnumMap<AmpdMessage.MESSAGE_TYPE, AmpdCommandRunner> commands =
@@ -75,6 +77,7 @@ public class WebSocketController {
       LOG.error(e.getMessage(), e);
     }
 
+    LOG.debug(outgoingMessage.get().toString());
     return outgoingMessage;
   }
 
@@ -141,7 +144,7 @@ public class WebSocketController {
 
   private Optional<Message> seek(Object pPayload) {
     HashMap<String, Integer> payload = (HashMap<String, Integer>) pPayload;
-    int value = payload.get("value");
+    int value = payload.get(PAYLOAD_VALUE);
     mpd.getPlayer().seek(value);
     return Optional.empty();
   }
@@ -187,11 +190,10 @@ public class WebSocketController {
 
     if (path.trim().length() < 2) {
       /* '/' or '' */
-      browsePayload.getPlaylists().addAll(getPlaylists());
+      browsePayload.addPlaylists(getPlaylists());
     }
 
-    BrowseMessage browseMessage = new BrowseMessage();
-    browseMessage.setPayload(browsePayload);
+    BrowseMessage browseMessage = new BrowseMessage(browsePayload);
     return Optional.of(browseMessage);
   }
 
@@ -222,12 +224,12 @@ public class WebSocketController {
 
     for (MPDFile file : tmpMpdFiles) {
       if (file.isDirectory()) {
-        browsePayload.getDirectories().add(file);
+        browsePayload.addDirectory(file);
       } else {
         Collection<MPDSong> searchResults =
             mpd.getMusicDatabase().getSongDatabase().searchFileName(file.getPath());
-        if (searchResults.size() > 0) {
-          browsePayload.getSongs().add(searchResults.iterator().next());
+        if (!searchResults.isEmpty()) {
+          browsePayload.addSong(searchResults.iterator().next());
         }
       }
     }
@@ -235,16 +237,14 @@ public class WebSocketController {
   }
 
   private Optional<Message> getQueue(Object pPayload) {
-    Queue q = new Queue();
-    q.setPayload(mpd.getPlaylist().getSongList());
+    Queue q = new Queue(mpd.getPlaylist().getSongList());
     return Optional.of(q);
-
   }
 
   private Optional<Message> setVolume(Object pVolume) {
     try {
       HashMap<String, Integer> volumePayload = (HashMap<String, Integer>) pVolume;
-      int newVolumeValue = volumePayload.get("value");
+      int newVolumeValue = volumePayload.get(PAYLOAD_VALUE);
       mpd.getPlayer().setVolume(newVolumeValue);
     } catch (Exception e) {
       LOG.error(e.getMessage(), e);

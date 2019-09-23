@@ -2,7 +2,6 @@ import { Component, HostListener } from '@angular/core';
 
 import { AppComponent } from '../app.component';
 import { QueueSong } from '../shared/models/queue-song';
-import { MpdTypes } from '../shared/mpd/mpd-types';
 import { MatDialog, MatSliderChange } from '@angular/material';
 import { StompService, StompState } from '@stomp/ng2-stompjs';
 import { map } from 'rxjs/internal/operators';
@@ -11,12 +10,13 @@ import { MpdCommands } from '../shared/mpd/mpd-commands';
 import { WebSocketService } from '../shared/services/web-socket.service';
 import { CoverModalComponent } from '../shared/cover-modal/cover-modal.component';
 import { AmpdBlockUiService } from '../shared/block/ampd-block-ui.service';
-import { ControlPanel, ServerStatus } from 'StateMessage';
-import { MpdSong, State } from '../shared/mpd/mpd-messages';
+import { QueueRootImpl } from '../shared/messages/incoming/queue-impl';
+import { ControlPanel, ServerStatus, StateMsgPayload } from 'StateMsg';
 import {
   ControlPanelImpl,
   ServerStatusRootImpl,
-} from '../shared/mpd/state-messages-impl';
+} from '../shared/messages/incoming/state-messages-impl';
+import { MpdSong } from 'QueueMsg';
 
 @Component({
   selector: 'app-queue',
@@ -38,7 +38,10 @@ export class QueueComponent {
     { name: 'remove', showMobile: true },
   ];
   volume: number = 0;
-  stompSubscription: Observable<ServerStatusRootImpl>;
+
+  // Websocket subscriptions
+  stateSubs: Observable<ServerStatusRootImpl>;
+  queueSubs: Observable<QueueRootImpl>;
 
   constructor(
     private appComponent: AppComponent,
@@ -48,9 +51,15 @@ export class QueueComponent {
     public dialog: MatDialog
   ) {
     this.ampdBlockUiService.start();
-    this.stompSubscription = this.webSocketService.getStompSubscription();
+
+    this.stateSubs = this.webSocketService.getStateSubs();
+    this.queueSubs = this.webSocketService.getQueueSubs();
+
     this.buildConnectionState();
-    this.buildMessageReceiver();
+
+    this.buildQueueMsgReceiver();
+    this.buildStateReceiver();
+
     this.sendGetQueue();
   }
 
@@ -58,7 +67,7 @@ export class QueueComponent {
     this.webSocketService.send(MpdCommands.GET_QUEUE);
   }
 
-  private buildState(pMessage: State): void {
+  private buildState(pMessage: StateMsgPayload): void {
     let callBuildQueue = false;
     this.ampdBlockUiService.stop();
 
@@ -140,6 +149,8 @@ export class QueueComponent {
       case 'btn-next':
         command = MpdCommands.SET_NEXT;
         break;
+      default:
+      // Ignore it
     }
     if (command) {
       this.webSocketService.send(command);
@@ -194,6 +205,8 @@ export class QueueComponent {
           command = MpdCommands.SET_PAUSE;
         }
         break;
+      default:
+      // Ignore it
     }
     if (command) {
       this.webSocketService.send(command);
@@ -226,17 +239,24 @@ export class QueueComponent {
       });
   }
 
-  private buildMessageReceiver(): void {
-    this.stompSubscription.subscribe((message: any) => {
-      if (message && 'type' in message) {
-        switch (message.type) {
-          case MpdTypes.STATE:
-            this.buildState(message.payload);
-            break;
-          case MpdTypes.QUEUE:
-            this.buildQueue(message.payload);
-            break;
-        }
+  private buildQueueMsgReceiver() {
+    this.queueSubs.subscribe((message: QueueRootImpl) => {
+      try {
+        this.buildQueue(message.payload);
+      } catch (error) {
+        console.error(`Error handling message:`);
+        console.error(message);
+      }
+    });
+  }
+
+  private buildStateReceiver() {
+    this.stateSubs.subscribe((message: ServerStatusRootImpl) => {
+      try {
+        this.buildState(message.payload);
+      } catch (error) {
+        console.error(`Error handling message:`);
+        console.error(message);
       }
     });
   }

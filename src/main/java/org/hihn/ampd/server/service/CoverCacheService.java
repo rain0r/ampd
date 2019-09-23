@@ -69,14 +69,13 @@ public class CoverCacheService {
   }
 
   public void saveCover(COVER_TYPE coverType, String artist, String titleOrAlbum, byte[] file) {
-    LOG.info("Saving cover: " + coverType + " :: " + artist + " - " + titleOrAlbum);
-
     try {
       String fileName = buildFileName(coverType, artist, titleOrAlbum);
       Path fullPath = Paths.get(buildAmpdHome(), CACHE_DIR, fileName).toAbsolutePath();
 
+      // Don't write the file if it already exists
       if (!fullPath.toFile().exists()) {
-        // Don't write the file if it already exists
+        LOG.debug("Saving cover: " + coverType + " :: " + artist + " - " + titleOrAlbum);
         Files.write(fullPath, file);
       }
     } catch (IOException e) {

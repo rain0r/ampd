@@ -1,4 +1,4 @@
-import { ControlPanel, Payload, ServerStatusRoot } from 'StateMessage';
+import { ControlPanel, StateMsgPayload, ServerStatusRoot } from 'StateMsg';
 
 export class ControlPanelImpl implements ControlPanel {
   random: boolean;
@@ -19,10 +19,10 @@ export class ControlPanelImpl implements ControlPanel {
 }
 
 export class ServerStatusRootImpl implements ServerStatusRoot {
-  payload: Payload;
+  payload: StateMsgPayload;
   type: string;
 
-  constructor(payload: Payload, type: string) {
+  constructor(payload: StateMsgPayload, type: string) {
     this.payload = payload;
     this.type = type;
   }

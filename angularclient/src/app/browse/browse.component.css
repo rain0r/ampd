@@ -74,3 +74,8 @@ div.sub-menu > div.two {
 .mat-small {
   min-width: 1%;
 }
+
+.dir-list-cover {
+  max-height: 48px;
+  padding: 2em;
+}

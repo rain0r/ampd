@@ -17,12 +17,14 @@ import { CoverModalComponent } from 'src/app/shared/cover-modal/cover-modal.comp
 import { ConnectionConfiguration } from './connection-configuration';
 import { AmpdBlockUiService } from './shared/block/ampd-block-ui.service';
 import { APP_BASE_HREF } from '@angular/common';
+import { EncodeURIComponentPipe } from './shared/pipes/EncodeURI';
 
 @NgModule({
   declarations: [
     AppComponent,
     QueueComponent,
     BrowseComponent,
+    EncodeURIComponentPipe,
     SearchComponent,
     SecondsToMmSsPipe,
     SearchComponent,
@@ -80,6 +82,7 @@ export class AppModule {
   }
 
   static getBaseHref(): string {
-    return window.location.pathname.slice(0, -1);
+    // return window.location.pathname.slice(0, -1);
+    return window.location.pathname;
   }
 }

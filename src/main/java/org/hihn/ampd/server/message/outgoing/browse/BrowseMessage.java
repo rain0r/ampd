@@ -6,9 +6,11 @@ public class BrowseMessage extends AmpdMessage {
 
   private final AmpdMessage.MESSAGE_TYPE type = MESSAGE_TYPE.BROWSE;
 
-  private BrowsePayload payload;
+  private final BrowsePayload payload;
 
-  public BrowseMessage() {}
+  public BrowseMessage(BrowsePayload browsePayload) {
+    this.payload = browsePayload;
+  }
 
   @Override
   public MESSAGE_TYPE getType() {
@@ -20,7 +22,4 @@ public class BrowseMessage extends AmpdMessage {
     return payload;
   }
 
-  public void setPayload(BrowsePayload payload) {
-    this.payload = payload;
-  }
 }

@@ -1,4 +1,4 @@
-declare module 'StateMessage' {
+declare module 'StateMsg' {
   export interface ServerStatus {
     audio: string;
     playlistVersion: number;
@@ -42,7 +42,7 @@ declare module 'StateMessage' {
     xfade: number;
   }
 
-  export interface Payload {
+  export interface StateMsgPayload {
     serverStatus: ServerStatus;
     currentSong: CurrentSong;
     cover?: any;
@@ -50,7 +50,7 @@ declare module 'StateMessage' {
   }
 
   export interface ServerStatusRoot {
-    payload: Payload;
+    payload: StateMsgPayload;
     type: string;
   }
 }

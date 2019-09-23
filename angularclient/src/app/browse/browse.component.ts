@@ -9,9 +9,9 @@ import { Observable } from 'rxjs';
 import { Directory, Playlist } from '../shared/models/browse-elements';
 import { WebSocketService } from '../shared/services/web-socket.service';
 import { AmpdBlockUiService } from '../shared/block/ampd-block-ui.service';
-import { MpdSong } from '../shared/mpd/mpd-messages';
-import { ServerStatusRootImpl } from '../shared/mpd/state-messages-impl';
 import { MpdTypes } from '../shared/mpd/mpd-types';
+import { BrowseRootImpl } from '../shared/messages/incoming/browse-impl';
+import { MpdSong } from 'QueueMsg';
 
 export interface BreadcrumbItem {
   text: string;
@@ -29,7 +29,7 @@ export class BrowseComponent {
   titleQueue: MpdSong[] = [];
   breadcrumb: BreadcrumbItem[] = [];
   getParamDir = '';
-  stompSubscription: Observable<ServerStatusRootImpl>;
+  browseSubs: Observable<BrowseRootImpl>;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -41,7 +41,7 @@ export class BrowseComponent {
     private webSocketService: WebSocketService
   ) {
     this.ampdBlockUiService.start();
-    this.stompSubscription = this.webSocketService.getStompSubscription();
+    this.browseSubs = this.webSocketService.getBrowseSubs();
     this.buildConnectionState();
     this.buildMessageReceiver();
   }
@@ -216,19 +216,17 @@ export class BrowseComponent {
   }
 
   private buildMessageReceiver(): void {
-    this.stompSubscription.subscribe((message: ServerStatusRootImpl) => {
-      switch (message.type) {
-        case MpdTypes.BROWSE:
-          this.onBrowseResponse(message.payload);
-          break;
-        default:
-        // Ignore it
+    this.browseSubs.subscribe((message: BrowseRootImpl) => {
+      try {
+        this.onBrowseResponse(message.payload);
+      } catch (error) {
+        console.error(`Error handling message:`);
+        console.error(message);
       }
     });
   }
 
   moveDirUp(): void {
-    // this.ampdBlockUiService.start();
     const splitted = this.getParamDir.split('/');
     splitted.pop();
     let targetDir = splitted.join('/');

@@ -19,7 +19,7 @@ public class FileStorageService {
 
   private static final Logger LOG = LoggerFactory.getLogger(FileStorageService.class);
 
-  @Value("${mpd.music.directory}")
+  @Value("${mpd.music.directory:}") // ':' sets an empty str if the prop is not set
   private String musicDirectory;
 
   public Optional<byte[]> loadFileAsResource(String songFilePath) {
@@ -58,7 +58,7 @@ public class FileStorageService {
       stream.forEach(file -> covers.add(file));
 
     } catch (IOException e) {
-      LOG.error("Could not load art in {}", path, e);
+      LOG.info("Could not load art in {}", path, e);
     }
 
     if (covers.size() > 0) {

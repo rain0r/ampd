@@ -8,16 +8,15 @@ import {
 import { WebSocketService } from '../shared/services/web-socket.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MpdCommands } from '../shared/mpd/mpd-commands';
-import { MpdTypes } from '../shared/mpd/mpd-types';
 import { Observable } from 'rxjs';
-import { MpdSong } from '../shared/mpd/mpd-messages';
 import { MatSnackBar } from '@angular/material';
 import { AppComponent } from '../app.component';
 import { StompService, StompState } from '@stomp/ng2-stompjs';
 import { map } from 'rxjs/internal/operators';
 import { QueueSong } from '../shared/models/queue-song';
 import { AmpdBlockUiService } from '../shared/block/ampd-block-ui.service';
-import { ServerStatusRootImpl } from '../shared/mpd/state-messages-impl';
+import { SearchRootImpl } from '../shared/messages/incoming/search-impl';
+import { MpdSong } from 'QueueMsg';
 
 @Component({
   selector: 'app-search',
@@ -25,7 +24,8 @@ import { ServerStatusRootImpl } from '../shared/mpd/state-messages-impl';
   styleUrls: ['./search.component.css'],
 })
 export class SearchComponent implements AfterViewInit {
-  stompSubscription: Observable<ServerStatusRootImpl>;
+  searchSubs: Observable<SearchRootImpl>;
+
   titleQueue: MpdSong[] = [];
   searchResultCount = 0;
   // query: string = '';
@@ -50,7 +50,7 @@ export class SearchComponent implements AfterViewInit {
     private cdRef: ChangeDetectorRef
   ) {
     this.ampdBlockUiService.start();
-    this.stompSubscription = this.webSocketService.getStompSubscription();
+    this.searchSubs = this.webSocketService.getSearchSubs();
 
     this.buildConnectionState();
     this.checkQueryParam();
@@ -61,19 +61,15 @@ export class SearchComponent implements AfterViewInit {
    * Listen for results on the websocket channel
    */
   private getResults(): void {
-    this.stompSubscription.subscribe((message: any) => {
-      if (
-        message &&
-        'type' in message &&
-        message.type === MpdTypes.SEARCH_RESULTS
-      ) {
-        this.ampdBlockUiService.stop();
-        this.clear();
-
-        message.payload.searchResults.forEach(song => {
-          this.titleQueue.push(new QueueSong(song));
-        });
-        this.searchResultCount = message.payload.searchResultCount;
+    this.searchSubs.subscribe((message: SearchRootImpl) => {
+      try {
+        this.processSearchResults(
+          message.payload.searchResults,
+          message.payload.searchResultCount
+        );
+      } catch (error) {
+        console.error(`Error handling message:`);
+        console.error(message);
       }
     });
   }
@@ -162,5 +158,14 @@ export class SearchComponent implements AfterViewInit {
   private clear(): void {
     this.titleQueue = [];
     this.searchResultCount = 0;
+  }
+
+  private processSearchResults(searchResults, searchResultCount) {
+    this.ampdBlockUiService.stop();
+    this.clear();
+    searchResults.forEach(song => {
+      this.titleQueue.push(new QueueSong(song));
+    });
+    this.searchResultCount = searchResultCount;
   }
 }

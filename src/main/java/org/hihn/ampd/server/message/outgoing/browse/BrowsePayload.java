@@ -1,8 +1,11 @@
 package org.hihn.ampd.server.message.outgoing.browse;
 
-import java.util.ArrayList;
 import org.bff.javampd.file.MPDFile;
 import org.bff.javampd.song.MPDSong;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 public class BrowsePayload {
 
@@ -12,15 +15,28 @@ public class BrowsePayload {
 
   private final ArrayList<Playlist> playlists = new ArrayList<>();
 
-  public ArrayList<MPDFile> getDirectories() {
-    return directories;
+
+  public void addDirectory(MPDFile mpdFile) {
+    directories.add(mpdFile);
   }
 
-  public ArrayList<MPDSong> getSongs() {
-    return songs;
+  public void addSong(MPDSong mpdSong) {
+    songs.add(mpdSong);
   }
 
-  public ArrayList<Playlist> getPlaylists() {
-    return playlists;
+  public void addPlaylists(Collection<Playlist> pPlaylists) {
+    playlists.addAll(pPlaylists);
+  }
+
+  public List<MPDFile> getDirectories() {
+    return Collections.unmodifiableList(directories);
+  }
+
+  public List<MPDSong> getSongs() {
+    return Collections.unmodifiableList(songs);
+  }
+
+  public List<Playlist> getPlaylists() {
+    return Collections.unmodifiableList(playlists);
   }
 }

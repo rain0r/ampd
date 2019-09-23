@@ -3,9 +3,6 @@ import { Component } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { ConnectionConfiguration } from '../connection-configuration';
 import { StompService } from '@stomp/ng2-stompjs';
-import { WebSocketService } from '../shared/services/web-socket.service';
-import { Observable } from 'rxjs';
-import { ServerStatusRootImpl } from '../shared/mpd/state-messages-impl';
 
 @Component({
   selector: 'app-settings',
@@ -16,15 +13,12 @@ export class SettingsComponent {
   ampdVersion: string = environment.ampdVersion;
   model: ConnectionConfiguration;
   submitted = false;
-  stompSubscription: Observable<ServerStatusRootImpl>;
 
   constructor(
     private snackBar: MatSnackBar,
-    private stompService: StompService,
-    private webSocketService: WebSocketService
+    private stompService: StompService
   ) {
     this.model = this.buildModel();
-    this.stompSubscription = this.webSocketService.getStompSubscription();
   }
 
   private buildModel(): ConnectionConfiguration {
@@ -47,7 +41,6 @@ export class SettingsComponent {
 
   saveSettings() {
     this.popUp('Saved settings.');
-    console.log(this.model);
     const data = JSON.stringify(this.model);
     localStorage.setItem(ConnectionConfiguration.key, data);
     this.stompService.initAndConnect();

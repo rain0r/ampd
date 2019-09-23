@@ -8,11 +8,9 @@ public class Queue extends AmpdMessage {
 
   private static final AmpdMessage.MESSAGE_TYPE type = AmpdMessage.MESSAGE_TYPE.QUEUE;
 
-  private List<MPDSong> payload;
+  private final List<MPDSong> payload;
 
-  public Queue() {}
-
-  public void setPayload(List<MPDSong> payload) {
+  public Queue(List<MPDSong> payload) {
     this.payload = payload;
   }
 

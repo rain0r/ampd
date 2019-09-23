@@ -1,8 +1,8 @@
-import { MatSnackBar } from '@angular/material';
-import { Component } from '@angular/core';
-import { environment } from '../../environments/environment';
-import { ConnectionConfiguration } from '../connection-configuration';
-import { StompService } from '@stomp/ng2-stompjs';
+import {MatSnackBar} from '@angular/material';
+import {Component} from '@angular/core';
+import {environment} from '../../environments/environment';
+import {ConnectionConfiguration} from '../connection-configuration';
+import {StompService} from '@stomp/ng2-stompjs';
 
 @Component({
   selector: 'app-settings',
@@ -14,10 +14,8 @@ export class SettingsComponent {
   model: ConnectionConfiguration;
   submitted = false;
 
-  constructor(
-    private snackBar: MatSnackBar,
-    private stompService: StompService
-  ) {
+  constructor(private snackBar: MatSnackBar,
+              private stompService: StompService) {
     this.model = this.buildModel();
   }
 

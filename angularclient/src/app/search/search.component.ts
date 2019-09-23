@@ -1,22 +1,16 @@
-import {
-  AfterViewInit,
-  ChangeDetectorRef,
-  Component,
-  ElementRef,
-  ViewChild,
-} from '@angular/core';
-import { WebSocketService } from '../shared/services/web-socket.service';
-import { ActivatedRoute, Router } from '@angular/router';
-import { MpdCommands } from '../shared/mpd/mpd-commands';
-import { Observable } from 'rxjs';
-import { MatSnackBar } from '@angular/material';
-import { AppComponent } from '../app.component';
-import { StompService, StompState } from '@stomp/ng2-stompjs';
-import { map } from 'rxjs/internal/operators';
-import { QueueSong } from '../shared/models/queue-song';
-import { AmpdBlockUiService } from '../shared/block/ampd-block-ui.service';
-import { SearchRootImpl } from '../shared/messages/incoming/search-impl';
-import { MpdSong } from 'QueueMsg';
+import {AfterViewInit, ChangeDetectorRef, Component, ElementRef, ViewChild,} from '@angular/core';
+import {WebSocketService} from '../shared/services/web-socket.service';
+import {ActivatedRoute, Router} from '@angular/router';
+import {MpdCommands} from '../shared/mpd/mpd-commands';
+import {Observable} from 'rxjs';
+import {MatSnackBar} from '@angular/material';
+import {AppComponent} from '../app.component';
+import {StompService, StompState} from '@stomp/ng2-stompjs';
+import {map} from 'rxjs/internal/operators';
+import {QueueSong} from '../shared/models/queue-song';
+import {AmpdBlockUiService} from '../shared/block/ampd-block-ui.service';
+import {SearchRootImpl} from '../shared/messages/incoming/search-impl';
+import {MpdSong} from 'QueueMsg';
 
 @Component({
   selector: 'app-search',
@@ -39,16 +33,14 @@ export class SearchComponent implements AfterViewInit {
 
   @ViewChild('name') nameField?: ElementRef;
 
-  constructor(
-    private activatedRoute: ActivatedRoute,
-    private appComponent: AppComponent,
-    private router: Router,
-    private snackBar: MatSnackBar,
-    private ampdBlockUiService: AmpdBlockUiService,
-    private stompService: StompService,
-    private webSocketService: WebSocketService,
-    private cdRef: ChangeDetectorRef
-  ) {
+  constructor(private activatedRoute: ActivatedRoute,
+              private appComponent: AppComponent,
+              private router: Router,
+              private snackBar: MatSnackBar,
+              private ampdBlockUiService: AmpdBlockUiService,
+              private stompService: StompService,
+              private webSocketService: WebSocketService,
+              private cdRef: ChangeDetectorRef) {
     this.ampdBlockUiService.start();
     this.searchSubs = this.webSocketService.getSearchSubs();
 
@@ -64,8 +56,8 @@ export class SearchComponent implements AfterViewInit {
     this.searchSubs.subscribe((message: SearchRootImpl) => {
       try {
         this.processSearchResults(
-          message.payload.searchResults,
-          message.payload.searchResultCount
+            message.payload.searchResults,
+            message.payload.searchResultCount
         );
       } catch (error) {
         console.error(`Error handling message:`);
@@ -113,14 +105,14 @@ export class SearchComponent implements AfterViewInit {
 
   private buildConnectionState(): void {
     this.stompService.state
-      .pipe(map((state: number) => StompState[state]))
-      .subscribe((status: string) => {
-        if (status === 'CONNECTED') {
-          this.appComponent.setConnected();
-        } else {
-          this.appComponent.setDisconnected();
-        }
-      });
+    .pipe(map((state: number) => StompState[state]))
+    .subscribe((status: string) => {
+      if (status === 'CONNECTED') {
+        this.appComponent.setConnected();
+      } else {
+        this.appComponent.setDisconnected();
+      }
+    });
   }
 
   onSearchKeyUp(): void {

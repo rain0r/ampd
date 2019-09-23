@@ -1,17 +1,16 @@
-import { Component, HostListener } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { MatSnackBar } from '@angular/material';
-import { AppComponent } from '../app.component';
-import { MpdCommands } from '../shared/mpd/mpd-commands';
-import { StompService, StompState } from '@stomp/ng2-stompjs';
-import { map } from 'rxjs/internal/operators';
-import { Observable } from 'rxjs';
-import { Directory, Playlist } from '../shared/models/browse-elements';
-import { WebSocketService } from '../shared/services/web-socket.service';
-import { AmpdBlockUiService } from '../shared/block/ampd-block-ui.service';
-import { MpdTypes } from '../shared/mpd/mpd-types';
-import { BrowseRootImpl } from '../shared/messages/incoming/browse-impl';
-import { MpdSong } from 'QueueMsg';
+import {Component, HostListener} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
+import {MatSnackBar} from '@angular/material';
+import {AppComponent} from '../app.component';
+import {MpdCommands} from '../shared/mpd/mpd-commands';
+import {StompService, StompState} from '@stomp/ng2-stompjs';
+import {map} from 'rxjs/internal/operators';
+import {Observable} from 'rxjs';
+import {Directory, Playlist} from '../shared/models/browse-elements';
+import {WebSocketService} from '../shared/services/web-socket.service';
+import {AmpdBlockUiService} from '../shared/block/ampd-block-ui.service';
+import {BrowseRootImpl} from '../shared/messages/incoming/browse-impl';
+import {MpdSong} from 'QueueMsg';
 
 export interface BreadcrumbItem {
   text: string;
@@ -31,15 +30,13 @@ export class BrowseComponent {
   getParamDir = '';
   browseSubs: Observable<BrowseRootImpl>;
 
-  constructor(
-    private activatedRoute: ActivatedRoute,
-    private appComponent: AppComponent,
-    private router: Router,
-    private snackBar: MatSnackBar,
-    private stompService: StompService,
-    private ampdBlockUiService: AmpdBlockUiService,
-    private webSocketService: WebSocketService
-  ) {
+  constructor(private activatedRoute: ActivatedRoute,
+              private appComponent: AppComponent,
+              private router: Router,
+              private snackBar: MatSnackBar,
+              private stompService: StompService,
+              private ampdBlockUiService: AmpdBlockUiService,
+              private webSocketService: WebSocketService) {
     this.ampdBlockUiService.start();
     this.browseSubs = this.webSocketService.getBrowseSubs();
     this.buildConnectionState();
@@ -48,24 +45,24 @@ export class BrowseComponent {
 
   private buildConnectionState(): void {
     this.stompService.state
-      .pipe(map((state: number) => StompState[state]))
-      .subscribe((status: string) => {
-        if (status === 'CONNECTED') {
-          this.appComponent.setConnected();
-          this.ampdBlockUiService.stop();
+    .pipe(map((state: number) => StompState[state]))
+    .subscribe((status: string) => {
+      if (status === 'CONNECTED') {
+        this.appComponent.setConnected();
+        this.ampdBlockUiService.stop();
 
-          this.activatedRoute.queryParams.subscribe(params => {
-            let dir = '/';
-            if ('dir' in params) {
-              dir = params['dir'];
-            }
-            this.getParamDir = dir;
-            this.browse(dir);
-          });
-        } else {
-          this.appComponent.setDisconnected();
-        }
-      });
+        this.activatedRoute.queryParams.subscribe(params => {
+          let dir = '/';
+          if ('dir' in params) {
+            dir = params['dir'];
+          }
+          this.getParamDir = dir;
+          this.browse(dir);
+        });
+      } else {
+        this.appComponent.setDisconnected();
+      }
+    });
   }
 
   private browse(pPath: string): void {
@@ -109,10 +106,10 @@ export class BrowseComponent {
     }
     const splittedPath: string = this.splitDir(directory);
     let targetDir: string = this.getParamDir
-      ? this.getParamDir + '/' + splittedPath
-      : splittedPath;
+        ? this.getParamDir + '/' + splittedPath
+        : splittedPath;
     targetDir = targetDir.replace(/\/+(?=\/)/g, '');
-    this.router.navigate(['browse'], { queryParams: { dir: targetDir } });
+    this.router.navigate(['browse'], {queryParams: {dir: targetDir}});
   }
 
   onClickPlaylist(event: Playlist): void {
@@ -179,7 +176,7 @@ export class BrowseComponent {
 
   splitDir(dir: string): string {
     const splitted: string =
-      dir
+        dir
         .trim()
         .split('/')
         .pop() || '';
@@ -201,9 +198,9 @@ export class BrowseComponent {
 
     payload.directories.forEach(item => {
       const directory = new Directory(
-        this.splitDir(item.path),
-        item.path,
-        item.artist
+          this.splitDir(item.path),
+          item.path,
+          item.artist
       );
       this.dirQueue.push(directory);
     });
@@ -233,7 +230,7 @@ export class BrowseComponent {
     if (targetDir.length === 0) {
       targetDir = '/';
     }
-    this.router.navigate(['browse'], { queryParams: { dir: targetDir } });
+    this.router.navigate(['browse'], {queryParams: {dir: targetDir}});
   }
 
   onClearQueue(): void {

@@ -15,10 +15,10 @@
             <span *ngFor="let elem of breadcrumb" class="text-muted">
               &nbsp; &#47;
               <a
-                [routerLink]="['browse']"
+                [routerLink]="['/browse']"
                 [queryParams]="{ dir: elem.link }"
                 class="breadcrumb"
-                >{{ elem.text }}</a
+                >{{ elem.text }} ({{elem.link}})</a
               >
             </span>
           </h3>

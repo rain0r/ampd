@@ -1,22 +1,22 @@
-import { Component, HostListener } from '@angular/core';
+import {Component, HostListener} from '@angular/core';
 
-import { AppComponent } from '../app.component';
-import { QueueSong } from '../shared/models/queue-song';
-import { MatDialog, MatSliderChange } from '@angular/material';
-import { StompService, StompState } from '@stomp/ng2-stompjs';
-import { map } from 'rxjs/internal/operators';
-import { Observable } from 'rxjs';
-import { MpdCommands } from '../shared/mpd/mpd-commands';
-import { WebSocketService } from '../shared/services/web-socket.service';
-import { CoverModalComponent } from '../shared/cover-modal/cover-modal.component';
-import { AmpdBlockUiService } from '../shared/block/ampd-block-ui.service';
-import { QueueRootImpl } from '../shared/messages/incoming/queue-impl';
-import { ControlPanel, ServerStatus, StateMsgPayload } from 'StateMsg';
+import {AppComponent} from '../app.component';
+import {QueueSong} from '../shared/models/queue-song';
+import {MatDialog, MatSliderChange} from '@angular/material';
+import {StompService, StompState} from '@stomp/ng2-stompjs';
+import {map} from 'rxjs/internal/operators';
+import {Observable} from 'rxjs';
+import {MpdCommands} from '../shared/mpd/mpd-commands';
+import {WebSocketService} from '../shared/services/web-socket.service';
+import {CoverModalComponent} from '../shared/cover-modal/cover-modal.component';
+import {AmpdBlockUiService} from '../shared/block/ampd-block-ui.service';
+import {QueueRootImpl} from '../shared/messages/incoming/queue-impl';
+import {ControlPanel, ServerStatus, StateMsgPayload} from 'StateMsg';
 import {
   ControlPanelImpl,
   ServerStatusRootImpl,
 } from '../shared/messages/incoming/state-messages-impl';
-import { MpdSong } from 'QueueMsg';
+import {MpdSong} from 'QueueMsg';
 
 @Component({
   selector: 'app-queue',
@@ -30,12 +30,12 @@ export class QueueComponent {
   currentSong: QueueSong = new QueueSong();
   currentState: string = '';
   displayedColumns = [
-    { name: 'pos', showMobile: false },
-    { name: 'artist', showMobile: true },
-    { name: 'album', showMobile: false },
-    { name: 'title', showMobile: true },
-    { name: 'length', showMobile: false },
-    { name: 'remove', showMobile: true },
+    {name: 'pos', showMobile: false},
+    {name: 'artist', showMobile: true},
+    {name: 'album', showMobile: false},
+    {name: 'title', showMobile: true},
+    {name: 'length', showMobile: false},
+    {name: 'remove', showMobile: true},
   ];
   volume: number = 0;
 
@@ -43,13 +43,11 @@ export class QueueComponent {
   stateSubs: Observable<ServerStatusRootImpl>;
   queueSubs: Observable<QueueRootImpl>;
 
-  constructor(
-    private appComponent: AppComponent,
-    private stompService: StompService,
-    private webSocketService: WebSocketService,
-    private ampdBlockUiService: AmpdBlockUiService,
-    public dialog: MatDialog
-  ) {
+  constructor(private appComponent: AppComponent,
+              private stompService: StompService,
+              private webSocketService: WebSocketService,
+              private ampdBlockUiService: AmpdBlockUiService,
+              public dialog: MatDialog) {
     this.ampdBlockUiService.start();
 
     this.stateSubs = this.webSocketService.getStateSubs();
@@ -82,7 +80,7 @@ export class QueueComponent {
 
     sessionStorage.setItem('currentSong', JSON.stringify(this.currentSong));
     this.currentSong.elapsedFormatted = this.getFormattedElapsedTime(
-      serverStatus.elapsedTime
+        serverStatus.elapsedTime
     );
     this.currentSong.progress = serverStatus.elapsedTime;
     this.currentState = serverStatus.state;
@@ -150,7 +148,7 @@ export class QueueComponent {
         command = MpdCommands.SET_NEXT;
         break;
       default:
-      // Ignore it
+        // Ignore it
     }
     if (command) {
       this.webSocketService.send(command);
@@ -163,7 +161,7 @@ export class QueueComponent {
    * @param {string} pFile
    */
   onRowClick(pFile: string): void {
-    this.webSocketService.sendData(MpdCommands.PLAY_TRACK, { path: pFile });
+    this.webSocketService.sendData(MpdCommands.PLAY_TRACK, {path: pFile});
   }
 
   @HostListener('document:visibilitychange', ['$event'])
@@ -206,7 +204,7 @@ export class QueueComponent {
         }
         break;
       default:
-      // Ignore it
+        // Ignore it
     }
     if (command) {
       this.webSocketService.send(command);
@@ -228,15 +226,15 @@ export class QueueComponent {
 
   private buildConnectionState(): void {
     this.stompService.state
-      .pipe(map((state: number) => StompState[state]))
-      .subscribe((status: string) => {
-        if (status === 'CONNECTED') {
-          this.appComponent.setConnected();
-          this.sendGetQueue();
-        } else {
-          this.appComponent.setDisconnected();
-        }
-      });
+    .pipe(map((state: number) => StompState[state]))
+    .subscribe((status: string) => {
+      if (status === 'CONNECTED') {
+        this.appComponent.setConnected();
+        this.sendGetQueue();
+      } else {
+        this.appComponent.setDisconnected();
+      }
+    });
   }
 
   private buildQueueMsgReceiver() {
@@ -281,13 +279,13 @@ export class QueueComponent {
     const elapsedMinutes = Math.floor(elapsedTime / 60);
     const elapsedSeconds = elapsedTime - elapsedMinutes * 60;
     return (
-      elapsedMinutes + ':' + (elapsedSeconds < 10 ? '0' : '') + elapsedSeconds
+        elapsedMinutes + ':' + (elapsedSeconds < 10 ? '0' : '') + elapsedSeconds
     );
   }
 
   openCoverModal(): void {
     const dialogRef = this.dialog.open(CoverModalComponent, {
-      data: { coverUrl: this.currentSong.coverUrl() },
+      data: {coverUrl: this.currentSong.coverUrl()},
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -298,7 +296,7 @@ export class QueueComponent {
   getDisplayedColumns(): string[] {
     const isMobile = this.appComponent.isMobile();
     return this.displayedColumns
-      .filter(cd => !isMobile || cd.showMobile)
-      .map(cd => cd.name);
+    .filter(cd => !isMobile || cd.showMobile)
+    .map(cd => cd.name);
   }
 }

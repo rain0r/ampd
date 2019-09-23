@@ -8,6 +8,7 @@ import { ServerStatusRootImpl } from '../messages/incoming/state-messages-impl';
 import { QueueRootImpl } from '../messages/incoming/queue-impl';
 import { BrowseRootImpl } from '../messages/incoming/browse-impl';
 import { SearchRootImpl } from '../messages/incoming/search-impl';
+import { MpdTypes } from '../mpd/mpd-types';
 
 @Injectable()
 export class WebSocketService {
@@ -73,39 +74,6 @@ export class WebSocketService {
       map(jsonObj => {
         const wsObj: SearchRootImpl = <SearchRootImpl>jsonObj;
         return wsObj;
-      })
-    );
-  }
-
-  getQueueSubs(): Observable<QueueRootImpl> {
-    return this.stompService.subscribe('/topic/messages').pipe(
-      map((message: Message) => message.body),
-      map(body => {
-        const jsonObj: any = JSON.parse(body); // string to generic object first, TODO replace by object
-        const employee: QueueRootImpl = <QueueRootImpl>jsonObj;
-        return employee;
-      })
-    );
-  }
-
-  getBrowseSubs(): Observable<BrowseRootImpl> {
-    return this.stompService.subscribe('/topic/messages').pipe(
-      map((message: Message) => message.body),
-      map(body => {
-        const jsonObj: any = JSON.parse(body); // string to generic object first, TODO replace by object
-        const employee: BrowseRootImpl = <BrowseRootImpl>jsonObj;
-        return employee;
-      })
-    );
-  }
-
-  getSearchSubs(): Observable<SearchRootImpl> {
-    return this.stompService.subscribe('/topic/messages').pipe(
-      map((message: Message) => message.body),
-      map(body => {
-        const jsonObj: any = JSON.parse(body); // string to generic object first, TODO replace by object
-        const employee: SearchRootImpl = <SearchRootImpl>jsonObj;
-        return employee;
       })
     );
   }

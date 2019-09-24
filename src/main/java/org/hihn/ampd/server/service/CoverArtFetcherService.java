@@ -79,7 +79,7 @@ public class CoverArtFetcherService {
 
   private Optional<byte[]> loadFallbackCover() {
     Path transparentFile = Paths.get(getClass().getResource("/transparent.png").getFile());
-    return loadFile(transparentFile);
+    return Optional.of(loadFile(transparentFile));
   }
 
 
@@ -109,10 +109,10 @@ public class CoverArtFetcherService {
    * @param pathStr
    * @return
    */
-  public Optional<byte[]> findAlbumCover(Optional<String> pathStr) {
+  public byte[] findAlbumCover(Optional<String> pathStr) {
 
     if (!pathStr.isPresent()) {
-      return Optional.empty();
+      return null;
     }
 
     List<Path> covers = new ArrayList<>();
@@ -128,7 +128,7 @@ public class CoverArtFetcherService {
       return loadFile(coverPath);
     }
 
-    return Optional.empty();
+    return null;
   }
 
 

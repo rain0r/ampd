@@ -47,7 +47,7 @@ export class QueueSong implements MpdSong {
 
   coverUrl(): string {
     const cc = ConnectionConfiguration.get();
-    const currentCoverUrl = '/current-cover';
+    const currentCoverUrl = 'current-cover';
     // Add a query param to trigger an image change in the browser
     return `${cc.coverServer}/${currentCoverUrl}?title=${this.title}`;
   }

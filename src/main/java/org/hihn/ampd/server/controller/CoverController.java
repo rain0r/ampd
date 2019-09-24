@@ -46,8 +46,7 @@ public class CoverController {
   @RequestMapping(value = {FIND_COVER_URL}, produces = MediaType.IMAGE_JPEG_VALUE)
   public @ResponseBody byte[] findCoverByPath(@RequestParam("path") Optional<String> path) {
     try {
-      Optional<byte[]> ret = coverArtFetcherService.findAlbumCover(path);
-      return ret.get();
+      return coverArtFetcherService.findAlbumCover(path);
     } catch (Exception e) {
       String p = (path.isPresent()) ? path.get() : "NO_PATH";
       LOG.warn("Could not find a cover for: " + p);

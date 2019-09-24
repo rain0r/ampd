@@ -1,8 +1,11 @@
 declare module 'BrowseMsg' {
+  import { SafeResourceUrl } from '@angular/platform-browser';
+
   export interface Directory {
     directory: boolean;
     path: string;
     lastModified?: Date;
+    albumCover: SafeResourceUrl;
   }
 
   export interface Playlist {

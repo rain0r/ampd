@@ -65,7 +65,7 @@ public class CoverCacheService {
   public Optional<byte[]> loadCover(COVER_TYPE coverType, String artist, String titleOrAlbum) {
     String fileName = buildFileName(coverType, artist, titleOrAlbum);
     Path fullPath = Paths.get(buildAmpdHome(), CACHE_DIR, fileName).toAbsolutePath();
-    return loadFile(fullPath);
+    return Optional.of(loadFile(fullPath));
   }
 
   public void saveCover(COVER_TYPE coverType, String artist, String titleOrAlbum, byte[] file) {

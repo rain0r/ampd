@@ -30,7 +30,7 @@ public class FileStorageService {
 
     /* Load the file */
     if (coverFile.isPresent()) {
-      ret = loadFile(coverFile.get());
+      ret = Optional.of(loadFile(coverFile.get()));
     }
 
     return ret;

@@ -18,6 +18,7 @@ import { ConnectionConfiguration } from './connection-configuration';
 import { AmpdBlockUiService } from './shared/block/ampd-block-ui.service';
 import { APP_BASE_HREF } from '@angular/common';
 import { EncodeURIComponentPipe } from './shared/pipes/EncodeURI';
+import { BROWSER_SANITIZATION_PROVIDERS } from '@angular/platform-browser/src/browser';
 
 @NgModule({
   declarations: [

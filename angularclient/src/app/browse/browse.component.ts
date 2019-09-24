@@ -1,16 +1,22 @@
-import {Component, HostListener} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
-import {MatSnackBar} from '@angular/material';
-import {AppComponent} from '../app.component';
-import {MpdCommands} from '../shared/mpd/mpd-commands';
-import {StompService, StompState} from '@stomp/ng2-stompjs';
-import {map} from 'rxjs/internal/operators';
-import {Observable} from 'rxjs';
-import {Directory, Playlist} from '../shared/models/browse-elements';
-import {WebSocketService} from '../shared/services/web-socket.service';
-import {AmpdBlockUiService} from '../shared/block/ampd-block-ui.service';
-import {BrowseRootImpl} from '../shared/messages/incoming/browse-impl';
-import {MpdSong} from 'QueueMsg';
+import { Component, HostListener } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material';
+import { AppComponent } from '../app.component';
+import { MpdCommands } from '../shared/mpd/mpd-commands';
+import { StompService, StompState } from '@stomp/ng2-stompjs';
+import { map } from 'rxjs/internal/operators';
+import { Observable } from 'rxjs';
+
+import { WebSocketService } from '../shared/services/web-socket.service';
+import { AmpdBlockUiService } from '../shared/block/ampd-block-ui.service';
+import {
+  BrowseRootImpl,
+  DirectoryImpl,
+} from '../shared/messages/incoming/browse-impl';
+import { MpdSong } from 'QueueMsg';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { Directory, Playlist } from 'BrowseMsg';
+import { ConnectionConfiguration } from '../connection-configuration';
 
 export interface BreadcrumbItem {
   text: string;
@@ -29,40 +35,49 @@ export class BrowseComponent {
   breadcrumb: BreadcrumbItem[] = [];
   getParamDir = '';
   browseSubs: Observable<BrowseRootImpl>;
+  base64Image: SafeResourceUrl;
 
-  constructor(private activatedRoute: ActivatedRoute,
-              private appComponent: AppComponent,
-              private router: Router,
-              private snackBar: MatSnackBar,
-              private stompService: StompService,
-              private ampdBlockUiService: AmpdBlockUiService,
-              private webSocketService: WebSocketService) {
+  constructor(
+    private activatedRoute: ActivatedRoute,
+    private appComponent: AppComponent,
+    private router: Router,
+    private snackBar: MatSnackBar,
+    private stompService: StompService,
+    private ampdBlockUiService: AmpdBlockUiService,
+    private webSocketService: WebSocketService,
+    private sanitizer: DomSanitizer
+  ) {
     this.ampdBlockUiService.start();
     this.browseSubs = this.webSocketService.getBrowseSubs();
     this.buildConnectionState();
     this.buildMessageReceiver();
+
+    this.base64Image = this.sanitizer.bypassSecurityTrustResourceUrl(
+      'data:image/jpg;base64,' +
+        'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mN8KiT0HwAE9wIK1JAaOgAAAABJRU5ErkJggg=='
+    );
   }
 
   private buildConnectionState(): void {
     this.stompService.state
-    .pipe(map((state: number) => StompState[state]))
-    .subscribe((status: string) => {
-      if (status === 'CONNECTED') {
-        this.appComponent.setConnected();
-        this.ampdBlockUiService.stop();
+      .pipe(map((state: number) => StompState[state]))
+      .subscribe((status: string) => {
+        if (status === 'CONNECTED') {
+          this.appComponent.setConnected();
+          this.ampdBlockUiService.stop();
 
-        this.activatedRoute.queryParams.subscribe(params => {
-          let dir = '/';
-          if ('dir' in params) {
-            dir = params['dir'];
-          }
-          this.getParamDir = dir;
-          this.browse(dir);
-        });
-      } else {
-        this.appComponent.setDisconnected();
-      }
-    });
+          this.activatedRoute.queryParams.subscribe(params => {
+            let dir = '/';
+            if ('dir' in params) {
+              dir = params['dir'];
+            }
+            this.getParamDir = dir;
+            this.browse(dir);
+          });
+        } else {
+          this.appComponent.setDisconnected();
+        }
+      });
   }
 
   private browse(pPath: string): void {
@@ -106,10 +121,10 @@ export class BrowseComponent {
     }
     const splittedPath: string = this.splitDir(directory);
     let targetDir: string = this.getParamDir
-        ? this.getParamDir + '/' + splittedPath
-        : splittedPath;
+      ? this.getParamDir + '/' + splittedPath
+      : splittedPath;
     targetDir = targetDir.replace(/\/+(?=\/)/g, '');
-    this.router.navigate(['browse'], {queryParams: {dir: targetDir}});
+    this.router.navigate(['browse'], { queryParams: { dir: targetDir } });
   }
 
   onClickPlaylist(event: Playlist): void {
@@ -174,9 +189,14 @@ export class BrowseComponent {
     this.popUp(`Added title: "${song.title}"`);
   }
 
+  /**
+   * Returns the last element of a path.
+   * @param {string} dir
+   * @returns {string}
+   */
   splitDir(dir: string): string {
     const splitted: string =
-        dir
+      dir
         .trim()
         .split('/')
         .pop() || '';
@@ -197,12 +217,11 @@ export class BrowseComponent {
     this.titleQueue = [];
 
     payload.directories.forEach(item => {
-      const directory = new Directory(
-          this.splitDir(item.path),
-          item.path,
-          item.artist
-      );
-      this.dirQueue.push(directory);
+      const directory = new DirectoryImpl(true, item.path, item.albumCover);
+      if (item.path.includes('Allah') && this.dirQueue.length < 2) {
+        // TODO
+        this.dirQueue.push(directory);
+      }
     });
     payload.songs.forEach(item => {
       this.titleQueue.push(item);
@@ -230,10 +249,16 @@ export class BrowseComponent {
     if (targetDir.length === 0) {
       targetDir = '/';
     }
-    this.router.navigate(['browse'], {queryParams: {dir: targetDir}});
+    this.router.navigate(['browse'], { queryParams: { dir: targetDir } });
   }
 
   onClearQueue(): void {
     this.webSocketService.send(MpdCommands.RM_ALL);
+  }
+
+  updateUrl($event) {
+    const cc = ConnectionConfiguration.get();
+    const url = `${cc.coverServer}/baseline_folder_open_black_18dp.png`;
+    $event.target.src = url;
   }
 }

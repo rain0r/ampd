@@ -1,13 +1,5 @@
 package org.hihn.ampd.server.controller;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.EnumMap;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Optional;
-import java.util.TreeSet;
-import java.util.stream.Collectors;
 import org.bff.javampd.file.MPDFile;
 import org.bff.javampd.server.MPD;
 import org.bff.javampd.song.MPDSong;
@@ -18,7 +10,9 @@ import org.hihn.ampd.server.message.incoming.IncomingMessage;
 import org.hihn.ampd.server.message.outgoing.Queue;
 import org.hihn.ampd.server.message.outgoing.browse.BrowseMessage;
 import org.hihn.ampd.server.message.outgoing.browse.BrowsePayload;
+import org.hihn.ampd.server.message.outgoing.browse.Directory;
 import org.hihn.ampd.server.message.outgoing.browse.Playlist;
+import org.hihn.ampd.server.service.CoverArtFetcherService;
 import org.hihn.ampd.server.service.SearchService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,6 +20,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Controller
 public class WebSocketController {
@@ -41,10 +37,15 @@ public class WebSocketController {
 
   private final SearchService searchService;
 
+
+  private final CoverArtFetcherService coverArtFetcherService;
+
   @Autowired
-  public WebSocketController(MpdConfiguration mpdConfiguration, SearchService searchService) {
+  public WebSocketController(MpdConfiguration mpdConfiguration, SearchService searchService,
+      CoverArtFetcherService coverArtFetcherService) {
     this.mpd = mpdConfiguration.mpd();
     this.searchService = searchService;
+    this.coverArtFetcherService = coverArtFetcherService;
 
     commands.put(AmpdMessage.MESSAGE_TYPE.ADD_DIR, this::addDir);
     commands.put(AmpdMessage.MESSAGE_TYPE.ADD_PLAYLIST, this::addPlaylist);
@@ -224,7 +225,9 @@ public class WebSocketController {
 
     for (MPDFile file : tmpMpdFiles) {
       if (file.isDirectory()) {
-        browsePayload.addDirectory(file);
+        byte[] cover = coverArtFetcherService.findAlbumCover(Optional.of(file.getPath()));
+        Directory d = new Directory(file.getPath());
+        browsePayload.addDirectory(d);
       } else {
         Collection<MPDSong> searchResults =
             mpd.getMusicDatabase().getSongDatabase().searchFileName(file.getPath());

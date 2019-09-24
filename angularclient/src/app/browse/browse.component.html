@@ -18,7 +18,7 @@
                 [routerLink]="['/browse']"
                 [queryParams]="{ dir: elem.link }"
                 class="breadcrumb"
-                >{{ elem.text }} ({{elem.link}})</a
+                >{{ elem.text }}</a
               >
             </span>
           </h3>
@@ -102,12 +102,16 @@
       (click)="onDirClick(dir.path)"
     >
       <mat-list-item role="listitem" class="list-item">
-        <mat-icon>folder_open</mat-icon> &nbsp;
+        <img
+          (error)="updateUrl($event)"
+          [src]="dir.getAlbumCover()"
+          class="dir-list-cover"
+        />
 
-        <!--<img src="http://localhost:8080/find-cover/?path={{dir.path|encodeURIComponent}}"-->
-        <!--onError="this.src='./app/assets/images/placeholder.jpg';"-->
-        <!--class="dir-list-cover" />-->
-        {{ dir.splittedDir }}
+        &nbsp;
+        <a href="{{ dir.getAlbumCover() }}">cover</a>
+
+        {{ dir.displayedPath() }}
 
         <span class="fill-space"></span>
         <i

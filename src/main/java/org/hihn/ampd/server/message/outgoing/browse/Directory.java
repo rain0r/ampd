@@ -4,7 +4,13 @@ import org.bff.javampd.file.MPDFile;
 
 public class Directory extends MPDFile {
 
+
   public Directory(String path) {
     super(path);
   }
+
+  public Directory(String path, String albumCover) {
+    super(path);
+  }
+
 }

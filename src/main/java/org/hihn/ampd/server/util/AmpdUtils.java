@@ -1,13 +1,12 @@
 package org.hihn.ampd.server.util;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.text.Normalizer;
-import java.util.Optional;
 import java.util.regex.Pattern;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class AmpdUtils {
 
@@ -15,10 +14,10 @@ public class AmpdUtils {
 
   private static final String EMPTY = "";
 
-  public static Optional<byte[]> loadFile(Path path) {
-    Optional<byte[]> ret = Optional.empty();
+  public static byte[] loadFile(Path path) {
+    byte[] ret = null;
     try {
-      ret = Optional.of(Files.readAllBytes(path));
+      ret = Files.readAllBytes(path);
     } catch (IOException e) {
       LOG.warn("File not found: " + path);
     }

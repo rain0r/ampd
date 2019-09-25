@@ -12,12 +12,6 @@ Set `AMPD_URL` to the url of your server in `angularclient/src/environments/envi
 const AMPD_URL = 'punica:8003';
 ```
 
-Also, check the context path under which ampd will be accessed later in `angularclient/build.js`:
-
-```
-const CONTEXT_PATH = '/ampd/';
-```
-
 Build Angular:
 
 ```
@@ -29,6 +23,7 @@ npm run build-prod
 Now copy the website to the backend:
 
 ```
+mkdir -p ../src/main/resources/static/
 cp -r dist/ampd/* ../src/main/resources/static/
 ```
 
@@ -37,6 +32,7 @@ Open `src/main/resources/application.properties` and fill in the address of your
 Build the jar file:
 
 ```
+cd ..
 mvn clean package spring-boot:repackage
 ```
 

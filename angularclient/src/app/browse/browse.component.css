@@ -1,6 +1,6 @@
 .browse-list {
   background: white;
-  border-bottom: 1px solid rgba(0, 0, 0, .12);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
 }
 
 .browse-list-item {
@@ -9,9 +9,8 @@
 }
 
 .list-header {
-  color: rgba(0, 0, 0, 0.54);
-  font-size: 1.17em;
-  font-weight: bold;
+  color: black;
+  padding-left: 0.5em;
 }
 
 .browse-list:hover {
@@ -20,7 +19,8 @@
 }
 
 .breadcrumb {
-  color: rgba(0, 0, 0, 0.54);
+  color: black;
+  padding-left: 0.5em;
   text-decoration: none;
 }
 
@@ -52,11 +52,10 @@
 
 div.sub-menu {
   display: flex;
-  margin-bottom: 1.5em;
-  padding: 2px;
   background: white;
   justify-content: flex-end;
   align-items: baseline;
+  margin-bottom: 1em;
 }
 
 div.sub-menu > div {
@@ -79,4 +78,8 @@ div.sub-menu > div.two {
   border: 1px solid silver;
   max-height: 48px;
   padding: 2em;
+}
+
+#breadcrumb-container {
+  margin-top: 1em;
 }

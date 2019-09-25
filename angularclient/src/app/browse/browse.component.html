@@ -1,4 +1,5 @@
 <div
+  id="breadcrumb-container"
   class="container"
   fxLayout="row"
   fxLayout.xs="column"
@@ -6,14 +7,14 @@
   fxLayoutGap="0.5%"
   fxLayoutAlign="center"
 >
-  <div fxFlex="80%">
+  <div fxFlex="33%">
     <div class="sub-menu">
       <div>
         <div>
           <h3 class="list-header">
             <a routerLink="/browse" class="breadcrumb">root</a>
-            <span *ngFor="let elem of breadcrumb" class="text-muted">
-              &nbsp; &#47;
+            <span *ngFor="let elem of breadcrumb">
+              &#47;
               <a
                 [routerLink]="['/browse']"
                 [queryParams]="{ dir: elem.link }"
@@ -25,9 +26,7 @@
         </div>
       </div>
       <a routerLink="/browse" mat-raised-button class="mat-small">
-        <i class="material-icons" title="Return to the top of the collection"
-          >expand_less</i
-        >
+        <i class="material-icons">expand_less</i>
         Return to top
       </a>
       <button class="mat-small" mat-raised-button (click)="onClearQueue()">
@@ -39,7 +38,6 @@
 </div>
 
 <div
-  id="top"
   class="container"
   fxLayout="row"
   fxLayout.xs="column"
@@ -49,7 +47,12 @@
 >
   <!-- playlists -->
   <div fxFlex="33%" *ngIf="playlistQueue.length > 0">
-    <h3 class="list-header">Playlists</h3>
+    <div class="sub-menu">
+      <div>
+        <h3 class="list-header">Playlists</h3>
+      </div>
+    </div>
+
     <mat-list
       role="list"
       *ngFor="let playlist of playlistQueue"

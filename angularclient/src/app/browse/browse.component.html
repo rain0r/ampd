@@ -102,14 +102,13 @@
       (click)="onDirClick(dir.path)"
     >
       <mat-list-item role="listitem" class="list-item">
-        <img
-          (error)="updateUrl($event)"
-          [src]="dir.getAlbumCover()"
-          class="dir-list-cover"
-        />
+        <!--<img-->
+        <!--(error)="updateUrl($event)"-->
+        <!--[src]="dir.getAlbumCover()"-->
+        <!--class="dir-list-cover"-->
+        <!--/>-->
 
-        &nbsp;
-        <a href="{{ dir.getAlbumCover() }}">cover</a>
+        <mat-icon>folder_open</mat-icon> &nbsp; &nbsp;
 
         {{ dir.displayedPath() }}
 

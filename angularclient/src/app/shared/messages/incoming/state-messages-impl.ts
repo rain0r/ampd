@@ -1,4 +1,4 @@
-import { ControlPanel, StateMsgPayload, ServerStatusRoot } from 'StateMsg';
+import { ControlPanel, ServerStatusRoot, StateMsgPayload } from 'StateMsg';
 
 export class ControlPanelImpl implements ControlPanel {
   random: boolean;

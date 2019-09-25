@@ -16,9 +16,7 @@ import { SettingsComponent } from './settings/settings.component';
 import { CoverModalComponent } from 'src/app/shared/cover-modal/cover-modal.component';
 import { ConnectionConfiguration } from './connection-configuration';
 import { AmpdBlockUiService } from './shared/block/ampd-block-ui.service';
-import { APP_BASE_HREF } from '@angular/common';
 import { EncodeURIComponentPipe } from './shared/pipes/EncodeURI';
-import { BROWSER_SANITIZATION_PROVIDERS } from '@angular/platform-browser/src/browser';
 
 @NgModule({
   declarations: [
@@ -48,10 +46,6 @@ import { BROWSER_SANITIZATION_PROVIDERS } from '@angular/platform-browser/src/br
       provide: StompConfig,
       useValue: AppModule.loadConnectionConfiguration(),
     },
-    {
-      provide: APP_BASE_HREF,
-      useValue: AppModule.getBaseHref(),
-    },
   ],
   entryComponents: [CoverModalComponent],
   bootstrap: [AppComponent],
@@ -80,10 +74,5 @@ export class AppModule {
       debug: false,
     };
     return stompConfig;
-  }
-
-  static getBaseHref(): string {
-    // return window.location.pathname.slice(0, -1);
-    return window.location.pathname;
   }
 }

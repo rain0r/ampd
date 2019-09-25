@@ -218,10 +218,7 @@ export class BrowseComponent {
 
     payload.directories.forEach(item => {
       const directory = new DirectoryImpl(true, item.path, item.albumCover);
-      if (item.path.includes('Allah') && this.dirQueue.length < 2) {
-        // TODO
-        this.dirQueue.push(directory);
-      }
+      this.dirQueue.push(directory);
     });
     payload.songs.forEach(item => {
       this.titleQueue.push(item);

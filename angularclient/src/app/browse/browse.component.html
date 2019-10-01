@@ -7,7 +7,7 @@
   fxLayoutGap="0.5%"
   fxLayoutAlign="center"
 >
-  <div fxFlex="33%">
+  <div fxFlex="{{containerWidth}}">
     <div class="sub-menu">
       <div>
         <div>
@@ -46,7 +46,7 @@
   fxLayoutAlign="center"
 >
   <!-- playlists -->
-  <div fxFlex="33%" *ngIf="playlistQueue.length > 0">
+  <div fxFlex="{{containerWidth}}" *ngIf="playlistQueue.length > 0">
     <div class="sub-menu">
       <div>
         <h3 class="list-header">Playlists</h3>
@@ -71,7 +71,7 @@
   </div>
 
   <!-- directories -->
-  <div fxFlex="33%" *ngIf="dirQueue.length > 0">
+  <div fxFlex="{{containerWidth}}" *ngIf="dirQueue.length > 0">
     <div class="sub-menu">
       <div>
         <h3 class="list-header">Directories</h3>
@@ -135,7 +135,7 @@
   </div>
 
   <!-- tracks -->
-  <div fxFlex="33%" *ngIf="titleQueue.length > 0">
+  <div fxFlex="{{containerWidth}}%" *ngIf="titleQueue.length > 0">
     <div class="sub-menu">
       <div>
         <h3 class="list-header">Tracks</h3>

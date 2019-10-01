@@ -67,8 +67,7 @@ public class CoverCacheService {
     Path fullPath = Paths.get(buildAmpdHome(), CACHE_DIR, fileName).toAbsolutePath();
     try {
       return Optional.of(loadFile(fullPath));
-    }
-    catch (Exception e) {
+    } catch (Exception e) {
       // Do nothing
     }
     return Optional.empty();

@@ -35,7 +35,7 @@ export class BrowseComponent {
   breadcrumb: BreadcrumbItem[] = [];
   getParamDir = '';
   browseSubs: Observable<BrowseRootImpl>;
-  base64Image: SafeResourceUrl;
+  containerWidth = 0;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -45,17 +45,12 @@ export class BrowseComponent {
     private stompService: StompService,
     private ampdBlockUiService: AmpdBlockUiService,
     private webSocketService: WebSocketService,
-    private sanitizer: DomSanitizer
   ) {
+
     this.ampdBlockUiService.start();
     this.browseSubs = this.webSocketService.getBrowseSubs();
     this.buildConnectionState();
     this.buildMessageReceiver();
-
-    this.base64Image = this.sanitizer.bypassSecurityTrustResourceUrl(
-      'data:image/jpg;base64,' +
-        'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mN8KiT0HwAE9wIK1JAaOgAAAABJRU5ErkJggg=='
-    );
   }
 
   private buildConnectionState(): void {
@@ -226,6 +221,25 @@ export class BrowseComponent {
     payload.playlists.forEach(item => {
       this.playlistQueue.push(item);
     });
+
+    this.calculateContainerWidth();
+  }
+
+  private calculateContainerWidth() {
+    let tmpCount = 0;
+    if (this.dirQueue.length> 0) {
+      tmpCount+=1;
+    }
+    if (this.titleQueue.length> 0) {
+      tmpCount+=1;
+    }
+    if (this.playlistQueue.length> 0) {
+      tmpCount+=1;
+    }
+
+    tmpCount=(tmpCount > 0) ? tmpCount : 1;
+
+    this.containerWidth = 100 / tmpCount;
   }
 
   private buildMessageReceiver(): void {

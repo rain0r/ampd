@@ -3,12 +3,6 @@
   margin-right: auto;
 }
 
-@media (min-width: 600px) {
-  .settings-form {
-    width: 50%;
-  }
-}
-
 .version-info {
   margin-top: 1em;
   font-weight: bold;

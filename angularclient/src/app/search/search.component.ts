@@ -37,7 +37,7 @@ export class SearchComponent implements AfterViewInit {
     'action',
   ];
 
-  @ViewChild('name') nameField?: ElementRef;
+  @ViewChild('name',{static: false}) nameField?: ElementRef;
 
   constructor(
     private activatedRoute: ActivatedRoute,

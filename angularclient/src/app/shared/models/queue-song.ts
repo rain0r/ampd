@@ -1,7 +1,7 @@
-import { MpdSong } from 'QueueMsg';
+import { IMpdSong } from 'QueueMsg';
 import { ConnectionConfiguration } from '../../connection-configuration';
 
-export class QueueSong implements MpdSong {
+export class QueueSong implements IMpdSong {
   /* Override */
   public albumName: string = '';
   public artistName: string = '';
@@ -24,7 +24,7 @@ export class QueueSong implements MpdSong {
   public playing: boolean = false; // if the song is currently played
   public pos: number = 0; // position in queue
 
-  constructor(mpdSong?: MpdSong) {
+  constructor(mpdSong?: IMpdSong) {
     this.playing = false;
 
     if (mpdSong) {

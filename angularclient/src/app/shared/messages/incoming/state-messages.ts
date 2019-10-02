@@ -1,5 +1,5 @@
 declare module 'StateMsg' {
-  export interface ServerStatus {
+  export interface IServerStatus {
     audio: string;
     playlistVersion: number;
     bitrate: number;
@@ -17,7 +17,7 @@ declare module 'StateMsg' {
     state: string;
   }
 
-  export interface CurrentSong {
+  export interface ICurrentSong {
     name: string;
     title: string;
     artistName: string;
@@ -33,7 +33,7 @@ declare module 'StateMsg' {
     id: number;
   }
 
-  export interface ControlPanel {
+  export interface IControlPanel {
     random: boolean;
     consume: boolean;
     single: boolean;
@@ -42,15 +42,15 @@ declare module 'StateMsg' {
     xfade: number;
   }
 
-  export interface StateMsgPayload {
-    serverStatus: ServerStatus;
-    currentSong: CurrentSong;
+  export interface IStateMsgPayload {
+    serverStatus: IServerStatus;
+    currentSong: ICurrentSong;
     cover?: any;
-    controlPanel: ControlPanel;
+    controlPanel: IControlPanel;
   }
 
-  export interface ServerStatusRoot {
-    payload: StateMsgPayload;
+  export interface IServerStatusRoot {
+    payload: IStateMsgPayload;
     type: string;
   }
 }

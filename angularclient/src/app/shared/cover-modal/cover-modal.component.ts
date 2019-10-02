@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 
-export interface DialogData {
+export interface IDialogData {
   coverUrl: string;
 }
 
@@ -13,7 +13,7 @@ export interface DialogData {
 export class CoverModalComponent implements OnInit {
   constructor(
     public dialogRef: MatDialogRef<CoverModalComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogData
+    @Inject(MAT_DIALOG_DATA) public data: IDialogData
   ) {}
 
   public onNoClick(): void {

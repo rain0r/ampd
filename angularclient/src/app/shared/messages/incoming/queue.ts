@@ -1,5 +1,5 @@
 declare module 'QueueMsg' {
-  export interface MpdSong {
+  export interface IMpdSong {
     name: string;
     title: string;
     artistName: string;
@@ -16,7 +16,7 @@ declare module 'QueueMsg' {
   }
 
   export interface QueueRoot {
-    payload: MpdSong[];
+    payload: IMpdSong[];
     type: string;
   }
 }

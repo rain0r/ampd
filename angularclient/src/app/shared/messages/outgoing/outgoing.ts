@@ -1,10 +1,10 @@
 declare module 'OutgoingMsg' {
-  export interface Payload {
+  export interface IPayload {
     query: string;
   }
 
-  export interface OutgoingRoot {
+  export interface IOutgoingRoot {
     type: string;
-    payload: Payload;
+    payload: IPayload;
   }
 }

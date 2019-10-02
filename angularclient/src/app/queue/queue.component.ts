@@ -2,10 +2,10 @@ import { Component, HostListener } from '@angular/core';
 
 import { MatDialog, MatSliderChange } from '@angular/material';
 import { StompService, StompState } from '@stomp/ng2-stompjs';
-import { MpdSong } from 'QueueMsg';
+import { IMpdSong } from 'QueueMsg';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/internal/operators';
-import { ControlPanel, ServerStatus, StateMsgPayload } from 'StateMsg';
+import { IControlPanel, IServerStatus, IStateMsgPayload } from 'StateMsg';
 import { AppComponent } from '../app.component';
 import { AmpdBlockUiService } from '../shared/block/ampd-block-ui.service';
 import { CoverModalComponent } from '../shared/cover-modal/cover-modal.component';
@@ -24,7 +24,7 @@ import { WebSocketService } from '../shared/services/web-socket.service';
   styleUrls: ['./queue.component.css'],
 })
 export class QueueComponent {
-  public controlPanel: ControlPanel = new ControlPanelImpl();
+  public controlPanel: IControlPanel = new ControlPanelImpl();
   public queue: QueueSong[] = [];
 
   public currentSong: QueueSong = new QueueSong();
@@ -216,7 +216,7 @@ export class QueueComponent {
     this.webSocketService.send(MpdCommands.GET_QUEUE);
   }
 
-  private buildState(pMessage: StateMsgPayload): void {
+  private buildState(pMessage: IStateMsgPayload): void {
     let callBuildQueue = false;
     this.ampdBlockUiService.stop();
 
@@ -225,7 +225,7 @@ export class QueueComponent {
       callBuildQueue = true;
     }
 
-    const serverStatus: ServerStatus = pMessage.serverStatus;
+    const serverStatus: IServerStatus = pMessage.serverStatus;
     this.currentSong = new QueueSong(pMessage.currentSong);
     this.controlPanel = pMessage.controlPanel;
 
@@ -250,7 +250,7 @@ export class QueueComponent {
     }
   }
 
-  private buildQueue(message: MpdSong[]): void {
+  private buildQueue(message: IMpdSong[]): void {
     this.queue = [];
     let posCounter = 1;
 

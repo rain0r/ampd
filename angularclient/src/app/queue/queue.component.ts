@@ -179,12 +179,12 @@ export class QueueComponent {
       return;
     }
 
-    if (event.srcElement.tagName === 'MAT-SLIDER') {
+    if (event.srcElement['tagName'] === 'MAT-SLIDER') {
       /* We want to change the volume (with the keyboard) - not skip the song. */
       return;
     }
 
-    if (event.srcElement.tagName === 'INPUT') {
+    if (event.srcElement['tagName'] === 'INPUT') {
       /* We want to search for something - not skip the song. */
       return;
     }

@@ -88,6 +88,12 @@ export class BrowseComponent {
 
   private buildBreadcrumb(path: string): BreadcrumbItem[] {
     const ret: BreadcrumbItem[] = [];
+
+    ret.push({
+        text: 'root',
+        link : '/',
+    });
+
     const splitted = path.split('/');
     for (let index = 0; index < splitted.length; index++) {
       const elem = splitted[index];

@@ -7,3 +7,12 @@
   margin-top: 1em;
   font-weight: bold;
 }
+
+.example-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.example-container > * {
+  width: 100%;
+}

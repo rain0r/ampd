@@ -1,46 +1,16 @@
 <form (ngSubmit)="onSubmit()" #heroForm="ngForm" class="settings-form">
-  <mat-grid-list cols="2" rowHeight="5em">
-    <mat-grid-tile>
-      <label for="coverServer">coverServer</label>
-    </mat-grid-tile>
-    <mat-grid-tile>
-      <input
-        type="text"
-        class="form-control"
-        id="coverServer"
-        required
-        [(ngModel)]="model.coverServer"
-        name="coverServer"
-        #coverServer="ngModel"
-      />
-      <div [hidden]="coverServer.valid || coverServer.pristine">
-        coverServer is required
-      </div>
-    </mat-grid-tile>
-    <mat-grid-tile>
-      <label for="webSocketServer">webSocketServer</label>
-    </mat-grid-tile>
-    <mat-grid-tile>
-      <input
-        type="text"
-        class="form-control"
-        id="webSocketServer"
-        required
-        [(ngModel)]="model.webSocketServer"
-        name="webSocketServer"
-        #webSocketServer="ngModel"
-      />
-      <div [hidden]="webSocketServer.valid || webSocketServer.pristine">
-        webSocketServer is required
-      </div>
-    </mat-grid-tile>
-    <mat-grid-tile>
-      <button mat-stroked-button type="submit" (click)="saveSettings()">
-        Submit
-      </button>
-    </mat-grid-tile>
-    <mat-grid-tile></mat-grid-tile>
-  </mat-grid-list>
+
+  <div class="example-container">
+    <mat-form-field>
+      <input matInput required name="coverServer" [(ngModel)]="model.coverServer" value="{{model.coverServer}}" placeholder="Cover Server">
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput required name="webSocketServer" [(ngModel)]="model.webSocketServer" value="{{model.webSocketServer}}" placeholder="Websocket Server">
+    </mat-form-field>
+  </div>
+  <button mat-stroked-button type="submit" (click)="saveSettings()">
+    Save
+  </button>
 </form>
 
 <mat-divider></mat-divider>

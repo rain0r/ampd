@@ -1,6 +1,6 @@
-import { ControlPanel, ServerStatusRoot, StateMsgPayload } from 'StateMsg';
+import { IControlPanel, IServerStatusRoot, IStateMsgPayload } from 'StateMsg';
 
-export class ControlPanelImpl implements ControlPanel {
+export class ControlPanelImpl implements IControlPanel {
   public random: boolean;
   public consume: boolean;
   public single: boolean;
@@ -18,11 +18,11 @@ export class ControlPanelImpl implements ControlPanel {
   }
 }
 
-export class ServerStatusRootImpl implements ServerStatusRoot {
-  public payload: StateMsgPayload;
+export class ServerStatusRootImpl implements IServerStatusRoot {
+  public payload: IStateMsgPayload;
   public type: string;
 
-  constructor(payload: StateMsgPayload, type: string) {
+  constructor(payload: IStateMsgPayload, type: string) {
     this.payload = payload;
     this.type = type;
   }

@@ -8,7 +8,7 @@ import {
 import { MatSnackBar } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
 import { StompService, StompState } from '@stomp/ng2-stompjs';
-import { MpdSong } from 'QueueMsg';
+import { IMpdSong } from 'QueueMsg';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/internal/operators';
 import { AppComponent } from '../app.component';
@@ -26,7 +26,7 @@ import { WebSocketService } from '../shared/services/web-socket.service';
 export class SearchComponent implements AfterViewInit {
   public searchSubs: Observable<SearchRootImpl>;
 
-  public titleQueue: MpdSong[] = [];
+  public titleQueue: IMpdSong[] = [];
   public searchResultCount = 0;
   // query: string = '';
   public displayedColumns: string[] = [
@@ -68,7 +68,7 @@ export class SearchComponent implements AfterViewInit {
     }
   }
 
-  public onPlayTitle(song: MpdSong): void {
+  public onPlayTitle(song: IMpdSong): void {
     if (song instanceof MouseEvent) {
       return;
     }
@@ -78,7 +78,7 @@ export class SearchComponent implements AfterViewInit {
     this.popUp(`Playing: ${song.title}`);
   }
 
-  public onAddTitle(song: MpdSong): void {
+  public onAddTitle(song: IMpdSong): void {
     if (song instanceof MouseEvent) {
       return;
     }

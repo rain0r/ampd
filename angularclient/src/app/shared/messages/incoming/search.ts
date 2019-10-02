@@ -1,5 +1,5 @@
 declare module 'SearchMsg' {
-  export interface SearchResult {
+  export interface ISearchResult {
     name: string;
     title: string;
     artistName: string;
@@ -15,14 +15,14 @@ declare module 'SearchMsg' {
     id: number;
   }
 
-  export interface SearchMsgPayload {
-    searchResults: SearchResult[];
+  export interface ISearchMsgPayload {
+    searchResults: ISearchResult[];
     searchResultCount: number;
     query: string;
   }
 
-  export interface SearchRoot {
-    payload: SearchMsgPayload;
+  export interface ISearchRoot {
+    payload: ISearchMsgPayload;
     type: string;
   }
 }

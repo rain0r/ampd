@@ -1,10 +1,10 @@
-import { OutgoingRoot, Payload } from 'OutgoingMsg';
+import { IOutgoingRoot, IPayload } from 'OutgoingMsg';
 
-export class OutgoingRootImpl implements OutgoingRoot {
-  public payload: Payload;
+export class OutgoingRootImpl implements IOutgoingRoot {
+  public payload: IPayload;
   public type: string;
 
-  constructor(payload: Payload, type: string) {
+  constructor(payload: IPayload, type: string) {
     this.payload = payload;
     this.type = type;
   }

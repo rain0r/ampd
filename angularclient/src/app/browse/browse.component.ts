@@ -9,7 +9,7 @@ import { MpdCommands } from '../shared/mpd/mpd-commands';
 
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { Directory, Playlist } from 'BrowseMsg';
-import { MpdSong } from 'QueueMsg';
+import { IMpdSong } from 'QueueMsg';
 import { ConnectionConfiguration } from '../connection-configuration';
 import { AmpdBlockUiService } from '../shared/block/ampd-block-ui.service';
 import {
@@ -18,7 +18,7 @@ import {
 } from '../shared/messages/incoming/browse-impl';
 import { WebSocketService } from '../shared/services/web-socket.service';
 
-export interface BreadcrumbItem {
+export interface IBreadcrumbItem {
   text: string;
   link: string;
 }
@@ -31,8 +31,8 @@ export interface BreadcrumbItem {
 export class BrowseComponent {
   public dirQueue: Directory[] = [];
   public playlistQueue: Playlist[] = [];
-  public titleQueue: MpdSong[] = [];
-  public breadcrumb: BreadcrumbItem[] = [];
+  public titleQueue: IMpdSong[] = [];
+  public breadcrumb: IBreadcrumbItem[] = [];
   public getParamDir = '';
   public browseSubs: Observable<BrowseRootImpl>;
   public containerWidth = 0;
@@ -101,7 +101,7 @@ export class BrowseComponent {
   }
 
   @HostListener('click', ['$event'])
-  public onPlayTitle(song: MpdSong): void {
+  public onPlayTitle(song: IMpdSong): void {
     if (event) {
       event.stopPropagation();
     }
@@ -115,7 +115,7 @@ export class BrowseComponent {
   }
 
   @HostListener('click', ['$event'])
-  public onAddTitle(song: MpdSong): void {
+  public onAddTitle(song: IMpdSong): void {
     if (event) {
       event.stopPropagation();
     }
@@ -195,8 +195,8 @@ export class BrowseComponent {
     this.breadcrumb = this.buildBreadcrumb(path);
   }
 
-  private buildBreadcrumb(path: string): BreadcrumbItem[] {
-    const ret: BreadcrumbItem[] = [];
+  private buildBreadcrumb(path: string): IBreadcrumbItem[] {
+    const ret: IBreadcrumbItem[] = [];
 
     ret.push({
         text: 'root',

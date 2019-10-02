@@ -1,7 +1,14 @@
-import { BrowseMsgPayload, BrowseRoot, Directory } from 'BrowseMsg';
-import { ConnectionConfiguration } from '../../../connection-configuration';
+import {ConnectionConfiguration} from "../../../connection-configuration";
+import {SafeResourceUrl} from "@angular/platform-browser";
 
-export class DirectoryImpl implements Directory {
+export interface IDirectory {
+  directory: boolean;
+  path: string;
+  lastModified?: Date;
+  albumCover: SafeResourceUrl;
+}
+
+export class Directory implements IDirectory {
   public directory: boolean;
   public path: string;
   public albumCover: string;
@@ -22,20 +29,10 @@ export class DirectoryImpl implements Directory {
 
   public displayedPath() {
     return (
-      this.path
+        this.path
         .trim()
         .split('/')
         .pop() || ''
     );
-  }
-}
-
-export class BrowseRootImpl implements BrowseRoot {
-  public payload: BrowseMsgPayload;
-  public type: string;
-
-  constructor(payload: BrowseMsgPayload, type: string) {
-    this.payload = payload;
-    this.type = type;
   }
 }

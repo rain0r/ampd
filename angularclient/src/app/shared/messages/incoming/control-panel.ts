@@ -1,4 +1,11 @@
-import { IControlPanel, IServerStatusRoot, IStateMsgPayload } from 'StateMsg';
+export interface IControlPanel {
+  random: boolean;
+  consume: boolean;
+  single: boolean;
+  crossfade: boolean;
+  repeat: boolean;
+  xfade: number;
+}
 
 export class ControlPanelImpl implements IControlPanel {
   public random: boolean;
@@ -15,15 +22,5 @@ export class ControlPanelImpl implements IControlPanel {
     this.crossfade = false;
     this.repeat = false;
     this.xfade = 0;
-  }
-}
-
-export class ServerStatusRootImpl implements IServerStatusRoot {
-  public payload: IStateMsgPayload;
-  public type: string;
-
-  constructor(payload: IStateMsgPayload, type: string) {
-    this.payload = payload;
-    this.type = type;
   }
 }

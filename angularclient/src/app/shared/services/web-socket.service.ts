@@ -3,12 +3,12 @@ import { StompService } from '@stomp/ng2-stompjs';
 import { Message } from '@stomp/stompjs';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/internal/operators';
-import { BrowseRootImpl } from '../messages/incoming/browse-impl';
-import { QueueRootImpl } from '../messages/incoming/queue-impl';
-import { SearchRootImpl } from '../messages/incoming/search-impl';
-import { ServerStatusRootImpl } from '../messages/incoming/state-messages-impl';
 import { REMOTE_QUEUE } from '../mpd/mpd-commands';
 import { MpdTypes } from '../mpd/mpd-types';
+import {ServerStatusRootImpl} from "../messages/incoming/state-messages";
+import {QueueRootImpl} from "../messages/incoming/queue";
+import {SearchRootImpl} from "../messages/incoming/search";
+import {BrowseRootImpl} from "../messages/incoming/browse";
 
 @Injectable()
 export class WebSocketService {

@@ -1,26 +1,23 @@
-declare module 'BrowseMsg' {
-  import { SafeResourceUrl } from '@angular/platform-browser';
+import {IPlaylist} from './playlist';
+import {IDirectory} from "./directory";
 
-  export interface Directory {
-    directory: boolean;
-    path: string;
-    lastModified?: Date;
-    albumCover: SafeResourceUrl;
-  }
+export interface IBrowseMsgPayload {
+  directories: IDirectory[];
+  songs: any[];
+  playlists: IPlaylist[];
+}
 
-  export interface Playlist {
-    name: string;
-    count: number;
-  }
+export interface IBrowseRoot {
+  type: string;
+  payload: IBrowseMsgPayload;
+}
 
-  export interface BrowseMsgPayload {
-    directories: Directory[];
-    songs: any[];
-    playlists: Playlist[];
-  }
+export class BrowseRootImpl implements IBrowseRoot {
+  public payload: IBrowseMsgPayload;
+  public type: string;
 
-  export interface BrowseRoot {
-    type: string;
-    payload: BrowseMsgPayload;
+  constructor(payload: IBrowseMsgPayload, type: string) {
+    this.payload = payload;
+    this.type = type;
   }
 }

@@ -10,8 +10,6 @@ export class AmpdBlockUiService {
 
   @BlockUI() public blockUI?: NgBlockUI;
 
-  constructor() {}
-
   public start(): void {
     if (!this.blockUI) {
       return;

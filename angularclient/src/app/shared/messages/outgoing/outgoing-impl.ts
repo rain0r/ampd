@@ -1,8 +1,8 @@
 import { OutgoingRoot, Payload } from 'OutgoingMsg';
 
 export class OutgoingRootImpl implements OutgoingRoot {
-  payload: Payload;
-  type: string;
+  public payload: Payload;
+  public type: string;
 
   constructor(payload: Payload, type: string) {
     this.payload = payload;

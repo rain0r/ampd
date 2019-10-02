@@ -1,22 +1,22 @@
 import { Component, HostListener } from '@angular/core';
 
-import { AppComponent } from '../app.component';
-import { QueueSong } from '../shared/models/queue-song';
 import { MatDialog, MatSliderChange } from '@angular/material';
 import { StompService, StompState } from '@stomp/ng2-stompjs';
-import { map } from 'rxjs/internal/operators';
+import { MpdSong } from 'QueueMsg';
 import { Observable } from 'rxjs';
-import { MpdCommands } from '../shared/mpd/mpd-commands';
-import { WebSocketService } from '../shared/services/web-socket.service';
-import { CoverModalComponent } from '../shared/cover-modal/cover-modal.component';
-import { AmpdBlockUiService } from '../shared/block/ampd-block-ui.service';
-import { QueueRootImpl } from '../shared/messages/incoming/queue-impl';
+import { map } from 'rxjs/internal/operators';
 import { ControlPanel, ServerStatus, StateMsgPayload } from 'StateMsg';
+import { AppComponent } from '../app.component';
+import { AmpdBlockUiService } from '../shared/block/ampd-block-ui.service';
+import { CoverModalComponent } from '../shared/cover-modal/cover-modal.component';
+import { QueueRootImpl } from '../shared/messages/incoming/queue-impl';
 import {
   ControlPanelImpl,
   ServerStatusRootImpl,
 } from '../shared/messages/incoming/state-messages-impl';
-import { MpdSong } from 'QueueMsg';
+import { QueueSong } from '../shared/models/queue-song';
+import { MpdCommands } from '../shared/mpd/mpd-commands';
+import { WebSocketService } from '../shared/services/web-socket.service';
 
 @Component({
   selector: 'app-queue',
@@ -24,12 +24,12 @@ import { MpdSong } from 'QueueMsg';
   styleUrls: ['./queue.component.css'],
 })
 export class QueueComponent {
-  controlPanel: ControlPanel = new ControlPanelImpl();
-  queue: QueueSong[] = [];
+  public controlPanel: ControlPanel = new ControlPanelImpl();
+  public queue: QueueSong[] = [];
 
-  currentSong: QueueSong = new QueueSong();
-  currentState: string = '';
-  displayedColumns = [
+  public currentSong: QueueSong = new QueueSong();
+  public currentState: string = '';
+  public displayedColumns = [
     { name: 'pos', showMobile: false },
     { name: 'artist', showMobile: true },
     { name: 'album', showMobile: false },
@@ -37,11 +37,11 @@ export class QueueComponent {
     { name: 'length', showMobile: false },
     { name: 'remove', showMobile: true },
   ];
-  volume: number = 0;
+  public volume: number = 0;
 
   // Websocket subscriptions
-  stateSubs: Observable<ServerStatusRootImpl>;
-  queueSubs: Observable<QueueRootImpl>;
+  public stateSubs: Observable<ServerStatusRootImpl>;
+  public queueSubs: Observable<QueueRootImpl>;
 
   constructor(
     private appComponent: AppComponent,
@@ -61,6 +61,155 @@ export class QueueComponent {
     this.buildStateReceiver();
 
     this.sendGetQueue();
+  }
+
+  public handleCurrentSongProgressSlider(event: MatSliderChange): void {
+    this.webSocketService.sendData(MpdCommands.SET_SEEK, {
+      value: event.value,
+    });
+  }
+
+  public handleVolumeSlider(event: MatSliderChange): void {
+    this.webSocketService.sendData(MpdCommands.SET_VOLUME, {
+      value: event.value,
+    });
+  }
+
+  public handleControlButton(event: MouseEvent): void {
+    let command: string = '';
+    const element = event.currentTarget as HTMLInputElement;
+    switch (element.id) {
+      case 'btn-prev':
+        command = MpdCommands.SET_PREV;
+        break;
+      case 'btn-stop':
+        command = MpdCommands.SET_STOP;
+        break;
+      case 'btn-pause':
+        command = MpdCommands.SET_PAUSE;
+        break;
+      case 'btn-play':
+        command = MpdCommands.SET_PLAY;
+        break;
+      case 'btn-next':
+        command = MpdCommands.SET_NEXT;
+        break;
+      default:
+      // Ignore it
+    }
+    if (command) {
+      this.webSocketService.send(command);
+    }
+  }
+
+  /**
+   * Play the song from the queue which has been clicked.
+   *
+   * @param {string} pFile
+   */
+  public onRowClick(pFile: string): void {
+    this.webSocketService.sendData(MpdCommands.PLAY_TRACK, { path: pFile });
+  }
+
+  @HostListener('document:visibilitychange', ['$event'])
+  public onKeyUp(ev: KeyboardEvent) {
+    if (document.visibilityState === 'visible') {
+      this.sendGetQueue();
+    }
+  }
+
+  @HostListener('document:keydown', ['$event'])
+  public handleKeyDown(event: KeyboardEvent) {
+    if (!event || !event.srcElement) {
+      return;
+    }
+
+    if (event.srcElement.tagName === 'MAT-SLIDER') {
+      /* We want to change the volume (with the keyboard) - not skip the song. */
+      return;
+    }
+
+    if (event.srcElement.tagName === 'INPUT') {
+      /* We want to search for something - not skip the song. */
+      return;
+    }
+
+    let command: string = '';
+
+    switch (event.which) {
+      case 37: // left
+        command = MpdCommands.SET_PREV;
+        break;
+      case 39: // right
+        command = MpdCommands.SET_NEXT;
+        break;
+      case 32: // space
+        if (this.currentState === 'pause') {
+          command = MpdCommands.SET_PLAY;
+        } else if (this.currentState === 'play') {
+          command = MpdCommands.SET_PAUSE;
+        }
+        break;
+      default:
+      // Ignore it
+    }
+    if (command) {
+      this.webSocketService.send(command);
+      event.preventDefault();
+    }
+  }
+
+  public onClearQueue(): void {
+    this.queue = [];
+    this.webSocketService.send(MpdCommands.RM_ALL);
+  }
+
+  public onRemoveTrack(position: number): void {
+    this.webSocketService.sendData(MpdCommands.RM_TRACK, {
+      position,
+    });
+    this.sendGetQueue();
+  }
+
+  public toggleCtrl(event): void {
+    for (const key in this.controlPanel) {
+      if (event.value.includes(key)) {
+        this.controlPanel[key] = true;
+      } else {
+        this.controlPanel[key] = false;
+      }
+    }
+    this.webSocketService.sendData(MpdCommands.TOGGLE_CONTROL, {
+      controlPanel: this.controlPanel,
+    });
+  }
+
+  public getFormattedElapsedTime(elapsedTime: number): string {
+    if (isNaN(this.currentSong.length)) {
+      return '';
+    }
+    const elapsedMinutes = Math.floor(elapsedTime / 60);
+    const elapsedSeconds = elapsedTime - elapsedMinutes * 60;
+    return (
+      elapsedMinutes + ':' + (elapsedSeconds < 10 ? '0' : '') + elapsedSeconds
+    );
+  }
+
+  public openCoverModal(): void {
+    const dialogRef = this.dialog.open(CoverModalComponent, {
+      data: { coverUrl: this.currentSong.coverUrl() },
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
+  }
+
+  public getDisplayedColumns(): string[] {
+    const isMobile = this.appComponent.isMobile();
+    return this.displayedColumns
+      .filter(cd => !isMobile || cd.showMobile)
+      .map(cd => cd.name);
   }
 
   private sendGetQueue(): void {
@@ -118,114 +267,6 @@ export class QueueComponent {
     }
   }
 
-  handleCurrentSongProgressSlider(event: MatSliderChange): void {
-    this.webSocketService.sendData(MpdCommands.SET_SEEK, {
-      value: event.value,
-    });
-  }
-
-  handleVolumeSlider(event: MatSliderChange): void {
-    this.webSocketService.sendData(MpdCommands.SET_VOLUME, {
-      value: event.value,
-    });
-  }
-
-  handleControlButton(event: MouseEvent): void {
-    let command: string = '';
-    const element = event.currentTarget as HTMLInputElement;
-    switch (element.id) {
-      case 'btn-prev':
-        command = MpdCommands.SET_PREV;
-        break;
-      case 'btn-stop':
-        command = MpdCommands.SET_STOP;
-        break;
-      case 'btn-pause':
-        command = MpdCommands.SET_PAUSE;
-        break;
-      case 'btn-play':
-        command = MpdCommands.SET_PLAY;
-        break;
-      case 'btn-next':
-        command = MpdCommands.SET_NEXT;
-        break;
-      default:
-      // Ignore it
-    }
-    if (command) {
-      this.webSocketService.send(command);
-    }
-  }
-
-  /**
-   * Play the song from the queue which has been clicked.
-   *
-   * @param {string} pFile
-   */
-  onRowClick(pFile: string): void {
-    this.webSocketService.sendData(MpdCommands.PLAY_TRACK, { path: pFile });
-  }
-
-  @HostListener('document:visibilitychange', ['$event'])
-  onKeyUp(ev: KeyboardEvent) {
-    if (document.visibilityState === 'visible') {
-      this.sendGetQueue();
-    }
-  }
-
-  @HostListener('document:keydown', ['$event'])
-  handleKeyDown(event: KeyboardEvent) {
-    if (!event || !event.srcElement) {
-      return;
-    }
-
-    if (event.srcElement['tagName'] === 'MAT-SLIDER') {
-      /* We want to change the volume (with the keyboard) - not skip the song. */
-      return;
-    }
-
-    if (event.srcElement['tagName'] === 'INPUT') {
-      /* We want to search for something - not skip the song. */
-      return;
-    }
-
-    let command: string = '';
-
-    switch (event.which) {
-      case 37: // left
-        command = MpdCommands.SET_PREV;
-        break;
-      case 39: // right
-        command = MpdCommands.SET_NEXT;
-        break;
-      case 32: // space
-        if (this.currentState === 'pause') {
-          command = MpdCommands.SET_PLAY;
-        } else if (this.currentState === 'play') {
-          command = MpdCommands.SET_PAUSE;
-        }
-        break;
-      default:
-      // Ignore it
-    }
-    if (command) {
-      this.webSocketService.send(command);
-      event.preventDefault();
-    }
-  }
-
-  onClearQueue(): void {
-    this.queue = [];
-    this.webSocketService.send(MpdCommands.RM_ALL);
-  }
-
-  onRemoveTrack(position: number): void {
-    this.webSocketService.sendData(MpdCommands.RM_TRACK, {
-      position,
-    });
-    this.sendGetQueue();
-  }
-
   private buildConnectionState(): void {
     this.stompService.state
       .pipe(map((state: number) => StompState[state]))
@@ -259,46 +300,5 @@ export class QueueComponent {
         console.error(message);
       }
     });
-  }
-
-  toggleCtrl(event): void {
-    for (const key in this.controlPanel) {
-      if (event.value.includes(key)) {
-        this.controlPanel[key] = true;
-      } else {
-        this.controlPanel[key] = false;
-      }
-    }
-    this.webSocketService.sendData(MpdCommands.TOGGLE_CONTROL, {
-      controlPanel: this.controlPanel,
-    });
-  }
-
-  getFormattedElapsedTime(elapsedTime: number): string {
-    if (isNaN(this.currentSong.length)) {
-      return '';
-    }
-    const elapsedMinutes = Math.floor(elapsedTime / 60);
-    const elapsedSeconds = elapsedTime - elapsedMinutes * 60;
-    return (
-      elapsedMinutes + ':' + (elapsedSeconds < 10 ? '0' : '') + elapsedSeconds
-    );
-  }
-
-  openCoverModal(): void {
-    const dialogRef = this.dialog.open(CoverModalComponent, {
-      data: { coverUrl: this.currentSong.coverUrl() },
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-    });
-  }
-
-  getDisplayedColumns(): string[] {
-    const isMobile = this.appComponent.isMobile();
-    return this.displayedColumns
-      .filter(cd => !isMobile || cd.showMobile)
-      .map(cd => cd.name);
   }
 }

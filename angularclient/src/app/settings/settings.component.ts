@@ -1,8 +1,8 @@
-import { MatSnackBar } from '@angular/material';
 import { Component } from '@angular/core';
+import { MatSnackBar } from '@angular/material';
+import { StompService } from '@stomp/ng2-stompjs';
 import { environment } from '../../environments/environment';
 import { ConnectionConfiguration } from '../connection-configuration';
-import { StompService } from '@stomp/ng2-stompjs';
 
 @Component({
   selector: 'app-settings',
@@ -10,15 +10,26 @@ import { StompService } from '@stomp/ng2-stompjs';
   styleUrls: ['./settings.component.css'],
 })
 export class SettingsComponent {
-  ampdVersion: string = environment.ampdVersion;
-  model: ConnectionConfiguration;
-  submitted = false;
+  public ampdVersion: string = environment.ampdVersion;
+  public model: ConnectionConfiguration;
+  public submitted = false;
 
   constructor(
     private snackBar: MatSnackBar,
     private stompService: StompService
   ) {
     this.model = this.buildModel();
+  }
+
+  public onSubmit() {
+    this.submitted = true;
+  }
+
+  public saveSettings() {
+    this.popUp('Saved settings.');
+    const data = JSON.stringify(this.model);
+    localStorage.setItem(ConnectionConfiguration.key, data);
+    this.stompService.initAndConnect();
   }
 
   private buildModel(): ConnectionConfiguration {
@@ -33,17 +44,6 @@ export class SettingsComponent {
     }
 
     return model;
-  }
-
-  onSubmit() {
-    this.submitted = true;
-  }
-
-  saveSettings() {
-    this.popUp('Saved settings.');
-    const data = JSON.stringify(this.model);
-    localStorage.setItem(ConnectionConfiguration.key, data);
-    this.stompService.initAndConnect();
   }
 
   private popUp(message: string): void {

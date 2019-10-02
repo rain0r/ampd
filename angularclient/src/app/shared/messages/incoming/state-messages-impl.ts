@@ -1,12 +1,12 @@
 import { ControlPanel, ServerStatusRoot, StateMsgPayload } from 'StateMsg';
 
 export class ControlPanelImpl implements ControlPanel {
-  random: boolean;
-  consume: boolean;
-  single: boolean;
-  crossfade: boolean;
-  repeat: boolean;
-  xfade: number;
+  public random: boolean;
+  public consume: boolean;
+  public single: boolean;
+  public crossfade: boolean;
+  public repeat: boolean;
+  public xfade: number;
 
   constructor() {
     this.random = false;
@@ -19,8 +19,8 @@ export class ControlPanelImpl implements ControlPanel {
 }
 
 export class ServerStatusRootImpl implements ServerStatusRoot {
-  payload: StateMsgPayload;
-  type: string;
+  public payload: StateMsgPayload;
+  public type: string;
 
   constructor(payload: StateMsgPayload, type: string) {
     this.payload = payload;

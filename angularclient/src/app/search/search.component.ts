@@ -5,18 +5,18 @@ import {
   ElementRef,
   ViewChild,
 } from '@angular/core';
-import { WebSocketService } from '../shared/services/web-socket.service';
-import { ActivatedRoute, Router } from '@angular/router';
-import { MpdCommands } from '../shared/mpd/mpd-commands';
-import { Observable } from 'rxjs';
 import { MatSnackBar } from '@angular/material';
-import { AppComponent } from '../app.component';
+import { ActivatedRoute, Router } from '@angular/router';
 import { StompService, StompState } from '@stomp/ng2-stompjs';
+import { MpdSong } from 'QueueMsg';
+import { Observable } from 'rxjs';
 import { map } from 'rxjs/internal/operators';
-import { QueueSong } from '../shared/models/queue-song';
+import { AppComponent } from '../app.component';
 import { AmpdBlockUiService } from '../shared/block/ampd-block-ui.service';
 import { SearchRootImpl } from '../shared/messages/incoming/search-impl';
-import { MpdSong } from 'QueueMsg';
+import { QueueSong } from '../shared/models/queue-song';
+import { MpdCommands } from '../shared/mpd/mpd-commands';
+import { WebSocketService } from '../shared/services/web-socket.service';
 
 @Component({
   selector: 'app-search',
@@ -24,12 +24,12 @@ import { MpdSong } from 'QueueMsg';
   styleUrls: ['./search.component.css'],
 })
 export class SearchComponent implements AfterViewInit {
-  searchSubs: Observable<SearchRootImpl>;
+  public searchSubs: Observable<SearchRootImpl>;
 
-  titleQueue: MpdSong[] = [];
-  searchResultCount = 0;
+  public titleQueue: MpdSong[] = [];
+  public searchResultCount = 0;
   // query: string = '';
-  displayedColumns: string[] = [
+  public displayedColumns: string[] = [
     'artistName',
     'albumName',
     'title',
@@ -37,7 +37,7 @@ export class SearchComponent implements AfterViewInit {
     'action',
   ];
 
-  @ViewChild('name',{static: false}) nameField?: ElementRef;
+  @ViewChild('name',{static: false}) public nameField?: ElementRef;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -57,6 +57,58 @@ export class SearchComponent implements AfterViewInit {
     this.getResults();
   }
 
+  public search(query: string): void {
+    console.log(`sending search query: ${query}`);
+
+    // Only search when the term is at least 3 chars long
+    if (query && query.length > 3) {
+      this.webSocketService.sendData(MpdCommands.SEARCH, {
+        query,
+      });
+    }
+  }
+
+  public onPlayTitle(song: MpdSong): void {
+    if (song instanceof MouseEvent) {
+      return;
+    }
+    this.webSocketService.sendData(MpdCommands.ADD_PLAY_TRACK, {
+      path: song.file,
+    });
+    this.popUp(`Playing: ${song.title}`);
+  }
+
+  public onAddTitle(song: MpdSong): void {
+    if (song instanceof MouseEvent) {
+      return;
+    }
+    this.webSocketService.sendData(MpdCommands.ADD_TRACK, {
+      path: song.file,
+    });
+    this.popUp(`Added: ${song.title}`);
+  }
+
+  public onSearchKeyUp(): void {
+    if (!this.nameField) {
+      return;
+    }
+    const input = this.nameField.nativeElement.value;
+
+    if (input.trim().length === 0) {
+      this.clear();
+    } else {
+      this.search(input);
+    }
+  }
+
+  public ngAfterViewInit() {
+    if (this.nameField) {
+      this.nameField.nativeElement.focus();
+    }
+
+    this.cdRef.detectChanges();
+  }
+
   /**
    * Listen for results on the websocket channel
    */
@@ -72,37 +124,6 @@ export class SearchComponent implements AfterViewInit {
         console.error(message);
       }
     });
-  }
-
-  search(query: string): void {
-    console.log(`sending search query: ${query}`);
-
-    // Only search when the term is at least 3 chars long
-    if (query && query.length > 3) {
-      this.webSocketService.sendData(MpdCommands.SEARCH, {
-        query,
-      });
-    }
-  }
-
-  onPlayTitle(song: MpdSong): void {
-    if (song instanceof MouseEvent) {
-      return;
-    }
-    this.webSocketService.sendData(MpdCommands.ADD_PLAY_TRACK, {
-      path: song.file,
-    });
-    this.popUp(`Playing: ${song.title}`);
-  }
-
-  onAddTitle(song: MpdSong): void {
-    if (song instanceof MouseEvent) {
-      return;
-    }
-    this.webSocketService.sendData(MpdCommands.ADD_TRACK, {
-      path: song.file,
-    });
-    this.popUp(`Added: ${song.title}`);
   }
 
   private popUp(message: string): void {
@@ -123,34 +144,13 @@ export class SearchComponent implements AfterViewInit {
       });
   }
 
-  onSearchKeyUp(): void {
-    if (!this.nameField) {
-      return;
-    }
-    const input = this.nameField.nativeElement.value;
-
-    if (input.trim().length === 0) {
-      this.clear();
-    } else {
-      this.search(input);
-    }
-  }
-
-  ngAfterViewInit() {
-    if (this.nameField) {
-      this.nameField.nativeElement.focus();
-    }
-
-    this.cdRef.detectChanges();
-  }
-
   /**
    * When initially loading this page, check if there is a search query param
    */
   private checkQueryParam(): void {
     this.activatedRoute.queryParams.subscribe(params => {
       if ('query' in params) {
-        this.search(params['query']);
+        this.search(params.query);
       }
     });
   }

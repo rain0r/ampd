@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import {
   MatButtonModule,
   MatButtonToggleModule,
@@ -16,7 +17,6 @@ import {
   MatTableModule,
   MatToolbarModule,
 } from '@angular/material';
-import { FormsModule } from '@angular/forms';
 
 @NgModule({
   imports: [

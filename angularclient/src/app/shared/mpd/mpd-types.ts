@@ -1,9 +1,9 @@
 export class MpdTypes {
-  static readonly QUEUE = 'QUEUE';
-  static readonly STATE = 'STATE';
-  static readonly BROWSE = 'BROWSE';
-  static readonly SEARCH = 'SEARCH';
-  static readonly SEARCH_RESULTS = 'SEARCH_RESULTS';
+  public static readonly QUEUE = 'QUEUE';
+  public static readonly STATE = 'STATE';
+  public static readonly BROWSE = 'BROWSE';
+  public static readonly SEARCH = 'SEARCH';
+  public static readonly SEARCH_RESULTS = 'SEARCH_RESULTS';
   // static readonly OUTPUTNAMES = 'outputnames';
   // static readonly OUTPUTS = 'outputs';
   // static readonly DISCONNECTED = 'disconnected';

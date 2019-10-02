@@ -1,28 +1,28 @@
-import { ConnectionConfiguration } from '../../connection-configuration';
 import { MpdSong } from 'QueueMsg';
+import { ConnectionConfiguration } from '../../connection-configuration';
 
 export class QueueSong implements MpdSong {
   /* Override */
-  albumName: string = '';
-  artistName: string = '';
-  comment: string = '';
-  discNumber: string = '';
-  file: string = '';
-  genre: string = '';
-  id: number = 0;
-  length: number = 0;
-  name: string = '';
-  position: number = 0;
-  title: string = '';
-  track: number = 0;
-  year: string = '';
+  public albumName: string = '';
+  public artistName: string = '';
+  public comment: string = '';
+  public discNumber: string = '';
+  public file: string = '';
+  public genre: string = '';
+  public id: number = 0;
+  public length: number = 0;
+  public name: string = '';
+  public position: number = 0;
+  public title: string = '';
+  public track: number = 0;
+  public year: string = '';
 
   /* QueueSong */
-  progress: number = 0; // progress in seconds
-  elapsedFormatted: string = ''; // elapsed time readable
+  public progress: number = 0; // progress in seconds
+  public elapsedFormatted: string = ''; // elapsed time readable
   // durationFormatted: string; // readable / formatted duration
-  playing: boolean = false; // if the song is currently played
-  pos: number = 0; // position in queue
+  public playing: boolean = false; // if the song is currently played
+  public pos: number = 0; // position in queue
 
   constructor(mpdSong?: MpdSong) {
     this.playing = false;
@@ -45,14 +45,14 @@ export class QueueSong implements MpdSong {
     }
   }
 
-  coverUrl(): string {
+  public coverUrl(): string {
     const cc = ConnectionConfiguration.get();
     const currentCoverUrl = 'current-cover';
     // Add a query param to trigger an image change in the browser
     return `${cc.coverServer}/${currentCoverUrl}?title=${this.title}`;
   }
 
-  durationFormatted(): string {
+  public durationFormatted(): string {
     if (isNaN(this.length)) {
       return '';
     }

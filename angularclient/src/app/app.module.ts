@@ -1,22 +1,22 @@
 import { NgModule } from '@angular/core';
-import { AppComponent } from './app.component';
-import { QueueComponent } from './queue/queue.component';
-import { BrowseComponent } from './browse/browse.component';
-import { SecondsToMmSsPipe } from './shared/pipes/SecondsToMmSsPipe';
-import { BrowserModule } from '@angular/platform-browser';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { AppRoutingModule } from './shared/routing/app-routing.module';
-import { SharedModule } from './shared/shared.module';
+import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { StompConfig, StompService } from '@stomp/ng2-stompjs';
 import { BlockUIModule } from 'ng-block-ui';
-import { WebSocketService } from './shared/services/web-socket.service';
+import { CoverModalComponent } from 'src/app/shared/cover-modal/cover-modal.component';
+import { AppComponent } from './app.component';
+import { BrowseComponent } from './browse/browse.component';
+import { ConnectionConfiguration } from './connection-configuration';
+import { QueueComponent } from './queue/queue.component';
 import { SearchComponent } from './search/search.component';
 import { SettingsComponent } from './settings/settings.component';
-import { CoverModalComponent } from 'src/app/shared/cover-modal/cover-modal.component';
-import { ConnectionConfiguration } from './connection-configuration';
 import { AmpdBlockUiService } from './shared/block/ampd-block-ui.service';
 import { EncodeURIComponentPipe } from './shared/pipes/EncodeURI';
+import { SecondsToMmSsPipe } from './shared/pipes/SecondsToMmSsPipe';
+import { AppRoutingModule } from './shared/routing/app-routing.module';
+import { WebSocketService } from './shared/services/web-socket.service';
+import { SharedModule } from './shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -51,7 +51,7 @@ import { EncodeURIComponentPipe } from './shared/pipes/EncodeURI';
   bootstrap: [AppComponent],
 })
 export class AppModule {
-  static loadConnectionConfiguration(): StompConfig {
+  public static loadConnectionConfiguration(): StompConfig {
     const connectionConfiguration: ConnectionConfiguration = ConnectionConfiguration.get();
     const stompConfig: StompConfig = {
       // Which server?

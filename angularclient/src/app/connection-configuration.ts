@@ -1,11 +1,9 @@
 import { environment } from '../environments/environment';
 
 export class ConnectionConfiguration {
-  static readonly key: string = 'ConnectionConfiguration';
+  public static readonly key: string = 'ConnectionConfiguration';
 
-  constructor(public coverServer: string, public webSocketServer: string) {}
-
-  static get(): ConnectionConfiguration {
+  public static get(): ConnectionConfiguration {
     let ret: ConnectionConfiguration;
     try {
       const data: string =
@@ -24,4 +22,6 @@ export class ConnectionConfiguration {
 
     return ret;
   }
+
+  constructor(public coverServer: string, public webSocketServer: string) {}
 }

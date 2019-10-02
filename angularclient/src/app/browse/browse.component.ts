@@ -1,22 +1,22 @@
 import { Component, HostListener } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material';
+import { ActivatedRoute, Router } from '@angular/router';
+import { StompService, StompState } from '@stomp/ng2-stompjs';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/internal/operators';
 import { AppComponent } from '../app.component';
 import { MpdCommands } from '../shared/mpd/mpd-commands';
-import { StompService, StompState } from '@stomp/ng2-stompjs';
-import { map } from 'rxjs/internal/operators';
-import { Observable } from 'rxjs';
 
-import { WebSocketService } from '../shared/services/web-socket.service';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { Directory, Playlist } from 'BrowseMsg';
+import { MpdSong } from 'QueueMsg';
+import { ConnectionConfiguration } from '../connection-configuration';
 import { AmpdBlockUiService } from '../shared/block/ampd-block-ui.service';
 import {
   BrowseRootImpl,
   DirectoryImpl,
 } from '../shared/messages/incoming/browse-impl';
-import { MpdSong } from 'QueueMsg';
-import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import { Directory, Playlist } from 'BrowseMsg';
-import { ConnectionConfiguration } from '../connection-configuration';
+import { WebSocketService } from '../shared/services/web-socket.service';
 
 export interface BreadcrumbItem {
   text: string;
@@ -29,13 +29,13 @@ export interface BreadcrumbItem {
   styleUrls: ['./browse.component.css'],
 })
 export class BrowseComponent {
-  dirQueue: Directory[] = [];
-  playlistQueue: Playlist[] = [];
-  titleQueue: MpdSong[] = [];
-  breadcrumb: BreadcrumbItem[] = [];
-  getParamDir = '';
-  browseSubs: Observable<BrowseRootImpl>;
-  containerWidth = 0;
+  public dirQueue: Directory[] = [];
+  public playlistQueue: Playlist[] = [];
+  public titleQueue: MpdSong[] = [];
+  public breadcrumb: BreadcrumbItem[] = [];
+  public getParamDir = '';
+  public browseSubs: Observable<BrowseRootImpl>;
+  public containerWidth = 0;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -53,6 +53,115 @@ export class BrowseComponent {
     this.buildMessageReceiver();
   }
 
+  @HostListener('click', ['$event'])
+  public onDirClick(directory: string): void {
+    if (event) {
+      event.stopPropagation();
+    }
+    const splittedPath: string = this.splitDir(directory);
+    let targetDir: string = this.getParamDir
+      ? this.getParamDir + '/' + splittedPath
+      : splittedPath;
+    targetDir = targetDir.replace(/\/+(?=\/)/g, '');
+    this.router.navigate(['browse'], { queryParams: { dir: targetDir } });
+  }
+
+  public onClickPlaylist(event: Playlist): void {
+    this.webSocketService.sendData(MpdCommands.ADD_PLAYLIST, {
+      playlist: event.name,
+    });
+    this.popUp(`Added playlist: "${event.name}"`);
+  }
+
+  @HostListener('click', ['$event'])
+  public onAddDir(dir: string): void {
+    if (event) {
+      event.stopPropagation();
+    }
+    if (typeof dir !== 'string') {
+      return;
+    }
+    if (dir.startsWith('/')) {
+      dir = dir.substr(1, dir.length);
+    }
+    this.webSocketService.sendData(MpdCommands.ADD_DIR, {
+      dir,
+    });
+    this.popUp(`Added dir: "${dir}"`);
+  }
+
+  @HostListener('click', ['$event'])
+  public onPlayDir(dir: string): void {
+    if (typeof dir !== 'string') {
+      return;
+    }
+    this.onAddDir(dir);
+    this.webSocketService.send(MpdCommands.SET_PLAY);
+    this.popUp(`Playing dir: "${dir}"`);
+  }
+
+  @HostListener('click', ['$event'])
+  public onPlayTitle(song: MpdSong): void {
+    if (event) {
+      event.stopPropagation();
+    }
+    if (song instanceof MouseEvent) {
+      return;
+    }
+    this.webSocketService.sendData(MpdCommands.ADD_PLAY_TRACK, {
+      path: song.file,
+    });
+    this.popUp(`Playing title: "${song.title}"`);
+  }
+
+  @HostListener('click', ['$event'])
+  public onAddTitle(song: MpdSong): void {
+    if (event) {
+      event.stopPropagation();
+    }
+    if (song instanceof MouseEvent) {
+      return;
+    }
+    this.webSocketService.sendData(MpdCommands.ADD_TRACK, {
+      path: song.file,
+    });
+    this.popUp(`Added title: "${song.title}"`);
+  }
+
+  /**
+   * Returns the last element of a path.
+   * @param {string} dir
+   * @returns {string}
+   */
+  public splitDir(dir: string): string {
+    const splitted: string =
+      dir
+        .trim()
+        .split('/')
+        .pop() || '';
+    return splitted;
+  }
+
+  public moveDirUp(): void {
+    const splitted = this.getParamDir.split('/');
+    splitted.pop();
+    let targetDir = splitted.join('/');
+    if (targetDir.length === 0) {
+      targetDir = '/';
+    }
+    this.router.navigate(['browse'], { queryParams: { dir: targetDir } });
+  }
+
+  public onClearQueue(): void {
+    this.webSocketService.send(MpdCommands.RM_ALL);
+  }
+
+  public updateUrl($event) {
+    const cc = ConnectionConfiguration.get();
+    const url = `${cc.coverServer}/baseline_folder_open_black_18dp.png`;
+    $event.target.src = url;
+  }
+
   private buildConnectionState(): void {
     this.stompService.state
       .pipe(map((state: number) => StompState[state]))
@@ -64,7 +173,7 @@ export class BrowseComponent {
           this.activatedRoute.queryParams.subscribe(params => {
             let dir = '/';
             if ('dir' in params) {
-              dir = params['dir'];
+              dir = params.dir;
             }
             this.getParamDir = dir;
             this.browse(dir);
@@ -113,95 +222,6 @@ export class BrowseComponent {
     }
 
     return ret;
-  }
-
-  @HostListener('click', ['$event'])
-  onDirClick(directory: string): void {
-    if (event) {
-      event.stopPropagation();
-    }
-    const splittedPath: string = this.splitDir(directory);
-    let targetDir: string = this.getParamDir
-      ? this.getParamDir + '/' + splittedPath
-      : splittedPath;
-    targetDir = targetDir.replace(/\/+(?=\/)/g, '');
-    this.router.navigate(['browse'], { queryParams: { dir: targetDir } });
-  }
-
-  onClickPlaylist(event: Playlist): void {
-    this.webSocketService.sendData(MpdCommands.ADD_PLAYLIST, {
-      playlist: event.name,
-    });
-    this.popUp(`Added playlist: "${event.name}"`);
-  }
-
-  @HostListener('click', ['$event'])
-  onAddDir(dir: string): void {
-    if (event) {
-      event.stopPropagation();
-    }
-    if (typeof dir !== 'string') {
-      return;
-    }
-    if (dir.startsWith('/')) {
-      dir = dir.substr(1, dir.length);
-    }
-    this.webSocketService.sendData(MpdCommands.ADD_DIR, {
-      dir,
-    });
-    this.popUp(`Added dir: "${dir}"`);
-  }
-
-  @HostListener('click', ['$event'])
-  onPlayDir(dir: string): void {
-    if (typeof dir !== 'string') {
-      return;
-    }
-    this.onAddDir(dir);
-    this.webSocketService.send(MpdCommands.SET_PLAY);
-    this.popUp(`Playing dir: "${dir}"`);
-  }
-
-  @HostListener('click', ['$event'])
-  onPlayTitle(song: MpdSong): void {
-    if (event) {
-      event.stopPropagation();
-    }
-    if (song instanceof MouseEvent) {
-      return;
-    }
-    this.webSocketService.sendData(MpdCommands.ADD_PLAY_TRACK, {
-      path: song.file,
-    });
-    this.popUp(`Playing title: "${song.title}"`);
-  }
-
-  @HostListener('click', ['$event'])
-  onAddTitle(song: MpdSong): void {
-    if (event) {
-      event.stopPropagation();
-    }
-    if (song instanceof MouseEvent) {
-      return;
-    }
-    this.webSocketService.sendData(MpdCommands.ADD_TRACK, {
-      path: song.file,
-    });
-    this.popUp(`Added title: "${song.title}"`);
-  }
-
-  /**
-   * Returns the last element of a path.
-   * @param {string} dir
-   * @returns {string}
-   */
-  splitDir(dir: string): string {
-    const splitted: string =
-      dir
-        .trim()
-        .split('/')
-        .pop() || '';
-    return splitted;
   }
 
   private popUp(message: string): void {
@@ -257,25 +277,5 @@ export class BrowseComponent {
         console.error(message);
       }
     });
-  }
-
-  moveDirUp(): void {
-    const splitted = this.getParamDir.split('/');
-    splitted.pop();
-    let targetDir = splitted.join('/');
-    if (targetDir.length === 0) {
-      targetDir = '/';
-    }
-    this.router.navigate(['browse'], { queryParams: { dir: targetDir } });
-  }
-
-  onClearQueue(): void {
-    this.webSocketService.send(MpdCommands.RM_ALL);
-  }
-
-  updateUrl($event) {
-    const cc = ConnectionConfiguration.get();
-    const url = `${cc.coverServer}/baseline_folder_open_black_18dp.png`;
-    $event.target.src = url;
   }
 }

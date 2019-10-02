@@ -16,9 +16,9 @@ export class CoverModalComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: DialogData
   ) {}
 
-  onNoClick(): void {
+  public onNoClick(): void {
     this.dialogRef.close();
   }
 
-  ngOnInit() {}
+  public ngOnInit() {}
 }

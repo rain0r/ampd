@@ -7,26 +7,26 @@ import { Router } from '@angular/router';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
-  title = 'app';
-  connectedStatusIcon = 'cloud_off';
-  innerWidth: number;
+  public title = 'app';
+  public connectedStatusIcon = 'cloud_off';
+  public innerWidth: number;
 
-  @ViewChild('inputSearch',{static: false}) inputSearch?: ElementRef;
+  @ViewChild('inputSearch',{static: false}) public inputSearch?: ElementRef;
 
   constructor(private router: Router) {
     this.innerWidth = window.innerWidth;
   }
 
-  setConnected() {
+  public setConnected() {
     this.connectedStatusIcon = 'cloud';
   }
 
-  setDisconnected() {
+  public setDisconnected() {
     this.connectedStatusIcon = 'cloud_off';
   }
 
   @HostListener('document:keydown', ['$event'])
-  handleKeyDown(event: KeyboardEvent) {
+  public handleKeyDown(event: KeyboardEvent) {
     if (event.which === 13) {
       if (this.inputSearch) {
         const query: string = this.inputSearch.nativeElement.value;
@@ -38,11 +38,11 @@ export class AppComponent {
   }
 
   @HostListener('window:resize', ['$event'])
-  onResize(event) {
+  public onResize(event) {
     this.innerWidth = window.innerWidth;
   }
 
-  isMobile(): boolean {
+  public isMobile(): boolean {
     return this.innerWidth <= 600;
   }
 }

@@ -5,14 +5,14 @@ import { BlockUI, NgBlockUI } from 'ng-block-ui';
   providedIn: 'root',
 })
 export class AmpdBlockUiService {
-  readonly LOADING_MSG = 'Connecting to MPD server...';
-  readonly BLOCK_TIMEOUT = 10 * 1000;
+  public readonly LOADING_MSG = 'Connecting to MPD server...';
+  public readonly BLOCK_TIMEOUT = 10 * 1000;
 
-  @BlockUI() blockUI?: NgBlockUI;
+  @BlockUI() public blockUI?: NgBlockUI;
 
   constructor() {}
 
-  start(): void {
+  public start(): void {
     if (!this.blockUI) {
       return;
     }
@@ -24,7 +24,7 @@ export class AmpdBlockUiService {
     }, this.BLOCK_TIMEOUT);
   }
 
-  stop(): void {
+  public stop(): void {
     if (!this.blockUI) {
       return;
     }

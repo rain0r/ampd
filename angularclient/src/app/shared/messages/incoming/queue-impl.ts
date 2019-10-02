@@ -1,8 +1,8 @@
 import { MpdSong, QueueRoot } from 'QueueMsg';
 
 export class QueueRootImpl implements QueueRoot {
-  payload: MpdSong[];
-  type: string;
+  public payload: MpdSong[];
+  public type: string;
 
   constructor(payload: MpdSong[], type: string) {
     this.payload = payload;

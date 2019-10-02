@@ -1,20 +1,20 @@
 import { Injectable } from '@angular/core';
 import { StompService } from '@stomp/ng2-stompjs';
-import { REMOTE_QUEUE } from '../mpd/mpd-commands';
-import { filter, map } from 'rxjs/internal/operators';
-import { Observable } from 'rxjs';
 import { Message } from '@stomp/stompjs';
-import { ServerStatusRootImpl } from '../messages/incoming/state-messages-impl';
-import { QueueRootImpl } from '../messages/incoming/queue-impl';
+import { Observable } from 'rxjs';
+import { filter, map } from 'rxjs/internal/operators';
 import { BrowseRootImpl } from '../messages/incoming/browse-impl';
+import { QueueRootImpl } from '../messages/incoming/queue-impl';
 import { SearchRootImpl } from '../messages/incoming/search-impl';
+import { ServerStatusRootImpl } from '../messages/incoming/state-messages-impl';
+import { REMOTE_QUEUE } from '../mpd/mpd-commands';
 import { MpdTypes } from '../mpd/mpd-types';
 
 @Injectable()
 export class WebSocketService {
   constructor(private stompService: StompService) {}
 
-  send(cmd: string): void {
+  public send(cmd: string): void {
     const data = JSON.stringify({
       type: cmd,
       payload: null,
@@ -22,7 +22,7 @@ export class WebSocketService {
     this.stompService.publish(REMOTE_QUEUE, data);
   }
 
-  sendData(cmd: string, payload: object): void {
+  public sendData(cmd: string, payload: object): void {
     const data = JSON.stringify({
       type: cmd,
       payload,
@@ -30,49 +30,49 @@ export class WebSocketService {
     this.stompService.publish(REMOTE_QUEUE, data);
   }
 
-  getStateSubs(): Observable<ServerStatusRootImpl> {
+  public getStateSubs(): Observable<ServerStatusRootImpl> {
     return this.stompService.subscribe('/topic/messages').pipe(
       map((message: Message) => message.body),
       map(body => JSON.parse(body)),
-      filter(body => body['type'] === MpdTypes.STATE),
+      filter(body => body.type === MpdTypes.STATE),
       map(jsonObj => {
-        const wsObj: ServerStatusRootImpl = <ServerStatusRootImpl>jsonObj;
+        const wsObj: ServerStatusRootImpl = jsonObj as ServerStatusRootImpl;
         return wsObj;
       })
     );
   }
 
-  getQueueSubs(): Observable<QueueRootImpl> {
+  public getQueueSubs(): Observable<QueueRootImpl> {
     return this.stompService.subscribe('/topic/messages').pipe(
       map((message: Message) => message.body),
       map(body => JSON.parse(body)),
-      filter(body => body['type'] === MpdTypes.QUEUE),
+      filter(body => body.type === MpdTypes.QUEUE),
       map(jsonObj => {
-        const wsObj: QueueRootImpl = <QueueRootImpl>jsonObj;
+        const wsObj: QueueRootImpl = jsonObj as QueueRootImpl;
         return wsObj;
       })
     );
   }
 
-  getBrowseSubs(): Observable<BrowseRootImpl> {
+  public getBrowseSubs(): Observable<BrowseRootImpl> {
     return this.stompService.subscribe('/topic/messages').pipe(
       map((message: Message) => message.body),
       map(body => JSON.parse(body)),
-      filter(body => body['type'] === MpdTypes.BROWSE),
+      filter(body => body.type === MpdTypes.BROWSE),
       map(jsonObj => {
-        const wsObj: BrowseRootImpl = <BrowseRootImpl>jsonObj;
+        const wsObj: BrowseRootImpl = jsonObj as BrowseRootImpl;
         return wsObj;
       })
     );
   }
 
-  getSearchSubs(): Observable<SearchRootImpl> {
+  public getSearchSubs(): Observable<SearchRootImpl> {
     return this.stompService.subscribe('/topic/messages').pipe(
       map((message: Message) => message.body),
       map(body => JSON.parse(body)),
-      filter(body => body['type'] === MpdTypes.SEARCH_RESULTS),
+      filter(body => body.type === MpdTypes.SEARCH_RESULTS),
       map(jsonObj => {
-        const wsObj: SearchRootImpl = <SearchRootImpl>jsonObj;
+        const wsObj: SearchRootImpl = jsonObj as SearchRootImpl;
         return wsObj;
       })
     );

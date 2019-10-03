@@ -126,12 +126,13 @@ export class QueueComponent {
       return;
     }
 
-    if (event.srcElement.tagName === 'MAT-SLIDER') {
+    const inputElement = event.target as HTMLInputElement;
+    if (inputElement.tagName === 'MAT-SLIDER') {
       /* We want to change the volume (with the keyboard) - not skip the song. */
       return;
     }
 
-    if (event.srcElement.tagName === 'INPUT') {
+    if (inputElement.tagName === 'INPUT') {
       /* We want to search for something - not skip the song. */
       return;
     }
@@ -240,11 +241,7 @@ export class QueueComponent {
     this.volume = serverStatus.volume;
 
     this.queue.forEach(song => {
-      if (this.currentSong.id === song.id) {
-        song.playing = true;
-      } else {
-        song.playing = false;
-      }
+      song.playing = this.currentSong.id === song.id;
     });
 
     if (callBuildQueue === true) {

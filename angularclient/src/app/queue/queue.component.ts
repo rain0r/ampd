@@ -222,7 +222,7 @@ export class QueueComponent {
       callBuildQueue = true;
     }
 
-    const serverStatus: StateMsgPayload = pMessage.serverStatus;
+    const serverStatus = pMessage.serverStatus;
     this.currentSong = new QueueSong(pMessage.currentSong);
     this.controlPanel = pMessage.controlPanel;
 

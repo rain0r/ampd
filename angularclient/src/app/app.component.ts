@@ -11,7 +11,7 @@ export class AppComponent {
   public connectedStatusIcon = 'cloud_off';
   public innerWidth: number;
 
-  @ViewChild('inputSearch',{static: false}) public inputSearch?: ElementRef;
+  @ViewChild('inputSearch', { static: false }) public inputSearch?: ElementRef;
 
   constructor(private router: Router) {
     this.innerWidth = window.innerWidth;

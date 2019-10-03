@@ -4,8 +4,8 @@ export interface IPlaylist {
 }
 
 export class Playlist implements IPlaylist {
-  name: string;
-  count: number;
+  public name: string;
+  public count: number;
 
   constructor(name: string, count: number) {
     this.name = name;

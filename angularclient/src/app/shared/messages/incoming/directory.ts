@@ -1,5 +1,5 @@
-import {ConnectionConfiguration} from "../../../connection-configuration";
-import {SafeResourceUrl} from "@angular/platform-browser";
+import { SafeResourceUrl } from '@angular/platform-browser';
+import { ConnectionConfiguration } from '../../../connection-configuration';
 
 export interface IDirectory {
   directory: boolean;
@@ -29,7 +29,7 @@ export class Directory implements IDirectory {
 
   public displayedPath() {
     return (
-        this.path
+      this.path
         .trim()
         .split('/')
         .pop() || ''

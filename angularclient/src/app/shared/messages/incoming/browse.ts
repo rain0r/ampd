@@ -1,5 +1,5 @@
-import {IPlaylist} from './playlist';
-import {IDirectory} from "./directory";
+import { IDirectory } from './directory';
+import { IPlaylist } from './playlist';
 
 export interface IBrowseMsgPayload {
   directories: IDirectory[];

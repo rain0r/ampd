@@ -1,84 +1,87 @@
 .browse-list {
-    background: white;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+  background: white;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
 }
 
 .browse-list-item {
-    color: black;
-    text-decoration: none;
+  color: black;
+  text-decoration: none;
 }
 
 .list-header {
-    color: black;
-    padding-left: 0.5em;
+  color: black;
+  padding-left: 0.5em;
 }
 
 .browse-list:hover {
-    cursor: pointer;
-    background: #eeee;
+  cursor: pointer;
+  background: #eeee;
 }
 
 .breadcrumb {
-    color: black;
-    padding-left: 0.5em;
+  color: black;
+  padding-left: 0.5em;
 }
 
 .breadcrumb:hover {
-    text-decoration: underline;
+  text-decoration: underline;
 }
 
 .title-length {
-    float: right;
+  float: right;
 }
 
 .clear-queue {
-    width: 100%;
-    background: #eee;
-    margin-top: 1em;
+  width: 100%;
+  background: #eee;
+  margin-top: 1em;
 }
 
 .list-item:hover {
-    background: #eee;
+  background: #eee;
 }
 
 .mat-standard-chip {
-    padding: 0px !important;
+  padding: 0px !important;
 }
 
 .playlist-count {
-    float: right;
+  float: right;
 }
 
 div.sub-menu {
-    background: white;
-    display: flex;
-    flex-wrap: wrap;
-    align-items: baseline
+  background: white;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
 }
 
 .flex-item {
-    align-items: stretch;
-    box-sizing: border-box;
-    padding-top: 1em;
-    flex: 1;
+  align-items: stretch;
+  box-sizing: border-box;
+  padding-top: 1em;
+  flex: 1;
 }
 
-@media screen and (max-width:990px) {
-    .container { flex-wrap: wrap;  }
-    .flex-item:first-child { flex-basis: 100%; }
+@media screen and (max-width: 990px) {
+  .container {
+    flex-wrap: wrap;
+  }
+  .flex-item:first-child {
+    flex-basis: 100%;
+  }
 }
 
 .mat-small {
-    min-width: 1%;
+  min-width: 1%;
 }
 
 .dir-list-cover {
-    border: 1px solid silver;
-    max-height: 48px;
-    padding: 2em;
+  border: 1px solid silver;
+  max-height: 48px;
+  padding: 2em;
 }
 
 #breadcrumb-container {
-    margin-top: 1em;
+  margin-top: 1em;
 }
-

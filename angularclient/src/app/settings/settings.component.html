@@ -1,11 +1,24 @@
 <form (ngSubmit)="onSubmit()" #heroForm="ngForm" class="settings-form">
-
   <div class="example-container">
     <mat-form-field>
-      <input matInput required name="coverServer" [(ngModel)]="model.coverServer" value="{{model.coverServer}}" placeholder="Cover Server">
+      <input
+        matInput
+        required
+        name="coverServer"
+        [(ngModel)]="model.coverServer"
+        value="{{ model.coverServer }}"
+        placeholder="Cover Server"
+      />
     </mat-form-field>
     <mat-form-field>
-      <input matInput required name="webSocketServer" [(ngModel)]="model.webSocketServer" value="{{model.webSocketServer}}" placeholder="Websocket Server">
+      <input
+        matInput
+        required
+        name="webSocketServer"
+        [(ngModel)]="model.webSocketServer"
+        value="{{ model.webSocketServer }}"
+        placeholder="Websocket Server"
+      />
     </mat-form-field>
   </div>
   <button mat-stroked-button type="submit" (click)="saveSettings()">

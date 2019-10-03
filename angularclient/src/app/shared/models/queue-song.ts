@@ -1,5 +1,5 @@
-import {IMpdSong} from "../messages/incoming/mpd-song";
-import {ConnectionConfiguration} from "../../connection-configuration";
+import { ConnectionConfiguration } from '../../connection-configuration';
+import { IMpdSong } from '../messages/incoming/mpd-song';
 
 export class QueueSong implements IMpdSong {
   /* Override */

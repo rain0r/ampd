@@ -1,5 +1,4 @@
-import {IMpdSong} from "./mpd-song";
-
+import { IMpdSong } from './mpd-song';
 
 export interface IQueueRoot {
   payload: IMpdSong[];

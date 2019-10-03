@@ -25,7 +25,6 @@ export interface ISearchRoot {
   type: string;
 }
 
-
 export class SearchRootImpl implements ISearchRoot {
   public payload: ISearchMsgPayload;
   public type: string;

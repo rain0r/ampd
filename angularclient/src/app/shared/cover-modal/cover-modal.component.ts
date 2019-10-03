@@ -10,7 +10,7 @@ export interface IDialogData {
   templateUrl: './cover-modal.component.html',
   styleUrls: ['./cover-modal.component.css'],
 })
-export class CoverModalComponent  {
+export class CoverModalComponent {
   constructor(
     public dialogRef: MatDialogRef<CoverModalComponent>,
     @Inject(MAT_DIALOG_DATA) public data: IDialogData
@@ -19,5 +19,4 @@ export class CoverModalComponent  {
   public onNoClick(): void {
     this.dialogRef.close();
   }
-
 }

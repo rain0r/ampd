@@ -10,17 +10,17 @@
   <div fxFlex="100%">
     <div class="sub-menu">
       <div class="flex-item">
-          <span class="list-header">
-            <span *ngFor="let elem of breadcrumb">
-              &#47;
-              <a
-                [routerLink]="['/browse']"
-                [queryParams]="{ dir: elem.link }"
-                class="breadcrumb"
-                >{{ elem.text }}</a
-              >&nbsp;
-            </span>
+        <span class="list-header">
+          <span *ngFor="let elem of breadcrumb">
+            &#47;
+            <a
+              [routerLink]="['/browse']"
+              [queryParams]="{ dir: elem.link }"
+              class="breadcrumb"
+              >{{ elem.text }}</a
+            >&nbsp;
           </span>
+        </span>
       </div>
       <div class="flex-item">
         <a routerLink="/browse" mat-raised-button class="mat-small">
@@ -47,7 +47,7 @@
   fxLayoutAlign="center"
 >
   <!-- playlists -->
-  <div fxFlex="{{containerWidth}}" *ngIf="playlistQueue.length > 0">
+  <div fxFlex="{{ containerWidth }}" *ngIf="playlistQueue.length > 0">
     <div class="sub-menu">
       <div class="flex-item">
         <h3 class="list-header">Playlists</h3>
@@ -72,32 +72,32 @@
   </div>
 
   <!-- directories -->
-  <div fxFlex="{{containerWidth}}" *ngIf="dirQueue.length > 0">
+  <div fxFlex="{{ containerWidth }}" *ngIf="dirQueue.length > 0">
     <div class="sub-menu">
       <div class="flex-item">
         <h3 class="list-header">Directories</h3>
       </div>
       <div class="flex-item">
-      <button
-        class="mat-small"
-        mat-raised-button
-        (click)="moveDirUp()"
-        *ngIf="getParamDir && getParamDir !== '/'"
-      >
-        <i class="material-icons">
-          navigate_before
-        </i>
-        Return
-      </button>
-      <button
-        class="mat-small"
-        mat-raised-button
-        (click)="onAddDir(getParamDir)"
-        *ngIf="getParamDir && getParamDir !== '/'"
-      >
-        <i class="material-icons clickable"> add </i>
-        Add all
-      </button>
+        <button
+          class="mat-small"
+          mat-raised-button
+          (click)="moveDirUp()"
+          *ngIf="getParamDir && getParamDir !== '/'"
+        >
+          <i class="material-icons">
+            navigate_before
+          </i>
+          Return
+        </button>
+        <button
+          class="mat-small"
+          mat-raised-button
+          (click)="onAddDir(getParamDir)"
+          *ngIf="getParamDir && getParamDir !== '/'"
+        >
+          <i class="material-icons clickable"> add </i>
+          Add all
+        </button>
       </div>
     </div>
 
@@ -138,32 +138,32 @@
   </div>
 
   <!-- tracks -->
-  <div fxFlex="{{containerWidth}}%" *ngIf="titleQueue.length > 0">
+  <div fxFlex="{{ containerWidth }}%" *ngIf="titleQueue.length > 0">
     <div class="sub-menu">
       <div class="flex-item">
         <h3 class="list-header">Tracks</h3>
       </div>
       <div class="flex-item">
-      <button
-        class="mat-small"
-        mat-raised-button
-        (click)="moveDirUp()"
-        *ngIf="getParamDir && getParamDir !== '/'"
-      >
-        <i class="material-icons">
-          navigate_before
-        </i>
-        Return
-      </button>
-      <button
-        class="mat-small"
-        mat-raised-button
-        (click)="onAddDir(getParamDir)"
-        *ngIf="getParamDir && getParamDir !== '/'"
-      >
-        <i class="material-icons clickable"> add </i>
-        Add all
-      </button>
+        <button
+          class="mat-small"
+          mat-raised-button
+          (click)="moveDirUp()"
+          *ngIf="getParamDir && getParamDir !== '/'"
+        >
+          <i class="material-icons">
+            navigate_before
+          </i>
+          Return
+        </button>
+        <button
+          class="mat-small"
+          mat-raised-button
+          (click)="onAddDir(getParamDir)"
+          *ngIf="getParamDir && getParamDir !== '/'"
+        >
+          <i class="material-icons clickable"> add </i>
+          Add all
+        </button>
       </div>
     </div>
 

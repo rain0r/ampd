@@ -1,0 +1,56 @@
+<div class="sub-menu">
+  <div class="flex-item">
+    <h3 class="list-header">Tracks</h3>
+  </div>
+  <div class="flex-item">
+    <button
+      class="mat-small"
+      mat-raised-button
+      (click)="onMoveDirUp()"
+      *ngIf="getParamDir && getParamDir !== '/'"
+    >
+      <i class="material-icons">
+        navigate_before
+      </i>
+      Return
+    </button>
+    <button
+      class="mat-small"
+      mat-raised-button
+      (click)="onAddDir(getParamDir)"
+      *ngIf="getParamDir && getParamDir !== '/'"
+    >
+      <i class="material-icons clickable"> add </i>
+      Add all
+    </button>
+  </div>
+
+  <mat-list
+    role="list"
+    *ngFor="let song of titleQueue"
+    class="browse-list"
+    (click)="onTitleAdd(song)"
+  >
+    <mat-list-item role="listitem" class="list-item">
+      <mat-icon>audiotrack</mat-icon> &nbsp;
+      <span class="text-muted space-right"> &#35;{{ song.track }} </span>
+      {{ song.title }} &nbsp;
+      <span class="text-muted">{{ song.length | secondsToMmSsPipe }}</span>
+      <span class="fill-space"></span>
+      <i
+        class="material-icons clickable chip"
+        (click)="onPlayTitle(song)"
+        title="Play track"
+      >
+        play_arrow
+      </i>
+      <i
+        class="material-icons clickable chip"
+        (click)="onAddTitle(song)"
+        title="Add track to queue"
+      >
+        add
+      </i>
+    </mat-list-item>
+  </mat-list>
+</div>

@@ -18,6 +18,8 @@ import { AmpdBlockUiService } from './shared/block/ampd-block-ui.service';
 import { EncodeURIComponentPipe } from './shared/pipes/EncodeURI';
 import { SecondsToMmSsPipe } from './shared/pipes/SecondsToMmSsPipe';
 import { AppRoutingModule } from './shared/routing/app-routing.module';
+import { BrowseService } from './shared/services/browse.service';
+import { NotificationService } from './shared/services/notification.service';
 import { WebSocketService } from './shared/services/web-socket.service';
 import { SharedModule } from './shared/shared.module';
 
@@ -45,9 +47,11 @@ import { SharedModule } from './shared/shared.module';
     BlockUIModule.forRoot(),
   ],
   providers: [
-    WebSocketService,
     AmpdBlockUiService,
+    BrowseService,
+    NotificationService,
     StompService,
+    WebSocketService,
     {
       provide: StompConfig,
       useValue: AppModule.loadConnectionConfiguration(),

@@ -54,8 +54,7 @@
   margin-top: 1em;
 }
 
-sub-menu {
-  align-items: baseline;
+.sub-menu {
   background: white;
   display: flex;
   flex-wrap: wrap;
@@ -63,13 +62,8 @@ sub-menu {
 }
 
 .flex-item {
-  align-items: stretch;
-  box-sizing: border-box;
-  flex: 1;
   padding-top: 1em;
-
-  background: yellow;
-  border: 1px solid silver;
+  flex: 1;
 }
 
 @media screen and (max-width: 990px) {

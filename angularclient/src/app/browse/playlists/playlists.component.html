@@ -1,0 +1,21 @@
+<div class="sub-menu">
+  <div class="flex-item">
+    <h3 class="list-header">Playlists</h3>
+  </div>
+</div>
+
+<mat-list
+  role="list"
+  *ngFor="let playlist of playlistQueue"
+  class="browse-list"
+  (click)="onClickPlaylist(playlist)"
+>
+  <mat-list-item role="listitem" class="list-item">
+    <mat-icon>list</mat-icon> &nbsp;
+    {{ playlist.name }}
+    <span class="fill-space"></span>
+    <span class="text-muted">
+      {{ playlist.count }}
+    </span>
+  </mat-list-item>
+</mat-list>

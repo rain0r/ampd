@@ -1,0 +1,32 @@
+<div class="sub-menu">
+  <div class="flex-item">
+    <h3 class="list-header">Directories</h3>
+  </div>
+</div>
+
+<mat-list
+  role="list"
+  *ngFor="let dir of dirQueue"
+  class="browse-list"
+  (click)="onDirClick(dir.path)"
+>
+  <mat-list-item role="listitem" class="list-item">
+    <mat-icon>folder_open</mat-icon> &nbsp; &nbsp;
+    {{ dir.displayedPath() }}
+    <span class="fill-space"></span>
+    <i
+      class="material-icons clickable chip"
+      (click)="onPlayDir(dir.path)"
+      title="Play directory"
+    >
+      play_arrow
+    </i>
+    <i
+      class="material-icons clickable chip"
+      (click)="onAddDir(dir.path)"
+      title="Add directory to queue"
+    >
+      add
+    </i>
+  </mat-list-item>
+</mat-list>

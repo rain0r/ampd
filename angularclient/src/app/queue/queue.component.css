@@ -10,14 +10,14 @@
 }
 
 .text-inside-grid {
-  position: absolute;
   left: 5px;
   padding-top: 1em;
+  position: absolute;
 }
 
 .table-row:hover {
-  cursor: pointer;
   background: #eee;
+  cursor: pointer;
 }
 
 @media (min-width: 600px) {
@@ -90,11 +90,11 @@ div.container > div:first-child {
 }
 
 .album-art {
-  height: 150px;
-  width: 150px;
-  float: right;
   border: 1px solid grey;
   cursor: pointer;
+  float: right;
+  height: 150px;
+  width: 150px;
 }
 
 .mat-button-toggle-group {
@@ -106,8 +106,8 @@ div.container > div:first-child {
 }
 
 .mat-button-toggle:hover {
-  cursor: pointer;
   background: #eee;
+  cursor: pointer;
 }
 
 .mat-column-artist {
@@ -141,14 +141,14 @@ mat-header-cell:last-of-type {
 }
 
 div.sub-menu {
+  align-items: flex-start;
   display: flex;
+  justify-content: flex-start;
   margin-bottom: 1.5em;
   padding: 2px;
-  justify-content: flex-start;
-  align-items: flex-start;
 }
 
 .clear-queue-container {
-  justify-content: flex-end;
   flex-grow: 1;
+  justify-content: flex-end;
 }

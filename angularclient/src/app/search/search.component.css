@@ -1,15 +1,15 @@
 @media (max-width: 600px) {
   .search-results-table {
-    width: 100%;
     font-size: 85%;
     height: 100%;
+    width: 100%;
   }
 }
 
 @media (min-width: 700px) {
   .search-results-table {
-    width: 70%;
     height: 100%;
+    width: 70%;
   }
 }
 
@@ -21,8 +21,8 @@ mat-cell {
 mat-cell:last-of-type,
 mat-footer-cell:last-of-type,
 mat-header-cell:last-of-type {
-  padding-right: 5px !important;
   justify-content: flex-end !important;
+  padding-right: 5px !important;
 }
 
 mat-cell:first-of-type,

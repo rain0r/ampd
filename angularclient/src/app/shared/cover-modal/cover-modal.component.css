@@ -1,6 +1,6 @@
 img {
   display: block;
-  max-width: 480px;
-  max-height: 480px;
   height: auto;
+  max-height: 480px;
+  max-width: 480px;
 }

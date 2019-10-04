@@ -1,5 +1,4 @@
 import { Component, HostListener } from '@angular/core';
-import { MatSnackBar } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
 import { StompService, StompState } from '@stomp/ng2-stompjs';
 import { Observable } from 'rxjs';
@@ -12,6 +11,7 @@ import { Directory } from '../shared/messages/incoming/directory';
 import { IMpdSong, MpdSong } from '../shared/messages/incoming/mpd-song';
 import { Playlist } from '../shared/messages/incoming/playlist';
 import { MpdCommands } from '../shared/mpd/mpd-commands';
+import { NotificationService } from '../shared/services/notification.service';
 import { WebSocketService } from '../shared/services/web-socket.service';
 
 export interface IBreadcrumbItem {
@@ -37,50 +37,14 @@ export class BrowseComponent {
     private activatedRoute: ActivatedRoute,
     private appComponent: AppComponent,
     private router: Router,
-    private snackBar: MatSnackBar,
     private stompService: StompService,
     private ampdBlockUiService: AmpdBlockUiService,
-    private webSocketService: WebSocketService
+    private webSocketService: WebSocketService,
+    private notificationService: NotificationService
   ) {
-    this.ampdBlockUiService.start();
     this.browseSubs = this.webSocketService.getBrowseSubs();
-    this.buildConnectionState();
+    // this.buildConnectionState();
     this.buildMessageReceiver();
-  }
-
-  public onClickPlaylist(event: Playlist): void {
-    this.webSocketService.sendData(MpdCommands.ADD_PLAYLIST, {
-      playlist: event.name,
-    });
-    this.popUp(`Added playlist: "${event.name}"`);
-  }
-
-  @HostListener('click', ['$event'])
-  public onPlayTitle(song: IMpdSong): void {
-    if (event) {
-      event.stopPropagation();
-    }
-    if (song instanceof MouseEvent) {
-      return;
-    }
-    this.webSocketService.sendData(MpdCommands.ADD_PLAY_TRACK, {
-      path: song.file,
-    });
-    this.popUp(`Playing title: "${song.title}"`);
-  }
-
-  @HostListener('click', ['$event'])
-  public onAddTitle(song: IMpdSong): void {
-    if (event) {
-      event.stopPropagation();
-    }
-    if (song instanceof MouseEvent) {
-      return;
-    }
-    this.webSocketService.sendData(MpdCommands.ADD_TRACK, {
-      path: song.file,
-    });
-    this.popUp(`Added title: "${song.title}"`);
   }
 
   public onClearQueue(): void {
@@ -93,27 +57,27 @@ export class BrowseComponent {
     $event.target.src = url;
   }
 
-  private buildConnectionState(): void {
-    this.stompService.state
-      .pipe(map((state: number) => StompState[state]))
-      .subscribe((status: string) => {
-        if (status === 'CONNECTED') {
-          this.appComponent.setConnected();
-          this.ampdBlockUiService.stop();
-
-          // this.activatedRoute.queryParams.subscribe(params => {
-          //   let dir = '/';
-          //   if ('dir' in params) {
-          //     dir = params.dir;
-          //   }
-          //   this.getParamDir = dir;
-          //   this.browse(dir);
-          // });
-        } else {
-          this.appComponent.setDisconnected();
-        }
-      });
-  }
+  // private buildConnectionState(): void {
+  //   this.stompService.state
+  //     .pipe(map((state: number) => StompState[state]))
+  //     .subscribe((status: string) => {
+  //       if (status === 'CONNECTED') {
+  //         this.appComponent.setConnected();
+  //         this.ampdBlockUiService.stop();
+  //
+  //         this.activatedRoute.queryParams.subscribe(params => {
+  //           let dir = '/';
+  //           if ('dir' in params) {
+  //             dir = params.dir;
+  //           }
+  //           this.getParamDir = dir;
+  //           this.browse(dir);
+  //         });
+  //       } else {
+  //         this.appComponent.setDisconnected();
+  //       }
+  //     });
+  // }
 
   private onBrowseResponse(payload): void {
     this.ampdBlockUiService.stop();
@@ -151,6 +115,7 @@ export class BrowseComponent {
     tmpCount = tmpCount > 0 ? tmpCount : 1;
 
     this.containerWidth = 100 / tmpCount;
+    console.log(this.titleQueue);
   }
 
   private buildMessageReceiver(): void {
@@ -163,9 +128,44 @@ export class BrowseComponent {
       }
     });
   }
-  private popUp(message: string): void {
-    this.snackBar.open(message, 'Close', {
-      duration: 2000,
-    });
-  }
+
+  // private browse(pPath: string): void {
+  //   if (pPath && !pPath.startsWith('/')) {
+  //     pPath = '/' + pPath;
+  //   }
+  //   const path = pPath ? pPath : '/';
+  //   this.webSocketService.sendData(MpdCommands.GET_BROWSE, {
+  //     path,
+  //   });
+  //   this.breadcrumb = this.buildBreadcrumb(path);
+  // }
+
+  // private buildBreadcrumb(path: string): IBreadcrumbItem[] {
+  //   const ret: IBreadcrumbItem[] = [];
+  //
+  //   ret.push({
+  //     text: 'root',
+  //     link: '/',
+  //   });
+  //
+  //   const splitted = path.split('/');
+  //   for (let index = 0; index < splitted.length; index++) {
+  //     const elem = splitted[index];
+  //
+  //     if (elem.trim().length > 0) {
+  //       let link = '';
+  //       if (index > 0) {
+  //         const prevIndex = index - 1;
+  //         link = splitted[prevIndex] + '/';
+  //       }
+  //
+  //       ret.push({
+  //         text: elem,
+  //         link: link + elem,
+  //       });
+  //     }
+  //   }
+  //
+  //   return ret;
+  // }
 }

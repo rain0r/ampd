@@ -24,11 +24,39 @@
     <div class="flex-item">
       <a routerLink="/browse" mat-raised-button class="mat-small">
         <i class="material-icons">expand_less</i>
-        Return to top
+        <span class="only-on-big-screen">
+          Return to top
+        </span>
       </a>
+      <button
+        class="mat-small"
+        mat-raised-button
+        (click)="onMoveDirUp()"
+        *ngIf="getParamDir && getParamDir !== '/'"
+      >
+        <i class="material-icons">
+          navigate_before
+        </i>
+        <span class="only-on-big-screen">
+          Return
+        </span>
+      </button>
+      <button
+        class="mat-small"
+        mat-raised-button
+        (click)="onAddDir(getParamDir)"
+        *ngIf="getParamDir && getParamDir !== '/'"
+      >
+        <i class="material-icons clickable"> add </i>
+        <span class="only-on-big-screen">
+          Add all
+        </span>
+      </button>
       <button class="mat-small" mat-raised-button (click)="onClearQueue()">
         <i class="material-icons clickable">delete</i>
-        Clear queue
+        <span class="only-on-big-screen">
+          Clear queue
+        </span>
       </button>
     </div>
   </div>
@@ -56,7 +84,7 @@
 
   <!-- tracks -->
   <div fxFlex="{{ containerWidth }}%" *ngIf="titleQueue.length > 0">
-    <app-tracks></app-tracks>
+    <app-tracks [titleQueue]="titleQueue"></app-tracks>
   </div>
 </div>
 

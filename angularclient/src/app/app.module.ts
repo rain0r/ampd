@@ -7,6 +7,9 @@ import { BlockUIModule } from 'ng-block-ui';
 import { CoverModalComponent } from 'src/app/shared/cover-modal/cover-modal.component';
 import { AppComponent } from './app.component';
 import { BrowseComponent } from './browse/browse.component';
+import { DirectoriesComponent } from './browse/directories/directories.component';
+import { PlaylistsComponent } from './browse/playlists/playlists.component';
+import { TracksComponent } from './browse/tracks/tracks.component';
 import { ConnectionConfiguration } from './connection-configuration';
 import { QueueComponent } from './queue/queue.component';
 import { SearchComponent } from './search/search.component';
@@ -29,6 +32,9 @@ import { SharedModule } from './shared/shared.module';
     SearchComponent,
     SettingsComponent,
     CoverModalComponent,
+    DirectoriesComponent,
+    PlaylistsComponent,
+    TracksComponent,
   ],
   imports: [
     BrowserModule,

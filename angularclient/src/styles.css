@@ -1,12 +1,10 @@
-/* You can add global styles to this file, and also import other style files */
-@import '~@angular/material/prebuilt-themes/indigo-pink.css';
-/* @import "~@angular/material/prebuilt-themes/deeppurple-amber.css"; */
-/* @import "~@angular/material/prebuilt-themes/pink-bluegrey.css"; */
-/* @import "~@angular/material/prebuilt-themes/purple-green.css"; */
+@import '../node_modules/@angular/material/prebuilt-themes/indigo-pink.css';
 
+html,
 body {
-  margin: 0px;
+  height: 100%;
   font-family: Roboto, 'Helvetica Neue', sans-serif;
+  margin: 0px;
 }
 
 * {
@@ -30,16 +28,11 @@ body {
   }
 }
 
-.space-divider {
-  margin-top: 1em;
-  margin-bottom: 1em;
-}
-
 .chip {
-  padding: 0px !important;
   background-color: #e0e0e0;
-  display: inline-flex;
   border-radius: 24px;
+  display: inline-flex;
+  padding: 0px !important;
 }
 
 mat-toolbar {
@@ -71,5 +64,36 @@ table {
   width: 50%;
 }
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+/* Browsing */
+sub-menu {
+  align-items: baseline;
+  background: white;
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 1em;
+}
+
+.flex-item {
+  align-items: stretch;
+  box-sizing: border-box;
+  flex: 1;
+  padding-top: 1em;
+}
+
+@media screen and (max-width: 990px) {
+  .container {
+    flex-wrap: wrap;
+  }
+  .flex-item:first-child {
+    flex-basis: 100%;
+  }
+}
+
+.list-header {
+  color: black;
+  padding-left: 0.5em;
+}
+
+.mat-small {
+  min-width: 1%;
+}

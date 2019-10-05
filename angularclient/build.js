@@ -6,13 +6,20 @@ const CONTEXT_PATH = '/';
 
 const prod = process.argv.includes('--prod');
 
+// Git hash
+const revision = require('child_process')
+.execSync('git rev-parse HEAD')
+.toString().trim();
+
+console.log(revision);
+
 // Write down the build date
 const now = new Date();
 const options = {
   files: 'src/environments/environment.prod.ts',
   //Replacement to make (string or regex)
   from: /ampdVersion: '.*'/,
-  to: `ampdVersion: '${dateFormat(now, "yyyy-mm-dd HH:MM")}'`,
+  to: `ampdVersion: '${dateFormat(now, "yyyy-mm-dd HH:MM")}' (${revision})`,
 };
 
 try {

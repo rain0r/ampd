@@ -1,7 +1,7 @@
-import {Component, HostListener, Input} from '@angular/core';
-import {ActivatedRoute, Params, Router} from '@angular/router';
-import {Directory} from '../../shared/messages/incoming/directory';
-import {BrowseService} from '../../shared/services/browse.service';
+import { Component, HostListener, Input } from '@angular/core';
+import { ActivatedRoute, Params, Router } from '@angular/router';
+import { Directory } from '../../shared/messages/incoming/directory';
+import { BrowseService } from '../../shared/services/browse.service';
 
 @Component({
   selector: 'app-directories',
@@ -12,9 +12,11 @@ export class DirectoriesComponent {
   @Input() public dirQueue: Directory[] = [];
   public getParamDir = '/';
 
-  constructor(private browseService: BrowseService,
-              private activatedRoute: ActivatedRoute,
-              private router: Router,) {
+  constructor(
+    private browseService: BrowseService,
+    private activatedRoute: ActivatedRoute,
+    private router: Router
+  ) {
     this.activatedRoute.queryParams.subscribe((params: Params) => {
       if ('dir' in params) {
         this.getParamDir = params.dir;
@@ -33,9 +35,9 @@ export class DirectoriesComponent {
     this.browseService.sendBrowseReq(directory);
     const splittedPath: string = this.splitDir(directory);
     const targetDir: string = this.getParamDir
-        ? this.getParamDir + '/' + splittedPath
-        : splittedPath;
-    this.router.navigate(['browse'], {queryParams: {dir: directory}});
+      ? this.getParamDir + '/' + splittedPath
+      : splittedPath;
+    this.router.navigate(['browse'], { queryParams: { dir: directory } });
   }
 
   /**
@@ -45,7 +47,7 @@ export class DirectoriesComponent {
    */
   public splitDir(dir: string): string {
     const splitted: string =
-        dir
+      dir
         .trim()
         .split('/')
         .pop() || '';

@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/index';
-import { IBreadcrumbItem } from '../../browse/browse.component';
 import { BrowseRootImpl, IBrowseMsgPayload } from '../messages/incoming/browse';
 import { Directory } from '../messages/incoming/directory';
 import { BrowseInfo } from '../models/browse-info';

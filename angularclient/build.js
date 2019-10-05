@@ -19,7 +19,7 @@ const options = {
   files: 'src/environments/environment.prod.ts',
   //Replacement to make (string or regex)
   from: /ampdVersion: '.*'/,
-  to: `ampdVersion: '${dateFormat(now, "yyyy-mm-dd HH:MM")}' (${revision})`,
+  to: `ampdVersion: '${dateFormat(now, "yyyy-mm-dd HH:MM")} (${revision})'`,
 };
 
 try {

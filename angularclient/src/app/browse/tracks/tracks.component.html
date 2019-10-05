@@ -1,29 +1,10 @@
 <div class="sub-menu">
-  <div class="flex-item">
-    <h3 class="list-header">Tracks</h3>
+  <div class="flex-item valign-center-outer">
+    <h3 class="list-header valign-center-inner">
+    {{dir}}
+    </h3>
   </div>
-  <div class="flex-item">
-    <button
-      class="mat-small"
-      mat-raised-button
-      (click)="onMoveDirUp()"
-      *ngIf="getParamDir && getParamDir !== '/'"
-    >
-      <i class="material-icons">
-        navigate_before
-      </i>
-      Return
-    </button>
-    <button
-      class="mat-small"
-      mat-raised-button
-      (click)="onAddDir(getParamDir)"
-      *ngIf="getParamDir && getParamDir !== '/'"
-    >
-      <i class="material-icons clickable"> add </i>
-      Add all
-    </button>
-  </div>
+</div>
 
   <mat-list
     role="list"
@@ -53,4 +34,3 @@
       </i>
     </mat-list-item>
   </mat-list>
-</div>

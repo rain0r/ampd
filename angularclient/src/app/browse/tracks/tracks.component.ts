@@ -1,8 +1,9 @@
 import { Component, HostListener, Input } from '@angular/core';
-import { IMpdSong, MpdSong } from '../../shared/messages/incoming/mpd-song';
+import { IMpdTrack, MpdTrack } from '../../shared/messages/incoming/mpd-track';
 import { MpdCommands } from '../../shared/mpd/mpd-commands';
 import { NotificationService } from '../../shared/services/notification.service';
 import { WebSocketService } from '../../shared/services/web-socket.service';
+import {ActivatedRoute, Params} from "@angular/router";
 
 @Component({
   selector: 'app-tracks',
@@ -10,15 +11,23 @@ import { WebSocketService } from '../../shared/services/web-socket.service';
   styleUrls: ['./tracks.component.css'],
 })
 export class TracksComponent {
-  @Input() public titleQueue: MpdSong[] = [];
+  @Input() public titleQueue: MpdTrack[] = [];
+  dir = '';
 
   constructor(
     private notificationService: NotificationService,
-    private webSocketService: WebSocketService
-  ) {}
+    private webSocketService: WebSocketService,
+    private activatedRoute: ActivatedRoute,
+  ) {
+    this.activatedRoute.queryParams.subscribe((params:Params) => {
+      if ('dir' in params) {
+        this.dir = params.dir;
+      }
+    });
+  }
 
   @HostListener('click', ['$event'])
-  public onPlayTitle(song: IMpdSong): void {
+  public onPlayTitle(song: IMpdTrack): void {
     if (event) {
       event.stopPropagation();
     }
@@ -32,7 +41,7 @@ export class TracksComponent {
   }
 
   @HostListener('click', ['$event'])
-  public onAddTitle(song: IMpdSong): void {
+  public onAddTitle(song: IMpdTrack): void {
     if (event) {
       event.stopPropagation();
     }

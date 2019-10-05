@@ -13,15 +13,6 @@
   cursor: pointer;
 }
 
-.breadcrumb {
-  color: black;
-  padding-left: 0.5em;
-}
-
-.breadcrumb:hover {
-  text-decoration: underline;
-}
-
 .title-length {
   float: right;
 }
@@ -48,10 +39,6 @@
   border: 1px solid silver;
   max-height: 48px;
   padding: 2em;
-}
-
-#breadcrumb-container {
-  margin-top: 1em;
 }
 
 .sub-menu {

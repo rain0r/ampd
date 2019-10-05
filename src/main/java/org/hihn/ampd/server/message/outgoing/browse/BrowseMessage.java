@@ -21,5 +21,4 @@ public class BrowseMessage extends AmpdMessage {
   public BrowsePayload getPayload() {
     return payload;
   }
-
 }

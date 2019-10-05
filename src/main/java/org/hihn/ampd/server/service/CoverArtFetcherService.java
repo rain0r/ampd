@@ -49,17 +49,17 @@ public class CoverArtFetcherService {
   }
 
   public Optional<byte[]> getCurrentAlbumCover() {
-    MPDSong song = mpd.getPlayer().getCurrentSong();
-    CoverCacheService.COVER_TYPE coverType = (song.getAlbumName().isEmpty()) ? SINGLETON : ALBUM;
+    MPDSong track = mpd.getPlayer().getCurrentSong();
+    CoverCacheService.COVER_TYPE coverType = (track.getAlbumName().isEmpty()) ? SINGLETON : ALBUM;
 
     // Try to load the cover from cache
     Optional<byte[]> cover =
-        coverCacheService.loadCover(coverType, song.getArtistName(), song.getTitle());
+        coverCacheService.loadCover(coverType, track.getArtistName(), track.getTitle());
 
     // If the cover is not in the cache, try to load it from the MPD music directory
     if (!cover.isPresent()) {
-      String songFilePath = song.getFile();
-      cover = fileStorageService.loadFileAsResource(songFilePath);
+      String trackFilePath = track.getFile();
+      cover = fileStorageService.loadFileAsResource(trackFilePath);
     }
 
     // Now check the musicbrainz cover api
@@ -69,7 +69,7 @@ public class CoverArtFetcherService {
 
     // Save the cover in the cache
     if (cover.isPresent()) {
-      coverCacheService.saveCover(coverType, song.getArtistName(), song.getTitle(), cover.get());
+      coverCacheService.saveCover(coverType, track.getArtistName(), track.getTitle(), cover.get());
     }
 
     // Show a transparent image
@@ -86,14 +86,14 @@ public class CoverArtFetcherService {
   }
 
   private Optional<byte[]> downloadCover() {
-    MPDSong song = mpd.getPlayer().getCurrentSong();
+    MPDSong track = mpd.getPlayer().getCurrentSong();
     Collection<MPDAlbum> albums =
-        mpd.getMusicDatabase().getAlbumDatabase().findAlbum(song.getAlbumName());
+        mpd.getMusicDatabase().getAlbumDatabase().findAlbum(track.getAlbumName());
 
     MPDAlbum foundAlbum =
         albums
             .stream()
-            .filter(album -> song.getArtistName().equals(album.getArtistName()))
+            .filter(album -> track.getArtistName().equals(album.getArtistName()))
             .findFirst()
             .orElse(null);
 

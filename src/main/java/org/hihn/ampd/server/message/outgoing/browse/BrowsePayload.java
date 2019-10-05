@@ -11,7 +11,7 @@ public class BrowsePayload {
 
   private final ArrayList<MPDFile> directories = new ArrayList<>();
 
-  private final ArrayList<MPDSong> songs = new ArrayList<>();
+  private final ArrayList<MPDSong> tracks = new ArrayList<>();
 
   private final ArrayList<Playlist> playlists = new ArrayList<>();
 
@@ -19,8 +19,8 @@ public class BrowsePayload {
     directories.add(mpdFile);
   }
 
-  public void addSong(MPDSong mpdSong) {
-    songs.add(mpdSong);
+  public void addTrack(MPDSong track) {
+    tracks.add(track);
   }
 
   public void addPlaylists(Collection<Playlist> pPlaylists) {
@@ -31,8 +31,8 @@ public class BrowsePayload {
     return Collections.unmodifiableList(directories);
   }
 
-  public List<MPDSong> getSongs() {
-    return Collections.unmodifiableList(songs);
+  public List<MPDSong> getTracks() {
+    return Collections.unmodifiableList(tracks);
   }
 
   public List<Playlist> getPlaylists() {

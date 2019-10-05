@@ -232,14 +232,13 @@ public class WebSocketController {
 
     for (MPDFile file : tmpMpdFiles) {
       if (file.isDirectory()) {
-        byte[] cover = coverArtFetcherService.findAlbumCover(Optional.of(file.getPath()));
         Directory d = new Directory(file.getPath());
         browsePayload.addDirectory(d);
       } else {
         Collection<MPDSong> searchResults =
             mpd.getMusicDatabase().getSongDatabase().searchFileName(file.getPath());
         if (!searchResults.isEmpty()) {
-          browsePayload.addSong(searchResults.iterator().next());
+          browsePayload.addTrack(searchResults.iterator().next());
         }
       }
     }
@@ -265,12 +264,12 @@ public class WebSocketController {
   private Optional<Message> playTrack(Object pPayload) {
     HashMap<String, String> payload = (HashMap<String, String>) pPayload;
     String path = payload.get("path");
-    List<MPDSong> songList = mpd.getPlaylist().getSongList();
+    List<MPDSong> trackList = mpd.getPlaylist().getSongList();
     Collection<MPDSong> mpdSongCollection =
         mpd.getMusicDatabase().getSongDatabase().searchFileName(path);
 
     List<MPDSong> result =
-        songList.stream().filter(n -> mpdSongCollection.contains(n)).collect(Collectors.toList());
+        trackList.stream().filter(n -> mpdSongCollection.contains(n)).collect(Collectors.toList());
 
     if (result.size() > 0) {
       mpd.getPlayer().playSong(result.iterator().next());

@@ -24,10 +24,10 @@ public class FileStorageService {
   // ':' sets an empty str if the prop is not set
   private String musicDirectory;
 
-  public Optional<byte[]> loadFileAsResource(String songFilePath) {
+  public Optional<byte[]> loadFileAsResource(String trackFilePath) {
 
     Optional<Path> p;
-    Optional<Path> coverFile = findCoverFileName(songFilePath);
+    Optional<Path> coverFile = findCoverFileName(trackFilePath);
     Optional<byte[]> ret = Optional.empty();
 
     /* Load the file */
@@ -38,19 +38,19 @@ public class FileStorageService {
     return ret;
   }
 
-  private Optional<Path> findCoverFileName(String songFilePath) {
+  private Optional<Path> findCoverFileName(String trackFilePath) {
     List<Path> covers = new ArrayList<>();
     Optional<Path> ret = Optional.empty();
     Path path;
 
     try {
-      path = Paths.get(musicDirectory, songFilePath);
+      path = Paths.get(musicDirectory, trackFilePath);
 
       if (!path.toFile().exists()) {
         throw new Exception();
       }
     } catch (Exception e) {
-      LOG.error("No valid path: " + songFilePath);
+      LOG.error("No valid path: " + trackFilePath);
       return Optional.empty();
     }
 

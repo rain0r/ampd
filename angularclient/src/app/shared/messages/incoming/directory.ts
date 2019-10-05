@@ -1,11 +1,10 @@
-import { SafeResourceUrl } from '@angular/platform-browser';
 import { ConnectionConfiguration } from '../../../connection-configuration';
 
 export interface IDirectory {
   directory: boolean;
   path: string;
   lastModified?: Date;
-  albumCover: SafeResourceUrl;
+  albumCover: string;
 }
 
 export class Directory implements IDirectory {

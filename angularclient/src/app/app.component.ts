@@ -1,5 +1,7 @@
 import { Component, ElementRef, HostListener, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
+import { StompService, StompState } from '@stomp/ng2-stompjs';
+import { filter } from 'rxjs/internal/operators';
 
 @Component({
   selector: 'app-root',
@@ -13,8 +15,10 @@ export class AppComponent {
 
   @ViewChild('inputSearch', { static: false }) public inputSearch?: ElementRef;
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private stompService: StompService) {
     this.innerWidth = window.innerWidth;
+
+    this.buildConnectionState();
   }
 
   public setConnected() {
@@ -44,5 +48,19 @@ export class AppComponent {
 
   public isMobile(): boolean {
     return this.innerWidth <= 600;
+  }
+
+  private buildConnectionState(): void {
+    this.stompService.state
+      .pipe(filter((state: number) => state === StompState.CLOSED))
+      .subscribe(() => {
+        this.setDisconnected();
+      });
+
+    this.stompService.state
+      .pipe(filter((state: number) => state === StompState.CONNECTED))
+      .subscribe(() => {
+        this.setConnected();
+      });
   }
 }

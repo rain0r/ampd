@@ -13,7 +13,6 @@ import { MpdTypes } from '../mpd/mpd-types';
 @Injectable()
 export class WebSocketService {
   constructor(private stompService: StompService) {}
-
   public send(cmd: string): void {
     const data = JSON.stringify({
       type: cmd,

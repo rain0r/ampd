@@ -1,5 +1,4 @@
 <div
-  id="breadcrumb-container"
   class="container"
   fxLayout="row"
   fxLayout.xs="column"
@@ -8,19 +7,6 @@
   fxLayoutAlign="center"
 >
   <div fxFlex="100%" class="sub-menu">
-    <div class="flex-item">
-      <span class="list-header">
-        <span *ngFor="let elem of breadcrumb">
-          &#47;
-          <a
-            [routerLink]="['/browse']"
-            [queryParams]="{ dir: elem.link }"
-            class="breadcrumb"
-            >{{ elem.text }}</a
-          >&nbsp;
-        </span>
-      </span>
-    </div>
     <div class="flex-item">
       <a routerLink="/browse" mat-raised-button class="mat-small">
         <i class="material-icons">expand_less</i>
@@ -73,18 +59,25 @@
   fxLayoutAlign="center"
 >
   <!-- playlists -->
-  <div fxFlex="{{ containerWidth }}" *ngIf="playlistQueue.length > 0">
-    <app-playlists [playlistQueue]="playlistQueue"></app-playlists>
+  <div
+    fxFlex="{{browseInfo.containerWidth}}%"
+    *ngIf="browseInfo.playlistQueue.length > 0"
+  >
+    <app-playlists [playlistQueue]="browseInfo.playlistQueue"></app-playlists>
   </div>
 
   <!-- directories -->
-  <div fxFlex="{{ containerWidth }}" *ngIf="dirQueue.length > 0">
-    <app-directories [dirQueue]="dirQueue"></app-directories>
+  <div
+      fxFlex="{{browseInfo.containerWidth}}%"
+       *ngIf="browseInfo.dirQueue.length > 0">
+  <app-directories [dirQueue]="browseInfo.dirQueue"></app-directories>
   </div>
 
   <!-- tracks -->
-  <div fxFlex="{{ containerWidth }}%" *ngIf="titleQueue.length > 0">
-    <app-tracks [titleQueue]="titleQueue"></app-tracks>
+  <div
+      fxFlex="{{browseInfo.containerWidth}}%"
+      *ngIf="browseInfo.trackQueue.length > 0">
+  <app-tracks [titleQueue]="browseInfo.trackQueue"></app-tracks>
   </div>
 </div>
 

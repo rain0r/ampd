@@ -1,22 +1,22 @@
 import { IControlPanel } from './control-panel';
-import { ICurrentSong } from './current-song';
+import { ICurrentTrack } from './current-track';
 import { IServerStatus } from './server-status';
 
 export interface IStateMsgPayload {
   serverStatus: IServerStatus;
-  currentSong: ICurrentSong;
+  currentSong: ICurrentTrack;
   cover?: any;
   controlPanel: IControlPanel;
 }
 
 export class StateMsgPayload implements IStateMsgPayload {
   public serverStatus: IServerStatus;
-  public currentSong: ICurrentSong;
+  public currentSong: ICurrentTrack;
   public controlPanel: IControlPanel;
 
   constructor(
     serverStatus: IServerStatus,
-    currentSong: ICurrentSong,
+    currentSong: ICurrentTrack,
     controlPanel: IControlPanel
   ) {
     this.serverStatus = serverStatus;

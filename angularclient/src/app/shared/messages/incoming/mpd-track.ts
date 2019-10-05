@@ -1,4 +1,4 @@
-export interface ICurrentSong {
+export interface IMpdTrack {
   name: string;
   title: string;
   artistName: string;
@@ -14,7 +14,7 @@ export interface ICurrentSong {
   id: number;
 }
 
-export class CurrentSong implements ICurrentSong {
+export class MpdTrack implements IMpdTrack {
   public name: string;
   public title: string;
   public artistName: string;

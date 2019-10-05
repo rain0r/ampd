@@ -1,15 +1,15 @@
-import { IMpdSong } from './mpd-song';
+import { IMpdTrack } from './mpd-track';
 
 export interface IQueueRoot {
-  payload: IMpdSong[];
+  payload: IMpdTrack[];
   type: string;
 }
 
 export class QueueRootImpl implements IQueueRoot {
-  public payload: IMpdSong[];
+  public payload: IMpdTrack[];
   public type: string;
 
-  constructor(payload: IMpdSong[], type: string) {
+  constructor(payload: IMpdTrack[], type: string) {
     this.payload = payload;
     this.type = type;
   }

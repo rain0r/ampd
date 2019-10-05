@@ -1,9 +1,8 @@
 import { Component, HostListener } from '@angular/core';
 
 import { MatDialog, MatSliderChange } from '@angular/material';
-import { StompService, StompState } from '@stomp/ng2-stompjs';
+import { StompService } from '@stomp/ng2-stompjs';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/internal/operators';
 import { AppComponent } from '../app.component';
 import { AmpdBlockUiService } from '../shared/block/ampd-block-ui.service';
 import { CoverModalComponent } from '../shared/cover-modal/cover-modal.component';
@@ -11,9 +10,8 @@ import {
   ControlPanelImpl,
   IControlPanel,
 } from '../shared/messages/incoming/control-panel';
-import { IMpdSong } from '../shared/messages/incoming/mpd-song';
+import { IMpdTrack } from '../shared/messages/incoming/mpd-track';
 import { QueueRootImpl } from '../shared/messages/incoming/queue';
-import { ServerStatusRoot } from '../shared/messages/incoming/server-status-root';
 import { ServerStatusRootImpl } from '../shared/messages/incoming/state-messages';
 import { StateMsgPayload } from '../shared/messages/incoming/state-msg-payload';
 import { QueueSong } from '../shared/models/queue-song';
@@ -56,8 +54,6 @@ export class QueueComponent {
 
     this.stateSubs = this.webSocketService.getStateSubs();
     this.queueSubs = this.webSocketService.getQueueSubs();
-
-    this.buildConnectionState();
 
     this.buildQueueMsgReceiver();
     this.buildStateReceiver();
@@ -249,7 +245,7 @@ export class QueueComponent {
     }
   }
 
-  private buildQueue(message: IMpdSong[]): void {
+  private buildQueue(message: IMpdTrack[]): void {
     this.queue = [];
     let posCounter = 1;
 
@@ -264,19 +260,6 @@ export class QueueComponent {
       this.queue.push(song);
       posCounter += 1;
     }
-  }
-
-  private buildConnectionState(): void {
-    this.stompService.state
-      .pipe(map((state: number) => StompState[state]))
-      .subscribe((status: string) => {
-        if (status === 'CONNECTED') {
-          this.appComponent.setConnected();
-          this.sendGetQueue();
-        } else {
-          this.appComponent.setDisconnected();
-        }
-      });
   }
 
   private buildQueueMsgReceiver() {

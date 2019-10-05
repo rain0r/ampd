@@ -7,14 +7,13 @@ import {
 } from '@angular/core';
 import { MatSnackBar } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
-import { StompService, StompState } from '@stomp/ng2-stompjs';
+import { StompService } from '@stomp/ng2-stompjs';
 
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/internal/operators';
 import { AppComponent } from '../app.component';
 import { AmpdBlockUiService } from '../shared/block/ampd-block-ui.service';
 
-import { IMpdSong } from '../shared/messages/incoming/mpd-song';
+import { IMpdTrack } from '../shared/messages/incoming/mpd-track';
 import { SearchRootImpl } from '../shared/messages/incoming/search';
 import { QueueSong } from '../shared/models/queue-song';
 import { MpdCommands } from '../shared/mpd/mpd-commands';
@@ -28,7 +27,7 @@ import { WebSocketService } from '../shared/services/web-socket.service';
 export class SearchComponent implements AfterViewInit {
   public searchSubs: Observable<SearchRootImpl>;
 
-  public titleQueue: IMpdSong[] = [];
+  public titleQueue: IMpdTrack[] = [];
   public searchResultCount = 0;
   // query: string = '';
   public displayedColumns: string[] = [
@@ -54,7 +53,6 @@ export class SearchComponent implements AfterViewInit {
     this.ampdBlockUiService.start();
     this.searchSubs = this.webSocketService.getSearchSubs();
 
-    this.buildConnectionState();
     this.checkQueryParam();
     this.getResults();
   }
@@ -70,7 +68,7 @@ export class SearchComponent implements AfterViewInit {
     }
   }
 
-  public onPlayTitle(song: IMpdSong): void {
+  public onPlayTitle(song: IMpdTrack): void {
     if (song instanceof MouseEvent) {
       return;
     }
@@ -80,7 +78,7 @@ export class SearchComponent implements AfterViewInit {
     this.popUp(`Playing: ${song.title}`);
   }
 
-  public onAddTitle(song: IMpdSong): void {
+  public onAddTitle(song: IMpdTrack): void {
     if (song instanceof MouseEvent) {
       return;
     }
@@ -132,18 +130,6 @@ export class SearchComponent implements AfterViewInit {
     this.snackBar.open(message, 'Close', {
       duration: 2000,
     });
-  }
-
-  private buildConnectionState(): void {
-    this.stompService.state
-      .pipe(map((state: number) => StompState[state]))
-      .subscribe((status: string) => {
-        if (status === 'CONNECTED') {
-          this.appComponent.setConnected();
-        } else {
-          this.appComponent.setDisconnected();
-        }
-      });
   }
 
   /**

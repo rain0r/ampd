@@ -1,10 +1,7 @@
-import { Component, HostListener, Input } from '@angular/core';
-import { Router } from '@angular/router';
-import { Directory } from '../../shared/messages/incoming/directory';
-import { MpdCommands } from '../../shared/mpd/mpd-commands';
-import { BrowseService } from '../../shared/services/browse.service';
-import { NotificationService } from '../../shared/services/notification.service';
-import { WebSocketService } from '../../shared/services/web-socket.service';
+import {Component, HostListener, Input} from '@angular/core';
+import {ActivatedRoute, Params, Router} from '@angular/router';
+import {Directory} from '../../shared/messages/incoming/directory';
+import {BrowseService} from '../../shared/services/browse.service';
 
 @Component({
   selector: 'app-directories',
@@ -13,14 +10,17 @@ import { WebSocketService } from '../../shared/services/web-socket.service';
 })
 export class DirectoriesComponent {
   @Input() public dirQueue: Directory[] = [];
-  public getParamDir = '';
+  public getParamDir = '/';
 
-  constructor(
-    private browseService: BrowseService,
-    private notificationService: NotificationService,
-    private webSocketService: WebSocketService,
-    private router: Router
-  ) {}
+  constructor(private browseService: BrowseService,
+              private activatedRoute: ActivatedRoute,
+              private router: Router,) {
+    this.activatedRoute.queryParams.subscribe((params: Params) => {
+      if ('dir' in params) {
+        this.getParamDir = params.dir;
+      }
+    });
+  }
 
   @HostListener('click', ['$event'])
   public onDirClick(directory: string): void {
@@ -33,9 +33,9 @@ export class DirectoriesComponent {
     this.browseService.sendBrowseReq(directory);
     const splittedPath: string = this.splitDir(directory);
     const targetDir: string = this.getParamDir
-      ? this.getParamDir + '/' + splittedPath
-      : splittedPath;
-    this.router.navigate(['browse'], { queryParams: { dir: directory } });
+        ? this.getParamDir + '/' + splittedPath
+        : splittedPath;
+    this.router.navigate(['browse'], {queryParams: {dir: directory}});
   }
 
   /**
@@ -45,7 +45,7 @@ export class DirectoriesComponent {
    */
   public splitDir(dir: string): string {
     const splitted: string =
-      dir
+        dir
         .trim()
         .split('/')
         .pop() || '';

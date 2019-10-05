@@ -1,7 +1,7 @@
 import { ConnectionConfiguration } from '../../connection-configuration';
 import { IMpdTrack } from '../messages/incoming/mpd-track';
 
-export class QueueSong implements IMpdTrack {
+export class QueueTrack implements IMpdTrack {
   /* Override */
   public albumName: string = '';
   public artistName: string = '';
@@ -17,11 +17,11 @@ export class QueueSong implements IMpdTrack {
   public track: number = 0;
   public year: string = '';
 
-  /* QueueSong */
+  /* QueueTrack */
   public progress: number = 0; // progress in seconds
   public elapsedFormatted: string = ''; // elapsed time readable
   // durationFormatted: string; // readable / formatted duration
-  public playing: boolean = false; // if the song is currently played
+  public playing: boolean = false; // if the track is currently played
   public pos: number = 0; // position in queue
 
   constructor(mpdSong?: IMpdTrack) {

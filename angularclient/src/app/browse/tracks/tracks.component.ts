@@ -27,30 +27,30 @@ export class TracksComponent {
   }
 
   @HostListener('click', ['$event'])
-  public onPlayTitle(song: IMpdTrack): void {
+  public onPlayTitle(track: IMpdTrack): void {
     if (event) {
       event.stopPropagation();
     }
-    if (song instanceof MouseEvent) {
+    if (track instanceof MouseEvent) {
       return;
     }
     this.webSocketService.sendData(MpdCommands.ADD_PLAY_TRACK, {
-      path: song.file,
+      path: track.file,
     });
-    this.notificationService.popUp(`Playing title: "${song.title}"`);
+    this.notificationService.popUp(`Playing title: "${track.title}"`);
   }
 
   @HostListener('click', ['$event'])
-  public onAddTitle(song: IMpdTrack): void {
+  public onAddTitle(track: IMpdTrack): void {
     if (event) {
       event.stopPropagation();
     }
-    if (song instanceof MouseEvent) {
+    if (track instanceof MouseEvent) {
       return;
     }
     this.webSocketService.sendData(MpdCommands.ADD_TRACK, {
-      path: song.file,
+      path: track.file,
     });
-    this.notificationService.popUp(`Added title: "${song.title}"`);
+    this.notificationService.popUp(`Added title: "${track.title}"`);
   }
 }

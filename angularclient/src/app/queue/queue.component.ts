@@ -14,7 +14,7 @@ import { IMpdTrack } from '../shared/messages/incoming/mpd-track';
 import { QueueRootImpl } from '../shared/messages/incoming/queue';
 import { ServerStatusRootImpl } from '../shared/messages/incoming/state-messages';
 import { StateMsgPayload } from '../shared/messages/incoming/state-msg-payload';
-import { QueueSong } from '../shared/models/queue-song';
+import { QueueTrack } from '../shared/models/queue-track';
 import { MpdCommands } from '../shared/mpd/mpd-commands';
 import { WebSocketService } from '../shared/services/web-socket.service';
 
@@ -25,9 +25,9 @@ import { WebSocketService } from '../shared/services/web-socket.service';
 })
 export class QueueComponent {
   public controlPanel: IControlPanel = new ControlPanelImpl();
-  public queue: QueueSong[] = [];
+  public queue: QueueTrack[] = [];
 
-  public currentSong: QueueSong = new QueueSong();
+  public currentSong: QueueTrack = new QueueTrack();
   public currentState: string = '';
   public displayedColumns = [
     { name: 'pos', showMobile: false },
@@ -101,7 +101,7 @@ export class QueueComponent {
   }
 
   /**
-   * Play the song from the queue which has been clicked.
+   * Play the track from the queue which has been clicked.
    *
    * @param {string} pFile
    */
@@ -124,12 +124,12 @@ export class QueueComponent {
 
     const inputElement = event.target as HTMLInputElement;
     if (inputElement.tagName === 'MAT-SLIDER') {
-      /* We want to change the volume (with the keyboard) - not skip the song. */
+      /* We want to change the volume (with the keyboard) - not skip the track. */
       return;
     }
 
     if (inputElement.tagName === 'INPUT') {
-      /* We want to search for something - not skip the song. */
+      /* We want to search for something - not skip the track. */
       return;
     }
 
@@ -219,13 +219,13 @@ export class QueueComponent {
     let callBuildQueue = false;
     this.ampdBlockUiService.stop();
 
-    /* Call buildQueue once if there is no current song set */
+    /* Call buildQueue once if there is no current track set */
     if ('id' in this.currentSong === false) {
       callBuildQueue = true;
     }
 
     const serverStatus = pMessage.serverStatus;
-    this.currentSong = new QueueSong(pMessage.currentSong);
+    this.currentSong = new QueueTrack(pMessage.currentSong);
     this.controlPanel = pMessage.controlPanel;
 
     sessionStorage.setItem('currentSong', JSON.stringify(this.currentSong));
@@ -236,8 +236,8 @@ export class QueueComponent {
     this.currentState = serverStatus.state;
     this.volume = serverStatus.volume;
 
-    this.queue.forEach(song => {
-      song.playing = this.currentSong.id === song.id;
+    this.queue.forEach(track => {
+      track.playing = this.currentSong.id === track.id;
     });
 
     if (callBuildQueue === true) {
@@ -250,14 +250,14 @@ export class QueueComponent {
     let posCounter = 1;
 
     for (const item of message) {
-      const song: QueueSong = new QueueSong(item);
-      song.pos = posCounter;
+      const track: QueueTrack = new QueueTrack(item);
+      track.pos = posCounter;
 
       if (this.currentSong.id === item.id) {
-        song.playing = true;
+        track.playing = true;
       }
 
-      this.queue.push(song);
+      this.queue.push(track);
       posCounter += 1;
     }
   }

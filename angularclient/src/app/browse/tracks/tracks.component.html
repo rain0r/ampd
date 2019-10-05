@@ -8,26 +8,26 @@
 
 <mat-list
   role="list"
-  *ngFor="let song of titleQueue"
+  *ngFor="let track of titleQueue"
   class="browse-list"
-  (click)="onTitleAdd(song)"
+  (click)="onTitleAdd(track)"
 >
   <mat-list-item role="listitem" class="list-item">
     <mat-icon>audiotrack</mat-icon> &nbsp;
-    <span class="text-muted space-right"> &#35;{{ song.track }} </span>
-    {{ song.title }} &nbsp;
-    <span class="text-muted">{{ song.length | secondsToMmSsPipe }}</span>
+    <span class="text-muted space-right"> &#35;{{ track.track }} </span>
+    {{ track.title }} &nbsp;
+    <span class="text-muted">{{ track.length | secondsToMmSsPipe }}</span>
     <span class="fill-space"></span>
     <i
       class="material-icons clickable chip"
-      (click)="onPlayTitle(song)"
+      (click)="onPlayTitle(track)"
       title="Play track"
     >
       play_arrow
     </i>
     <i
       class="material-icons clickable chip"
-      (click)="onAddTitle(song)"
+      (click)="onAddTitle(track)"
       title="Add track to queue"
     >
       add

@@ -47,33 +47,33 @@
 >
   <ng-container matColumnDef="artistName">
     <mat-header-cell *matHeaderCellDef>Artist</mat-header-cell>
-    <mat-cell *matCellDef="let song">{{ song.artistName }}</mat-cell>
+    <mat-cell *matCellDef="let track">{{ track.artistName }}</mat-cell>
   </ng-container>
 
   <ng-container matColumnDef="albumName">
     <mat-header-cell *matHeaderCellDef>Album</mat-header-cell>
-    <mat-cell *matCellDef="let song">
-      {{ song.albumName }}
+    <mat-cell *matCellDef="let track">
+      {{ track.albumName }}
     </mat-cell>
   </ng-container>
 
   <ng-container matColumnDef="title">
     <mat-header-cell *matHeaderCellDef>Title</mat-header-cell>
-    <mat-cell *matCellDef="let song">{{ song.title }}</mat-cell>
+    <mat-cell *matCellDef="let track">{{ track.title }}</mat-cell>
   </ng-container>
 
   <ng-container matColumnDef="length">
     <mat-header-cell *matHeaderCellDef>Length</mat-header-cell>
-    <mat-cell *matCellDef="let song">{{ song.durationFormatted() }}</mat-cell>
+    <mat-cell *matCellDef="let track">{{ track.durationFormatted() }}</mat-cell>
   </ng-container>
 
   <ng-container matColumnDef="action">
     <mat-header-cell *matHeaderCellDef></mat-header-cell>
-    <mat-cell *matCellDef="let song">
-      <span (click)="onPlayTitle(song)" class="clickable chip">
+    <mat-cell *matCellDef="let track">
+      <span (click)="onPlayTitle(track)" class="clickable chip">
         <i class="material-icons"> play_arrow </i>
       </span>
-      <span (click)="onAddTitle(song)" class="clickable chip">
+      <span (click)="onAddTitle(track)" class="clickable chip">
         <i class="material-icons"> add </i>
       </span>
     </mat-cell>

@@ -95,7 +95,7 @@
 
   <mat-divider class="divide-space-up-down"></mat-divider>
 
-  <!-- Current song progress and readable song lengthAsSeconds -->
+  <!-- Current track progress and readable track lengthAsSeconds -->
   <mat-grid-list cols="10" rowHeight="1.5em">
     <mat-grid-tile>
       {{ currentSong.elapsedFormatted }}
@@ -239,8 +239,8 @@
 
     <ng-container matColumnDef="length">
       <mat-header-cell *matHeaderCellDef>Duration</mat-header-cell>
-      <mat-cell *matCellDef="let song">
-        {{ song.durationFormatted() }}
+      <mat-cell *matCellDef="let track">
+        {{ track.durationFormatted() }}
       </mat-cell>
     </ng-container>
 

@@ -3,7 +3,7 @@ import { IPlaylist } from './playlist';
 
 export interface IBrowseMsgPayload {
   directories: IDirectory[];
-  songs: any[];
+  tracks: any[];
   playlists: IPlaylist[];
 }
 

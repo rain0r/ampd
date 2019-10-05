@@ -15,7 +15,7 @@ import { AmpdBlockUiService } from '../shared/block/ampd-block-ui.service';
 
 import { IMpdTrack } from '../shared/messages/incoming/mpd-track';
 import { SearchRootImpl } from '../shared/messages/incoming/search';
-import { QueueSong } from '../shared/models/queue-song';
+import { QueueTrack } from '../shared/models/queue-track';
 import { MpdCommands } from '../shared/mpd/mpd-commands';
 import { WebSocketService } from '../shared/services/web-socket.service';
 
@@ -68,24 +68,24 @@ export class SearchComponent implements AfterViewInit {
     }
   }
 
-  public onPlayTitle(song: IMpdTrack): void {
-    if (song instanceof MouseEvent) {
+  public onPlayTitle(track: IMpdTrack): void {
+    if (track instanceof MouseEvent) {
       return;
     }
     this.webSocketService.sendData(MpdCommands.ADD_PLAY_TRACK, {
-      path: song.file,
+      path: track.file,
     });
-    this.popUp(`Playing: ${song.title}`);
+    this.popUp(`Playing: ${track.title}`);
   }
 
-  public onAddTitle(song: IMpdTrack): void {
-    if (song instanceof MouseEvent) {
+  public onAddTitle(track: IMpdTrack): void {
+    if (track instanceof MouseEvent) {
       return;
     }
     this.webSocketService.sendData(MpdCommands.ADD_TRACK, {
-      path: song.file,
+      path: track.file,
     });
-    this.popUp(`Added: ${song.title}`);
+    this.popUp(`Added: ${track.title}`);
   }
 
   public onSearchKeyUp(): void {
@@ -151,8 +151,8 @@ export class SearchComponent implements AfterViewInit {
   private processSearchResults(searchResults, searchResultCount) {
     this.ampdBlockUiService.stop();
     this.clear();
-    searchResults.forEach(song => {
-      this.titleQueue.push(new QueueSong(song));
+    searchResults.forEach(track => {
+      this.titleQueue.push(new QueueTrack(track));
     });
     this.searchResultCount = searchResultCount;
   }

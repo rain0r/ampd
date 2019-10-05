@@ -1,9 +1,6 @@
 package org.hihn.ampd.server.service;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
+import static org.hihn.ampd.server.util.AmpdUtils.loadFile;
 
 import java.io.IOException;
 import java.nio.file.DirectoryStream;
@@ -13,14 +10,15 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
-import static org.hihn.ampd.server.util.AmpdUtils.loadFile;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 
 @Service
 public class FileStorageService {
 
-  private static final Logger LOG = LoggerFactory
-      .getLogger(FileStorageService.class);
+  private static final Logger LOG = LoggerFactory.getLogger(FileStorageService.class);
 
   @Value("${mpd.music.directory:}")
   // ':' sets an empty str if the prop is not set
@@ -71,5 +69,4 @@ public class FileStorageService {
 
     return ret;
   }
-
 }

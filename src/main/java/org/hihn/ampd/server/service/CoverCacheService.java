@@ -1,11 +1,6 @@
 package org.hihn.ampd.server.service;
 
-import org.hihn.ampd.server.util.AmpdUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
+import static org.hihn.ampd.server.util.AmpdUtils.loadFile;
 
 import java.io.File;
 import java.io.IOException;
@@ -13,22 +8,26 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Optional;
-
-import static org.hihn.ampd.server.util.AmpdUtils.loadFile;
+import org.hihn.ampd.server.util.AmpdUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 @Service
 public class CoverCacheService {
 
-  private static final Logger LOG = LoggerFactory
-      .getLogger(CoverCacheService.class);
+  private static final Logger LOG = LoggerFactory.getLogger(CoverCacheService.class);
 
   @Value("${ampd.home:}")
   private String ampdHome;
 
-  private final static String CACHE_DIR = "covers";
+  private static final String CACHE_DIR = "covers";
 
   public enum COVER_TYPE {
-    ALBUM("a_"), SINGLETON("s_");
+    ALBUM("a_"),
+    SINGLETON("s_");
 
     private String prefix;
 
@@ -51,8 +50,7 @@ public class CoverCacheService {
 
     // create cover cache dir
     Path fullCacheDir = Paths.get(ampdHome, CACHE_DIR);
-    if (!Files.exists(Paths.get(ampdHome)) && !new File(fullCacheDir.toString())
-        .mkdirs()) {
+    if (!Files.exists(Paths.get(ampdHome)) && !new File(fullCacheDir.toString()).mkdirs()) {
       LOG.error("Could not create dir: " + ampdHome);
     }
   }
@@ -60,18 +58,15 @@ public class CoverCacheService {
   private String buildAmpdHome() {
     String ret = ampdHome;
     if (StringUtils.isEmpty(ret)) {
-      Path p = Paths
-          .get(System.getProperty("user.home"), ".local", "share", "ampd");
+      Path p = Paths.get(System.getProperty("user.home"), ".local", "share", "ampd");
       ret = p.toString();
     }
     return ret;
   }
 
-  public Optional<byte[]> loadCover(COVER_TYPE coverType, String artist,
-      String titleOrAlbum) {
+  public Optional<byte[]> loadCover(COVER_TYPE coverType, String artist, String titleOrAlbum) {
     String fileName = buildFileName(coverType, artist, titleOrAlbum);
-    Path fullPath = Paths.get(buildAmpdHome(), CACHE_DIR, fileName)
-        .toAbsolutePath();
+    Path fullPath = Paths.get(buildAmpdHome(), CACHE_DIR, fileName).toAbsolutePath();
     try {
       return Optional.of(loadFile(fullPath));
     } catch (Exception e) {
@@ -80,17 +75,14 @@ public class CoverCacheService {
     return Optional.empty();
   }
 
-  public void saveCover(COVER_TYPE coverType, String artist,
-      String titleOrAlbum, byte[] file) {
+  public void saveCover(COVER_TYPE coverType, String artist, String titleOrAlbum, byte[] file) {
     try {
       String fileName = buildFileName(coverType, artist, titleOrAlbum);
-      Path fullPath = Paths.get(buildAmpdHome(), CACHE_DIR, fileName)
-          .toAbsolutePath();
+      Path fullPath = Paths.get(buildAmpdHome(), CACHE_DIR, fileName).toAbsolutePath();
 
       // Don't write the file if it already exists
       if (!fullPath.toFile().exists()) {
-        LOG.debug("Saving cover: " + coverType + " :: " + artist + " - "
-            + titleOrAlbum);
+        LOG.debug("Saving cover: " + coverType + " :: " + artist + " - " + titleOrAlbum);
         Files.write(fullPath, file);
       }
     } catch (IOException e) {
@@ -98,10 +90,11 @@ public class CoverCacheService {
     }
   }
 
-  private String buildFileName(COVER_TYPE coverType, String artist,
-      String titleOrAlbum) {
-    return coverType.getPrefix() + AmpdUtils.stripAccents(artist) + "_"
-        + AmpdUtils.stripAccents(titleOrAlbum) + ".jpg";
+  private String buildFileName(COVER_TYPE coverType, String artist, String titleOrAlbum) {
+    return coverType.getPrefix()
+        + AmpdUtils.stripAccents(artist)
+        + "_"
+        + AmpdUtils.stripAccents(titleOrAlbum)
+        + ".jpg";
   }
-
 }

@@ -13,8 +13,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class ScheduledUpdatesOnTopic {
 
-  @Autowired
-  private SimpMessagingTemplate template;
+  @Autowired private SimpMessagingTemplate template;
 
   private final MPD mpd;
 
@@ -32,8 +31,7 @@ public class ScheduledUpdatesOnTopic {
     mpd.getServerStatus().setExpiryInterval(1L);
     ControlPanel controlPanel = new ControlPanel(mpd.getServerStatus());
     StatePayload statePayload =
-        new StatePayload(mpd.getServerStatus(),
-            mpd.getPlayer().getCurrentSong(), controlPanel);
+        new StatePayload(mpd.getServerStatus(), mpd.getPlayer().getCurrentSong(), controlPanel);
 
     StateMessage message = new StateMessage(statePayload);
     template.convertAndSend("/topic/messages", message);

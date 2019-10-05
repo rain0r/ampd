@@ -8,8 +8,7 @@ import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerCo
 
 @Configuration
 @EnableWebSocketMessageBroker
-public class WebSocketConfiguration implements
-    WebSocketMessageBrokerConfigurer {
+public class WebSocketConfiguration implements WebSocketMessageBrokerConfigurer {
 
   @Override
   public void configureMessageBroker(MessageBrokerRegistry registry) {
@@ -22,5 +21,4 @@ public class WebSocketConfiguration implements
     registry.addEndpoint("/mpd").setAllowedOrigins("*");
     registry.addEndpoint("/mpd").setAllowedOrigins("*").withSockJS();
   }
-
 }

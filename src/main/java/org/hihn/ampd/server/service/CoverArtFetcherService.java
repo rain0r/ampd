@@ -1,14 +1,8 @@
 package org.hihn.ampd.server.service;
 
-import org.bff.javampd.album.MPDAlbum;
-import org.bff.javampd.art.MPDArtwork;
-import org.bff.javampd.server.MPD;
-import org.bff.javampd.song.MPDSong;
-import org.hihn.ampd.server.config.MpdConfiguration;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
+import static org.hihn.ampd.server.service.CoverCacheService.COVER_TYPE.ALBUM;
+import static org.hihn.ampd.server.service.CoverCacheService.COVER_TYPE.SINGLETON;
+import static org.hihn.ampd.server.util.AmpdUtils.loadFile;
 
 import java.io.IOException;
 import java.nio.file.DirectoryStream;
@@ -19,16 +13,20 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
-
-import static org.hihn.ampd.server.service.CoverCacheService.COVER_TYPE.ALBUM;
-import static org.hihn.ampd.server.service.CoverCacheService.COVER_TYPE.SINGLETON;
-import static org.hihn.ampd.server.util.AmpdUtils.loadFile;
+import org.bff.javampd.album.MPDAlbum;
+import org.bff.javampd.art.MPDArtwork;
+import org.bff.javampd.server.MPD;
+import org.bff.javampd.song.MPDSong;
+import org.hihn.ampd.server.config.MpdConfiguration;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 
 @Service
 public class CoverArtFetcherService {
 
-  private static final Logger LOG = LoggerFactory
-      .getLogger(CoverArtFetcherService.class);
+  private static final Logger LOG = LoggerFactory.getLogger(CoverArtFetcherService.class);
 
   private final FileStorageService fileStorageService;
 
@@ -40,9 +38,10 @@ public class CoverArtFetcherService {
   // ':' sets an empty str if the prop is not set
   private String musicDirectory;
 
-
-  public CoverArtFetcherService(FileStorageService fileStorageService,
-      CoverCacheService coverCacheService, MpdConfiguration mpdConfiguration) {
+  public CoverArtFetcherService(
+      FileStorageService fileStorageService,
+      CoverCacheService coverCacheService,
+      MpdConfiguration mpdConfiguration) {
 
     this.fileStorageService = fileStorageService;
     this.coverCacheService = coverCacheService;
@@ -51,13 +50,11 @@ public class CoverArtFetcherService {
 
   public Optional<byte[]> getCurrentAlbumCover() {
     MPDSong song = mpd.getPlayer().getCurrentSong();
-    CoverCacheService.COVER_TYPE coverType =
-        (song.getAlbumName().isEmpty()) ? SINGLETON : ALBUM;
+    CoverCacheService.COVER_TYPE coverType = (song.getAlbumName().isEmpty()) ? SINGLETON : ALBUM;
 
     // Try to load the cover from cache
     Optional<byte[]> cover =
-        coverCacheService
-            .loadCover(coverType, song.getArtistName(), song.getTitle());
+        coverCacheService.loadCover(coverType, song.getArtistName(), song.getTitle());
 
     // If the cover is not in the cache, try to load it from the MPD music directory
     if (!cover.isPresent()) {
@@ -72,9 +69,7 @@ public class CoverArtFetcherService {
 
     // Save the cover in the cache
     if (cover.isPresent()) {
-      coverCacheService
-          .saveCover(coverType, song.getArtistName(), song.getTitle(),
-              cover.get());
+      coverCacheService.saveCover(coverType, song.getArtistName(), song.getTitle(), cover.get());
     }
 
     // Show a transparent image
@@ -86,22 +81,21 @@ public class CoverArtFetcherService {
   }
 
   private Optional<byte[]> loadFallbackCover() {
-    Path transparentFile = Paths
-        .get(getClass().getResource("/transparent.png").getFile());
+    Path transparentFile = Paths.get(getClass().getResource("/transparent.png").getFile());
     return Optional.of(loadFile(transparentFile));
   }
-
 
   private Optional<byte[]> downloadCover() {
     MPDSong song = mpd.getPlayer().getCurrentSong();
     Collection<MPDAlbum> albums =
-        mpd.getMusicDatabase().getAlbumDatabase()
-            .findAlbum(song.getAlbumName());
+        mpd.getMusicDatabase().getAlbumDatabase().findAlbum(song.getAlbumName());
 
     MPDAlbum foundAlbum =
-        albums.stream()
+        albums
+            .stream()
             .filter(album -> song.getArtistName().equals(album.getArtistName()))
-            .findFirst().orElse(null);
+            .findFirst()
+            .orElse(null);
 
     if (foundAlbum != null) {
       List<MPDArtwork> foundArtworks = mpd.getArtworkFinder().find(foundAlbum);
@@ -129,8 +123,7 @@ public class CoverArtFetcherService {
     List<Path> covers = new ArrayList<>();
     Path path = Paths.get(musicDirectory, pathStr.get());
 
-    try (DirectoryStream<Path> stream = Files
-        .newDirectoryStream(path, "cover.{jpg,jpeg,png}")) {
+    try (DirectoryStream<Path> stream = Files.newDirectoryStream(path, "cover.{jpg,jpeg,png}")) {
       stream.forEach(file -> covers.add(file));
     } catch (IOException e) {
       LOG.info("Could not load art in {}", path, e);
@@ -142,6 +135,4 @@ public class CoverArtFetcherService {
 
     return null;
   }
-
-
 }

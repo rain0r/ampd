@@ -1,7 +1,5 @@
 import { Component, HostListener } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { StompService } from '@stomp/ng2-stompjs';
-import { AppComponent } from '../app.component';
 import { BrowseInfo } from '../shared/models/browse-info';
 import { MpdCommands } from '../shared/mpd/mpd-commands';
 import { BrowseService } from '../shared/services/browse.service';

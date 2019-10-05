@@ -1,11 +1,11 @@
-import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs/index';
-import {IBreadcrumbItem} from '../../browse/browse.component';
-import {BrowseRootImpl, IBrowseMsgPayload} from '../messages/incoming/browse';
-import {Directory} from '../messages/incoming/directory';
-import {BrowseInfo} from '../models/browse-info';
-import {MpdCommands} from '../mpd/mpd-commands';
-import {WebSocketService} from './web-socket.service';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs/index';
+import { IBreadcrumbItem } from '../../browse/browse.component';
+import { BrowseRootImpl, IBrowseMsgPayload } from '../messages/incoming/browse';
+import { Directory } from '../messages/incoming/directory';
+import { BrowseInfo } from '../models/browse-info';
+import { MpdCommands } from '../mpd/mpd-commands';
+import { WebSocketService } from './web-socket.service';
 
 @Injectable()
 export class BrowseService {
@@ -14,7 +14,7 @@ export class BrowseService {
   public browseSubs: Observable<BrowseRootImpl>;
   public containerWidth = 50;
 
-  constructor(private webSocketService: WebSocketService,) {
+  constructor(private webSocketService: WebSocketService) {
     this.browseSubs = this.webSocketService.getBrowseSubs();
     this.buildMessageReceiver();
   }
@@ -42,7 +42,6 @@ export class BrowseService {
   }
 
   private onBrowseResponse(payload: IBrowseMsgPayload): void {
-
     this.browseInfo.clearAll();
 
     payload.directories.forEach(dir => {

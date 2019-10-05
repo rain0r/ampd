@@ -1,9 +1,9 @@
 import { Component, HostListener, Input } from '@angular/core';
+import { ActivatedRoute, Params } from '@angular/router';
 import { IMpdTrack, MpdTrack } from '../../shared/messages/incoming/mpd-track';
 import { MpdCommands } from '../../shared/mpd/mpd-commands';
 import { NotificationService } from '../../shared/services/notification.service';
 import { WebSocketService } from '../../shared/services/web-socket.service';
-import {ActivatedRoute, Params} from "@angular/router";
 
 @Component({
   selector: 'app-tracks',
@@ -12,14 +12,14 @@ import {ActivatedRoute, Params} from "@angular/router";
 })
 export class TracksComponent {
   @Input() public titleQueue: MpdTrack[] = [];
-  dir = '';
+  public dir = '';
 
   constructor(
     private notificationService: NotificationService,
     private webSocketService: WebSocketService,
-    private activatedRoute: ActivatedRoute,
+    private activatedRoute: ActivatedRoute
   ) {
-    this.activatedRoute.queryParams.subscribe((params:Params) => {
+    this.activatedRoute.queryParams.subscribe((params: Params) => {
       if ('dir' in params) {
         this.dir = params.dir;
       }

@@ -1,10 +1,10 @@
 import { Component, HostListener, Input } from '@angular/core';
+import { Router } from '@angular/router';
 import { Directory } from '../../shared/messages/incoming/directory';
+import { MpdCommands } from '../../shared/mpd/mpd-commands';
 import { BrowseService } from '../../shared/services/browse.service';
 import { NotificationService } from '../../shared/services/notification.service';
 import { WebSocketService } from '../../shared/services/web-socket.service';
-import {MpdCommands} from "../../shared/mpd/mpd-commands";
-import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-directories',
@@ -18,7 +18,8 @@ export class DirectoriesComponent {
   constructor(
     private browseService: BrowseService,
     private notificationService: NotificationService,
-    private webSocketService: WebSocketService, private router: Router,
+    private webSocketService: WebSocketService,
+    private router: Router
   ) {}
 
   @HostListener('click', ['$event'])
@@ -31,9 +32,9 @@ export class DirectoriesComponent {
 
     this.browseService.sendBrowseReq(directory);
     const splittedPath: string = this.splitDir(directory);
-     let targetDir: string = this.getParamDir
-         ? this.getParamDir + '/' + splittedPath
-         : splittedPath;
+    const targetDir: string = this.getParamDir
+      ? this.getParamDir + '/' + splittedPath
+      : splittedPath;
     this.router.navigate(['browse'], { queryParams: { dir: directory } });
   }
 
@@ -42,9 +43,9 @@ export class DirectoriesComponent {
    * @param {string} dir
    * @returns {string}
    */
-  splitDir(dir: string): string {
+  public splitDir(dir: string): string {
     const splitted: string =
-        dir
+      dir
         .trim()
         .split('/')
         .pop() || '';

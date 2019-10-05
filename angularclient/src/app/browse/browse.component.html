@@ -60,7 +60,7 @@
 >
   <!-- playlists -->
   <div
-    fxFlex="{{browseInfo.containerWidth}}%"
+    fxFlex="{{ browseInfo.containerWidth }}%"
     *ngIf="browseInfo.playlistQueue.length > 0"
   >
     <app-playlists [playlistQueue]="browseInfo.playlistQueue"></app-playlists>
@@ -68,16 +68,18 @@
 
   <!-- directories -->
   <div
-      fxFlex="{{browseInfo.containerWidth}}%"
-       *ngIf="browseInfo.dirQueue.length > 0">
-  <app-directories [dirQueue]="browseInfo.dirQueue"></app-directories>
+    fxFlex="{{ browseInfo.containerWidth }}%"
+    *ngIf="browseInfo.dirQueue.length > 0"
+  >
+    <app-directories [dirQueue]="browseInfo.dirQueue"></app-directories>
   </div>
 
   <!-- tracks -->
   <div
-      fxFlex="{{browseInfo.containerWidth}}%"
-      *ngIf="browseInfo.trackQueue.length > 0">
-  <app-tracks [titleQueue]="browseInfo.trackQueue"></app-tracks>
+    fxFlex="{{ browseInfo.containerWidth }}%"
+    *ngIf="browseInfo.trackQueue.length > 0"
+  >
+    <app-tracks [titleQueue]="browseInfo.trackQueue"></app-tracks>
   </div>
 </div>
 

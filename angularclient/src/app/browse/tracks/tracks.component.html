@@ -1,36 +1,36 @@
 <div class="sub-menu">
   <div class="flex-item valign-center-outer">
     <h3 class="list-header valign-center-inner">
-    {{dir}}
+      {{ dir }}
     </h3>
   </div>
 </div>
 
-  <mat-list
-    role="list"
-    *ngFor="let song of titleQueue"
-    class="browse-list"
-    (click)="onTitleAdd(song)"
-  >
-    <mat-list-item role="listitem" class="list-item">
-      <mat-icon>audiotrack</mat-icon> &nbsp;
-      <span class="text-muted space-right"> &#35;{{ song.track }} </span>
-      {{ song.title }} &nbsp;
-      <span class="text-muted">{{ song.length | secondsToMmSsPipe }}</span>
-      <span class="fill-space"></span>
-      <i
-        class="material-icons clickable chip"
-        (click)="onPlayTitle(song)"
-        title="Play track"
-      >
-        play_arrow
-      </i>
-      <i
-        class="material-icons clickable chip"
-        (click)="onAddTitle(song)"
-        title="Add track to queue"
-      >
-        add
-      </i>
-    </mat-list-item>
-  </mat-list>
+<mat-list
+  role="list"
+  *ngFor="let song of titleQueue"
+  class="browse-list"
+  (click)="onTitleAdd(song)"
+>
+  <mat-list-item role="listitem" class="list-item">
+    <mat-icon>audiotrack</mat-icon> &nbsp;
+    <span class="text-muted space-right"> &#35;{{ song.track }} </span>
+    {{ song.title }} &nbsp;
+    <span class="text-muted">{{ song.length | secondsToMmSsPipe }}</span>
+    <span class="fill-space"></span>
+    <i
+      class="material-icons clickable chip"
+      (click)="onPlayTitle(song)"
+      title="Play track"
+    >
+      play_arrow
+    </i>
+    <i
+      class="material-icons clickable chip"
+      (click)="onAddTitle(song)"
+      title="Add track to queue"
+    >
+      add
+    </i>
+  </mat-list-item>
+</mat-list>

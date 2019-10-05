@@ -12,12 +12,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.server.ResponseStatusException;
+
 import java.util.Optional;
 
 @Controller
 public class CoverController {
 
-  private static final Logger LOG = LoggerFactory.getLogger(CoverArtFetcherService.class);
+  private static final Logger LOG = LoggerFactory
+      .getLogger(CoverArtFetcherService.class);
 
   private static final String CURRENT_COVER_URL = "/current-cover";
 
@@ -31,8 +33,10 @@ public class CoverController {
   }
 
   @CrossOrigin
-  @RequestMapping(value = {CURRENT_COVER_URL}, produces = MediaType.IMAGE_JPEG_VALUE)
-  public @ResponseBody byte[] getCurrentCover() {
+  @RequestMapping(value = {
+      CURRENT_COVER_URL}, produces = MediaType.IMAGE_JPEG_VALUE)
+  public @ResponseBody
+  byte[] getCurrentCover() {
     Optional<byte[]> ret = Optional.empty();
     try {
       ret = coverArtFetcherService.getCurrentAlbumCover();
@@ -43,8 +47,10 @@ public class CoverController {
   }
 
   @CrossOrigin
-  @RequestMapping(value = {FIND_COVER_URL}, produces = MediaType.IMAGE_JPEG_VALUE)
-  public @ResponseBody byte[] findCoverByPath(@RequestParam("path") Optional<String> path) {
+  @RequestMapping(value = {
+      FIND_COVER_URL}, produces = MediaType.IMAGE_JPEG_VALUE)
+  public @ResponseBody
+  byte[] findCoverByPath(@RequestParam("path") Optional<String> path) {
     try {
       return coverArtFetcherService.findAlbumCover(path);
     } catch (Exception e) {

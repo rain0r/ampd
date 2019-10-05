@@ -9,6 +9,7 @@ import org.springframework.context.event.EventListener;
 
 @SpringBootApplication
 public class ServerApplication {
+
   @Value("${server.address}")
   private String address;
 

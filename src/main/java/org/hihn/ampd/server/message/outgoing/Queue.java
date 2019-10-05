@@ -1,8 +1,9 @@
 package org.hihn.ampd.server.message.outgoing;
 
-import java.util.List;
 import org.bff.javampd.song.MPDSong;
 import org.hihn.ampd.server.message.AmpdMessage;
+
+import java.util.List;
 
 public class Queue extends AmpdMessage {
 

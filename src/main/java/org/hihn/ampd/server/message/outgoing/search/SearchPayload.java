@@ -1,7 +1,8 @@
 package org.hihn.ampd.server.message.outgoing.search;
 
-import java.util.List;
 import org.bff.javampd.song.MPDSong;
+
+import java.util.List;
 
 public class SearchPayload {
 
@@ -11,9 +12,11 @@ public class SearchPayload {
 
   String query = null;
 
-  public SearchPayload() {}
+  public SearchPayload() {
+  }
 
-  public SearchPayload(List<MPDSong> searchResults, int searchResultCount, String query) {
+  public SearchPayload(List<MPDSong> searchResults, int searchResultCount,
+      String query) {
     this.searchResults = searchResults;
     this.searchResultCount = searchResultCount;
     this.query = query;

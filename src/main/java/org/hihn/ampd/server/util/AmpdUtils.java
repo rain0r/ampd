@@ -2,6 +2,7 @@ package org.hihn.ampd.server.util;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -28,7 +29,8 @@ public class AmpdUtils {
     if (input == null) {
       return null;
     }
-    final Pattern pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+"); //$NON-NLS-1$
+    final Pattern pattern = Pattern
+        .compile("\\p{InCombiningDiacriticalMarks}+"); //$NON-NLS-1$
     final StringBuilder decomposed =
         new StringBuilder(Normalizer.normalize(input, Normalizer.Form.NFD));
     convertRemainingAccentCharacters(decomposed);
@@ -36,7 +38,8 @@ public class AmpdUtils {
     return pattern.matcher(decomposed).replaceAll(EMPTY);
   }
 
-  private static void convertRemainingAccentCharacters(final StringBuilder decomposed) {
+  private static void convertRemainingAccentCharacters(
+      final StringBuilder decomposed) {
     for (int i = 0; i < decomposed.length(); i++) {
       if (decomposed.charAt(i) == '\u0141') {
         decomposed.deleteCharAt(i);

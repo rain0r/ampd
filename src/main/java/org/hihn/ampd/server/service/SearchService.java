@@ -1,6 +1,5 @@
 package org.hihn.ampd.server.service;
 
-import java.util.ArrayList;
 import org.bff.javampd.server.MPD;
 import org.bff.javampd.song.MPDSong;
 import org.bff.javampd.song.SongSearcher.ScopeType;
@@ -9,6 +8,8 @@ import org.hihn.ampd.server.message.outgoing.search.SearchMessage;
 import org.hihn.ampd.server.message.outgoing.search.SearchPayload;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
 
 @Service
 public class SearchService {
@@ -25,7 +26,8 @@ public class SearchService {
     searchResults.addAll(mpd.getSongSearcher().search(ScopeType.ANY, query));
 
     SearchMessage searchResult =
-        new SearchMessage(new SearchPayload(searchResults, searchResults.size(), query));
+        new SearchMessage(
+            new SearchPayload(searchResults, searchResults.size(), query));
     return searchResult;
   }
 

@@ -1,7 +1,8 @@
 package org.hihn.ampd.server.controller;
 
-import java.util.Optional;
 import org.hihn.ampd.server.message.Message;
+
+import java.util.Optional;
 
 public interface AmpdCommandRunner {
 

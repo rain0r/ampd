@@ -20,13 +20,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
-import java.util.*;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.EnumMap;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Optional;
+import java.util.TreeSet;
 import java.util.stream.Collectors;
 
 @Controller
 public class WebSocketController {
 
-  private static final Logger LOG = LoggerFactory.getLogger(WebSocketController.class);
+  private static final Logger LOG = LoggerFactory
+      .getLogger(WebSocketController.class);
 
   private static final String PAYLOAD_VALUE = "value";
 
@@ -41,7 +49,8 @@ public class WebSocketController {
   private final CoverArtFetcherService coverArtFetcherService;
 
   @Autowired
-  public WebSocketController(MpdConfiguration mpdConfiguration, SearchService searchService,
+  public WebSocketController(MpdConfiguration mpdConfiguration,
+      SearchService searchService,
       CoverArtFetcherService coverArtFetcherService) {
     this.mpd = mpdConfiguration.mpd();
     this.searchService = searchService;
@@ -64,7 +73,8 @@ public class WebSocketController {
     commands.put(AmpdMessage.MESSAGE_TYPE.SET_SEEK, this::seek);
     commands.put(AmpdMessage.MESSAGE_TYPE.SET_STOP, this::stop);
     commands.put(AmpdMessage.MESSAGE_TYPE.SET_VOLUME, this::setVolume);
-    commands.put(AmpdMessage.MESSAGE_TYPE.TOGGLE_CONTROL, this::toggleControlPanel);
+    commands
+        .put(AmpdMessage.MESSAGE_TYPE.TOGGLE_CONTROL, this::toggleControlPanel);
   }
 
   @MessageMapping("/mpd")
@@ -72,7 +82,8 @@ public class WebSocketController {
   public Optional<Message> send(IncomingMessage incomingMessage) {
     Optional<Message> outgoingMessage = Optional.empty();
     try {
-      outgoingMessage = commands.get(incomingMessage.getType()).run(incomingMessage.getPayload());
+      outgoingMessage = commands.get(incomingMessage.getType())
+          .run(incomingMessage.getPayload());
     } catch (Exception e) {
       LOG.error("Error processing " + incomingMessage.getType());
       LOG.error(e.getMessage(), e);
@@ -95,7 +106,8 @@ public class WebSocketController {
     ArrayList<MPDSong> mpdSongs = new ArrayList<>();
 
     Collection<MPDSong> mpdSongCollection =
-        mpd.getMusicDatabase().getPlaylistDatabase().listPlaylistSongs(playlist);
+        mpd.getMusicDatabase().getPlaylistDatabase()
+            .listPlaylistSongs(playlist);
 
     mpdSongs.addAll(mpdSongCollection);
 
@@ -200,10 +212,12 @@ public class WebSocketController {
 
   private Collection<Playlist> getPlaylists() {
     TreeSet<Playlist> ret = new TreeSet<>();
-    Collection<String> playlists = mpd.getMusicDatabase().getPlaylistDatabase().listPlaylists();
+    Collection<String> playlists = mpd.getMusicDatabase().getPlaylistDatabase()
+        .listPlaylists();
 
     for (String playlist : playlists) {
-      int count = mpd.getMusicDatabase().getPlaylistDatabase().countPlaylistSongs(playlist);
+      int count = mpd.getMusicDatabase().getPlaylistDatabase()
+          .countPlaylistSongs(playlist);
       ret.add(new Playlist(playlist, count));
     }
 
@@ -217,7 +231,8 @@ public class WebSocketController {
     Collection<MPDFile> tmpMpdFiles = new ArrayList<>();
 
     try {
-      tmpMpdFiles = mpd.getMusicDatabase().getFileDatabase().listDirectory(mpdFile);
+      tmpMpdFiles = mpd.getMusicDatabase().getFileDatabase()
+          .listDirectory(mpdFile);
     } catch (Exception e) {
       LOG.error("Error listing directory '" + path + "'");
       LOG.error(e.getMessage(), e);
@@ -225,12 +240,14 @@ public class WebSocketController {
 
     for (MPDFile file : tmpMpdFiles) {
       if (file.isDirectory()) {
-        byte[] cover = coverArtFetcherService.findAlbumCover(Optional.of(file.getPath()));
+        byte[] cover = coverArtFetcherService
+            .findAlbumCover(Optional.of(file.getPath()));
         Directory d = new Directory(file.getPath());
         browsePayload.addDirectory(d);
       } else {
         Collection<MPDSong> searchResults =
-            mpd.getMusicDatabase().getSongDatabase().searchFileName(file.getPath());
+            mpd.getMusicDatabase().getSongDatabase()
+                .searchFileName(file.getPath());
         if (!searchResults.isEmpty()) {
           browsePayload.addSong(searchResults.iterator().next());
         }
@@ -263,7 +280,8 @@ public class WebSocketController {
         mpd.getMusicDatabase().getSongDatabase().searchFileName(path);
 
     List<MPDSong> result =
-        songList.stream().filter(n -> mpdSongCollection.contains(n)).collect(Collectors.toList());
+        songList.stream().filter(n -> mpdSongCollection.contains(n))
+            .collect(Collectors.toList());
 
     if (result.size() > 0) {
       mpd.getPlayer().playSong(result.iterator().next());

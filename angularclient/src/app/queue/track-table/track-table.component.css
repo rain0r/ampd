@@ -1,0 +1,60 @@
+.table-row:hover {
+  background: #eee;
+  cursor: pointer;
+}
+
+@media (min-width: 600px) {
+  /* Width for the artist, album and title columns */
+  mat-cell:nth-child(2),
+  mat-header-cell:nth-child(2),
+  mat-cell:nth-child(3),
+  mat-header-cell:nth-child(3) {
+    flex: 0 0 25%;
+  }
+
+  mat-cell:nth-child(4),
+  mat-header-cell:nth-child(4) {
+    flex-grow: 1;
+  }
+
+  /* Width for the # (number), 'remove item' and length columns */
+  mat-cell:nth-child(1),
+  mat-header-cell:nth-child(1),
+  mat-cell:nth-child(5),
+  mat-header-cell:nth-child(5),
+  mat-cell:nth-child(6),
+  mat-header-cell:nth-child(6) {
+    flex: 0 0 5%;
+  }
+}
+
+.playing {
+  background: #eee;
+  font-weight: bold;
+}
+
+.mat-column-artist {
+  color: #868e96 !important;
+}
+
+@media (max-width: 600px) {
+  .mat-column-artist {
+    /* 50% width on mobile devices */
+    flex: 0 0 50%;
+  }
+
+  .mat-column-remove {
+    /* Minimze the 'remove' button to save space */
+    flex: 0 0 2.5rem;
+  }
+}
+
+mat-cell:last-of-type,
+mat-footer-cell:last-of-type,
+mat-header-cell:last-of-type {
+  padding-right: 1px !important;
+}
+
+.mat-column-remove {
+  justify-content: flex-end;
+}

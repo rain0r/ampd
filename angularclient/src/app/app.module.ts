@@ -11,7 +11,13 @@ import { DirectoriesComponent } from './browse/directories/directories.component
 import { PlaylistsComponent } from './browse/playlists/playlists.component';
 import { TracksComponent } from './browse/tracks/tracks.component';
 import { ConnectionConfiguration } from './connection-configuration';
+import { ControlPanelComponent } from './queue/control-panel/control-panel.component';
+import { MpdModesComponent } from './queue/mpd-modes/mpd-modes.component';
+import { QueueHeaderComponent } from './queue/queue-header/queue-header.component';
 import { QueueComponent } from './queue/queue.component';
+import { TrackProgressComponent } from './queue/track-progress/track-progress.component';
+import { TrackTableComponent } from './queue/track-table/track-table.component';
+import { VolumeSliderComponent } from './queue/volume-slider/volume-slider.component';
 import { SearchComponent } from './search/search.component';
 import { SettingsComponent } from './settings/settings.component';
 import { AmpdBlockUiService } from './shared/block/ampd-block-ui.service';
@@ -37,6 +43,12 @@ import { SharedModule } from './shared/shared.module';
     DirectoriesComponent,
     PlaylistsComponent,
     TracksComponent,
+    QueueHeaderComponent,
+    ControlPanelComponent,
+    TrackProgressComponent,
+    VolumeSliderComponent,
+    MpdModesComponent,
+    TrackTableComponent,
   ],
   imports: [
     BrowserModule,

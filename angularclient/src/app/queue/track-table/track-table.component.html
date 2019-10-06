@@ -1,0 +1,58 @@
+<table mat-table [dataSource]="queue" *ngIf="queue.length > 0">
+  <ng-container matColumnDef="pos">
+    <mat-header-cell *matHeaderCellDef>#</mat-header-cell>
+    <mat-cell *matCellDef="let row" (click)="onRowClick(row.file)">
+      {{ row.pos }}
+    </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="artist">
+    <mat-header-cell *matHeaderCellDef>Artist</mat-header-cell>
+    <mat-cell *matCellDef="let row" (click)="onRowClick(row.file)">
+      {{ row.artistName }}
+    </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="album">
+    <mat-header-cell *matHeaderCellDef>Album</mat-header-cell>
+    <mat-cell *matCellDef="let row" (click)="onRowClick(row.file)">
+      {{ row.albumName }}
+    </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="title">
+    <mat-header-cell *matHeaderCellDef>Title</mat-header-cell>
+    <mat-cell *matCellDef="let row" (click)="onRowClick(row.file)">
+      {{ row.title }}
+    </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="length">
+    <mat-header-cell *matHeaderCellDef>Duration</mat-header-cell>
+    <mat-cell *matCellDef="let track">
+      {{ track.durationFormatted() }}
+    </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="remove">
+    <mat-header-cell *matHeaderCellDef></mat-header-cell>
+    <mat-cell *matCellDef="let element">
+      <button
+        mat-button
+        class="btn-remove-track"
+        title="Remove from queue"
+        (click)="onRemoveTrack(element.position)"
+      >
+        <mat-icon>backspace</mat-icon>
+      </button>
+    </mat-cell>
+  </ng-container>
+
+  <mat-header-row *matHeaderRowDef="getDisplayedColumns()"></mat-header-row>
+  <mat-row
+    *matRowDef="let row; columns: getDisplayedColumns()"
+    class="table-row"
+    [ngClass]="{ playing: row.playing == true }"
+  >
+  </mat-row>
+</table>

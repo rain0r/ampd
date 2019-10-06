@@ -2,6 +2,9 @@ import { Component, HostListener, Input } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Directory } from '../../shared/messages/incoming/directory';
 import { BrowseService } from '../../shared/services/browse.service';
+import {MpdCommands} from "../../shared/mpd/mpd-commands";
+import {NotificationService} from "../../shared/services/notification.service";
+import {WebSocketService} from "../../shared/services/web-socket.service";
 
 @Component({
   selector: 'app-directories',
@@ -15,13 +18,43 @@ export class DirectoriesComponent {
   constructor(
     private browseService: BrowseService,
     private activatedRoute: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private webSocketService: WebSocketService,
+    private notificationService: NotificationService,
   ) {
     this.activatedRoute.queryParams.subscribe((params: Params) => {
       if ('dir' in params) {
         this.getParamDir = params.dir;
       }
     });
+  }
+
+  @HostListener('click', ['$event'])
+  public onPlayDir(dir: string): void {
+    if (typeof dir !== 'string') {
+      return;
+    }
+    this.onAddDir(dir);
+    this.webSocketService.send(MpdCommands.SET_PLAY);
+    this.notificationService.popUp(`Playing dir: "${dir}"`);
+  }
+
+
+  @HostListener('click', ['$event'])
+  public onAddDir(dir: string): void {
+    if (event) {
+      event.stopPropagation();
+    }
+    if (typeof dir !== 'string') {
+      return;
+    }
+    if (dir.startsWith('/')) {
+      dir = dir.substr(1, dir.length);
+    }
+    this.webSocketService.sendData(MpdCommands.ADD_DIR, {
+      dir,
+    });
+    this.notificationService.popUp(`Added dir: "${dir}"`);
   }
 
   @HostListener('click', ['$event'])

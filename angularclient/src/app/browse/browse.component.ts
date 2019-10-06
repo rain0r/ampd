@@ -1,5 +1,5 @@
 import { Component, HostListener } from '@angular/core';
-import { ActivatedRoute, Params, Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { BrowseInfo } from '../shared/models/browse-info';
 import { MpdCommands } from '../shared/mpd/mpd-commands';
 import { BrowseService } from '../shared/services/browse.service';
@@ -70,14 +70,9 @@ export class BrowseComponent {
   }
 
   private buildBrowseDir() {
-    this.activatedRoute.queryParams.subscribe((params: Params) => {
-      let dir = '/';
-      if ('dir' in params) {
-        dir = params.dir;
-      }
-      this.getParamDir = dir;
-      this.browseService.sendBrowseReq(dir);
-    });
+    this.getParamDir =
+      this.activatedRoute.snapshot.queryParamMap.get('dir') || '/';
+    this.browseService.sendBrowseReq(this.getParamDir);
   }
 
   private calculateContainerWidth() {

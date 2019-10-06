@@ -1,5 +1,5 @@
 import { Component, HostListener, Input } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { IMpdTrack, MpdTrack } from '../../shared/messages/incoming/mpd-track';
 import { MpdCommands } from '../../shared/mpd/mpd-commands';
 import { NotificationService } from '../../shared/services/notification.service';
@@ -12,18 +12,15 @@ import { WebSocketService } from '../../shared/services/web-socket.service';
 })
 export class TracksComponent {
   @Input() public titleQueue: MpdTrack[] = [];
-  public dir = '';
+  public getParamDir = '';
 
   constructor(
     private notificationService: NotificationService,
     private webSocketService: WebSocketService,
     private activatedRoute: ActivatedRoute
   ) {
-    this.activatedRoute.queryParams.subscribe((params: Params) => {
-      if ('dir' in params) {
-        this.dir = params.dir;
-      }
-    });
+    this.getParamDir =
+      this.activatedRoute.snapshot.queryParamMap.get('dir') || '/';
   }
 
   @HostListener('click', ['$event'])

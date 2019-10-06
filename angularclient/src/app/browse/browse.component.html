@@ -60,6 +60,7 @@
 >
   <!-- playlists -->
   <div
+    fxFlex="{{ browseService.calculateContainerWidth() }}%"
     *ngIf="browseInfo.playlistQueue.length > 0"
   >
     <app-playlists [playlistQueue]="browseInfo.playlistQueue"></app-playlists>
@@ -67,6 +68,7 @@
 
   <!-- directories -->
   <div
+    fxFlex="{{ browseService.calculateContainerWidth() }}%"
     *ngIf="browseInfo.dirQueue.length > 0"
   >
     <app-directories [dirQueue]="browseInfo.dirQueue"></app-directories>
@@ -74,6 +76,7 @@
 
   <!-- tracks -->
   <div
+    fxFlex="{{ browseService.calculateContainerWidth() }}%"
     *ngIf="browseInfo.trackQueue.length > 0"
   >
     <app-tracks [titleQueue]="browseInfo.trackQueue"></app-tracks>

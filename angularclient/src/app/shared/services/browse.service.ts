@@ -9,7 +9,6 @@ import { WebSocketService } from './web-socket.service';
 @Injectable()
 export class BrowseService {
   public browseInfo: BrowseInfo = new BrowseInfo();
-  public getParamDir = '';
   public browseSubs: Observable<BrowseRootImpl>;
   public containerWidth = 50;
 
@@ -26,6 +25,22 @@ export class BrowseService {
     this.webSocketService.sendData(MpdCommands.GET_BROWSE, {
       path,
     });
+  }
+
+  public calculateContainerWidth() {
+    let tmpCount = 0;
+    if (this.browseInfo.dirQueue.length > 0) {
+      tmpCount += 1;
+    }
+    if (this.browseInfo.trackQueue.length > 0) {
+      tmpCount += 1;
+    }
+    if (this.browseInfo.playlistQueue.length > 0) {
+      tmpCount += 1;
+    }
+
+    tmpCount = tmpCount > 0 ? tmpCount : 1;
+    this.containerWidth = 100 / tmpCount;
   }
 
   private buildMessageReceiver(): void {
@@ -55,21 +70,5 @@ export class BrowseService {
     });
 
     this.calculateContainerWidth();
-  }
-
-  private calculateContainerWidth() {
-    let tmpCount = 0;
-    if (this.browseInfo.dirQueue.length > 0) {
-      tmpCount += 1;
-    }
-    if (this.browseInfo.trackQueue.length > 0) {
-      tmpCount += 1;
-    }
-    if (this.browseInfo.playlistQueue.length > 0) {
-      tmpCount += 1;
-    }
-
-    tmpCount = tmpCount > 0 ? tmpCount : 1;
-    this.containerWidth = 100 / tmpCount;
   }
 }

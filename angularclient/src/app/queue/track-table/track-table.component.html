@@ -1,4 +1,4 @@
-<table mat-table [dataSource]="queue" *ngIf="queue.length > 0">
+<table mat-table [dataSource]="queueService.resultList$">
   <ng-container matColumnDef="pos">
     <mat-header-cell *matHeaderCellDef>#</mat-header-cell>
     <mat-cell *matCellDef="let row" (click)="onRowClick(row.file)">

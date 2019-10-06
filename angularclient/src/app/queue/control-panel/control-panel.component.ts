@@ -1,10 +1,8 @@
-import { Component, Input, OnInit } from '@angular/core';
-import {
-  ControlPanelImpl,
-  IControlPanel,
-} from '../../shared/messages/incoming/control-panel';
-import { MpdCommands } from '../../shared/mpd/mpd-commands';
-import { WebSocketService } from '../../shared/services/web-socket.service';
+import {Component, Input} from '@angular/core';
+import {ControlPanelImpl, IControlPanel,} from '../../shared/messages/incoming/control-panel';
+import {MpdCommands} from '../../shared/mpd/mpd-commands';
+import {WebSocketService} from '../../shared/services/web-socket.service';
+import {QueueService} from "../../shared/services/queue.service";
 
 @Component({
   selector: 'app-control-panel',
@@ -14,7 +12,9 @@ import { WebSocketService } from '../../shared/services/web-socket.service';
 export class ControlPanelComponent {
   @Input() private controlPanel: IControlPanel = new ControlPanelImpl();
 
-  constructor(private webSocketService: WebSocketService) {}
+  constructor(private webSocketService: WebSocketService, private queueService: QueueService) {
+
+  }
 
   public handleControlButton(event: MouseEvent): void {
     let command: string = '';
@@ -36,7 +36,7 @@ export class ControlPanelComponent {
         command = MpdCommands.SET_NEXT;
         break;
       default:
-      // Ignore it
+        // Ignore it
     }
     if (command) {
       this.webSocketService.send(command);
@@ -44,7 +44,7 @@ export class ControlPanelComponent {
   }
 
   public onClearQueue(): void {
-    // this.queue = [];
+    this.queueService.clear();
     this.webSocketService.send(MpdCommands.RM_ALL);
   }
 

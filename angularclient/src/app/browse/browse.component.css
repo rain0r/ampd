@@ -3,11 +3,6 @@
   border-bottom: 1px solid rgba(0, 0, 0, 0.12);
 }
 
-.browse-list-item {
-  color: black;
-  text-decoration: none;
-}
-
 .browse-list:hover {
   background: #eeee;
   cursor: pointer;
@@ -25,20 +20,6 @@
 
 .list-item:hover {
   background: #eee;
-}
-
-.mat-standard-chip {
-  padding: 0px !important;
-}
-
-.playlist-count {
-  float: right;
-}
-
-.dir-list-cover {
-  border: 1px solid silver;
-  max-height: 48px;
-  padding: 2em;
 }
 
 .sub-menu {

@@ -6,11 +6,6 @@ import { BrowseService } from '../shared/services/browse.service';
 import { NotificationService } from '../shared/services/notification.service';
 import { WebSocketService } from '../shared/services/web-socket.service';
 
-export interface IBreadcrumbItem {
-  text: string;
-  link: string;
-}
-
 @Component({
   selector: 'app-browse',
   templateUrl: './browse.component.html',

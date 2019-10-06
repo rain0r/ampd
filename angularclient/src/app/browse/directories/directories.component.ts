@@ -66,24 +66,6 @@ export class DirectoriesComponent {
     console.log(`Clicked on ${directory}`);
 
     this.browseService.sendBrowseReq(directory);
-    const splittedPath: string = this.splitDir(directory);
-    const targetDir: string = this.getParamDir
-      ? this.getParamDir + '/' + splittedPath
-      : splittedPath;
     this.router.navigate(['browse'], { queryParams: { dir: directory } });
-  }
-
-  /**
-   * Returns the last element of a path.
-   * @param {string} dir
-   * @returns {string}
-   */
-  public splitDir(dir: string): string {
-    const splitted: string =
-      dir
-        .trim()
-        .split('/')
-        .pop() || '';
-    return splitted;
   }
 }

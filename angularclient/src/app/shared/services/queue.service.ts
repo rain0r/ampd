@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {BehaviorSubject, Observable} from "rxjs/index";
 import {QueueTrack} from "../models/queue-track";
+import {MpdCommands} from '../mpd/mpd-commands';
 
 @Injectable()
 export class QueueService {
@@ -17,5 +18,7 @@ export class QueueService {
 
     clear() {
         this.resultList = new BehaviorSubject<QueueTrack[]>([]);
+        this.webSocketService.send(MpdCommands.RM_ALL);
+        this.webSocketService.send(MpdCommands.GET_BROWSE);
     }
 }

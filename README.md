@@ -36,13 +36,6 @@ npm install
 npm run build-prod
 ```
 
-Now copy the website to the backend:
-
-```
-mkdir -p ../src/main/resources/static/
-cp -r dist/ampd/* ../src/main/resources/static/
-```
-
 Open `src/main/resources/application.properties` and fill in the address of your MPD server, the path to your music files, listening port etc.
 
 Build the jar file:

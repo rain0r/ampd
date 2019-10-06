@@ -1,14 +1,15 @@
-import { Component, Input } from '@angular/core';
-import { MatDialog } from '@angular/material';
-import { StompService } from '@stomp/ng2-stompjs';
-import { Observable } from 'rxjs/index';
-import { AppComponent } from '../../app.component';
-import { AmpdBlockUiService } from '../../shared/block/ampd-block-ui.service';
-import { IMpdTrack } from '../../shared/messages/incoming/mpd-track';
-import { QueueRootImpl } from '../../shared/messages/incoming/queue';
-import { QueueTrack } from '../../shared/models/queue-track';
-import { MpdCommands } from '../../shared/mpd/mpd-commands';
-import { WebSocketService } from '../../shared/services/web-socket.service';
+import {Component, Input} from '@angular/core';
+import {MatDialog} from '@angular/material';
+import {StompService} from '@stomp/ng2-stompjs';
+import {Observable} from 'rxjs/index';
+import {AppComponent} from '../../app.component';
+import {AmpdBlockUiService} from '../../shared/block/ampd-block-ui.service';
+import {IMpdTrack} from '../../shared/messages/incoming/mpd-track';
+import {QueueRootImpl} from '../../shared/messages/incoming/queue';
+import {QueueTrack} from '../../shared/models/queue-track';
+import {MpdCommands} from '../../shared/mpd/mpd-commands';
+import {WebSocketService} from '../../shared/services/web-socket.service';
+import {QueueService} from "../../shared/services/queue.service";
 
 @Component({
   selector: 'app-track-table',
@@ -16,39 +17,38 @@ import { WebSocketService } from '../../shared/services/web-socket.service';
   styleUrls: ['./track-table.component.css'],
 })
 export class TrackTableComponent {
-  @Input() private queue: QueueTrack[] = [];
+  // @Input() private queue: QueueTrack[] = [];
   @Input() private currentSong: QueueTrack = new QueueTrack();
   private queueSubs: Observable<QueueRootImpl>;
   private displayedColumns = [
-    { name: 'pos', showMobile: false },
-    { name: 'artist', showMobile: true },
-    { name: 'album', showMobile: false },
-    { name: 'title', showMobile: true },
-    { name: 'length', showMobile: false },
-    { name: 'remove', showMobile: true },
+    {name: 'pos', showMobile: false},
+    {name: 'artist', showMobile: true},
+    {name: 'album', showMobile: false},
+    {name: 'title', showMobile: true},
+    {name: 'length', showMobile: false},
+    {name: 'remove', showMobile: true},
   ];
 
-  constructor(
-    private appComponent: AppComponent,
-    private stompService: StompService,
-    private webSocketService: WebSocketService,
-    private ampdBlockUiService: AmpdBlockUiService,
-    public dialog: MatDialog
-  ) {
+  constructor(private appComponent: AppComponent,
+              private stompService: StompService,
+              private webSocketService: WebSocketService,
+              private ampdBlockUiService: AmpdBlockUiService,
+              private queueService: QueueService,
+              public dialog: MatDialog) {
     this.queueSubs = this.webSocketService.getQueueSubs();
     this.buildQueueMsgReceiver();
   }
 
   public onClearQueue(): void {
-    this.queue = [];
+    this.queueService.clear();
     this.webSocketService.send(MpdCommands.RM_ALL);
   }
 
   public getDisplayedColumns(): string[] {
     const isMobile = this.appComponent.isMobile();
     return this.displayedColumns
-      .filter(cd => !isMobile || cd.showMobile)
-      .map(cd => cd.name);
+    .filter(cd => !isMobile || cd.showMobile)
+    .map(cd => cd.name);
   }
 
   public onRemoveTrack(position: number): void {
@@ -64,12 +64,11 @@ export class TrackTableComponent {
    * @param {string} pFile
    */
   public onRowClick(pFile: string): void {
-    this.webSocketService.sendData(MpdCommands.PLAY_TRACK, { path: pFile });
+    this.webSocketService.sendData(MpdCommands.PLAY_TRACK, {path: pFile});
   }
 
   private buildQueue(message: IMpdTrack[]): void {
-    console.log('buildQueue');
-    this.queue = [];
+    this.queueService.clear();
     let posCounter = 1;
 
     for (const item of message) {
@@ -80,10 +79,12 @@ export class TrackTableComponent {
         track.playing = true;
       }
 
-      this.queue.push(track);
+      // this.queue.push(track);
+      this.queueService.updateResultList(track);
       posCounter += 1;
     }
   }
+
   private buildQueueMsgReceiver() {
     this.queueSubs.subscribe((message: QueueRootImpl) => {
       try {

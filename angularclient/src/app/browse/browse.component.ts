@@ -25,7 +25,6 @@ export class BrowseComponent {
   ) {
     this.buildBrowseDir();
     this.browseInfo = this.browseService.browseInfo;
-    this.calculateContainerWidth();
   }
 
   public onClearQueue(): void {
@@ -73,21 +72,5 @@ export class BrowseComponent {
     this.getParamDir =
       this.activatedRoute.snapshot.queryParamMap.get('dir') || '/';
     this.browseService.sendBrowseReq(this.getParamDir);
-  }
-
-  private calculateContainerWidth() {
-    let tmpCount = 0;
-    if (this.browseInfo.dirQueue.length > 0) {
-      tmpCount += 1;
-    }
-    if (this.browseInfo.trackQueue.length > 0) {
-      tmpCount += 1;
-    }
-    if (this.browseInfo.playlistQueue.length > 0) {
-      tmpCount += 1;
-    }
-
-    tmpCount = tmpCount > 0 ? tmpCount : 1;
-    this.containerWidth = 100 / tmpCount;
   }
 }

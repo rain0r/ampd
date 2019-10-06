@@ -1,0 +1,16 @@
+<mat-grid-list cols="10" rowHeight="1.5em">
+  <mat-grid-tile>
+    <i class="material-icons">volume_down</i>
+  </mat-grid-tile>
+  <mat-grid-tile colspan="7">
+    <mat-slider
+      class="full-width"
+      min="1"
+      max="100"
+      step="1"
+      [(ngModel)]="volume"
+      (input)="handleVolumeSlider($event)"
+    ></mat-slider>
+  </mat-grid-tile>
+  <mat-grid-tile colspan="2"> {{ volume }} &#37; </mat-grid-tile>
+</mat-grid-list>

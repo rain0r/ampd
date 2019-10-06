@@ -1,0 +1,26 @@
+<div class="container">
+  <div>
+    <span class="mat-h1 title">
+      {{ currentSong.title }}
+    </span>
+    <br *ngIf="currentSong.albumName" />
+    <span class="mat-h3 queue-sub-title" *ngIf="currentSong.albumName">
+      「{{ currentSong.albumName }}」
+    </span>
+    <br />
+    <span class="mat-h3 queue-sub-title">
+      {{ currentSong.artistName }}
+    </span>
+  </div>
+  <div *ngIf="currentState != 'stop'">
+    <img
+      src="{{ currentSong.coverUrl() }}"
+      alt="No cover"
+      (click)="openCoverModal()"
+      class="album-art"
+    />
+  </div>
+  <div *ngIf="currentState == 'stop'">
+    Stopped.
+  </div>
+</div>

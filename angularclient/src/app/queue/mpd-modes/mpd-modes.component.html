@@ -1,0 +1,62 @@
+<mat-button-toggle-group multiple (change)="toggleCtrl($event)">
+  <mat-button-toggle
+    value="random"
+    [checked]="controlPanel.random"
+    (change)="controlPanel.random = $event.source.checked"
+  >
+    <i class="material-icons">
+      shuffle
+    </i>
+    <span class="only-on-big-screen">
+      random
+    </span>
+  </mat-button-toggle>
+  <mat-button-toggle
+    value="consume"
+    [checked]="controlPanel.consume"
+    (change)="controlPanel.consume = $event.source.checked"
+  >
+    <i class="material-icons">
+      whatshot
+    </i>
+    <span class="only-on-big-screen">
+      consume
+    </span>
+  </mat-button-toggle>
+  <mat-button-toggle
+    value="single"
+    [checked]="controlPanel.single"
+    (change)="controlPanel.single = $event.source.checked"
+  >
+    <i class="material-icons">
+      star_border
+    </i>
+    <span class="only-on-big-screen">
+      single
+    </span>
+  </mat-button-toggle>
+  <mat-button-toggle
+    value="crossfade"
+    [checked]="controlPanel.crossfade"
+    (change)="controlPanel.crossfade = $event.source.checked"
+  >
+    <i class="material-icons">
+      compare_arrows
+    </i>
+    <span class="only-on-big-screen">
+      crossfade
+    </span>
+  </mat-button-toggle>
+  <mat-button-toggle
+    value="repeat"
+    [checked]="controlPanel.repeat"
+    (change)="controlPanel.repeat = $event.source.checked"
+  >
+    <i class="material-icons">
+      repeat
+    </i>
+    <span class="only-on-big-screen">
+      repeat
+    </span>
+  </mat-button-toggle>
+</mat-button-toggle-group>

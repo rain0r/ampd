@@ -1,0 +1,62 @@
+<div
+  class="container"
+  fxLayout="row"
+  fxLayout.xs="column"
+  fxLayoutWrap
+  fxLayoutGap="0.5%"
+  fxLayoutAlign="center"
+>
+  <div fxFlex="100%">
+    <div class="sub-menu">
+      <button
+        mat-raised-button
+        (click)="handleControlButton($event)"
+        id="btn-prev"
+      >
+        <i class="material-icons">skip_previous</i>
+      </button>
+      <button
+        mat-raised-button
+        (click)="handleControlButton($event)"
+        id="btn-stop"
+      >
+        <i class="material-icons">stop</i>
+      </button>
+      <button
+        mat-raised-button
+        *ngIf="currentState == 'play'"
+        (click)="handleControlButton($event)"
+        id="btn-pause"
+      >
+        <i class="material-icons">pause</i>
+      </button>
+      <button
+        mat-raised-button
+        *ngIf="currentState != 'play'"
+        (click)="handleControlButton($event)"
+        id="btn-play"
+      >
+        <i class="material-icons">play_arrow</i>
+      </button>
+      <button
+        mat-raised-button
+        (click)="handleControlButton($event)"
+        id="btn-next"
+      >
+        <i class="material-icons">skip_next</i>
+      </button>
+
+      <span class="clear-queue-container">
+        <button
+          mat-raised-button
+          (click)="onClearQueue()"
+          title="Remove all items from the queue"
+          class="valign-top clear-queue"
+        >
+          <i class="material-icons clickable">delete</i>
+          Clear
+        </button>
+      </span>
+    </div>
+  </div>
+</div>

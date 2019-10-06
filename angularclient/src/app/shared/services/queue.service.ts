@@ -2,11 +2,14 @@ import {Injectable} from '@angular/core';
 import {BehaviorSubject, Observable} from "rxjs/index";
 import {QueueTrack} from "../models/queue-track";
 import {MpdCommands} from '../mpd/mpd-commands';
+import {WebSocketService} from './web-socket.service';
 
 @Injectable()
 export class QueueService {
     private resultList: BehaviorSubject<QueueTrack[]> = new BehaviorSubject<QueueTrack[]>([]);
     public resultList$: Observable<QueueTrack[]> = this.resultList.asObservable();
+
+    constructor(private webSocketService: WebSocketService,)
 
     /* For subscribing */
     addTrack(updatedList) {

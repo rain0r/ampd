@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { CoverModalComponent } from '../../shared/cover-modal/cover-modal.component';
 import { QueueTrack } from '../../shared/models/queue-track';

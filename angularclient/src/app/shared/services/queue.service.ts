@@ -9,7 +9,7 @@ export class QueueService {
     private resultList: BehaviorSubject<QueueTrack[]> = new BehaviorSubject<QueueTrack[]>([]);
     public resultList$: Observable<QueueTrack[]> = this.resultList.asObservable();
 
-    constructor(private webSocketService: WebSocketService,)
+    constructor(private webSocketService: WebSocketService,){}
 
     /* For subscribing */
     addTrack(updatedList) {

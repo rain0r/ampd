@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { MatSliderChange } from '@angular/material';
 import { QueueTrack } from '../../shared/models/queue-track';
 import { MpdCommands } from '../../shared/mpd/mpd-commands';

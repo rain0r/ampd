@@ -28,7 +28,6 @@ import { BrowseService } from './shared/services/browse.service';
 import { NotificationService } from './shared/services/notification.service';
 import { WebSocketService } from './shared/services/web-socket.service';
 import { SharedModule } from './shared/shared.module';
-import {QueueService} from "./shared/services/queue.service";
 
 @NgModule({
   declarations: [
@@ -65,7 +64,6 @@ import {QueueService} from "./shared/services/queue.service";
     NotificationService,
     StompService,
     WebSocketService,
-      QueueService,
     {
       provide: StompConfig,
       useValue: AppModule.loadConnectionConfiguration(),

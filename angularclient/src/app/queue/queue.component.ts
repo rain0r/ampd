@@ -1,11 +1,8 @@
 import { Component, HostListener } from '@angular/core';
 
-import { MatDialog, MatSliderChange } from '@angular/material';
-import { StompService } from '@stomp/ng2-stompjs';
+import { MatDialog } from '@angular/material';
 import { Observable } from 'rxjs';
-import { AppComponent } from '../app.component';
 import { AmpdBlockUiService } from '../shared/block/ampd-block-ui.service';
-import { CoverModalComponent } from '../shared/cover-modal/cover-modal.component';
 import {
   ControlPanelImpl,
   IControlPanel,

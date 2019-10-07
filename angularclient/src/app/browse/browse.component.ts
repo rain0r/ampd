@@ -29,6 +29,7 @@ export class BrowseComponent {
 
   public onClearQueue(): void {
     this.webSocketService.send(MpdCommands.RM_ALL);
+    this.webSocketService.send(MpdCommands.GET_QUEUE);
   }
 
   public onMoveDirUp(): void {

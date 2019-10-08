@@ -58,3 +58,7 @@ mat-header-cell:last-of-type {
 .mat-column-remove {
   justify-content: flex-end;
 }
+
+.example-full-width{
+  width: 100%;
+}

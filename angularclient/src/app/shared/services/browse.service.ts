@@ -44,7 +44,6 @@ export class BrowseService {
   }
 
   private buildMessageReceiver(): void {
-    console.log('buildMessageReceiver()');
     this.browseSubs.subscribe((message: BrowseRootImpl) => {
       try {
         this.onBrowseResponse(message.payload);

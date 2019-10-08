@@ -1,4 +1,4 @@
-import { Component, HostListener } from '@angular/core';
+import {Component, HostListener, OnInit} from '@angular/core';
 
 import { MatDialog } from '@angular/material';
 import { Observable } from 'rxjs';
@@ -18,7 +18,7 @@ import { WebSocketService } from '../shared/services/web-socket.service';
   templateUrl: './queue.component.html',
   styleUrls: ['./queue.component.css'],
 })
-export class QueueComponent {
+export class QueueComponent implements  OnInit {
   private controlPanel: IControlPanel = new ControlPanelImpl();
   private currentSong: QueueTrack = new QueueTrack();
   private currentState: string = '';
@@ -132,5 +132,10 @@ export class QueueComponent {
         console.error(message);
       }
     });
+  }
+
+  ngOnInit(){
+    this.webSocketService.send(MpdCommands.GET_QUEUE);
+    console.log(`${new Date()} sending GET_QUEUE`);
   }
 }

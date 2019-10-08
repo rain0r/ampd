@@ -4,27 +4,26 @@
     [currentState]="currentState"
   ></app-queue-header>
 
-  <mat-divider class="divide-space-up-down"></mat-divider>
+  <div fxLayout="row wrap" fxLayoutAlign="space-between end">
+    <div>
+      <app-control-panel [controlPanel]="controlPanel"></app-control-panel>
+    </div>
+    <div>
+      <app-mpd-modes [controlPanel]="controlPanel"></app-mpd-modes>
+    </div>
+  </div>
 
-  <!-- Control buttons (play, pause, ...) -->
-  <app-control-panel [controlPanel]="controlPanel"></app-control-panel>
-
-  <mat-divider class="divide-space-up-down"></mat-divider>
+  <div class="space-divider"></div>
 
   <!-- Current track progress -->
   <app-track-progress [currentSong]="currentSong"></app-track-progress>
 
-  <mat-divider class="divide-space-up-down"></mat-divider>
+  <mat-divider></mat-divider>
 
   <!-- Volume slider -->
   <app-volume-slider [volume]="volume"></app-volume-slider>
 
-  <mat-divider class="divide-space-up-down"></mat-divider>
-
-  <!-- Control Panel -->
-  <app-mpd-modes [controlPanel]="controlPanel"></app-mpd-modes>
-
-  <mat-divider class="divide-space-up-down"></mat-divider>
+  <div class="space-divider"></div>
 
   <!-- Track table -->
   <app-track-table [currentSong]="currentSong"></app-track-table>

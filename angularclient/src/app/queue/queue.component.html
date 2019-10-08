@@ -6,7 +6,10 @@
 
   <div fxLayout="row wrap" fxLayoutAlign="space-between end">
     <div>
-      <app-control-panel [controlPanel]="controlPanel"></app-control-panel>
+      <app-control-panel
+          [currentState]="currentState"
+          [controlPanel]="controlPanel"
+      ></app-control-panel>
     </div>
     <div>
       <app-mpd-modes [controlPanel]="controlPanel"></app-mpd-modes>

@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import {Component, HostListener, Input, OnInit} from '@angular/core';
 
 import { MatDialog } from '@angular/material';
 import { Observable } from 'rxjs';
@@ -99,7 +99,6 @@ export class QueueComponent implements OnInit {
 
   public ngOnInit() {
     this.webSocketService.send(MpdCommands.GET_QUEUE);
-    console.log(`${new Date()} sending GET_QUEUE`);
   }
 
   private buildState(pMessage: StateMsgPayload): void {

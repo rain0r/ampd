@@ -1,5 +1,5 @@
 <mat-form-field class="example-full-width">
-  <input matInput placeholder="Filter queue" value="" />
+  <input matInput placeholder="Filter queue" value="" type="text" (keyup)="filter($event)" />
 </mat-form-field>
 
 <table mat-table [dataSource]="queue">
@@ -53,6 +53,7 @@
   </ng-container>
 
   <mat-header-row *matHeaderRowDef="getDisplayedColumns()"></mat-header-row>
+
   <mat-row
     *matRowDef="let row; columns: getDisplayedColumns()"
     class="table-row"

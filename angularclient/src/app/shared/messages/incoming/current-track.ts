@@ -15,6 +15,7 @@ export interface ICurrentTrack {
 }
 
 export class CurrentTrack implements ICurrentTrack {
+  // TODO delete?
   public name: string;
   public title: string;
   public artistName: string;

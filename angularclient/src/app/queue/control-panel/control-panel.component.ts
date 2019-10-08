@@ -1,7 +1,16 @@
-import {Component, Input, OnChanges, SimpleChange, SimpleChanges} from '@angular/core';
-import {ControlPanelImpl, IControlPanel,} from '../../shared/messages/incoming/control-panel';
-import {MpdCommands} from '../../shared/mpd/mpd-commands';
-import {WebSocketService} from '../../shared/services/web-socket.service';
+import {
+  Component,
+  Input,
+  OnChanges,
+  SimpleChange,
+  SimpleChanges,
+} from '@angular/core';
+import {
+  ControlPanelImpl,
+  IControlPanel,
+} from '../../shared/messages/incoming/control-panel';
+import { MpdCommands } from '../../shared/mpd/mpd-commands';
+import { WebSocketService } from '../../shared/services/web-socket.service';
 
 @Component({
   selector: 'app-control-panel',
@@ -9,11 +18,10 @@ import {WebSocketService} from '../../shared/services/web-socket.service';
   styleUrls: ['./control-panel.component.css'],
 })
 export class ControlPanelComponent implements OnChanges {
-  @Input() private controlPanel: IControlPanel = new ControlPanelImpl();
   @Input() public currentState: string = '';
+  @Input() private controlPanel: IControlPanel = new ControlPanelImpl();
 
-  constructor(private webSocketService: WebSocketService) {
-  }
+  constructor(private webSocketService: WebSocketService) {}
 
   public handleControlButton(event: MouseEvent): void {
     let command: string = '';
@@ -35,7 +43,7 @@ export class ControlPanelComponent implements OnChanges {
         command = MpdCommands.SET_NEXT;
         break;
       default:
-        // Ignore it
+      // Ignore it
     }
     if (command) {
       this.webSocketService.send(command);
@@ -60,7 +68,7 @@ export class ControlPanelComponent implements OnChanges {
     });
   }
 
-  ngOnChanges(changes: SimpleChanges) {
+  public ngOnChanges(changes: SimpleChanges) {
     const newState: SimpleChange = changes.currentState;
     if (newState && newState.currentValue) {
       this.currentState = newState.currentValue;

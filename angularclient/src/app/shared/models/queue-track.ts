@@ -1,5 +1,5 @@
-import {ConnectionConfiguration} from '../../connection-configuration';
-import {IMpdTrack} from '../messages/incoming/mpd-track';
+import { ConnectionConfiguration } from '../../connection-configuration';
+import { IMpdTrack } from '../messages/incoming/mpd-track';
 
 export class QueueTrack implements IMpdTrack {
   /* Override */

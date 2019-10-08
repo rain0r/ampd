@@ -1,12 +1,18 @@
-import {Component, Input, OnChanges, SimpleChange, SimpleChanges} from '@angular/core';
-import {MatDialog} from '@angular/material';
-import {Observable} from 'rxjs/index';
-import {AppComponent} from '../../app.component';
-import {IMpdTrack} from '../../shared/messages/incoming/mpd-track';
-import {QueueRootImpl} from '../../shared/messages/incoming/queue';
-import {QueueTrack} from '../../shared/models/queue-track';
-import {MpdCommands} from '../../shared/mpd/mpd-commands';
-import {WebSocketService} from '../../shared/services/web-socket.service';
+import {
+  Component,
+  Input,
+  OnChanges,
+  SimpleChange,
+  SimpleChanges,
+} from '@angular/core';
+import { MatDialog } from '@angular/material';
+import { Observable } from 'rxjs/index';
+import { AppComponent } from '../../app.component';
+import { IMpdTrack } from '../../shared/messages/incoming/mpd-track';
+import { QueueRootImpl } from '../../shared/messages/incoming/queue';
+import { QueueTrack } from '../../shared/models/queue-track';
+import { MpdCommands } from '../../shared/mpd/mpd-commands';
+import { WebSocketService } from '../../shared/services/web-socket.service';
 
 @Component({
   selector: 'app-track-table',
@@ -18,23 +24,25 @@ export class TrackTableComponent implements OnChanges {
   private queueSubs: Observable<QueueRootImpl>;
   private queue: QueueTrack[] = [];
   private displayedColumns = [
-    {name: 'pos', showMobile: false},
-    {name: 'artist', showMobile: true},
-    {name: 'album', showMobile: false},
-    {name: 'title', showMobile: true},
-    {name: 'length', showMobile: false},
-    {name: 'remove', showMobile: true},
+    { name: 'pos', showMobile: false },
+    { name: 'artist', showMobile: true },
+    { name: 'album', showMobile: false },
+    { name: 'title', showMobile: true },
+    { name: 'length', showMobile: false },
+    { name: 'remove', showMobile: true },
   ];
 
-  constructor(private appComponent: AppComponent,
-              private webSocketService: WebSocketService,
-              public dialog: MatDialog) {
+  constructor(
+    private appComponent: AppComponent,
+    private webSocketService: WebSocketService,
+    public dialog: MatDialog
+  ) {
     this.queueSubs = this.webSocketService.getQueueSubs();
     this.buildQueueMsgReceiver();
   }
 
   public filter($event: Event): void {
-    let input = <HTMLInputElement> $event.target;
+    const input = $event.target as HTMLInputElement;
     if (!input || !input.value) {
       return;
     }
@@ -52,8 +60,8 @@ export class TrackTableComponent implements OnChanges {
   public getDisplayedColumns(): string[] {
     const isMobile = this.appComponent.isMobile();
     return this.displayedColumns
-    .filter(cd => !isMobile || cd.showMobile)
-    .map(cd => cd.name);
+      .filter(cd => !isMobile || cd.showMobile)
+      .map(cd => cd.name);
   }
 
   public onRemoveTrack(position: number): void {
@@ -69,7 +77,20 @@ export class TrackTableComponent implements OnChanges {
    * @param {string} pFile
    */
   public onRowClick(pFile: string): void {
-    this.webSocketService.sendData(MpdCommands.PLAY_TRACK, {path: pFile});
+    this.webSocketService.sendData(MpdCommands.PLAY_TRACK, { path: pFile });
+  }
+
+  public ngOnChanges(changes: SimpleChanges) {
+    const newState: SimpleChange = changes.currentSong;
+    if (newState && newState.currentValue) {
+      this.currentSong = newState.currentValue;
+      for (const track of this.queue) {
+        if (track.id === this.currentSong.id) {
+          track.playing = true;
+          break;
+        }
+      }
+    }
   }
 
   private buildQueue(message: IMpdTrack[]): void {
@@ -80,7 +101,7 @@ export class TrackTableComponent implements OnChanges {
       track.pos = posCounter;
       if (this.currentSong.id === item.id) {
         track.playing = true;
-        console.log("PLAYING")
+        console.log('PLAYING');
       }
 
       this.queue.push(track);
@@ -97,18 +118,5 @@ export class TrackTableComponent implements OnChanges {
         console.error(message);
       }
     });
-  }
-
-  ngOnChanges(changes: SimpleChanges) {
-    const newState: SimpleChange = changes.currentSong;
-    if (newState && newState.currentValue) {
-      this.currentSong = newState.currentValue;
-      for (let track of this.queue) {
-        if (track.id === this.currentSong.id) {
-          track.playing = true;
-          break;
-        }
-      }
-    }
   }
 }

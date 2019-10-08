@@ -1,5 +1,11 @@
 <mat-form-field class="example-full-width">
-  <input matInput placeholder="Filter queue" value="" type="text" (keyup)="filter($event)" />
+  <input
+    matInput
+    placeholder="Filter queue"
+    value=""
+    type="text"
+    (keyup)="filter($event)"
+  />
 </mat-form-field>
 
 <table mat-table [dataSource]="queue">

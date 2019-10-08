@@ -20,9 +20,7 @@ div.container > div:first-child {
   margin-left: 0;
 }
 
-
 .clear-queue-container {
   flex-grow: 1;
   justify-content: flex-end;
 }
-

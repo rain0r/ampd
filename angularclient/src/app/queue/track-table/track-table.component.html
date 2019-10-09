@@ -2,13 +2,23 @@
   <input
     matInput
     placeholder="Filter queue"
-    value=""
     type="text"
-    (keyup)="filter($event)"
+    [(ngModel)]="value"
+    (keyup)="applyFilter($event.target.value)"
   />
+  <button
+    mat-button
+    *ngIf="value"
+    matSuffix
+    mat-icon-button
+    aria-label="Clear"
+    (click)="value = ''"
+  >
+    <mat-icon>close</mat-icon>
+  </button>
 </mat-form-field>
 
-<table mat-table [dataSource]="queue">
+<table mat-table [dataSource]="dataSource">
   <ng-container matColumnDef="pos">
     <mat-header-cell *matHeaderCellDef>#</mat-header-cell>
     <mat-cell *matCellDef="let row" (click)="onRowClick(row.file)">

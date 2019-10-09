@@ -5,7 +5,7 @@ import {
   SimpleChange,
   SimpleChanges,
 } from '@angular/core';
-import { MatDialog } from '@angular/material';
+import { MatDialog, MatTableDataSource } from '@angular/material';
 import { Observable } from 'rxjs/index';
 import { AppComponent } from '../../app.component';
 import { IMpdTrack } from '../../shared/messages/incoming/mpd-track';
@@ -20,6 +20,7 @@ import { WebSocketService } from '../../shared/services/web-socket.service';
   styleUrls: ['./track-table.component.css'],
 })
 export class TrackTableComponent implements OnChanges {
+  public dataSource = new MatTableDataSource();
   @Input() private currentSong: QueueTrack = new QueueTrack();
   private queueSubs: Observable<QueueRootImpl>;
   private queue: QueueTrack[] = [];
@@ -41,20 +42,8 @@ export class TrackTableComponent implements OnChanges {
     this.buildQueueMsgReceiver();
   }
 
-  public filter($event: Event): void {
-    const input = $event.target as HTMLInputElement;
-    if (!input || !input.value) {
-      return;
-    }
-    // for (let track of this.queue) {
-    //   if (track.title.toLowerCase().includes(input.value.toLowerCase())) {
-    //     track.displayed = true;
-    //     console.log("Found it")
-    //   }
-    //   else {
-    //     track.displayed = false;
-    //   }
-    // }
+  public applyFilter(filterValue: string) {
+    this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
   public getDisplayedColumns(): string[] {
@@ -95,18 +84,19 @@ export class TrackTableComponent implements OnChanges {
 
   private buildQueue(message: IMpdTrack[]): void {
     this.queue = [];
+    const tmp: QueueTrack[] = [];
     let posCounter = 1;
     for (const item of message) {
       const track: QueueTrack = new QueueTrack(item);
       track.pos = posCounter;
       if (this.currentSong.id === item.id) {
         track.playing = true;
-        console.log('PLAYING');
       }
-
-      this.queue.push(track);
+      // this.queue.push(track);
+      tmp.push(track);
       posCounter += 1;
     }
+    this.dataSource.data = tmp; // add the new model object to the dataSource
   }
 
   private buildQueueMsgReceiver() {

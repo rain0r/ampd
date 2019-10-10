@@ -20,7 +20,7 @@ import org.hihn.ampd.server.message.outgoing.browse.BrowseMessage;
 import org.hihn.ampd.server.message.outgoing.browse.BrowsePayload;
 import org.hihn.ampd.server.message.outgoing.browse.Directory;
 import org.hihn.ampd.server.message.outgoing.browse.Playlist;
-import org.hihn.ampd.server.service.CoverArtFetcherService;
+import org.hihn.ampd.server.service.ControlPanelService;
 import org.hihn.ampd.server.service.SearchService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,16 +43,16 @@ public class WebSocketController {
 
   private final SearchService searchService;
 
-  private final CoverArtFetcherService coverArtFetcherService;
+  private final ControlPanelService controlPanelService;
 
   @Autowired
   public WebSocketController(
       MpdConfiguration mpdConfiguration,
       SearchService searchService,
-      CoverArtFetcherService coverArtFetcherService) {
+      ControlPanelService controlPanelService) {
     this.mpd = mpdConfiguration.mpd();
     this.searchService = searchService;
-    this.coverArtFetcherService = coverArtFetcherService;
+    this.controlPanelService = controlPanelService;
 
     commands.put(AmpdMessage.MESSAGE_TYPE.ADD_DIR, this::addDir);
     commands.put(AmpdMessage.MESSAGE_TYPE.ADD_PLAYLIST, this::addPlaylist);
@@ -85,7 +85,7 @@ public class WebSocketController {
       LOG.error(e.getMessage(), e);
     }
 
-    LOG.debug(outgoingMessage.get().toString());
+    LOG.debug(outgoingMessage.toString());
     return outgoingMessage;
   }
 
@@ -158,22 +158,7 @@ public class WebSocketController {
   }
 
   private Optional<Message> toggleControlPanel(Object pPayload) {
-    HashMap<String, HashMap<String, Boolean>> payload =
-        (HashMap<String, HashMap<String, Boolean>>) pPayload;
-    HashMap<String, Boolean> controlPanel = payload.get("controlPanel");
-
-    boolean random = controlPanel.get("random");
-    boolean repeat = controlPanel.get("repeat");
-    int xFade = controlPanel.get("crossfade") ? 1 : 0;
-    boolean consume = controlPanel.get("consume");
-    boolean single = controlPanel.get("single");
-
-    mpd.getPlayer().setRandom(random);
-    mpd.getPlayer().setRepeat(repeat);
-    mpd.getPlayer().setXFade(xFade);
-    mpd.getPlayer().setConsume(consume);
-    mpd.getPlayer().setSingle(single);
-
+    controlPanelService.applyControlPanelChanges(pPayload);
     return Optional.empty();
   }
 

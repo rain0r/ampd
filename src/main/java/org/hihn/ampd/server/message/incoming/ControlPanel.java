@@ -20,13 +20,12 @@ public class ControlPanel {
   boolean repeat = false;
 
   public ControlPanel(ServerStatus serverStatus) {
-
     Collection<String> statusList = serverStatus.getStatus();
     setCrossfade(serverStatus.getXFade());
 
-    for (String i : statusList) {
+    for (String status : statusList) {
 
-      String splitted[] = i.split(":");
+      String splitted[] = status.split(":");
       boolean newValue = "1".equals(splitted[1].trim());
 
       switch (splitted[0].trim()) {

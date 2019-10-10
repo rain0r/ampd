@@ -33,6 +33,7 @@ export class WebSocketService {
     return this.stompService.subscribe('/topic/messages').pipe(
       map((message: Message) => message.body),
       map(body => JSON.parse(body)),
+      filter(body => body !== null),
       filter(body => body.type === MpdTypes.STATE),
       map(jsonObj => {
         const wsObj: ServerStatusRootImpl = jsonObj as ServerStatusRootImpl;
@@ -45,6 +46,7 @@ export class WebSocketService {
     return this.stompService.subscribe('/topic/messages').pipe(
       map((message: Message) => message.body),
       map(body => JSON.parse(body)),
+      filter(body => body !== null),
       filter(body => body.type === MpdTypes.QUEUE),
       map(jsonObj => {
         const wsObj: QueueRootImpl = jsonObj as QueueRootImpl;
@@ -57,6 +59,7 @@ export class WebSocketService {
     return this.stompService.subscribe('/topic/messages').pipe(
       map((message: Message) => message.body),
       map(body => JSON.parse(body)),
+      filter(body => body !== null),
       filter(body => body.type === MpdTypes.BROWSE),
       map(jsonObj => {
         const wsObj: BrowseRootImpl = jsonObj as BrowseRootImpl;
@@ -69,6 +72,7 @@ export class WebSocketService {
     return this.stompService.subscribe('/topic/messages').pipe(
       map((message: Message) => message.body),
       map(body => JSON.parse(body)),
+      filter(body => body !== null),
       filter(body => body.type === MpdTypes.SEARCH_RESULTS),
       map(jsonObj => {
         const wsObj: SearchRootImpl = jsonObj as SearchRootImpl;

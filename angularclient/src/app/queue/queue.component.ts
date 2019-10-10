@@ -21,9 +21,9 @@ import { WebSocketService } from '../shared/services/web-socket.service';
 export class QueueComponent implements OnInit {
   private controlPanel: IControlPanel = new ControlPanelImpl();
   private currentSong: QueueTrack = new QueueTrack();
-  private currentState: string = '';
   private volume: number = 0;
   private stateSubs: Observable<ServerStatusRootImpl>;
+  private currentState: string = '';
 
   constructor(
     private webSocketService: WebSocketService,
@@ -41,48 +41,6 @@ export class QueueComponent implements OnInit {
   public onKeyUp(ev: KeyboardEvent) {
     if (document.visibilityState === 'visible') {
       this.webSocketService.send(MpdCommands.GET_QUEUE);
-    }
-  }
-
-  @HostListener('document:keydown', ['$event'])
-  public handleKeyDown(event: KeyboardEvent) {
-    if (!event || !event.srcElement) {
-      return;
-    }
-
-    const inputElement = event.target as HTMLInputElement;
-    if (inputElement.tagName === 'MAT-SLIDER') {
-      /* We want to change the volume (with the keyboard) - not skip the track. */
-      return;
-    }
-
-    if (inputElement.tagName === 'INPUT') {
-      /* We want to search for something - not skip the track. */
-      return;
-    }
-
-    let command: string = '';
-
-    switch (event.which) {
-      case 37: // left
-        command = MpdCommands.SET_PREV;
-        break;
-      case 39: // right
-        command = MpdCommands.SET_NEXT;
-        break;
-      case 32: // space
-        if (this.currentState === 'pause') {
-          command = MpdCommands.SET_PLAY;
-        } else if (this.currentState === 'play') {
-          command = MpdCommands.SET_PAUSE;
-        }
-        break;
-      default:
-      // Ignore it
-    }
-    if (command) {
-      this.webSocketService.send(command);
-      event.preventDefault();
     }
   }
 
@@ -113,7 +71,6 @@ export class QueueComponent implements OnInit {
     const serverStatus = pMessage.serverStatus;
     this.currentSong = new QueueTrack(pMessage.currentSong);
     this.controlPanel = pMessage.controlPanel;
-
     sessionStorage.setItem('currentSong', JSON.stringify(this.currentSong));
     this.currentSong.elapsedFormatted = this.getFormattedElapsedTime(
       serverStatus.elapsedTime

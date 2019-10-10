@@ -105,7 +105,7 @@ public class CoverArtFetcherService {
           return Optional.of(artwork.getBytes());
         }
       } catch (Exception e) {
-        LOG.warn("Could not load cover for: '{}'", foundAlbum);
+        LOG.warn("Could not download cover for: '{}'", foundAlbum);
       }
     }
 

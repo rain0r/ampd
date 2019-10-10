@@ -55,19 +55,6 @@ export class ControlPanelComponent implements OnChanges {
     this.webSocketService.send(MpdCommands.GET_QUEUE);
   }
 
-  public toggleCtrl(event): void {
-    for (const key in this.controlPanel) {
-      if (event.value.includes(key)) {
-        this.controlPanel[key] = true;
-      } else {
-        this.controlPanel[key] = false;
-      }
-    }
-    this.webSocketService.sendData(MpdCommands.TOGGLE_CONTROL, {
-      controlPanel: this.controlPanel,
-    });
-  }
-
   public ngOnChanges(changes: SimpleChanges) {
     const newState: SimpleChange = changes.currentState;
     if (newState && newState.currentValue) {

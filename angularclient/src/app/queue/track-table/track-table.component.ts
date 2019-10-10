@@ -20,10 +20,10 @@ import { WebSocketService } from '../../shared/services/web-socket.service';
   styleUrls: ['./track-table.component.css'],
 })
 export class TrackTableComponent implements OnChanges {
-  public dataSource = new MatTableDataSource();
+  public dataSource = new MatTableDataSource<QueueTrack>();
   @Input() private currentSong: QueueTrack = new QueueTrack();
   private queueSubs: Observable<QueueRootImpl>;
-  private queue: QueueTrack[] = [];
+
   private displayedColumns = [
     { name: 'pos', showMobile: false },
     { name: 'artist', showMobile: true },
@@ -73,17 +73,19 @@ export class TrackTableComponent implements OnChanges {
     const newState: SimpleChange = changes.currentSong;
     if (newState && newState.currentValue) {
       this.currentSong = newState.currentValue;
-      for (const track of this.queue) {
-        if (track.id === this.currentSong.id) {
-          track.playing = true;
-          break;
-        }
+      for (const track of this.dataSource.data) {
+        track.playing = track.id === this.currentSong.id;
+        // if (track.id === this.currentSong.id) {
+        //   track.playing = true;
+        // }
+        // else {
+        //   track.playing = false;
+        // }
       }
     }
   }
 
   private buildQueue(message: IMpdTrack[]): void {
-    this.queue = [];
     const tmp: QueueTrack[] = [];
     let posCounter = 1;
     for (const item of message) {
@@ -92,7 +94,6 @@ export class TrackTableComponent implements OnChanges {
       if (this.currentSong.id === item.id) {
         track.playing = true;
       }
-      // this.queue.push(track);
       tmp.push(track);
       posCounter += 1;
     }

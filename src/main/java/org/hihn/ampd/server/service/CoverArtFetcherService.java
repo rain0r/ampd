@@ -98,10 +98,14 @@ public class CoverArtFetcherService {
             .orElse(null);
 
     if (foundAlbum != null) {
-      List<MPDArtwork> foundArtworks = mpd.getArtworkFinder().find(foundAlbum);
-      if (foundArtworks.size() > 0) {
-        MPDArtwork artwork = foundArtworks.get(0);
-        return Optional.of(artwork.getBytes());
+      try {
+        List<MPDArtwork> foundArtworks = mpd.getArtworkFinder().find(foundAlbum);
+        if (foundArtworks.size() > 0) {
+          MPDArtwork artwork = foundArtworks.get(0);
+          return Optional.of(artwork.getBytes());
+        }
+      } catch (Exception e) {
+        LOG.warn("Could not load cover for: '{}'", foundAlbum);
       }
     }
 

@@ -89,8 +89,7 @@ export class QueueComponent implements OnInit {
       try {
         this.buildState(message.payload);
       } catch (error) {
-        console.error(`Error handling message:`);
-        console.error(message);
+        console.error(`Error handling message:`, message);
       }
     });
   }

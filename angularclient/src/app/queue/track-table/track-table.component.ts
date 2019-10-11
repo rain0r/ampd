@@ -105,8 +105,7 @@ export class TrackTableComponent implements OnChanges {
       try {
         this.buildQueue(message.payload);
       } catch (error) {
-        console.error(`Error handling message:`);
-        console.error(message);
+        console.error(`Error handling message:`, message);
       }
     });
   }

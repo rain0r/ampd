@@ -1,23 +1,15 @@
-import {
-  AfterViewInit,
-  ChangeDetectorRef,
-  Component,
-  ElementRef,
-  ViewChild,
-} from '@angular/core';
-import { MatSnackBar } from '@angular/material';
-import { ActivatedRoute, Router } from '@angular/router';
-import { StompService } from '@stomp/ng2-stompjs';
+import {AfterViewInit, ChangeDetectorRef, Component, ElementRef, ViewChild,} from '@angular/core';
+import {MatSnackBar} from '@angular/material';
+import {ActivatedRoute} from '@angular/router';
 
-import { Observable } from 'rxjs';
-import { AppComponent } from '../app.component';
-import { AmpdBlockUiService } from '../shared/block/ampd-block-ui.service';
+import {Observable} from 'rxjs';
+import {AmpdBlockUiService} from '../shared/block/ampd-block-ui.service';
 
-import { IMpdTrack } from '../shared/messages/incoming/mpd-track';
-import { SearchRootImpl } from '../shared/messages/incoming/search';
-import { QueueTrack } from '../shared/models/queue-track';
-import { MpdCommands } from '../shared/mpd/mpd-commands';
-import { WebSocketService } from '../shared/services/web-socket.service';
+import {IMpdTrack} from '../shared/messages/incoming/mpd-track';
+import {SearchRootImpl} from '../shared/messages/incoming/search';
+import {QueueTrack} from '../shared/models/queue-track';
+import {MpdCommands} from '../shared/mpd/mpd-commands';
+import {WebSocketService} from '../shared/services/web-socket.service';
 
 @Component({
   selector: 'app-search',
@@ -29,7 +21,6 @@ export class SearchComponent implements AfterViewInit {
 
   public titleQueue: IMpdTrack[] = [];
   public searchResultCount = 0;
-  // query: string = '';
   public displayedColumns: string[] = [
     'artistName',
     'albumName',
@@ -42,11 +33,8 @@ export class SearchComponent implements AfterViewInit {
 
   constructor(
     private activatedRoute: ActivatedRoute,
-    private appComponent: AppComponent,
-    private router: Router,
     private snackBar: MatSnackBar,
     private ampdBlockUiService: AmpdBlockUiService,
-    private stompService: StompService,
     private webSocketService: WebSocketService,
     private cdRef: ChangeDetectorRef
   ) {

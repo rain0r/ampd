@@ -21,7 +21,6 @@ export class QueueTrack implements IMpdTrack {
   /* QueueTrack */
   public progress: number = 0; // progress in seconds
   public elapsedFormatted: string = ''; // elapsed time readable
-  // durationFormatted: string; // readable / formatted duration
   public playing: boolean = false; // if the track is currently played
   public pos: number = 0; // position in queue
 

@@ -13,7 +13,6 @@ import { WebSocketService } from '../shared/services/web-socket.service';
 })
 export class BrowseComponent {
   public getParamDir = '';
-  public containerWidth = 1;
   public browseInfo: BrowseInfo = new BrowseInfo();
 
   constructor(

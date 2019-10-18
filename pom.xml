@@ -11,7 +11,7 @@
     <!-- lookup parent from repository -->
   </parent>
   <groupId>org.hihn.ampd</groupId>
-  <artifactId>server</artifactId>
+  <artifactId>ampd</artifactId>
   <version>0.0.4-SNAPSHOT</version>
   <scm>
     <connection>scm:git:https://github.com/rain0r/ampd.git</connection>
@@ -20,7 +20,7 @@
     <tag>HEAD</tag>
   </scm>
   <name>ampd</name>
-  <description>Spring Boot server for the ampd-client</description>
+  <description>A web based MPD client.</description>
   <properties>
     <mpir.skip>true</mpir.skip>
     <java.version>11</java.version>

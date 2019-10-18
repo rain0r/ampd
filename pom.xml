@@ -13,8 +13,8 @@
   <artifactId>ampd</artifactId>
   <version>0.0.4-SNAPSHOT</version>
   <scm>
-    <connection>scm:git:https://github.com/rain0r/ampd.git</connection>
-    <developerConnection>scm:git:https://github.com/rain0r/ampd.git</developerConnection>
+    <connection>scm:git:git@github.com:rain0r/ampd.git</connection>
+    <developerConnection>scm:git:git@github.com:rain0r/ampd.git</developerConnection>
     <url>https://github.com/rain0r/ampd</url>
     <tag>HEAD</tag>
   </scm>

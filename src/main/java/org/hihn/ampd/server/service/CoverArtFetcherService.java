@@ -116,7 +116,7 @@ public class CoverArtFetcherService {
    * See if path leads to an album directory and try to load the cover.
    *
    * @param pathStr
-   * @return
+   * @return The cover.
    */
   public byte[] findAlbumCover(Optional<String> pathStr) {
 

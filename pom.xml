@@ -17,12 +17,13 @@
   <properties>
     <mpir.skip>true</mpir.skip>
     <java.version>11</java.version>
+    <project.scm.id>github</project.scm.id>
   </properties>
 
   <scm>
-    <connection>scm:git:git@github.com:rain0r/ampd.git</connection>
-    <developerConnection>scm:git:git@github.com:rain0r/ampd.git</developerConnection>
     <url>https://github.com/rain0r/ampd</url>
+    <connection>scm:git:https://github.com/rain0r/ampd.git</connection>
+    <developerConnection>scm:git:https://github.com/rain0r/ampd.git</developerConnection>
     <tag>HEAD</tag>
   </scm>
 

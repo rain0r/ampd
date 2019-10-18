@@ -10,24 +10,22 @@
   <groupId>org.hihn.ampd</groupId>
   <artifactId>ampd</artifactId>
   <version>0.0.5-SNAPSHOT</version>
+
+  <name>ampd</name>
+  <description>Spring Boot server for the ampd-client</description>
+
+  <properties>
+    <mpir.skip>true</mpir.skip>
+    <java.version>11</java.version>
+  </properties>
+
   <scm>
     <connection>scm:git:git@github.com:rain0r/ampd.git</connection>
     <developerConnection>scm:git:git@github.com:rain0r/ampd.git</developerConnection>
     <url>https://github.com/rain0r/ampd</url>
     <tag>HEAD</tag>
   </scm>
-  <name>ampd</name>
-  <description>Spring Boot server for the ampd-client</description>
-  <properties>
-    <mpir.skip>true</mpir.skip>
-    <java.version>11</java.version>
-  </properties>
-  <distributionManagement>
-    <snapshotRepository>
-      <id>nexus-snapshots</id>
-      <url>http://punica/nexus/repository/maven-snapshots</url>
-    </snapshotRepository>
-  </distributionManagement>
+
   <dependencies>
     <dependency>
       <groupId>org.springframework.boot</groupId>
@@ -52,6 +50,7 @@
       <artifactId>spring-boot-starter-actuator</artifactId>
     </dependency>
   </dependencies>
+
   <build>
     <plugins>
       <plugin>
@@ -101,6 +100,7 @@
       </plugin>
     </plugins>
   </build>
+
   <reporting>
     <plugins>
       <plugin>

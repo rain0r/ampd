@@ -13,7 +13,13 @@
   <groupId>org.hihn.ampd</groupId>
   <artifactId>server</artifactId>
   <version>0.0.4-SNAPSHOT</version>
-  <name>server</name>
+  <scm>
+    <connection>scm:git:https://github.com/rain0r/ampd.git</connection>
+    <developerConnection>scm:git:https://github.com/rain0r/ampd.git</developerConnection>
+    <url>https://github.com/rain0r/ampd</url>
+    <tag>HEAD</tag>
+  </scm>
+  <name>ampd</name>
   <description>Spring Boot server for the ampd-client</description>
   <properties>
     <mpir.skip>true</mpir.skip>

@@ -71,3 +71,9 @@ Formatting the Angular source-code:
 cd angularclient
 npm run format
 ```
+
+Tagging a new version:
+
+```
+mvn release:prepare
+```

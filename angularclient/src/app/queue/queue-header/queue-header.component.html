@@ -1,5 +1,5 @@
-<div class="container">
-  <div>
+<div fxLayout="row wrap" fxLayoutAlign="space-between start">
+  <div fxFlex.lt-md="100%">
     <span class="mat-h1 title">
       {{ currentSong.title }}
     </span>
@@ -12,15 +12,17 @@
       {{ currentSong.artistName }}
     </span>
   </div>
-  <div *ngIf="currentState != 'stop'">
+
+  <div fxFlex.lt-md="100%">
     <img
+      *ngIf="currentState != 'stop'"
       src="{{ currentSong.coverUrl() }}"
       alt="No cover"
       (click)="openCoverModal()"
       class="album-art"
     />
-  </div>
-  <div *ngIf="currentState == 'stop'">
-    Stopped.
+    <span *ngIf="currentState == 'stop'">
+      Stopped.
+    </span>
   </div>
 </div>

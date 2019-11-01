@@ -3,24 +3,9 @@
   margin-bottom: 0;
 }
 
-div.container {
-  display: flex;
-  margin-bottom: 10px;
-  padding: 0px;
-}
-
-div.container > div {
-  flex: 1 1 5em;
-}
-
-div.container > div:first-child {
-  margin-left: 0;
-}
-
 .album-art {
   border: 1px solid grey;
   cursor: pointer;
-  float: right;
   height: 150px;
   width: 150px;
 }

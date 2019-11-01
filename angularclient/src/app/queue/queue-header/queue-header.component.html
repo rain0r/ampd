@@ -12,8 +12,8 @@
       {{ currentSong.artistName }}
     </span>
   </div>
-
   <div fxFlex.lt-md="100%">
+    <mat-divider fxShow.lt-md="true" fxShow="false" ></mat-divider>
     <img
       *ngIf="currentState != 'stop'"
       src="{{ currentSong.coverUrl() }}"
@@ -24,5 +24,6 @@
     <span *ngIf="currentState == 'stop'">
       Stopped.
     </span>
+    <mat-divider fxShow.lt-md="true" fxShow="false" ></mat-divider>
   </div>
 </div>

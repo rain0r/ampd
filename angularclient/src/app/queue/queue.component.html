@@ -10,6 +10,7 @@
         [currentState]="currentState"
         [controlPanel]="controlPanel"
       ></app-control-panel>
+      <mat-divider fxShow.lt-md="true" fxShow="false" ></mat-divider>
     </div>
     <div>
       <app-mpd-modes
@@ -19,7 +20,7 @@
     </div>
   </div>
 
-  <div class="space-divider"></div>
+  <mat-divider></mat-divider>
 
   <!-- Current track progress -->
   <app-track-progress [currentSong]="currentSong"></app-track-progress>
@@ -29,7 +30,7 @@
   <!-- Volume slider -->
   <app-volume-slider [volume]="volume"></app-volume-slider>
 
-  <div class="space-divider"></div>
+  <mat-divider fxShow.lt-md="true" fxShow="false" ></mat-divider>
 
   <!-- Track table -->
   <app-track-table [currentSong]="currentSong"></app-track-table>

@@ -4,65 +4,70 @@
 
 html,
 body {
-  font-family: Roboto, 'Helvetica Neue', sans-serif;
-  height: 100%;
-  margin: 0px;
+    font-family: Roboto, 'Helvetica Neue', sans-serif;
+    height: 100%;
+    margin: 0px;
 }
 
 * {
-  margin: 0;
-  padding: 0;
+    margin: 0;
+    padding: 0;
 }
 
 @media (max-width: 600px) {
-  .only-on-big-screen {
-    display: none;
-  }
+    .only-on-big-screen {
+        display: none;
+    }
 }
 
 @media (min-width: 700px) {
-  .only-on-small-screen {
-    display: none;
-  }
+    .only-on-small-screen {
+        display: none;
+    }
 }
 
 .chip {
-  background-color: #e0e0e0;
-  border-radius: 24px;
-  display: inline-flex;
-  padding: 0 !important;
-  margin-left: 0.4rem;
+    background-color: #e0e0e0;
+    border-radius: 24px;
+    display: inline-flex;
+    padding: 0 !important;
+    margin-left: 0.4rem;
 }
 
 mat-toolbar {
-  justify-content: center;
-  padding-bottom: 0px;
+    justify-content: center;
+    padding-bottom: 0px;
 }
 
 .space-right {
-  padding-right: 0.5em;
+    padding-right: 0.5em;
 }
 
 .clickable {
-  cursor: pointer;
+    cursor: pointer;
 }
 
 .text-muted {
-  color: #868e96 !important;
+    color: #868e96 !important;
 }
 
 table {
-  width: 100%;
+    width: 100%;
 }
 
 .full-width {
-  width: 100%;
+    width: 100%;
 }
 
 .half-width {
-  width: 50%;
+    width: 50%;
 }
 
 .mat-button-toggle-label-content {
-  line-height: 34px !important;
+    line-height: 34px !important;
+}
+
+.mat-divider-horizontal {
+    padding-top: 0.2rem;
+    padding-bottom: 0.2rem;
 }

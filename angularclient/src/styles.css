@@ -30,7 +30,8 @@ body {
   background-color: #e0e0e0;
   border-radius: 24px;
   display: inline-flex;
-  padding: 0px !important;
+  padding: 0 !important;
+  margin-left: 0.4rem;
 }
 
 mat-toolbar {

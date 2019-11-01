@@ -1,0 +1,51 @@
+<div
+  class="container"
+  fxLayout="row"
+  fxLayout.xs="column"
+  fxLayoutWrap
+  fxLayoutGap="0.5%"
+  fxLayoutAlign="center"
+>
+  <div fxFlex="100%" class="sub-menu">
+    <div class="flex-item">
+      <a routerLink="/browse" mat-raised-button class="mat-small">
+        <mat-icon>expand_less</mat-icon>
+        <span class="only-on-big-screen">
+          Return to top
+        </span>
+      </a>
+      <button
+        class="mat-small"
+        mat-raised-button
+        (click)="onMoveDirUp()"
+        *ngIf="getParamDir && getParamDir !== '/'"
+      >
+        <mat-icon>
+          navigate_before
+        </mat-icon>
+        <span class="only-on-big-screen">
+          Return
+        </span>
+      </button>
+      <button
+        class="mat-small"
+        mat-raised-button
+        (click)="onAddDir(getParamDir)"
+        *ngIf="getParamDir && getParamDir !== '/'"
+      >
+        <mat-icon> add </mat-icon>
+        <span class="only-on-big-screen">
+          Add all
+        </span>
+      </button>
+      <button class="mat-small" mat-raised-button (click)="onClearQueue()">
+        <mat-icon>delete</mat-icon>
+        <span class="only-on-big-screen">
+          Clear queue
+        </span>
+      </button>
+    </div>
+  </div>
+</div>
+
+getParamDir: {{ getParamDir }}

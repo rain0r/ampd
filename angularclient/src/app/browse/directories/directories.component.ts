@@ -1,5 +1,5 @@
 import { Component, HostListener, Input } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Directory } from '../../shared/messages/incoming/directory';
 import { MpdCommands } from '../../shared/mpd/mpd-commands';
 import { BrowseService } from '../../shared/services/browse.service';
@@ -59,9 +59,23 @@ export class DirectoriesComponent {
       event.stopPropagation();
     }
 
-    console.log(`Clicked on ${directory}`);
+    console.log(`onDirClick: ${directory}`);
+
+    const queryParams: Params = { dir: directory };
 
     this.browseService.sendBrowseReq(directory);
-    this.router.navigate(['browse'], { queryParams: { dir: directory } });
+    // this.router.navigate(['browse'], { queryParams: { dir: directory } });
+
+    this.router
+      .navigate([], {
+        relativeTo: this.activatedRoute,
+        queryParams,
+        queryParamsHandling: 'merge',
+      })
+      .then(fulfilled => {
+        if (fulfilled) {
+          this.getParamDir = directory;
+        }
+      });
   }
 }

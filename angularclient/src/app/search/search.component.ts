@@ -1,15 +1,21 @@
-import {AfterViewInit, ChangeDetectorRef, Component, ElementRef, ViewChild,} from '@angular/core';
-import {MatSnackBar} from '@angular/material';
-import {ActivatedRoute} from '@angular/router';
+import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  ViewChild,
+} from '@angular/core';
+import { MatSnackBar } from '@angular/material';
+import { ActivatedRoute } from '@angular/router';
 
-import {Observable} from 'rxjs';
-import {AmpdBlockUiService} from '../shared/block/ampd-block-ui.service';
+import { Observable } from 'rxjs';
+import { AmpdBlockUiService } from '../shared/block/ampd-block-ui.service';
 
-import {IMpdTrack} from '../shared/messages/incoming/mpd-track';
-import {SearchRootImpl} from '../shared/messages/incoming/search';
-import {QueueTrack} from '../shared/models/queue-track';
-import {MpdCommands} from '../shared/mpd/mpd-commands';
-import {WebSocketService} from '../shared/services/web-socket.service';
+import { IMpdTrack } from '../shared/messages/incoming/mpd-track';
+import { SearchRootImpl } from '../shared/messages/incoming/search';
+import { QueueTrack } from '../shared/models/queue-track';
+import { MpdCommands } from '../shared/mpd/mpd-commands';
+import { WebSocketService } from '../shared/services/web-socket.service';
 
 @Component({
   selector: 'app-search',

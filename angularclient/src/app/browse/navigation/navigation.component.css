@@ -1,0 +1,24 @@
+.sub-menu {
+  background: white;
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 1em;
+}
+
+.flex-item {
+  padding-top: 1em;
+  flex: 1;
+}
+
+.mat-small {
+  min-width: 1%;
+}
+
+@media screen and (max-width: 990px) {
+  .container {
+    flex-wrap: wrap;
+  }
+  .flex-item:first-child {
+    flex-basis: 100%;
+  }
+}

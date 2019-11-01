@@ -1,27 +1,26 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { BrowseInfo } from '../shared/models/browse-info';
-import { MpdCommands } from '../shared/mpd/mpd-commands';
-import { BrowseService } from '../shared/services/browse.service';
-import { NotificationService } from '../shared/services/notification.service';
-import { WebSocketService } from '../shared/services/web-socket.service';
+import { MpdCommands } from '../../shared/mpd/mpd-commands';
+import { BrowseService } from '../../shared/services/browse.service';
+import { NotificationService } from '../../shared/services/notification.service';
+import { WebSocketService } from '../../shared/services/web-socket.service';
 
 @Component({
-  selector: 'app-browse',
-  templateUrl: './browse.component.html',
-  styleUrls: ['./browse.component.css'],
+  selector: 'app-navigation',
+  templateUrl: './navigation.component.html',
+  styleUrls: ['./navigation.component.css'],
 })
-export class BrowseComponent implements OnInit {
+export class NavigationComponent implements OnInit {
   public getParamDir = '';
-  public browseInfo: BrowseInfo = new BrowseInfo();
 
   constructor(
-    private activatedRoute: ActivatedRoute,
-    private webSocketService: WebSocketService,
+    private router: Router,
     private notificationService: NotificationService,
-    private browseService: BrowseService
+    private browseService: BrowseService,
+    private activatedRoute: ActivatedRoute,
+    private webSocketService: WebSocketService
   ) {
-    this.browseInfo = this.browseService.browseInfo;
+    console.log('NavigationComponent');
   }
 
   public ngOnInit(): void {
@@ -32,9 +31,20 @@ export class BrowseComponent implements OnInit {
     });
   }
 
-  public onClearQueue(): void {
-    this.webSocketService.send(MpdCommands.RM_ALL);
-    this.webSocketService.send(MpdCommands.GET_QUEUE);
+  public onMoveDirUp(): void {
+    const splitted = this.getParamDir.split('/');
+    splitted.pop();
+    let targetDir = splitted.join('/');
+    if (targetDir.length === 0) {
+      targetDir = '/';
+    }
+    this.router
+      .navigate(['browse'], { queryParams: { dir: targetDir } })
+      .then(fulfilled => {
+        if (fulfilled) {
+          this.getParamDir = targetDir;
+        }
+      });
   }
 
   @HostListener('click', ['$event'])

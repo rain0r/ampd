@@ -14,19 +14,15 @@
     <mat-icon>folder_open</mat-icon> &nbsp; &nbsp;
     {{ dir.displayedPath() }}
     <span class="fill-space"></span>
-    <i
-      class="material-icons clickable chip"
-      (click)="onPlayDir(dir.path)"
-      title="Play directory"
-    >
+    <mat-icon class="chip" (click)="onPlayDir(dir.path)" title="Play directory">
       play_arrow
-    </i>
-    <i
-      class="material-icons clickable chip"
+    </mat-icon>
+    <mat-icon
+      class="chip"
       (click)="onAddDir(dir.path)"
       title="Add directory to queue"
     >
       add
-    </i>
+    </mat-icon>
   </mat-list-item>
 </mat-list>

@@ -1,26 +1,26 @@
 @media (min-width: 600px) {
-    .clear-queue {
-        float: right;
-    }
+  .clear-queue {
+    float: right;
+  }
 }
 
 .valign-top {
-    vertical-align: top;
+  vertical-align: top;
 }
 
 div.container {
-    display: flex;
+  display: flex;
 }
 
 div.container > div {
-    flex: 1 1 5em;
+  flex: 1 1 5em;
 }
 
 div.container > div:first-child {
-    margin-left: 0;
+  margin-left: 0;
 }
 
 .clear-queue-container {
-    flex-grow: 1;
-    justify-content: flex-end;
+  flex-grow: 1;
+  justify-content: flex-end;
 }

@@ -7,4 +7,4 @@
 # cd ..
 
 #mvn -T 1C clean spring-boot:run
-JAVA_HOME=/opt/openjdk-bin-11.0.4_p11 mvn -T 1C clean spring-boot:run
+JAVA_HOME=/opt/openjdk-bin-11.0.5_p10 mvn -T 1C clean spring-boot:run

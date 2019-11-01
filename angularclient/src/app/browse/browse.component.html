@@ -2,6 +2,16 @@
 
 <mat-divider></mat-divider>
 
+<div fxShow.sm="true" fxShow.gt-md="false" fxShow="true">
+  <div class="back-to-top">
+    <button mat-icon-button (click)="onBackToTop()">
+      <mat-icon>
+        arrow_upward
+      </mat-icon>
+    </button>
+  </div>
+</div>
+
 <div
   class="container"
   fxLayout="row"

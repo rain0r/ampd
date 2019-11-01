@@ -74,6 +74,13 @@
             <stopWaitTime>5</stopWaitTime>
           </embeddedLaunchScriptProperties>
         </configuration>
+        <dependencies>
+          <dependency>
+            <groupId>org.springframework.boot.experimental</groupId>
+            <artifactId>spring-boot-thin-layout</artifactId>
+            <version>1.0.23.RELEASE</version>
+          </dependency>
+        </dependencies>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>

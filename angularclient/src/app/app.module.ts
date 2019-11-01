@@ -8,6 +8,7 @@ import { CoverModalComponent } from 'src/app/shared/cover-modal/cover-modal.comp
 import { AppComponent } from './app.component';
 import { BrowseComponent } from './browse/browse.component';
 import { DirectoriesComponent } from './browse/directories/directories.component';
+import { NavigationComponent } from './browse/navigation/navigation.component';
 import { PlaylistsComponent } from './browse/playlists/playlists.component';
 import { TracksComponent } from './browse/tracks/tracks.component';
 import { ConnectionConfiguration } from './connection-configuration';
@@ -49,6 +50,7 @@ import { SharedModule } from './shared/shared.module';
     VolumeSliderComponent,
     MpdModesComponent,
     TrackTableComponent,
+    NavigationComponent,
   ],
   imports: [
     BrowserModule,

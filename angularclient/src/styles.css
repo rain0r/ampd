@@ -62,3 +62,7 @@ table {
 .half-width {
   width: 50%;
 }
+
+.mat-button-toggle-label-content {
+  line-height: 34px !important;
+}

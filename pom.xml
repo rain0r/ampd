@@ -9,7 +9,7 @@
   </parent>
   <groupId>org.hihn.ampd</groupId>
   <artifactId>ampd</artifactId>
-  <version>0.0.5-SNAPSHOT</version>
+  <version>0.0.6-SNAPSHOT</version>
 
   <name>ampd</name>
   <description>Spring Boot server for the ampd-client</description>
@@ -74,6 +74,13 @@
             <stopWaitTime>5</stopWaitTime>
           </embeddedLaunchScriptProperties>
         </configuration>
+        <dependencies>
+          <dependency>
+            <groupId>org.springframework.boot.experimental</groupId>
+            <artifactId>spring-boot-thin-layout</artifactId>
+            <version>1.0.23.RELEASE</version>
+          </dependency>
+        </dependencies>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>

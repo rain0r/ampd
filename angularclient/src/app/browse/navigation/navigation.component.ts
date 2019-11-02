@@ -73,4 +73,9 @@ export class NavigationComponent implements OnInit {
     this.webSocketService.send(MpdCommands.SET_PLAY);
     this.notificationService.popUp(`Playing dir: "${dir}"`);
   }
+
+  public onClearQueue(): void {
+    this.webSocketService.send(MpdCommands.RM_ALL);
+    this.webSocketService.send(MpdCommands.GET_QUEUE);
+  }
 }

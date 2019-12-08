@@ -30,7 +30,7 @@ try {
   console.error('Error occurred:', error);
 }
 
-console.log('Staring build');
+console.log('Starting build');
 
 let child;
 

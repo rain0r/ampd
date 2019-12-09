@@ -11,8 +11,6 @@ const revision = require('child_process')
 .execSync('git rev-parse HEAD')
 .toString().trim();
 
-console.log(`Using git commit ${revision}`);
-
 // Write down the build date
 const now = new Date();
 const options = {
@@ -22,7 +20,9 @@ const options = {
   to: `ampdVersion: '${dateFormat(now, "yyyy-mm-dd HH:MM")} (${revision})'`,
 };
 
-console.log(`ampdVersion ${dateFormat(now, "yyyy-mm-dd HH:MM")}`);
+console.log(`Using git commit ${revision}`);
+console.log(`Using ampdVersion ${dateFormat(now, "yyyy-mm-dd HH:MM")}`);
+console.log(`Using CONTEXT_PATH ${CONTEXT_PATH}`);
 
 try {
   replace.sync(options);

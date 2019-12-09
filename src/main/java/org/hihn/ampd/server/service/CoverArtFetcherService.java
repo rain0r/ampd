@@ -5,6 +5,7 @@ import static org.hihn.ampd.server.service.CoverCacheService.COVER_TYPE.SINGLETO
 import static org.hihn.ampd.server.util.AmpdUtils.loadFile;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -21,7 +22,10 @@ import org.hihn.ampd.server.config.MpdConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
+import org.springframework.util.FileCopyUtils;
+import org.springframework.util.StringUtils;
 
 @Service
 public class CoverArtFetcherService {
@@ -81,8 +85,16 @@ public class CoverArtFetcherService {
   }
 
   private Optional<byte[]> loadFallbackCover() {
-    Path transparentFile = Paths.get(getClass().getResource("/transparent.png").getFile());
-    return Optional.of(loadFile(transparentFile));
+    ClassPathResource cpr = new ClassPathResource("transparent.png");
+    Optional<byte[]> ret = Optional.empty();
+    try {
+      byte[] bdata = FileCopyUtils.copyToByteArray(cpr.getInputStream());
+      ret = Optional.of(bdata);
+    } catch (IOException e) {
+      LOG.error("IOException", e);
+    }
+
+    return ret;
   }
 
   private Optional<byte[]> downloadCover() {
@@ -97,7 +109,7 @@ public class CoverArtFetcherService {
             .findFirst()
             .orElse(null);
 
-    if (foundAlbum != null) {
+    if (foundAlbum != null && !StringUtils.isEmpty(foundAlbum.toString())) {
       try {
         List<MPDArtwork> foundArtworks = mpd.getArtworkFinder().find(foundAlbum);
         if (foundArtworks.size() > 0) {
@@ -115,7 +127,6 @@ public class CoverArtFetcherService {
   /**
    * See if path leads to an album directory and try to load the cover.
    *
-   * @param pathStr
    * @return The cover.
    */
   public byte[] findAlbumCover(Optional<String> pathStr) {

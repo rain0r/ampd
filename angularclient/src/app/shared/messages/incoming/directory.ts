@@ -1,5 +1,3 @@
-import { ConnectionConfiguration } from '../../../connection-configuration';
-
 export interface IDirectory {
   directory: boolean;
   path: string;

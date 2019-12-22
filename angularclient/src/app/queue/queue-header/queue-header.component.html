@@ -1,3 +1,11 @@
+<div fxLayout="row wrap" fxLayoutAlign="center">
+  <span *ngIf="currentState == 'stop'">
+    <h1>
+      Stopped.
+    </h1>
+  </span>
+</div>
+
 <div fxLayout="row wrap" fxLayoutAlign="space-between start">
   <div fxFlex.lt-md="100%">
     <span class="mat-h1 title">
@@ -21,9 +29,6 @@
       (click)="openCoverModal()"
       class="album-art"
     />
-    <span *ngIf="currentState == 'stop'">
-      Stopped.
-    </span>
     <mat-divider fxShow.lt-md="true" fxShow="false"></mat-divider>
   </div>
 </div>

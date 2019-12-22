@@ -77,5 +77,6 @@ export class NavigationComponent implements OnInit {
   public onClearQueue(): void {
     this.webSocketService.send(MpdCommands.RM_ALL);
     this.webSocketService.send(MpdCommands.GET_QUEUE);
+    this.notificationService.popUp('Cleared queue');
   }
 }

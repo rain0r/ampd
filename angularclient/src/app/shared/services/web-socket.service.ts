@@ -30,7 +30,7 @@ export class WebSocketService {
   }
 
   public getStateSubs(): Observable<ServerStatusRootImpl> {
-    return this.stompService.subscribe('/topic/messages').pipe(
+    return this.stompService.subscribe('/topic/state').pipe(
       map((message: Message) => message.body),
       map(body => JSON.parse(body)),
       filter(body => body !== null),
@@ -43,7 +43,7 @@ export class WebSocketService {
   }
 
   public getQueueSubs(): Observable<QueueRootImpl> {
-    return this.stompService.subscribe('/topic/messages').pipe(
+    return this.stompService.subscribe('/topic/queue').pipe(
       map((message: Message) => message.body),
       map(body => JSON.parse(body)),
       filter(body => body !== null),
@@ -56,7 +56,7 @@ export class WebSocketService {
   }
 
   public getBrowseSubs(): Observable<BrowseRootImpl> {
-    return this.stompService.subscribe('/topic/messages').pipe(
+    return this.stompService.subscribe('/topic/controller').pipe(
       map((message: Message) => message.body),
       map(body => JSON.parse(body)),
       filter(body => body !== null),
@@ -69,7 +69,7 @@ export class WebSocketService {
   }
 
   public getSearchSubs(): Observable<SearchRootImpl> {
-    return this.stompService.subscribe('/topic/messages').pipe(
+    return this.stompService.subscribe('/topic/controller').pipe(
       map((message: Message) => message.body),
       map(body => JSON.parse(body)),
       filter(body => body !== null),

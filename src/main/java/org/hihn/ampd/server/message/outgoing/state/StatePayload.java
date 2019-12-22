@@ -14,7 +14,8 @@ public class StatePayload {
 
   private ControlPanel controlPanel;
 
-  public StatePayload() {}
+  public StatePayload() {
+  }
 
   public StatePayload(ServerStatus serverStatus, MPDSong currentSong, ControlPanel controlPanel) {
     this.serverStatus = serverStatus;

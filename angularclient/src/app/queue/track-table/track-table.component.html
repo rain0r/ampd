@@ -18,7 +18,7 @@
   </button>
 </mat-form-field>
 
-<table mat-table [dataSource]="dataSource">
+<table mat-table [dataSource]="trackTableData">
   <ng-container matColumnDef="pos">
     <mat-header-cell *matHeaderCellDef>#</mat-header-cell>
     <mat-cell *matCellDef="let row" (click)="onRowClick(row.file)">

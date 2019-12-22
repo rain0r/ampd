@@ -11,7 +11,8 @@ public class SearchPayload {
 
   String query = null;
 
-  public SearchPayload() {}
+  public SearchPayload() {
+  }
 
   public SearchPayload(List<MPDSong> searchResults, int searchResultCount, String query) {
     this.searchResults = searchResults;

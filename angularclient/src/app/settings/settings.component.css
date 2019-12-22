@@ -1,18 +1,16 @@
-.settings-form {
-  margin-left: auto;
-  margin-right: auto;
+a {
+  color: black;
 }
 
-.version-info {
-  font-weight: bold;
-  margin-top: 1em;
+.divider {
+  padding-bottom: 1em;
+  padding-top: 1em;
 }
 
-.example-container {
-  display: flex;
-  flex-direction: column;
+.text {
+  font-size: x-large;
 }
 
-.example-container > * {
+mat-form-field {
   width: 100%;
 }

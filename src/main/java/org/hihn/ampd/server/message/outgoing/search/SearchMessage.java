@@ -8,7 +8,8 @@ public class SearchMessage extends AmpdMessage {
 
   private SearchPayload payload;
 
-  public SearchMessage() {}
+  public SearchMessage() {
+  }
 
   public SearchMessage(SearchPayload payload) {
     this.payload = payload;

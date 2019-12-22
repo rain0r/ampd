@@ -5,11 +5,13 @@ import {
   SimpleChange,
   SimpleChanges,
 } from '@angular/core';
-import { MatDialog, MatTableDataSource } from '@angular/material';
+import { MatTableDataSource } from '@angular/material';
 import { Observable } from 'rxjs/index';
 import { AppComponent } from '../../app.component';
-import { IMpdTrack } from '../../shared/messages/incoming/mpd-track';
-import { QueueRootImpl } from '../../shared/messages/incoming/queue';
+import {
+  IQueuePayload,
+  QueueRootImpl,
+} from '../../shared/messages/incoming/queue';
 import { QueueTrack } from '../../shared/models/queue-track';
 import { MpdCommands } from '../../shared/mpd/mpd-commands';
 import { WebSocketService } from '../../shared/services/web-socket.service';
@@ -20,7 +22,11 @@ import { WebSocketService } from '../../shared/services/web-socket.service';
   styleUrls: ['./track-table.component.css'],
 })
 export class TrackTableComponent implements OnChanges {
-  public dataSource = new MatTableDataSource<QueueTrack>();
+  public trackTableData = new MatTableDataSource<QueueTrack>();
+
+  // The checksum of the current queue
+  public checksum = 0;
+
   @Input() private currentSong: QueueTrack = new QueueTrack();
   private queueSubs: Observable<QueueRootImpl>;
 
@@ -35,15 +41,14 @@ export class TrackTableComponent implements OnChanges {
 
   constructor(
     private appComponent: AppComponent,
-    private webSocketService: WebSocketService,
-    public dialog: MatDialog
+    private webSocketService: WebSocketService
   ) {
     this.queueSubs = this.webSocketService.getQueueSubs();
     this.buildQueueMsgReceiver();
   }
 
   public applyFilter(filterValue: string) {
-    this.dataSource.filter = filterValue.trim().toLowerCase();
+    this.trackTableData.filter = filterValue.trim().toLowerCase();
   }
 
   public getDisplayedColumns(): string[] {
@@ -73,22 +78,22 @@ export class TrackTableComponent implements OnChanges {
     const newState: SimpleChange = changes.currentSong;
     if (newState && newState.currentValue) {
       this.currentSong = newState.currentValue;
-      for (const track of this.dataSource.data) {
+      for (const track of this.trackTableData.data) {
         track.playing = track.id === this.currentSong.id;
-        // if (track.id === this.currentSong.id) {
-        //   track.playing = true;
-        // }
-        // else {
-        //   track.playing = false;
-        // }
       }
     }
   }
 
-  private buildQueue(message: IMpdTrack[]): void {
+  private buildQueue(message: IQueuePayload): void {
+    // Check if the queue has changed. Abort if not.
+    if (message.checkSum === this.checksum) {
+      return;
+    }
+
+    this.checksum = message.checkSum;
     const tmp: QueueTrack[] = [];
     let posCounter = 1;
-    for (const item of message) {
+    for (const item of message.tracks) {
       const track: QueueTrack = new QueueTrack(item);
       track.pos = posCounter;
       if (this.currentSong.id === item.id) {
@@ -97,7 +102,7 @@ export class TrackTableComponent implements OnChanges {
       tmp.push(track);
       posCounter += 1;
     }
-    this.dataSource.data = tmp; // add the new model object to the dataSource
+    this.trackTableData.data = tmp; // add the new model object to the trackTableData
   }
 
   private buildQueueMsgReceiver() {

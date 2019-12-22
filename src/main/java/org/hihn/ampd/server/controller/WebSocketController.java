@@ -15,11 +15,12 @@ import org.hihn.ampd.server.config.MpdConfiguration;
 import org.hihn.ampd.server.message.AmpdMessage;
 import org.hihn.ampd.server.message.Message;
 import org.hihn.ampd.server.message.incoming.IncomingMessage;
-import org.hihn.ampd.server.message.outgoing.Queue;
+import org.hihn.ampd.server.message.outgoing.queue.QueueMessage;
 import org.hihn.ampd.server.message.outgoing.browse.BrowseMessage;
 import org.hihn.ampd.server.message.outgoing.browse.BrowsePayload;
 import org.hihn.ampd.server.message.outgoing.browse.Directory;
 import org.hihn.ampd.server.message.outgoing.browse.Playlist;
+import org.hihn.ampd.server.message.outgoing.queue.QueuePayload;
 import org.hihn.ampd.server.service.ControlPanelService;
 import org.hihn.ampd.server.service.SearchService;
 import org.slf4j.Logger;
@@ -231,8 +232,9 @@ public class WebSocketController {
   }
 
   private Optional<Message> getQueue(Object pPayload) {
-    Queue q = new Queue(mpd.getPlaylist().getSongList());
-    return Optional.of(q);
+    QueuePayload queuePayload = new QueuePayload(mpd.getPlaylist().getSongList());
+    QueueMessage queue = new QueueMessage(queuePayload);
+    return Optional.of(queue);
   }
 
   private Optional<Message> setVolume(Object pVolume) {

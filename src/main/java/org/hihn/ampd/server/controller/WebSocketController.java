@@ -75,7 +75,7 @@ public class WebSocketController {
   }
 
   @MessageMapping("/mpd")
-  @SendTo("/topic/messages")
+  @SendTo("/topic/controller")
   public Optional<Message> send(IncomingMessage incomingMessage) {
     Optional<Message> outgoingMessage = Optional.empty();
     try {

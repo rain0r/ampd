@@ -10,15 +10,20 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+/**
+ * Repeatedly sends {@link StatePayload} via {@link #PUBLISH_URL}.
+ */
 @Component
-public class ScheduledUpdatesOnTopic {
+public class ScheduledStatePublisher {
+
+  private static final String PUBLISH_URL = "/topic/state";
 
   @Autowired private SimpMessagingTemplate template;
 
   private final MPD mpd;
 
   @Autowired
-  public ScheduledUpdatesOnTopic(MpdConfiguration mpdConfiguration) {
+  public ScheduledStatePublisher(MpdConfiguration mpdConfiguration) {
     this.mpd = mpdConfiguration.mpd();
   }
 
@@ -28,12 +33,11 @@ public class ScheduledUpdatesOnTopic {
       return;
     }
 
-    mpd.getServerStatus().setExpiryInterval(1L);
     ControlPanel controlPanel = new ControlPanel(mpd.getServerStatus());
     StatePayload statePayload =
         new StatePayload(mpd.getServerStatus(), mpd.getPlayer().getCurrentSong(), controlPanel);
 
     StateMessage message = new StateMessage(statePayload);
-    template.convertAndSend("/topic/messages", message);
+    template.convertAndSend(PUBLISH_URL, message);
   }
 }

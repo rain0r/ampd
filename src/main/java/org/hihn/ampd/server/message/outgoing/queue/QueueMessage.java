@@ -1,16 +1,14 @@
-package org.hihn.ampd.server.message.outgoing;
+package org.hihn.ampd.server.message.outgoing.queue;
 
-import java.util.List;
-import org.bff.javampd.song.MPDSong;
 import org.hihn.ampd.server.message.AmpdMessage;
 
-public class Queue extends AmpdMessage {
+public class QueueMessage extends AmpdMessage {
 
   private static final AmpdMessage.MESSAGE_TYPE type = AmpdMessage.MESSAGE_TYPE.QUEUE;
 
-  private final List<MPDSong> payload;
+  private final QueuePayload payload;
 
-  public Queue(List<MPDSong> payload) {
+  public QueueMessage(QueuePayload payload) {
     this.payload = payload;
   }
 
@@ -23,4 +21,6 @@ public class Queue extends AmpdMessage {
   public Object getPayload() {
     return payload;
   }
+
+
 }

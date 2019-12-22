@@ -54,6 +54,11 @@ public class CoverArtFetcherService {
 
   public Optional<byte[]> getCurrentAlbumCover() {
     MPDSong track = mpd.getPlayer().getCurrentSong();
+
+    if (track == null) {
+      return Optional.empty();
+    }
+
     CoverCacheService.COVER_TYPE coverType = (track.getAlbumName().isEmpty()) ? SINGLETON : ALBUM;
 
     // Try to load the cover from cache

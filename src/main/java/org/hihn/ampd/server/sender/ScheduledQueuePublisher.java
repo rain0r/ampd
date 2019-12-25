@@ -34,6 +34,7 @@ public class ScheduledQueuePublisher {
       return;
     }
 
+    mpd.getServerStatus().setExpiryInterval(1L); // Tells javampd to get fresh data every second
     QueuePayload queuePayload = new QueuePayload(mpd.getPlaylist().getSongList());
     QueueMessage queue = new QueueMessage(queuePayload);
     template.convertAndSend(PUBLISH_URL, queue);

@@ -7,10 +7,7 @@ a {
   padding-top: 1em;
 }
 
-.text {
-  font-size: x-large;
-}
-
-mat-form-field {
-  width: 100%;
+.gap {
+  margin-left: 2em;
+  margin-right: 2em;
 }

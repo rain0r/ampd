@@ -1,19 +1,22 @@
-<div fxLayout="column" fxLayoutAlign="center center">
-  <div fxFlex="33%">
+<div class="gap">
+
+<div fxLayout="column">
+  <div>
     <h1>ampd</h1>
+
     <mat-divider class="divider"></mat-divider>
 
     <form (ngSubmit)="onSubmit()" #heroForm="ngForm" class="settings-form">
       <div fxLayout.xs="column">
         <div>
-          <mat-form-field>
+          <mat-form-field class="full-width">
             <input matInput required name="coverServer" [(ngModel)]="model.coverServer" value="{{ model.coverServer }}" placeholder="Cover Server" />
           </mat-form-field>
 
         </div>
 
         <div>
-          <mat-form-field>
+          <mat-form-field class="full-width">
             <input matInput required name="webSocketServer" [(ngModel)]="model.webSocketServer" value="{{ model.webSocketServer }}" placeholder="Websocket Server" />
           </mat-form-field>
         </div>
@@ -25,17 +28,18 @@
       </button>
 
     </form>
-
   </div>
 
-  <div fxFlex="33%">
-    <p class="text text-muted">
-      version: {{ ampdVersion }}
-    </p>
+  <mat-divider class="divider"></mat-divider>
 
-    <p class="text">
-      <a href="https://github.com/rain0r/ampd">Source code</a>
-    </p>
+  <div>
+    Version: {{ ampdVersion }}
   </div>
+
+  <div>
+    Source code: <a href="https://github.com/rain0r/ampd">Github</a>
+  </div>
+
+</div>
 
 </div>

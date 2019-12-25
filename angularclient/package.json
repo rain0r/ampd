@@ -1,6 +1,6 @@
 {
   "name": "ampd",
-  "version": "0.0.1",
+  "version": "0.0.7-SNAPSHOT",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",

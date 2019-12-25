@@ -1,10 +1,10 @@
-<div fxLayout.xs="column" fxLayoutAlign="center center">
+<div fxLayout="column" fxLayoutAlign="center center">
   <div fxFlex="33%">
     <h1>ampd</h1>
     <mat-divider class="divider"></mat-divider>
 
     <p class="text text-muted">
-       version: {{ ampdVersion }}
+      version: {{ ampdVersion }}
     </p>
 
     <p class="text">
@@ -14,38 +14,19 @@
     <mat-divider class="divider"></mat-divider>
 
     <form (ngSubmit)="onSubmit()" #heroForm="ngForm" class="settings-form">
-
-
-
       <div fxLayout.xs="column">
-
-
-<div>
-        <mat-form-field>
-            <input
-                matInput
-                required
-                name="coverServer"
-                [(ngModel)]="model.coverServer"
-                value="{{ model.coverServer }}"
-                placeholder="Cover Server"
-            />
-          </mat-form-field>
-
-</div>
-
-<div>
+        <div>
           <mat-form-field>
-            <input
-                matInput
-                required
-                name="webSocketServer"
-                [(ngModel)]="model.webSocketServer"
-                value="{{ model.webSocketServer }}"
-                placeholder="Websocket Server"
-            />
+            <input matInput required name="coverServer" [(ngModel)]="model.coverServer" value="{{ model.coverServer }}" placeholder="Cover Server" />
           </mat-form-field>
-</div>
+
+        </div>
+
+        <div>
+          <mat-form-field>
+            <input matInput required name="webSocketServer" [(ngModel)]="model.webSocketServer" value="{{ model.webSocketServer }}" placeholder="Websocket Server" />
+          </mat-form-field>
+        </div>
 
       </div>
 

@@ -1,21 +1,14 @@
-import {
-  AfterViewInit,
-  ChangeDetectorRef,
-  Component,
-  ElementRef,
-  ViewChild,
-} from '@angular/core';
-import { MatSnackBar } from '@angular/material';
-import { ActivatedRoute } from '@angular/router';
+import {AfterViewInit, ChangeDetectorRef, Component, ElementRef, ViewChild,} from '@angular/core';
+import {MatSnackBar} from '@angular/material';
+import {ActivatedRoute} from '@angular/router';
 
-import { Observable } from 'rxjs';
-import { AmpdBlockUiService } from '../shared/block/ampd-block-ui.service';
+import {Observable} from 'rxjs';
 
-import { IMpdTrack } from '../shared/messages/incoming/mpd-track';
-import { SearchRootImpl } from '../shared/messages/incoming/search';
-import { QueueTrack } from '../shared/models/queue-track';
-import { MpdCommands } from '../shared/mpd/mpd-commands';
-import { WebSocketService } from '../shared/services/web-socket.service';
+import {IMpdTrack} from '../shared/messages/incoming/mpd-track';
+import {SearchRootImpl} from '../shared/messages/incoming/search';
+import {QueueTrack} from '../shared/models/queue-track';
+import {MpdCommands} from '../shared/mpd/mpd-commands';
+import {WebSocketService} from '../shared/services/web-socket.service';
 
 @Component({
   selector: 'app-search',
@@ -24,7 +17,6 @@ import { WebSocketService } from '../shared/services/web-socket.service';
 })
 export class SearchComponent implements AfterViewInit {
   public searchSubs: Observable<SearchRootImpl>;
-
   public titleQueue: IMpdTrack[] = [];
   public searchResultCount = 0;
   public displayedColumns: string[] = [
@@ -35,19 +27,14 @@ export class SearchComponent implements AfterViewInit {
     'action',
   ];
 
-  @ViewChild('name', { static: false }) public nameField?: ElementRef;
+  @ViewChild('search', {static: false}) public searchField?: ElementRef;
 
-  constructor(
-    private activatedRoute: ActivatedRoute,
-    private snackBar: MatSnackBar,
-    private ampdBlockUiService: AmpdBlockUiService,
-    private webSocketService: WebSocketService,
-    private cdRef: ChangeDetectorRef
-  ) {
-    this.ampdBlockUiService.start();
+  constructor(private snackBar: MatSnackBar,
+              private webSocketService: WebSocketService,
+              private cdRef: ChangeDetectorRef) {
     this.searchSubs = this.webSocketService.getSearchSubs();
 
-    this.checkQueryParam();
+    // this.checkQueryParam();
     this.getResults();
   }
 
@@ -83,10 +70,11 @@ export class SearchComponent implements AfterViewInit {
   }
 
   public onSearchKeyUp(): void {
-    if (!this.nameField) {
+    if (!this.searchField) {
+
       return;
     }
-    const input = this.nameField.nativeElement.value;
+    const input = this.searchField.nativeElement.value;
 
     if (input.trim().length === 0) {
       this.clear();
@@ -96,8 +84,8 @@ export class SearchComponent implements AfterViewInit {
   }
 
   public ngAfterViewInit() {
-    if (this.nameField) {
-      this.nameField.nativeElement.focus();
+    if (this.searchField) {
+      this.searchField.nativeElement.focus();
     }
 
     this.cdRef.detectChanges();
@@ -110,8 +98,8 @@ export class SearchComponent implements AfterViewInit {
     this.searchSubs.subscribe((message: SearchRootImpl) => {
       try {
         this.processSearchResults(
-          message.payload.searchResults,
-          message.payload.searchResultCount
+            message.payload.searchResults,
+            message.payload.searchResultCount
         );
       } catch (error) {
         console.error(`Error handling message:`, message);
@@ -128,13 +116,13 @@ export class SearchComponent implements AfterViewInit {
   /**
    * When initially loading this page, check if there is a search query param
    */
-  private checkQueryParam(): void {
-    this.activatedRoute.queryParams.subscribe(params => {
-      if ('query' in params) {
-        this.search(params.query);
-      }
-    });
-  }
+  // private checkQueryParam(): void {
+  //   this.activatedRoute.queryParams.subscribe(params => {
+  //     if ('query' in params) {
+  //       this.search(params.query);
+  //     }
+  //   });
+  // }
 
   private clear(): void {
     this.titleQueue = [];
@@ -142,11 +130,14 @@ export class SearchComponent implements AfterViewInit {
   }
 
   private processSearchResults(searchResults, searchResultCount) {
-    this.ampdBlockUiService.stop();
     this.clear();
     searchResults.forEach(track => {
       this.titleQueue.push(new QueueTrack(track));
     });
     this.searchResultCount = searchResultCount;
+  }
+
+  startSearch() {
+
   }
 }

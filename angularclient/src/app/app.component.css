@@ -1,3 +1,11 @@
 .app-content {
   padding: 0.3em;
 }
+
+.fill-space {
+  flex: 1 1 auto;
+}
+
+.app-main {
+  height: 100vh;
+}

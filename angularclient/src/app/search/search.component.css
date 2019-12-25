@@ -35,3 +35,7 @@ mat-header-cell:first-of-type {
   flex: 0 0 25% !important;
   min-width: 104px !important;
 }
+
+.full-width {
+  width: 100%;
+}

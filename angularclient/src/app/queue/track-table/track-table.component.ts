@@ -51,6 +51,11 @@ export class TrackTableComponent implements OnChanges {
     this.trackTableData.filter = filterValue.trim().toLowerCase();
   }
 
+  public resetFilter(filterValue:string) {
+    filterValue='';
+    this.trackTableData.filter = '';
+  }
+
   public getDisplayedColumns(): string[] {
     const isMobile = this.appComponent.isMobile();
     return this.displayedColumns

@@ -1,42 +1,30 @@
-<div
-  class="container"
-  fxLayout="row"
-  fxLayout.xs="column"
-  fxLayoutWrap
-  fxLayoutGap="0.5%"
-  fxLayoutAlign="center"
->
-  <div fxFlex="100%">
-    <mat-toolbar>
-      <h1>
-        Search
-      </h1>
-    </mat-toolbar>
+<h1>
+  Search
+</h1>
+
+<mat-divider></mat-divider>
+
+<div fxLayout.xs="column" fxLayout="row" fxLayoutAlign="start baseline">
+  <div fxFlex="50%">
+    <mat-form-field class="full-width">
+      <input
+          #search
+          type="text"
+          matInput
+          placeholder="{{ query }}"
+          (keyup)="onSearchKeyUp()"
+      />
+    </mat-form-field>
+  </div>
+  <div>
+    <div *ngIf="searchResultCount > 0">
+      <span class="text-muted">
+        {{ searchResultCount }} results
+      </span>
+      <mat-divider></mat-divider>
+    </div>
   </div>
 </div>
-
-<mat-form-field class="half-width">
-  <input
-    #name
-    type="text"
-    matInput
-    placeholder="Name"
-    placeholder="{{ query }}"
-    (keyup)="onSearchKeyUp()"
-  />
-</mat-form-field>
-
-<span class="query"></span>
-&nbsp;
-
-<mat-divider></mat-divider>
-
-<p>
-  <span class="text-muted" *ngIf="searchResultCount > 0">
-    {{ searchResultCount }} results
-  </span>
-</p>
-<mat-divider></mat-divider>
 
 <!-- Search results table -->
 <table

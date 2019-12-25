@@ -18,7 +18,8 @@ public class ScheduledStatePublisher {
 
   private static final String PUBLISH_URL = "/topic/state";
 
-  @Autowired private SimpMessagingTemplate template;
+  @Autowired
+  private SimpMessagingTemplate template;
 
   private final MPD mpd;
 
@@ -33,6 +34,7 @@ public class ScheduledStatePublisher {
       return;
     }
 
+    mpd.getServerStatus().setExpiryInterval(1L); // Tells javampd to get fresh data every second
     ControlPanel controlPanel = new ControlPanel(mpd.getServerStatus());
     StatePayload statePayload =
         new StatePayload(mpd.getServerStatus(), mpd.getPlayer().getCurrentSong(), controlPanel);

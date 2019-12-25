@@ -3,16 +3,6 @@
     <h1>ampd</h1>
     <mat-divider class="divider"></mat-divider>
 
-    <p class="text text-muted">
-      version: {{ ampdVersion }}
-    </p>
-
-    <p class="text">
-      <a href="https://github.com/rain0r/ampd">Source code</a>
-    </p>
-
-    <mat-divider class="divider"></mat-divider>
-
     <form (ngSubmit)="onSubmit()" #heroForm="ngForm" class="settings-form">
       <div fxLayout.xs="column">
         <div>
@@ -36,6 +26,16 @@
 
     </form>
 
+  </div>
+
+  <div fxFlex="33%">
+    <p class="text text-muted">
+      version: {{ ampdVersion }}
+    </p>
+
+    <p class="text">
+      <a href="https://github.com/rain0r/ampd">Source code</a>
+    </p>
   </div>
 
 </div>

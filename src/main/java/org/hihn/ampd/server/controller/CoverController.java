@@ -36,13 +36,14 @@ public class CoverController {
     produces = MediaType.IMAGE_JPEG_VALUE
   )
   public @ResponseBody byte[] getCurrentCover() {
-    Optional<byte[]> ret = Optional.empty();
-    try {
-      ret = coverArtFetcherService.getCurrentAlbumCover();
-    } catch (Exception e) {
-      LOG.error(e.getMessage(), e);
+    Optional<byte[]> ret =  coverArtFetcherService.getCurrentAlbumCover();
+    if (ret.isPresent()) {
+      return ret.get();
     }
-    return (ret.isPresent()) ? ret.get() : null;
+
+    throw new ResponseStatusException(
+            HttpStatus.NOT_FOUND, "Cover not found"
+    );
   }
 
   @CrossOrigin

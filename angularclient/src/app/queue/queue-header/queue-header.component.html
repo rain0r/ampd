@@ -22,7 +22,8 @@
   </div>
   <div fxFlex.lt-md="100%">
     <mat-divider fxShow.lt-md="true" fxShow="false"></mat-divider>
-    <img #cover
+    <img
+      #cover
       *ngIf="currentState != 'stop'"
       src="{{ currentSong.coverUrl() }}"
       alt="No cover"

@@ -80,25 +80,7 @@ public class CoverArtFetcherService {
       coverCacheService.saveCover(coverType, track.getArtistName(), track.getTitle(), cover.get());
     }
 
-    // Show a transparent image
-    if (!cover.isPresent()) {
-      cover = loadFallbackCover();
-    }
-
     return cover;
-  }
-
-  private Optional<byte[]> loadFallbackCover() {
-    ClassPathResource cpr = new ClassPathResource("transparent.png");
-    Optional<byte[]> ret = Optional.empty();
-    try {
-      byte[] bdata = FileCopyUtils.copyToByteArray(cpr.getInputStream());
-      ret = Optional.of(bdata);
-    } catch (IOException e) {
-      LOG.error("IOException", e);
-    }
-
-    return ret;
   }
 
   private Optional<byte[]> downloadCover() {

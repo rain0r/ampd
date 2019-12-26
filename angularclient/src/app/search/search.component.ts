@@ -1,14 +1,20 @@
-import {AfterViewInit, ChangeDetectorRef, Component, ElementRef, ViewChild,} from '@angular/core';
-import {MatSnackBar} from '@angular/material';
-import {ActivatedRoute} from '@angular/router';
+import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  ViewChild,
+} from '@angular/core';
+import { MatSnackBar } from '@angular/material';
+import { ActivatedRoute } from '@angular/router';
 
-import {Observable} from 'rxjs';
+import { Observable } from 'rxjs';
 
-import {IMpdTrack} from '../shared/messages/incoming/mpd-track';
-import {SearchRootImpl} from '../shared/messages/incoming/search';
-import {QueueTrack} from '../shared/models/queue-track';
-import {MpdCommands} from '../shared/mpd/mpd-commands';
-import {WebSocketService} from '../shared/services/web-socket.service';
+import { IMpdTrack } from '../shared/messages/incoming/mpd-track';
+import { SearchRootImpl } from '../shared/messages/incoming/search';
+import { QueueTrack } from '../shared/models/queue-track';
+import { MpdCommands } from '../shared/mpd/mpd-commands';
+import { WebSocketService } from '../shared/services/web-socket.service';
 
 @Component({
   selector: 'app-search',
@@ -27,11 +33,13 @@ export class SearchComponent implements AfterViewInit {
     'action',
   ];
 
-  @ViewChild('search', {static: false}) public searchField?: ElementRef;
+  @ViewChild('search', { static: false }) public searchField?: ElementRef;
 
-  constructor(private snackBar: MatSnackBar,
-              private webSocketService: WebSocketService,
-              private cdRef: ChangeDetectorRef) {
+  constructor(
+    private snackBar: MatSnackBar,
+    private webSocketService: WebSocketService,
+    private cdRef: ChangeDetectorRef
+  ) {
     this.searchSubs = this.webSocketService.getSearchSubs();
 
     // this.checkQueryParam();
@@ -71,7 +79,6 @@ export class SearchComponent implements AfterViewInit {
 
   public onSearchKeyUp(): void {
     if (!this.searchField) {
-
       return;
     }
     const input = this.searchField.nativeElement.value;
@@ -98,8 +105,8 @@ export class SearchComponent implements AfterViewInit {
     this.searchSubs.subscribe((message: SearchRootImpl) => {
       try {
         this.processSearchResults(
-            message.payload.searchResults,
-            message.payload.searchResultCount
+          message.payload.searchResults,
+          message.payload.searchResultCount
         );
       } catch (error) {
         console.error(`Error handling message:`, message);
@@ -135,9 +142,5 @@ export class SearchComponent implements AfterViewInit {
       this.titleQueue.push(new QueueTrack(track));
     });
     this.searchResultCount = searchResultCount;
-  }
-
-  startSearch() {
-
   }
 }

@@ -8,19 +8,17 @@
   <div fxFlex="50%">
     <mat-form-field class="full-width">
       <input
-          #search
-          type="text"
-          matInput
-          placeholder="{{ query }}"
-          (keyup)="onSearchKeyUp()"
+        #search
+        type="text"
+        matInput
+        placeholder="{{ query }}"
+        (keyup)="onSearchKeyUp()"
       />
     </mat-form-field>
   </div>
   <div>
     <div *ngIf="searchResultCount > 0">
-      <span class="text-muted">
-        {{ searchResultCount }} results
-      </span>
+      <span class="text-muted"> {{ searchResultCount }} results </span>
       <mat-divider></mat-divider>
     </div>
   </div>

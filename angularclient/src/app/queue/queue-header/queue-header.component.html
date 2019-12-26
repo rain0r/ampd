@@ -22,12 +22,14 @@
   </div>
   <div fxFlex.lt-md="100%">
     <mat-divider fxShow.lt-md="true" fxShow="false"></mat-divider>
-    <img
+    <img #cover
       *ngIf="currentState != 'stop'"
       src="{{ currentSong.coverUrl() }}"
       alt="No cover"
-      (click)="openCoverModal()"
       class="album-art"
+      (click)="openCoverModal()"
+      (error)="cover.hidden = true"
+      [hidden]="cover.hidden"
     />
     <mat-divider fxShow.lt-md="true" fxShow="false"></mat-divider>
   </div>

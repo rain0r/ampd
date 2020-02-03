@@ -29,6 +29,7 @@ import { BrowseService } from './shared/services/browse.service';
 import { NotificationService } from './shared/services/notification.service';
 import { WebSocketService } from './shared/services/web-socket.service';
 import { SharedModule } from './shared/shared.module';
+import {HttpClientModule} from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -59,6 +60,7 @@ import { SharedModule } from './shared/shared.module';
     AppRoutingModule,
     FlexLayoutModule,
     BlockUIModule.forRoot(),
+      HttpClientModule,
   ],
   providers: [
     AmpdBlockUiService,

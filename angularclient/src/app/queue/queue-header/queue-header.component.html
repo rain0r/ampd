@@ -24,10 +24,10 @@
     <mat-divider fxShow.lt-md="true" fxShow="false"></mat-divider>
     <img
       #cover
-      *ngIf="currentState != 'stop'"
+      *ngIf="currentState != 'stop' && hasCover"
       src="{{ currentSong.coverUrl() }}"
-      alt="No cover"
       class="album-art"
+      err-src="/assets/transparent.png"
       (click)="openCoverModal()"
     />
     <mat-divider fxShow.lt-md="true" fxShow="false"></mat-divider>

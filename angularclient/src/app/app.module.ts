@@ -1,3 +1,4 @@
+import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { BrowserModule } from '@angular/platform-browser';
@@ -26,10 +27,10 @@ import { EncodeURIComponentPipe } from './shared/pipes/EncodeURI';
 import { SecondsToMmSsPipe } from './shared/pipes/SecondsToMmSsPipe';
 import { AppRoutingModule } from './shared/routing/app-routing.module';
 import { BrowseService } from './shared/services/browse.service';
+import { MessageService } from './shared/services/message.service';
 import { NotificationService } from './shared/services/notification.service';
 import { WebSocketService } from './shared/services/web-socket.service';
 import { SharedModule } from './shared/shared.module';
-import {HttpClientModule} from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -60,11 +61,12 @@ import {HttpClientModule} from '@angular/common/http';
     AppRoutingModule,
     FlexLayoutModule,
     BlockUIModule.forRoot(),
-      HttpClientModule,
+    HttpClientModule,
   ],
   providers: [
     AmpdBlockUiService,
     BrowseService,
+    MessageService,
     NotificationService,
     StompService,
     WebSocketService,

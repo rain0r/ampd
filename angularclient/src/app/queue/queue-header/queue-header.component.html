@@ -27,7 +27,6 @@
       *ngIf="currentState != 'stop' && hasCover"
       src="{{ currentSong.coverUrl() }}"
       class="album-art"
-      err-src="/assets/transparent.png"
       (click)="openCoverModal()"
     />
     <mat-divider fxShow.lt-md="true" fxShow="false"></mat-divider>

@@ -22,7 +22,6 @@ export class QueueHeaderComponent {
     private http: HttpClient,
     private messageService: MessageService
   ) {
-    // this.foo();
     this.subscription = this.messageService.getMessage().subscribe(message => {
       this.checkCoverUrl();
     });

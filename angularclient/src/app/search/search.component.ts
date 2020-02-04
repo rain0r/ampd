@@ -41,14 +41,10 @@ export class SearchComponent implements AfterViewInit {
     private cdRef: ChangeDetectorRef
   ) {
     this.searchSubs = this.webSocketService.getSearchSubs();
-
-    // this.checkQueryParam();
     this.getResults();
   }
 
   public search(query: string): void {
-    console.log(`sending search query: ${query}`);
-
     // Only search when the term is at least 3 chars long
     if (query && query.length > 3) {
       this.webSocketService.sendData(MpdCommands.SEARCH, {

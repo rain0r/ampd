@@ -59,12 +59,6 @@ java -jar -Dserver.port=8082 target/server-0.0.1-SNAPSHOT.jar
 
 ## Developing
 
-Formatting the Java source-code:
-
-```
-mvn formatter:format
-```
-
 Formatting the Angular source-code:
 
 ```

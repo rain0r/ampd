@@ -10,7 +10,6 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -21,8 +20,6 @@ public class CoverController {
 
   private static final String CURRENT_COVER_URL = "/current-cover";
 
-  private static final String FIND_COVER_URL = "/find-cover";
-
   private final CoverArtFetcherService coverArtFetcherService;
 
   @Autowired
@@ -32,32 +29,18 @@ public class CoverController {
 
   @CrossOrigin
   @RequestMapping(
-    value = {CURRENT_COVER_URL},
-    produces = MediaType.IMAGE_JPEG_VALUE
+      value = {CURRENT_COVER_URL},
+      produces = MediaType.IMAGE_JPEG_VALUE
   )
-  public @ResponseBody byte[] getCurrentCover() {
-    Optional<byte[]> ret =  coverArtFetcherService.getCurrentAlbumCover();
+  public @ResponseBody
+  byte[] getCurrentCover() {
+    Optional<byte[]> ret = coverArtFetcherService.getCurrentAlbumCover();
     if (ret.isPresent()) {
       return ret.get();
     }
 
     throw new ResponseStatusException(
-            HttpStatus.NOT_FOUND, "Cover not found"
+        HttpStatus.NOT_FOUND, "Cover not found"
     );
-  }
-
-  @CrossOrigin
-  @RequestMapping(
-    value = {FIND_COVER_URL},
-    produces = MediaType.IMAGE_JPEG_VALUE
-  )
-  public @ResponseBody byte[] findCoverByPath(@RequestParam("path") Optional<String> path) {
-    try {
-      return coverArtFetcherService.findAlbumCover(path);
-    } catch (Exception e) {
-      String p = (path.isPresent()) ? path.get() : "NO_PATH";
-      LOG.warn("Could not find a cover for: " + p);
-    }
-    throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Cover Not Found");
   }
 }

@@ -9,6 +9,7 @@ export const environment = {
   coverServer: `http://${AMPD_URL}`,
   webSocketServer: `ws://${AMPD_URL}/mpd`,
   ampdVersion: 'live',
+  gitCommitId: 'live',
 };
 
 /*

@@ -10,16 +10,15 @@ const packageJson = require('./package.json');
 
 // Git hash
 const revision = require('child_process')
-.execSync('git rev-parse HEAD')
+.execSync('git rev-parse --short HEAD')
 .toString().trim();
 
 // Write down the build date
 const now = new Date();
 const options = {
   files: 'src/environments/environment.prod.ts',
-  //Replacement to make (string or regex)
-  from: /ampdVersion: '.*'/,
-  to: `ampdVersion: '${packageJson.version}'`,
+  from: [/ampdVersion: '.*'/, /gitCommitId: '.*',/],
+  to: [`ampdVersion: '${packageJson.version}'`, `gitCommitId: '${revision}'`],
 };
 
 console.log(`Using git commit ${revision}`);

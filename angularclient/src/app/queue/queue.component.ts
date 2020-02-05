@@ -1,8 +1,7 @@
 import { Component, HostListener, OnInit } from '@angular/core';
-
-import { MatDialog } from '@angular/material';
 import { Observable } from 'rxjs';
 import { AmpdBlockUiService } from '../shared/block/ampd-block-ui.service';
+import { InternalCommands } from '../shared/commands/internal';
 import {
   ControlPanelImpl,
   IControlPanel,
@@ -29,8 +28,7 @@ export class QueueComponent implements OnInit {
   constructor(
     private webSocketService: WebSocketService,
     private ampdBlockUiService: AmpdBlockUiService,
-    private service: MessageService,
-    private dialog: MatDialog
+    private service: MessageService
   ) {
     this.ampdBlockUiService.start();
 
@@ -61,29 +59,30 @@ export class QueueComponent implements OnInit {
     this.webSocketService.send(MpdCommands.GET_QUEUE);
   }
 
-  private buildState(pMessage: StateMsgPayload): void {
-    let callBuildQueue = false;
+  private buildState(payload: StateMsgPayload): void {
+    let callBuildQueue = false; // Determines if we need to update the queue
     this.ampdBlockUiService.stop();
+    const hasSongChanged = payload.currentSong.id !== this.currentSong.id;
 
     /* Call buildQueue once if there is no current track set */
     if ('id' in this.currentSong === false) {
       callBuildQueue = true;
     }
 
-    const serverStatus = pMessage.serverStatus;
-    this.currentSong = new QueueTrack(pMessage.currentSong);
-    this.controlPanel = pMessage.controlPanel;
-    sessionStorage.setItem('currentSong', JSON.stringify(this.currentSong));
+    // Build the currentSong object - holds info about the song currently played
+    this.currentSong = new QueueTrack(payload.currentSong);
     this.currentSong.elapsedFormatted = this.getFormattedElapsedTime(
-      serverStatus.elapsedTime
+      payload.serverStatus.elapsedTime
     );
-    this.currentSong.progress = serverStatus.elapsedTime;
-    this.currentState = serverStatus.state;
-    this.volume = serverStatus.volume;
+    this.currentSong.progress = payload.serverStatus.elapsedTime;
 
-    this.service.sendMessage(
-      'Message from app Component to message Component!'
-    );
+    this.controlPanel = payload.controlPanel;
+    this.currentState = payload.serverStatus.state;
+    this.volume = payload.serverStatus.volume;
+
+    if (hasSongChanged) {
+      this.service.sendMessage(InternalCommands.UPDATE_COVER);
+    }
 
     if (callBuildQueue) {
       this.webSocketService.send(MpdCommands.GET_QUEUE);

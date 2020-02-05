@@ -10,10 +10,10 @@ import { ConnectionConfiguration } from '../connection-configuration';
   styleUrls: ['./settings.component.css'],
 })
 export class SettingsComponent {
-  public ampdVersion: string = environment.ampdVersion;
-  public gitCommitId: string = environment.gitCommitId;
-  public model: ConnectionConfiguration;
-  public submitted = false;
+  private ampdVersion: string = environment.ampdVersion;
+    private gitCommitId: string = environment.gitCommitId;
+    private model: ConnectionConfiguration;
+    private submitted = false;
 
   constructor(
     private snackBar: MatSnackBar,

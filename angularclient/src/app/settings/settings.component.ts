@@ -11,9 +11,9 @@ import { ConnectionConfiguration } from '../connection-configuration';
 })
 export class SettingsComponent {
   private ampdVersion: string = environment.ampdVersion;
-    private gitCommitId: string = environment.gitCommitId;
-    private model: ConnectionConfiguration;
-    private submitted = false;
+  private gitCommitId: string = environment.gitCommitId;
+  private model: ConnectionConfiguration;
+  private submitted = false;
 
   constructor(
     private snackBar: MatSnackBar,

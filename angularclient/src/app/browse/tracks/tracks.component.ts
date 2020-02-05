@@ -1,5 +1,6 @@
 import { Component, HostListener, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { ConnectionConfiguration } from '../../connection-configuration';
 import { IMpdTrack, MpdTrack } from '../../shared/messages/incoming/mpd-track';
 import { MpdCommands } from '../../shared/mpd/mpd-commands';
 import { NotificationService } from '../../shared/services/notification.service';
@@ -49,5 +50,14 @@ export class TracksComponent {
       path: track.file,
     });
     this.notificationService.popUp(`Added title: "${track.title}"`);
+  }
+
+  public coverUrl() {
+    const cc = ConnectionConfiguration.get();
+    const currentCoverUrl = 'find-cover';
+    // Add a query param to trigger an image change in the browser
+    return `${cc.coverServer}/${currentCoverUrl}?path=${encodeURI(
+      this.getParamDir
+    )}`;
   }
 }

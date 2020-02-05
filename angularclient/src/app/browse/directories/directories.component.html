@@ -27,7 +27,7 @@
   </mat-list-item>
 </mat-list>
 
-<div fxLayout="column" fxLayout.xs="row" *ngIf="getParamDir != '/'" >
+<div fxLayout="row" fxLayout.xs="column" *ngIf="getParamDir != '/'" >
   <div *ngFor="let dir of dirQueue" (click)="onDirClick(dir.path)">
     <mat-card class="example-card">
       <mat-card-header>

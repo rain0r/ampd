@@ -42,7 +42,10 @@
 
     <mat-divider class="divider"></mat-divider>
 
-    <div>Version: {{ ampdVersion }}</div>
+    <div>
+      Version: {{ ampdVersion }}
+      <span class="text-muted">{{ gitCommitId }}</span>
+    </div>
 
     <div>Source code: <a href="https://github.com/rain0r/ampd">Github</a></div>
   </div>

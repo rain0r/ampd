@@ -11,6 +11,7 @@ import { ConnectionConfiguration } from '../connection-configuration';
 })
 export class SettingsComponent {
   public ampdVersion: string = environment.ampdVersion;
+  public gitCommitId: string = environment.gitCommitId;
   public model: ConnectionConfiguration;
   public submitted = false;
 

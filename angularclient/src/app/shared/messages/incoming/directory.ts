@@ -1,3 +1,5 @@
+import { ConnectionConfiguration } from '../../../connection-configuration';
+
 export interface IDirectory {
   directory: boolean;
   path: string;
@@ -19,5 +21,11 @@ export class Directory implements IDirectory {
         .split('/')
         .pop() || ''
     );
+  }
+  public coverUrl() {
+    const cc = ConnectionConfiguration.get();
+    const currentCoverUrl = 'find-cover';
+    // Add a query param to trigger an image change in the browser
+    return `${cc.coverServer}/${currentCoverUrl}?path=${encodeURI(this.path)}`;
   }
 }

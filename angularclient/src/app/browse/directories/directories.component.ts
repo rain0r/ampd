@@ -1,11 +1,11 @@
 import { Component, HostListener, Input } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
+import { ConnectionConfiguration } from '../../connection-configuration';
 import { Directory } from '../../shared/messages/incoming/directory';
 import { MpdCommands } from '../../shared/mpd/mpd-commands';
 import { BrowseService } from '../../shared/services/browse.service';
 import { NotificationService } from '../../shared/services/notification.service';
 import { WebSocketService } from '../../shared/services/web-socket.service';
-import {ConnectionConfiguration} from '../../connection-configuration';
 
 @Component({
   selector: 'app-directories',
@@ -26,8 +26,8 @@ export class DirectoriesComponent {
   ) {
     this.getParamDir =
       this.activatedRoute.snapshot.queryParamMap.get('dir') || '/';
-      const model = ConnectionConfiguration.get();
-      this.coverServer = model.coverServer;
+    const model = ConnectionConfiguration.get();
+    this.coverServer = model.coverServer;
   }
 
   @HostListener('click', ['$event'])

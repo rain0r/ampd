@@ -1,10 +1,18 @@
-<div class="sub-menu">
-  <div class="flex-item valign-center-outer">
-    <h3 class="list-header valign-center-inner">
-      {{ dir }}
+<div fxLayout="row" fxLayout.xs="column">
+  <div fxFlex="50" fxLayoutAlign="center center">
+    <h3>
+      {{ getParamDir }}
     </h3>
   </div>
+  <div fxShow fxHide.lg="false">
+    <mat-divider></mat-divider>
+  </div>
+  <div fxFlex="50" fxLayoutAlign="center center">
+    <img src="{{ coverUrl() }}" class="cover" />
+  </div>
 </div>
+
+<mat-divider></mat-divider>
 
 <mat-list
   role="list"

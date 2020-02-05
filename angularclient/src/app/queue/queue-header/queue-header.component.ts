@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, Input } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { Subscription } from 'rxjs/index';
+import { InternalCommands } from '../../shared/commands/internal';
 import { CoverModalComponent } from '../../shared/cover-modal/cover-modal.component';
 import { QueueTrack } from '../../shared/models/queue-track';
 import { MessageService } from '../../shared/services/message.service';
@@ -23,7 +24,9 @@ export class QueueHeaderComponent {
     private messageService: MessageService
   ) {
     this.subscription = this.messageService.getMessage().subscribe(message => {
-      this.checkCoverUrl();
+      if (message.text === InternalCommands.UPDATE_COVER) {
+        this.checkCoverUrl();
+      }
     });
   }
 

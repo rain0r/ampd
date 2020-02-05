@@ -52,7 +52,6 @@ export class TrackTableComponent implements OnChanges {
   }
 
   public resetFilter(filterValue: string) {
-    filterValue = '';
     this.trackTableData.filter = '';
   }
 

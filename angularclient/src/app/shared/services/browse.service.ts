@@ -57,7 +57,7 @@ export class BrowseService {
     this.browseInfo.clearAll();
 
     payload.directories.forEach(dir => {
-      const directory = new Directory(true, dir.path, dir.albumCover);
+      const directory = new Directory(true, dir.path);
       this.browseInfo.dirQueue.push(directory);
     });
     payload.tracks.forEach(track => {

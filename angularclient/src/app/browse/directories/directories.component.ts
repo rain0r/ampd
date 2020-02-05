@@ -5,6 +5,7 @@ import { MpdCommands } from '../../shared/mpd/mpd-commands';
 import { BrowseService } from '../../shared/services/browse.service';
 import { NotificationService } from '../../shared/services/notification.service';
 import { WebSocketService } from '../../shared/services/web-socket.service';
+import {ConnectionConfiguration} from '../../connection-configuration';
 
 @Component({
   selector: 'app-directories',
@@ -14,6 +15,7 @@ import { WebSocketService } from '../../shared/services/web-socket.service';
 export class DirectoriesComponent {
   @Input() public dirQueue: Directory[] = [];
   public getParamDir = '/';
+  private coverServer = '';
 
   constructor(
     private browseService: BrowseService,
@@ -24,6 +26,8 @@ export class DirectoriesComponent {
   ) {
     this.getParamDir =
       this.activatedRoute.snapshot.queryParamMap.get('dir') || '/';
+      const model = ConnectionConfiguration.get();
+      this.coverServer = model.coverServer;
   }
 
   @HostListener('click', ['$event'])

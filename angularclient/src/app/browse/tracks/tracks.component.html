@@ -1,52 +1,45 @@
-<div fxLayout="row" fxLayoutAlign="space-around">
-  <div fxFlex="50">
-    <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-around">
-      <div fxFlex="33" fxLayoutAlign="center center">
-        <h3>
-          {{ getParamDir }}
-        </h3>
-      </div>
-      <div fxShow fxHide.lg="false">
-        <mat-divider></mat-divider>
-      </div>
-      <div fxFlex="33" fxLayoutAlign="center center">
-        <img src="{{ coverUrl() }}" class="cover"/>
-      </div>
-    </div>
+<div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-around">
+  <div fxFlex="33" fxLayoutAlign="center center">
+    <h3>
+      {{ getParamDir }}
+    </h3>
+  </div>
+  <div fxShow fxHide.lg="false">
+    <mat-divider></mat-divider>
+  </div>
+  <div fxFlex="33" fxLayoutAlign="center center">
+    <img src="{{ coverUrl() }}" class="cover"/>
   </div>
 </div>
 
 <mat-divider></mat-divider>
 
-<div fxLayout="row" fxLayoutAlign="space-around">
-  <div fxFlex="50">
-    <mat-list
-        role="list"
-        *ngFor="let track of titleQueue"
-        class="browse-list"
-        (click)="onAddTitle(track)"
+
+<mat-list
+    role="list"
+    *ngFor="let track of titleQueue"
+    class="browse-list"
+    (click)="onAddTitle(track)"
+>
+  <mat-list-item role="listitem" class="list-item">
+    <mat-icon>audiotrack</mat-icon> &nbsp;
+    <span class="text-muted space-right"> &#35;{{ track.track }} </span>
+    {{ track.title }} &nbsp;
+    <span class="text-muted">{{ track.length | secondsToMmSsPipe }}</span>
+    <span class="fill-space"></span>
+    <i
+        class="material-icons clickable chip"
+        (click)="onPlayTitle(track)"
+        title="Play track"
     >
-      <mat-list-item role="listitem" class="list-item">
-        <mat-icon>audiotrack</mat-icon> &nbsp;
-        <span class="text-muted space-right"> &#35;{{ track.track }} </span>
-        {{ track.title }} &nbsp;
-        <span class="text-muted">{{ track.length | secondsToMmSsPipe }}</span>
-        <span class="fill-space"></span>
-        <i
-            class="material-icons clickable chip"
-            (click)="onPlayTitle(track)"
-            title="Play track"
-        >
-          play_arrow
-        </i>
-        <i
-            class="material-icons clickable chip"
-            (click)="onAddTitle(track)"
-            title="Add track to queue"
-        >
-          add
-        </i>
-      </mat-list-item>
-    </mat-list>
-  </div>
-</div>
+      play_arrow
+    </i>
+    <i
+        class="material-icons clickable chip"
+        (click)="onAddTitle(track)"
+        title="Add track to queue"
+    >
+      add
+    </i>
+  </mat-list-item>
+</mat-list>

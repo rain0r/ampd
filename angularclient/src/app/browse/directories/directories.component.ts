@@ -63,12 +63,8 @@ export class DirectoriesComponent {
       event.stopPropagation();
     }
 
-    console.log(`onDirClick: ${directory}`);
-
     const queryParams: Params = { dir: directory };
-
     this.browseService.sendBrowseReq(directory);
-    // this.router.navigate(['browse'], { queryParams: { dir: directory } });
 
     this.router
       .navigate([], {

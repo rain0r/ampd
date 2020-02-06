@@ -25,7 +25,6 @@ export class MpdModesComponent {
         this.controlPanel[key] = false;
       }
     }
-    console.log(this.controlPanel);
     this.webSocketService.sendData(MpdCommands.TOGGLE_CONTROL, {
       controlPanel: this.controlPanel,
     });

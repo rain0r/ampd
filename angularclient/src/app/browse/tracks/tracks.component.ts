@@ -56,7 +56,7 @@ export class TracksComponent {
     const cc = ConnectionConfiguration.get();
     const currentCoverUrl = 'find-cover';
     // Add a query param to trigger an image change in the browser
-    return `${cc.coverServer}/${currentCoverUrl}?path=${encodeURI(
+    return `${cc.coverServer}/${currentCoverUrl}?path=${encodeURIComponent(
       this.getParamDir
     )}`;
   }

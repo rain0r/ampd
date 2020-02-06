@@ -49,7 +49,7 @@ export class QueueTrack implements IMpdTrack {
     const cc = ConnectionConfiguration.get();
     const currentCoverUrl = 'current-cover';
     // Add a query param to trigger an image change in the browser
-    return `${cc.coverServer}/${currentCoverUrl}?title=${encodeURI(
+    return `${cc.coverServer}/${currentCoverUrl}?title=${encodeURIComponent(
       this.title
     )}`;
   }

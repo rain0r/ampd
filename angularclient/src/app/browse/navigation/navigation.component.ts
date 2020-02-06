@@ -19,9 +19,7 @@ export class NavigationComponent implements OnInit {
     private browseService: BrowseService,
     private activatedRoute: ActivatedRoute,
     private webSocketService: WebSocketService
-  ) {
-    console.log('NavigationComponent');
-  }
+  ) {  }
 
   public ngOnInit(): void {
     this.activatedRoute.queryParams.subscribe(queryParams => {

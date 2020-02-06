@@ -27,9 +27,11 @@
   </mat-list-item>
 </mat-list>
 
+<mat-divider></mat-divider>
+
 <div fxLayout="row" fxLayout.xs="column" *ngIf="getParamDir != '/'" >
   <div *ngFor="let dir of dirQueue" (click)="onDirClick(dir.path)">
-    <mat-card class="example-card">
+    <mat-card class="cover-card">
       <mat-card-header>
         <mat-card-title>{{ dir.displayedPath() }}</mat-card-title>
       </mat-card-header>

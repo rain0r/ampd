@@ -16,7 +16,6 @@ export class QueueTrack implements IMpdTrack {
   public title: string = '';
   public track: number = 0;
   public year: string = '';
-  public displayed: boolean = true;
 
   /* QueueTrack */
   public progress: number = 0; // progress in seconds

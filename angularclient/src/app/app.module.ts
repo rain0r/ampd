@@ -24,7 +24,8 @@ import { SearchComponent } from './search/search.component';
 import { SettingsComponent } from './settings/settings.component';
 import { AmpdBlockUiService } from './shared/block/ampd-block-ui.service';
 import { EncodeURIComponentPipe } from './shared/pipes/EncodeURI';
-import { SecondsToMmSsPipe } from './shared/pipes/SecondsToMmSsPipe';
+import {PlaylistFilterPipe} from './shared/pipes/Filter';
+import { SecondsToMmSsPipe } from './shared/pipes/SecondsToMmSs';
 import { AppRoutingModule } from './shared/routing/app-routing.module';
 import { BrowseService } from './shared/services/browse.service';
 import { MessageService } from './shared/services/message.service';
@@ -40,6 +41,7 @@ import { SharedModule } from './shared/shared.module';
     EncodeURIComponentPipe,
     SearchComponent,
     SecondsToMmSsPipe,
+      PlaylistFilterPipe,
     SearchComponent,
     SettingsComponent,
     CoverModalComponent,

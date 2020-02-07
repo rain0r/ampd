@@ -49,6 +49,7 @@
       <input
         matInput
         placeholder="Filter"
+        autocomplete="off"
         type="text"
         [(ngModel)]="value"
         (keyup)="applyFilter($event.target.value)"

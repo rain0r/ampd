@@ -19,7 +19,7 @@ public class AmpdUtils {
     try {
       ret = Files.readAllBytes(path);
     } catch (IOException e) {
-      LOG.warn("File not found: " + path);
+      LOG.info("File not found: " + path);
     }
     return ret;
   }

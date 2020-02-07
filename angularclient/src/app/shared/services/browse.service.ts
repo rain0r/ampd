@@ -48,7 +48,7 @@ export class BrowseService {
       try {
         this.onBrowseResponse(message.payload);
       } catch (error) {
-        console.error(`Error handling message:`, message);
+        console.error(`Error handling message: ${message.type}, error: ${error}`);
       }
     });
   }

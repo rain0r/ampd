@@ -1,33 +1,29 @@
 <block-ui>
   <div class="app-main">
     <mat-toolbar color="primary">
-      <a routerLink="/" mat-button>
+      <button mat-button [routerLink]="['/']">
         <mat-icon>format_list_bulleted</mat-icon>
-        <span class="only-on-big-screen">
-          Queue
-        </span>
-      </a>
-      <a routerLink="/browse" mat-button>
+        <span class="only-on-big-screen">Queue</span>
+      </button>
+      <button mat-button [routerLink]="['/browse']">
         <mat-icon>folder_open</mat-icon>
         <span class="only-on-big-screen">
           Browse
         </span>
-      </a>
-      <a routerLink="/search" mat-button>
+      </button>
+      <button mat-button [routerLink]="['/search']">
         <mat-icon>search</mat-icon>
         <span class="only-on-big-screen">
           Search
         </span>
-      </a>
-      <a routerLink="/settings" mat-button>
+      </button>
+      <button mat-button [routerLink]="['/settings']">
         <mat-icon>settings</mat-icon>
         <span class="only-on-big-screen">
           Settings
         </span>
-      </a>
-
+      </button>
       <span class="fill-space"></span>
-
       <mat-icon>{{ connectedStatusIcon }}</mat-icon>
     </mat-toolbar>
     <div class="app-content">

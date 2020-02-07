@@ -40,7 +40,7 @@ export class SearchComponent implements AfterViewInit {
     private webSocketService: WebSocketService,
     private cdRef: ChangeDetectorRef
   ) {
-    this.searchSubs = this.webSocketService.getSearchSubs();
+    this.searchSubs = this.webSocketService.getSearchSubscription();
     this.getResults();
   }
 

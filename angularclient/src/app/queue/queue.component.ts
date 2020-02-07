@@ -32,7 +32,7 @@ export class QueueComponent implements OnInit {
   ) {
     this.ampdBlockUiService.start();
 
-    this.stateSubs = this.webSocketService.getStateSubs();
+    this.stateSubs = this.webSocketService.getStateSubscription();
     this.buildStateReceiver();
     this.webSocketService.send(MpdCommands.GET_QUEUE);
   }

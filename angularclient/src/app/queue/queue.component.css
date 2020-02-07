@@ -5,6 +5,7 @@
   }
 }
 
-.space-divider {
-  padding: 0.5em;
+.space-top {
+  padding-top: 0.25rem;
+  margin-top: 0.25rem;
 }

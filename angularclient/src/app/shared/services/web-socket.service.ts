@@ -29,7 +29,7 @@ export class WebSocketService {
     this.stompService.publish(REMOTE_QUEUE, data);
   }
 
-  public getStateSubs(): Observable<ServerStatusRootImpl> {
+  public getStateSubscription(): Observable<ServerStatusRootImpl> {
     return this.stompService.subscribe('/topic/state').pipe(
       map((message: Message) => message.body),
       map(body => JSON.parse(body)),
@@ -42,7 +42,7 @@ export class WebSocketService {
     );
   }
 
-  public getQueueSubs(): Observable<QueueRootImpl> {
+  public getQueueSubscription(): Observable<QueueRootImpl> {
     return this.stompService.subscribe('/topic/queue').pipe(
       map((message: Message) => message.body),
       map(body => JSON.parse(body)),
@@ -55,7 +55,7 @@ export class WebSocketService {
     );
   }
 
-  public getBrowseSubs(): Observable<BrowseRootImpl> {
+  public getBrowseSubscription(): Observable<BrowseRootImpl> {
     return this.stompService.subscribe('/topic/controller').pipe(
       map((message: Message) => message.body),
       map(body => JSON.parse(body)),
@@ -68,7 +68,7 @@ export class WebSocketService {
     );
   }
 
-  public getSearchSubs(): Observable<SearchRootImpl> {
+  public getSearchSubscription(): Observable<SearchRootImpl> {
     return this.stompService.subscribe('/topic/controller').pipe(
       map((message: Message) => message.body),
       map(body => JSON.parse(body)),

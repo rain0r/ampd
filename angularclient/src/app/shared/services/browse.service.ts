@@ -13,7 +13,7 @@ export class BrowseService {
   public containerWidth = 50;
 
   constructor(private webSocketService: WebSocketService) {
-    this.browseSubs = this.webSocketService.getBrowseSubs();
+    this.browseSubs = this.webSocketService.getBrowseSubscription();
     this.buildMessageReceiver();
   }
 

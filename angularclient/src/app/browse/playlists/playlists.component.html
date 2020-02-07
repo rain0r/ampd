@@ -4,11 +4,11 @@
   </div>
 </div>
 
-{{ filterValue}}
+{{ filterValue }}
 
 <mat-list
   role="list"
-  *ngFor="let playlist of playlistQueue| playlistFilter: filterValue"
+  *ngFor="let playlist of playlistQueue | playlistFilter: filterValue"
   class="browse-list"
   (click)="onClickPlaylist(playlist)"
 >

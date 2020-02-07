@@ -13,7 +13,6 @@ import { WebSocketService } from '../../shared/services/web-socket.service';
 export class NavigationComponent implements OnInit {
   public getParamDir = '';
 
-
   constructor(
     private router: Router,
     private notificationService: NotificationService,
@@ -80,8 +79,8 @@ export class NavigationComponent implements OnInit {
   }
 
   public applyFilter(filterValue: string) {
-      if (filterValue){
-
-      }
+    if (filterValue) {
+      console.log(filterValue);
+    }
   }
 }

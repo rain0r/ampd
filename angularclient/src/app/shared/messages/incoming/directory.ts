@@ -26,6 +26,8 @@ export class Directory implements IDirectory {
     const cc = ConnectionConfiguration.get();
     const currentCoverUrl = 'find-cover';
     // Add a query param to trigger an image change in the browser
-    return `${cc.coverServer}/${currentCoverUrl}?path=${encodeURIComponent(this.path)}`;
+    return `${cc.coverServer}/${currentCoverUrl}?path=${encodeURIComponent(
+      this.path
+    )}`;
   }
 }

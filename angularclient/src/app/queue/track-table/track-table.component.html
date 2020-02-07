@@ -2,6 +2,7 @@
   <input
     matInput
     placeholder="Filter queue"
+    autocomplete="off"
     type="text"
     [(ngModel)]="value"
     (keyup)="applyFilter($event.target.value)"

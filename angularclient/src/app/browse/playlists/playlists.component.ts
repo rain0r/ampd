@@ -11,6 +11,7 @@ import { WebSocketService } from '../../shared/services/web-socket.service';
 })
 export class PlaylistsComponent {
   @Input() public playlistQueue: Playlist[] = [];
+    @Input() public filterValue:string = '';
 
   constructor(
     private notificationService: NotificationService,

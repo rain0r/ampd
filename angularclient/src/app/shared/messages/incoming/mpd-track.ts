@@ -12,7 +12,6 @@ export interface IMpdTrack {
   track: number;
   position: number;
   id: number;
-  displayed: boolean;
 }
 
 export class MpdTrack implements IMpdTrack {
@@ -29,7 +28,6 @@ export class MpdTrack implements IMpdTrack {
   public track: number;
   public position: number;
   public id: number;
-  public displayed: boolean;
 
   constructor(
     name: string,
@@ -44,8 +42,7 @@ export class MpdTrack implements IMpdTrack {
     length: number,
     track: number,
     position: number,
-    id: number,
-    displayed: boolean
+    id: number
   ) {
     this.name = name;
     this.title = title;
@@ -60,6 +57,5 @@ export class MpdTrack implements IMpdTrack {
     this.track = track;
     this.position = position;
     this.id = id;
-    this.displayed = displayed;
   }
 }

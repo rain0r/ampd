@@ -1,72 +1,68 @@
 <div
-        class="container"
-        fxLayout="row"
-        fxLayoutWrap
-        fxLayoutGap="0.5%"
-        fxLayoutGap.xs="2%"
+  class="container"
+  fxLayout="row"
+  fxLayoutWrap
+  fxLayoutGap="0.5%"
+  fxLayoutGap.xs="2%"
 >
-    <div fxLayoutAlign="center center">
-        <button mat-button [routerLink]="['/browse']" mat-raised-button class="mat-small">
-            <mat-icon>expand_less</mat-icon>
-            <span class="only-on-big-screen">
-          Return to top
-        </span>
-        </button>
-    </div>
-    <div *ngIf="getParamDir && getParamDir !== '/'" fxLayoutAlign="center center">
-        <button
-                class="mat-small"
-                mat-raised-button
-                (click)="onMoveDirUp()">
-            <mat-icon>
-                navigate_before
-            </mat-icon>
-            <span class="only-on-big-screen">
-          Return
-        </span>
-        </button>
-
-    </div>
-    <div *ngIf="getParamDir && getParamDir !== '/'" fxLayoutAlign="center center">
-        <button
-                class="mat-small"
-                mat-raised-button
-                (click)="onAddDir(getParamDir)"
-        >
-            <mat-icon> add</mat-icon>
-            <span class="only-on-big-screen">
-          Add all
-        </span>
-        </button>
-    </div>
-    <div fxLayoutAlign="center center">
-        <button class="mat-small" mat-raised-button (click)="onClearQueue()">
-            <mat-icon>delete</mat-icon>
-            <span class="only-on-big-screen">
-          Clear queue
-        </span>
-        </button>
-    </div>
-    <div fxLayoutAlign="center center" fxFlex="50%">
-        <mat-form-field class="full-width">
-            <input
-                    matInput
-                    placeholder="Filter"
-                    type="text"
-                    [(ngModel)]="value"
-                    (keyup)="applyFilter($event.target.value)"
-            />
-            <button
-                    mat-button
-                    *ngIf="value"
-                    matSuffix
-                    mat-icon-button
-                    aria-label="Clear"
-                    (click)="value = ''; resetFilter()"
-            >
-                <mat-icon>close</mat-icon>
-            </button>
-        </mat-form-field>
-    </div>
-
+  <div fxLayoutAlign="center center">
+    <button
+      mat-button
+      [routerLink]="['/browse']"
+      mat-raised-button
+      class="mat-small"
+    >
+      <mat-icon>expand_less</mat-icon>
+      <span class="only-on-big-screen">
+        Return to top
+      </span>
+    </button>
+  </div>
+  <div *ngIf="getParamDir && getParamDir !== '/'" fxLayoutAlign="center center">
+    <button class="mat-small" mat-raised-button (click)="onMoveDirUp()">
+      <mat-icon>
+        navigate_before
+      </mat-icon>
+      <span class="only-on-big-screen">
+        Return
+      </span>
+    </button>
+  </div>
+  <div *ngIf="getParamDir && getParamDir !== '/'" fxLayoutAlign="center center">
+    <button class="mat-small" mat-raised-button (click)="onAddDir(getParamDir)">
+      <mat-icon> add</mat-icon>
+      <span class="only-on-big-screen">
+        Add all
+      </span>
+    </button>
+  </div>
+  <div fxLayoutAlign="center center">
+    <button class="mat-small" mat-raised-button (click)="onClearQueue()">
+      <mat-icon>delete</mat-icon>
+      <span class="only-on-big-screen">
+        Clear queue
+      </span>
+    </button>
+  </div>
+  <div fxLayoutAlign="center center" fxFlex="50%">
+    <mat-form-field class="full-width">
+      <input
+        matInput
+        placeholder="Filter"
+        type="text"
+        [(ngModel)]="value"
+        (keyup)="applyFilter($event.target.value)"
+      />
+      <button
+        mat-button
+        *ngIf="value"
+        matSuffix
+        mat-icon-button
+        aria-label="Clear"
+        (click)="value = ''; resetFilter()"
+      >
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>
+  </div>
 </div>

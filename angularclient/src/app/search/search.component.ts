@@ -105,7 +105,9 @@ export class SearchComponent implements AfterViewInit {
           message.payload.searchResultCount
         );
       } catch (error) {
-        console.error(`Error handling message: ${message.type}, error: ${error}`);
+        console.error(
+          `Error handling message: ${message.type}, error: ${error}`
+        );
       }
     });
   }

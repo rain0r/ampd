@@ -29,13 +29,18 @@
 
 <mat-divider></mat-divider>
 
-<div fxLayout="row" fxLayout.xs="column" *ngIf="getParamDir != '/'" >
+<div fxLayout="row" fxLayout.xs="column" *ngIf="getParamDir != '/'">
   <div *ngFor="let dir of dirQueue" (click)="onDirClick(dir.path)">
     <mat-card class="cover-card">
       <mat-card-header>
         <mat-card-title>{{ dir.displayedPath() }}</mat-card-title>
       </mat-card-header>
-      <img mat-card-image src="{{ dir.coverUrl() }}" class="album-art" err-src="/assets/images/transparent.png"/>
+      <img
+        mat-card-image
+        src="{{ dir.coverUrl() }}"
+        class="album-art"
+        err-src="/assets/images/transparent.png"
+      />
     </mat-card>
   </div>
 </div>

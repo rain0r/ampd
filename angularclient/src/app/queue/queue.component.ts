@@ -1,14 +1,17 @@
-import {Component, HostListener, OnInit} from '@angular/core';
-import {Observable} from 'rxjs';
-import {AmpdBlockUiService} from '../shared/block/ampd-block-ui.service';
-import {InternalCommands} from '../shared/commands/internal';
-import {ControlPanelImpl, IControlPanel,} from '../shared/messages/incoming/control-panel';
-import {ServerStatusRootImpl} from '../shared/messages/incoming/state-messages';
-import {StateMsgPayload} from '../shared/messages/incoming/state-msg-payload';
-import {QueueTrack} from '../shared/models/queue-track';
-import {MpdCommands} from '../shared/mpd/mpd-commands';
-import {MessageService} from '../shared/services/message.service';
-import {WebSocketService} from '../shared/services/web-socket.service';
+import { Component, HostListener, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+import { AmpdBlockUiService } from '../shared/block/ampd-block-ui.service';
+import { InternalCommands } from '../shared/commands/internal';
+import {
+  ControlPanelImpl,
+  IControlPanel,
+} from '../shared/messages/incoming/control-panel';
+import { ServerStatusRootImpl } from '../shared/messages/incoming/state-messages';
+import { StateMsgPayload } from '../shared/messages/incoming/state-msg-payload';
+import { QueueTrack } from '../shared/models/queue-track';
+import { MpdCommands } from '../shared/mpd/mpd-commands';
+import { MessageService } from '../shared/services/message.service';
+import { WebSocketService } from '../shared/services/web-socket.service';
 
 @Component({
   selector: 'app-queue',
@@ -22,9 +25,11 @@ export class QueueComponent implements OnInit {
   private stateSubs: Observable<ServerStatusRootImpl>;
   private currentState: string = '';
 
-  constructor(private webSocketService: WebSocketService,
-              private ampdBlockUiService: AmpdBlockUiService,
-              private service: MessageService) {
+  constructor(
+    private webSocketService: WebSocketService,
+    private ampdBlockUiService: AmpdBlockUiService,
+    private service: MessageService
+  ) {
     this.ampdBlockUiService.start();
 
     this.stateSubs = this.webSocketService.getStateSubs();
@@ -46,7 +51,7 @@ export class QueueComponent implements OnInit {
     const elapsedMinutes = Math.floor(elapsedTime / 60);
     const elapsedSeconds = elapsedTime - elapsedMinutes * 60;
     return (
-        elapsedMinutes + ':' + (elapsedSeconds < 10 ? '0' : '') + elapsedSeconds
+      elapsedMinutes + ':' + (elapsedSeconds < 10 ? '0' : '') + elapsedSeconds
     );
   }
 
@@ -61,18 +66,20 @@ export class QueueComponent implements OnInit {
 
     /* Call buildQueue once if there is no current track set */
     if ('id' in this.currentSong === true) {
-      if (payload.currentSong && payload.currentSong.id !== this.currentSong.id) {
+      if (
+        payload.currentSong &&
+        payload.currentSong.id !== this.currentSong.id
+      ) {
         hasSongChanged = true;
       }
-    }
-    else {
+    } else {
       callBuildQueue = true;
     }
 
     // Build the currentSong object - holds info about the song currently played
     this.currentSong = new QueueTrack(payload.currentSong);
     this.currentSong.elapsedFormatted = this.getFormattedElapsedTime(
-        payload.serverStatus.elapsedTime
+      payload.serverStatus.elapsedTime
     );
     this.currentSong.progress = payload.serverStatus.elapsedTime;
 
@@ -94,7 +101,9 @@ export class QueueComponent implements OnInit {
       try {
         this.buildState(message.payload);
       } catch (error) {
-        console.error(`Error handling message: ${message.type}, error: ${error}`);
+        console.error(
+          `Error handling message: ${message.type}, error: ${error}`
+        );
       }
     });
   }

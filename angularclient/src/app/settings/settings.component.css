@@ -2,14 +2,12 @@ a {
   color: black;
 }
 
-.divider {
-  margin-bottom: 1em;
-  padding-bottom: 1em;
-  margin-top: 1em;
-  padding-top: 1em;
-}
-
 .gap {
   margin-left: 2em;
   margin-right: 2em;
+}
+
+.space-top {
+  padding-top: 0.25rem;
+  margin-top: 0.25rem;
 }

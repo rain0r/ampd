@@ -3,7 +3,9 @@
     <div>
       <h1>ampd</h1>
 
-      <mat-divider class="divider"></mat-divider>
+      <div class="space-top">
+        <mat-divider></mat-divider>
+      </div>
 
       <form (ngSubmit)="onSubmit()" #heroForm="ngForm" class="settings-form">
         <div fxLayout.xs="column">
@@ -40,7 +42,9 @@
       </form>
     </div>
 
-    <mat-divider class="divider"></mat-divider>
+    <div class="space-top">
+      <mat-divider></mat-divider>
+    </div>
 
     <div>
       Version: {{ ampdVersion }}

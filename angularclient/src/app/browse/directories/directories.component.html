@@ -29,7 +29,7 @@
 
 <mat-divider></mat-divider>
 
-<div fxLayout="row" fxLayout.xs="column" *ngIf="getParamDir != '/'" >
+<div fxLayout="row" fxLayout.xs="column" *ngIf="getParamDir != '/' && dirQueue.length < 9" >
   <div *ngFor="let dir of dirQueue" (click)="onDirClick(dir.path)">
     <mat-card class="cover-card">
       <mat-card-header>

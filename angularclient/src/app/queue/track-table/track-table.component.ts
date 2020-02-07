@@ -43,7 +43,7 @@ export class TrackTableComponent implements OnChanges {
     private appComponent: AppComponent,
     private webSocketService: WebSocketService
   ) {
-    this.queueSubs = this.webSocketService.getQueueSubs();
+    this.queueSubs = this.webSocketService.getQueueSubscription();
     this.buildQueueMsgReceiver();
   }
 

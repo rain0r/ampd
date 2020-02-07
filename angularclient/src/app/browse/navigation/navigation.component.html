@@ -1,49 +1,72 @@
 <div
-  class="container"
-  fxLayout="row"
-  fxLayout.xs="column"
-  fxLayoutWrap
-  fxLayoutGap="0.5%"
-  fxLayoutAlign="center"
+        class="container"
+        fxLayout="row"
+        fxLayoutWrap
+        fxLayoutGap="0.5%"
+        fxLayoutGap.xs="2%"
 >
-  <div fxFlex="100%" class="sub-menu">
-    <div class="flex-item">
-      <a routerLink="/browse" mat-raised-button class="mat-small">
-        <mat-icon>expand_less</mat-icon>
-        <span class="only-on-big-screen">
+    <div fxLayoutAlign="center center">
+        <button mat-button [routerLink]="['/browse']" mat-raised-button class="mat-small">
+            <mat-icon>expand_less</mat-icon>
+            <span class="only-on-big-screen">
           Return to top
         </span>
-      </a>
-      <button
-        class="mat-small"
-        mat-raised-button
-        (click)="onMoveDirUp()"
-        *ngIf="getParamDir && getParamDir !== '/'"
-      >
-        <mat-icon>
-          navigate_before
-        </mat-icon>
-        <span class="only-on-big-screen">
+        </button>
+    </div>
+    <div *ngIf="getParamDir && getParamDir !== '/'" fxLayoutAlign="center center">
+        <button
+                class="mat-small"
+                mat-raised-button
+                (click)="onMoveDirUp()">
+            <mat-icon>
+                navigate_before
+            </mat-icon>
+            <span class="only-on-big-screen">
           Return
         </span>
-      </button>
-      <button
-        class="mat-small"
-        mat-raised-button
-        (click)="onAddDir(getParamDir)"
-        *ngIf="getParamDir && getParamDir !== '/'"
-      >
-        <mat-icon> add </mat-icon>
-        <span class="only-on-big-screen">
+        </button>
+
+    </div>
+    <div *ngIf="getParamDir && getParamDir !== '/'" fxLayoutAlign="center center">
+        <button
+                class="mat-small"
+                mat-raised-button
+                (click)="onAddDir(getParamDir)"
+        >
+            <mat-icon> add</mat-icon>
+            <span class="only-on-big-screen">
           Add all
         </span>
-      </button>
-      <button class="mat-small" mat-raised-button (click)="onClearQueue()">
-        <mat-icon>delete</mat-icon>
-        <span class="only-on-big-screen">
+        </button>
+    </div>
+    <div fxLayoutAlign="center center">
+        <button class="mat-small" mat-raised-button (click)="onClearQueue()">
+            <mat-icon>delete</mat-icon>
+            <span class="only-on-big-screen">
           Clear queue
         </span>
-      </button>
+        </button>
     </div>
-  </div>
+    <div fxLayoutAlign="center center" fxFlex="50%">
+        <mat-form-field class="full-width">
+            <input
+                    matInput
+                    placeholder="Filter"
+                    type="text"
+                    [(ngModel)]="value"
+                    (keyup)="applyFilter($event.target.value)"
+            />
+            <button
+                    mat-button
+                    *ngIf="value"
+                    matSuffix
+                    mat-icon-button
+                    aria-label="Clear"
+                    (click)="value = ''; resetFilter()"
+            >
+                <mat-icon>close</mat-icon>
+            </button>
+        </mat-form-field>
+    </div>
+
 </div>

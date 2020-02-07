@@ -32,9 +32,6 @@ export class DirectoriesComponent {
 
   @HostListener('click', ['$event'])
   public onPlayDir(dir: string): void {
-    if (typeof dir !== 'string') {
-      return;
-    }
     this.onAddDir(dir);
     this.webSocketService.send(MpdCommands.SET_PLAY);
     this.notificationService.popUp(`Playing dir: "${dir}"`);
@@ -44,9 +41,6 @@ export class DirectoriesComponent {
   public onAddDir(dir: string): void {
     if (event) {
       event.stopPropagation();
-    }
-    if (typeof dir !== 'string') {
-      return;
     }
     if (dir.startsWith('/')) {
       dir = dir.substr(1, dir.length);

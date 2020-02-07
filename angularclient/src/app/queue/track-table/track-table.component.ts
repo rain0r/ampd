@@ -51,7 +51,7 @@ export class TrackTableComponent implements OnChanges {
     this.trackTableData.filter = filterValue.trim().toLowerCase();
   }
 
-  public resetFilter(filterValue: string) {
+  public resetFilter() {
     this.trackTableData.filter = '';
   }
 

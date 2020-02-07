@@ -8,18 +8,17 @@
     <mat-divider></mat-divider>
   </div>
   <div fxFlex="33" fxLayoutAlign="center center">
-    <img src="{{ coverUrl() }}" class="cover"/>
+    <img src="{{ coverUrl() }}" class="cover" />
   </div>
 </div>
 
 <mat-divider></mat-divider>
 
-
 <mat-list
-    role="list"
-    *ngFor="let track of titleQueue"
-    class="browse-list"
-    (click)="onAddTitle(track)"
+  role="list"
+  *ngFor="let track of titleQueue"
+  class="browse-list"
+  (click)="onAddTitle(track)"
 >
   <mat-list-item role="listitem" class="list-item">
     <mat-icon>audiotrack</mat-icon> &nbsp;
@@ -28,16 +27,16 @@
     <span class="text-muted">{{ track.length | secondsToMmSsPipe }}</span>
     <span class="fill-space"></span>
     <i
-        class="material-icons clickable chip"
-        (click)="onPlayTitle(track)"
-        title="Play track"
+      class="material-icons clickable chip"
+      (click)="onPlayTitle(track)"
+      title="Play track"
     >
       play_arrow
     </i>
     <i
-        class="material-icons clickable chip"
-        (click)="onAddTitle(track)"
-        title="Add track to queue"
+      class="material-icons clickable chip"
+      (click)="onAddTitle(track)"
+      title="Add track to queue"
     >
       add
     </i>

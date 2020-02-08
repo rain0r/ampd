@@ -28,7 +28,7 @@ export class QueueComponent implements OnInit {
   constructor(
     private webSocketService: WebSocketService,
     private ampdBlockUiService: AmpdBlockUiService,
-    private service: MessageService
+    private messageService: MessageService
   ) {
     this.ampdBlockUiService.start();
 
@@ -88,7 +88,7 @@ export class QueueComponent implements OnInit {
     this.volume = payload.serverStatus.volume;
 
     if (hasSongChanged) {
-      this.service.sendMessage(InternalCommands.UPDATE_COVER);
+      this.messageService.sendMessage(InternalCommands.UPDATE_COVER);
     }
 
     if (callBuildQueue) {

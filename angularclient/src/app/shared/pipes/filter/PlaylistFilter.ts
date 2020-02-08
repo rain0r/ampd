@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { Playlist } from '../messages/incoming/playlist';
+import { Playlist } from '../../messages/incoming/playlist';
 
 @Pipe({ name: 'playlistFilter' })
 export class PlaylistFilterPipe implements PipeTransform {
@@ -7,8 +7,7 @@ export class PlaylistFilterPipe implements PipeTransform {
     filterBy = filterBy ? filterBy.toLocaleLowerCase() : '';
     return filterBy
       ? value.filter(
-          (product: Playlist) =>
-            product.name.toLocaleLowerCase().indexOf(filterBy) !== -1
+          (pl: Playlist) => pl.name.toLocaleLowerCase().indexOf(filterBy) !== -1
         )
       : value;
   }

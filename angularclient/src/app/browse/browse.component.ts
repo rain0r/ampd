@@ -26,8 +26,4 @@ export class BrowseComponent implements OnInit {
       this.browseService.sendBrowseReq(dir);
     });
   }
-
-  public onBackToTop(): void {
-    window.scrollTo(0, 0);
-  }
 }

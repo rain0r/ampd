@@ -1,7 +1,9 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { InternalCommands } from '../../shared/commands/internal';
 import { MpdCommands } from '../../shared/mpd/mpd-commands';
 import { BrowseService } from '../../shared/services/browse.service';
+import { MessageService } from '../../shared/services/message.service';
 import { NotificationService } from '../../shared/services/notification.service';
 import { WebSocketService } from '../../shared/services/web-socket.service';
 
@@ -18,7 +20,8 @@ export class NavigationComponent implements OnInit {
     private notificationService: NotificationService,
     private browseService: BrowseService,
     private activatedRoute: ActivatedRoute,
-    private webSocketService: WebSocketService
+    private webSocketService: WebSocketService,
+    private messageService: MessageService
   ) {}
 
   public ngOnInit(): void {
@@ -80,7 +83,9 @@ export class NavigationComponent implements OnInit {
 
   public applyFilter(filterValue: string) {
     if (filterValue) {
-      console.log(filterValue);
+      this.messageService.sendMessage(InternalCommands.BROWSE_FILTER, {
+        filterValue,
+      });
     }
   }
 }

@@ -3,17 +3,17 @@ import { ActivatedRoute } from '@angular/router';
 import { ConnectionConfiguration } from '../../connection-configuration';
 import { IMpdTrack, MpdTrack } from '../../shared/messages/incoming/mpd-track';
 import { MpdCommands } from '../../shared/mpd/mpd-commands';
+import { MessageService } from '../../shared/services/message.service';
 import { NotificationService } from '../../shared/services/notification.service';
 import { WebSocketService } from '../../shared/services/web-socket.service';
-import {Filterable} from "../filterable";
-import {MessageService} from "../../shared/services/message.service";
+import { Filterable } from '../filterable';
 
 @Component({
   selector: 'app-tracks',
   templateUrl: './tracks.component.html',
   styleUrls: ['./tracks.component.css'],
 })
-export class TracksComponent extends Filterable{
+export class TracksComponent extends Filterable {
   @Input() public titleQueue: MpdTrack[] = [];
   public getParamDir = '';
 
@@ -21,7 +21,7 @@ export class TracksComponent extends Filterable{
     private notificationService: NotificationService,
     private webSocketService: WebSocketService,
     private activatedRoute: ActivatedRoute,
-  private messageService: MessageService,
+    private messageService: MessageService
   ) {
     super(messageService);
     this.getParamDir =

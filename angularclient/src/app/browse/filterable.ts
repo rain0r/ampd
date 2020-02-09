@@ -12,8 +12,7 @@ export abstract class Filterable {
       if (message.text === InternalCommands.BROWSE_FILTER) {
         if (message.data && message.data.filterValue) {
           this.filterValue = message.data.filterValue;
-        }
-        else {
+        } else {
           this.filterValue = '';
         }
       }

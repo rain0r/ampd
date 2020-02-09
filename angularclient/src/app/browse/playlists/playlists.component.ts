@@ -17,7 +17,7 @@ export class PlaylistsComponent extends Filterable {
   constructor(
     private notificationService: NotificationService,
     private webSocketService: WebSocketService,
-    private messageService: MessageService,
+    private messageService: MessageService
   ) {
     super(messageService);
   }

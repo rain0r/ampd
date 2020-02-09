@@ -84,17 +84,16 @@ export class NavigationComponent implements OnInit {
   public applyFilter(filterValue: string) {
     if (filterValue) {
       this.messageService.sendMessage(InternalCommands.BROWSE_FILTER, {
-        filterValue:filterValue,
+        filterValue,
       });
-    }
-    else {
+    } else {
       this.resetFilter();
     }
   }
 
-  public resetFilter(){
+  public resetFilter() {
     this.messageService.sendMessage(InternalCommands.BROWSE_FILTER, {
-      filterValue:'',
+      filterValue: '',
     });
   }
 }

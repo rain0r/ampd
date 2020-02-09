@@ -4,10 +4,10 @@ import { ConnectionConfiguration } from '../../connection-configuration';
 import { Directory } from '../../shared/messages/incoming/directory';
 import { MpdCommands } from '../../shared/mpd/mpd-commands';
 import { BrowseService } from '../../shared/services/browse.service';
+import { MessageService } from '../../shared/services/message.service';
 import { NotificationService } from '../../shared/services/notification.service';
 import { WebSocketService } from '../../shared/services/web-socket.service';
-import {Filterable} from "../filterable";
-import {MessageService} from "../../shared/services/message.service";
+import { Filterable } from '../filterable';
 
 @Component({
   selector: 'app-directories',
@@ -25,7 +25,7 @@ export class DirectoriesComponent extends Filterable {
     private router: Router,
     private webSocketService: WebSocketService,
     private notificationService: NotificationService,
-    private messageService: MessageService,
+    private messageService: MessageService
   ) {
     super(messageService);
     this.getParamDir =

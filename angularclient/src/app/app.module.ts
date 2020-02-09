@@ -24,6 +24,9 @@ import { SearchComponent } from './search/search.component';
 import { SettingsComponent } from './settings/settings.component';
 import { AmpdBlockUiService } from './shared/block/ampd-block-ui.service';
 import { EncodeURIComponentPipe } from './shared/pipes/EncodeURI';
+import { DirectoryFilterPipe } from './shared/pipes/filter/DirectoryFilter';
+import { MpdTrackFilterPipe } from './shared/pipes/filter/MpdTrackFilter';
+import { PlaylistFilterPipe } from './shared/pipes/filter/PlaylistFilter';
 import { SecondsToMmSsPipe } from './shared/pipes/SecondsToMmSs';
 import { AppRoutingModule } from './shared/routing/app-routing.module';
 import { BrowseService } from './shared/services/browse.service';
@@ -31,9 +34,6 @@ import { MessageService } from './shared/services/message.service';
 import { NotificationService } from './shared/services/notification.service';
 import { WebSocketService } from './shared/services/web-socket.service';
 import { SharedModule } from './shared/shared.module';
-import {PlaylistFilterPipe} from "./shared/pipes/filter/PlaylistFilter";
-import {DirectoryFilterPipe} from "./shared/pipes/filter/DirectoryFilter";
-import {MpdTrackFilterPipe} from "./shared/pipes/filter/MpdTrackFilter";
 
 @NgModule({
   declarations: [

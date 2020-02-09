@@ -4,20 +4,20 @@ import { MpdCommands } from '../../shared/mpd/mpd-commands';
 import { MessageService } from '../../shared/services/message.service';
 import { NotificationService } from '../../shared/services/notification.service';
 import { WebSocketService } from '../../shared/services/web-socket.service';
-import { FilterableImpl } from '../filterable';
+import { Filterable } from '../filterable';
 
 @Component({
   selector: 'app-playlists',
   templateUrl: './playlists.component.html',
   styleUrls: ['./playlists.component.css'],
 })
-export class PlaylistsComponent extends FilterableImpl {
+export class PlaylistsComponent extends Filterable {
   @Input() public playlistQueue: Playlist[] = [];
 
   constructor(
     private notificationService: NotificationService,
     private webSocketService: WebSocketService,
-    private messageService: MessageService
+    private messageService: MessageService,
   ) {
     super(messageService);
   }

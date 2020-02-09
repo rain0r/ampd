@@ -6,7 +6,7 @@
 
 <mat-list
   role="list"
-  *ngFor="let dir of dirQueue | playlistFilter: filterValue"
+  *ngFor="let dir of dirQueue | directoryFilter: filterValue"
   class="browse-list"
   (click)="onDirClick(dir.path)"
 >

@@ -5,21 +5,25 @@ import { IMpdTrack, MpdTrack } from '../../shared/messages/incoming/mpd-track';
 import { MpdCommands } from '../../shared/mpd/mpd-commands';
 import { NotificationService } from '../../shared/services/notification.service';
 import { WebSocketService } from '../../shared/services/web-socket.service';
+import {Filterable} from "../filterable";
+import {MessageService} from "../../shared/services/message.service";
 
 @Component({
   selector: 'app-tracks',
   templateUrl: './tracks.component.html',
   styleUrls: ['./tracks.component.css'],
 })
-export class TracksComponent {
+export class TracksComponent extends Filterable{
   @Input() public titleQueue: MpdTrack[] = [];
   public getParamDir = '';
 
   constructor(
     private notificationService: NotificationService,
     private webSocketService: WebSocketService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+  private messageService: MessageService,
   ) {
+    super(messageService);
     this.getParamDir =
       this.activatedRoute.snapshot.queryParamMap.get('dir') || '/';
   }

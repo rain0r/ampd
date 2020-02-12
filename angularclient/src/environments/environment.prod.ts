@@ -4,6 +4,6 @@ export const environment = {
   production: true,
   coverServer: `http://${AMPD_URL}`,
   webSocketServer: `ws://${AMPD_URL}/mpd`,
-  ampdVersion: '0.0.7-SNAPSHOT',
+  ampdVersion: '1.0.1-SNAPSHOT',
   gitCommitId: 'c029f65'    
 };

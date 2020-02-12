@@ -1,12 +1,15 @@
+const dateFormat = require('dateformat');
 const replace = require('replace-in-file');
 const spawn = require('child_process').spawn;
-const dateFormat = require('dateformat');
 
 const CONTEXT_PATH = '/';
-
 const prod = process.argv.includes('--prod');
-
 const packageJson = require('./package.json');
+
+const ampdVersion = require('child_process')
+.execSync('mvn -q -Dexec.executable="echo" -Dexec.args=\'${project.version}\' --non-recursive exec:exec',
+    {cwd: '..'},)
+.toString().trim();
 
 // Git hash
 const revision = require('child_process')
@@ -14,17 +17,15 @@ const revision = require('child_process')
 .toString().trim();
 
 // Write down the build date
-const now = new Date();
 const options = {
   files: 'src/environments/environment.prod.ts',
   from: [/ampdVersion: '.*'/, /gitCommitId: '.*',/],
-  to: [`ampdVersion: '${packageJson.version}'`, `gitCommitId: '${revision}'`],
+  to: [`ampdVersion: '${ampdVersion}'`, `gitCommitId: '${revision}'`],
 };
 
-console.log(`Using git commit ${revision}`);
-console.log(`Using ampdVersion ${dateFormat(now, "yyyy-mm-dd HH:MM")}`);
 console.log(`Using CONTEXT_PATH ${CONTEXT_PATH}`);
-console.log(`Using package.json version ${packageJson.version}`);
+console.log(`Using ampdVersion ${ampdVersion}`);
+console.log(`Using git commit ${revision}`);
 
 try {
   replace.sync(options);
@@ -54,5 +55,5 @@ if (prod) {
 }
 
 child.on('error', (err) => {
-  console.log('Oh noez, teh errurz: ' + err);
+  console.error(err);
 });

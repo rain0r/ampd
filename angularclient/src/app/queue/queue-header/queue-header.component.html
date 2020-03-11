@@ -21,7 +21,11 @@
     </span>
   </div>
   <div fxFlex.lt-md="100%">
-    <mat-divider fxShow.lt-md="true" fxShow="false"></mat-divider>
+    <mat-divider
+      fxShow.lt-md="true"
+      fxShow="false"
+      *ngIf="currentState != 'stop' && hasCover"
+    ></mat-divider>
     <img
       #cover
       *ngIf="currentState != 'stop' && hasCover"
@@ -29,7 +33,6 @@
       class="album-art"
       (click)="openCoverModal()"
     />
-    <mat-divider fxShow.lt-md="true" fxShow="false"></mat-divider>
   </div>
 </div>
 

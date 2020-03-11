@@ -50,7 +50,7 @@
 
   <ng-container matColumnDef="length">
     <mat-header-cell *matHeaderCellDef>Duration</mat-header-cell>
-    <mat-cell *matCellDef="let track">
+    <mat-cell *matCellDef="let track" (click)="onRowClick(track.file)">
       {{ track.durationFormatted() }}
     </mat-cell>
   </ng-container>

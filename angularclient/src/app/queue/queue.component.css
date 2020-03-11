@@ -1,10 +1,3 @@
-@media (min-width: 600px) {
-  .centered {
-    /* top | right | bottom | left */
-    padding: 5px 10% 0 10%;
-  }
-}
-
 .space-top {
   padding-top: 0.25rem;
   margin-top: 0.25rem;

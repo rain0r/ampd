@@ -1,6 +1,6 @@
 <block-ui>
   <div class="app-main">
-    <mat-toolbar color="primary">
+    <mat-toolbar class="toolbar" color="primary">
       <button mat-button [routerLink]="['/']">
         <mat-icon>format_list_bulleted</mat-icon>
         <span class="only-on-big-screen">Queue</span>
@@ -23,6 +23,7 @@
           Settings
         </span>
       </button>
+      <span [routerLink]="['/']" class="logo only-on-big-screen">ampd</span>
       <span class="fill-space"></span>
       <mat-icon>{{ connectedStatusIcon }}</mat-icon>
     </mat-toolbar>

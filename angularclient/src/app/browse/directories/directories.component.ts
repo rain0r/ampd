@@ -1,6 +1,6 @@
 import { Component, HostListener, Input } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { ConnectionConfiguration } from '../../connection-configuration';
+import { ConnectionConfig } from '../../shared/connection-config/connection-config';
 import { Directory } from '../../shared/messages/incoming/directory';
 import { MpdCommands } from '../../shared/mpd/mpd-commands';
 import { BrowseService } from '../../shared/services/browse.service';
@@ -30,7 +30,7 @@ export class DirectoriesComponent extends Filterable {
     super(messageService);
     this.getParamDir =
       this.activatedRoute.snapshot.queryParamMap.get('dir') || '/';
-    const model = ConnectionConfiguration.get();
+    const model = ConnectionConfig.get();
     this.coverServer = model.coverServer;
   }
 

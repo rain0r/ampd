@@ -1,41 +1,37 @@
-<div class="centered">
-  <app-queue-header
-    [currentSong]="currentSong"
-    [currentState]="currentState"
-  ></app-queue-header>
+<app-queue-header
+  [currentSong]="currentSong"
+  [currentState]="currentState"
+></app-queue-header>
 
-  <div fxLayout="row wrap" fxLayoutAlign="space-between end">
-    <div>
-      <app-control-panel
-        [currentState]="currentState"
-        [controlPanel]="controlPanel"
-      ></app-control-panel>
-      <mat-divider fxShow.lt-md="true" fxShow="false"></mat-divider>
-    </div>
-    <div>
-      <app-mpd-modes
-        [controlPanel]="controlPanel"
-        [currentState]="currentState"
-      ></app-mpd-modes>
-    </div>
+<div fxLayout="row wrap" fxLayoutAlign="space-between end">
+  <div>
+    <app-control-panel
+      [currentState]="currentState"
+      [controlPanel]="controlPanel"
+    ></app-control-panel>
+    <mat-divider fxShow.lt-md="true" fxShow="false"></mat-divider>
   </div>
-
-  <div class="space-top">
-    <mat-divider></mat-divider>
+  <div>
+    <app-mpd-modes
+      [controlPanel]="controlPanel"
+      [currentState]="currentState"
+    ></app-mpd-modes>
   </div>
-
-  <!-- Current track progress -->
-  <app-track-progress [currentSong]="currentSong"></app-track-progress>
-
-  <mat-divider></mat-divider>
-
-  <!-- Volume slider -->
-  <app-volume-slider [volume]="volume"></app-volume-slider>
-
-  <mat-divider fxShow.lt-md="true" fxShow="false"></mat-divider>
-
-  <mat-divider></mat-divider>
-
-  <!-- Track table -->
-  <app-track-table [currentSong]="currentSong"></app-track-table>
 </div>
+
+<div class="space-top">
+  <mat-divider></mat-divider>
+</div>
+
+<!-- Current track progress -->
+<app-track-progress [currentSong]="currentSong"></app-track-progress>
+
+<mat-divider></mat-divider>
+
+<!-- Volume slider -->
+<app-volume-slider [volume]="volume"></app-volume-slider>
+
+<mat-divider></mat-divider>
+
+<!-- Track table -->
+<app-track-table [currentSong]="currentSong"></app-track-table>

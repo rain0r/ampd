@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { MatSnackBar } from '@angular/material';
 import { StompService } from '@stomp/ng2-stompjs';
 import { environment } from '../../environments/environment';
-import { ConnectionConfiguration } from '../connection-configuration';
+import { ConnectionConfig } from '../shared/connection-config/connection-config';
 
 @Component({
   selector: 'app-settings',
@@ -12,7 +12,7 @@ import { ConnectionConfiguration } from '../connection-configuration';
 export class SettingsComponent {
   private ampdVersion: string = environment.ampdVersion;
   private gitCommitId: string = environment.gitCommitId;
-  private model: ConnectionConfiguration;
+  private model: ConnectionConfig;
   private submitted = false;
 
   constructor(
@@ -29,12 +29,12 @@ export class SettingsComponent {
   public saveSettings() {
     this.popUp('Saved settings.');
     const data = JSON.stringify(this.model);
-    localStorage.setItem(ConnectionConfiguration.key, data);
+    localStorage.setItem(ConnectionConfig.key, data);
     this.stompService.initAndConnect();
   }
 
-  private buildModel(): ConnectionConfiguration {
-    const model = ConnectionConfiguration.get();
+  private buildModel(): ConnectionConfig {
+    const model = ConnectionConfig.get();
 
     if (!model.webSocketServer) {
       model.webSocketServer = environment.webSocketServer;

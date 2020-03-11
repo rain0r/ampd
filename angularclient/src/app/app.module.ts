@@ -12,7 +12,6 @@ import { DirectoriesComponent } from './browse/directories/directories.component
 import { NavigationComponent } from './browse/navigation/navigation.component';
 import { PlaylistsComponent } from './browse/playlists/playlists.component';
 import { TracksComponent } from './browse/tracks/tracks.component';
-import { ConnectionConfiguration } from './connection-configuration';
 import { ControlPanelComponent } from './queue/control-panel/control-panel.component';
 import { MpdModesComponent } from './queue/mpd-modes/mpd-modes.component';
 import { QueueHeaderComponent } from './queue/queue-header/queue-header.component';
@@ -23,6 +22,7 @@ import { VolumeSliderComponent } from './queue/volume-slider/volume-slider.compo
 import { SearchComponent } from './search/search.component';
 import { SettingsComponent } from './settings/settings.component';
 import { AmpdBlockUiService } from './shared/block/ampd-block-ui.service';
+import { ConnectionConfig } from './shared/connection-config/connection-config';
 import { EncodeURIComponentPipe } from './shared/pipes/EncodeURI';
 import { DirectoryFilterPipe } from './shared/pipes/filter/DirectoryFilter';
 import { MpdTrackFilterPipe } from './shared/pipes/filter/MpdTrackFilter';
@@ -86,7 +86,7 @@ import { SharedModule } from './shared/shared.module';
 })
 export class AppModule {
   public static loadConnectionConfiguration(): StompConfig {
-    const connectionConfiguration: ConnectionConfiguration = ConnectionConfiguration.get();
+    const connectionConfiguration: ConnectionConfig = ConnectionConfig.get();
     const stompConfig: StompConfig = {
       // Which server?
       url: connectionConfiguration.webSocketServer,

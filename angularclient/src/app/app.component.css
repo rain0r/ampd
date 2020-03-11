@@ -1,5 +1,12 @@
-.app-content {
-  padding: 0.3em;
+@media only screen and (min-width: 1280px) {
+  .app-content {
+    /* top | right | bottom | left */
+    padding: 1px 10% 0 10%;
+  }
+
+  .toolbar {
+    padding: 0 10% 0 10%;
+  }
 }
 
 .fill-space {
@@ -8,4 +15,15 @@
 
 .app-main {
   height: 100vh;
+}
+
+.logo {
+  color: white;
+  font-family: 'Source Code Pro', Hack, monospace;
+  margin-left: 10%;
+  font-weight: bold;
+}
+
+.logo:hover {
+  cursor: pointer;
 }

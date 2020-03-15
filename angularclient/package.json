@@ -32,6 +32,7 @@
     "replace-in-file": "^4.2.0",
     "roboto-fontface": "^0.10.0",
     "rxjs": "~6.5.3",
+    "acorn": ">=6.4.1",
     "tslib": "^1.10.0",
     "zone.js": "~0.10.2"
   },

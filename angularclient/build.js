@@ -9,7 +9,7 @@ const packageJson = require('./package.json');
 const ampdVersion = require('child_process')
 .execSync('mvn -q -Dexec.executable="echo" -Dexec.args=\'${project.version}\' --non-recursive exec:exec',
     {cwd: '..'},)
-.toString().trim().replace('SNAPSHOT', '');
+.toString().trim().replace('-SNAPSHOT', '');
 
 // Git hash
 const revision = require('child_process')

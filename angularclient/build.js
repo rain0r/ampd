@@ -4,12 +4,14 @@ const spawn = require('child_process').spawn;
 
 const CONTEXT_PATH = '/';
 const prod = process.argv.includes('--prod');
-const packageJson = require('./package.json');
-
-const ampdVersion = require('child_process')
+let ampdVersion = require('child_process')
 .execSync('mvn -q -Dexec.executable="echo" -Dexec.args=\'${project.version}\' --non-recursive exec:exec',
     {cwd: '..'},)
-.toString().trim().replace('-SNAPSHOT', '');
+.toString().trim();
+
+if (prod) {
+  ampdVersion = ampdVersion.replace('-SNAPSHOT', '');
+}
 
 // Git hash
 const revision = require('child_process')

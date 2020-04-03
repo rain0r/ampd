@@ -13,7 +13,7 @@ public class MpdConfiguration {
   @Value("${mpd.port}")
   private int mpdPort;
 
-  @Value("${mpd.password}")
+  @Value("${mpd.password:}")
   private String mpdPassword;
 
   public MPD mpd() {

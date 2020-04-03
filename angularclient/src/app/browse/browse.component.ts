@@ -6,7 +6,7 @@ import { BrowseService } from '../shared/services/browse.service';
 @Component({
   selector: 'app-browse',
   templateUrl: './browse.component.html',
-  styleUrls: ['./browse.component.css'],
+  styleUrls: ['./browse.component.scss'],
 })
 export class BrowseComponent implements OnInit {
   public getParamDir = '';

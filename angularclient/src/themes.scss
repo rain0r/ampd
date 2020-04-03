@@ -1,0 +1,107 @@
+/**
+ * Created at 1398/4/27 (2019/7/18).
+ * @author {@link https://mirismaili.github.io S. Mahdi Mir-Ismaili}
+ */
+@import '~@angular/material/theming';
+
+@include mat-core();
+
+// Define your desired themes here. For more information about this important variable, see the docs of
+// `make-stylesheets` mixin in "themes-core.scss" (that is the only consumer of this variable).
+$themes-map: (
+        indigo-pink: (
+                primary-base: $mat-indigo,
+                accent-base: $mat-pink,
+        ),
+
+        deeppurple-amber: (
+                primary-base: $mat-deep-purple,
+                accent-base: $mat-amber,
+        ),
+
+        pink-bluegrey: (
+                primary-base: $mat-pink,
+                accent-base: $mat-blue-gray,
+        ),
+
+        purple-green: (
+                primary-base: $mat-purple,
+                accent-base: $mat-green,
+        ),
+);
+
+/**
+ * // IMPORTANT NOTE: This mixin is just for other elements (non-material elements) that you want use material themes
+ * // for them. If you don't have such elements, simply remove this mixin.
+ *
+ * This is a *callback-mixin* and will be called in `make-stylesheets` with a argument ($mat-theme). The schema of this
+ * only argument would be:
+ *   {
+ *     primary: mat-palette,
+ *     accent:  mat-palette,
+ *     warn:    mat-palette,
+ *     background: mat-theme-background,
+ *     foreground: mat-theme-foreground,
+ *     is-dark: boolean,
+ *   }
+ */
+@mixin themed-stylesheets($mat-theme) {
+        // We only need "primary-color" and "accent-color" in this example. So commented out other (not-necessary)
+        // things. Uncomment each you need.
+
+        $primary: map-get($mat-theme, primary);
+        $accent: map-get($mat-theme, accent);
+        //$warn: map-get($mat-theme, warn);
+        //$background: map-get($mat-theme, background);
+        //$foreground: map-get($mat-theme, foreground);
+
+        $primary-color: mat-color($primary);
+        $accent-color: mat-color($accent);
+        //$warn-color: mat-color($warn);
+
+        //// Background colors:
+        //$status-bar-color:               map-get($background, 'status-bar'              );
+        //$app-bar-color:                  map-get($background, 'app-bar'                 );
+        //$background-color:               map-get($background, 'background'              );
+        //$hover-color:                    map-get($background, 'hover'                   );
+        //$card-color:                     map-get($background, 'card'                    );
+        //$dialog-color:                   map-get($background, 'dialog'                  );
+        //$disabled-button-color:          map-get($background, 'disabled-button'         );
+        //$raised-button-color:            map-get($background, 'raised-button'           );
+        //$focused-button-color:           map-get($background, 'focused-button'          );
+        //$selected-button-color:          map-get($background, 'selected-button'         );
+        //$selected-disabled-button-color: map-get($background, 'selected-disabled-button');
+        //$disabled-button-toggle-color:   map-get($background, 'disabled-button-toggle'  );
+        //$unselected-chip-color:          map-get($background, 'unselected-chip'         );
+        //$disabled-list-option-color:     map-get($background, 'disabled-list-option'    );
+
+        //// Foreground colors:
+        //$base-color:              map-get($foreground, 'base'             );
+        //$divider-color:           map-get($foreground, 'divider'          );
+        //$dividers-color:          map-get($foreground, 'dividers'         );
+        //$disabled-color:          map-get($foreground, 'disabled'         );
+        //$disabled-button-color:   map-get($foreground, 'disabled-button'  );
+        //$disabled-text-color:     map-get($foreground, 'disabled-text'    );
+        //$elevation-color:         map-get($foreground, 'elevation'        );
+        //$hint-text-color:         map-get($foreground, 'hint-text'        );
+        //$secondary-text-color:    map-get($foreground, 'secondary-text'   );
+        //$icon-color:              map-get($foreground, 'icon'             );
+        //$icons-color:             map-get($foreground, 'icons'            );
+        //$text-color:              map-get($foreground, 'text'             );
+        //$slider-min-color:        map-get($foreground, 'slider-min'       );
+        //$slider-off-color:        map-get($foreground, 'slider-off'       );
+        //$slider-off-active-color: map-get($foreground, 'slider-off-active');
+
+        //$is-dark: map-get($mat-theme, is-dark);
+
+        // Define themed-stylesheets here:
+
+        .themed-element {
+                background: $primary-color;
+                color: $accent-color;
+        }
+}
+
+// Import the module and do the job:
+@import '~angular-material-dynamic-themes/themes-core';
+@include make-stylesheets($themes-map);

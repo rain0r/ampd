@@ -9,7 +9,7 @@ import { WebSocketService } from '../../shared/services/web-socket.service';
 @Component({
   selector: 'app-mpd-modes',
   templateUrl: './mpd-modes.component.html',
-  styleUrls: ['./mpd-modes.component.css'],
+  styleUrls: ['./mpd-modes.component.scss'],
 })
 export class MpdModesComponent {
   @Input() public controlPanel: IControlPanel = new ControlPanelImpl();

@@ -7,7 +7,7 @@ import { ConnectionConfig } from '../shared/connection-config/connection-config'
 @Component({
   selector: 'app-settings',
   templateUrl: './settings.component.html',
-  styleUrls: ['./settings.component.css'],
+  styleUrls: ['./settings.component.scss'],
 })
 export class SettingsComponent {
   private ampdVersion: string = environment.ampdVersion;

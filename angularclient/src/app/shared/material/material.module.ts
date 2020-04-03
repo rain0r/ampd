@@ -1,9 +1,9 @@
-import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import {NgModule} from '@angular/core';
+import {FormsModule} from '@angular/forms';
 import {
   MatButtonModule,
   MatButtonToggleModule,
-  MatCardModule,
+  MatCardModule, MatCheckboxModule,
   MatChipsModule,
   MatDialog,
   MatDialogModule,
@@ -12,6 +12,7 @@ import {
   MatIconModule,
   MatInputModule,
   MatListModule,
+  MatMenuModule, MatSidenavModule,
   MatSliderModule,
   MatSnackBarModule,
   MatTableModule,
@@ -35,6 +36,9 @@ import {
     MatTableModule,
     MatToolbarModule,
     MatButtonToggleModule,
+    MatMenuModule,
+    MatCheckboxModule,
+    MatSidenavModule,
   ],
   exports: [
     FormsModule,
@@ -52,8 +56,12 @@ import {
     MatTableModule,
     MatToolbarModule,
     MatButtonToggleModule,
+    MatMenuModule,
+    MatCheckboxModule,
+    MatSidenavModule,
   ],
   declarations: [],
   providers: [MatDialog],
 })
-export class MaterialModule {}
+export class MaterialModule {
+}

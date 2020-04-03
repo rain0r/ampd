@@ -25,6 +25,7 @@
     "@angular/router": "~8.2.14",
     "@stomp/ng2-stompjs": "^7.2.0",
     "acorn": ">=6.4.1",
+    "angular-material-dynamic-themes": "^1.0.4",
     "dateformat": "^3.0.3",
     "hammerjs": "^2.0.8",
     "kind-of": ">=6.0.3",

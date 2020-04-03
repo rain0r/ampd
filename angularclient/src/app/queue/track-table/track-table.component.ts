@@ -19,7 +19,7 @@ import { WebSocketService } from '../../shared/services/web-socket.service';
 @Component({
   selector: 'app-track-table',
   templateUrl: './track-table.component.html',
-  styleUrls: ['./track-table.component.css'],
+  styleUrls: ['./track-table.component.scss'],
 })
 export class TrackTableComponent implements OnChanges {
   public trackTableData = new MatTableDataSource<QueueTrack>();

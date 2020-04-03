@@ -8,7 +8,7 @@ export interface IDialogData {
 @Component({
   selector: 'app-cover-modal',
   templateUrl: './cover-modal.component.html',
-  styleUrls: ['./cover-modal.component.css'],
+  styleUrls: ['./cover-modal.component.scss'],
 })
 export class CoverModalComponent {
   constructor(

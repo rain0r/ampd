@@ -6,7 +6,7 @@ import { WebSocketService } from '../../shared/services/web-socket.service';
 @Component({
   selector: 'app-volume-slider',
   templateUrl: './volume-slider.component.html',
-  styleUrls: ['./volume-slider.component.css'],
+  styleUrls: ['./volume-slider.component.scss'],
 })
 export class VolumeSliderComponent {
   @Input() public volume: number = 0;

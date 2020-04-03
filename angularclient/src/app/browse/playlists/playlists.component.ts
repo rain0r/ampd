@@ -9,7 +9,7 @@ import { Filterable } from '../filterable';
 @Component({
   selector: 'app-playlists',
   templateUrl: './playlists.component.html',
-  styleUrls: ['./playlists.component.css'],
+  styleUrls: ['./playlists.component.scss'],
 })
 export class PlaylistsComponent extends Filterable {
   @Input() public playlistQueue: Playlist[] = [];

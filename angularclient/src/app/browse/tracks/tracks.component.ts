@@ -11,7 +11,7 @@ import { Filterable } from '../filterable';
 @Component({
   selector: 'app-tracks',
   templateUrl: './tracks.component.html',
-  styleUrls: ['./tracks.component.css'],
+  styleUrls: ['./tracks.component.scss'],
 })
 export class TracksComponent extends Filterable {
   @Input() public titleQueue: MpdTrack[] = [];

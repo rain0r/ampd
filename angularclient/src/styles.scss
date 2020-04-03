@@ -1,0 +1,165 @@
+@import '~@angular/material/prebuilt-themes/indigo-pink.css';
+@import '~material-icons/iconfont/material-icons.css';
+@import '~roboto-fontface/css/roboto/roboto-fontface.css';
+@import 'themes.scss';
+
+html,
+body {
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
+  height: 100%;
+  margin: 0px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+@media (max-width: 600px) {
+  .only-on-big-screen {
+    display: none;
+  }
+}
+
+@media (min-width: 700px) {
+  .only-on-small-screen {
+    display: none;
+  }
+}
+
+.chip {
+  background-color: #e0e0e0;
+  border-radius: 24px;
+  display: inline-flex;
+  padding: 0 !important;
+  margin-left: 0.4rem;
+}
+
+mat-toolbar {
+  justify-content: center;
+  padding-bottom: 0px;
+}
+
+.space-right {
+  padding-right: 0.5em;
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+.text-muted {
+  color: #868e96 !important;
+}
+
+table {
+  width: 100%;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.half-width {
+  width: 50%;
+}
+
+.mat-button-toggle-label-content {
+  line-height: 34px !important;
+}
+
+.mat-divider-horizontal {
+  padding-top: 0.2rem;
+  padding-bottom: 0.2rem;
+}
+
+// Theming
+
+@mixin size($width, $height: null) {
+  width: $width;
+  height: if($height==null, $width, $height);
+}
+
+.theme-selectors-container {
+  width: 190px;
+  margin: 0 8px;
+}
+
+button.theme-selector {
+  @include size(80px);
+}
+
+div.theme-primary {
+  @include size(70px);
+  border-radius: 50%;
+}
+
+div.theme-accent {
+  @include size(25px);
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+
+div.theme-warn {
+  @include size(15px);
+  position: absolute;
+  bottom: 7%;
+  left: 20%;
+  transform: rotate(45deg);
+}
+
+.theme-check {
+  color: white;
+  font-size: 3.2em;
+}
+
+.theme-selector-is-dark {
+  font-weight: bold;
+  font-size: 1.2em;
+}
+
+.center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.sample-elements {
+  margin: 16px;
+}
+
+.example-form {
+  min-width: 150px;
+  max-width: 500px;
+  width: 100%;
+}
+
+.example-full-width {
+  width: 100%;
+}
+
+
+// For navigation (sidenav/toolbar). Isn't related to dynamic-theme-switching:
+.sidenav-container {
+  height: 100%;
+}
+
+.sidenav {
+  width: 200px;
+}
+
+.sidenav .mat-toolbar {
+  background: inherit;
+}
+
+.mat-toolbar.mat-primary {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.inherit-bg {
+  background: inherit;
+}

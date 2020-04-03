@@ -12,7 +12,7 @@ import { Filterable } from '../filterable';
 @Component({
   selector: 'app-directories',
   templateUrl: './directories.component.html',
-  styleUrls: ['./directories.component.css'],
+  styleUrls: ['./directories.component.scss'],
 })
 export class DirectoriesComponent extends Filterable {
   @Input() public dirQueue: Directory[] = [];

@@ -13,7 +13,14 @@ public class MpdConfiguration {
   @Value("${mpd.port}")
   private int mpdPort;
 
+  @Value("${mpd.password}")
+  private String mpdPassword;
+
   public MPD mpd() {
-    return new MPD.Builder().server(mpdServer).port(mpdPort).build();
+    if (mpdPassword.equals("")) {
+      return new MPD.Builder().server(mpdServer).port(mpdPort).build();
+    } else {
+      return new MPD.Builder().server(mpdServer).port(mpdPort).password(mpdPassword).build();
+    }
   }
 }

@@ -10,7 +10,7 @@ import { MessageService } from '../../shared/services/message.service';
 @Component({
   selector: 'app-queue-header',
   templateUrl: './queue-header.component.html',
-  styleUrls: ['./queue-header.component.css'],
+  styleUrls: ['./queue-header.component.scss'],
 })
 export class QueueHeaderComponent {
   @Input() public currentSong: QueueTrack = new QueueTrack();

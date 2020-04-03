@@ -15,7 +15,7 @@ import { WebSocketService } from '../../shared/services/web-socket.service';
 @Component({
   selector: 'app-control-panel',
   templateUrl: './control-panel.component.html',
-  styleUrls: ['./control-panel.component.css'],
+  styleUrls: ['./control-panel.component.scss'],
 })
 export class ControlPanelComponent implements OnChanges {
   @Input() public currentState: string = '';

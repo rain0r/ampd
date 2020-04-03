@@ -7,7 +7,7 @@ import { WebSocketService } from '../../shared/services/web-socket.service';
 @Component({
   selector: 'app-track-progress',
   templateUrl: './track-progress.component.html',
-  styleUrls: ['./track-progress.component.css'],
+  styleUrls: ['./track-progress.component.scss'],
 })
 export class TrackProgressComponent {
   @Input() public currentSong: QueueTrack = new QueueTrack();

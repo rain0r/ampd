@@ -28,7 +28,7 @@ export class AppComponent {
   constructor(
     private router: Router,
     private stompService: StompService,
-    private themingService: ThemingService,
+    private themingService: ThemingService
   ) {
     this.innerWidth = window.innerWidth;
     this.buildConnectionState();

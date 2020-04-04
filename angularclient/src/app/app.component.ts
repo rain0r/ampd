@@ -1,24 +1,44 @@
-import { Component, ElementRef, HostListener, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  HostListener,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { Router } from '@angular/router';
 import { StompService, StompState } from '@stomp/ng2-stompjs';
+import { Observable } from 'rxjs/index';
 import { filter } from 'rxjs/internal/operators';
+import { ThemingService } from './shared/services/theming.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   public title = 'app';
   public connectedStatusIcon = 'cloud_off';
   public innerWidth: number;
 
   @ViewChild('inputSearch', { static: false }) public inputSearch?: ElementRef;
+  private isDarkTheme: Observable<boolean>;
 
-  constructor(private router: Router, private stompService: StompService) {
+  constructor(
+    private router: Router,
+    private stompService: StompService,
+    private themingService: ThemingService
+  ) {
     this.innerWidth = window.innerWidth;
-
     this.buildConnectionState();
+  }
+
+  public ngOnInit() {
+    this.isDarkTheme = this.themingService.isDarkTheme;
+  }
+
+  public toggleDarkTheme(checked: boolean) {
+    this.themingService.setDarkTheme(checked);
   }
 
   public setConnected() {

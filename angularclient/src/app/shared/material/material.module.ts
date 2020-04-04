@@ -16,6 +16,7 @@ import {
   MatMenuModule,
   MatSidenavModule,
   MatSliderModule,
+  MatSlideToggleModule,
   MatSnackBarModule,
   MatTableModule,
   MatToolbarModule,
@@ -41,6 +42,7 @@ import {
     MatMenuModule,
     MatCheckboxModule,
     MatSidenavModule,
+    MatSlideToggleModule,
   ],
   exports: [
     FormsModule,
@@ -61,6 +63,7 @@ import {
     MatMenuModule,
     MatCheckboxModule,
     MatSidenavModule,
+    MatSlideToggleModule,
   ],
   declarations: [],
   providers: [MatDialog],

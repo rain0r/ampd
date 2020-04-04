@@ -26,12 +26,15 @@
         </button>
 
         <span [routerLink]="['/']" class="logo only-on-big-screen">ampd</span>
+        <span class="fill-space"></span>
         <mat-slide-toggle
+          class="space-right"
           [checked]="isDarkTheme | async"
           (change)="toggleDarkTheme($event.checked)"
-          >Dark theme</mat-slide-toggle
-        >
-        <span class="fill-space"></span>
+          title="Turn the lights off / on"
+          >💡
+        </mat-slide-toggle>
+        <!-- There's a lightbulb hidden in here -->
         <mat-icon>{{ connectedStatusIcon }}</mat-icon>
       </mat-toolbar>
       <div class="app-content">

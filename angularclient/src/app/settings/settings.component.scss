@@ -1,3 +1,9 @@
+@media only screen and (min-width: 1000px) {
+  .settings-form {
+    padding: 1px 10% 0 10%;
+  }
+}
+
 a {
   color: black;
 }
@@ -10,4 +16,69 @@ a {
 .space-top {
   padding-top: 0.25rem;
   margin-top: 0.25rem;
+}
+
+.logo {
+   font-family: 'Source Code Pro', Hack, monospace;
+   font-weight: bold;
+}
+
+.bigger {
+  font-size: larger;
+}
+
+// Theming
+@mixin size($width, $height: null) {
+  width: $width;
+  height: if($height==null, $width, $height);
+}
+
+.toolbar-spacer {
+  flex: 1 1 auto;
+}
+
+.theme-selectors-container {
+  width: 190px;
+  margin: 0 8px;
+}
+
+button.theme-selector {
+  @include size(80px);
+}
+
+div.theme-primary {
+  @include size(70px);
+  border-radius: 50%;
+}
+
+div.theme-accent {
+  @include size(25px);
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+
+div.theme-warn {
+  @include size(15px);
+  position: absolute;
+  bottom: 7%;
+  left: 20%;
+  transform: rotate(45deg);
+}
+
+.theme-check {
+  color: white;
+  font-size: 3.2em;
+}
+
+.theme-selector-is-dark {
+  font-weight: bold;
+  font-size: 1.2em;
+}
+
+.center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }

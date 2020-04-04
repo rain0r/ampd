@@ -7,7 +7,6 @@ html,
 body {
   font-family: Roboto, 'Helvetica Neue', sans-serif;
   height: 100%;
-  margin: 0px;
 }
 
 * {
@@ -37,7 +36,7 @@ body {
 
 mat-toolbar {
   justify-content: center;
-  padding-bottom: 0px;
+  padding-bottom: 0;
 }
 
 .space-right {
@@ -60,9 +59,6 @@ table {
   width: 100%;
 }
 
-.half-width {
-  width: 50%;
-}
 
 .mat-button-toggle-label-content {
   line-height: 34px !important;
@@ -74,92 +70,6 @@ table {
 }
 
 // Theming
-
-@mixin size($width, $height: null) {
-  width: $width;
-  height: if($height==null, $width, $height);
-}
-
-.theme-selectors-container {
-  width: 190px;
-  margin: 0 8px;
-}
-
-button.theme-selector {
-  @include size(80px);
-}
-
-div.theme-primary {
-  @include size(70px);
-  border-radius: 50%;
-}
-
-div.theme-accent {
-  @include size(25px);
-  position: absolute;
-  bottom: 0;
-  left: 0;
-}
-
-div.theme-warn {
-  @include size(15px);
-  position: absolute;
-  bottom: 7%;
-  left: 20%;
-  transform: rotate(45deg);
-}
-
-.theme-check {
-  color: white;
-  font-size: 3.2em;
-}
-
-.theme-selector-is-dark {
-  font-weight: bold;
-  font-size: 1.2em;
-}
-
-.center {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-
-.sample-elements {
-  margin: 16px;
-}
-
-.example-form {
-  min-width: 150px;
-  max-width: 500px;
-  width: 100%;
-}
-
-.example-full-width {
-  width: 100%;
-}
-
-
-// For navigation (sidenav/toolbar). Isn't related to dynamic-theme-switching:
-.sidenav-container {
-  height: 100%;
-}
-
-.sidenav {
-  width: 200px;
-}
-
-.sidenav .mat-toolbar {
-  background: inherit;
-}
-
-.mat-toolbar.mat-primary {
-  position: sticky;
-  top: 0;
-  z-index: 1;
-}
-
-.inherit-bg {
+.mat-toolbar {
   background: inherit;
 }

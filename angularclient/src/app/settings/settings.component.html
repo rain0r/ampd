@@ -1,56 +1,90 @@
-<div class="gap">
-  <div fxLayout="column">
+<form (ngSubmit)="onSubmit()" class="settings-form">
+  <div fxLayout="column" fxLayoutGap="1rem" fxFlex.gt-md="40%">
     <div>
-      <h1>ampd</h1>
-
-      <div class="space-top">
-        <mat-divider></mat-divider>
-      </div>
-
-      <form (ngSubmit)="onSubmit()" #heroForm="ngForm" class="settings-form">
-        <div fxLayout.xs="column">
-          <div>
-            <mat-form-field class="full-width">
-              <input
-                matInput
-                required
-                name="coverServer"
-                [(ngModel)]="model.coverServer"
-                value="{{ model.coverServer }}"
-                placeholder="Cover Server"
-              />
-            </mat-form-field>
-          </div>
-
-          <div>
-            <mat-form-field class="full-width">
-              <input
-                matInput
-                required
-                name="webSocketServer"
-                [(ngModel)]="model.webSocketServer"
-                value="{{ model.webSocketServer }}"
-                placeholder="Websocket Server"
-              />
-            </mat-form-field>
-          </div>
-        </div>
-
-        <button mat-stroked-button type="submit" (click)="saveSettings()">
-          Save
-        </button>
-      </form>
-    </div>
-
-    <div class="space-top">
-      <mat-divider></mat-divider>
+      <h1><span class="logo">ampd</span> settings</h1>
     </div>
 
     <div>
-      Version: {{ ampdVersion }}
-      <span class="text-muted">{{ gitCommitId }}</span>
+      <mat-form-field class="full-width">
+        <input
+          matInput
+          required
+          name="coverServer"
+          [(ngModel)]="model.coverServer"
+          value="{{ model.coverServer }}"
+          placeholder="Cover Server"
+        />
+      </mat-form-field>
     </div>
 
-    <div>Source code: <a href="https://github.com/rain0r/ampd">Github</a></div>
+    <div>
+      <mat-form-field class="full-width">
+        <input
+          matInput
+          required
+          name="webSocketServer"
+          [(ngModel)]="model.webSocketServer"
+          value="{{ model.webSocketServer }}"
+          placeholder="Websocket Server"
+        />
+      </mat-form-field>
+    </div>
+
+    <div>
+      <button
+        mat-stroked-button
+        type="submit"
+        (click)="saveSettings()"
+        class="full-width themed-element"
+      >
+        Save
+      </button>
+    </div>
+
+    <div class="bigger">
+      Version:
+      <span class="logo" title="ampd version">{{ ampdVersion }}</span> &nbsp;
+      <span
+        *ngIf="gitCommitId !== 'live'"
+        class="text-muted logo"
+        title="git commit id"
+        >{{ gitCommitId }}</span
+      >
+    </div>
+
+    <div class="bigger">
+      Source code at:
+      <a class="logo" href="https://github.com/rain0r/ampd"
+        >github.com/rain0r/ampd</a
+      >
+    </div>
+
+    <div>
+      <mat-checkbox
+        [checked]="isThemeDark"
+        (click)="$event.stopPropagation()"
+        (change)="toggleDarkness()"
+        class="mat-menu-item theme-selector-is-dark"
+        >Dark
+      </mat-checkbox>
+
+      <mat-grid-list cols="2" class="theme-selectors-container">
+        <mat-grid-tile *ngFor="let theme of themes">
+          <button
+            mat-button
+            class="theme-selector"
+            (click)="$event.stopPropagation(); setActiveTheme(theme)"
+          >
+            <div [attr.class]="theme + ' theme-primary center'">
+              <div [attr.class]="theme + ' theme-accent'"></div>
+              <div [attr.class]="theme + ' theme-warn'"></div>
+              <mat-icon *ngIf="activeTheme === theme" class="center theme-check"
+                >check</mat-icon
+              >
+            </div>
+          </button>
+        </mat-grid-tile>
+      </mat-grid-list>
+    </div>
   </div>
-</div>
+</form>

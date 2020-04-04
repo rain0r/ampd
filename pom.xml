@@ -9,7 +9,7 @@
   </parent>
   <groupId>org.hihn.ampd</groupId>
   <artifactId>ampd</artifactId>
-  <version>1.0.5-SNAPSHOT</version>
+  <version>1.0.5</version>
 
   <name>ampd</name>
   <description>Spring Boot server for the ampd-client</description>
@@ -24,7 +24,7 @@
     <url>https://github.com/rain0r/ampd</url>
     <connection>scm:git:https://github.com/rain0r/ampd.git</connection>
     <developerConnection>scm:git:https://github.com/rain0r/ampd.git</developerConnection>
-    <tag>HEAD</tag>
+    <tag>ampd-1.0.5</tag>
   </scm>
 
   <dependencies>

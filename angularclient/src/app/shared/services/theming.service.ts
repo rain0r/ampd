@@ -1,5 +1,5 @@
-import {Injectable} from '@angular/core';
-import {BehaviorSubject} from 'rxjs/index';
+import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs/index';
 
 const IS_DARK_MODE_KEY = 'isDarkTheme';
 
@@ -10,9 +10,8 @@ export class ThemingService {
   public darkThemeSubj = new BehaviorSubject(false);
   public isDarkTheme = this.darkThemeSubj.asObservable();
 
-
   constructor() {
-    console.log("constructor");
+    console.log('constructor');
     this.darkThemeSubj.next(this.loadState());
   }
 
@@ -25,8 +24,7 @@ export class ThemingService {
     try {
       const saved: string = localStorage.getItem(IS_DARK_MODE_KEY) || '';
       return JSON.parse(saved);
-    }
-    catch (err) {
+    } catch (err) {
       return false;
     }
   }

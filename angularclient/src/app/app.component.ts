@@ -16,13 +16,14 @@ import { ThemingService } from './shared/services/theming.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent implements OnInit {
+export class AppComponent {
   public title = 'app';
   public connectedStatusIcon = 'cloud_off';
   public innerWidth: number;
 
   @ViewChild('inputSearch', { static: false }) public inputSearch?: ElementRef;
   private isDarkTheme: Observable<boolean>;
+  // private isDarkTheme = true;
 
   constructor(
     private router: Router,
@@ -31,9 +32,6 @@ export class AppComponent implements OnInit {
   ) {
     this.innerWidth = window.innerWidth;
     this.buildConnectionState();
-  }
-
-  public ngOnInit() {
     this.isDarkTheme = this.themingService.isDarkTheme;
   }
 

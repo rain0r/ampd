@@ -1,7 +1,7 @@
 @import '~@angular/material/prebuilt-themes/indigo-pink.css';
 @import '~material-icons/iconfont/material-icons.css';
 @import '~roboto-fontface/css/roboto/roboto-fontface.css';
-@import 'themes.scss';
+@import './styles/material-theme';
 
 html,
 body {
@@ -67,9 +67,4 @@ table {
 .mat-divider-horizontal {
   padding-top: 0.2rem;
   padding-bottom: 0.2rem;
-}
-
-// Theming
-.mat-toolbar {
-  background: inherit;
 }

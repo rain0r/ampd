@@ -1,34 +1,42 @@
 <block-ui>
-  <div class="app-main">
-    <mat-toolbar class="toolbar" color="primary">
-      <button mat-button [routerLink]="['/']">
-        <mat-icon>format_list_bulleted</mat-icon>
-        <span class="only-on-big-screen">Queue</span>
-      </button>
-      <button mat-button [routerLink]="['/browse']">
-        <mat-icon>folder_open</mat-icon>
-        <span class="only-on-big-screen">
-          Browse
-        </span>
-      </button>
-      <button mat-button [routerLink]="['/search']">
-        <mat-icon>search</mat-icon>
-        <span class="only-on-big-screen">
-          Search
-        </span>
-      </button>
-      <button mat-button [routerLink]="['/settings']">
-        <mat-icon>settings</mat-icon>
-        <span class="only-on-big-screen">
-          Settings
-        </span>
-      </button>
-      <span [routerLink]="['/']" class="logo only-on-big-screen">ampd</span>
-      <span class="fill-space"></span>
-      <mat-icon>{{ connectedStatusIcon }}</mat-icon>
-    </mat-toolbar>
-    <div class="app-content">
-      <router-outlet></router-outlet>
+  <div [ngClass]="{ 'dark-theme': isDarkTheme | async }">
+    <div class="app-main mat-app-background">
+      <mat-toolbar class="toolbar" color="primary">
+        <button mat-button [routerLink]="['/']">
+          <mat-icon>format_list_bulleted</mat-icon>
+          <span class="only-on-big-screen">Queue</span>
+        </button>
+        <button mat-button [routerLink]="['/browse']">
+          <mat-icon>folder_open</mat-icon>
+          <span class="only-on-big-screen">
+            Browse
+          </span>
+        </button>
+        <button mat-button [routerLink]="['/search']">
+          <mat-icon>search</mat-icon>
+          <span class="only-on-big-screen">
+            Search
+          </span>
+        </button>
+        <button mat-button [routerLink]="['/settings']">
+          <mat-icon>settings</mat-icon>
+          <span class="only-on-big-screen">
+            Settings
+          </span>
+        </button>
+
+        <span [routerLink]="['/']" class="logo only-on-big-screen">ampd</span>
+        <mat-slide-toggle
+          [checked]="isDarkTheme | async"
+          (change)="toggleDarkTheme($event.checked)"
+          >Dark theme</mat-slide-toggle
+        >
+        <span class="fill-space"></span>
+        <mat-icon>{{ connectedStatusIcon }}</mat-icon>
+      </mat-toolbar>
+      <div class="app-content">
+        <router-outlet></router-outlet>
+      </div>
     </div>
   </div>
 </block-ui>

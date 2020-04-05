@@ -11,12 +11,33 @@ $theme: mat-light-theme($primary, $accent, $warn);
 
 // Our dark theme
 .dark-theme {
+  background: #303030;
   color: $light-primary-text;
-  // $dark-primary: mat-palette($mat-yellow);
-  $dark-primary: mat-palette($mat-deep-orange);
-  $dark-accent: mat-palette($mat-amber, A400, A100, A700);
+  $dark-primary: mat-palette($mat-blue-gray);
+  $dark-accent: mat-palette($mat-orange, A400, A100, A700);
   $dark-warn: mat-palette($mat-red);
   $dark-theme: mat-dark-theme($dark-primary, $dark-accent, $dark-warn);
-
   @include angular-material-theme($dark-theme);
 }
+
+/**
+$mat-red
+$mat-pink
+$mat-purple
+$mat-deep-purple
+$mat-indigo
+$mat-blue
+$mat-light-blue
+$mat-cyan
+$mat-teal
+$mat-green
+$mat-light-green
+$mat-lime
+$mat-yellow
+$mat-amber
+$mat-orange
+$mat-deep-orange
+$mat-brown
+$mat-grey
+$mat-blue-grey
+*/

@@ -1,10 +1,5 @@
-.table-row:hover {
-  background: #eee;
-  cursor: pointer;
-}
-
 @media (min-width: 1280px) {
-  /* Width for the artist, album and title columns */
+  // Width for the artist, album and title columns
   mat-cell:nth-child(2),
   mat-header-cell:nth-child(2),
   mat-cell:nth-child(3),
@@ -17,7 +12,7 @@
     flex-grow: 1;
   }
 
-  /* Width for the # (number), 'remove item' and length columns */
+  // Width for the # (number), 'remove item' and length columns
   mat-cell:nth-child(1),
   mat-header-cell:nth-child(1),
   mat-cell:nth-child(5),
@@ -29,22 +24,21 @@
 }
 
 .playing {
-  background: #eee;
   font-weight: bold;
 }
 
 .mat-column-artist {
-  color: #868e96 !important;
+  // color: #868e96 !important;
 }
 
 @media (max-width: 1280px) {
   .mat-column-artist {
-    /* 50% width on mobile devices */
+    // 50% width on mobile devices
     flex: 0 0 50%;
   }
 
   .mat-column-remove {
-    /* Minimze the 'remove' button to save space */
+    // Minimze the 'remove' button to save space
     flex: 0 0 2.5rem;
   }
 }

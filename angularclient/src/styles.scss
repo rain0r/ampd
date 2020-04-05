@@ -27,7 +27,7 @@ body {
 }
 
 .chip {
-  background-color: #e0e0e0;
+  /*background-color: #e0e0e0;*/
   border-radius: 24px;
   display: inline-flex;
   padding: 0 !important;
@@ -59,7 +59,6 @@ table {
   width: 100%;
 }
 
-
 .mat-button-toggle-label-content {
   line-height: 34px !important;
 }
@@ -68,3 +67,35 @@ table {
   padding-top: 0.2rem;
   padding-bottom: 0.2rem;
 }
+
+// Global themed classes
+$hover-background-color: var(--hover-background-color);
+$background-color: var(--background-color);
+$border-color: var(--border-color);
+
+// Track table
+.table-row:hover {
+  cursor: pointer;
+  background: var(--hover-background-color);
+}
+
+// Track table
+.themedbg {
+  background: var(--background-color) !important;
+}
+
+// Browse
+.list-item:hover {
+  cursor: pointer;
+  background: var(--hover-background-color);
+}
+
+.mat-list-item-content {
+  border: 1px solid var(--border-color);
+}
+
+.mat-list-item-content:hover {
+  cursor: pointer;
+  background: var(--hover-background-color);
+}
+

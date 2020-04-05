@@ -1,10 +1,4 @@
-import {
-  Component,
-  ElementRef,
-  HostListener,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
+import { Component, ElementRef, HostListener, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { StompService, StompState } from '@stomp/ng2-stompjs';
 import { Observable } from 'rxjs/index';
@@ -23,7 +17,6 @@ export class AppComponent {
 
   @ViewChild('inputSearch', { static: false }) public inputSearch?: ElementRef;
   private isDarkTheme: Observable<boolean>;
-  // private isDarkTheme = true;
 
   constructor(
     private router: Router,

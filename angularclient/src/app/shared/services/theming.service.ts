@@ -12,12 +12,34 @@ export class ThemingService {
 
   constructor() {
     console.log('constructor');
-    this.darkThemeSubj.next(this.loadState());
+    this.setDarkTheme(this.loadState());
   }
 
   public setDarkTheme(isDarkTheme: boolean) {
     this.darkThemeSubj.next(isDarkTheme);
     this.saveState(isDarkTheme);
+
+    if (isDarkTheme) {
+      this.changeTheme('#ff9100', '#ff9100', '#868e96');
+    } else {
+      this.changeTheme('#eeee', '#eeee', '#eeee');
+    }
+  }
+
+  public changeTheme(
+    hoverBackgroundColor: string,
+    backgroundColor: string,
+    borderColor: string
+  ) {
+    document.documentElement.style.setProperty(
+      '--hover-background-color',
+      hoverBackgroundColor
+    );
+    document.documentElement.style.setProperty(
+      '--background-color',
+      backgroundColor
+    );
+    document.documentElement.style.setProperty('--border-color', borderColor);
   }
 
   private loadState(): boolean {

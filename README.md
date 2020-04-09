@@ -23,13 +23,26 @@ JAVA_HOME="/opt/openjdk-bin-11.0.6_p10/" # if you have multiple JRE installed
 Requires Java 11. To run ampd, just run the `jar`-file:
 
 ```
-java -jar server-0.0.1-SNAPSHOT.jar
+java -jar ampd.jar
 ```
 
 Additional options can be passed via the `-D` arguments, for example:
 
 ```
-java -jar -Dserver.port=8082 server-0.0.1-SNAPSHOT.jar
+java -jar -Dserver.port=8082 ampd.jar
+```
+
+More examples
+
+```
+# Music dir is /home/foo/music
+java -jar -Dmpd.music.directory=/home/foo/music ampd.jar
+
+# MPD runs on localhost:5500
+java -jar -Dmpd.port=5500 ampd.jar
+
+# Combine multiple properties, listen only on localhost and access MPD server on 'myhostname'
+java -jar -Dserver.address=localhost -Dmpd.server=myhostname ampd.jar
 ```
 
 To persist these options, create a config file. See chapter `Installation`.

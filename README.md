@@ -19,8 +19,9 @@ JAVA_HOME="/opt/openjdk-bin-11.0.6_p10/" # if you have multiple JRE installed
 
 **Caveats:**  
 The properties in `ampd.conf` are only applied if... 
-    * ...`ampd` is startet via `./ampd.jar start`
-    * ... the `.conf`-file has the same name as the `jar`-file (except the ending, of course) 
+
+ - ...`ampd` is startet via `./ampd.jar start`
+ - ... the `conf`-file has the same name as the `jar`-file (except the ending, of course) 
 
 ## Running
 

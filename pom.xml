@@ -18,7 +18,6 @@
     <mpir.skip>true</mpir.skip>
     <java.version>11</java.version>
     <project.scm.id>github</project.scm.id>
-    <generateBackupPoms>false</generateBackupPoms>
   </properties>
 
   <scm>

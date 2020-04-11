@@ -11,7 +11,6 @@ export class ThemingService {
   public isDarkTheme = this.darkThemeSubj.asObservable();
 
   constructor() {
-    console.log('constructor');
     this.setDarkTheme(this.loadState());
   }
 

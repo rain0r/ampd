@@ -58,7 +58,7 @@ console.log(`Using gitCommitId: ${gitCommitId}`);
 
 // Copy the environment template
 fs.copyFile(
-  path.join(__dirname, 'src/templates/environment.prod.ts'),
+  path.join(__dirname, 'src/templates/environment.prod.txt'),
   path.join(__dirname, 'src/environments/environment.prod.ts'),
   (err) => {
     if (err) throw err;
@@ -87,14 +87,11 @@ const options = {
 };
 try {
   replace.sync(options);
-  return;
 } catch (error) {
   throw err;
 }
 
 console.log('Starting build');
-console.log(`__dirname: ${__dirname}`);
-
 const spawnArgs = argv['prod']
   ? [
       'build',
@@ -110,7 +107,6 @@ const spawnArgs = argv['prod']
       `--base-href=${argv['context']}`,
     ];
 [];
-
 const spawnOpt = { cwd: __dirname };
 const child = spawn('ng', spawnArgs, spawnOpt);
 

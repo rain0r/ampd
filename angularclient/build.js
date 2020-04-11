@@ -1,16 +1,11 @@
 #!/usr/bin/env node
 
 const dateFormat = require('dateformat');
+const fs = require('fs');
+const path = require('path');
 const replace = require('replace-in-file');
 const spawn = require('child_process').spawn;
-const fs = require('fs');
-const ampdVersion = require('child_process')
-  .execSync(
-    'mvn -q -Dexec.executable="echo" -Dexec.args=\'${project.version}\' --non-recursive exec:exec',
-    { cwd: '..' }
-  )
-  .toString()
-  .trim();
+const versionParser = require('child_process');
 const argv = require('yargs')
   .usage('Build the ampd frontend.')
   .option('prod')
@@ -19,7 +14,7 @@ const argv = require('yargs')
   .describe('prod', 'Is this a production build?')
   .option('url')
   .string('url')
-  .describe('url', 'The AMPD_URL')
+  .describe('url', 'The url of the backend server')
   .default('url', 'localhost')
   .option('https')
   .boolean('https')
@@ -29,6 +24,14 @@ const argv = require('yargs')
   .string('context')
   .describe('context', 'The context path of ampd')
   .default('context', '/').argv;
+
+const ampdVersion = versionParser
+  .execSync(
+    'mvn -q -Dexec.executable="echo" -Dexec.args=\'${project.version}\' --non-recursive exec:exec',
+    { cwd: path.join(__dirname, '..') }
+  )
+  .toString()
+  .trim();
 
 // Git commit id
 const gitCommitId = require('child_process')
@@ -46,7 +49,7 @@ if (argv['https'] === true) {
 }
 
 console.log(`Using context path: ${argv['context']}`);
-console.log(`Using ampdVersion: ${ampdVersion}`);
+console.log(`Using versionParser: ${ampdVersion}`);
 console.log(`Using prod: ${argv['prod']}`);
 console.log(`Using url: ${argv['url']}`);
 console.log(`Using http: ${http}`);
@@ -55,16 +58,16 @@ console.log(`Using gitCommitId: ${gitCommitId}`);
 
 // Copy the environment template
 fs.copyFile(
-  'src/templates/environment.prod.ts',
-  'src/environments/environment.prod.ts',
-  err => {
+  path.join(__dirname, 'src/templates/environment.prod.ts'),
+  path.join(__dirname, 'src/environments/environment.prod.ts'),
+  (err) => {
     if (err) throw err;
   }
 );
 
 // Replace some variables
 const options = {
-  files: 'src/environments/environment.prod.ts',
+  files: path.join(__dirname, 'src/environments/environment.prod.ts'),
   from: [
     /R_PROD/,
     /R_AMPD_URL/g,
@@ -73,35 +76,56 @@ const options = {
     /R_AMPD_VERSION/,
     /R_GIT_COMMIT_ID/,
   ],
-  to: [argv['prod'], argv['url'], http, ws, ampdVersion, gitCommitId],
+  to: [
+    `${argv['prod']}` /* Production mode as str */,
+    argv['url'] /* URL of the backend server */,
+    http /* http || https */,
+    ws /* ws || wss */,
+    ampdVersion /* ampd version */,
+    gitCommitId /* git commit */,
+  ],
 };
 try {
   replace.sync(options);
+  return;
 } catch (error) {
-  console.error('Error occurred:', error);
+  throw err;
 }
 
 console.log('Starting build');
+console.log(`__dirname: ${__dirname}`);
 
-let child;
+const spawnArgs = argv['prod']
+  ? [
+      'build',
+      '--es5-browser-support',
+      '--configuration=production',
+      `--base-href=${argv['context']}`,
+    ]
+  : [
+      'build',
+      '--source-map',
+      '--prod=false',
+      '--build-optimizer=false',
+      `--base-href=${argv['context']}`,
+    ];
+[];
 
-if (argv['prod']) {
-  child = spawn('ng', [
-    'build',
-    '--es5-browser-support',
-    '--configuration=production',
-    `--base-href=${argv['context']}`,
-  ]);
-} else {
-  child = spawn('ng', [
-    'build',
-    '--source-map',
-    '--prod=false',
-    '--build-optimizer=false',
-    `--base-href=${argv['context']}`,
-  ]);
-}
+const spawnOpt = { cwd: __dirname };
+const child = spawn('ng', spawnArgs, spawnOpt);
 
-child.on('error', err => {
+child.stdout.on('data', (data) => {
+  console.log(`stdout: ${data}`);
+});
+
+child.stderr.on('data', (data) => {
+  console.error(`stderr: ${data}`);
+});
+
+child.on('close', (code) => {
+  console.log(`child process exited with code ${code}`);
+});
+
+child.on('error', (err) => {
   console.error(err);
 });

@@ -1,9 +1,7 @@
-const AMPD_URL = 'punica:8003';
-
 export const environment = {
-  production: true,
-  coverServer: `http://${AMPD_URL}`,
-  webSocketServer: `ws://${AMPD_URL}/mpd`,
-  ampdVersion: '1.1.0',
-  gitCommitId: 'c029f65'    
+  production: false,
+  coverServer: 'http://localhost',
+  webSocketServer: 'ws://localhost/mpd',
+  ampdVersion: '1.1.1-SNAPSHOT',
+  gitCommitId: '800c3f3',
 };

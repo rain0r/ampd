@@ -4,9 +4,11 @@
   </span>
 </div>
 
-<div fxLayout="row wrap"
-     fxLayoutAlign="space-between start"
-     *ngIf="currentState != 'stop'">
+<div
+  fxLayout="row wrap"
+  fxLayoutAlign="space-between start"
+  *ngIf="currentState != 'stop'"
+>
   <div fxFlex.lt-md="100%">
     <span class="mat-h1 title">
       {{ currentSong.title }}

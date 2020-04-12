@@ -94,11 +94,7 @@ try {
 
 console.log('Starting build');
 const spawnArgs = argv['prod']
-  ? [
-      'build',
-      '--configuration=production',
-      `--base-href=${argv['context']}`,
-    ]
+  ? ['build', '--configuration=production', `--base-href=${argv['context']}`]
   : [
       'build',
       '--source-map',

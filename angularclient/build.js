@@ -96,7 +96,6 @@ console.log('Starting build');
 const spawnArgs = argv['prod']
   ? [
       'build',
-      '--es5-browser-support',
       '--configuration=production',
       `--base-href=${argv['context']}`,
     ]
@@ -107,7 +106,7 @@ const spawnArgs = argv['prod']
       '--build-optimizer=false',
       `--base-href=${argv['context']}`,
     ];
-[];
+
 const spawnOpt = { cwd: __dirname };
 const child = spawn('ng', spawnArgs, spawnOpt);
 

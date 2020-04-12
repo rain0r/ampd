@@ -1,3 +1,2 @@
 defaults
-not IE
-not IE_Mob
+not IE > 0

@@ -42,7 +42,7 @@ $custom-typography: mat-typography-config(
       // Section heading corresponding to the <h2> tag.
     $title: mat-typography-level(20px, 32px, 500),
       // Section heading corresponding to the <h3> tag.
-    $subheading-2: mat-typography-level(16px, 28px, 400),
+    $subheading-2: mat-typography-level(18px, 28px, 400),
       // Section heading corresponding to the <h4> tag.
     $subheading-1: mat-typography-level(15px, 24px, 400),
       // Bolder body text.
@@ -52,7 +52,7 @@ $custom-typography: mat-typography-config(
       // Smaller body and hint text.
     $caption: mat-typography-level(12px, 20px, 400),
       // Buttons and anchors.
-    $button: mat-typography-level(14px, 14px, 500),
+    $button: mat-typography-level(16px, 16px, 500),
       // Line-height must be unit-less fraction of the font-size.
       // Form input fields.
     $input: mat-typography-level(inherit, 1.125, 400)

@@ -1,22 +1,22 @@
 <div fxLayout="row wrap" fxLayoutAlign="center">
-  <span *ngIf="currentState == 'stop'">
-    <h1>
-      Stopped.
-    </h1>
+  <span class="mat-display-1" *ngIf="currentState == 'stop'">
+    Stopped.
   </span>
 </div>
 
-<div fxLayout="row wrap" fxLayoutAlign="space-between start">
+<div fxLayout="row wrap"
+     fxLayoutAlign="space-between start"
+     *ngIf="currentState != 'stop'">
   <div fxFlex.lt-md="100%">
     <span class="mat-h1 title">
       {{ currentSong.title }}
     </span>
     <br *ngIf="currentSong.albumName" />
-    <span class="mat-h3 queue-sub-title" *ngIf="currentSong.albumName">
+    <span class="mat-h2 queue-sub-title" *ngIf="currentSong.albumName">
       「{{ currentSong.albumName }}」
     </span>
     <br />
-    <span class="mat-h3 queue-sub-title">
+    <span class="mat-h2 queue-sub-title">
       {{ currentSong.artistName }}
     </span>
   </div>

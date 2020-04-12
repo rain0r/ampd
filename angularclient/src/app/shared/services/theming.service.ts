@@ -19,7 +19,7 @@ export class ThemingService {
     this.saveState(isDarkTheme);
 
     if (isDarkTheme) {
-      this.changeTheme('#ff9100', '#ff9100', '#868e96');
+      this.changeTheme('#607d8b', '#ff9100', '#868e96');
     } else {
       this.changeTheme('#eeee', '#eeee', '#eeee');
     }

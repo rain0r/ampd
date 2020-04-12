@@ -88,7 +88,7 @@ const options = {
 };
 try {
   replace.sync(options);
-} catch (error) {
+} catch (err) {
   throw err;
 }
 
@@ -120,8 +120,12 @@ child.stderr.on('data', data => {
 
 child.on('close', code => {
   console.log(`child process exited with code ${code}`);
+  if (code > 0) {
+    process.exit(1);
+  }
 });
 
 child.on('error', err => {
   console.error(err);
+  process.exit(1);
 });

@@ -60,7 +60,7 @@ export class TracksComponent extends Filterable {
     const cc = ConnectionConfig.get();
     const currentCoverUrl = 'find-cover';
     // Add a query param to trigger an image change in the browser
-    return `${cc.coverServer}/${currentCoverUrl}?path=${encodeURIComponent(
+    return `${cc.backendAddr}/${currentCoverUrl}?path=${encodeURIComponent(
       this.getParamDir
     )}`;
   }

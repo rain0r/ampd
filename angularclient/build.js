@@ -1,6 +1,5 @@
 #!/usr/bin/env node
 
-const dateFormat = require('dateformat');
 const fs = require('fs');
 const path = require('path');
 const replace = require('replace-in-file');
@@ -33,7 +32,6 @@ const ampdVersion = versionParser
   .toString()
   .trim();
 
-// Git commit id
 const gitCommitId = require('child_process')
   .execSync('git rev-parse --short HEAD')
   .toString()
@@ -79,7 +77,7 @@ const options = {
   ],
   to: [
     `${argv['prod']}` /* Production mode as str */,
-    argv['url'] /* URL of the backend server */,
+    argv['url'] /* URL of the backendAddr server */,
     http /* http || https */,
     ws /* ws || wss */,
     ampdVersion /* ampd version */,

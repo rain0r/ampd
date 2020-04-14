@@ -14,6 +14,10 @@ body {
   padding: 0;
 }
 
+.mono {
+  font-family: "Source Code Pro", Hack, Monaco, monospace;
+}
+
 @media (max-width: 600px) {
   .only-on-big-screen {
     display: none;

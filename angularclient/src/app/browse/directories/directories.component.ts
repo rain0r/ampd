@@ -1,6 +1,5 @@
 import { Component, HostListener, Input } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { ConnectionConfig } from '../../shared/connection-config/connection-config';
 import { Directory } from '../../shared/messages/incoming/directory';
 import { MpdCommands } from '../../shared/mpd/mpd-commands';
 import { BrowseService } from '../../shared/services/browse.service';
@@ -17,7 +16,6 @@ import { Filterable } from '../filterable';
 export class DirectoriesComponent extends Filterable {
   @Input() public dirQueue: Directory[] = [];
   public getParamDir = '/';
-  private coverServer = '';
 
   constructor(
     private browseService: BrowseService,
@@ -30,8 +28,6 @@ export class DirectoriesComponent extends Filterable {
     super(messageService);
     this.getParamDir =
       this.activatedRoute.snapshot.queryParamMap.get('dir') || '/';
-    const model = ConnectionConfig.get();
-    this.coverServer = model.coverServer;
   }
 
   @HostListener('click', ['$event'])

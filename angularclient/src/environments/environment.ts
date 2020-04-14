@@ -6,8 +6,8 @@ const AMPD_URL = 'punica:8080';
 
 export const environment = {
   production: false,
-  coverServer: `http://${AMPD_URL}`,
-  webSocketServer: `ws://${AMPD_URL}/mpd`,
+  backendAddr: `http://${AMPD_URL}`,
+  webSocketAddr: `ws://${AMPD_URL}/mpd`,
   ampdVersion: 'live',
   gitCommitId: 'live',
 };

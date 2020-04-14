@@ -1,36 +1,28 @@
 <form (ngSubmit)="onSubmit()" class="settings-form">
   <div fxLayout="column" fxLayoutGap="1rem" fxFlex.gt-md="40%">
     <div class="mat-display-1"><span class="logo">ampd</span> settings</div>
-
+    <mat-divider></mat-divider>
     <div>
       <mat-form-field class="full-width">
         <input
           matInput
           required
           name="coverServer"
-          [(ngModel)]="model.coverServer"
-          value="{{ model.coverServer }}"
+          [(ngModel)]="ccModel.backendAddr"
+          value="{{ ccModel.backendAddr }}"
           placeholder="Cover Server"
+          hintLabel="ROFL"
         />
-      </mat-form-field>
-    </div>
-
-    <div>
-      <mat-form-field class="full-width">
-        <input
-          matInput
-          required
-          name="webSocketServer"
-          [(ngModel)]="model.webSocketServer"
-          value="{{ model.webSocketServer }}"
-          placeholder="Websocket Server"
-        />
+        <mat-hint align="end"
+          >Use the name or IP of the computer running ampd</mat-hint
+        >
       </mat-form-field>
     </div>
 
     <div>
       <button
-        mat-stroked-button
+        mat-raised-button
+        color="primary"
         type="submit"
         (click)="saveSettings()"
         class="full-width themed-element"
@@ -39,7 +31,7 @@
       </button>
     </div>
 
-    <div class="bigger">
+    <div class="mono">
       Version:
       <span class="logo" title="ampd version">{{ ampdVersion }}</span> &nbsp;
       <span
@@ -50,9 +42,9 @@
       >
     </div>
 
-    <div class="bigger">
+    <div class="mono">
       Source code at:
-      <a class="logo" href="https://github.com/rain0r/ampd"
+      <a class="mat-app-background" href="https://github.com/rain0r/ampd"
         >github.com/rain0r/ampd</a
       >
     </div>

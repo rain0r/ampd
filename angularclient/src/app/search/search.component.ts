@@ -6,7 +6,6 @@ import {
   ViewChild,
 } from '@angular/core';
 import { MatSnackBar } from '@angular/material';
-import { ActivatedRoute } from '@angular/router';
 
 import { Observable } from 'rxjs';
 

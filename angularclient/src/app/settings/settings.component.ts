@@ -10,16 +10,18 @@ import { ConnectionConfig } from '../shared/connection-config/connection-config'
   styleUrls: ['./settings.component.scss'],
 })
 export class SettingsComponent {
-  private ampdVersion: string = environment.ampdVersion;
-  private gitCommitId: string = environment.gitCommitId;
-  private model: ConnectionConfig;
+  private ccModel: ConnectionConfig;
   private submitted = false;
+  private ampdVersion;
+  private gitCommitId;
 
   constructor(
     private snackBar: MatSnackBar,
     private stompService: StompService
   ) {
-    this.model = this.buildModel();
+    this.ccModel = ConnectionConfig.get();
+    this.ampdVersion = environment.ampdVersion;
+    this.gitCommitId = environment.gitCommitId;
   }
 
   public onSubmit() {
@@ -28,23 +30,9 @@ export class SettingsComponent {
 
   public saveSettings() {
     this.popUp('Saved settings.');
-    const data = JSON.stringify(this.model);
+    const data = JSON.stringify(this.ccModel);
     localStorage.setItem(ConnectionConfig.key, data);
     this.stompService.initAndConnect();
-  }
-
-  private buildModel(): ConnectionConfig {
-    const model = ConnectionConfig.get();
-
-    if (!model.webSocketServer) {
-      model.webSocketServer = environment.webSocketServer;
-    }
-
-    if (!model.coverServer) {
-      model.coverServer = environment.coverServer;
-    }
-
-    return model;
   }
 
   private popUp(message: string): void {

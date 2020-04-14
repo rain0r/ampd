@@ -1,4 +1,3 @@
-import { OverlayModule } from '@angular/cdk/overlay';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -79,23 +78,20 @@ import { SharedModule } from './shared/shared.module';
     WebSocketService,
     {
       provide: StompConfig,
-      useValue: AppModule.loadConnectionConfiguration(),
+      useValue: AppModule.loadStompConfig(),
     },
   ],
   entryComponents: [CoverModalComponent],
   bootstrap: [AppComponent],
 })
 export class AppModule {
-  public static loadConnectionConfiguration(): StompConfig {
-    const connectionConfiguration: ConnectionConfig = ConnectionConfig.get();
+  public static loadStompConfig(): StompConfig {
     const stompConfig: StompConfig = {
       // Which server?
-      url: connectionConfiguration.webSocketServer,
-
+      url: ConnectionConfig.getWebSocketAddr(),
       // Headers
       // Typical keys: login, passcode, host
       headers: {},
-
       // How often to heartbeat?
       // Interval in milliseconds, set to 0 to disable
       heartbeat_in: 0, // Typical value 0 - disabled
@@ -104,7 +100,6 @@ export class AppModule {
       // Set to 0 to disable
       // Typical value 5000 (5 seconds)
       reconnect_delay: 100,
-
       // Will log diagnostics on console
       debug: false,
     };

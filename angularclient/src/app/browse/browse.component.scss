@@ -3,7 +3,7 @@
 }
 
 .clear-queue {
-  margin-top: 1em;
+  margin-top: 1rem;
   width: 100%;
 }
 
@@ -17,7 +17,7 @@
 }
 
 .list-header {
-  padding-left: 0.5em;
+  padding: 0.5rem;
 }
 
 .fill-space {
@@ -36,8 +36,4 @@
   display: inline-flex;
   padding: 0 !important;
   margin-left: 0.4rem;
-}
-
-.browse-list {
-  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
 }

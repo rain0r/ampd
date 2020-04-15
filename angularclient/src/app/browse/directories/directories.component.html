@@ -2,6 +2,9 @@
   <div class="flex-item">
     <span class="list-header mat-h3">{{ getParamDir }}</span>
   </div>
+  <div class="flex-item">
+    <span>Query: {{ getParamDir }}</span>
+  </div>
 </div>
 
 <mat-list
@@ -10,8 +13,10 @@
   (click)="onDirClick(dir.path)"
 >
   <mat-list-item role="listitem" class="list-item">
-    <mat-icon>folder_open</mat-icon> &nbsp; &nbsp;
-    {{ dir.displayedPath() }}
+    <mat-icon>folder_open</mat-icon>
+    <span class="dir-text" title="{{ dir.fullDisplayedPath() }}">
+      {{ dir.displayedPath() }}
+    </span>
     <span class="fill-space"></span>
     <mat-icon class="chip" (click)="onPlayDir(dir.path)" title="Play directory">
       play_arrow
@@ -44,7 +49,6 @@
       <img
         mat-card-image
         src="{{ dir.coverUrl() }}"
-        class="album-art"
         err-src="/assets/images/transparent.png"
       />
     </mat-card>

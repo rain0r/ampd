@@ -17,7 +17,6 @@
 <mat-list
   role="list"
   *ngFor="let track of titleQueue | mpdTrackFilter: filterValue"
-  class="browse-list"
   (click)="onAddTitle(track)"
 >
   <mat-list-item role="listitem" class="list-item">

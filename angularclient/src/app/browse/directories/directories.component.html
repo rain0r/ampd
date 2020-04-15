@@ -2,32 +2,45 @@
   <div class="flex-item">
     <span class="list-header mat-h3">{{ getParamDir }}</span>
   </div>
-  <div class="flex-item">
-    <span>Query: {{ getParamDir }}</span>
-  </div>
 </div>
 
 <mat-list
   role="list"
   *ngFor="let dir of dirQueue | directoryFilter: filterValue"
-  (click)="onDirClick(dir.path)"
 >
   <mat-list-item role="listitem" class="list-item">
-    <mat-icon>folder_open</mat-icon>
-    <span class="dir-text" title="{{ dir.fullDisplayedPath() }}">
-      {{ dir.displayedPath() }}
-    </span>
-    <span class="fill-space"></span>
-    <mat-icon class="chip" (click)="onPlayDir(dir.path)" title="Play directory">
-      play_arrow
-    </mat-icon>
-    <mat-icon
-      class="chip"
-      (click)="onAddDir(dir.path)"
-      title="Add directory to queue"
-    >
-      add
-    </mat-icon>
+    <div class="full-width" fxLayout="row" fxLayoutAlign="center center">
+      <div>
+        <mat-icon>folder_open</mat-icon>
+      </div>
+      <div
+        fxFlex="1 1 auto"
+        [routerLink]="['/browse']"
+        [queryParams]="{ dir: dir.path }"
+      >
+        <span class="dir-text" title="{{ dir.fullDisplayedPath() }}">
+          {{ dir.displayedPath() }}
+        </span>
+      </div>
+      <div>
+        <mat-icon
+          class="chip"
+          title="Play directory"
+          (click)="onPlayDir(dir.path)"
+        >
+          play_arrow
+        </mat-icon>
+      </div>
+      <div>
+        <mat-icon
+          class="chip"
+          title="Add directory to queue"
+          (click)="onAddDir(dir.path)"
+        >
+          add
+        </mat-icon>
+      </div>
+    </div>
   </mat-list-item>
 </mat-list>
 
@@ -38,10 +51,7 @@
   fxLayout.xs="column"
   *ngIf="getParamDir != '/' && dirQueue.length < 9"
 >
-  <div
-    *ngFor="let dir of dirQueue | playlistFilter: filterValue"
-    (click)="onDirClick(dir.path)"
-  >
+  <div *ngFor="let dir of dirQueue | playlistFilter: filterValue">
     <mat-card class="cover-card">
       <mat-card-header>
         <mat-card-title>{{ dir.displayedPath() }}</mat-card-title>

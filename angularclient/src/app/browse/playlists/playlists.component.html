@@ -7,7 +7,6 @@
 <mat-list
   role="list"
   *ngFor="let playlist of playlistQueue | playlistFilter: filterValue"
-  class="browse-list"
   (click)="onClickPlaylist(playlist)"
 >
   <mat-list-item role="listitem" class="list-item">

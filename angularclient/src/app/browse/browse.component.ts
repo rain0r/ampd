@@ -1,5 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component } from '@angular/core';
 import { BrowseInfo } from '../shared/models/browse-info';
 import { BrowseService } from '../shared/services/browse.service';
 
@@ -8,22 +7,11 @@ import { BrowseService } from '../shared/services/browse.service';
   templateUrl: './browse.component.html',
   styleUrls: ['./browse.component.scss'],
 })
-export class BrowseComponent implements OnInit {
+export class BrowseComponent {
   public getParamDir = '';
   public browseInfo: BrowseInfo = new BrowseInfo();
 
-  constructor(
-    private activatedRoute: ActivatedRoute,
-    private browseService: BrowseService
-  ) {
+  constructor(private browseService: BrowseService) {
     this.browseInfo = this.browseService.browseInfo;
-  }
-
-  public ngOnInit(): void {
-    this.activatedRoute.queryParams.subscribe(queryParams => {
-      const dir = queryParams.dir || '/';
-      this.getParamDir = dir;
-      this.browseService.sendBrowseReq(dir);
-    });
   }
 }

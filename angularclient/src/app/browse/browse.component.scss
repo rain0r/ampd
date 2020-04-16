@@ -7,13 +7,9 @@
   width: 100%;
 }
 
-@media screen and (max-width: 990px) {
-  .container {
-    flex-wrap: wrap;
-  }
-  .flex-item:first-child {
-    flex-basis: 100%;
-  }
+.sub-menu {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
 }
 
 .list-header {

@@ -1,7 +1,7 @@
 <div class="sub-menu">
-  <div class="flex-item">
-    <span class="list-header mat-h3">{{ getParamDir }}</span>
-  </div>
+  <span class="list-header mat-h3">
+    <span class="dir-prefix" title="Directory">Dir:</span>{{ getParamDir }}
+  </span>
 </div>
 
 <mat-list
@@ -17,6 +17,7 @@
         fxFlex="1 1 auto"
         [routerLink]="['/browse']"
         [queryParams]="{ dir: dir.path }"
+        class="clickable"
       >
         <span class="dir-text" title="{{ dir.fullDisplayedPath() }}">
           {{ dir.displayedPath() }}
@@ -44,9 +45,10 @@
   </mat-list-item>
 </mat-list>
 
-<mat-divider></mat-divider>
+<mat-divider *ngIf="getParamDir != '/' && dirQueue.length < 9"></mat-divider>
 
 <div
+  class="cover-grid"
   fxLayout="row"
   fxLayout.xs="column"
   *ngIf="getParamDir != '/' && dirQueue.length < 9"

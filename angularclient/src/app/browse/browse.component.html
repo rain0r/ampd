@@ -1,46 +1,44 @@
-<app-navigation></app-navigation>
-
-<mat-divider></mat-divider>
-
-<div fxShow.sm="true" fxShow.gt-md="false" fxShow="true">
-  <div class="back-to-top">
-    <button mat-icon-button (click)="onBackToTop()">
-      <mat-icon>
-        arrow_upward
-      </mat-icon>
-    </button>
+<div fxLayout="column">
+  <div>
+    <app-navigation></app-navigation>
   </div>
-</div>
-
-<div
-  class="container"
-  fxLayout="row"
-  fxLayout.xs="column"
-  fxLayoutWrap
-  fxLayoutGap="0.5%"
-  fxLayoutAlign="center"
->
-  <!-- playlists -->
-  <div
-    fxFlex="{{ browseService.calculateContainerWidth() }}%"
-    *ngIf="browseInfo.playlistQueue.length > 0"
-  >
-    <app-playlists [playlistQueue]="browseInfo.playlistQueue"></app-playlists>
+  <div>
+    <mat-divider></mat-divider>
   </div>
-
-  <!-- directories -->
-  <div
-    fxFlex="{{ browseService.calculateContainerWidth() }}%"
-    *ngIf="browseInfo.dirQueue.length > 0"
-  >
-    <app-directories [dirQueue]="browseInfo.dirQueue"></app-directories>
+  <div>
+    <div fxShow.sm="true" fxShow.gt-md="false" fxShow="true">
+      <div class="back-to-top">
+        <button mat-icon-button (click)="onBackToTop()">
+          <mat-icon>
+            arrow_upward
+          </mat-icon>
+        </button>
+      </div>
+    </div>
   </div>
+  <div>
+    <div
+      fxLayout="row"
+      fxLayout.xs="column"
+      fxLayoutGap="0.5%"
+      fxLayoutAlign="center"
+    >
+      <!-- playlists -->
+      <div fxFlex="1 1 auto" *ngIf="browseInfo.playlistQueue.length > 0">
+        <app-playlists
+          [playlistQueue]="browseInfo.playlistQueue"
+        ></app-playlists>
+      </div>
 
-  <!-- tracks -->
-  <div
-    fxFlex="{{ browseService.calculateContainerWidth() }}%"
-    *ngIf="browseInfo.trackQueue.length > 0"
-  >
-    <app-tracks [titleQueue]="browseInfo.trackQueue"></app-tracks>
+      <!-- directories -->
+      <div fxFlex="1 1 auto" *ngIf="browseInfo.dirQueue.length > 0">
+        <app-directories [dirQueue]="browseInfo.dirQueue"></app-directories>
+      </div>
+
+      <!-- tracks -->
+      <div fxFlex="1 1 auto" *ngIf="browseInfo.trackQueue.length > 0">
+        <app-tracks [titleQueue]="browseInfo.trackQueue"></app-tracks>
+      </div>
+    </div>
   </div>
 </div>

@@ -27,22 +27,6 @@ export class BrowseService {
     });
   }
 
-  public calculateContainerWidth() {
-    let tmpCount = 0;
-    if (this.browseInfo.dirQueue.length > 0) {
-      tmpCount += 1;
-    }
-    if (this.browseInfo.trackQueue.length > 0) {
-      tmpCount += 1;
-    }
-    if (this.browseInfo.playlistQueue.length > 0) {
-      tmpCount += 1;
-    }
-
-    tmpCount = tmpCount > 0 ? tmpCount : 1;
-    this.containerWidth = 100 / tmpCount;
-  }
-
   private buildMessageReceiver(): void {
     this.browseSubs.subscribe((message: BrowseRootImpl) => {
       try {
@@ -68,7 +52,5 @@ export class BrowseService {
     payload.playlists.forEach(playlist => {
       this.browseInfo.playlistQueue.push(playlist);
     });
-
-    this.calculateContainerWidth();
   }
 }

@@ -1,13 +1,10 @@
 <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-around">
-  <div fxFlex="33" fxLayoutAlign="center center">
+  <div fxFlex="1 1 auto" fxLayoutAlign="start center">
     <span class="list-header mat-h3">
-      {{ getParamDir }}
+      <span class="dir-prefix" title="Directory">Dir:</span>{{ getParamDir }}
     </span>
   </div>
-  <div fxShow fxHide.lg="false">
-    <mat-divider></mat-divider>
-  </div>
-  <div fxFlex="33" fxLayoutAlign="center center">
+  <div fxFlex="1 1 auto" fxLayoutAlign="end end">
     <img src="{{ coverUrl() }}" class="cover" />
   </div>
 </div>

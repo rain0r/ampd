@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Directory } from '../../shared/messages/incoming/directory';
 import { MpdCommands } from '../../shared/mpd/mpd-commands';
@@ -25,6 +25,11 @@ export class DirectoriesComponent extends Filterable {
     super(messageService);
     this.getParamDir =
       this.activatedRoute.snapshot.queryParamMap.get('dir') || '/';
+
+    this.activatedRoute.queryParams.subscribe(queryParams => {
+      const dir = queryParams.dir || '/';
+      this.getParamDir = dir;
+    });
   }
 
   public onPlayDir(dir: string): void {

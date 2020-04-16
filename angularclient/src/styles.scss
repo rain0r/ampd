@@ -72,6 +72,11 @@ table {
   padding-bottom: 0.2rem;
 }
 
+.dir-prefix {
+  color: #868e96 !important;
+  margin-right: 0.4rem;
+}
+
 // Global themed classes
 $hover-background-color: var(--hover-background-color);
 $background-color: var(--background-color);
@@ -90,7 +95,7 @@ $border-color: var(--border-color);
 
 // Browse
 .list-item:hover {
-  cursor: pointer;
+  // cursor: pointer;
   background: var(--hover-background-color);
 }
 
@@ -99,7 +104,6 @@ $border-color: var(--border-color);
 }
 
 .mat-list-item-content:hover {
-  cursor: pointer;
+  // cursor: pointer;
   background: var(--hover-background-color);
 }
-

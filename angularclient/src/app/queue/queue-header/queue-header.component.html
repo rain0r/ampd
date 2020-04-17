@@ -9,7 +9,7 @@
   fxLayoutAlign="space-between start"
   *ngIf="currentState != 'stop'"
 >
-  <div fxFlex.lt-md="100%">
+  <div>
     <span class="mat-h1 title">
       {{ currentSong.title }}
     </span>
@@ -22,7 +22,7 @@
       {{ currentSong.artistName }}
     </span>
   </div>
-  <div fxFlex.lt-md="100%">
+  <div fxLayoutAlign="end center">
     <mat-divider
       fxShow.lt-md="true"
       fxShow="false"
@@ -38,4 +38,4 @@
   </div>
 </div>
 
-<mat-divider class="bb"></mat-divider>
+<mat-divider></mat-divider>

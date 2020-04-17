@@ -9,18 +9,19 @@
   fxLayoutAlign="space-between start"
   *ngIf="currentState != 'stop'"
 >
-  <div>
-    <span class="mat-h1 title">
+  <div fxFlex="55%" fxLayout="column">
+    <div class="mat-h2 queue-sub-title" fxFlex="100%">
       {{ currentSong.title }}
-    </span>
-    <br *ngIf="currentSong.albumName" />
-    <span class="mat-h2 queue-sub-title" *ngIf="currentSong.albumName">
-      「{{ currentSong.albumName }}」
-    </span>
-    <br />
-    <span class="mat-h2 queue-sub-title">
+    </div>
+    <div
+      class="mat-h2 queue-sub-title text-muted"
+      *ngIf="currentSong.albumName"
+    >
+      {{ currentSong.albumName }}
+    </div>
+    <div class="mat-h2 queue-sub-title">
       {{ currentSong.artistName }}
-    </span>
+    </div>
   </div>
   <div fxLayoutAlign="end center">
     <mat-divider

@@ -107,3 +107,7 @@ $border-color: var(--border-color);
   // cursor: pointer;
   background: var(--hover-background-color);
 }
+
+.themed-border {
+  border: 1px solid var(--border-color);
+}

@@ -21,43 +21,45 @@
 
 <table mat-table [dataSource]="trackTableData">
   <ng-container matColumnDef="pos">
-    <mat-header-cell *matHeaderCellDef>#</mat-header-cell>
-    <mat-cell *matCellDef="let row" (click)="onRowClick(row.file)">
+    <th mat-header-cell *matHeaderCellDef>
+      #
+    </th>
+    <td mat-cell *matCellDef="let row" (click)="onRowClick(row.file)">
       {{ row.pos }}
-    </mat-cell>
+    </td>
   </ng-container>
 
   <ng-container matColumnDef="artist">
-    <mat-header-cell *matHeaderCellDef>Artist</mat-header-cell>
-    <mat-cell *matCellDef="let row" (click)="onRowClick(row.file)">
+    <th mat-header-cell *matHeaderCellDef>Artist</th>
+    <td mat-cell *matCellDef="let row" (click)="onRowClick(row.file)">
       {{ row.artistName }}
-    </mat-cell>
+    </td>
   </ng-container>
 
   <ng-container matColumnDef="album">
-    <mat-header-cell *matHeaderCellDef>Album</mat-header-cell>
-    <mat-cell *matCellDef="let row" (click)="onRowClick(row.file)">
+    <th mat-header-cell *matHeaderCellDef>Album</th>
+    <td mat-cell *matCellDef="let row" (click)="onRowClick(row.file)">
       {{ row.albumName }}
-    </mat-cell>
+    </td>
   </ng-container>
 
   <ng-container matColumnDef="title">
-    <mat-header-cell *matHeaderCellDef>Title</mat-header-cell>
-    <mat-cell *matCellDef="let row" (click)="onRowClick(row.file)">
+    <th mat-header-cell *matHeaderCellDef>Title</th>
+    <td mat-cell *matCellDef="let row" (click)="onRowClick(row.file)">
       {{ row.title }}
-    </mat-cell>
+    </td>
   </ng-container>
 
   <ng-container matColumnDef="length">
-    <mat-header-cell *matHeaderCellDef>Duration</mat-header-cell>
-    <mat-cell *matCellDef="let track" (click)="onRowClick(track.file)">
+    <th mat-header-cell *matHeaderCellDef>Duration</th>
+    <td mat-cell *matCellDef="let track" (click)="onRowClick(track.file)">
       {{ track.durationFormatted() }}
-    </mat-cell>
+    </td>
   </ng-container>
 
   <ng-container matColumnDef="remove">
-    <mat-header-cell *matHeaderCellDef></mat-header-cell>
-    <mat-cell *matCellDef="let element">
+    <th mat-header-cell *matHeaderCellDef></th>
+    <td mat-cell *matCellDef="let element">
       <button
         mat-button
         class="btn-remove-track"
@@ -66,15 +68,15 @@
       >
         <mat-icon>backspace</mat-icon>
       </button>
-    </mat-cell>
+    </td>
   </ng-container>
 
-  <mat-header-row *matHeaderRowDef="getDisplayedColumns()"></mat-header-row>
+  <tr mat-header-row *matHeaderRowDef="getDisplayedColumns()"></tr>
 
-  <mat-row
+  <tr
+    mat-row
     *matRowDef="let row; columns: getDisplayedColumns()"
     class="table-row"
     [ngClass]="{ themedbg: row.playing == true, playing: row.playing == true }"
-  >
-  </mat-row>
+  ></tr>
 </table>

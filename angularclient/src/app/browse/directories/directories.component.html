@@ -53,8 +53,15 @@
   fxLayout.xs="column"
   *ngIf="getParamDir != '/' && dirQueue.length < 9"
 >
-  <div *ngFor="let dir of dirQueue | playlistFilter: filterValue">
-    <mat-card class="cover-card">
+  <div
+    fxLayoutAlign="center center"
+    *ngFor="let dir of dirQueue | playlistFilter: filterValue"
+  >
+    <mat-card
+      [routerLink]="['/browse']"
+      [queryParams]="{ dir: dir.path }"
+      class="cover-card"
+    >
       <mat-card-header>
         <mat-card-title>{{ dir.displayedPath() }}</mat-card-title>
       </mat-card-header>

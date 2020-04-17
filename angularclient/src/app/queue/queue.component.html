@@ -3,14 +3,14 @@
   [currentState]="currentState"
 ></app-queue-header>
 <div fxLayout="row wrap" fxLayoutAlign="space-between end" class="inherit-bg">
-  <div>
+  <div fxFlex.lt-md="100%">
     <app-control-panel
       [currentState]="currentState"
       [controlPanel]="controlPanel"
     ></app-control-panel>
     <mat-divider fxShow.lt-md="true" fxShow="false"></mat-divider>
   </div>
-  <div>
+  <div fxFlex.lt-md="100%">
     <app-mpd-modes
       [controlPanel]="controlPanel"
       [currentState]="currentState"

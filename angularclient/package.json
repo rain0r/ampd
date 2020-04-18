@@ -6,7 +6,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "format": "ng lint ampd --tslint-config tslint.json --fix --files=\"src/app/**/*.ts\" && prettier --write \"build.js\" \"src/app/**/*.ts\" \"src/app/**/*.html\" \"src/app/**/*.css\" \"src/styles.css\" build.json"
+    "format": "ng lint ampd --tslint-config tslint.json --fix --files=\"src/app/**/*.ts\" && prettier --write \"build.js\" \"src/app/**/*.ts\" \"src/app/**/*.html\" \"src/app/**/*.scss\" \"src/styles.scss\""
   },
   "private": true,
   "dependencies": {

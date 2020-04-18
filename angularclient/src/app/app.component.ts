@@ -15,7 +15,7 @@ export class AppComponent {
   public connectedStatusIcon = 'cloud_off';
   public innerWidth: number;
 
-  @ViewChild('inputSearch', { static: false }) public inputSearch?: ElementRef;
+  @ViewChild('inputSearch') public inputSearch?: ElementRef;
   private isDarkTheme: Observable<boolean>;
 
   constructor(

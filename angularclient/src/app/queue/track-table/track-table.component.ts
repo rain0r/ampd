@@ -5,7 +5,7 @@ import {
   SimpleChange,
   SimpleChanges,
 } from '@angular/core';
-import { MatTableDataSource } from '@angular/material';
+import { MatTableDataSource } from '@angular/material/table';
 import { Observable } from 'rxjs/index';
 import { AppComponent } from '../../app.component';
 import {

@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, Input } from '@angular/core';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import { Subscription } from 'rxjs/index';
 import { InternalCommands } from '../../shared/commands/internal';
 import { CoverModalComponent } from '../../shared/cover-modal/cover-modal.component';

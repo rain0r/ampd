@@ -135,7 +135,7 @@ export class SearchComponent implements AfterViewInit {
 
   private processSearchResults(searchResults, searchResultCount) {
     this.clear();
-    searchResults.forEach(track => {
+    searchResults.forEach((track) => {
       this.titleQueue.push(new QueueTrack(track));
     });
     this.searchResultCount = searchResultCount;

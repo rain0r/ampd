@@ -33,10 +33,10 @@ export class WebSocketService {
   public getStateSubscription(): Observable<ServerStatusRootImpl> {
     return this.stompService.subscribe('/topic/state').pipe(
       map((message: Message) => message.body),
-      map(body => JSON.parse(body)),
-      filter(body => body !== null),
-      filter(body => body.type === MpdTypes.STATE),
-      map(jsonObj => {
+      map((body) => JSON.parse(body)),
+      filter((body) => body !== null),
+      filter((body) => body.type === MpdTypes.STATE),
+      map((jsonObj) => {
         const wsObj: ServerStatusRootImpl = jsonObj as ServerStatusRootImpl;
         return wsObj;
       })
@@ -46,10 +46,10 @@ export class WebSocketService {
   public getQueueSubscription(): Observable<QueueRootImpl> {
     return this.stompService.subscribe('/topic/queue').pipe(
       map((message: Message) => message.body),
-      map(body => JSON.parse(body)),
-      filter(body => body !== null),
-      filter(body => body.type === MpdTypes.QUEUE),
-      map(jsonObj => {
+      map((body) => JSON.parse(body)),
+      filter((body) => body !== null),
+      filter((body) => body.type === MpdTypes.QUEUE),
+      map((jsonObj) => {
         const wsObj: QueueRootImpl = jsonObj as QueueRootImpl;
         return wsObj;
       })
@@ -59,10 +59,10 @@ export class WebSocketService {
   public getBrowseSubscription(): Observable<BrowseRootImpl> {
     return this.stompService.subscribe('/topic/controller').pipe(
       map((message: Message) => message.body),
-      map(body => JSON.parse(body)),
-      filter(body => body !== null),
-      filter(body => body.type === MpdTypes.BROWSE),
-      map(jsonObj => {
+      map((body) => JSON.parse(body)),
+      filter((body) => body !== null),
+      filter((body) => body.type === MpdTypes.BROWSE),
+      map((jsonObj) => {
         const wsObj: BrowseRootImpl = jsonObj as BrowseRootImpl;
         return wsObj;
       })
@@ -72,10 +72,10 @@ export class WebSocketService {
   public getSearchSubscription(): Observable<SearchRootImpl> {
     return this.stompService.subscribe('/topic/controller').pipe(
       map((message: Message) => message.body),
-      map(body => JSON.parse(body)),
-      filter(body => body !== null),
-      filter(body => body.type === MpdTypes.SEARCH_RESULTS),
-      map(jsonObj => {
+      map((body) => JSON.parse(body)),
+      filter((body) => body !== null),
+      filter((body) => body.type === MpdTypes.SEARCH_RESULTS),
+      map((jsonObj) => {
         const wsObj: SearchRootImpl = jsonObj as SearchRootImpl;
         return wsObj;
       })

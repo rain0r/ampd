@@ -42,14 +42,14 @@ export class BrowseService {
   private onBrowseResponse(payload: IBrowseMsgPayload): void {
     this.browseInfo.clearAll();
 
-    payload.directories.forEach(dir => {
+    payload.directories.forEach((dir) => {
       const directory = new Directory(true, dir.path);
       this.browseInfo.dirQueue.push(directory);
     });
-    payload.tracks.forEach(track => {
+    payload.tracks.forEach((track) => {
       this.browseInfo.trackQueue.push(track);
     });
-    payload.playlists.forEach(playlist => {
+    payload.playlists.forEach((playlist) => {
       this.browseInfo.playlistQueue.push(playlist);
     });
   }

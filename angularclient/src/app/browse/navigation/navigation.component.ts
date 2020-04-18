@@ -25,7 +25,7 @@ export class NavigationComponent implements OnInit {
   ) {}
 
   public ngOnInit(): void {
-    this.activatedRoute.queryParams.subscribe(queryParams => {
+    this.activatedRoute.queryParams.subscribe((queryParams) => {
       const dir = queryParams.dir || '/';
       this.getParamDir = dir;
       this.browseService.sendBrowseReq(dir);
@@ -41,7 +41,7 @@ export class NavigationComponent implements OnInit {
     }
     this.router
       .navigate(['browse'], { queryParams: { dir: targetDir } })
-      .then(fulfilled => {
+      .then((fulfilled) => {
         if (fulfilled) {
           this.getParamDir = targetDir;
         }

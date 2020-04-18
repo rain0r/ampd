@@ -58,8 +58,8 @@ export class TrackTableComponent implements OnChanges {
   public getDisplayedColumns(): string[] {
     const isMobile = this.appComponent.isMobile();
     return this.displayedColumns
-      .filter(cd => !isMobile || cd.showMobile)
-      .map(cd => cd.name);
+      .filter((cd) => !isMobile || cd.showMobile)
+      .map((cd) => cd.name);
   }
 
   public onRemoveTrack(position: number): void {

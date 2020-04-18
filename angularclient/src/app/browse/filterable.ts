@@ -8,7 +8,7 @@ export abstract class Filterable {
 
   constructor(pMessageService: MessageService) {
     const messageService = pMessageService;
-    this.subscription = messageService.getMessage().subscribe(message => {
+    this.subscription = messageService.getMessage().subscribe((message) => {
       if (message.text === InternalCommands.BROWSE_FILTER) {
         if (message.data && message.data.filterValue) {
           this.filterValue = message.data.filterValue;

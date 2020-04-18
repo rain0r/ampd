@@ -23,11 +23,13 @@ export class QueueHeaderComponent {
     private http: HttpClient,
     private messageService: MessageService
   ) {
-    this.subscription = this.messageService.getMessage().subscribe(message => {
-      if (message.text === InternalCommands.UPDATE_COVER) {
-        this.checkCoverUrl();
-      }
-    });
+    this.subscription = this.messageService
+      .getMessage()
+      .subscribe((message) => {
+        if (message.text === InternalCommands.UPDATE_COVER) {
+          this.checkCoverUrl();
+        }
+      });
   }
 
   public openCoverModal(): void {
@@ -38,7 +40,7 @@ export class QueueHeaderComponent {
 
   private checkCoverUrl() {
     const obs = {
-      error: err => (this.hasCover = false),
+      error: (err) => (this.hasCover = false),
       complete: () => (this.hasCover = true),
     };
 

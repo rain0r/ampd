@@ -22,12 +22,7 @@ export class Directory implements IDirectory {
   }
 
   public fullDisplayedPath(): string {
-    return (
-      this.path
-        .trim()
-        .split('/')
-        .pop() || ''
-    );
+    return this.path.trim().split('/').pop() || '';
   }
 
   public displayedPath(): string {

@@ -32,7 +32,7 @@ export class SearchComponent implements AfterViewInit {
     'action',
   ];
 
-  @ViewChild('search', { static: false }) public searchField?: ElementRef;
+  @ViewChild('search') public searchField?: ElementRef;
 
   constructor(
     private snackBar: MatSnackBar,

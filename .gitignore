@@ -190,3 +190,4 @@ yarn-debug.log*
 yarn-error.log*
 spotbugs.xml
 lint-results.xml
+environment.prod.ts

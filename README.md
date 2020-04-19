@@ -4,6 +4,12 @@ ampd is a web-based client for MPD. It is build with `Angular` and `Spring Boot`
 
 
 ## Screenshots
+
+Desktop             |  Mobile
+:-------------------------:|:-------------------------:
+![](.github/desktop.png)  |  ![](.github/mobile.png)
+
+
 ![Screenshot of ampd](.github/screenshot.png)
 
 

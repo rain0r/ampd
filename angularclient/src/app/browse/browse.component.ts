@@ -14,4 +14,9 @@ export class BrowseComponent {
   constructor(private browseService: BrowseService) {
     this.browseInfo = this.browseService.browseInfo;
   }
+
+  public onBackToTop(): void {
+        window.scrollTo(0, 0);
+      }
+
 }

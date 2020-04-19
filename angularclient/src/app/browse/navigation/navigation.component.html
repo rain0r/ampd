@@ -45,16 +45,16 @@
         placeholder="Filter"
         autocomplete="off"
         type="text"
-        [(ngModel)]="value"
+        [(ngModel)]="filter"
         (keyup)="applyFilter($event.target.value)"
       />
       <button
         mat-button
-        *ngIf="value"
+        *ngIf="filter"
         matSuffix
         mat-icon-button
         aria-label="Clear"
-        (click)="value = ''; resetFilter()"
+        (click)="filter= ''; resetFilter()"
       >
         <mat-icon>close</mat-icon>
       </button>

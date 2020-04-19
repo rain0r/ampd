@@ -16,7 +16,7 @@ export class AppComponent {
   public innerWidth: number;
 
   @ViewChild('inputSearch') public inputSearch?: ElementRef;
-  private isDarkTheme: Observable<boolean>;
+  public isDarkTheme: Observable<boolean>;
 
   constructor(
     private router: Router,

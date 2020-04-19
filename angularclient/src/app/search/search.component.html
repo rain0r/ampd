@@ -7,12 +7,7 @@
 <div fxLayout.xs="column" fxLayout="row" fxLayoutAlign="start baseline">
   <div fxFlex="50%">
     <mat-form-field class="full-width">
-      <input
-        #search
-        type="text"
-        matInput
-        (keyup)="onSearchKeyUp()"
-      />
+      <input #search type="text" matInput (keyup)="onSearchKeyUp()" />
     </mat-form-field>
   </div>
   <div>
@@ -65,6 +60,9 @@
   </ng-container>
 
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-  <tr mat-row *matRowDef="let row; columns: displayedColumns" class="table-row">
-  </tr>
+  <tr
+    mat-row
+    *matRowDef="let row; columns: displayedColumns"
+    class="table-row"
+  ></tr>
 </table>

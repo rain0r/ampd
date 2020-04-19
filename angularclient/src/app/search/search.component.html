@@ -11,7 +11,6 @@
         #search
         type="text"
         matInput
-        placeholder="{{ query }}"
         (keyup)="onSearchKeyUp()"
       />
     </mat-form-field>
@@ -32,40 +31,40 @@
   *ngIf="titleQueue.length > 0"
 >
   <ng-container matColumnDef="artistName">
-    <mat-header-cell *matHeaderCellDef>Artist</mat-header-cell>
-    <mat-cell *matCellDef="let track">{{ track.artistName }}</mat-cell>
+    <th mat-header-cell *matHeaderCellDef>Artist</th>
+    <td mat-cell *matCellDef="let track">{{ track.artistName }}</td>
   </ng-container>
 
   <ng-container matColumnDef="albumName">
-    <mat-header-cell *matHeaderCellDef>Album</mat-header-cell>
-    <mat-cell *matCellDef="let track">
+    <th mat-header-cell *matHeaderCellDef>Album</th>
+    <td mat-cell *matCellDef="let track">
       {{ track.albumName }}
-    </mat-cell>
+    </td>
   </ng-container>
 
   <ng-container matColumnDef="title">
-    <mat-header-cell *matHeaderCellDef>Title</mat-header-cell>
-    <mat-cell *matCellDef="let track">{{ track.title }}</mat-cell>
+    <th mat-header-cell *matHeaderCellDef>Title</th>
+    <td mat-cell *matCellDef="let track">{{ track.title }}</td>
   </ng-container>
 
   <ng-container matColumnDef="length">
-    <mat-header-cell *matHeaderCellDef>Length</mat-header-cell>
-    <mat-cell *matCellDef="let track">{{ track.durationFormatted() }}</mat-cell>
+    <th mat-header-cell *matHeaderCellDef>Length</th>
+    <td mat-cell *matCellDef="let track">{{ track.durationFormatted() }}</td>
   </ng-container>
 
   <ng-container matColumnDef="action">
-    <mat-header-cell *matHeaderCellDef></mat-header-cell>
-    <mat-cell *matCellDef="let track">
+    <th mat-header-cell *matHeaderCellDef></th>
+    <td mat-cell *matCellDef="let track">
       <span (click)="onPlayTitle(track)" class="clickable chip">
         <mat-icon> play_arrow </mat-icon>
       </span>
       <span (click)="onAddTitle(track)" class="clickable chip">
         <mat-icon> add </mat-icon>
       </span>
-    </mat-cell>
+    </td>
   </ng-container>
 
-  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-  <mat-row *matRowDef="let row; columns: displayedColumns" class="table-row">
-  </mat-row>
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns" class="table-row">
+  </tr>
 </table>

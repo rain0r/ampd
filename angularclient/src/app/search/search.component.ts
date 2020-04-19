@@ -131,7 +131,7 @@ export class SearchComponent implements AfterViewInit {
   // }
 
   private clear(): void {
-    this.query='';
+    this.query = '';
     this.titleQueue = [];
     this.searchResultCount = 0;
   }

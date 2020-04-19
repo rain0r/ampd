@@ -16,7 +16,6 @@ export class BrowseComponent {
   }
 
   public onBackToTop(): void {
-        window.scrollTo(0, 0);
-      }
-
+    window.scrollTo(0, 0);
+  }
 }

@@ -10,10 +10,10 @@ import { ConnectionConfig } from '../shared/connection-config/connection-config'
   styleUrls: ['./settings.component.scss'],
 })
 export class SettingsComponent {
-  private ccModel: ConnectionConfig;
+  public ccModel: ConnectionConfig;
   private submitted = false;
-  private ampdVersion;
-  private gitCommitId;
+  public ampdVersion;
+  public gitCommitId;
 
   constructor(
     private snackBar: MatSnackBar,

@@ -14,6 +14,7 @@ import { WebSocketService } from '../../shared/services/web-socket.service';
 })
 export class NavigationComponent implements OnInit {
   public getParamDir = '';
+  public filter = '';
 
   constructor(
     private router: Router,
@@ -82,6 +83,7 @@ export class NavigationComponent implements OnInit {
   }
 
   public applyFilter(filterValue: string) {
+    this.filter = filterValue;
     if (filterValue) {
       this.messageService.sendMessage(InternalCommands.BROWSE_FILTER, {
         filterValue,
@@ -92,6 +94,7 @@ export class NavigationComponent implements OnInit {
   }
 
   public resetFilter() {
+    this.filter = '';
     this.messageService.sendMessage(InternalCommands.BROWSE_FILTER, {
       filterValue: '',
     });

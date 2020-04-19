@@ -19,11 +19,11 @@ import { WebSocketService } from '../shared/services/web-socket.service';
   styleUrls: ['./queue.component.scss'],
 })
 export class QueueComponent implements OnInit {
-  private controlPanel: IControlPanel = new ControlPanelImpl();
-  private currentSong: QueueTrack = new QueueTrack();
-  private volume: number = 0;
+  public controlPanel: IControlPanel = new ControlPanelImpl();
+  public currentSong: QueueTrack = new QueueTrack();
+  public volume = 0;
   private stateSubs: Observable<ServerStatusRootImpl>;
-  private currentState: string = '';
+  public currentState = '';
 
   constructor(
     private webSocketService: WebSocketService,

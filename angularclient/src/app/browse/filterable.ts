@@ -3,7 +3,7 @@ import { InternalCommands } from '../shared/commands/internal';
 import { MessageService } from '../shared/services/message.service';
 
 export abstract class Filterable {
-  protected filterValue = '';
+  public filterValue = '';
   private subscription: Subscription = new Subscription();
 
   constructor(pMessageService: MessageService) {

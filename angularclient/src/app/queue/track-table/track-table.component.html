@@ -4,16 +4,16 @@
     placeholder="Filter queue"
     autocomplete="off"
     type="text"
-    [(ngModel)]="value"
+    [(ngModel)]="trackTableData.filter"
     (keyup)="applyFilter($event.target.value)"
   />
   <button
     mat-button
-    *ngIf="value"
+    *ngIf="trackTableData.filter"
     matSuffix
     mat-icon-button
     aria-label="Clear"
-    (click)="value = ''; resetFilter()"
+    (click)="resetFilter()"
   >
     <mat-icon>close</mat-icon>
   </button>

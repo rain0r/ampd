@@ -1,11 +1,13 @@
 package org.hihn.ampd.server.message;
 
+import org.hihn.ampd.server.message.AmpdMessage.MessageType;
+
 /**
  * Defines the structure of a message exchanged between backend and frontend.
  */
 public interface Message {
 
-  AmpdMessage.MESSAGE_TYPE getType();
+  MessageType getType();
 
   Object getPayload();
 }

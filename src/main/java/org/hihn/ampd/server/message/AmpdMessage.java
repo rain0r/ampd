@@ -8,7 +8,7 @@ public abstract class AmpdMessage implements Message {
   /**
    * Represents all available commands between the backend and the frontend.
    */
-  public enum MESSAGE_TYPE {
+  public enum MessageType {
     /* Incoming */
     ADD_DIR,
     ADD_PLAYLIST,

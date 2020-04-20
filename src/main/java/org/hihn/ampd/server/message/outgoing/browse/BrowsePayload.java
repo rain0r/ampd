@@ -7,6 +7,9 @@ import java.util.List;
 import org.bff.javampd.file.MPDFile;
 import org.bff.javampd.song.MPDSong;
 
+/**
+ * Represents the structure of the browse payload returned to the frontend.
+ */
 public class BrowsePayload {
 
   private final ArrayList<MPDFile> directories = new ArrayList<>();
@@ -23,8 +26,8 @@ public class BrowsePayload {
     tracks.add(track);
   }
 
-  public void addPlaylists(Collection<Playlist> pPlaylists) {
-    playlists.addAll(pPlaylists);
+  public void addPlaylists(Collection<Playlist> inputPlaylists) {
+    playlists.addAll(inputPlaylists);
   }
 
   public List<MPDFile> getDirectories() {

@@ -8,12 +8,21 @@ import java.util.regex.Pattern;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * Misc utility methods.
+ */
 public class AmpdUtils {
 
   private static final Logger LOG = LoggerFactory.getLogger(AmpdUtils.class);
 
   private static final String EMPTY = "";
 
+  /**
+   * Reads a file from disk.
+   *
+   * @param path The path of a file.
+   * @return The bytes of the file.
+   */
   public static byte[] loadFile(Path path) {
     byte[] ret = null;
     try {
@@ -24,6 +33,12 @@ public class AmpdUtils {
     return ret;
   }
 
+  /**
+   * Strips all unpleasant characters from a string.
+   *
+   * @param input Input string to strip.
+   * @return The stripped string.
+   */
   public static String stripAccents(final String input) {
     if (input == null) {
       return null;

@@ -1,11 +1,15 @@
 package org.hihn.ampd.server.message.outgoing.browse;
 
+/**
+ * Represents the structure of the payload payload returned to the frontend.
+ */
 public class Playlist implements Comparable<Playlist> {
 
   private String name;
 
   private int count = 0;
 
+  @SuppressWarnings("checkstyle:missingjavadocmethod")
   public Playlist(String name, int count) {
     this.name = name;
     this.count = count;

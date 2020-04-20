@@ -19,6 +19,7 @@ public class MpdConfiguration {
   @Value("${mpd.password:}")
   private String mpdPassword;
 
+  @SuppressWarnings("checkstyle:javadoctype")
   public MPD mpd() {
     if (mpdPassword.equals("")) {
       return new MPD.Builder().server(mpdServer).port(mpdPort).build();

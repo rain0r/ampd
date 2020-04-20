@@ -6,19 +6,28 @@ import org.hihn.ampd.server.config.MpdConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+/**
+ * Represents the control panel of MPD.
+ */
 @Service
 public class ControlPanelService {
 
   private final MPD mpd;
 
+  @SuppressWarnings("checkstyle:javadoctype")
   @Autowired
   public ControlPanelService(MpdConfiguration mpdConfiguration) {
     this.mpd = mpdConfiguration.mpd();
   }
 
-  public void applyControlPanelChanges(Object pPayload) {
+  /**
+   * Sets the state of the control panel.
+   *
+   * @param incomingPayload The new control panel state.
+   */
+  public void applyControlPanelChanges(Object incomingPayload) {
     HashMap<String, HashMap<String, Boolean>> payload =
-        (HashMap<String, HashMap<String, Boolean>>) pPayload;
+        (HashMap<String, HashMap<String, Boolean>>) incomingPayload;
     HashMap<String, Boolean> controlPanel = payload.get("controlPanel");
 
     boolean random = controlPanel.get("random");

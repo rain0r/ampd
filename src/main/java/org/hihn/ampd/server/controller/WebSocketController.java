@@ -30,6 +30,9 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
 
+/**
+ * Handles the incoming websocket messages.
+ */
 @Controller
 public class WebSocketController {
 

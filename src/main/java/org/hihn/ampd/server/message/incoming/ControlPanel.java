@@ -5,6 +5,9 @@ import org.bff.javampd.server.ServerStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * Represents a MPD control panel.
+ */
 public class ControlPanel {
 
   private static final Logger LOG = LoggerFactory.getLogger(ControlPanel.class);
@@ -19,6 +22,7 @@ public class ControlPanel {
 
   boolean repeat = false;
 
+  @SuppressWarnings("checkstyle:javadoctype")
   public ControlPanel(ServerStatus serverStatus) {
     Collection<String> statusList = serverStatus.getStatus();
     setCrossfade(serverStatus.getXFade());

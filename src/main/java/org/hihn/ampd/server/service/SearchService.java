@@ -10,16 +10,26 @@ import org.hihn.ampd.server.message.outgoing.search.SearchPayload;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+/**
+ * Searches the MPD database.
+ */
 @Service
 public class SearchService {
 
   private final MPD mpd;
 
+  @SuppressWarnings("checkstyle:javadoctype")
   @Autowired
   public SearchService(MpdConfiguration mpdConfiguration) {
     this.mpd = mpdConfiguration.mpd();
   }
 
+  /**
+   * Takes a query and searches the MPD database for it.
+   *
+   * @param query What to search for.
+   * @return
+   */
   public SearchMessage search(String query) {
     ArrayList<MPDSong> searchResults = new ArrayList<>();
     searchResults.addAll(mpd.getSongSearcher().search(ScopeType.ANY, query));

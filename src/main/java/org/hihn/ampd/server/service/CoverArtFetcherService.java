@@ -24,6 +24,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+/**
+ * Looks for album art and covers.
+ */
 @Service
 public class CoverArtFetcherService {
 
@@ -39,6 +42,7 @@ public class CoverArtFetcherService {
   // ':' sets an empty str if the prop is not set
   private String musicDirectory;
 
+  @SuppressWarnings("checkstyle:javadoctype")
   public CoverArtFetcherService(
       FileStorageService fileStorageService,
       CoverCacheService coverCacheService,
@@ -49,6 +53,11 @@ public class CoverArtFetcherService {
     this.mpd = mpdConfiguration.mpd();
   }
 
+  /**
+   * Searches multiple sources for the cover of the current played album.
+   *
+   * @return The bytes of the found cover.
+   */
   public Optional<byte[]> getCurrentAlbumCover() {
     MPDSong track = mpd.getPlayer().getCurrentSong();
 
@@ -111,16 +120,17 @@ public class CoverArtFetcherService {
   /**
    * See if path leads to an album directory and try to load the cover.
    *
-   * @return The cover.
+   * @param trackFilePath The file path of a track.
+   * @return The bytes of the found cover.
    */
-  public byte[] findAlbumCover(Optional<String> pathStr) {
+  public byte[] findAlbumCover(Optional<String> trackFilePath) {
 
-    if (!pathStr.isPresent()) {
+    if (!trackFilePath.isPresent()) {
       return null;
     }
 
     List<Path> covers = new ArrayList<>();
-    Path path = Paths.get(musicDirectory, pathStr.get());
+    Path path = Paths.get(musicDirectory, trackFilePath.get());
 
     try (DirectoryStream<Path> stream = Files.newDirectoryStream(path, "cover.{jpg,jpeg,png}")) {
       stream.forEach(file -> covers.add(file));

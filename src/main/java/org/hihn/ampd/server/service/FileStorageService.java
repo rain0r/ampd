@@ -15,6 +15,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+/**
+ * Saves and loads cover files locally.
+ */
 @Service
 public class FileStorageService {
 
@@ -24,6 +27,10 @@ public class FileStorageService {
   // ':' sets an empty str if the prop is not set
   private String musicDirectory;
 
+  /**
+   * @param trackFilePath
+   * @return
+   */
   public Optional<byte[]> loadFileAsResource(String trackFilePath) {
 
     Optional<Path> p;

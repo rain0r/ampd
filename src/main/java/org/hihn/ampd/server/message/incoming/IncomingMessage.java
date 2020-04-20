@@ -2,6 +2,9 @@ package org.hihn.ampd.server.message.incoming;
 
 import org.hihn.ampd.server.message.AmpdMessage;
 
+/**
+ * Represents the structure of an incoming message.
+ */
 public class IncomingMessage extends AmpdMessage {
 
   private Object payload = null;

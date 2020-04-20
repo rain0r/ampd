@@ -9,7 +9,7 @@ public class IncomingMessage extends AmpdMessage {
 
   private Object payload = null;
 
-  private AmpdMessage.MESSAGE_TYPE type = null;
+  private MessageType type = null;
 
   @Override
   public Object getPayload() {
@@ -21,11 +21,11 @@ public class IncomingMessage extends AmpdMessage {
   }
 
   @Override
-  public MESSAGE_TYPE getType() {
+  public MessageType getType() {
     return type;
   }
 
-  public void setType(MESSAGE_TYPE type) {
+  public void setType(MessageType type) {
     this.type = type;
   }
 

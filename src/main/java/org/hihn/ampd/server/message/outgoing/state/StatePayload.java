@@ -4,6 +4,9 @@ import org.bff.javampd.server.ServerStatus;
 import org.bff.javampd.song.MPDSong;
 import org.hihn.ampd.server.message.incoming.ControlPanel;
 
+/**
+ * Represents the structure of a state returned to the frontend.
+ */
 public class StatePayload {
 
   private ServerStatus serverStatus;
@@ -14,9 +17,11 @@ public class StatePayload {
 
   private ControlPanel controlPanel;
 
+  @SuppressWarnings("checkstyle:missingjavadocmethod")
   public StatePayload() {
   }
 
+  @SuppressWarnings("checkstyle:missingjavadocmethod")
   public StatePayload(ServerStatus serverStatus, MPDSong currentSong, ControlPanel controlPanel) {
     this.serverStatus = serverStatus;
     this.currentSong = currentSong;

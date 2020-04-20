@@ -4,7 +4,7 @@ import org.hihn.ampd.server.message.AmpdMessage;
 
 public class QueueMessage extends AmpdMessage {
 
-  private static final AmpdMessage.MESSAGE_TYPE type = AmpdMessage.MESSAGE_TYPE.QUEUE;
+  private static final MessageType type = MessageType.QUEUE;
 
   private final QueuePayload payload;
 
@@ -13,7 +13,7 @@ public class QueueMessage extends AmpdMessage {
   }
 
   @Override
-  public MESSAGE_TYPE getType() {
+  public MessageType getType() {
     return type;
   }
 

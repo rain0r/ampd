@@ -3,6 +3,9 @@ package org.hihn.ampd.server.message.outgoing.search;
 import java.util.List;
 import org.bff.javampd.song.MPDSong;
 
+/**
+ * Represents the structure of the search payload returned to the frontend.
+ */
 public class SearchPayload {
 
   List<MPDSong> searchResults = null;
@@ -11,9 +14,11 @@ public class SearchPayload {
 
   String query = null;
 
+  @SuppressWarnings("checkstyle:missingjavadocmethod")
   public SearchPayload() {
   }
 
+  @SuppressWarnings("checkstyle:missingjavadocmethod")
   public SearchPayload(List<MPDSong> searchResults, int searchResultCount, String query) {
     this.searchResults = searchResults;
     this.searchResultCount = searchResultCount;

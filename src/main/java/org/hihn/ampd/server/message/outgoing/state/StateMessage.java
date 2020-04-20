@@ -4,7 +4,7 @@ import org.hihn.ampd.server.message.AmpdMessage;
 
 public class StateMessage extends AmpdMessage {
 
-  private static final AmpdMessage.MESSAGE_TYPE type = AmpdMessage.MESSAGE_TYPE.STATE;
+  private static final MessageType type = MessageType.STATE;
 
   private StatePayload payload;
 
@@ -13,7 +13,7 @@ public class StateMessage extends AmpdMessage {
   }
 
   @Override
-  public AmpdMessage.MESSAGE_TYPE getType() {
+  public MessageType getType() {
     return type;
   }
 

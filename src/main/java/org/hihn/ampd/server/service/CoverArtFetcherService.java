@@ -1,7 +1,7 @@
 package org.hihn.ampd.server.service;
 
-import static org.hihn.ampd.server.service.CoverCacheService.COVER_TYPE.ALBUM;
-import static org.hihn.ampd.server.service.CoverCacheService.COVER_TYPE.SINGLETON;
+import static org.hihn.ampd.server.service.CoverCacheService.CoverType.ALBUM;
+import static org.hihn.ampd.server.service.CoverCacheService.CoverType.SINGLETON;
 import static org.hihn.ampd.server.util.AmpdUtils.loadFile;
 
 import java.io.IOException;
@@ -18,6 +18,7 @@ import org.bff.javampd.art.MPDArtwork;
 import org.bff.javampd.server.MPD;
 import org.bff.javampd.song.MPDSong;
 import org.hihn.ampd.server.config.MpdConfiguration;
+import org.hihn.ampd.server.service.CoverCacheService.CoverType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -65,7 +66,7 @@ public class CoverArtFetcherService {
       return Optional.empty();
     }
 
-    CoverCacheService.COVER_TYPE coverType = (track.getAlbumName().isEmpty()) ? SINGLETON : ALBUM;
+    CoverType coverType = (track.getAlbumName().isEmpty()) ? SINGLETON : ALBUM;
 
     // Try to load the cover from cache
     Optional<byte[]> cover =

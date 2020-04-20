@@ -7,7 +7,7 @@ import org.hihn.ampd.server.message.AmpdMessage;
  */
 public class SearchMessage extends AmpdMessage {
 
-  private static final MESSAGE_TYPE type = MESSAGE_TYPE.SEARCH_RESULTS;
+  private static final MessageType type = MessageType.SEARCH_RESULTS;
 
   private SearchPayload payload;
 
@@ -26,7 +26,7 @@ public class SearchMessage extends AmpdMessage {
   }
 
   @Override
-  public MESSAGE_TYPE getType() {
+  public MessageType getType() {
     return type;
   }
 

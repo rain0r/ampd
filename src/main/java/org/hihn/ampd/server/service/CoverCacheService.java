@@ -28,13 +28,13 @@ public class CoverCacheService {
 
   private static final String CACHE_DIR = "covers";
 
-  public enum COVER_TYPE {
+  public enum CoverType {
     ALBUM("a_"),
     SINGLETON("s_");
 
     private String prefix;
 
-    COVER_TYPE(String prefix) {
+    CoverType(String prefix) {
       this.prefix = prefix;
     }
 
@@ -76,7 +76,7 @@ public class CoverCacheService {
    * @param titleOrAlbum Are we looking for the cover of an album or single track.
    * @return An optional with the bytes of the found cover in a successful case.
    */
-  public Optional<byte[]> loadCover(COVER_TYPE coverType, String artist, String titleOrAlbum) {
+  public Optional<byte[]> loadCover(CoverType coverType, String artist, String titleOrAlbum) {
     String fileName = buildFileName(coverType, artist, titleOrAlbum);
     Path fullPath = Paths.get(buildAmpdHome(), CACHE_DIR, fileName).toAbsolutePath();
     try {
@@ -95,7 +95,7 @@ public class CoverCacheService {
    * @param titleOrAlbum Is this the cover of an album or a single track.
    * @param file         The cover itself.
    */
-  public void saveCover(COVER_TYPE coverType, String artist, String titleOrAlbum, byte[] file) {
+  public void saveCover(CoverType coverType, String artist, String titleOrAlbum, byte[] file) {
     try {
       String fileName = buildFileName(coverType, artist, titleOrAlbum);
       Path fullPath = Paths.get(buildAmpdHome(), CACHE_DIR, fileName).toAbsolutePath();
@@ -110,7 +110,7 @@ public class CoverCacheService {
     }
   }
 
-  private String buildFileName(COVER_TYPE coverType, String artist, String titleOrAlbum) {
+  private String buildFileName(CoverType coverType, String artist, String titleOrAlbum) {
     return coverType.getPrefix()
         + AmpdUtils.stripAccents(artist)
         + "_"

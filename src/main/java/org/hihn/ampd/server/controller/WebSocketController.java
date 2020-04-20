@@ -12,7 +12,7 @@ import org.bff.javampd.file.MPDFile;
 import org.bff.javampd.server.MPD;
 import org.bff.javampd.song.MPDSong;
 import org.hihn.ampd.server.config.MpdConfiguration;
-import org.hihn.ampd.server.message.AmpdMessage;
+import org.hihn.ampd.server.message.AmpdMessage.MessageType;
 import org.hihn.ampd.server.message.Message;
 import org.hihn.ampd.server.message.incoming.IncomingMessage;
 import org.hihn.ampd.server.message.outgoing.browse.BrowseMessage;
@@ -42,8 +42,8 @@ public class WebSocketController {
 
   private final MPD mpd;
 
-  private final EnumMap<AmpdMessage.MESSAGE_TYPE, AmpdCommandRunner> commands =
-      new EnumMap<>(AmpdMessage.MESSAGE_TYPE.class);
+  private final EnumMap<MessageType, AmpdCommandRunner> commands =
+      new EnumMap<>(MessageType.class);
 
   private final SearchService searchService;
 
@@ -59,24 +59,24 @@ public class WebSocketController {
     this.searchService = searchService;
     this.controlPanelService = controlPanelService;
 
-    commands.put(AmpdMessage.MESSAGE_TYPE.ADD_DIR, this::addDir);
-    commands.put(AmpdMessage.MESSAGE_TYPE.ADD_PLAYLIST, this::addPlaylist);
-    commands.put(AmpdMessage.MESSAGE_TYPE.ADD_PLAY_TRACK, this::addPlayTrack);
-    commands.put(AmpdMessage.MESSAGE_TYPE.ADD_TRACK, this::addTrack);
-    commands.put(AmpdMessage.MESSAGE_TYPE.GET_BROWSE, this::browse);
-    commands.put(AmpdMessage.MESSAGE_TYPE.GET_QUEUE, this::getQueue);
-    commands.put(AmpdMessage.MESSAGE_TYPE.PLAY_TRACK, this::playTrack);
-    commands.put(AmpdMessage.MESSAGE_TYPE.RM_ALL, this::removeAll);
-    commands.put(AmpdMessage.MESSAGE_TYPE.RM_TRACK, this::removeTrack);
-    commands.put(AmpdMessage.MESSAGE_TYPE.SEARCH, this::search);
-    commands.put(AmpdMessage.MESSAGE_TYPE.SET_NEXT, this::playNext);
-    commands.put(AmpdMessage.MESSAGE_TYPE.SET_PAUSE, this::pause);
-    commands.put(AmpdMessage.MESSAGE_TYPE.SET_PLAY, this::play);
-    commands.put(AmpdMessage.MESSAGE_TYPE.SET_PREV, this::playPrevious);
-    commands.put(AmpdMessage.MESSAGE_TYPE.SET_SEEK, this::seek);
-    commands.put(AmpdMessage.MESSAGE_TYPE.SET_STOP, this::stop);
-    commands.put(AmpdMessage.MESSAGE_TYPE.SET_VOLUME, this::setVolume);
-    commands.put(AmpdMessage.MESSAGE_TYPE.TOGGLE_CONTROL, this::toggleControlPanel);
+    commands.put(MessageType.ADD_DIR, this::addDir);
+    commands.put(MessageType.ADD_PLAYLIST, this::addPlaylist);
+    commands.put(MessageType.ADD_PLAY_TRACK, this::addPlayTrack);
+    commands.put(MessageType.ADD_TRACK, this::addTrack);
+    commands.put(MessageType.GET_BROWSE, this::browse);
+    commands.put(MessageType.GET_QUEUE, this::getQueue);
+    commands.put(MessageType.PLAY_TRACK, this::playTrack);
+    commands.put(MessageType.RM_ALL, this::removeAll);
+    commands.put(MessageType.RM_TRACK, this::removeTrack);
+    commands.put(MessageType.SEARCH, this::search);
+    commands.put(MessageType.SET_NEXT, this::playNext);
+    commands.put(MessageType.SET_PAUSE, this::pause);
+    commands.put(MessageType.SET_PLAY, this::play);
+    commands.put(MessageType.SET_PREV, this::playPrevious);
+    commands.put(MessageType.SET_SEEK, this::seek);
+    commands.put(MessageType.SET_STOP, this::stop);
+    commands.put(MessageType.SET_VOLUME, this::setVolume);
+    commands.put(MessageType.TOGGLE_CONTROL, this::toggleControlPanel);
   }
 
   /**
@@ -247,9 +247,9 @@ public class WebSocketController {
     return Optional.of(queue);
   }
 
-  private Optional<Message> setVolume(Object pVolume) {
+  private Optional<Message> setVolume(Object inputVolume) {
     try {
-      HashMap<String, Integer> volumePayload = (HashMap<String, Integer>) pVolume;
+      HashMap<String, Integer> volumePayload = (HashMap<String, Integer>) inputVolume;
       int newVolumeValue = volumePayload.get(PAYLOAD_VALUE);
       mpd.getPlayer().setVolume(newVolumeValue);
     } catch (Exception e) {

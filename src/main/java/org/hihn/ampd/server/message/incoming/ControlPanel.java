@@ -29,7 +29,7 @@ public class ControlPanel {
 
     for (String status : statusList) {
 
-      String splitted[] = status.split(":");
+      String[] splitted = status.split(":");
       boolean newValue = "1".equals(splitted[1].trim());
 
       switch (splitted[0].trim()) {
@@ -83,6 +83,10 @@ public class ControlPanel {
     this.crossfade = crossfade;
   }
 
+  public void setCrossfade(int xfade) {
+    setCrossfade(1 == xfade);
+  }
+
   public boolean isRepeat() {
     return repeat;
   }
@@ -91,6 +95,11 @@ public class ControlPanel {
     this.repeat = repeat;
   }
 
+  /**
+   * Returns if xfade is active.
+   *
+   * @return 1 for active, 0 for inactive.
+   */
   public int getXFade() {
     if (this.isCrossfade()) {
       return 1;
@@ -98,7 +107,5 @@ public class ControlPanel {
     return 0;
   }
 
-  public void setCrossfade(int xFade) {
-    setCrossfade(1 == xFade);
-  }
+
 }

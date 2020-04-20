@@ -32,13 +32,13 @@ public class ControlPanelService {
 
     boolean random = controlPanel.get("random");
     boolean repeat = controlPanel.get("repeat");
-    int xFade = controlPanel.get("crossfade") ? 1 : 0;
+    int xfade = controlPanel.get("crossfade") ? 1 : 0;
     boolean consume = controlPanel.get("consume");
     boolean single = controlPanel.get("single");
 
     mpd.getPlayer().setRandom(random);
     mpd.getPlayer().setRepeat(repeat);
-    mpd.getPlayer().setXFade(xFade);
+    mpd.getPlayer().setXFade(xfade);
     mpd.getPlayer().setConsume(consume);
     mpd.getPlayer().setSingle(single);
   }

@@ -22,7 +22,7 @@ public class ControlPanel {
 
   boolean repeat = false;
 
-  @SuppressWarnings("checkstyle:javadoctype")
+  @SuppressWarnings("checkstyle:missingjavadocmethod")
   public ControlPanel(ServerStatus serverStatus) {
     Collection<String> statusList = serverStatus.getStatus();
     setCrossfade(serverStatus.getXFade());

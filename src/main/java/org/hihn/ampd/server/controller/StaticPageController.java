@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class StaticPageController {
 
-  @SuppressWarnings("checkstyle:javadoctype")
+  @SuppressWarnings("checkstyle:missingjavadocmethod")
   @RequestMapping(value = {"/", "/browse", "/search", "/settings", "/ampd/"})
   public String index() {
     return "/index.html";

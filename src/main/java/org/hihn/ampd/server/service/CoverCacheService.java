@@ -43,7 +43,7 @@ public class CoverCacheService {
     }
   }
 
-  @SuppressWarnings("checkstyle:javadoctype")
+  @SuppressWarnings("checkstyle:missingjavadocmethod")
   public CoverCacheService() {
     ampdHome = buildAmpdHome();
 
@@ -88,6 +88,8 @@ public class CoverCacheService {
   }
 
   /**
+   * Saves a given cover to the local cache.
+   *
    * @param coverType    The type of the cover.
    * @param artist       Artist to which the cover is associated.
    * @param titleOrAlbum Is this the cover of an album or a single track.

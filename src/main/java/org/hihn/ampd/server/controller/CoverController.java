@@ -28,7 +28,7 @@ public class CoverController {
 
   private final CoverArtFetcherService coverArtFetcherService;
 
-  @SuppressWarnings("checkstyle:javadoctype")
+  @SuppressWarnings("checkstyle:missingjavadocmethod")
   @Autowired
   public CoverController(CoverArtFetcherService coverArtFetcherService) {
     this.coverArtFetcherService = coverArtFetcherService;

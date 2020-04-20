@@ -23,7 +23,7 @@ public class ScheduledStatePublisher {
 
   private final MPD mpd;
 
-  @SuppressWarnings("checkstyle:javadoctype")
+  @SuppressWarnings("checkstyle:missingjavadocmethod")
   @Autowired
   public ScheduledStatePublisher(MpdConfiguration mpdConfiguration) {
     this.mpd = mpdConfiguration.mpd();

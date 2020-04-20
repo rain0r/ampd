@@ -42,7 +42,7 @@ public class CoverArtFetcherService {
   // ':' sets an empty str if the prop is not set
   private String musicDirectory;
 
-  @SuppressWarnings("checkstyle:javadoctype")
+  @SuppressWarnings("checkstyle:missingjavadocmethod")
   public CoverArtFetcherService(
       FileStorageService fileStorageService,
       CoverCacheService coverCacheService,

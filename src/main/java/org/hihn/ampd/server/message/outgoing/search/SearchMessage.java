@@ -11,16 +11,16 @@ public class SearchMessage extends AmpdMessage {
 
   private SearchPayload payload;
 
-  @SuppressWarnings("checkstyle:javadoctype")
+  @SuppressWarnings("checkstyle:missingjavadocmethod")
   public SearchMessage() {
   }
 
-  @SuppressWarnings("checkstyle:javadoctype")
+  @SuppressWarnings("checkstyle:missingjavadocmethod")
   public SearchMessage(SearchPayload payload) {
     this.payload = payload;
   }
 
-  @SuppressWarnings("checkstyle:javadoctype")
+  @SuppressWarnings("checkstyle:missingjavadocmethod")
   public void setPayload(SearchPayload payload) {
     this.payload = payload;
   }

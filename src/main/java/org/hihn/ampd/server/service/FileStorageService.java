@@ -2,14 +2,11 @@ package org.hihn.ampd.server.service;
 
 import static org.hihn.ampd.server.util.AmpdUtils.loadFile;
 
-import java.io.IOException;
-import java.nio.file.DirectoryStream;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import org.hihn.ampd.server.util.AmpdUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -47,15 +44,17 @@ public class FileStorageService {
     return ret;
   }
 
+  @edu.umd.cs.findbugs.annotations.SuppressFBWarnings(
+      value = "NP_NULL_ON_SOME_PATH_FROM_RETURN_VALUE")
   private Optional<Path> findCoverFileName(String trackFilePath) {
-    List<Path> covers = new ArrayList<>();
+
     Optional<Path> ret = Optional.empty();
     Path path;
 
     try {
       path = Paths.get(musicDirectory, trackFilePath);
 
-      if (!path.toFile().exists()) {
+      if (path.getParent() == null || !path.toFile().exists()) {
         throw new Exception();
       }
     } catch (Exception e) {
@@ -63,14 +62,10 @@ public class FileStorageService {
       return Optional.empty();
     }
 
-    try (DirectoryStream<Path> stream =
-        Files.newDirectoryStream(path.getParent(), "cover.{jpg,jpeg,png}")) {
-
-      stream.forEach(file -> covers.add(file));
-
-    } catch (IOException e) {
-      LOG.info("Could not load art in {}", path, e);
+    if (path.getParent() == null) {
+      return Optional.empty();
     }
+    List<Path> covers = AmpdUtils.scanDir(path.getParent());
 
     if (covers.size() > 0) {
       ret = Optional.of(covers.get(0));

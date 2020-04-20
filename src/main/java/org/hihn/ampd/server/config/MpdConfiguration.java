@@ -4,6 +4,9 @@ import org.bff.javampd.server.MPD;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 
+/**
+ * Wrapper around the {@link MPD} library.
+ */
 @Configuration
 public class MpdConfiguration {
 

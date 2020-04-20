@@ -19,6 +19,9 @@ public class ServerApplication {
     SpringApplication.run(ServerApplication.class, args);
   }
 
+  /**
+   * Show the user a welcome message.
+   */
   @EventListener(ApplicationReadyEvent.class)
   public void doSomethingAfterStartup() {
     System.out.println("\n==========");

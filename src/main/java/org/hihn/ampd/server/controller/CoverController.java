@@ -30,6 +30,11 @@ public class CoverController {
     this.coverArtFetcherService = coverArtFetcherService;
   }
 
+  /**
+   * Returns the cover of the currently running track.
+   *
+   * @return The bytes of the current cover.
+   */
   @CrossOrigin
   @RequestMapping(
       value = {CURRENT_COVER_URL},
@@ -48,12 +53,19 @@ public class CoverController {
   }
 
 
+  /**
+   * Tries to find the cover for a track.
+   *
+   * @param path File path of a track.
+   * @return The bytes of the input track.
+   */
   @CrossOrigin
   @RequestMapping(
-          value = {FIND_COVER_URL},
-          produces = MediaType.IMAGE_JPEG_VALUE
+      value = {FIND_COVER_URL},
+      produces = MediaType.IMAGE_JPEG_VALUE
   )
-  public @ResponseBody byte[] findCoverByPath(@RequestParam("path") Optional<String> path) {
+  public @ResponseBody
+  byte[] findCoverByPath(@RequestParam("path") Optional<String> path) {
     try {
       return coverArtFetcherService.findAlbumCover(path);
     } catch (Exception e) {

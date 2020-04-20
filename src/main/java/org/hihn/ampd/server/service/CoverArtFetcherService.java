@@ -4,12 +4,8 @@ import static org.hihn.ampd.server.service.CoverCacheService.CoverType.ALBUM;
 import static org.hihn.ampd.server.service.CoverCacheService.CoverType.SINGLETON;
 import static org.hihn.ampd.server.util.AmpdUtils.loadFile;
 
-import java.io.IOException;
-import java.nio.file.DirectoryStream;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -19,6 +15,7 @@ import org.bff.javampd.server.MPD;
 import org.bff.javampd.song.MPDSong;
 import org.hihn.ampd.server.config.MpdConfiguration;
 import org.hihn.ampd.server.service.CoverCacheService.CoverType;
+import org.hihn.ampd.server.util.AmpdUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -130,14 +127,9 @@ public class CoverArtFetcherService {
       return null;
     }
 
-    List<Path> covers = new ArrayList<>();
     Path path = Paths.get(musicDirectory, trackFilePath.get());
+    List<Path> covers = AmpdUtils.scanDir(path);
 
-    try (DirectoryStream<Path> stream = Files.newDirectoryStream(path, "cover.{jpg,jpeg,png}")) {
-      stream.forEach(file -> covers.add(file));
-    } catch (IOException e) {
-      LOG.info("Could not load art in {}", path, e);
-    }
     if (covers.size() > 0) {
       Path coverPath = covers.get(0);
       return loadFile(coverPath);
@@ -145,4 +137,6 @@ public class CoverArtFetcherService {
 
     return null;
   }
+
+
 }

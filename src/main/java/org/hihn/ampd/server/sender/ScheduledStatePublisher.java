@@ -23,11 +23,15 @@ public class ScheduledStatePublisher {
 
   private final MPD mpd;
 
+  @SuppressWarnings("checkstyle:javadoctype")
   @Autowired
   public ScheduledStatePublisher(MpdConfiguration mpdConfiguration) {
     this.mpd = mpdConfiguration.mpd();
   }
 
+  /**
+   * Publishes the MPD server state every second.
+   */
   @Scheduled(fixedDelay = 1 * 1000L)
   public void publishUpdates() {
     if (!mpd.isConnected()) {

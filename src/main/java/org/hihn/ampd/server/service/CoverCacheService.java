@@ -15,6 +15,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+/**
+ * Handles the caching of album art.
+ */
 @Service
 public class CoverCacheService {
 
@@ -40,6 +43,7 @@ public class CoverCacheService {
     }
   }
 
+  @SuppressWarnings("checkstyle:javadoctype")
   public CoverCacheService() {
     ampdHome = buildAmpdHome();
 

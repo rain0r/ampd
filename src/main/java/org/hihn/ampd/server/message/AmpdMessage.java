@@ -1,7 +1,13 @@
 package org.hihn.ampd.server.message;
 
+/**
+ * Base class of all messages exchanged between backend and frontend.
+ */
 public abstract class AmpdMessage implements Message {
 
+  /**
+   * Represents all available commands between the backend and the frontend.
+   */
   public enum MESSAGE_TYPE {
     /* Incoming */
     ADD_DIR,

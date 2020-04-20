@@ -14,6 +14,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.server.ResponseStatusException;
 
+/**
+ * Endpoint for everything cover-releated.
+ */
 @Controller
 public class CoverController {
 
@@ -25,6 +28,7 @@ public class CoverController {
 
   private final CoverArtFetcherService coverArtFetcherService;
 
+  @SuppressWarnings("checkstyle:javadoctype")
   @Autowired
   public CoverController(CoverArtFetcherService coverArtFetcherService) {
     this.coverArtFetcherService = coverArtFetcherService;
@@ -56,7 +60,7 @@ public class CoverController {
   /**
    * Tries to find the cover for a track.
    *
-   * @param path File path of a track.
+   * @param trackFilePath File path of a track.
    * @return The bytes of the input track.
    */
   @CrossOrigin
@@ -65,11 +69,11 @@ public class CoverController {
       produces = MediaType.IMAGE_JPEG_VALUE
   )
   public @ResponseBody
-  byte[] findCoverByPath(@RequestParam("path") Optional<String> path) {
+  byte[] findCoverByPath(@RequestParam("path") Optional<String> trackFilePath) {
     try {
-      return coverArtFetcherService.findAlbumCover(path);
+      return coverArtFetcherService.findAlbumCover(trackFilePath);
     } catch (Exception e) {
-      String p = (path.isPresent()) ? path.get() : "NO_PATH";
+      String p = (trackFilePath.isPresent()) ? trackFilePath.get() : "NO_PATH";
       LOG.warn("Could not find a cover for: " + p);
     }
     throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Cover Not Found");

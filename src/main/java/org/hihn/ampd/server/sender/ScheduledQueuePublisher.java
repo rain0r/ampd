@@ -23,11 +23,15 @@ public class ScheduledQueuePublisher {
 
   private final MPD mpd;
 
+  @SuppressWarnings("checkstyle:javadoctype")
   @Autowired
   public ScheduledQueuePublisher(MpdConfiguration mpdConfiguration) {
     this.mpd = mpdConfiguration.mpd();
   }
 
+  /**
+   * Publishes the queue every second.
+   */
   @Scheduled(fixedDelay = 1 * 1000L)
   public void publishUpdates() {
     if (!mpd.isConnected()) {

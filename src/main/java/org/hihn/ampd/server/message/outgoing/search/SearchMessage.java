@@ -2,19 +2,25 @@ package org.hihn.ampd.server.message.outgoing.search;
 
 import org.hihn.ampd.server.message.AmpdMessage;
 
+/**
+ * Websocket message for MPD database search results.
+ */
 public class SearchMessage extends AmpdMessage {
 
   private static final MESSAGE_TYPE type = MESSAGE_TYPE.SEARCH_RESULTS;
 
   private SearchPayload payload;
 
+  @SuppressWarnings("checkstyle:javadoctype")
   public SearchMessage() {
   }
 
+  @SuppressWarnings("checkstyle:javadoctype")
   public SearchMessage(SearchPayload payload) {
     this.payload = payload;
   }
 
+  @SuppressWarnings("checkstyle:javadoctype")
   public void setPayload(SearchPayload payload) {
     this.payload = payload;
   }

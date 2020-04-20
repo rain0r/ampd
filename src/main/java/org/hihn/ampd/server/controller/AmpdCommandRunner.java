@@ -5,5 +5,5 @@ import org.hihn.ampd.server.message.Message;
 
 public interface AmpdCommandRunner {
 
-  Optional<Message> run(Object pPayload);
+  Optional<Message> run(Object inputPayload);
 }

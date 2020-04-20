@@ -46,6 +46,7 @@ public class WebSocketController {
 
   private final ControlPanelService controlPanelService;
 
+  @SuppressWarnings("checkstyle:javadoctype")
   @Autowired
   public WebSocketController(
       MpdConfiguration mpdConfiguration,
@@ -75,6 +76,12 @@ public class WebSocketController {
     commands.put(AmpdMessage.MESSAGE_TYPE.TOGGLE_CONTROL, this::toggleControlPanel);
   }
 
+  /**
+   * Takes an {@link IncomingMessage}, processes it and sends back the return value.
+   *
+   * @param incomingMessage Contains the message type and additional parameters.
+   * @return The result for the incoming message.
+   */
   @MessageMapping("/mpd")
   @SendTo("/topic/controller")
   public Optional<Message> send(IncomingMessage incomingMessage) {
@@ -90,15 +97,15 @@ public class WebSocketController {
     return outgoingMessage;
   }
 
-  private Optional<Message> search(Object pPayload) {
-    HashMap<String, String> payload = (HashMap<String, String>) pPayload;
+  private Optional<Message> search(Object inputPayload) {
+    HashMap<String, String> payload = (HashMap<String, String>) inputPayload;
     String query = payload.get("query");
 
     return Optional.of(searchService.search(query));
   }
 
-  private Optional<Message> addPlaylist(Object pPayload) {
-    HashMap<String, String> payload = (HashMap<String, String>) pPayload;
+  private Optional<Message> addPlaylist(Object inputPayload) {
+    HashMap<String, String> payload = (HashMap<String, String>) inputPayload;
     String playlist = payload.get("playlist");
     ArrayList<MPDSong> mpdSongs = new ArrayList<>();
 
@@ -111,8 +118,8 @@ public class WebSocketController {
     return Optional.empty();
   }
 
-  private Optional<Message> addTrack(Object pPayload) {
-    HashMap<String, String> payload = (HashMap<String, String>) pPayload;
+  private Optional<Message> addTrack(Object inputPayload) {
+    HashMap<String, String> payload = (HashMap<String, String>) inputPayload;
     String path = payload.get("path");
     MPDFile mpdFile = new MPDFile(path);
     mpdFile.setDirectory(false);
@@ -120,9 +127,9 @@ public class WebSocketController {
     return Optional.empty();
   }
 
-  private Optional<Message> addPlayTrack(Object pPayload) {
-    addTrack(pPayload);
-    playTrack(pPayload);
+  private Optional<Message> addPlayTrack(Object inputPayload) {
+    addTrack(inputPayload);
+    playTrack(inputPayload);
     return Optional.empty();
   }
 
@@ -151,29 +158,29 @@ public class WebSocketController {
     return Optional.empty();
   }
 
-  private Optional<Message> seek(Object pPayload) {
-    HashMap<String, Integer> payload = (HashMap<String, Integer>) pPayload;
+  private Optional<Message> seek(Object inputPayload) {
+    HashMap<String, Integer> payload = (HashMap<String, Integer>) inputPayload;
     int value = payload.get(PAYLOAD_VALUE);
     mpd.getPlayer().seek(value);
     return Optional.empty();
   }
 
-  private Optional<Message> toggleControlPanel(Object pPayload) {
-    controlPanelService.applyControlPanelChanges(pPayload);
+  private Optional<Message> toggleControlPanel(Object inputPayload) {
+    controlPanelService.applyControlPanelChanges(inputPayload);
     return Optional.empty();
   }
 
-  private Optional<Message> addDir(Object pPayload) {
-    HashMap<String, String> payload = (HashMap<String, String>) pPayload;
+  private Optional<Message> addDir(Object inputPayload) {
+    HashMap<String, String> payload = (HashMap<String, String>) inputPayload;
     String path = payload.get("dir");
     MPDFile mpdFile = new MPDFile(path);
     mpd.getPlaylist().addFileOrDirectory(mpdFile);
     return Optional.empty();
   }
 
-  private Optional<Message> browse(Object pPayload) {
+  private Optional<Message> browse(Object inputPayload) {
     /* Map and extract payload */
-    HashMap<String, String> payload = (HashMap<String, String>) pPayload;
+    HashMap<String, String> payload = (HashMap<String, String>) inputPayload;
     String path = payload.get("path");
 
     /* Remove leading slashes */
@@ -231,7 +238,7 @@ public class WebSocketController {
     return browsePayload;
   }
 
-  private Optional<Message> getQueue(Object pPayload) {
+  private Optional<Message> getQueue(Object inputPayload) {
     QueuePayload queuePayload = new QueuePayload(mpd.getPlaylist().getSongList());
     QueueMessage queue = new QueueMessage(queuePayload);
     return Optional.of(queue);
@@ -248,8 +255,8 @@ public class WebSocketController {
     return Optional.empty();
   }
 
-  private Optional<Message> playTrack(Object pPayload) {
-    HashMap<String, String> payload = (HashMap<String, String>) pPayload;
+  private Optional<Message> playTrack(Object inputPayload) {
+    HashMap<String, String> payload = (HashMap<String, String>) inputPayload;
     String path = payload.get("path");
     List<MPDSong> trackList = mpd.getPlaylist().getSongList();
     Collection<MPDSong> mpdSongCollection =
@@ -267,8 +274,8 @@ public class WebSocketController {
     return Optional.empty();
   }
 
-  private Optional<Message> removeTrack(Object pPayload) {
-    HashMap<String, Integer> payload = (HashMap<String, Integer>) pPayload;
+  private Optional<Message> removeTrack(Object inputPayload) {
+    HashMap<String, Integer> payload = (HashMap<String, Integer>) inputPayload;
     int position = payload.get("position");
     mpd.getPlaylist().removeSong(position);
     return Optional.empty();

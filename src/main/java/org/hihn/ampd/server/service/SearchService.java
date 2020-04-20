@@ -28,7 +28,7 @@ public class SearchService {
    * Takes a query and searches the MPD database for it.
    *
    * @param query What to search for.
-   * @return
+   * @return A message with the search results.
    */
   public SearchMessage search(String query) {
     ArrayList<MPDSong> searchResults = new ArrayList<>();

@@ -28,8 +28,10 @@ public class FileStorageService {
   private String musicDirectory;
 
   /**
-   * @param trackFilePath
-   * @return
+   * Reads a track from disk.
+   *
+   * @param trackFilePath The path of the file to read.
+   * @return An optional with the bytes of the found cover in a successful case.
    */
   public Optional<byte[]> loadFileAsResource(String trackFilePath) {
 

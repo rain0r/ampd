@@ -68,6 +68,14 @@ public class CoverCacheService {
     return ret;
   }
 
+  /**
+   * Loads a cover from the local cache.
+   *
+   * @param coverType    The type of the cover.
+   * @param artist       Artist to which the cover is associated.
+   * @param titleOrAlbum Are we looking for the cover of an album or single track.
+   * @return An optional with the bytes of the found cover in a successful case.
+   */
   public Optional<byte[]> loadCover(COVER_TYPE coverType, String artist, String titleOrAlbum) {
     String fileName = buildFileName(coverType, artist, titleOrAlbum);
     Path fullPath = Paths.get(buildAmpdHome(), CACHE_DIR, fileName).toAbsolutePath();
@@ -79,6 +87,12 @@ public class CoverCacheService {
     return Optional.empty();
   }
 
+  /**
+   * @param coverType    The type of the cover.
+   * @param artist       Artist to which the cover is associated.
+   * @param titleOrAlbum Is this the cover of an album or a single track.
+   * @param file         The cover itself.
+   */
   public void saveCover(COVER_TYPE coverType, String artist, String titleOrAlbum, byte[] file) {
     try {
       String fileName = buildFileName(coverType, artist, titleOrAlbum);

@@ -1,6 +1,12 @@
 <div class="sub-menu">
   <span class="list-header mat-h3">
-    <span class="dir-prefix" title="Directory">Dir:</span>{{ getParamDir }}
+    <span *ngIf="getParamDir != '/'">
+      <span class="dir-prefix" title="Directory">
+        Dir:
+      </span>
+      {{ getParamDir }}
+    </span>
+    <span *ngIf="getParamDir == '/'">Directories</span>
   </span>
 </div>
 
@@ -9,7 +15,12 @@
   *ngFor="let dir of dirQueue | directoryFilter: filterValue"
 >
   <mat-list-item role="listitem" class="list-item">
-    <div class="full-width" fxLayout="row" fxLayoutAlign="center center">
+    <div
+      class="full-width cut-text"
+      fxLayout="row"
+      fxLayoutGap="0.2rem"
+      fxLayoutAlign="center center"
+    >
       <div>
         <mat-icon>folder_open</mat-icon>
       </div>
@@ -17,11 +28,9 @@
         fxFlex="1 1 auto"
         [routerLink]="['/browse']"
         [queryParams]="{ dir: dir.path }"
-        class="clickable"
+        class="clickable flex-item"
       >
-        <span class="dir-text" title="{{ dir.fullDisplayedPath() }}">
-          {{ dir.displayedPath() }}
-        </span>
+        {{ dir.displayedPath() }}
       </div>
       <div>
         <mat-icon
@@ -49,8 +58,9 @@
 
 <div
   class="cover-grid"
+  fxLayoutGap="0.4rem"
   fxLayout="row"
-  fxLayout.xs="column"
+  fxLayout.lt-md="column"
   *ngIf="getParamDir != '/' && dirQueue.length < 9"
 >
   <div

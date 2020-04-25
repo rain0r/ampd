@@ -19,19 +19,27 @@
   <div>
     <div
       fxLayout="row"
-      fxLayout.xs="column"
+      fxLayout.lt-md="column"
       fxLayoutGap="0.5%"
       fxLayoutAlign="center"
     >
       <!-- playlists -->
-      <div fxFlex="1 1 auto" *ngIf="browseInfo.playlistQueue.length > 0">
+      <div
+        fxFlex="1 1 auto"
+        style="border: 3px solid red;"
+        *ngIf="browseInfo.playlistQueue.length > 0"
+      >
         <app-playlists
           [playlistQueue]="browseInfo.playlistQueue"
         ></app-playlists>
       </div>
 
       <!-- directories -->
-      <div fxFlex="1 1 auto" *ngIf="browseInfo.dirQueue.length > 0">
+      <div
+        fxFlex="1 1 auto"
+        style="border: 3px solid red;"
+        *ngIf="browseInfo.dirQueue.length > 0"
+      >
         <app-directories [dirQueue]="browseInfo.dirQueue"></app-directories>
       </div>
 

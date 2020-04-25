@@ -10,7 +10,6 @@ import { WebSocketService } from './web-socket.service';
 export class BrowseService {
   public browseInfo: BrowseInfo = new BrowseInfo();
   public browseSubs: Observable<BrowseRootImpl>;
-  public containerWidth = 50;
 
   constructor(private webSocketService: WebSocketService) {
     this.browseSubs = this.webSocketService.getBrowseSubscription();

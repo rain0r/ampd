@@ -23,3 +23,17 @@ mat-header-cell:first-of-type {
 .full-width {
   width: 100%;
 }
+
+.mat-column-action {
+  white-space: nowrap;
+  width: 1%;
+}
+
+.mat-column-artistName,
+.mat-column-title,
+.mat-column-albumName {
+  max-width: 10rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

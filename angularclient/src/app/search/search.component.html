@@ -4,16 +4,33 @@
 
 <mat-divider></mat-divider>
 
-<div fxLayout.xs="column" fxLayout="row" fxLayoutAlign="start baseline">
-  <div fxFlex="50%">
+<div fxLayout="row wrap" fxLayoutAlign="start baseline">
+  <div fxFlex="70%">
     <mat-form-field class="full-width">
-      <input #search type="text" matInput (keyup)="onSearchKeyUp()" />
+      <input
+        matInput
+        placeholder="Type to search"
+        autocomplete="off"
+        type="text"
+        [(ngModel)]="search"
+        (keyup)="applySearch($event.target.value)"
+      />
+      <button
+        mat-button
+        *ngIf="search"
+        matSuffix
+        mat-icon-button
+        aria-label="Clear"
+        (click)="search = ''; resetSearch()"
+      >
+        <mat-icon>close</mat-icon>
+      </button>
     </mat-form-field>
   </div>
+
   <div>
     <div *ngIf="searchResultCount > 0">
       <span class="text-muted"> {{ searchResultCount }} results </span>
-      <mat-divider></mat-divider>
     </div>
   </div>
 </div>

@@ -110,3 +110,9 @@ $border-color: var(--border-color);
 .themed-border {
   border: 1px solid var(--border-color);
 }
+
+.cut-text div {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

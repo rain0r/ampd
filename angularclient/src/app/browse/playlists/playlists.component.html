@@ -10,11 +10,19 @@
   (click)="onClickPlaylist(playlist)"
 >
   <mat-list-item role="listitem" class="list-item">
-    <mat-icon>list</mat-icon> &nbsp;
-    {{ playlist.name }}
-    <span class="fill-space"></span>
-    <span class="text-muted">
-      {{ playlist.count }}
-    </span>
+    <div
+      class="full-width cut-text"
+      fxLayout="row"
+      fxLayoutGap="0.2rem"
+      fxLayoutAlign="center center"
+    >
+      <div><mat-icon>list</mat-icon> &nbsp;</div>
+      <div fxFlex="1 1 auto">
+        {{ playlist.name }}
+      </div>
+      <div class="text-muted">
+        {{ playlist.count }}
+      </div>
+    </div>
   </mat-list-item>
 </mat-list>

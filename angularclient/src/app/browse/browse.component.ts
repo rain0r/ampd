@@ -8,7 +8,6 @@ import { BrowseService } from '../shared/services/browse.service';
   styleUrls: ['./browse.component.scss'],
 })
 export class BrowseComponent {
-  public getParamDir = '';
   public browseInfo: BrowseInfo = new BrowseInfo();
 
   constructor(private browseService: BrowseService) {

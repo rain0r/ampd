@@ -1,10 +1,4 @@
-import {
-  AfterViewInit,
-  ChangeDetectorRef,
-  Component,
-  ElementRef,
-  ViewChild,
-} from '@angular/core';
+import { Component } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { Observable } from 'rxjs';
@@ -20,7 +14,8 @@ import { WebSocketService } from '../shared/services/web-socket.service';
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.scss'],
 })
-export class SearchComponent implements AfterViewInit {
+export class SearchComponent {
+  public search = '';
   public searchSubs: Observable<SearchRootImpl>;
   public titleQueue: IMpdTrack[] = [];
   public searchResultCount = 0;
@@ -32,24 +27,12 @@ export class SearchComponent implements AfterViewInit {
     'action',
   ];
 
-  @ViewChild('search') public searchField?: ElementRef;
-
   constructor(
     private snackBar: MatSnackBar,
-    private webSocketService: WebSocketService,
-    private cdRef: ChangeDetectorRef
+    private webSocketService: WebSocketService
   ) {
     this.searchSubs = this.webSocketService.getSearchSubscription();
     this.getResults();
-  }
-
-  public search(query: string): void {
-    // Only search when the term is at least 3 chars long
-    if (query && query.length > 3) {
-      this.webSocketService.sendData(MpdCommands.SEARCH, {
-        query,
-      });
-    }
   }
 
   public onPlayTitle(track: IMpdTrack): void {
@@ -72,27 +55,20 @@ export class SearchComponent implements AfterViewInit {
     this.popUp(`Added: ${track.title}`);
   }
 
-  public onSearchKeyUp(): void {
-    if (!this.searchField) {
-      return;
-    }
-    const input = this.searchField.nativeElement.value;
-
-    if (input.trim().length === 0) {
-      this.clear();
+  public applySearch(searchValue: string) {
+    this.search = searchValue;
+    if (searchValue) {
+      // Only search when the term is at least 3 chars long
+      if (searchValue.length > 3) {
+        this.webSocketService.sendData(MpdCommands.SEARCH, {
+          query: searchValue,
+        });
+        console.log(`Sending ${searchValue}`);
+      }
     } else {
-      this.search(input);
+      this.resetSearch();
     }
   }
-
-  public ngAfterViewInit() {
-    if (this.searchField) {
-      this.searchField.nativeElement.focus();
-    }
-
-    this.cdRef.detectChanges();
-  }
-
   /**
    * Listen for results on the websocket channel
    */
@@ -117,13 +93,13 @@ export class SearchComponent implements AfterViewInit {
     });
   }
 
-  private clear(): void {
+  private resetSearch(): void {
     this.titleQueue = [];
     this.searchResultCount = 0;
   }
 
   private processSearchResults(searchResults, searchResultCount) {
-    this.clear();
+    this.resetSearch();
     searchResults.forEach((track) => {
       this.titleQueue.push(new QueueTrack(track));
     });

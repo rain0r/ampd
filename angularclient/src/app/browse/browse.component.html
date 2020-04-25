@@ -26,7 +26,6 @@
       <!-- playlists -->
       <div
         fxFlex="1 1 auto"
-        style="border: 3px solid red;"
         *ngIf="browseInfo.playlistQueue.length > 0"
       >
         <app-playlists
@@ -37,7 +36,6 @@
       <!-- directories -->
       <div
         fxFlex="1 1 auto"
-        style="border: 3px solid red;"
         *ngIf="browseInfo.dirQueue.length > 0"
       >
         <app-directories [dirQueue]="browseInfo.dirQueue"></app-directories>

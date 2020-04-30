@@ -14,11 +14,11 @@
   role="list"
   *ngFor="let dir of dirQueue | directoryFilter: filterValue"
 >
-  <mat-list-item role="listitem" class="list-item">
+  <mat-list-item role="listitem" class="browse-list-item list-item">
     <div
       class="full-width cut-text"
       fxLayout="row"
-      fxLayoutGap="0.2rem"
+      fxLayoutGap.gt-md="0.4rem"
       fxLayoutAlign="center center"
     >
       <div>

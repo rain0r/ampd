@@ -21,7 +21,7 @@ export class ThemingService {
     if (isDarkTheme) {
       this.changeTheme('#607d8b', '#ff9100', '#868e96');
     } else {
-      this.changeTheme('#eeee', '#eeee', '#eeee');
+      this.changeTheme('#eeee', '#eeee', '#000');
     }
   }
 

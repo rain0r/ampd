@@ -1,11 +1,23 @@
-@media (max-width: 1280px) {
-  .mat-column-remove {
-    // Minimze the 'remove' button to save space
-    flex: 0 0 2.5rem;
-  }
-}
-
 .mat-column-remove {
   text-align: right;
   width: 1%;
+}
+
+@media only screen and (max-width: 1280px) {
+  // We don't have space for padding on mobile devices
+  .mat-column-remove {
+    padding-right: 0 !important;
+  }
+  .mat-column-artistName {
+    padding-left: 0 !important;
+  }
+}
+
+.mat-column-artistName,
+.mat-column-title,
+.mat-column-albumName {
+  max-width: 10rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }

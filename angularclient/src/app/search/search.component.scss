@@ -1,32 +1,16 @@
-mat-cell {
-  display: flex !important;
-}
-
-mat-cell:last-of-type,
-mat-footer-cell:last-of-type,
-mat-header-cell:last-of-type {
-  justify-content: flex-end !important;
-  padding-right: 5px !important;
-}
-
-mat-cell:first-of-type,
-mat-footer-cell:first-of-type,
-mat-header-cell:first-of-type {
-  padding-left: 5px !important;
-}
-
-.cdk-column-length {
-  flex: 0 0 25% !important;
-  min-width: 104px !important;
-}
-
-.full-width {
-  width: 100%;
-}
-
 .mat-column-action {
-  white-space: nowrap;
+  text-align: right;
   width: 1%;
+}
+
+@media only screen and (max-width: 1280px) {
+  // We don't have space for padding on mobile devices
+  .mat-column-action {
+    padding-right: 0 !important;
+  }
+  .mat-column-artistName {
+    padding-left: 0 !important;
+  }
 }
 
 .mat-column-artistName,

@@ -48,17 +48,20 @@ public class FileStorageService {
       value = "NP_NULL_ON_SOME_PATH_FROM_RETURN_VALUE")
   private Optional<Path> findCoverFileName(String trackFilePath) {
 
+    if (musicDirectory.isEmpty()) {
+      LOG.warn("No music directory set, aborting.");
+      return Optional.empty();
+    }
+
     Optional<Path> ret = Optional.empty();
-    Path path;
+    Path path = Paths.get(musicDirectory, trackFilePath);
 
     try {
-      path = Paths.get(musicDirectory, trackFilePath);
-
       if (path.getParent() == null || !path.toFile().exists()) {
         throw new Exception();
       }
     } catch (Exception e) {
-      LOG.error("No valid path: " + trackFilePath);
+      LOG.error("No valid path: '{}'", path);
       return Optional.empty();
     }
 

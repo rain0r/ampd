@@ -76,10 +76,10 @@
     </td>
   </ng-container>
 
-  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-header-row *matHeaderRowDef="getDisplayedColumns()"></tr>
   <tr
     mat-row
-    *matRowDef="let row; columns: displayedColumns"
+    *matRowDef="let row; columns: getDisplayedColumns()"
     class="table-row"
   ></tr>
 </table>

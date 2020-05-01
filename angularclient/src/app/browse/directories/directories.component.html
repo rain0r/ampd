@@ -65,7 +65,7 @@
 >
   <div
     fxLayoutAlign="center center"
-    *ngFor="let dir of dirQueue | playlistFilter: filterValue"
+    *ngFor="let dir of dirQueue | directoryFilter: filterValue"
   >
     <mat-card
       [routerLink]="['/browse']"

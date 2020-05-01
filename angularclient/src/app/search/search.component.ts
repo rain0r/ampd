@@ -8,6 +8,7 @@ import { SearchRootImpl } from '../shared/messages/incoming/search';
 import { QueueTrack } from '../shared/models/queue-track';
 import { MpdCommands } from '../shared/mpd/mpd-commands';
 import { WebSocketService } from '../shared/services/web-socket.service';
+import { AppComponent } from '../app.component';
 
 @Component({
   selector: 'app-search',
@@ -19,17 +20,18 @@ export class SearchComponent {
   public searchSubs: Observable<SearchRootImpl>;
   public titleQueue: IMpdTrack[] = [];
   public searchResultCount = 0;
-  public displayedColumns: string[] = [
-    'artistName',
-    'albumName',
-    'title',
-    'length',
-    'action',
+  private displayedColumns = [
+    { name: 'artistName', showMobile: true },
+    { name: 'albumName', showMobile: false },
+    { name: 'title', showMobile: true },
+    { name: 'length', showMobile: false },
+    { name: 'action', showMobile: true },
   ];
 
   constructor(
     private snackBar: MatSnackBar,
-    private webSocketService: WebSocketService
+    private webSocketService: WebSocketService,
+    private appComponent: AppComponent
   ) {
     this.searchSubs = this.webSocketService.getSearchSubscription();
     this.getResults();
@@ -63,7 +65,6 @@ export class SearchComponent {
         this.webSocketService.sendData(MpdCommands.SEARCH, {
           query: searchValue,
         });
-        console.log(`Sending ${searchValue}`);
       }
     } else {
       this.resetSearch();
@@ -104,5 +105,12 @@ export class SearchComponent {
       this.titleQueue.push(new QueueTrack(track));
     });
     this.searchResultCount = searchResultCount;
+  }
+
+  public getDisplayedColumns(): string[] {
+    const isMobile = this.appComponent.isMobile();
+    return this.displayedColumns
+      .filter((cd) => !isMobile || cd.showMobile)
+      .map((cd) => cd.name);
   }
 }

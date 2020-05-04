@@ -80,3 +80,10 @@
     [ngClass]="{ themedbg: row.playing == true, playing: row.playing == true }"
   ></tr>
 </table>
+
+<mat-divider></mat-divider>
+
+<span *ngIf="trackTableData.data.length > 0">
+  {{ trackTableData.data.length }} tracks in the queue. Duration:
+  {{ queueDuration | secondsToHhMmSs }}
+</span>

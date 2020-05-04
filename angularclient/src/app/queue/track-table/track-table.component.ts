@@ -27,6 +27,8 @@ export class TrackTableComponent implements OnChanges {
   // The checksum of the current queue
   public checksum = 0;
 
+  public queueDuration = 0;
+
   @Input() private currentSong: QueueTrack = new QueueTrack();
   private queueSubs: Observable<QueueRootImpl>;
 
@@ -107,6 +109,7 @@ export class TrackTableComponent implements OnChanges {
       posCounter += 1;
     }
     this.trackTableData.data = tmp; // add the new model object to the trackTableData
+    this.queueDuration = this.sumTrackDuration();
   }
 
   private buildQueueMsgReceiver() {
@@ -119,5 +122,16 @@ export class TrackTableComponent implements OnChanges {
         );
       }
     });
+  }
+
+  /**
+   * Calculate the sum of all track durations.
+   */
+  private sumTrackDuration(): number {
+    let ret = 0.0;
+    for (const item of this.trackTableData.data) {
+      ret += item.length;
+    }
+    return ret;
   }
 }

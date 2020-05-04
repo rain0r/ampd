@@ -34,6 +34,7 @@ import { MessageService } from './shared/services/message.service';
 import { NotificationService } from './shared/services/notification.service';
 import { WebSocketService } from './shared/services/web-socket.service';
 import { SharedModule } from './shared/shared.module';
+import { SecondsToHhMmSsPipe } from './shared/pipes/SecondsToHhMmSs';
 
 @NgModule({
   declarations: [
@@ -43,6 +44,7 @@ import { SharedModule } from './shared/shared.module';
     EncodeURIComponentPipe,
     SearchComponent,
     SecondsToMmSsPipe,
+    SecondsToHhMmSsPipe,
     PlaylistFilterPipe,
     MpdTrackFilterPipe,
     DirectoryFilterPipe,

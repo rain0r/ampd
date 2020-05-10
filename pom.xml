@@ -118,7 +118,7 @@
         <executions>
           <execution>
             <id>npm install</id>
-            <phase>package</phase>
+            <phase>compile</phase>
             <goals>
               <goal>exec</goal>
             </goals>
@@ -132,7 +132,7 @@
           </execution>
           <execution>
             <id>Build fronted</id>
-            <phase>package</phase>
+            <phase>compile</phase>
             <goals>
               <goal>exec</goal>
             </goals>

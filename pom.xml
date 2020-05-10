@@ -20,7 +20,7 @@
     <project.scm.id>github</project.scm.id>
     <frontend.prod>true</frontend.prod>
     <frontend.url>localhost</frontend.url>
-    <frontend.https>true</frontend.https>
+    <frontend.https>false</frontend.https>
     <frontend.context>/</frontend.context>
   </properties>
 

@@ -18,6 +18,10 @@
     <mpir.skip>true</mpir.skip>
     <java.version>11</java.version>
     <project.scm.id>github</project.scm.id>
+    <frontend.prod>true</frontend.prod>
+    <frontend.url>localhost</frontend.url>
+    <frontend.https>true</frontend.https>
+    <frontend.context>/</frontend.context>
   </properties>
 
   <scm>
@@ -137,6 +141,10 @@
               <workingDirectory>./angularclient</workingDirectory>
               <arguments>
                 <argument>build.js</argument>
+                <argument>--prod=${frontend.prod}</argument>
+                <argument>--url=${frontend.url}</argument>
+                <argument>--https=${frontend.https}</argument>
+                <argument>--context=${frontend.context}</argument>
               </arguments>
             </configuration>
           </execution>

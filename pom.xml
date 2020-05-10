@@ -107,6 +107,41 @@
         <artifactId>maven-release-plugin</artifactId>
         <version>2.5.3</version>
       </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <version>1.6.0</version>
+        <executions>
+          <execution>
+            <id>npm install</id>
+            <phase>package</phase>
+            <goals>
+              <goal>exec</goal>
+            </goals>
+            <configuration>
+              <executable>npm</executable>
+              <workingDirectory>./angularclient</workingDirectory>
+              <arguments>
+                <argument>install</argument>
+              </arguments>
+            </configuration>
+          </execution>
+          <execution>
+            <id>Build fronted</id>
+            <phase>package</phase>
+            <goals>
+              <goal>exec</goal>
+            </goals>
+            <configuration>
+              <executable>node</executable>
+              <workingDirectory>./angularclient</workingDirectory>
+              <arguments>
+                <argument>build.js</argument>
+              </arguments>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
   </build>
 

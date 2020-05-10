@@ -112,9 +112,7 @@ $border-color: var(--border-color);
 }
 
 .cut-text div {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  overflow-wrap: break-word;
 }
 
 .back-to-top {

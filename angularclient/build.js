@@ -50,8 +50,8 @@ console.log(`Using context path: ${argv['context']}`);
 console.log(`Using versionParser: ${ampdVersion}`);
 console.log(`Using prod: ${argv['prod']}`);
 console.log(`Using url: ${argv['url']}`);
-console.log(`Using http: ${http}`);
-console.log(`Using ws: ${ws}`);
+console.log(`Using http: ${argv['https'] === true}`);
+console.log(`Using ws: ${argv['https'] === true}`);
 console.log(`Using gitCommitId: ${gitCommitId}`);
 
 // Copy the environment template

@@ -22,6 +22,7 @@
     <frontend.url>localhost</frontend.url>
     <frontend.https>false</frontend.https>
     <frontend.context>/</frontend.context>
+    <maven.exec.skip>false</maven.exec.skip>
   </properties>
 
   <scm>
@@ -123,6 +124,7 @@
               <goal>exec</goal>
             </goals>
             <configuration>
+              <skip>${maven.exec.skip}</skip>
               <executable>npm</executable>
               <workingDirectory>./angularclient</workingDirectory>
               <arguments>
@@ -137,6 +139,7 @@
               <goal>exec</goal>
             </goals>
             <configuration>
+              <skip>${maven.exec.skip}</skip>
               <executable>node</executable>
               <workingDirectory>./angularclient</workingDirectory>
               <arguments>

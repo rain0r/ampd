@@ -15,3 +15,36 @@
   margin-top: 0;
   padding-top: 0;
 }
+
+/**
+      Breakpoints.XSmall,
+      Breakpoints.Small,
+      Breakpoints.Medium,
+      Breakpoints.Large,
+      Breakpoints.XLarge
+ */
+
+.cover-xsmall {
+  height: 150px;
+  width: 150px;
+}
+
+.cover-small {
+  height: 175px;
+  width: 175px;
+}
+
+.cover-medium {
+  height: 200px;
+  width: 200px;
+}
+
+.cover-large {
+  height: 225px;
+  width: 225px;
+}
+
+.cover-xlarge {
+  height: 250px;
+  width: 250px;
+}

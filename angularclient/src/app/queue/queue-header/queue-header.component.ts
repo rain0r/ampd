@@ -6,6 +6,7 @@ import { InternalCommands } from '../../shared/commands/internal';
 import { CoverModalComponent } from '../../shared/cover-modal/cover-modal.component';
 import { QueueTrack } from '../../shared/models/queue-track';
 import { MessageService } from '../../shared/services/message.service';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 
 @Component({
   selector: 'app-queue-header',
@@ -17,17 +18,44 @@ export class QueueHeaderComponent {
   @Input() public currentState: string = '';
   private hasCover = false;
   private subscription: Subscription = new Subscription();
-
+  public coverSizeClass = 'cover-sm';
   constructor(
     private dialog: MatDialog,
     private http: HttpClient,
-    private messageService: MessageService
+    private messageService: MessageService,
+    breakpointObserver: BreakpointObserver
   ) {
     this.subscription = this.messageService
       .getMessage()
       .subscribe((message) => {
         if (message.text === InternalCommands.UPDATE_COVER) {
           this.checkCoverUrl();
+        }
+      });
+
+    breakpointObserver
+      .observe([
+        Breakpoints.XSmall,
+        Breakpoints.Small,
+        Breakpoints.Medium,
+        Breakpoints.Large,
+        Breakpoints.XLarge,
+      ])
+      .subscribe((result) => {
+        if (result.breakpoints[Breakpoints.XSmall]) {
+          this.coverSizeClass = 'cover-xsmall';
+        }
+        if (result.breakpoints[Breakpoints.Small]) {
+          this.coverSizeClass = 'cover-small';
+        }
+        if (result.breakpoints[Breakpoints.Medium]) {
+          this.coverSizeClass = 'cover-medium';
+        }
+        if (result.breakpoints[Breakpoints.Large]) {
+          this.coverSizeClass = 'cover-large';
+        }
+        if (result.breakpoints[Breakpoints.XLarge]) {
+          this.coverSizeClass = 'cover-xlarge';
         }
       });
   }

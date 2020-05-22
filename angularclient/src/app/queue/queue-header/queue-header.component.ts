@@ -23,7 +23,7 @@ export class QueueHeaderComponent {
     private dialog: MatDialog,
     private http: HttpClient,
     private messageService: MessageService,
-    breakpointObserver: BreakpointObserver
+    private breakpointObserver: BreakpointObserver
   ) {
     this.subscription = this.messageService
       .getMessage()
@@ -32,8 +32,11 @@ export class QueueHeaderComponent {
           this.checkCoverUrl();
         }
       });
+    this.setCoverCssClass();
+  }
 
-    breakpointObserver
+  private setCoverCssClass() {
+    this.breakpointObserver
       .observe([
         Breakpoints.XSmall,
         Breakpoints.Small,

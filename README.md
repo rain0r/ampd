@@ -1,6 +1,6 @@
 # ampd
 
-ampd is a web-based client for MPD. It is build with `Angular` and `Spring Boot`.
+ampd is a web-based client for [MPD](https://www.musicpd.org/). It is build with `Angular` and `Spring Boot`.
 
 
 ## Screenshots

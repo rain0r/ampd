@@ -72,7 +72,7 @@ export class QueueHeaderComponent {
 
   private checkCoverUrl(): void {
     const obs = {
-      error: (err) => (this.hasCover = false),
+      error: () => (this.hasCover = false),
       complete: () => (this.hasCover = true),
     };
 

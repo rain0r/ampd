@@ -5,7 +5,7 @@ import {
 } from "../../shared/messages/incoming/control-panel";
 import { MpdCommands } from "../../shared/mpd/mpd-commands";
 import { WebSocketService } from "../../shared/services/web-socket.service";
-import {MatButtonToggleChange} from "@angular/material/button-toggle";
+import { MatButtonToggleChange } from "@angular/material/button-toggle";
 
 @Component({
   selector: "app-mpd-modes",
@@ -60,7 +60,7 @@ export class MpdModesComponent {
 
   constructor(private webSocketService: WebSocketService) {}
 
-  toggleCtrl(event : MatButtonToggleChange): void {
+  toggleCtrl(event: MatButtonToggleChange): void {
     for (const key in this.controlPanel) {
       if (event.value.includes(key)) {
         this.controlPanel[key] = true;

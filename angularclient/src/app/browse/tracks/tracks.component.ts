@@ -60,7 +60,7 @@ export class TracksComponent extends Filterable {
     this.notificationService.popUp(`Added title: "${track.title}"`);
   }
 
-  coverUrl() :string {
+  coverUrl(): string {
     const cc = ConnectionConfigUtil.get();
     const currentCoverUrl = "find-cover";
     // Add a query param to trigger an image change in the browser

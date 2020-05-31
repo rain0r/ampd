@@ -1,21 +1,19 @@
 import { Subscription } from "rxjs/index";
-import { InternalCommands } from "../shared/commands/internal";
 import { MessageService } from "../shared/services/message.service";
+import { AmpdMessage } from "../shared/messages/internal/ampd-message";
+import { filter } from "rxjs/operators";
+import { BROWSE_FILTER } from "../shared/commands/internal";
 
 export abstract class Filterable {
   filterValue = "";
   private subscription: Subscription = new Subscription();
 
-  constructor(pMessageService: MessageService) {
-    const messageService = pMessageService;
-    this.subscription = messageService.getMessage().subscribe((message) => {
-      if (message.text === InternalCommands.BROWSE_FILTER) {
-        if (message.data && message.data.filterValue) {
-          this.filterValue = message.data.filterValue;
-        } else {
-          this.filterValue = "";
-        }
-      }
-    });
+  protected constructor(messageService: MessageService) {
+    this.subscription = messageService
+      .getMessage()
+      .pipe(filter((msg: AmpdMessage) => msg.type === BROWSE_FILTER))
+      .subscribe((message: AmpdMessage) => {
+        this.filterValue = message.data ? message.data : "";
+      });
   }
 }

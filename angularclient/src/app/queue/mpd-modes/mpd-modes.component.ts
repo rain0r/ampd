@@ -13,26 +13,11 @@ import { WebSocketService } from "../../shared/services/web-socket.service";
 })
 export class MpdModesComponent {
   @Input() controlPanel: IControlPanel = new ControlPanelImpl();
-  @Input() private currentState = "";
-
-  constructor(private webSocketService: WebSocketService) {}
-
-  toggleCtrl(event): void {
-    for (const key in this.controlPanel) {
-      if (event.value.includes(key)) {
-        this.controlPanel[key] = true;
-      } else {
-        this.controlPanel[key] = false;
-      }
-    }
-    this.webSocketService.sendData(MpdCommands.TOGGLE_CONTROL, {
-      controlPanel: this.controlPanel,
-    });
-  }
+  @Input() currentState = "";
 
   @HostListener("document:keydown", ["$event"])
-  handleKeyDown(event: KeyboardEvent) {
-    if (!event || !event.srcElement) {
+  handleKeyDown(event: KeyboardEvent): void {
+    if (!event) {
       return;
     }
 
@@ -70,5 +55,20 @@ export class MpdModesComponent {
       this.webSocketService.send(command);
       event.preventDefault();
     }
+  }
+
+  constructor(private webSocketService: WebSocketService) {}
+
+  toggleCtrl(event): void {
+    for (const key in this.controlPanel) {
+      if (event.value.includes(key)) {
+        this.controlPanel[key] = true;
+      } else {
+        this.controlPanel[key] = false;
+      }
+    }
+    this.webSocketService.sendData(MpdCommands.TOGGLE_CONTROL, {
+      controlPanel: this.controlPanel,
+    });
   }
 }

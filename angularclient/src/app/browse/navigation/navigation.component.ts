@@ -1,6 +1,6 @@
 import { Component, HostListener, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
-import { InternalCommands } from "../../shared/commands/internal";
+import { BROWSE_FILTER } from "../../shared/commands/internal";
 import { MpdCommands } from "../../shared/mpd/mpd-commands";
 import { BrowseService } from "../../shared/services/browse.service";
 import { MessageService } from "../../shared/services/message.service";
@@ -85,9 +85,7 @@ export class NavigationComponent implements OnInit {
   applyFilter(filterValue: string) {
     this.filter = filterValue;
     if (filterValue) {
-      this.messageService.sendMessage(InternalCommands.BROWSE_FILTER, {
-        filterValue,
-      });
+      this.messageService.sendMessage(BROWSE_FILTER, filterValue);
     } else {
       this.resetFilter();
     }
@@ -95,8 +93,6 @@ export class NavigationComponent implements OnInit {
 
   resetFilter() {
     this.filter = "";
-    this.messageService.sendMessage(InternalCommands.BROWSE_FILTER, {
-      filterValue: "",
-    });
+    this.messageService.sendMessage(BROWSE_FILTER, "");
   }
 }

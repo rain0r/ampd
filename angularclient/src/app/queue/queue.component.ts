@@ -1,7 +1,7 @@
 import { Component, HostListener, OnInit } from "@angular/core";
 import { Observable } from "rxjs";
 import { AmpdBlockUiService } from "../shared/block/ampd-block-ui.service";
-import { InternalCommands } from "../shared/commands/internal";
+import { UPDATE_COVER } from "../shared/commands/internal";
 import {
   ControlPanelImpl,
   IControlPanel,
@@ -21,9 +21,15 @@ export class QueueComponent implements OnInit {
   controlPanel: IControlPanel = new ControlPanelImpl();
   currentSong: QueueTrack = new QueueTrack();
   volume = 0;
-  private stateSubs: Observable<IStateMsgPayload>;
   currentState = "";
+  private stateSubs: Observable<IStateMsgPayload>;
 
+  @HostListener("document:visibilitychange", ["$event"])
+  onKeyUp(ev: KeyboardEvent) {
+    if (document.visibilityState === "visible") {
+      this.webSocketService.send(MpdCommands.GET_QUEUE);
+    }
+  }
   constructor(
     private webSocketService: WebSocketService,
     private ampdBlockUiService: AmpdBlockUiService,
@@ -34,13 +40,6 @@ export class QueueComponent implements OnInit {
     this.stateSubs = this.webSocketService.getStateSubscription();
     this.buildStateReceiver();
     this.webSocketService.send(MpdCommands.GET_QUEUE);
-  }
-
-  @HostListener("document:visibilitychange", ["$event"])
-  onKeyUp(ev: KeyboardEvent) {
-    if (document.visibilityState === "visible") {
-      this.webSocketService.send(MpdCommands.GET_QUEUE);
-    }
   }
 
   getFormattedElapsedTime(elapsedTime: number): string {
@@ -54,7 +53,7 @@ export class QueueComponent implements OnInit {
     );
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.webSocketService.send(MpdCommands.GET_QUEUE);
   }
 
@@ -87,7 +86,7 @@ export class QueueComponent implements OnInit {
     this.volume = payload.serverStatus.volume;
 
     if (hasSongChanged) {
-      this.messageService.sendMessage(InternalCommands.UPDATE_COVER);
+      this.messageService.sendMessage(UPDATE_COVER);
     }
 
     if (callBuildQueue) {
@@ -95,7 +94,7 @@ export class QueueComponent implements OnInit {
     }
   }
 
-  private buildStateReceiver() {
+  private buildStateReceiver(): void {
     this.stateSubs.subscribe((message: IStateMsgPayload) => {
       try {
         this.buildState(message);

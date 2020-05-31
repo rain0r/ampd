@@ -2,7 +2,7 @@ import { HttpClient } from "@angular/common/http";
 import { Component, Input } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
 import { Subscription } from "rxjs/index";
-import { InternalCommands } from "../../shared/commands/internal";
+import { UPDATE_COVER } from "../../shared/commands/internal";
 import { CoverModalComponent } from "../../shared/cover-modal/cover-modal.component";
 import { QueueTrack } from "../../shared/models/queue-track";
 import { MessageService } from "../../shared/services/message.service";
@@ -16,9 +16,10 @@ import { BreakpointObserver, Breakpoints } from "@angular/cdk/layout";
 export class QueueHeaderComponent {
   @Input() currentSong: QueueTrack = new QueueTrack();
   @Input() currentState = "";
+  coverSizeClass = "cover-sm";
   private hasCover = false;
   private subscription: Subscription = new Subscription();
-  coverSizeClass = "cover-sm";
+
   constructor(
     private dialog: MatDialog,
     private http: HttpClient,
@@ -28,14 +29,20 @@ export class QueueHeaderComponent {
     this.subscription = this.messageService
       .getMessage()
       .subscribe((message) => {
-        if (message.text === InternalCommands.UPDATE_COVER) {
+        if (message.type === UPDATE_COVER) {
           this.checkCoverUrl();
         }
       });
     this.setCoverCssClass();
   }
 
-  private setCoverCssClass() {
+  openCoverModal(): void {
+    this.dialog.open(CoverModalComponent, {
+      data: { coverUrl: this.currentSong.coverUrl() },
+    });
+  }
+
+  private setCoverCssClass(): void {
     this.breakpointObserver
       .observe([
         Breakpoints.XSmall,
@@ -63,13 +70,7 @@ export class QueueHeaderComponent {
       });
   }
 
-  openCoverModal(): void {
-    this.dialog.open(CoverModalComponent, {
-      data: { coverUrl: this.currentSong.coverUrl() },
-    });
-  }
-
-  private checkCoverUrl() {
+  private checkCoverUrl(): void {
     const obs = {
       error: (err) => (this.hasCover = false),
       complete: () => (this.hasCover = true),

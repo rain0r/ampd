@@ -1,23 +1,14 @@
 import { IDirectory } from "./directory";
 import { IPlaylist } from "./playlist";
+import { MpdTrack } from "./mpd-track";
 
 export interface IBrowseMsgPayload {
   directories: IDirectory[];
-  tracks: any[];
+  tracks: MpdTrack[];
   playlists: IPlaylist[];
 }
 
 export interface IBrowseRoot {
   type: string;
   payload: IBrowseMsgPayload;
-}
-
-export class BrowseRootImpl implements IBrowseRoot {
-  payload: IBrowseMsgPayload;
-  type: string;
-
-  constructor(payload: IBrowseMsgPayload, type: string) {
-    this.payload = payload;
-    this.type = type;
-  }
 }

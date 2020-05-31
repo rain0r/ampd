@@ -22,7 +22,7 @@ import { WebSocketService } from "../../shared/services/web-socket.service";
   styleUrls: ["./track-table.component.scss"],
 })
 export class TrackTableComponent implements OnChanges {
-  @Input() private currentSong: QueueTrack = new QueueTrack();
+  @Input() currentSong: QueueTrack = new QueueTrack();
 
   trackTableData = new MatTableDataSource<QueueTrack>();
 
@@ -84,7 +84,7 @@ export class TrackTableComponent implements OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     const newState: SimpleChange = changes.currentSong;
     if (newState && newState.currentValue) {
-      this.currentSong = newState.currentValue;
+      this.currentSong =<QueueTrack> newState.currentValue;
       for (const track of this.trackTableData.data) {
         track.playing = track.id === this.currentSong.id;
       }
@@ -118,9 +118,7 @@ export class TrackTableComponent implements OnChanges {
       try {
         this.buildQueue(message.payload);
       } catch (error) {
-        console.error(
-          `Error handling message: ${message.type}, error: ${error}`
-        );
+        console.error(error);
       }
     });
   }

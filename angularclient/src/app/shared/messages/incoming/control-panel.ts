@@ -8,12 +8,12 @@ export interface IControlPanel {
 }
 
 export class ControlPanelImpl implements IControlPanel {
-  public random: boolean;
-  public consume: boolean;
-  public single: boolean;
-  public crossfade: boolean;
-  public repeat: boolean;
-  public xfade: number;
+  random: boolean;
+  consume: boolean;
+  single: boolean;
+  crossfade: boolean;
+  repeat: boolean;
+  xfade: number;
 
   constructor() {
     this.random = false;

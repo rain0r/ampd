@@ -1,26 +1,26 @@
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/index';
-import { BrowseRootImpl, IBrowseMsgPayload } from '../messages/incoming/browse';
-import { Directory } from '../messages/incoming/directory';
-import { BrowseInfo } from '../models/browse-info';
-import { MpdCommands } from '../mpd/mpd-commands';
-import { WebSocketService } from './web-socket.service';
+import { Injectable } from "@angular/core";
+import { Observable } from "rxjs/index";
+import { BrowseRootImpl, IBrowseMsgPayload } from "../messages/incoming/browse";
+import { Directory } from "../messages/incoming/directory";
+import { BrowseInfo } from "../models/browse-info";
+import { MpdCommands } from "../mpd/mpd-commands";
+import { WebSocketService } from "./web-socket.service";
 
 @Injectable()
 export class BrowseService {
-  public browseInfo: BrowseInfo = new BrowseInfo();
-  public browseSubs: Observable<BrowseRootImpl>;
+  browseInfo: BrowseInfo = new BrowseInfo();
+  browseSubs: Observable<BrowseRootImpl>;
 
   constructor(private webSocketService: WebSocketService) {
     this.browseSubs = this.webSocketService.getBrowseSubscription();
     this.buildMessageReceiver();
   }
 
-  public sendBrowseReq(pPath: string): void {
-    if (pPath && !pPath.startsWith('/')) {
-      pPath = '/' + pPath;
+  sendBrowseReq(pPath: string): void {
+    if (pPath && !pPath.startsWith("/")) {
+      pPath = "/" + pPath;
     }
-    const path = pPath ? pPath : '/';
+    const path = pPath ? pPath : "/";
     this.webSocketService.sendData(MpdCommands.GET_BROWSE, {
       path,
     });

@@ -1,29 +1,29 @@
-import { Component, HostListener, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
-import { AmpdBlockUiService } from '../shared/block/ampd-block-ui.service';
-import { InternalCommands } from '../shared/commands/internal';
+import { Component, HostListener, OnInit } from "@angular/core";
+import { Observable } from "rxjs";
+import { AmpdBlockUiService } from "../shared/block/ampd-block-ui.service";
+import { InternalCommands } from "../shared/commands/internal";
 import {
   ControlPanelImpl,
   IControlPanel,
-} from '../shared/messages/incoming/control-panel';
-import { ServerStatusRootImpl } from '../shared/messages/incoming/state-messages';
-import { StateMsgPayload } from '../shared/messages/incoming/state-msg-payload';
-import { QueueTrack } from '../shared/models/queue-track';
-import { MpdCommands } from '../shared/mpd/mpd-commands';
-import { MessageService } from '../shared/services/message.service';
-import { WebSocketService } from '../shared/services/web-socket.service';
+} from "../shared/messages/incoming/control-panel";
+import { ServerStatusRootImpl } from "../shared/messages/incoming/state-messages";
+import { StateMsgPayload } from "../shared/messages/incoming/state-msg-payload";
+import { QueueTrack } from "../shared/models/queue-track";
+import { MpdCommands } from "../shared/mpd/mpd-commands";
+import { MessageService } from "../shared/services/message.service";
+import { WebSocketService } from "../shared/services/web-socket.service";
 
 @Component({
-  selector: 'app-queue',
-  templateUrl: './queue.component.html',
-  styleUrls: ['./queue.component.scss'],
+  selector: "app-queue",
+  templateUrl: "./queue.component.html",
+  styleUrls: ["./queue.component.scss"],
 })
 export class QueueComponent implements OnInit {
-  public controlPanel: IControlPanel = new ControlPanelImpl();
-  public currentSong: QueueTrack = new QueueTrack();
-  public volume = 0;
+  controlPanel: IControlPanel = new ControlPanelImpl();
+  currentSong: QueueTrack = new QueueTrack();
+  volume = 0;
   private stateSubs: Observable<ServerStatusRootImpl>;
-  public currentState = '';
+  currentState = "";
 
   constructor(
     private webSocketService: WebSocketService,
@@ -37,25 +37,25 @@ export class QueueComponent implements OnInit {
     this.webSocketService.send(MpdCommands.GET_QUEUE);
   }
 
-  @HostListener('document:visibilitychange', ['$event'])
-  public onKeyUp(ev: KeyboardEvent) {
-    if (document.visibilityState === 'visible') {
+  @HostListener("document:visibilitychange", ["$event"])
+  onKeyUp(ev: KeyboardEvent) {
+    if (document.visibilityState === "visible") {
       this.webSocketService.send(MpdCommands.GET_QUEUE);
     }
   }
 
-  public getFormattedElapsedTime(elapsedTime: number): string {
+  getFormattedElapsedTime(elapsedTime: number): string {
     if (isNaN(this.currentSong.length)) {
-      return '';
+      return "";
     }
     const elapsedMinutes = Math.floor(elapsedTime / 60);
     const elapsedSeconds = elapsedTime - elapsedMinutes * 60;
     return (
-      elapsedMinutes + ':' + (elapsedSeconds < 10 ? '0' : '') + elapsedSeconds
+      elapsedMinutes + ":" + (elapsedSeconds < 10 ? "0" : "") + elapsedSeconds
     );
   }
 
-  public ngOnInit() {
+  ngOnInit() {
     this.webSocketService.send(MpdCommands.GET_QUEUE);
   }
 
@@ -65,7 +65,7 @@ export class QueueComponent implements OnInit {
     let hasSongChanged = false;
 
     /* Call buildQueue once if there is no current track set */
-    if ('id' in this.currentSong === true) {
+    if ("id" in this.currentSong === true) {
       if (
         payload.currentSong &&
         payload.currentSong.id !== this.currentSong.id

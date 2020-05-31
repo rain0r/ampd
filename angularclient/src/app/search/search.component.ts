@@ -4,7 +4,7 @@ import { MatSnackBar } from "@angular/material/snack-bar";
 import { Observable } from "rxjs";
 
 import { IMpdTrack } from "../shared/messages/incoming/mpd-track";
-import { ISearchRoot } from "../shared/messages/incoming/search";
+import {ISearchResult, ISearchRoot} from "../shared/messages/incoming/search";
 import { QueueTrack } from "../shared/models/queue-track";
 import { MpdCommands } from "../shared/mpd/mpd-commands";
 import { WebSocketService } from "../shared/services/web-socket.service";
@@ -89,9 +89,7 @@ export class SearchComponent {
           message.payload.searchResultCount
         );
       } catch (error) {
-        console.error(
-          `Error handling message: ${message.type}, error: ${error}`
-        );
+        console.error(error);
       }
     });
   }
@@ -107,9 +105,9 @@ export class SearchComponent {
     this.searchResultCount = 0;
   }
 
-  private processSearchResults(searchResults, searchResultCount): void {
+  private processSearchResults(searchResults:ISearchResult[], searchResultCount:number): void {
     this.resetSearch();
-    searchResults.forEach((track) => {
+    searchResults.forEach((track:ISearchResult) => {
       this.titleQueue.push(new QueueTrack(track));
     });
     this.searchResultCount = searchResultCount;

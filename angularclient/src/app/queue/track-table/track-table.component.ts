@@ -50,7 +50,7 @@ export class TrackTableComponent implements OnChanges {
     this.buildQueueMsgReceiver();
   }
 
-  applyFilter(filterValue: string) {
+  applyFilter(filterValue: string): void {
     this.trackTableData.filter = filterValue.trim().toLowerCase();
   }
 

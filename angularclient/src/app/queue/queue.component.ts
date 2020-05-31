@@ -24,12 +24,6 @@ export class QueueComponent implements OnInit {
   currentState = "";
   private stateSubs: Observable<IStateMsgPayload>;
 
-  @HostListener("document:visibilitychange", ["$event"])
-  onKeyUp(ev: KeyboardEvent) {
-    if (document.visibilityState === "visible") {
-      this.webSocketService.send(MpdCommands.GET_QUEUE);
-    }
-  }
   constructor(
     private webSocketService: WebSocketService,
     private ampdBlockUiService: AmpdBlockUiService,
@@ -42,15 +36,22 @@ export class QueueComponent implements OnInit {
     this.webSocketService.send(MpdCommands.GET_QUEUE);
   }
 
+  @HostListener("document:visibilitychange", ["$event"])
+  onKeyUp(): void {
+    if (document.visibilityState === "visible") {
+      this.webSocketService.send(MpdCommands.GET_QUEUE);
+    }
+  }
+
   getFormattedElapsedTime(elapsedTime: number): string {
     if (isNaN(this.currentSong.length)) {
       return "";
     }
     const elapsedMinutes = Math.floor(elapsedTime / 60);
     const elapsedSeconds = elapsedTime - elapsedMinutes * 60;
-    return (
-      elapsedMinutes + ":" + (elapsedSeconds < 10 ? "0" : "") + elapsedSeconds
-    );
+    return `${elapsedMinutes}:${
+      elapsedSeconds < 10 ? "0" : ""
+    }${elapsedSeconds}`;
   }
 
   ngOnInit(): void {
@@ -99,7 +100,7 @@ export class QueueComponent implements OnInit {
       try {
         this.buildState(message);
       } catch (error) {
-        console.error(`Error handling message: ${message}, error: ${error}`);
+        console.error(error);
       }
     });
   }

@@ -26,8 +26,8 @@ export interface ISearchRoot {
 }
 
 export class SearchRootImpl implements ISearchRoot {
-  public payload: ISearchMsgPayload;
-  public type: string;
+  payload: ISearchMsgPayload;
+  type: string;
 
   constructor(payload: ISearchMsgPayload, type: string) {
     this.payload = payload;

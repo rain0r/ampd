@@ -1,4 +1,4 @@
-import { environment } from '../../../environments/environment';
+import { environment } from "../../../environments/environment";
 
 /**
  * Manages the connection info. Saves the address of the backendAddr.
@@ -8,28 +8,28 @@ export class ConnectionConfig {
    * The key used in localStorage.
    * @type {string}
    */
-  public static readonly key: string = 'ConnectionConfig';
+  static readonly key: string = "ConnectionConfig";
 
   /**
    * Used to identify the backendAddr in the connection config.
    * @type {string}
    */
-  public static readonly backendAddrKey: string = 'backendAddr';
+  static readonly backendAddrKey: string = "backendAddr";
 
   /**
    * The old key of the backend addr in the connection config.
    * @deprecated
    * @type {string}
    */
-  public static readonly coverServer: string = 'coverServer';
+  static readonly coverServer: string = "coverServer";
 
-  public static get(): ConnectionConfig {
+  static get(): ConnectionConfig {
     let ret: ConnectionConfig;
     try {
-      const data: string = localStorage.getItem(ConnectionConfig.key) || '';
-      ret = JSON.parse(data) || '';
+      const data: string = localStorage.getItem(ConnectionConfig.key) || "";
+      ret = JSON.parse(data) || "";
       if (!ret) {
-        throw new Error('ConnectionConfig is null');
+        throw new Error("ConnectionConfig is null");
       }
       // Check if the old format is still in use
       if (ConnectionConfig.coverServer in ret) {
@@ -44,19 +44,19 @@ export class ConnectionConfig {
     return ret;
   }
 
-  public static getWebSocketAddr(): string {
+  static getWebSocketAddr(): string {
     const conf = ConnectionConfig.get();
-    let ret = '';
+    let ret = "";
 
-    if (conf.backendAddr.includes('https')) {
-      ret = conf.backendAddr.replace('https', 'wss');
+    if (conf.backendAddr.includes("https")) {
+      ret = conf.backendAddr.replace("https", "wss");
     } else {
-      ret = conf.backendAddr.replace('http', 'ws');
+      ret = conf.backendAddr.replace("http", "ws");
     }
-    if (!ret.endsWith('/')) {
-      ret += '/';
+    if (!ret.endsWith("/")) {
+      ret += "/";
     }
-    ret += 'mpd';
+    ret += "mpd";
     return ret;
   }
 

@@ -1,4 +1,4 @@
-import { IStateMsgPayload } from './state-msg-payload';
+import { IStateMsgPayload } from "./state-msg-payload";
 
 export interface IServerStatusRoot {
   payload: IStateMsgPayload;

@@ -1,4 +1,4 @@
-import { ConnectionConfig } from '../../connection-config/connection-config';
+import { ConnectionConfig } from "../../connection-config/connection-config";
 
 export interface IDirectory {
   directory: boolean;
@@ -7,21 +7,21 @@ export interface IDirectory {
 }
 
 export class Directory implements IDirectory {
-  public directory: boolean;
-  public path: string;
+  directory: boolean;
+  path: string;
 
   constructor(directory: boolean, path: string) {
     this.directory = directory;
     this.path = path;
   }
 
-  public displayedPath(): string {
-    return this.path.trim().split('/').pop() || '';
+  displayedPath(): string {
+    return this.path.trim().split("/").pop() || "";
   }
 
-  public coverUrl() {
+  coverUrl() {
     const cc = ConnectionConfig.get();
-    const currentCoverUrl = 'find-cover';
+    const currentCoverUrl = "find-cover";
     // Add a query param to trigger an image change in the browser
     return `${cc.backendAddr}/${currentCoverUrl}?path=${encodeURIComponent(
       this.path

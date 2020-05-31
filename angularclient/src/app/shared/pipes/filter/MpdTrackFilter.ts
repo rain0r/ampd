@@ -1,10 +1,10 @@
-import { Pipe, PipeTransform } from '@angular/core';
-import { MpdTrack } from '../../messages/incoming/mpd-track';
+import { Pipe, PipeTransform } from "@angular/core";
+import { MpdTrack } from "../../messages/incoming/mpd-track";
 
-@Pipe({ name: 'mpdTrackFilter' })
+@Pipe({ name: "mpdTrackFilter" })
 export class MpdTrackFilterPipe implements PipeTransform {
-  public transform(value: MpdTrack[], filterBy: string): MpdTrack[] {
-    filterBy = filterBy ? filterBy.toLocaleLowerCase() : '';
+  transform(value: MpdTrack[], filterBy: string): MpdTrack[] {
+    filterBy = filterBy ? filterBy.toLocaleLowerCase() : "";
     return filterBy
       ? value.filter(
           (track: MpdTrack) =>

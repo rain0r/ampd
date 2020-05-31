@@ -1,5 +1,5 @@
-import { IDirectory } from './directory';
-import { IPlaylist } from './playlist';
+import { IDirectory } from "./directory";
+import { IPlaylist } from "./playlist";
 
 export interface IBrowseMsgPayload {
   directories: IDirectory[];
@@ -13,8 +13,8 @@ export interface IBrowseRoot {
 }
 
 export class BrowseRootImpl implements IBrowseRoot {
-  public payload: IBrowseMsgPayload;
-  public type: string;
+  payload: IBrowseMsgPayload;
+  type: string;
 
   constructor(payload: IBrowseMsgPayload, type: string) {
     this.payload = payload;

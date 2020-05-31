@@ -1,6 +1,6 @@
-import { IControlPanel } from './control-panel';
-import { IMpdTrack } from './mpd-track';
-import { IServerStatus } from './server-status';
+import { IControlPanel } from "./control-panel";
+import { IMpdTrack } from "./mpd-track";
+import { IServerStatus } from "./server-status";
 
 export interface IStateMsgPayload {
   serverStatus: IServerStatus;
@@ -10,9 +10,9 @@ export interface IStateMsgPayload {
 }
 
 export class StateMsgPayload implements IStateMsgPayload {
-  public serverStatus: IServerStatus;
-  public currentSong: IMpdTrack;
-  public controlPanel: IControlPanel;
+  serverStatus: IServerStatus;
+  currentSong: IMpdTrack;
+  controlPanel: IControlPanel;
 
   constructor(
     serverStatus: IServerStatus,

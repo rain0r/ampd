@@ -1,20 +1,20 @@
-import { Component, HostListener, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { InternalCommands } from '../../shared/commands/internal';
-import { MpdCommands } from '../../shared/mpd/mpd-commands';
-import { BrowseService } from '../../shared/services/browse.service';
-import { MessageService } from '../../shared/services/message.service';
-import { NotificationService } from '../../shared/services/notification.service';
-import { WebSocketService } from '../../shared/services/web-socket.service';
+import { Component, HostListener, OnInit } from "@angular/core";
+import { ActivatedRoute, Router } from "@angular/router";
+import { InternalCommands } from "../../shared/commands/internal";
+import { MpdCommands } from "../../shared/mpd/mpd-commands";
+import { BrowseService } from "../../shared/services/browse.service";
+import { MessageService } from "../../shared/services/message.service";
+import { NotificationService } from "../../shared/services/notification.service";
+import { WebSocketService } from "../../shared/services/web-socket.service";
 
 @Component({
-  selector: 'app-navigation',
-  templateUrl: './navigation.component.html',
-  styleUrls: ['./navigation.component.scss'],
+  selector: "app-navigation",
+  templateUrl: "./navigation.component.html",
+  styleUrls: ["./navigation.component.scss"],
 })
 export class NavigationComponent implements OnInit {
-  public getParamDir = '';
-  public filter = '';
+  getParamDir = "";
+  filter = "";
 
   constructor(
     private router: Router,
@@ -25,23 +25,23 @@ export class NavigationComponent implements OnInit {
     private messageService: MessageService
   ) {}
 
-  public ngOnInit(): void {
+  ngOnInit(): void {
     this.activatedRoute.queryParams.subscribe((queryParams) => {
-      const dir = queryParams.dir || '/';
+      const dir = queryParams.dir || "/";
       this.getParamDir = dir;
       this.browseService.sendBrowseReq(dir);
     });
   }
 
-  public onMoveDirUp(): void {
-    const splitted = this.getParamDir.split('/');
+  onMoveDirUp(): void {
+    const splitted = this.getParamDir.split("/");
     splitted.pop();
-    let targetDir = splitted.join('/');
+    let targetDir = splitted.join("/");
     if (targetDir.length === 0) {
-      targetDir = '/';
+      targetDir = "/";
     }
     this.router
-      .navigate(['browse'], { queryParams: { dir: targetDir } })
+      .navigate(["browse"], { queryParams: { dir: targetDir } })
       .then((fulfilled) => {
         if (fulfilled) {
           this.getParamDir = targetDir;
@@ -49,15 +49,15 @@ export class NavigationComponent implements OnInit {
       });
   }
 
-  @HostListener('click', ['$event'])
-  public onAddDir(dir: string): void {
+  @HostListener("click", ["$event"])
+  onAddDir(dir: string): void {
     if (event) {
       event.stopPropagation();
     }
-    if (typeof dir !== 'string') {
+    if (typeof dir !== "string") {
       return;
     }
-    if (dir.startsWith('/')) {
+    if (dir.startsWith("/")) {
       dir = dir.substr(1, dir.length);
     }
     this.webSocketService.sendData(MpdCommands.ADD_DIR, {
@@ -66,9 +66,9 @@ export class NavigationComponent implements OnInit {
     this.notificationService.popUp(`Added dir: "${dir}"`);
   }
 
-  @HostListener('click', ['$event'])
-  public onPlayDir(dir: string): void {
-    if (typeof dir !== 'string') {
+  @HostListener("click", ["$event"])
+  onPlayDir(dir: string): void {
+    if (typeof dir !== "string") {
       return;
     }
     this.onAddDir(dir);
@@ -76,13 +76,13 @@ export class NavigationComponent implements OnInit {
     this.notificationService.popUp(`Playing dir: "${dir}"`);
   }
 
-  public onClearQueue(): void {
+  onClearQueue(): void {
     this.webSocketService.send(MpdCommands.RM_ALL);
     this.webSocketService.send(MpdCommands.GET_QUEUE);
-    this.notificationService.popUp('Cleared queue');
+    this.notificationService.popUp("Cleared queue");
   }
 
-  public applyFilter(filterValue: string) {
+  applyFilter(filterValue: string) {
     this.filter = filterValue;
     if (filterValue) {
       this.messageService.sendMessage(InternalCommands.BROWSE_FILTER, {
@@ -93,10 +93,10 @@ export class NavigationComponent implements OnInit {
     }
   }
 
-  public resetFilter() {
-    this.filter = '';
+  resetFilter() {
+    this.filter = "";
     this.messageService.sendMessage(InternalCommands.BROWSE_FILTER, {
-      filterValue: '',
+      filterValue: "",
     });
   }
 }

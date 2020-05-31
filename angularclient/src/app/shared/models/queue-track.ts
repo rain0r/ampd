@@ -1,27 +1,27 @@
-import { ConnectionConfig } from '../connection-config/connection-config';
-import { IMpdTrack } from '../messages/incoming/mpd-track';
+import { ConnectionConfig } from "../connection-config/connection-config";
+import { IMpdTrack } from "../messages/incoming/mpd-track";
 
 export class QueueTrack implements IMpdTrack {
   /* Override */
-  public albumName: string = '';
-  public artistName: string = '';
-  public comment: string = '';
-  public discNumber: string = '';
-  public file: string = '';
-  public genre: string = '';
-  public id: number = 0;
-  public length: number = 0;
-  public name: string = '';
-  public position: number = 0;
-  public title: string = '';
-  public track: number = 0;
-  public year: string = '';
+  albumName = "";
+  artistName = "";
+  comment = "";
+  discNumber = "";
+  file = "";
+  genre = "";
+  id = 0;
+  length = 0;
+  name = "";
+  position = 0;
+  title = "";
+  track = 0;
+  year = "";
 
   /* QueueTrack */
-  public progress: number = 0; // progress in seconds
-  public elapsedFormatted: string = ''; // elapsed time readable
-  public playing: boolean = false; // if the track is currently played
-  public pos: number = 0; // position in queue
+  progress = 0; // progress in seconds
+  elapsedFormatted = ""; // elapsed time readable
+  playing = false; // if the track is currently played
+  pos = 0; // position in queue
 
   constructor(mpdSong?: IMpdTrack) {
     this.playing = false;
@@ -44,21 +44,21 @@ export class QueueTrack implements IMpdTrack {
     }
   }
 
-  public coverUrl(): string {
+  coverUrl(): string {
     const cc = ConnectionConfig.get();
-    const currentCoverUrl = 'current-cover';
+    const currentCoverUrl = "current-cover";
     // Add a query param to trigger an image change in the browser
     return `${cc.backendAddr}/${currentCoverUrl}?title=${encodeURIComponent(
       this.title
     )}`;
   }
 
-  public durationFormatted(): string {
+  durationFormatted(): string {
     if (isNaN(this.length)) {
-      return '';
+      return "";
     }
     const totalMinutes = Math.floor(this.length / 60);
     const totalSeconds = this.length - totalMinutes * 60;
-    return totalMinutes + ':' + (totalSeconds < 10 ? '0' : '') + totalSeconds;
+    return totalMinutes + ":" + (totalSeconds < 10 ? "0" : "") + totalSeconds;
   }
 }

@@ -1,9 +1,9 @@
-import { Subscription } from 'rxjs/index';
-import { InternalCommands } from '../shared/commands/internal';
-import { MessageService } from '../shared/services/message.service';
+import { Subscription } from "rxjs/index";
+import { InternalCommands } from "../shared/commands/internal";
+import { MessageService } from "../shared/services/message.service";
 
 export abstract class Filterable {
-  public filterValue = '';
+  filterValue = "";
   private subscription: Subscription = new Subscription();
 
   constructor(pMessageService: MessageService) {
@@ -13,7 +13,7 @@ export abstract class Filterable {
         if (message.data && message.data.filterValue) {
           this.filterValue = message.data.filterValue;
         } else {
-          this.filterValue = '';
+          this.filterValue = "";
         }
       }
     });

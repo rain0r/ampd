@@ -1,23 +1,23 @@
-import { Component, HostListener, Input } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { ConnectionConfig } from '../../shared/connection-config/connection-config';
-import { IMpdTrack, MpdTrack } from '../../shared/messages/incoming/mpd-track';
-import { MpdCommands } from '../../shared/mpd/mpd-commands';
-import { MessageService } from '../../shared/services/message.service';
-import { NotificationService } from '../../shared/services/notification.service';
-import { WebSocketService } from '../../shared/services/web-socket.service';
-import { Filterable } from '../filterable';
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { Component, HostListener, Input } from "@angular/core";
+import { ActivatedRoute } from "@angular/router";
+import { ConnectionConfig } from "../../shared/connection-config/connection-config";
+import { IMpdTrack, MpdTrack } from "../../shared/messages/incoming/mpd-track";
+import { MpdCommands } from "../../shared/mpd/mpd-commands";
+import { MessageService } from "../../shared/services/message.service";
+import { NotificationService } from "../../shared/services/notification.service";
+import { WebSocketService } from "../../shared/services/web-socket.service";
+import { Filterable } from "../filterable";
+import { BreakpointObserver, Breakpoints } from "@angular/cdk/layout";
 
 @Component({
-  selector: 'app-tracks',
-  templateUrl: './tracks.component.html',
-  styleUrls: ['./tracks.component.scss'],
+  selector: "app-tracks",
+  templateUrl: "./tracks.component.html",
+  styleUrls: ["./tracks.component.scss"],
 })
 export class TracksComponent extends Filterable {
-  @Input() public titleQueue: MpdTrack[] = [];
-  public getParamDir = '';
-  public coverSizeClass = 'cover-sm';
+  @Input() titleQueue: MpdTrack[] = [];
+  getParamDir = "";
+  coverSizeClass = "cover-sm";
 
   constructor(
     private notificationService: NotificationService,
@@ -29,11 +29,11 @@ export class TracksComponent extends Filterable {
     super(messageService);
     this.setCoverCssClass();
     this.getParamDir =
-      this.activatedRoute.snapshot.queryParamMap.get('dir') || '/';
+      this.activatedRoute.snapshot.queryParamMap.get("dir") || "/";
   }
 
-  @HostListener('click', ['$event'])
-  public onPlayTitle(track: IMpdTrack): void {
+  @HostListener("click", ["$event"])
+  onPlayTitle(track: IMpdTrack): void {
     if (event) {
       event.stopPropagation();
     }
@@ -46,8 +46,8 @@ export class TracksComponent extends Filterable {
     this.notificationService.popUp(`Playing title: "${track.title}"`);
   }
 
-  @HostListener('click', ['$event'])
-  public onAddTitle(track: IMpdTrack): void {
+  @HostListener("click", ["$event"])
+  onAddTitle(track: IMpdTrack): void {
     if (event) {
       event.stopPropagation();
     }
@@ -60,9 +60,9 @@ export class TracksComponent extends Filterable {
     this.notificationService.popUp(`Added title: "${track.title}"`);
   }
 
-  public coverUrl() {
+  coverUrl() {
     const cc = ConnectionConfig.get();
-    const currentCoverUrl = 'find-cover';
+    const currentCoverUrl = "find-cover";
     // Add a query param to trigger an image change in the browser
     return `${cc.backendAddr}/${currentCoverUrl}?path=${encodeURIComponent(
       this.getParamDir
@@ -80,19 +80,19 @@ export class TracksComponent extends Filterable {
       ])
       .subscribe((result) => {
         if (result.breakpoints[Breakpoints.XSmall]) {
-          this.coverSizeClass = 'cover-xsmall';
+          this.coverSizeClass = "cover-xsmall";
         }
         if (result.breakpoints[Breakpoints.Small]) {
-          this.coverSizeClass = 'cover-small';
+          this.coverSizeClass = "cover-small";
         }
         if (result.breakpoints[Breakpoints.Medium]) {
-          this.coverSizeClass = 'cover-medium';
+          this.coverSizeClass = "cover-medium";
         }
         if (result.breakpoints[Breakpoints.Large]) {
-          this.coverSizeClass = 'cover-large';
+          this.coverSizeClass = "cover-large";
         }
         if (result.breakpoints[Breakpoints.XLarge]) {
-          this.coverSizeClass = 'cover-xlarge';
+          this.coverSizeClass = "cover-xlarge";
         }
       });
   }

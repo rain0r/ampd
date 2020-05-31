@@ -4,41 +4,41 @@ import {
   OnChanges,
   SimpleChange,
   SimpleChanges,
-} from '@angular/core';
-import { MatTableDataSource } from '@angular/material/table';
-import { Observable } from 'rxjs/index';
-import { AppComponent } from '../../app.component';
+} from "@angular/core";
+import { MatTableDataSource } from "@angular/material/table";
+import { Observable } from "rxjs/index";
+import { AppComponent } from "../../app.component";
 import {
   IQueuePayload,
   QueueRootImpl,
-} from '../../shared/messages/incoming/queue';
-import { QueueTrack } from '../../shared/models/queue-track';
-import { MpdCommands } from '../../shared/mpd/mpd-commands';
-import { WebSocketService } from '../../shared/services/web-socket.service';
+} from "../../shared/messages/incoming/queue";
+import { QueueTrack } from "../../shared/models/queue-track";
+import { MpdCommands } from "../../shared/mpd/mpd-commands";
+import { WebSocketService } from "../../shared/services/web-socket.service";
 
 @Component({
-  selector: 'app-track-table',
-  templateUrl: './track-table.component.html',
-  styleUrls: ['./track-table.component.scss'],
+  selector: "app-track-table",
+  templateUrl: "./track-table.component.html",
+  styleUrls: ["./track-table.component.scss"],
 })
 export class TrackTableComponent implements OnChanges {
-  public trackTableData = new MatTableDataSource<QueueTrack>();
+  trackTableData = new MatTableDataSource<QueueTrack>();
 
   // The checksum of the current queue
-  public checksum = 0;
+  checksum = 0;
 
-  public queueDuration = 0;
+  queueDuration = 0;
 
   @Input() private currentSong: QueueTrack = new QueueTrack();
   private queueSubs: Observable<QueueRootImpl>;
 
   private displayedColumns = [
-    { name: 'pos', showMobile: false },
-    { name: 'artist', showMobile: true },
-    { name: 'album', showMobile: false },
-    { name: 'title', showMobile: true },
-    { name: 'length', showMobile: false },
-    { name: 'remove', showMobile: true },
+    { name: "pos", showMobile: false },
+    { name: "artist", showMobile: true },
+    { name: "album", showMobile: false },
+    { name: "title", showMobile: true },
+    { name: "length", showMobile: false },
+    { name: "remove", showMobile: true },
   ];
 
   constructor(
@@ -49,22 +49,22 @@ export class TrackTableComponent implements OnChanges {
     this.buildQueueMsgReceiver();
   }
 
-  public applyFilter(filterValue: string) {
+  applyFilter(filterValue: string) {
     this.trackTableData.filter = filterValue.trim().toLowerCase();
   }
 
-  public resetFilter() {
-    this.trackTableData.filter = '';
+  resetFilter() {
+    this.trackTableData.filter = "";
   }
 
-  public getDisplayedColumns(): string[] {
+  getDisplayedColumns(): string[] {
     const isMobile = this.appComponent.isMobile();
     return this.displayedColumns
       .filter((cd) => !isMobile || cd.showMobile)
       .map((cd) => cd.name);
   }
 
-  public onRemoveTrack(position: number): void {
+  onRemoveTrack(position: number): void {
     this.webSocketService.sendData(MpdCommands.RM_TRACK, {
       position,
     });
@@ -76,11 +76,11 @@ export class TrackTableComponent implements OnChanges {
    *
    * @param {string} pFile
    */
-  public onRowClick(pFile: string): void {
+  onRowClick(pFile: string): void {
     this.webSocketService.sendData(MpdCommands.PLAY_TRACK, { path: pFile });
   }
 
-  public ngOnChanges(changes: SimpleChanges) {
+  ngOnChanges(changes: SimpleChanges) {
     const newState: SimpleChange = changes.currentSong;
     if (newState && newState.currentValue) {
       this.currentSong = newState.currentValue;

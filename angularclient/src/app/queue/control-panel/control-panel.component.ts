@@ -19,7 +19,7 @@ import { NotificationService } from "../../shared/services/notification.service"
   styleUrls: ["./control-panel.component.scss"],
 })
 export class ControlPanelComponent implements OnChanges {
-  @Input() currentState:string = "";
+  @Input() currentState = "";
   @Input() controlPanel: IControlPanel = new ControlPanelImpl();
 
   constructor(
@@ -63,7 +63,7 @@ export class ControlPanelComponent implements OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     const newState: SimpleChange = changes.currentState;
     if (newState && newState.currentValue) {
-      this.currentState = <string> newState.currentValue;
+      this.currentState = <string>newState.currentValue;
     }
   }
 }

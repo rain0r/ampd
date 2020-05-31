@@ -16,6 +16,8 @@ export class MpdModesComponent {
   @Input() controlPanel: IControlPanel = new ControlPanelImpl();
   @Input() currentState = "";
 
+  constructor(private webSocketService: WebSocketService) {}
+
   @HostListener("document:keydown", ["$event"])
   handleKeyDown(event: KeyboardEvent): void {
     if (!event) {
@@ -58,11 +60,9 @@ export class MpdModesComponent {
     }
   }
 
-  constructor(private webSocketService: WebSocketService) {}
-
   toggleCtrl(event: MatButtonToggleChange): void {
     for (const key in this.controlPanel) {
-      if (event.value.includes(key)) {
+      if ((event.value as string).includes(key)) {
         this.controlPanel[key] = true;
       } else {
         this.controlPanel[key] = false;

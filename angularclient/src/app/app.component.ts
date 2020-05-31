@@ -1,4 +1,4 @@
-import { Component, ElementRef, HostListener, ViewChild } from "@angular/core";
+import { Component, HostListener } from "@angular/core";
 import { Router } from "@angular/router";
 import { Observable } from "rxjs/index";
 import { ThemingService } from "./shared/services/theming.service";
@@ -12,8 +12,6 @@ export class AppComponent {
   title = "app";
   connectedStatusIcon = "cloud_off";
   innerWidth: number;
-
-  @ViewChild("inputSearch") inputSearch?: ElementRef;
   isDarkTheme: Observable<boolean>;
 
   constructor(private router: Router, private themingService: ThemingService) {
@@ -22,33 +20,21 @@ export class AppComponent {
     this.isDarkTheme = this.themingService.isDarkTheme;
   }
 
-  toggleDarkTheme(checked: boolean) {
+  @HostListener("window:resize", ["$event"])
+  onResize(): void {
+    this.innerWidth = window.innerWidth;
+  }
+
+  toggleDarkTheme(checked: boolean): void {
     this.themingService.setDarkTheme(checked);
   }
 
-  setConnected() {
+  setConnected(): void {
     this.connectedStatusIcon = "cloud";
   }
 
-  setDisconnected() {
+  setDisconnected(): void {
     this.connectedStatusIcon = "cloud_off";
-  }
-
-  @HostListener("document:keydown", ["$event"])
-  handleKeyDown(event: KeyboardEvent) {
-    if (event.which === 13) {
-      if (this.inputSearch) {
-        const query: string = this.inputSearch.nativeElement.value;
-        if (query.trim().length > 0) {
-          this.router.navigate(["search"], { queryParams: { query } });
-        }
-      }
-    }
-  }
-
-  @HostListener("window:resize", ["$event"])
-  onResize(event) {
-    this.innerWidth = window.innerWidth;
   }
 
   isMobile(): boolean {

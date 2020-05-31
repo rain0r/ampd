@@ -1,6 +1,6 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { TrackTableComponent } from './track-table.component';
+import {TrackTableComponent} from './track-table.component';
 
 describe('TrackTableComponent', () => {
   let component: TrackTableComponent;

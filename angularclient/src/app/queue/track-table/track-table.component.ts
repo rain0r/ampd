@@ -10,7 +10,7 @@ import { Observable } from "rxjs/index";
 import { AppComponent } from "../../app.component";
 import {
   IQueuePayload,
-  QueueRootImpl,
+  IQueueRoot,
 } from "../../shared/messages/incoming/queue";
 import { QueueTrack } from "../../shared/models/queue-track";
 import { MpdCommands } from "../../shared/mpd/mpd-commands";
@@ -30,7 +30,7 @@ export class TrackTableComponent implements OnChanges {
   queueDuration = 0;
 
   @Input() private currentSong: QueueTrack = new QueueTrack();
-  private queueSubs: Observable<QueueRootImpl>;
+  private queueSubs: Observable<IQueueRoot>;
 
   private displayedColumns = [
     { name: "pos", showMobile: false },
@@ -113,7 +113,7 @@ export class TrackTableComponent implements OnChanges {
   }
 
   private buildQueueMsgReceiver() {
-    this.queueSubs.subscribe((message: QueueRootImpl) => {
+    this.queueSubs.subscribe((message: IQueueRoot) => {
       try {
         this.buildQueue(message.payload);
       } catch (error) {

@@ -1,4 +1,4 @@
-import { ConnectionConfig } from './connection-config';
+import {ConnectionConfig} from './connection-config';
 
 describe('ConnectionConfig', () => {
   it('should create an instance', () => {

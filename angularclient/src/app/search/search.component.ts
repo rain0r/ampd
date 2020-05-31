@@ -4,7 +4,7 @@ import { MatSnackBar } from "@angular/material/snack-bar";
 import { Observable } from "rxjs";
 
 import { IMpdTrack } from "../shared/messages/incoming/mpd-track";
-import { SearchRootImpl } from "../shared/messages/incoming/search";
+import { ISearchRoot } from "../shared/messages/incoming/search";
 import { QueueTrack } from "../shared/models/queue-track";
 import { MpdCommands } from "../shared/mpd/mpd-commands";
 import { WebSocketService } from "../shared/services/web-socket.service";
@@ -17,7 +17,7 @@ import { AppComponent } from "../app.component";
 })
 export class SearchComponent {
   search = "";
-  searchSubs: Observable<SearchRootImpl>;
+  searchSubs: Observable<ISearchRoot>;
   titleQueue: IMpdTrack[] = [];
   searchResultCount = 0;
   private displayedColumns = [
@@ -74,7 +74,7 @@ export class SearchComponent {
    * Listen for results on the websocket channel
    */
   private getResults(): void {
-    this.searchSubs.subscribe((message: SearchRootImpl) => {
+    this.searchSubs.subscribe((message: ISearchRoot) => {
       try {
         this.processSearchResults(
           message.payload.searchResults,

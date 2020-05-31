@@ -1,6 +1,6 @@
-import { TestBed } from '@angular/core/testing';
+import {TestBed} from '@angular/core/testing';
 
-import { AmpdBlockUiService } from './ampd-block-ui.service';
+import {AmpdBlockUiService} from './ampd-block-ui.service';
 
 describe('AmpdBlockUiService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));

@@ -1,6 +1,6 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { QueueHeaderComponent } from './queue-header.component';
+import {QueueHeaderComponent} from './queue-header.component';
 
 describe('QueueHeaderComponent', () => {
   let component: QueueHeaderComponent;

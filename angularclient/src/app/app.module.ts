@@ -1,40 +1,44 @@
-import {HttpClientModule} from "@angular/common/http";
-import {NgModule} from "@angular/core";
-import {FlexLayoutModule} from "@angular/flex-layout";
-import {BrowserModule} from "@angular/platform-browser";
-import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
-import {InjectableRxStompConfig, RxStompService, rxStompServiceFactory} from "@stomp/ng2-stompjs";
-import {BlockUIModule} from "ng-block-ui";
-import {CoverModalComponent} from "src/app/shared/cover-modal/cover-modal.component";
-import {AppComponent} from "./app.component";
-import {BrowseComponent} from "./browse/browse.component";
-import {DirectoriesComponent} from "./browse/directories/directories.component";
-import {NavigationComponent} from "./browse/navigation/navigation.component";
-import {PlaylistsComponent} from "./browse/playlists/playlists.component";
-import {TracksComponent} from "./browse/tracks/tracks.component";
-import {ControlPanelComponent} from "./queue/control-panel/control-panel.component";
-import {MpdModesComponent} from "./queue/mpd-modes/mpd-modes.component";
-import {QueueHeaderComponent} from "./queue/queue-header/queue-header.component";
-import {QueueComponent} from "./queue/queue.component";
-import {TrackProgressComponent} from "./queue/track-progress/track-progress.component";
-import {TrackTableComponent} from "./queue/track-table/track-table.component";
-import {VolumeSliderComponent} from "./queue/volume-slider/volume-slider.component";
-import {SearchComponent} from "./search/search.component";
-import {SettingsComponent} from "./settings/settings.component";
-import {AmpdBlockUiService} from "./shared/block/ampd-block-ui.service";
-import {ConnectionConfig} from "./shared/connection-config/connection-config";
-import {EncodeURIComponentPipe} from "./shared/pipes/EncodeURI";
-import {DirectoryFilterPipe} from "./shared/pipes/filter/DirectoryFilter";
-import {MpdTrackFilterPipe} from "./shared/pipes/filter/MpdTrackFilter";
-import {PlaylistFilterPipe} from "./shared/pipes/filter/PlaylistFilter";
-import {SecondsToMmSsPipe} from "./shared/pipes/SecondsToMmSs";
-import {AppRoutingModule} from "./shared/routing/app-routing.module";
-import {BrowseService} from "./shared/services/browse.service";
-import {MessageService} from "./shared/services/message.service";
-import {NotificationService} from "./shared/services/notification.service";
-import {WebSocketService} from "./shared/services/web-socket.service";
-import {SharedModule} from "./shared/shared.module";
-import {SecondsToHhMmSsPipe} from "./shared/pipes/SecondsToHhMmSs";
+import { HttpClientModule } from "@angular/common/http";
+import { NgModule } from "@angular/core";
+import { FlexLayoutModule } from "@angular/flex-layout";
+import { BrowserModule } from "@angular/platform-browser";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import {
+  InjectableRxStompConfig,
+  RxStompService,
+  rxStompServiceFactory,
+} from "@stomp/ng2-stompjs";
+import { BlockUIModule } from "ng-block-ui";
+import { CoverModalComponent } from "src/app/shared/cover-modal/cover-modal.component";
+import { AppComponent } from "./app.component";
+import { BrowseComponent } from "./browse/browse.component";
+import { DirectoriesComponent } from "./browse/directories/directories.component";
+import { NavigationComponent } from "./browse/navigation/navigation.component";
+import { PlaylistsComponent } from "./browse/playlists/playlists.component";
+import { TracksComponent } from "./browse/tracks/tracks.component";
+import { ControlPanelComponent } from "./queue/control-panel/control-panel.component";
+import { MpdModesComponent } from "./queue/mpd-modes/mpd-modes.component";
+import { QueueHeaderComponent } from "./queue/queue-header/queue-header.component";
+import { QueueComponent } from "./queue/queue.component";
+import { TrackProgressComponent } from "./queue/track-progress/track-progress.component";
+import { TrackTableComponent } from "./queue/track-table/track-table.component";
+import { VolumeSliderComponent } from "./queue/volume-slider/volume-slider.component";
+import { SearchComponent } from "./search/search.component";
+import { SettingsComponent } from "./settings/settings.component";
+import { AmpdBlockUiService } from "./shared/block/ampd-block-ui.service";
+import { ConnectionConfig } from "./shared/connection-config/connection-config";
+import { EncodeURIComponentPipe } from "./shared/pipes/EncodeURI";
+import { DirectoryFilterPipe } from "./shared/pipes/filter/DirectoryFilter";
+import { MpdTrackFilterPipe } from "./shared/pipes/filter/MpdTrackFilter";
+import { PlaylistFilterPipe } from "./shared/pipes/filter/PlaylistFilter";
+import { SecondsToMmSsPipe } from "./shared/pipes/SecondsToMmSs";
+import { AppRoutingModule } from "./shared/routing/app-routing.module";
+import { BrowseService } from "./shared/services/browse.service";
+import { MessageService } from "./shared/services/message.service";
+import { NotificationService } from "./shared/services/notification.service";
+import { WebSocketService } from "./shared/services/web-socket.service";
+import { SharedModule } from "./shared/shared.module";
+import { SecondsToHhMmSsPipe } from "./shared/pipes/SecondsToHhMmSs";
 
 @NgModule({
   declarations: [
@@ -79,20 +83,20 @@ import {SecondsToHhMmSsPipe} from "./shared/pipes/SecondsToHhMmSs";
     WebSocketService,
     {
       provide: InjectableRxStompConfig,
-      useValue: AppModule.loadStompConfig()
+      useValue: AppModule.loadStompConfig(),
     },
     {
       provide: RxStompService,
       useFactory: rxStompServiceFactory,
-      deps: [InjectableRxStompConfig]
-    }
+      deps: [InjectableRxStompConfig],
+    },
   ],
   entryComponents: [CoverModalComponent],
   bootstrap: [AppComponent],
 })
 export class AppModule {
   static loadStompConfig(): InjectableRxStompConfig {
-     const myRxStompConfig: InjectableRxStompConfig = {
+    const myRxStompConfig: InjectableRxStompConfig = {
       // Which server?
       brokerURL: ConnectionConfig.getWebSocketAddr(),
 
@@ -113,10 +117,10 @@ export class AppModule {
       // Will log diagnostics on console
       // It can be quite verbose, not recommended in production
       // Skip this key to stop logging to console
-      debug: (msg: string): void => {
-        console.log(new Date(), msg);
-      }
+      // debug: (msg: string): void => {
+      //   console.log(new Date(), msg);
+      // }
     };
-return myRxStompConfig;
+    return myRxStompConfig;
   }
 }

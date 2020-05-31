@@ -6,8 +6,7 @@ import {
   ControlPanelImpl,
   IControlPanel,
 } from "../shared/messages/incoming/control-panel";
-import { ServerStatusRootImpl } from "../shared/messages/incoming/state-messages";
-import { StateMsgPayload } from "../shared/messages/incoming/state-msg-payload";
+import { IStateMsgPayload } from "../shared/messages/incoming/state-msg-payload";
 import { QueueTrack } from "../shared/models/queue-track";
 import { MpdCommands } from "../shared/mpd/mpd-commands";
 import { MessageService } from "../shared/services/message.service";
@@ -22,7 +21,7 @@ export class QueueComponent implements OnInit {
   controlPanel: IControlPanel = new ControlPanelImpl();
   currentSong: QueueTrack = new QueueTrack();
   volume = 0;
-  private stateSubs: Observable<ServerStatusRootImpl>;
+  private stateSubs: Observable<IStateMsgPayload>;
   currentState = "";
 
   constructor(
@@ -59,7 +58,7 @@ export class QueueComponent implements OnInit {
     this.webSocketService.send(MpdCommands.GET_QUEUE);
   }
 
-  private buildState(payload: StateMsgPayload): void {
+  private buildState(payload: IStateMsgPayload): void {
     let callBuildQueue = false; // Determines if we need to update the queue
     this.ampdBlockUiService.stop();
     let hasSongChanged = false;
@@ -97,13 +96,11 @@ export class QueueComponent implements OnInit {
   }
 
   private buildStateReceiver() {
-    this.stateSubs.subscribe((message: ServerStatusRootImpl) => {
+    this.stateSubs.subscribe((message: IStateMsgPayload) => {
       try {
-        this.buildState(message.payload);
+        this.buildState(message);
       } catch (error) {
-        console.error(
-          `Error handling message: ${message.type}, error: ${error}`
-        );
+        console.error(`Error handling message: ${message}, error: ${error}`);
       }
     });
   }

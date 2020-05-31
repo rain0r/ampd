@@ -1,4 +1,4 @@
 export interface BaseResponse {
-  type:string;
-  payload:unknown;
+  type: string;
+  payload: unknown;
 }

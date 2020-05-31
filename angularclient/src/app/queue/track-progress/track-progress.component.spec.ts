@@ -1,6 +1,6 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { TrackProgressComponent } from './track-progress.component';
+import {TrackProgressComponent} from './track-progress.component';
 
 describe('TrackProgressComponent', () => {
   let component: TrackProgressComponent;

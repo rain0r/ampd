@@ -14,7 +14,7 @@ export class ThemingService {
     this.setDarkTheme(this.loadState());
   }
 
-  setDarkTheme(isDarkTheme: boolean) {
+  setDarkTheme(isDarkTheme: boolean): void {
     this.darkThemeSubj.next(isDarkTheme);
     this.saveState(isDarkTheme);
 
@@ -29,7 +29,7 @@ export class ThemingService {
     hoverBackgroundColor: string,
     backgroundColor: string,
     borderColor: string
-  ) {
+  ): void {
     document.documentElement.style.setProperty(
       "--hover-background-color",
       hoverBackgroundColor
@@ -44,7 +44,7 @@ export class ThemingService {
   private loadState(): boolean {
     try {
       const saved: string = localStorage.getItem(IS_DARK_MODE_KEY) || "";
-      return JSON.parse(saved);
+      return <boolean>JSON.parse(saved);
     } catch (err) {
       return false;
     }

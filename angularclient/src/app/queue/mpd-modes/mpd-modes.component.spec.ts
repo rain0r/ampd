@@ -1,6 +1,6 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { MpdModesComponent } from './mpd-modes.component';
+import {MpdModesComponent} from './mpd-modes.component';
 
 describe('MpdModesComponent', () => {
   let component: MpdModesComponent;

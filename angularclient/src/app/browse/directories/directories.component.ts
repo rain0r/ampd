@@ -27,8 +27,7 @@ export class DirectoriesComponent extends Filterable {
       this.activatedRoute.snapshot.queryParamMap.get("dir") || "/";
 
     this.activatedRoute.queryParams.subscribe((queryParams) => {
-      const dir = queryParams.dir || "/";
-      this.getParamDir = dir;
+      this.getParamDir = <string> queryParams.dir || "/";
     });
   }
 

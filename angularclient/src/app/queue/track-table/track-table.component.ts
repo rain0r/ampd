@@ -84,7 +84,7 @@ export class TrackTableComponent implements OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     const newState: SimpleChange = changes.currentSong;
     if (newState && newState.currentValue) {
-      this.currentSong =<QueueTrack> newState.currentValue;
+      this.currentSong = <QueueTrack>newState.currentValue;
       for (const track of this.trackTableData.data) {
         track.playing = track.id === this.currentSong.id;
       }

@@ -57,7 +57,7 @@ export class SearchComponent {
     this.popUp(`Added: ${track.title}`);
   }
 
-  applySearch(searchValue: string) {
+  applySearch(searchValue: string): void {
     this.search = searchValue;
     if (searchValue) {
       // Only search when the term is at least 3 chars long
@@ -70,6 +70,14 @@ export class SearchComponent {
       this.resetSearch();
     }
   }
+
+  getDisplayedColumns(): string[] {
+    const isMobile = this.appComponent.isMobile();
+    return this.displayedColumns
+      .filter((cd) => !isMobile || cd.showMobile)
+      .map((cd) => cd.name);
+  }
+
   /**
    * Listen for results on the websocket channel
    */
@@ -99,18 +107,11 @@ export class SearchComponent {
     this.searchResultCount = 0;
   }
 
-  private processSearchResults(searchResults, searchResultCount) {
+  private processSearchResults(searchResults, searchResultCount): void {
     this.resetSearch();
     searchResults.forEach((track) => {
       this.titleQueue.push(new QueueTrack(track));
     });
     this.searchResultCount = searchResultCount;
-  }
-
-  getDisplayedColumns(): string[] {
-    const isMobile = this.appComponent.isMobile();
-    return this.displayedColumns
-      .filter((cd) => !isMobile || cd.showMobile)
-      .map((cd) => cd.name);
   }
 }

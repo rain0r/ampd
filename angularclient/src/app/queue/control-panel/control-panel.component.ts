@@ -20,7 +20,7 @@ import { NotificationService } from "../../shared/services/notification.service"
 })
 export class ControlPanelComponent implements OnChanges {
   @Input() currentState = "";
-  @Input() private controlPanel: IControlPanel = new ControlPanelImpl();
+  @Input() controlPanel: IControlPanel = new ControlPanelImpl();
 
   constructor(
     private webSocketService: WebSocketService,
@@ -60,7 +60,7 @@ export class ControlPanelComponent implements OnChanges {
     this.notificationService.popUp("Cleared queue");
   }
 
-  ngOnChanges(changes: SimpleChanges) {
+  ngOnChanges(changes: SimpleChanges): void {
     const newState: SimpleChange = changes.currentState;
     if (newState && newState.currentValue) {
       this.currentState = newState.currentValue;

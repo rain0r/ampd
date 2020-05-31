@@ -22,6 +22,8 @@ import { WebSocketService } from "../../shared/services/web-socket.service";
   styleUrls: ["./track-table.component.scss"],
 })
 export class TrackTableComponent implements OnChanges {
+  @Input() private currentSong: QueueTrack = new QueueTrack();
+
   trackTableData = new MatTableDataSource<QueueTrack>();
 
   // The checksum of the current queue
@@ -29,7 +31,6 @@ export class TrackTableComponent implements OnChanges {
 
   queueDuration = 0;
 
-  @Input() private currentSong: QueueTrack = new QueueTrack();
   private queueSubs: Observable<IQueueRoot>;
 
   private displayedColumns = [
@@ -53,7 +54,7 @@ export class TrackTableComponent implements OnChanges {
     this.trackTableData.filter = filterValue.trim().toLowerCase();
   }
 
-  resetFilter() {
+  resetFilter(): void {
     this.trackTableData.filter = "";
   }
 
@@ -80,7 +81,7 @@ export class TrackTableComponent implements OnChanges {
     this.webSocketService.sendData(MpdCommands.PLAY_TRACK, { path: pFile });
   }
 
-  ngOnChanges(changes: SimpleChanges) {
+  ngOnChanges(changes: SimpleChanges): void {
     const newState: SimpleChange = changes.currentSong;
     if (newState && newState.currentValue) {
       this.currentSong = newState.currentValue;
@@ -112,7 +113,7 @@ export class TrackTableComponent implements OnChanges {
     this.queueDuration = this.sumTrackDuration();
   }
 
-  private buildQueueMsgReceiver() {
+  private buildQueueMsgReceiver(): void {
     this.queueSubs.subscribe((message: IQueueRoot) => {
       try {
         this.buildQueue(message.payload);

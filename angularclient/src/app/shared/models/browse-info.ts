@@ -11,7 +11,7 @@ export class BrowseInfo {
   playlistQueue: Playlist[] = [];
   trackQueue: MpdTrack[] = [];
 
-  clearAll() {
+  clearAll(): void {
     this.dirQueue = [];
     this.playlistQueue = [];
     this.trackQueue = [];

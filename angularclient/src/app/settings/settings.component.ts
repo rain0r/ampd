@@ -2,6 +2,7 @@ import { Component } from "@angular/core";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { StompService } from "@stomp/ng2-stompjs";
 import { environment } from "../../environments/environment";
+import { ConnectionConfigUtil } from "../shared/connection-config/connection-config-util";
 import { ConnectionConfig } from "../shared/connection-config/connection-config";
 
 @Component({
@@ -11,27 +12,27 @@ import { ConnectionConfig } from "../shared/connection-config/connection-config"
 })
 export class SettingsComponent {
   ccModel: ConnectionConfig;
-  private submitted = false;
   ampdVersion;
   gitCommitId;
+  private submitted = false;
 
   constructor(
     private snackBar: MatSnackBar,
     private stompService: StompService
   ) {
-    this.ccModel = ConnectionConfig.get();
+    this.ccModel = ConnectionConfigUtil.get();
     this.ampdVersion = environment.ampdVersion;
     this.gitCommitId = environment.gitCommitId;
   }
 
-  onSubmit() {
+  onSubmit(): void {
     this.submitted = true;
   }
 
-  saveSettings() {
+  saveSettings(): void {
     this.popUp("Saved settings.");
     const data = JSON.stringify(this.ccModel);
-    localStorage.setItem(ConnectionConfig.key, data);
+    localStorage.setItem(ConnectionConfigUtil.key, data);
     this.stompService.initAndConnect();
   }
 

@@ -26,7 +26,7 @@ import { VolumeSliderComponent } from "./queue/volume-slider/volume-slider.compo
 import { SearchComponent } from "./search/search.component";
 import { SettingsComponent } from "./settings/settings.component";
 import { AmpdBlockUiService } from "./shared/block/ampd-block-ui.service";
-import { ConnectionConfig } from "./shared/connection-config/connection-config";
+import { ConnectionConfigUtil } from "./shared/connection-config/connection-config-util";
 import { EncodeURIComponentPipe } from "./shared/pipes/EncodeURI";
 import { DirectoryFilterPipe } from "./shared/pipes/filter/DirectoryFilter";
 import { MpdTrackFilterPipe } from "./shared/pipes/filter/MpdTrackFilter";
@@ -98,7 +98,7 @@ export class AppModule {
   static loadStompConfig(): InjectableRxStompConfig {
     const myRxStompConfig: InjectableRxStompConfig = {
       // Which server?
-      brokerURL: ConnectionConfig.getWebSocketAddr(),
+      brokerURL: ConnectionConfigUtil.getWebSocketAddr(),
 
       // Headers
       // Typical keys: login, passcode, host

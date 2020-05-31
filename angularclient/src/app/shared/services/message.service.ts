@@ -1,19 +1,16 @@
 import { Injectable } from "@angular/core";
 import { Observable, Subject } from "rxjs";
+import { AmpdMessage } from "../messages/internal/ampd-message";
 
 @Injectable()
 export class MessageService {
-  private subject = new Subject<any>();
+  private subject = new Subject<AmpdMessage>();
 
-  sendMessage(message: string, data = {}) {
-    this.subject.next({ text: message, data });
+  sendMessage(message: string, data = ""): void {
+    this.subject.next(new AmpdMessage(message, data));
   }
 
-  clearMessage() {
-    this.subject.next();
-  }
-
-  getMessage(): Observable<any> {
+  getMessage(): Observable<AmpdMessage> {
     return this.subject.asObservable();
   }
 }

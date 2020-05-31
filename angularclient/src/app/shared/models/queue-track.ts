@@ -1,4 +1,4 @@
-import { ConnectionConfig } from "../connection-config/connection-config";
+import { ConnectionConfigUtil } from "../connection-config/connection-config-util";
 import { IMpdTrack } from "../messages/incoming/mpd-track";
 
 export class QueueTrack implements IMpdTrack {
@@ -45,7 +45,7 @@ export class QueueTrack implements IMpdTrack {
   }
 
   coverUrl(): string {
-    const cc = ConnectionConfig.get();
+    const cc = ConnectionConfigUtil.get();
     const currentCoverUrl = "current-cover";
     // Add a query param to trigger an image change in the browser
     return `${cc.backendAddr}/${currentCoverUrl}?title=${encodeURIComponent(
@@ -59,6 +59,8 @@ export class QueueTrack implements IMpdTrack {
     }
     const totalMinutes = Math.floor(this.length / 60);
     const totalSeconds = this.length - totalMinutes * 60;
-    return totalMinutes + ":" + (totalSeconds < 10 ? "0" : "") + totalSeconds;
+    return `${totalMinutes}  :  ${
+      totalSeconds < 10 ? "0" : ""
+    }  ${totalSeconds}`;
   }
 }

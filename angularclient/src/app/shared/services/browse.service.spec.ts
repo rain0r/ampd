@@ -1,6 +1,6 @@
-import { TestBed } from '@angular/core/testing';
+import {TestBed} from '@angular/core/testing';
 
-import { BrowseService } from './browse.service';
+import {BrowseService} from './browse.service';
 
 describe('BrowseService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));

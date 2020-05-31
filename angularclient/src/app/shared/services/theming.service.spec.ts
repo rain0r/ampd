@@ -1,6 +1,6 @@
-import { TestBed } from '@angular/core/testing';
+import {TestBed} from '@angular/core/testing';
 
-import { ThemingService } from './theming.service';
+import {ThemingService} from './theming.service';
 
 describe('ThemingService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));

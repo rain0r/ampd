@@ -1,8 +1,6 @@
 import { Component, ElementRef, HostListener, ViewChild } from "@angular/core";
 import { Router } from "@angular/router";
-import { StompService, StompState } from "@stomp/ng2-stompjs";
 import { Observable } from "rxjs/index";
-import { filter } from "rxjs/internal/operators";
 import { ThemingService } from "./shared/services/theming.service";
 
 @Component({
@@ -18,11 +16,7 @@ export class AppComponent {
   @ViewChild("inputSearch") inputSearch?: ElementRef;
   isDarkTheme: Observable<boolean>;
 
-  constructor(
-    private router: Router,
-    private stompService: StompService,
-    private themingService: ThemingService
-  ) {
+  constructor(private router: Router, private themingService: ThemingService) {
     this.innerWidth = window.innerWidth;
     this.buildConnectionState();
     this.isDarkTheme = this.themingService.isDarkTheme;
@@ -62,16 +56,17 @@ export class AppComponent {
   }
 
   private buildConnectionState(): void {
-    this.stompService.state
-      .pipe(filter((state: number) => state === StompState.CLOSED))
-      .subscribe(() => {
-        this.setDisconnected();
-      });
-
-    this.stompService.state
-      .pipe(filter((state: number) => state === StompState.CONNECTED))
-      .subscribe(() => {
-        this.setConnected();
-      });
+    // TODO
+    // this.stompService.state
+    //   .pipe(filter((state: number) => state === StompState.CLOSED))
+    //   .subscribe(() => {
+    //     this.setDisconnected();
+    //   });
+    //
+    // this.stompService.state
+    //   .pipe(filter((state: number) => state === StompState.CONNECTED))
+    //   .subscribe(() => {
+    //     this.setConnected();
+    //   });
   }
 }

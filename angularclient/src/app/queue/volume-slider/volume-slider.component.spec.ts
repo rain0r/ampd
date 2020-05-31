@@ -1,6 +1,6 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { VolumeSliderComponent } from './volume-slider.component';
+import {VolumeSliderComponent} from './volume-slider.component';
 
 describe('VolumeSliderComponent', () => {
   let component: VolumeSliderComponent;

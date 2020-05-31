@@ -1,10 +1,15 @@
 import { Injectable } from "@angular/core";
 import { Message } from "@stomp/stompjs";
-import {filter, map} from "rxjs/internal/operators";
+import { filter, map } from "rxjs/internal/operators";
 import { REMOTE_QUEUE } from "../mpd/mpd-commands";
 import { RxStompService } from "@stomp/ng2-stompjs";
 import { BaseResponse } from "../messages/incoming/base-response";
-import {MpdTypes} from "../mpd/mpd-types";
+import { MpdTypes } from "../mpd/mpd-types";
+import { Observable } from "rxjs";
+import { IStateMsgPayload } from "../messages/incoming/state-msg-payload";
+import { IQueueRoot } from "../messages/incoming/queue";
+import { IBrowseRoot } from "../messages/incoming/browse";
+import { ISearchRoot } from "../messages/incoming/search";
 
 @Injectable()
 export class WebSocketService {
@@ -26,49 +31,39 @@ export class WebSocketService {
     this.rxStompService.publish({ destination: REMOTE_QUEUE, body: data });
   }
 
-  getStateSubscription(): void {
-    const foo = this.rxStompService
-      .watch("/topic/state")
-      .pipe(
-        map((message: Message) => message.body),
-        map((body: string) => <BaseResponse>JSON.parse(body)),
-      )
-      .subscribe((foo) => console.log(foo));
+  getStateSubscription(): Observable<IStateMsgPayload> {
+    return this.rxStompService.watch("/topic/state").pipe(
+      map((message: Message) => message.body),
+      map((body: string) => <BaseResponse>JSON.parse(body)),
+      filter((body: BaseResponse) => body.type === MpdTypes.STATE),
+      map((body: BaseResponse) => <IStateMsgPayload>body.payload)
+    );
   }
 
-  // getQueueSubscription(): Observable<QueueRootImpl> {
-  //   return this.rxStompService.subscribe("/topic/queue").pipe(
-  //       map((message: Message) => message.body),
-  //       map((body) => JSON.parse(body)),
-  //       filter((body) => body !== null),
-  //       filter((body) => body.type === MpdTypes.QUEUE),
-  //       map((jsonObj) => {
-  //         return jsonObj as QueueRootImpl;
-  //       })
-  //   );
-  // }
-  //
-  // getBrowseSubscription(): Observable<BrowseRootImpl> {
-  //   return this.rxStompService.subscribe("/topic/controller").pipe(
-  //       map((message: Message) => message.body),
-  //       map((body) => JSON.parse(body)),
-  //       filter((body) => body !== null),
-  //       filter((body) => body.type === MpdTypes.BROWSE),
-  //       map((jsonObj) => {
-  //         return jsonObj as BrowseRootImpl;
-  //       })
-  //   );
-  // }
-  //
-  // getSearchSubscription(): Observable<SearchRootImpl> {
-  //   return this.rxStompService.subscribe("/topic/controller").pipe(
-  //       map((message: Message) => message.body),
-  //       map((body) => JSON.parse(body)),
-  //       filter((body) => body !== null),
-  //       filter((body) => body.type === MpdTypes.SEARCH_RESULTS),
-  //       map((jsonObj) => {
-  //         return jsonObj as SearchRootImpl;
-  //       })
-  //   );
-  // }
+  getQueueSubscription(): Observable<IQueueRoot> {
+    return this.rxStompService.watch("/topic/queue").pipe(
+      map((message: Message) => message.body),
+      map((body: string) => <BaseResponse>JSON.parse(body)),
+      filter((body: BaseResponse) => body.type === MpdTypes.QUEUE),
+      map((body: BaseResponse) => <IQueueRoot>body.payload)
+    );
+  }
+
+  getBrowseSubscription(): Observable<IBrowseRoot> {
+    return this.rxStompService.watch("/topic/controller").pipe(
+      map((message: Message) => message.body),
+      map((body: string) => <BaseResponse>JSON.parse(body)),
+      filter((body: BaseResponse) => body.type === MpdTypes.BROWSE),
+      map((body: BaseResponse) => <IBrowseRoot>body.payload)
+    );
+  }
+
+  getSearchSubscription(): Observable<ISearchRoot> {
+    return this.rxStompService.watch("/topic/controller").pipe(
+      map((message: Message) => message.body),
+      map((body: string) => <ISearchRoot>JSON.parse(body)),
+      filter((body: BaseResponse) => body.type === MpdTypes.SEARCH_RESULTS),
+      map((body: BaseResponse) => <ISearchRoot>body.payload)
+    );
+  }
 }

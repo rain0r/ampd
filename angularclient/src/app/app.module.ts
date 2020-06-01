@@ -131,7 +131,7 @@ export class AppModule {
   static loadStompConfig(): InjectableRxStompConfig {
     const myRxStompConfig: InjectableRxStompConfig = {
       // Which server?
-      brokerURL: ConnConfUtil.getBackendAddr(),
+      brokerURL: ConnConfUtil.getBrokerUrl(),
 
       // Headers
       // Typical keys: login, passcode, host

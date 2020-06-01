@@ -66,4 +66,8 @@ export class WebSocketService {
       map((body: BaseResponse) => <ISearchRoot>body.payload)
     );
   }
+
+  init(): void {
+    this.rxStompService.activate();
+  }
 }

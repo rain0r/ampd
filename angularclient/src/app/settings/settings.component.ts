@@ -1,9 +1,10 @@
-import { Component } from "@angular/core";
-import { MatSnackBar } from "@angular/material/snack-bar";
-import { StompService } from "@stomp/ng2-stompjs";
+import { Component, OnInit } from "@angular/core";
 import { environment } from "../../environments/environment";
 import { ConnConfUtil } from "../shared/conn-conf/conn-conf-util";
 import { ConnConf } from "../shared/conn-conf/conn-conf";
+import { NotificationService } from "../shared/services/notification.service";
+import { WebSocketService } from "../shared/services/web-socket.service";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 
 @Component({
   selector: "app-settings",
@@ -11,34 +12,32 @@ import { ConnConf } from "../shared/conn-conf/conn-conf";
   styleUrls: ["./settings.component.scss"],
 })
 export class SettingsComponent {
-  ccModel: ConnConf;
-  ampdVersion;
-  gitCommitId;
-  private submitted = false;
+  ampdVersion: string;
+  gitCommitId: string;
+  settingsForm: FormGroup;
 
   constructor(
-    private snackBar: MatSnackBar,
-    private stompService: StompService
+    private notificationService: NotificationService,
+    private webSocketService: WebSocketService,
+    private formBuilder: FormBuilder
   ) {
-    this.ccModel = ConnConfUtil.get();
+    const savedAddr = ConnConfUtil.getBackendAddr();
     this.ampdVersion = environment.ampdVersion;
     this.gitCommitId = environment.gitCommitId;
+
+    this.settingsForm = this.formBuilder.group({
+      coverServer: [savedAddr, Validators.required],
+    });
   }
 
   onSubmit(): void {
-    this.submitted = true;
-  }
+    if (this.settingsForm.invalid) {
+      this.notificationService.popUp("Invalid input.");
+      return;
+    }
 
-  saveSettings(): void {
-    this.popUp("Saved settings.");
-    const data = JSON.stringify(this.ccModel);
-    localStorage.setItem(ConnConfUtil.key, data);
-    this.stompService.initAndConnect();
-  }
-
-  private popUp(message: string): void {
-    this.snackBar.open(message, "Close", {
-      duration: 2000,
-    });
+    ConnConfUtil.setBackendAddr(this.settingsForm.controls.coverServer.value);
+    this.webSocketService.init();
+    this.notificationService.popUp("Saved settings.");
   }
 }

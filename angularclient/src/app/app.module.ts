@@ -45,7 +45,7 @@ import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatGridListModule } from "@angular/material/grid-list";
 import { MatSliderModule } from "@angular/material/slider";
 import { MatDividerModule } from "@angular/material/divider";
-import { FormsModule } from "@angular/forms";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { MatButtonModule } from "@angular/material/button";
 import { MatButtonToggleModule } from "@angular/material/button-toggle";
 import { MatTableModule } from "@angular/material/table";
@@ -90,6 +90,7 @@ import { MatListModule } from "@angular/material/list";
     FlexLayoutModule,
     FormsModule,
     HttpClientModule,
+    ReactiveFormsModule,
     // Material
     MatIconModule,
     MatSlideToggleModule,
@@ -130,7 +131,7 @@ export class AppModule {
   static loadStompConfig(): InjectableRxStompConfig {
     const myRxStompConfig: InjectableRxStompConfig = {
       // Which server?
-      brokerURL: ConnConfUtil.getWebSocketAddr(),
+      brokerURL: ConnConfUtil.getBackendAddr(),
 
       // Headers
       // Typical keys: login, passcode, host

@@ -22,7 +22,7 @@ export class ConnConfUtil {
     return ret;
   }
 
-  static getWebSocketAddr(): string {
+  static getBackendAddr(): string {
     const conf = ConnConfUtil.get();
     let ret = "";
 
@@ -36,5 +36,12 @@ export class ConnConfUtil {
     }
     ret = `${ret}mpd`;
     return ret;
+  }
+
+  static setBackendAddr(addr: string): void {
+    const conf = ConnConfUtil.get();
+    conf.backendAddr = addr;
+    const data = JSON.stringify(conf);
+    localStorage.setItem(ConnConfUtil.key, data);
   }
 }

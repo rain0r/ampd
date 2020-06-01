@@ -1,4 +1,4 @@
-import {IMpdTrack} from "./mpd-track";
+import { IMpdTrack } from "./mpd-track";
 
 export interface IQueuePayload {
   tracks: IMpdTrack[];

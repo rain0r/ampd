@@ -1,12 +1,19 @@
-import {Component, Input, OnChanges, OnInit, SimpleChange, SimpleChanges,} from "@angular/core";
-import {MatTableDataSource} from "@angular/material/table";
-import {Observable} from "rxjs/index";
+import {
+  Component,
+  Input,
+  OnChanges,
+  OnInit,
+  SimpleChange,
+  SimpleChanges,
+} from "@angular/core";
+import { MatTableDataSource } from "@angular/material/table";
+import { Observable } from "rxjs/index";
 
-import {QueueTrack} from "../../shared/models/queue-track";
-import {MpdCommands} from "../../shared/mpd/mpd-commands";
-import {WebSocketService} from "../../shared/services/web-socket.service";
-import {DeviceDetectorService} from "ngx-device-detector";
-import {IQueuePayload} from "../../shared/messages/incoming/queue-payload";
+import { QueueTrack } from "../../shared/models/queue-track";
+import { MpdCommands } from "../../shared/mpd/mpd-commands";
+import { WebSocketService } from "../../shared/services/web-socket.service";
+import { DeviceDetectorService } from "ngx-device-detector";
+import { IQueuePayload } from "../../shared/messages/incoming/queue-payload";
 
 @Component({
   selector: "app-track-table",
@@ -16,20 +23,22 @@ import {IQueuePayload} from "../../shared/messages/incoming/queue-payload";
 export class TrackTableComponent implements OnInit, OnChanges {
   @Input() currentSong: QueueTrack = new QueueTrack();
   trackTableData = new MatTableDataSource<QueueTrack>();
-  checksum = 0;// The checksum of the current queue
+  checksum = 0; // The checksum of the current queue
   queueDuration = 0;
   private queueSubs: Observable<IQueuePayload>;
   private displayedColumns = [
-    {name: "pos", showMobile: false},
-    {name: "artist", showMobile: true},
-    {name: "album", showMobile: false},
-    {name: "title", showMobile: true},
-    {name: "length", showMobile: false},
-    {name: "remove", showMobile: true},
+    { name: "pos", showMobile: false },
+    { name: "artist", showMobile: true },
+    { name: "album", showMobile: false },
+    { name: "title", showMobile: true },
+    { name: "length", showMobile: false },
+    { name: "remove", showMobile: true },
   ];
 
-  constructor(private deviceService: DeviceDetectorService,
-              private webSocketService: WebSocketService) {
+  constructor(
+    private deviceService: DeviceDetectorService,
+    private webSocketService: WebSocketService
+  ) {
     this.queueSubs = this.webSocketService.getQueueSubscription();
   }
 
@@ -48,8 +57,8 @@ export class TrackTableComponent implements OnInit, OnChanges {
   getDisplayedColumns(): string[] {
     const isMobile = this.deviceService.isMobile();
     return this.displayedColumns
-    .filter((cd) => !isMobile || cd.showMobile)
-    .map((cd) => cd.name);
+      .filter((cd) => !isMobile || cd.showMobile)
+      .map((cd) => cd.name);
   }
 
   onRemoveTrack(position: number): void {
@@ -65,7 +74,7 @@ export class TrackTableComponent implements OnInit, OnChanges {
    * @param {string} pFile
    */
   onRowClick(pFile: string): void {
-    this.webSocketService.sendData(MpdCommands.PLAY_TRACK, {path: pFile});
+    this.webSocketService.sendData(MpdCommands.PLAY_TRACK, { path: pFile });
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -101,7 +110,9 @@ export class TrackTableComponent implements OnInit, OnChanges {
   }
 
   private buildQueueMsgReceiver(): void {
-    this.queueSubs.subscribe((message: IQueuePayload) => this.buildQueue(message));
+    this.queueSubs.subscribe((message: IQueuePayload) =>
+      this.buildQueue(message)
+    );
   }
 
   /**

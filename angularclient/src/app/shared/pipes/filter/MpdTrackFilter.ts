@@ -1,5 +1,5 @@
-import {Pipe, PipeTransform} from "@angular/core";
-import {MpdTrack} from "../../messages/incoming/mpd-track";
+import { Pipe, PipeTransform } from "@angular/core";
+import { MpdTrack } from "../../messages/incoming/mpd-track";
 
 @Pipe({ name: "mpdTrackFilter" })
 export class MpdTrackFilterPipe implements PipeTransform {

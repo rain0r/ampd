@@ -1,8 +1,11 @@
-import {Component, HostListener, Input} from "@angular/core";
-import {ControlPanelImpl, IControlPanel,} from "../../shared/messages/incoming/control-panel";
-import {MpdCommands} from "../../shared/mpd/mpd-commands";
-import {WebSocketService} from "../../shared/services/web-socket.service";
-import {MatButtonToggleChange} from "@angular/material/button-toggle";
+import { Component, HostListener, Input } from "@angular/core";
+import {
+  ControlPanelImpl,
+  IControlPanel,
+} from "../../shared/messages/incoming/control-panel";
+import { MpdCommands } from "../../shared/mpd/mpd-commands";
+import { WebSocketService } from "../../shared/services/web-socket.service";
+import { MatButtonToggleChange } from "@angular/material/button-toggle";
 
 @Component({
   selector: "app-mpd-modes",

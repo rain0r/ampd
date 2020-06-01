@@ -1,6 +1,6 @@
-import {Component} from "@angular/core";
-import {BrowseInfo} from "../shared/models/browse-info";
-import {BrowseService} from "../shared/services/browse.service";
+import { Component } from "@angular/core";
+import { BrowseInfo } from "../shared/models/browse-info";
+import { BrowseService } from "../shared/services/browse.service";
 
 @Component({
   selector: "app-browse",

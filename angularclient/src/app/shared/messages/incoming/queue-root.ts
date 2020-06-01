@@ -1,4 +1,4 @@
-import {IQueuePayload} from "./queue-payload";
+import { IQueuePayload } from "./queue-payload";
 
 export interface IQueueRoot {
   type: string;

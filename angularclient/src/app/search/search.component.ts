@@ -1,14 +1,14 @@
-import {Component} from "@angular/core";
-import {MatSnackBar} from "@angular/material/snack-bar";
+import { Component } from "@angular/core";
+import { MatSnackBar } from "@angular/material/snack-bar";
 
-import {Observable} from "rxjs";
+import { Observable } from "rxjs";
 
-import {IMpdTrack} from "../shared/messages/incoming/mpd-track";
-import {ISearchResult, ISearchRoot} from "../shared/messages/incoming/search";
-import {QueueTrack} from "../shared/models/queue-track";
-import {MpdCommands} from "../shared/mpd/mpd-commands";
-import {WebSocketService} from "../shared/services/web-socket.service";
-import {DeviceDetectorService} from "ngx-device-detector";
+import { IMpdTrack } from "../shared/messages/incoming/mpd-track";
+import { ISearchResult, ISearchRoot } from "../shared/messages/incoming/search";
+import { QueueTrack } from "../shared/models/queue-track";
+import { MpdCommands } from "../shared/mpd/mpd-commands";
+import { WebSocketService } from "../shared/services/web-socket.service";
+import { DeviceDetectorService } from "ngx-device-detector";
 
 @Component({
   selector: "app-search",
@@ -21,16 +21,18 @@ export class SearchComponent {
   titleQueue: IMpdTrack[] = [];
   searchResultCount = 0;
   private displayedColumns = [
-    {name: "artistName", showMobile: true},
-    {name: "albumName", showMobile: false},
-    {name: "title", showMobile: true},
-    {name: "length", showMobile: false},
-    {name: "action", showMobile: true},
+    { name: "artistName", showMobile: true },
+    { name: "albumName", showMobile: false },
+    { name: "title", showMobile: true },
+    { name: "length", showMobile: false },
+    { name: "action", showMobile: true },
   ];
 
-  constructor(private snackBar: MatSnackBar,
-              private webSocketService: WebSocketService,
-              private deviceService: DeviceDetectorService) {
+  constructor(
+    private snackBar: MatSnackBar,
+    private webSocketService: WebSocketService,
+    private deviceService: DeviceDetectorService
+  ) {
     this.searchSubs = this.webSocketService.getSearchSubscription();
     this.getResults();
   }
@@ -72,8 +74,8 @@ export class SearchComponent {
   getDisplayedColumns(): string[] {
     const isMobile = this.deviceService.isMobile();
     return this.displayedColumns
-    .filter((cd) => !isMobile || cd.showMobile)
-    .map((cd) => cd.name);
+      .filter((cd) => !isMobile || cd.showMobile)
+      .map((cd) => cd.name);
   }
 
   /**
@@ -83,8 +85,8 @@ export class SearchComponent {
     this.searchSubs.subscribe((message: ISearchRoot) => {
       try {
         this.processSearchResults(
-            message.payload.searchResults,
-            message.payload.searchResultCount
+          message.payload.searchResults,
+          message.payload.searchResultCount
         );
       } catch (error) {
         console.error(error);
@@ -103,8 +105,10 @@ export class SearchComponent {
     this.searchResultCount = 0;
   }
 
-  private processSearchResults(searchResults: ISearchResult[],
-                               searchResultCount: number): void {
+  private processSearchResults(
+    searchResults: ISearchResult[],
+    searchResultCount: number
+  ): void {
     this.resetSearch();
     searchResults.forEach((track: ISearchResult) => {
       this.titleQueue.push(new QueueTrack(track));

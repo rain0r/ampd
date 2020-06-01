@@ -1,13 +1,16 @@
-import {Component, HostListener, OnInit} from "@angular/core";
-import {Observable} from "rxjs";
+import { Component, HostListener, OnInit } from "@angular/core";
+import { Observable } from "rxjs";
 
-import {UPDATE_COVER} from "../shared/commands/internal";
-import {ControlPanelImpl, IControlPanel,} from "../shared/messages/incoming/control-panel";
-import {IStateMsgPayload} from "../shared/messages/incoming/state-msg-payload";
-import {QueueTrack} from "../shared/models/queue-track";
-import {MpdCommands} from "../shared/mpd/mpd-commands";
-import {MessageService} from "../shared/services/message.service";
-import {WebSocketService} from "../shared/services/web-socket.service";
+import { UPDATE_COVER } from "../shared/commands/internal";
+import {
+  ControlPanelImpl,
+  IControlPanel,
+} from "../shared/messages/incoming/control-panel";
+import { IStateMsgPayload } from "../shared/messages/incoming/state-msg-payload";
+import { QueueTrack } from "../shared/models/queue-track";
+import { MpdCommands } from "../shared/mpd/mpd-commands";
+import { MessageService } from "../shared/services/message.service";
+import { WebSocketService } from "../shared/services/web-socket.service";
 
 @Component({
   selector: "app-queue",
@@ -21,7 +24,10 @@ export class QueueComponent implements OnInit {
   currentState = "";
   private stateSubs: Observable<IStateMsgPayload>;
 
-  constructor(    private webSocketService: WebSocketService,    private messageService: MessageService  ) {
+  constructor(
+    private webSocketService: WebSocketService,
+    private messageService: MessageService
+  ) {
     this.stateSubs = this.webSocketService.getStateSubscription();
     this.buildStateReceiver();
     this.webSocketService.send(MpdCommands.GET_QUEUE);

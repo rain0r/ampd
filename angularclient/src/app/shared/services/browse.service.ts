@@ -1,10 +1,10 @@
-import {Injectable} from "@angular/core";
-import {Observable} from "rxjs/index";
-import {IBrowseMsgPayload, IBrowseRoot} from "../messages/incoming/browse";
-import {Directory} from "../messages/incoming/directory";
-import {BrowseInfo} from "../models/browse-info";
-import {MpdCommands} from "../mpd/mpd-commands";
-import {WebSocketService} from "./web-socket.service";
+import { Injectable } from "@angular/core";
+import { Observable } from "rxjs/index";
+import { IBrowseMsgPayload, IBrowseRoot } from "../messages/incoming/browse";
+import { Directory } from "../messages/incoming/directory";
+import { BrowseInfo } from "../models/browse-info";
+import { MpdCommands } from "../mpd/mpd-commands";
+import { WebSocketService } from "./web-socket.service";
 
 @Injectable()
 export class BrowseService {

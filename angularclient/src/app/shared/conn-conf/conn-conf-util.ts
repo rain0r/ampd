@@ -1,5 +1,5 @@
-import {environment} from "../../../environments/environment";
-import {ConnConf} from "./conn-conf";
+import { environment } from "../../../environments/environment";
+import { ConnConf } from "./conn-conf";
 
 /**
  * Manages the connection info. Saves the address of the backendAddr.
@@ -16,8 +16,7 @@ export class ConnConfUtil {
     const data: string = localStorage.getItem(ConnConfUtil.key) || "";
     try {
       ret = <ConnConf>JSON.parse(data);
-    }
-    catch (err) {
+    } catch (err) {
       ret = new ConnConf(environment.backendAddr);
     }
     return ret;

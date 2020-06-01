@@ -1,13 +1,13 @@
-import {Component, HostListener, Input} from "@angular/core";
-import {ActivatedRoute} from "@angular/router";
-import {ConnConfUtil} from "../../shared/conn-conf/conn-conf-util";
-import {IMpdTrack, MpdTrack} from "../../shared/messages/incoming/mpd-track";
-import {MpdCommands} from "../../shared/mpd/mpd-commands";
-import {MessageService} from "../../shared/services/message.service";
-import {NotificationService} from "../../shared/services/notification.service";
-import {WebSocketService} from "../../shared/services/web-socket.service";
-import {Filterable} from "../filterable";
-import {BreakpointObserver, Breakpoints} from "@angular/cdk/layout";
+import { Component, HostListener, Input } from "@angular/core";
+import { ActivatedRoute } from "@angular/router";
+import { ConnConfUtil } from "../../shared/conn-conf/conn-conf-util";
+import { IMpdTrack, MpdTrack } from "../../shared/messages/incoming/mpd-track";
+import { MpdCommands } from "../../shared/mpd/mpd-commands";
+import { MessageService } from "../../shared/services/message.service";
+import { NotificationService } from "../../shared/services/notification.service";
+import { WebSocketService } from "../../shared/services/web-socket.service";
+import { Filterable } from "../filterable";
+import { BreakpointObserver, Breakpoints } from "@angular/cdk/layout";
 
 @Component({
   selector: "app-tracks",

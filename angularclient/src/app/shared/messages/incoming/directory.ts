@@ -1,4 +1,4 @@
-import {ConnConfUtil} from "../../conn-conf/conn-conf-util";
+import { ConnConfUtil } from "../../conn-conf/conn-conf-util";
 
 export interface IDirectory {
   directory: boolean;

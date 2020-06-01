@@ -1,5 +1,5 @@
-import {Injectable} from "@angular/core";
-import {BehaviorSubject} from "rxjs/index";
+import { Injectable } from "@angular/core";
+import { BehaviorSubject } from "rxjs/index";
 
 const IS_DARK_MODE_KEY = "isDarkTheme";
 

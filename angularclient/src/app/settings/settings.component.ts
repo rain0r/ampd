@@ -1,9 +1,9 @@
-import {Component} from "@angular/core";
-import {MatSnackBar} from "@angular/material/snack-bar";
-import {StompService} from "@stomp/ng2-stompjs";
-import {environment} from "../../environments/environment";
-import {ConnConfUtil} from "../shared/conn-conf/conn-conf-util";
-import {ConnConf} from "../shared/conn-conf/conn-conf";
+import { Component } from "@angular/core";
+import { MatSnackBar } from "@angular/material/snack-bar";
+import { StompService } from "@stomp/ng2-stompjs";
+import { environment } from "../../environments/environment";
+import { ConnConfUtil } from "../shared/conn-conf/conn-conf-util";
+import { ConnConf } from "../shared/conn-conf/conn-conf";
 
 @Component({
   selector: "app-settings",

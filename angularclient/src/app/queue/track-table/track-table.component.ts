@@ -1,11 +1,12 @@
 import {Component, Input, OnChanges, OnInit, SimpleChange, SimpleChanges,} from "@angular/core";
 import {MatTableDataSource} from "@angular/material/table";
 import {Observable} from "rxjs/index";
-import {IQueuePayload, IQueueRoot,} from "../../shared/messages/incoming/queue";
+
 import {QueueTrack} from "../../shared/models/queue-track";
 import {MpdCommands} from "../../shared/mpd/mpd-commands";
 import {WebSocketService} from "../../shared/services/web-socket.service";
 import {DeviceDetectorService} from "ngx-device-detector";
+import {IQueuePayload} from "../../shared/messages/incoming/queue-payload";
 
 @Component({
   selector: "app-track-table",
@@ -13,18 +14,11 @@ import {DeviceDetectorService} from "ngx-device-detector";
   styleUrls: ["./track-table.component.scss"],
 })
 export class TrackTableComponent implements OnInit, OnChanges {
-
   @Input() currentSong: QueueTrack = new QueueTrack();
-
   trackTableData = new MatTableDataSource<QueueTrack>();
-
-  // The checksum of the current queue
-  checksum = 0;
-
+  checksum = 0;// The checksum of the current queue
   queueDuration = 0;
-
-  private queueSubs: Observable<IQueueRoot>;
-
+  private queueSubs: Observable<IQueuePayload>;
   private displayedColumns = [
     {name: "pos", showMobile: false},
     {name: "artist", showMobile: true},
@@ -107,7 +101,7 @@ export class TrackTableComponent implements OnInit, OnChanges {
   }
 
   private buildQueueMsgReceiver(): void {
-    this.queueSubs.subscribe((message: IQueueRoot) => this.buildQueue);
+    this.queueSubs.subscribe((message: IQueuePayload) => this.buildQueue(message));
   }
 
   /**

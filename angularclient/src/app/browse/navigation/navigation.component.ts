@@ -94,28 +94,4 @@ export class NavigationComponent implements OnInit {
     this.messageService.sendMessage(BROWSE_FILTER, "");
   }
 
-  private buildConnectionState(): void {
-
-    // this.stompService.state
-    // .pipe(filter((state: number) => state === StompState.CLOSED))
-    // .subscribe(() => {
-    //   this.setDisconnected();
-    // });
-    //
-    // this.stompService.state
-    // .pipe(filter((state: number) => state === StompState.CONNECTED))
-    // .subscribe(() => {
-    //   this.setConnected();
-    // });
-  }
-
-  //
-  // setConnected(): void {
-  //   this.connectedStatusIcon = "cloud";
-  // }
-  //
-  // setDisconnected(): void {
-  //   this.connectedStatusIcon = "cloud_off";
-  // }
-
 }

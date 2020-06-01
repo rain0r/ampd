@@ -1,4 +1,4 @@
-import {ConnectionConfigUtil} from "../conn-conf/conn-conf-util";
+import {ConnConfUtil} from "../conn-conf/conn-conf-util";
 import {IMpdTrack} from "../messages/incoming/mpd-track";
 
 export class QueueTrack implements IMpdTrack {
@@ -45,7 +45,7 @@ export class QueueTrack implements IMpdTrack {
   }
 
   coverUrl(): string {
-    const cc = ConnectionConfigUtil.get();
+    const cc = ConnConfUtil.get();
     const currentCoverUrl = "current-cover";
     // Add a query param to trigger an image change in the browser
     return `${cc.backendAddr}/${currentCoverUrl}?title=${encodeURIComponent(

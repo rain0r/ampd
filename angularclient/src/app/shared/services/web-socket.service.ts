@@ -7,9 +7,10 @@ import {BaseResponse} from "../messages/incoming/base-response";
 import {MpdTypes} from "../mpd/mpd-types";
 import {Observable} from "rxjs";
 import {IStateMsgPayload} from "../messages/incoming/state-msg-payload";
-import {IQueueRoot} from "../messages/incoming/queue";
+import {IQueueRoot} from "../messages/incoming/queue-root";
 import {IBrowseRoot} from "../messages/incoming/browse";
 import {ISearchRoot} from "../messages/incoming/search";
+import {IQueuePayload} from "../messages/incoming/queue-payload";
 
 @Injectable()
 export class WebSocketService {
@@ -41,12 +42,12 @@ export class WebSocketService {
     );
   }
 
-  getQueueSubscription(): Observable<IQueueRoot> {
+  getQueueSubscription(): Observable<IQueuePayload> {
     return this.rxStompService.watch("/topic/queue").pipe(
         map((message: Message) => message.body),
         map((body: string) => <BaseResponse>JSON.parse(body)),
         filter((body: BaseResponse) => body.type === MpdTypes.QUEUE),
-        map((body: BaseResponse) => <IQueueRoot>body.payload)
+        map((body: BaseResponse) => <IQueuePayload>body.payload)
     );
   }
 

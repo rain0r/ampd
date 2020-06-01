@@ -4,22 +4,16 @@ import {ConnConf} from "./conn-conf";
 /**
  * Manages the connection info. Saves the address of the backendAddr.
  */
-export class ConnectionConfigUtil {
+export class ConnConfUtil {
   /**
    * The key used in localStorage.
    * @type {string}
    */
   static readonly key: string = "ConnConf";
 
-  /**
-   * Used to identify the backendAddr in the connection config.
-   * @type {string}
-   */
-  static readonly backendAddrKey: string = "backendAddr";
-
   static get(): ConnConf {
     let ret: ConnConf;
-    const data: string = localStorage.getItem(ConnectionConfigUtil.key) || "";
+    const data: string = localStorage.getItem(ConnConfUtil.key) || "";
     try {
       ret = <ConnConf>JSON.parse(data);
     }
@@ -30,7 +24,7 @@ export class ConnectionConfigUtil {
   }
 
   static getWebSocketAddr(): string {
-    const conf = ConnectionConfigUtil.get();
+    const conf = ConnConfUtil.get();
     let ret = "";
 
     if (conf.backendAddr.includes("https")) {
@@ -39,9 +33,9 @@ export class ConnectionConfigUtil {
       ret = conf.backendAddr.replace("http", "ws");
     }
     if (!ret.endsWith("/")) {
-      ret += "/";
+      ret = `${ret}/`;
     }
-    ret += "mpd";
+    ret = `${ret}mpd`;
     return ret;
   }
 }

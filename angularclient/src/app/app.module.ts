@@ -19,7 +19,7 @@ import {TrackTableComponent} from "./queue/track-table/track-table.component";
 import {VolumeSliderComponent} from "./queue/volume-slider/volume-slider.component";
 import {SearchComponent} from "./search/search.component";
 import {SettingsComponent} from "./settings/settings.component";
-import {ConnectionConfigUtil} from "./shared/conn-conf/conn-conf-util";
+import {ConnConfUtil} from "./shared/conn-conf/conn-conf-util";
 import {EncodeURIComponentPipe} from "./shared/pipes/EncodeURI";
 import {DirectoryFilterPipe} from "./shared/pipes/filter/DirectoryFilter";
 import {MpdTrackFilterPipe} from "./shared/pipes/filter/MpdTrackFilter";
@@ -30,45 +30,80 @@ import {BrowseService} from "./shared/services/browse.service";
 import {MessageService} from "./shared/services/message.service";
 import {NotificationService} from "./shared/services/notification.service";
 import {WebSocketService} from "./shared/services/web-socket.service";
-import {SharedModule} from "./shared/shared.module";
 import {SecondsToHhMmSsPipe} from "./shared/pipes/SecondsToHhMmSs";
 import {NavbarComponent} from './navbar/navbar.component';
 import {DeviceDetectorModule} from "ngx-device-detector";
+import {HttpClientModule} from "@angular/common/http";
+import {MatIconModule} from "@angular/material/icon";
+import {MatSlideToggleModule} from "@angular/material/slide-toggle";
+import {MatToolbarModule} from "@angular/material/toolbar";
+import {MatFormFieldModule} from "@angular/material/form-field";
+import {MatGridListModule} from "@angular/material/grid-list";
+import {MatSliderModule} from "@angular/material/slider";
+import {MatDividerModule} from "@angular/material/divider";
+import {FormsModule} from "@angular/forms";
+import {MatButtonModule} from "@angular/material/button";
+import {MatButtonToggleModule} from "@angular/material/button-toggle";
+import {MatTableModule} from "@angular/material/table";
+import {MatCardModule} from "@angular/material/card";
+import {MatSpinner} from "@angular/material/progress-spinner";
+import {MatDialogModule} from "@angular/material/dialog";
+import {MatInputModule} from "@angular/material/input";
 
 @NgModule({
   declarations: [
     AppComponent,
-    QueueComponent,
     BrowseComponent,
-    EncodeURIComponentPipe,
-    SearchComponent,
-    SecondsToMmSsPipe,
-    SecondsToHhMmSsPipe,
-    PlaylistFilterPipe,
-    MpdTrackFilterPipe,
-    DirectoryFilterPipe,
-    SearchComponent,
-    SettingsComponent,
+    ControlPanelComponent,
     CoverModalComponent,
     DirectoriesComponent,
-    PlaylistsComponent,
-    TracksComponent,
-    QueueHeaderComponent,
-    ControlPanelComponent,
-    TrackProgressComponent,
-    VolumeSliderComponent,
+    DirectoryFilterPipe,
+    EncodeURIComponentPipe,
     MpdModesComponent,
-    TrackTableComponent,
-    NavigationComponent,
+    MpdTrackFilterPipe,
     NavbarComponent,
+    NavigationComponent,
+    PlaylistFilterPipe,
+    PlaylistsComponent,
+    QueueComponent,
+    QueueHeaderComponent,
+    SearchComponent,
+    SecondsToHhMmSsPipe,
+    SecondsToMmSsPipe,
+    SettingsComponent,
+    TrackProgressComponent,
+    TrackTableComponent,
+    TracksComponent,
+    VolumeSliderComponent,
   ],
   imports: [
-    BrowserModule,
-    BrowserAnimationsModule,
-    SharedModule,
     AppRoutingModule,
+    BrowserAnimationsModule,
+    BrowserModule,
+    DeviceDetectorModule,
     FlexLayoutModule,
-    DeviceDetectorModule
+    FormsModule,
+    HttpClientModule,
+    // Material
+    MatIconModule,
+    MatSlideToggleModule,
+    MatToolbarModule,
+    MatFormFieldModule,
+    MatGridListModule,
+    MatSliderModule,
+    MatButtonModule,
+    MatButtonToggleModule,
+    MatDividerModule,
+    MatTableModule,
+    MatCardModule,
+    MatDialogModule,
+    MatSpinner,
+    MatInputModule,
+    // MatListModule,
+  // MatSnackBarModule,
+  // MatMenuModule,
+  // MatCheckboxModule,
+
   ],
   providers: [
     BrowseService,
@@ -92,7 +127,7 @@ export class AppModule {
   static loadStompConfig(): InjectableRxStompConfig {
     const myRxStompConfig: InjectableRxStompConfig = {
       // Which server?
-      brokerURL: ConnectionConfigUtil.getWebSocketAddr(),
+      brokerURL: ConnConfUtil.getWebSocketAddr(),
 
       // Headers
       // Typical keys: login, passcode, host
@@ -118,3 +153,5 @@ export class AppModule {
     return myRxStompConfig;
   }
 }
+
+

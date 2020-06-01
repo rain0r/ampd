@@ -1,6 +1,6 @@
 import {Component, HostListener, Input} from "@angular/core";
 import {ActivatedRoute} from "@angular/router";
-import {ConnectionConfigUtil} from "../../shared/conn-conf/conn-conf-util";
+import {ConnConfUtil} from "../../shared/conn-conf/conn-conf-util";
 import {IMpdTrack, MpdTrack} from "../../shared/messages/incoming/mpd-track";
 import {MpdCommands} from "../../shared/mpd/mpd-commands";
 import {MessageService} from "../../shared/services/message.service";
@@ -61,7 +61,7 @@ export class TracksComponent extends Filterable {
   }
 
   coverUrl(): string {
-    const cc = ConnectionConfigUtil.get();
+    const cc = ConnConfUtil.get();
     const currentCoverUrl = "find-cover";
     // Add a query param to trigger an image change in the browser
     return `${cc.backendAddr}/${currentCoverUrl}?path=${encodeURIComponent(

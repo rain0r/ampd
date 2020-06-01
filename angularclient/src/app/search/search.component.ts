@@ -1,14 +1,17 @@
 import { Component } from "@angular/core";
-import { MatSnackBar } from "@angular/material/snack-bar";
 
 import { Observable } from "rxjs";
 
 import { IMpdTrack } from "../shared/messages/incoming/mpd-track";
-import { ISearchResult, ISearchRoot } from "../shared/messages/incoming/search";
+import {
+  ISearchMsgPayload,
+  ISearchResult,
+} from "../shared/messages/incoming/search";
 import { QueueTrack } from "../shared/models/queue-track";
 import { MpdCommands } from "../shared/mpd/mpd-commands";
 import { WebSocketService } from "../shared/services/web-socket.service";
 import { DeviceDetectorService } from "ngx-device-detector";
+import { NotificationService } from "../shared/services/notification.service";
 
 @Component({
   selector: "app-search",
@@ -17,7 +20,7 @@ import { DeviceDetectorService } from "ngx-device-detector";
 })
 export class SearchComponent {
   search = "";
-  searchSubs: Observable<ISearchRoot>;
+  searchSubs: Observable<ISearchMsgPayload>;
   titleQueue: IMpdTrack[] = [];
   searchResultCount = 0;
   private displayedColumns = [
@@ -29,7 +32,7 @@ export class SearchComponent {
   ];
 
   constructor(
-    private snackBar: MatSnackBar,
+    private notificationService: NotificationService,
     private webSocketService: WebSocketService,
     private deviceService: DeviceDetectorService
   ) {
@@ -44,7 +47,7 @@ export class SearchComponent {
     this.webSocketService.sendData(MpdCommands.ADD_PLAY_TRACK, {
       path: track.file,
     });
-    this.popUp(`Playing: ${track.title}`);
+    this.notificationService.popUp(`Playing: ${track.title}`);
   }
 
   onAddTitle(track: IMpdTrack): void {
@@ -54,7 +57,7 @@ export class SearchComponent {
     this.webSocketService.sendData(MpdCommands.ADD_TRACK, {
       path: track.file,
     });
-    this.popUp(`Added: ${track.title}`);
+    this.notificationService.popUp(`Added: ${track.title}`);
   }
 
   applySearch(searchValue: string): void {
@@ -82,22 +85,12 @@ export class SearchComponent {
    * Listen for results on the websocket channel
    */
   private getResults(): void {
-    this.searchSubs.subscribe((message: ISearchRoot) => {
-      try {
-        this.processSearchResults(
-          message.payload.searchResults,
-          message.payload.searchResultCount
-        );
-      } catch (error) {
-        console.error(error);
-      }
-    });
-  }
-
-  private popUp(message: string): void {
-    this.snackBar.open(message, "Close", {
-      duration: 2000,
-    });
+    this.searchSubs.subscribe((message: ISearchMsgPayload) =>
+      this.processSearchResults(
+        message.searchResults,
+        message.searchResultCount
+      )
+    );
   }
 
   private resetSearch(): void {

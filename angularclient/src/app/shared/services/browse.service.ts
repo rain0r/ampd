@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs/index";
-import { IBrowseMsgPayload, IBrowseRoot } from "../messages/incoming/browse";
+import { IBrowseMsgPayload } from "../messages/incoming/browse";
 import { Directory } from "../messages/incoming/directory";
 import { BrowseInfo } from "../models/browse-info";
 import { MpdCommands } from "../mpd/mpd-commands";
@@ -9,11 +9,13 @@ import { WebSocketService } from "./web-socket.service";
 @Injectable()
 export class BrowseService {
   browseInfo: BrowseInfo = new BrowseInfo();
-  browseSubs: Observable<IBrowseRoot>;
+  browseSubs: Observable<IBrowseMsgPayload>;
 
   constructor(private webSocketService: WebSocketService) {
     this.browseSubs = this.webSocketService.getBrowseSubscription();
-    this.buildMessageReceiver();
+    this.browseSubs.subscribe((message: IBrowseMsgPayload) =>
+      this.onBrowseResponse(message)
+    );
   }
 
   sendBrowseReq(pPath: string): void {
@@ -23,16 +25,6 @@ export class BrowseService {
     const path = pPath ? pPath : "/";
     this.webSocketService.sendData(MpdCommands.GET_BROWSE, {
       path,
-    });
-  }
-
-  private buildMessageReceiver(): void {
-    this.browseSubs.subscribe((message: IBrowseRoot) => {
-      try {
-        this.onBrowseResponse(message.payload);
-      } catch (error) {
-        console.error(error);
-      }
     });
   }
 

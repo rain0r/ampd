@@ -11,7 +11,7 @@ import { CoverModalComponent } from "src/app/shared/cover-modal/cover-modal.comp
 import { AppComponent } from "./app.component";
 import { BrowseComponent } from "./browse/browse.component";
 import { DirectoriesComponent } from "./browse/directories/directories.component";
-import { NavigationComponent } from "./browse/navigation/navigation.component";
+import { BrowseNavigationComponent } from "./browse/navigation/navigation.component";
 import { PlaylistsComponent } from "./browse/playlists/playlists.component";
 import { TracksComponent } from "./browse/tracks/tracks.component";
 import { ControlPanelComponent } from "./queue/control-panel/control-panel.component";
@@ -68,7 +68,7 @@ import { MatListModule } from "@angular/material/list";
     MpdModesComponent,
     MpdTrackFilterPipe,
     NavbarComponent,
-    NavigationComponent,
+    BrowseNavigationComponent,
     PlaylistFilterPipe,
     PlaylistsComponent,
     QueueComponent,

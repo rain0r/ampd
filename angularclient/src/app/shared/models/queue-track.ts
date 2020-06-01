@@ -45,10 +45,10 @@ export class QueueTrack implements IMpdTrack {
   }
 
   coverUrl(): string {
-    const cc = ConnConfUtil.get();
+    const backendAddr = ConnConfUtil.getBackendAddr();
     const currentCoverUrl = "current-cover";
     // Add a query param to trigger an image change in the browser
-    return `${cc.backendAddr}/${currentCoverUrl}?title=${encodeURIComponent(
+    return `${backendAddr}/${currentCoverUrl}?title=${encodeURIComponent(
       this.title
     )}`;
   }

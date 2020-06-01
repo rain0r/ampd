@@ -10,6 +10,7 @@ import { IStateMsgPayload } from "../messages/incoming/state-msg-payload";
 import { IBrowseRoot } from "../messages/incoming/browse";
 import { ISearchRoot } from "../messages/incoming/search";
 import { IQueuePayload } from "../messages/incoming/queue-payload";
+import { ConnConfUtil } from "../conn-conf/conn-conf-util";
 
 @Injectable()
 export class WebSocketService {
@@ -68,6 +69,7 @@ export class WebSocketService {
   }
 
   init(): void {
+    this.rxStompService.configure(ConnConfUtil.loadStompConfig());
     this.rxStompService.activate();
   }
 }

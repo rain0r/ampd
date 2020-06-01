@@ -8,6 +8,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Collection;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import org.bff.javampd.album.MPDAlbum;
 import org.bff.javampd.art.MPDArtwork;
@@ -121,7 +122,7 @@ public class CoverArtFetcherService {
    * @param trackFilePath The file path of a track.
    * @return The bytes of the found cover.
    */
-  public byte[] findAlbumCover(Optional<String> trackFilePath) {
+  public byte[] findAlbumCover(Optional<String> trackFilePath) throws Exception {
 
     if (!trackFilePath.isPresent()) {
       return null;
@@ -135,7 +136,7 @@ public class CoverArtFetcherService {
       return loadFile(coverPath);
     }
 
-    return null;
+    throw new NoSuchElementException();
   }
 
 

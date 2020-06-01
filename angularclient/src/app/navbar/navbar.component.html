@@ -36,11 +36,10 @@
         title="Turn the lights off / on"
     >💡
     </mat-slide-toggle>
-
     <container-element [ngSwitch]="connState|async">
-      <some-element *ngSwitchCase="0"><mat-spinner color="warn"></mat-spinner></some-element>
+      <some-element *ngSwitchCase="0"><mat-spinner color="accent" diameter="30"></mat-spinner></some-element>
       <some-element *ngSwitchCase="1"><mat-icon>cloud</mat-icon></some-element>
-      <some-element *ngSwitchCase="2"><mat-spinner color="warn"></mat-spinner></some-element>
+      <some-element *ngSwitchCase="2"><mat-spinner color="accent" diameter="30"></mat-spinner></some-element>
       <some-element *ngSwitchCase="3"><mat-icon>cloud_off</mat-icon></some-element>
       <some-element *ngSwitchDefault><mat-icon>cloud_off</mat-icon></some-element>
     </container-element>

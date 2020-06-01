@@ -1,4 +1,4 @@
-<form (ngSubmit)="onSubmit()" class="settings-form">
+<form [formGroup]="settingsForm" (ngSubmit)="onSubmit()" class="settings-form">
   <div fxLayout="column" fxLayoutGap="1rem" fxFlex.gt-md="40%">
     <div class="mat-display-1"><span class="logo">ampd</span> settings</div>
     <mat-divider></mat-divider>
@@ -7,9 +7,7 @@
         <input
           matInput
           required
-          name="coverServer"
-          [(ngModel)]="ccModel.backendAddr"
-          value="{{ ccModel.backendAddr }}"
+          formControlName="coverServer"
           placeholder="Cover Server"
         />
         <mat-hint align="end"
@@ -23,7 +21,6 @@
         mat-raised-button
         color="primary"
         type="submit"
-        (click)="saveSettings()"
         class="full-width themed-element"
       >
         Save

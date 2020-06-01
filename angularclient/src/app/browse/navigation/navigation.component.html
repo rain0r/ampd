@@ -7,37 +7,55 @@
       class="mat-small"
     >
       <mat-icon>expand_less</mat-icon>
-      <span class="only-on-big-screen">
+      <span fxHide.lt-md>
         Return to top
       </span>
     </button>
   </div>
+
+  <!--Return-->
   <div *ngIf="getParamDir && getParamDir !== '/'" fxLayoutAlign="center center">
     <button class="mat-small" mat-raised-button (click)="onMoveDirUp()">
       <mat-icon>
         navigate_before
       </mat-icon>
-      <span class="only-on-big-screen">
+      <span fxHide.lt-md>
         Return
       </span>
     </button>
   </div>
+
+  <!--Add all-->
   <div *ngIf="getParamDir && getParamDir !== '/'" fxLayoutAlign="center center">
     <button class="mat-small" mat-raised-button (click)="onAddDir(getParamDir)">
       <mat-icon> add</mat-icon>
-      <span class="only-on-big-screen">
+      <span fxHide.lt-md>
         Add all
       </span>
     </button>
   </div>
+
+  <!--Play all-->
+  <div *ngIf="getParamDir && getParamDir !== '/'" fxLayoutAlign="center center">
+    <button class="mat-small" mat-raised-button (click)="onPlayDir(getParamDir)">
+      <mat-icon> play_arrow</mat-icon>
+      <span fxHide.lt-md>
+        Play all
+      </span>
+    </button>
+  </div>
+
+  <!--Clear queue-->
   <div fxLayoutAlign="center center">
     <button class="mat-small" mat-raised-button (click)="onClearQueue()">
       <mat-icon>delete</mat-icon>
-      <span class="only-on-big-screen">
+      <span fxHide.lt-md>
         Clear queue
       </span>
     </button>
   </div>
+
+  <!--Filter-->
   <div fxLayoutAlign="center center" fxFlex="30%" fxFlex.lt-md="100%">
     <mat-form-field class="full-width">
       <input

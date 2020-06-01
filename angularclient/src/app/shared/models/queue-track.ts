@@ -40,7 +40,6 @@ export class QueueTrack implements IMpdTrack {
       this.title = mpdSong.title;
       this.track = mpdSong.track;
       this.year = mpdSong.year;
-      this.file = mpdSong.file;
     }
   }
 

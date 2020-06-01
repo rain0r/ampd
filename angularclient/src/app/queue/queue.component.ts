@@ -29,7 +29,9 @@ export class QueueComponent implements OnInit {
     private messageService: MessageService
   ) {
     this.stateSubs = this.webSocketService.getStateSubscription();
-    this.buildStateReceiver();
+    this.stateSubs.subscribe((message: IStateMsgPayload) =>
+      this.buildState(message)
+    );
     this.webSocketService.send(MpdCommands.GET_QUEUE);
   }
 
@@ -52,7 +54,7 @@ export class QueueComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    //this.webSocketService.send(MpdCommands.GET_QUEUE);
+    this.webSocketService.send(MpdCommands.GET_QUEUE);
   }
 
   private buildState(payload: IStateMsgPayload): void {
@@ -89,15 +91,5 @@ export class QueueComponent implements OnInit {
     if (callBuildQueue) {
       this.webSocketService.send(MpdCommands.GET_QUEUE);
     }
-  }
-
-  private buildStateReceiver(): void {
-    this.stateSubs.subscribe((message: IStateMsgPayload) => {
-      try {
-        this.buildState(message);
-      } catch (error) {
-        console.error(error);
-      }
-    });
   }
 }

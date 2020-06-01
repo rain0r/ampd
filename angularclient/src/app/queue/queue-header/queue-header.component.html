@@ -33,7 +33,7 @@
       *ngIf="currentState != 'stop' && hasCover"
       src="{{ currentSong.coverUrl() }}"
       class="album-art"
-      [ngClass]="[coverSizeClass]"
+      [ngClass]="[coverSizeClass|async]"
       (click)="openCoverModal()"
     />
   </div>

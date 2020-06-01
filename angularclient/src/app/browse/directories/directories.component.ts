@@ -38,9 +38,6 @@ export class DirectoriesComponent extends Filterable {
   }
 
   onAddDir(dir: string): void {
-    if (event) {
-      event.stopPropagation();
-    }
     if (dir.startsWith("/")) {
       dir = dir.substr(1, dir.length);
     }

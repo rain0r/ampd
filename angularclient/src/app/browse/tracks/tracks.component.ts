@@ -7,7 +7,8 @@ import { MessageService } from "../../shared/services/message.service";
 import { NotificationService } from "../../shared/services/notification.service";
 import { WebSocketService } from "../../shared/services/web-socket.service";
 import { Filterable } from "../filterable";
-import { BreakpointObserver, Breakpoints } from "@angular/cdk/layout";
+import { ResponsiveCoverSizeService } from "../../shared/cover-size/responsive-cover-size.service";
+import { Observable } from "rxjs";
 
 @Component({
   selector: "app-tracks",
@@ -17,26 +18,23 @@ import { BreakpointObserver, Breakpoints } from "@angular/cdk/layout";
 export class TracksComponent extends Filterable {
   @Input() titleQueue: MpdTrack[] = [];
   getParamDir = "";
-  coverSizeClass = "cover-sm";
+  coverSizeClass: Observable<string>;
 
   constructor(
     private notificationService: NotificationService,
     private webSocketService: WebSocketService,
     private activatedRoute: ActivatedRoute,
     private messageService: MessageService,
-    private breakpointObserver: BreakpointObserver
+    private responsiveCoverSizeService: ResponsiveCoverSizeService
   ) {
     super(messageService);
-    this.setCoverCssClass();
+    this.coverSizeClass = responsiveCoverSizeService.getCoverCssClass();
     this.getParamDir =
       this.activatedRoute.snapshot.queryParamMap.get("dir") || "/";
   }
 
   @HostListener("click", ["$event"])
   onPlayTitle(track: IMpdTrack): void {
-    if (event) {
-      event.stopPropagation();
-    }
     if (track instanceof MouseEvent) {
       return;
     }
@@ -48,12 +46,6 @@ export class TracksComponent extends Filterable {
 
   @HostListener("click", ["$event"])
   onAddTitle(track: IMpdTrack): void {
-    if (event) {
-      event.stopPropagation();
-    }
-    if (track instanceof MouseEvent) {
-      return;
-    }
     this.webSocketService.sendData(MpdCommands.ADD_TRACK, {
       path: track.file,
     });
@@ -67,33 +59,5 @@ export class TracksComponent extends Filterable {
     return `${cc.backendAddr}/${currentCoverUrl}?path=${encodeURIComponent(
       this.getParamDir
     )}`;
-  }
-
-  private setCoverCssClass() {
-    this.breakpointObserver
-      .observe([
-        Breakpoints.XSmall,
-        Breakpoints.Small,
-        Breakpoints.Medium,
-        Breakpoints.Large,
-        Breakpoints.XLarge,
-      ])
-      .subscribe((result) => {
-        if (result.breakpoints[Breakpoints.XSmall]) {
-          this.coverSizeClass = "cover-xsmall";
-        }
-        if (result.breakpoints[Breakpoints.Small]) {
-          this.coverSizeClass = "cover-small";
-        }
-        if (result.breakpoints[Breakpoints.Medium]) {
-          this.coverSizeClass = "cover-medium";
-        }
-        if (result.breakpoints[Breakpoints.Large]) {
-          this.coverSizeClass = "cover-large";
-        }
-        if (result.breakpoints[Breakpoints.XLarge]) {
-          this.coverSizeClass = "cover-xlarge";
-        }
-      });
   }
 }

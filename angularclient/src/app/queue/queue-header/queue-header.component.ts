@@ -1,12 +1,12 @@
-import { HttpClient } from "@angular/common/http";
-import { Component, Input } from "@angular/core";
-import { MatDialog } from "@angular/material/dialog";
-import { Subscription } from "rxjs/index";
-import { UPDATE_COVER } from "../../shared/commands/internal";
-import { CoverModalComponent } from "../../shared/cover-modal/cover-modal.component";
-import { QueueTrack } from "../../shared/models/queue-track";
-import { MessageService } from "../../shared/services/message.service";
-import { BreakpointObserver, Breakpoints } from "@angular/cdk/layout";
+import {HttpClient} from "@angular/common/http";
+import {Component, Input} from "@angular/core";
+import {MatDialog} from "@angular/material/dialog";
+import {Subscription} from "rxjs/index";
+import {UPDATE_COVER} from "../../shared/commands/internal";
+import {CoverModalComponent} from "../../shared/cover-modal/cover-modal.component";
+import {QueueTrack} from "../../shared/models/queue-track";
+import {MessageService} from "../../shared/services/message.service";
+import {BreakpointObserver, Breakpoints} from "@angular/cdk/layout";
 
 @Component({
   selector: "app-queue-header",

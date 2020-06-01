@@ -1,6 +1,6 @@
-import { IDirectory } from "./directory";
-import { IPlaylist } from "./playlist";
-import { MpdTrack } from "./mpd-track";
+import {IDirectory} from "./directory";
+import {IPlaylist} from "./playlist";
+import {MpdTrack} from "./mpd-track";
 
 export interface IBrowseMsgPayload {
   directories: IDirectory[];

@@ -1,8 +1,8 @@
-import { Component, Input } from "@angular/core";
-import { MatSliderChange } from "@angular/material/slider";
-import { QueueTrack } from "../../shared/models/queue-track";
-import { MpdCommands } from "../../shared/mpd/mpd-commands";
-import { WebSocketService } from "../../shared/services/web-socket.service";
+import {Component, Input} from "@angular/core";
+import {MatSliderChange} from "@angular/material/slider";
+import {QueueTrack} from "../../shared/models/queue-track";
+import {MpdCommands} from "../../shared/mpd/mpd-commands";
+import {WebSocketService} from "../../shared/services/web-socket.service";
 
 @Component({
   selector: "app-track-progress",

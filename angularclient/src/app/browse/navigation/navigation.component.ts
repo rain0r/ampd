@@ -1,11 +1,11 @@
-import { Component, HostListener, OnInit } from "@angular/core";
-import { ActivatedRoute, Router } from "@angular/router";
-import { BROWSE_FILTER } from "../../shared/commands/internal";
-import { MpdCommands } from "../../shared/mpd/mpd-commands";
-import { BrowseService } from "../../shared/services/browse.service";
-import { MessageService } from "../../shared/services/message.service";
-import { NotificationService } from "../../shared/services/notification.service";
-import { WebSocketService } from "../../shared/services/web-socket.service";
+import {Component, HostListener, OnInit} from "@angular/core";
+import {ActivatedRoute, Router} from "@angular/router";
+import {BROWSE_FILTER} from "../../shared/commands/internal";
+import {MpdCommands} from "../../shared/mpd/mpd-commands";
+import {BrowseService} from "../../shared/services/browse.service";
+import {MessageService} from "../../shared/services/message.service";
+import {NotificationService} from "../../shared/services/notification.service";
+import {WebSocketService} from "../../shared/services/web-socket.service";
 
 @Component({
   selector: "app-navigation",
@@ -16,14 +16,14 @@ export class NavigationComponent implements OnInit {
   getParamDir = "";
   filter = "";
 
-  constructor(
-    private router: Router,
-    private notificationService: NotificationService,
-    private browseService: BrowseService,
-    private activatedRoute: ActivatedRoute,
-    private webSocketService: WebSocketService,
-    private messageService: MessageService
-  ) {}
+  constructor(private router: Router,
+              private notificationService: NotificationService,
+              private browseService: BrowseService,
+              private activatedRoute: ActivatedRoute,
+              private webSocketService: WebSocketService,
+              private messageService: MessageService,) {
+
+  }
 
   @HostListener("click", ["$event"])
   onAddDir(dir: string): void {
@@ -65,13 +65,13 @@ export class NavigationComponent implements OnInit {
       targetDir = "/";
     }
     this.router
-      .navigate(["browse"], { queryParams: { dir: targetDir } })
-      .then((fulfilled) => {
-        if (fulfilled) {
-          this.getParamDir = targetDir;
-        }
-      })
-      .catch(() => void 0);
+    .navigate(["browse"], {queryParams: {dir: targetDir}})
+    .then((fulfilled) => {
+      if (fulfilled) {
+        this.getParamDir = targetDir;
+      }
+    })
+    .catch(() => void 0);
   }
 
   onClearQueue(): void {
@@ -93,4 +93,29 @@ export class NavigationComponent implements OnInit {
     this.filter = "";
     this.messageService.sendMessage(BROWSE_FILTER, "");
   }
+
+  private buildConnectionState(): void {
+
+    // this.stompService.state
+    // .pipe(filter((state: number) => state === StompState.CLOSED))
+    // .subscribe(() => {
+    //   this.setDisconnected();
+    // });
+    //
+    // this.stompService.state
+    // .pipe(filter((state: number) => state === StompState.CONNECTED))
+    // .subscribe(() => {
+    //   this.setConnected();
+    // });
+  }
+
+  //
+  // setConnected(): void {
+  //   this.connectedStatusIcon = "cloud";
+  // }
+  //
+  // setDisconnected(): void {
+  //   this.connectedStatusIcon = "cloud_off";
+  // }
+
 }

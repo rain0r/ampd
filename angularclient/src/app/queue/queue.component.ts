@@ -1,16 +1,13 @@
-import { Component, HostListener, OnInit } from "@angular/core";
-import { Observable } from "rxjs";
-import { AmpdBlockUiService } from "../shared/block/ampd-block-ui.service";
-import { UPDATE_COVER } from "../shared/commands/internal";
-import {
-  ControlPanelImpl,
-  IControlPanel,
-} from "../shared/messages/incoming/control-panel";
-import { IStateMsgPayload } from "../shared/messages/incoming/state-msg-payload";
-import { QueueTrack } from "../shared/models/queue-track";
-import { MpdCommands } from "../shared/mpd/mpd-commands";
-import { MessageService } from "../shared/services/message.service";
-import { WebSocketService } from "../shared/services/web-socket.service";
+import {Component, HostListener, OnInit} from "@angular/core";
+import {Observable} from "rxjs";
+
+import {UPDATE_COVER} from "../shared/commands/internal";
+import {ControlPanelImpl, IControlPanel,} from "../shared/messages/incoming/control-panel";
+import {IStateMsgPayload} from "../shared/messages/incoming/state-msg-payload";
+import {QueueTrack} from "../shared/models/queue-track";
+import {MpdCommands} from "../shared/mpd/mpd-commands";
+import {MessageService} from "../shared/services/message.service";
+import {WebSocketService} from "../shared/services/web-socket.service";
 
 @Component({
   selector: "app-queue",
@@ -26,11 +23,9 @@ export class QueueComponent implements OnInit {
 
   constructor(
     private webSocketService: WebSocketService,
-    private ampdBlockUiService: AmpdBlockUiService,
+
     private messageService: MessageService
   ) {
-    this.ampdBlockUiService.start();
-
     this.stateSubs = this.webSocketService.getStateSubscription();
     this.buildStateReceiver();
     this.webSocketService.send(MpdCommands.GET_QUEUE);
@@ -60,7 +55,6 @@ export class QueueComponent implements OnInit {
 
   private buildState(payload: IStateMsgPayload): void {
     let callBuildQueue = false; // Determines if we need to update the queue
-    this.ampdBlockUiService.stop();
     let hasSongChanged = false;
 
     /* Call buildQueue once if there is no current track set */

@@ -1,5 +1,5 @@
-import { environment } from "../../../environments/environment";
-import { ConnectionConfig } from "./connection-config";
+import {environment} from "../../../environments/environment";
+import {ConnConf} from "./conn-conf";
 
 /**
  * Manages the connection info. Saves the address of the backendAddr.
@@ -9,7 +9,7 @@ export class ConnectionConfigUtil {
    * The key used in localStorage.
    * @type {string}
    */
-  static readonly key: string = "ConnectionConfig";
+  static readonly key: string = "ConnConf";
 
   /**
    * Used to identify the backendAddr in the connection config.
@@ -17,12 +17,14 @@ export class ConnectionConfigUtil {
    */
   static readonly backendAddrKey: string = "backendAddr";
 
-  static get(): ConnectionConfig {
-    let ret: ConnectionConfig;
+  static get(): ConnConf {
+    let ret: ConnConf;
     const data: string = localStorage.getItem(ConnectionConfigUtil.key) || "";
-    ret = <ConnectionConfig>JSON.parse(data) || "";
-    if (!ret) {
-      ret = new ConnectionConfig(environment.backendAddr);
+    try {
+      ret = <ConnConf>JSON.parse(data);
+    }
+    catch (err) {
+      ret = new ConnConf(environment.backendAddr);
     }
     return ret;
   }

@@ -1,4 +1,4 @@
-import { ConnectionConfigUtil } from "../../connection-config/connection-config-util";
+import {ConnectionConfigUtil} from "../../conn-conf/conn-conf-util";
 
 export interface IDirectory {
   directory: boolean;

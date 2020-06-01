@@ -5,28 +5,28 @@
   <mat-toolbar class="toolbar" color="primary">
     <button mat-button [routerLink]="['/']">
       <mat-icon>format_list_bulleted</mat-icon>
-      <span class="only-on-big-screen">Queue</span>
+      <span fxHide.lt-md>Queue</span>
     </button>
     <button mat-button [routerLink]="['/browse']">
       <mat-icon>folder_open</mat-icon>
-      <span class="only-on-big-screen">
+      <span fxHide.lt-md>
           Browse
         </span>
     </button>
     <button mat-button [routerLink]="['/search']">
       <mat-icon>search</mat-icon>
-      <span class="only-on-big-screen">
+      <span fxHide.lt-md>
           Search
         </span>
     </button>
     <button mat-button [routerLink]="['/settings']">
       <mat-icon>settings</mat-icon>
-      <span class="only-on-big-screen">
+      <span fxHide.lt-md>
           Settings
         </span>
     </button>
 
-    <span [routerLink]="['/']" class="logo only-on-big-screen">ampd</span>
+    <span [routerLink]="['/']" fxHide.lt-md class="logo">ampd</span>
     <span class="fill-space"></span>
     <!-- There's a lightbulb hidden in here -->
     <mat-slide-toggle

@@ -19,6 +19,7 @@ export class TracksComponent extends Filterable {
   @Input() titleQueue: MpdTrack[] = [];
   getParamDir = "";
   coverSizeClass: Observable<string>;
+  validCoverUrl = false;
 
   constructor(
     private notificationService: NotificationService,
@@ -57,5 +58,13 @@ export class TracksComponent extends Filterable {
     return `${cc.backendAddr}/${currentCoverUrl}?path=${encodeURIComponent(
       this.getParamDir
     )}`;
+  }
+
+  onError(): void {
+    this.validCoverUrl = false;
+  }
+
+  onLoad(): void {
+    this.validCoverUrl = true;
   }
 }

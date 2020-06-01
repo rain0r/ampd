@@ -1,6 +1,6 @@
-import { TestBed } from '@angular/core/testing';
+import {TestBed} from '@angular/core/testing';
 
-import { ResponsiveCoverSizeService } from './responsive-cover-size.service';
+import {ResponsiveCoverSizeService} from './responsive-cover-size.service';
 
 describe('ResponsiveCoverSizeService', () => {
   let service: ResponsiveCoverSizeService;

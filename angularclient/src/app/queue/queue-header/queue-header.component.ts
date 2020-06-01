@@ -1,12 +1,12 @@
 import { HttpClient } from "@angular/common/http";
 import { Component, Input } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
-import { Subscription } from "rxjs/index";
+import { Observable, Subscription } from "rxjs/index";
 import { UPDATE_COVER } from "../../shared/commands/internal";
 import { CoverModalComponent } from "../../shared/cover-modal/cover-modal.component";
 import { QueueTrack } from "../../shared/models/queue-track";
 import { MessageService } from "../../shared/services/message.service";
-import { BreakpointObserver, Breakpoints } from "@angular/cdk/layout";
+import { ResponsiveCoverSizeService } from "../../shared/cover-size/responsive-cover-size.service";
 
 @Component({
   selector: "app-queue-header",
@@ -16,7 +16,7 @@ import { BreakpointObserver, Breakpoints } from "@angular/cdk/layout";
 export class QueueHeaderComponent {
   @Input() currentSong: QueueTrack = new QueueTrack();
   @Input() currentState = "";
-  coverSizeClass = "cover-sm";
+  coverSizeClass: Observable<string>;
   private hasCover = false;
   private subscription: Subscription = new Subscription();
 
@@ -24,8 +24,9 @@ export class QueueHeaderComponent {
     private dialog: MatDialog,
     private http: HttpClient,
     private messageService: MessageService,
-    private breakpointObserver: BreakpointObserver
+    private responsiveCoverSizeService: ResponsiveCoverSizeService
   ) {
+    this.coverSizeClass = responsiveCoverSizeService.getCoverCssClass();
     this.subscription = this.messageService
       .getMessage()
       .subscribe((message) => {
@@ -33,41 +34,12 @@ export class QueueHeaderComponent {
           this.checkCoverUrl();
         }
       });
-    this.setCoverCssClass();
   }
 
   openCoverModal(): void {
     this.dialog.open(CoverModalComponent, {
       data: { coverUrl: this.currentSong.coverUrl() },
     });
-  }
-
-  private setCoverCssClass(): void {
-    this.breakpointObserver
-      .observe([
-        Breakpoints.XSmall,
-        Breakpoints.Small,
-        Breakpoints.Medium,
-        Breakpoints.Large,
-        Breakpoints.XLarge,
-      ])
-      .subscribe((result) => {
-        if (result.breakpoints[Breakpoints.XSmall]) {
-          this.coverSizeClass = "cover-xsmall";
-        }
-        if (result.breakpoints[Breakpoints.Small]) {
-          this.coverSizeClass = "cover-small";
-        }
-        if (result.breakpoints[Breakpoints.Medium]) {
-          this.coverSizeClass = "cover-medium";
-        }
-        if (result.breakpoints[Breakpoints.Large]) {
-          this.coverSizeClass = "cover-large";
-        }
-        if (result.breakpoints[Breakpoints.XLarge]) {
-          this.coverSizeClass = "cover-xlarge";
-        }
-      });
   }
 
   private checkCoverUrl(): void {

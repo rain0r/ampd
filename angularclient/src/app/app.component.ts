@@ -5,17 +5,4 @@ import { Component } from "@angular/core";
   templateUrl: "./app.component.html",
   styleUrls: ["./app.component.scss"],
 })
-export class AppComponent {
-  constructor() {
-    // this.innerWidth = window.innerWidth;
-  }
-
-  // @HostListener("window:resize", ["$event"])
-  // onResize(): void {
-  //   this.innerWidth = window.innerWidth;
-  // }
-  //
-  // isMobile(): boolean {
-  //   return this.innerWidth <= 600;
-  // }
-}
+export class AppComponent {}

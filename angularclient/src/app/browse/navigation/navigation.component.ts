@@ -27,9 +27,6 @@ export class NavigationComponent implements OnInit {
 
   @HostListener("click", ["$event"])
   onAddDir(dir: string): void {
-    if (event) {
-      event.stopPropagation();
-    }
     if (typeof dir !== "string") {
       return;
     }

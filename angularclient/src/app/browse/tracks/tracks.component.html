@@ -5,7 +5,7 @@
     </span>
   </div>
   <div fxFlex="1 1 auto" fxLayoutAlign="end end">
-    <img src="{{ coverUrl() }}" [ngClass]="[coverSizeClass]" class="cover" />
+    <img src="{{ coverUrl() }}" [ngClass]="[coverSizeClass|async]" class="cover" />
   </div>
 </div>
 

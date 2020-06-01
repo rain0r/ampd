@@ -46,112 +46,112 @@ import {MatButtonModule} from "@angular/material/button";
 import {MatButtonToggleModule} from "@angular/material/button-toggle";
 import {MatTableModule} from "@angular/material/table";
 import {MatCardModule} from "@angular/material/card";
-import {MatSpinner} from "@angular/material/progress-spinner";
+import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {MatDialogModule} from "@angular/material/dialog";
 import {MatInputModule} from "@angular/material/input";
+import {MatSnackBarModule} from "@angular/material/snack-bar";
+import {MatListModule} from "@angular/material/list";
+import {MatRadioModule} from "@angular/material/radio";
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    BrowseComponent,
-    ControlPanelComponent,
-    CoverModalComponent,
-    DirectoriesComponent,
-    DirectoryFilterPipe,
-    EncodeURIComponentPipe,
-    MpdModesComponent,
-    MpdTrackFilterPipe,
-    NavbarComponent,
-    NavigationComponent,
-    PlaylistFilterPipe,
-    PlaylistsComponent,
-    QueueComponent,
-    QueueHeaderComponent,
-    SearchComponent,
-    SecondsToHhMmSsPipe,
-    SecondsToMmSsPipe,
-    SettingsComponent,
-    TrackProgressComponent,
-    TrackTableComponent,
-    TracksComponent,
-    VolumeSliderComponent,
-  ],
-  imports: [
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    BrowserModule,
-    DeviceDetectorModule,
-    FlexLayoutModule,
-    FormsModule,
-    HttpClientModule,
-    // Material
-    MatIconModule,
-    MatSlideToggleModule,
-    MatToolbarModule,
-    MatFormFieldModule,
-    MatGridListModule,
-    MatSliderModule,
-    MatButtonModule,
-    MatButtonToggleModule,
-    MatDividerModule,
-    MatTableModule,
-    MatCardModule,
-    MatDialogModule,
-    MatSpinner,
-    MatInputModule,
-    // MatListModule,
-  // MatSnackBarModule,
-  // MatMenuModule,
-  // MatCheckboxModule,
-
-  ],
-  providers: [
-    BrowseService,
-    MessageService,
-    NotificationService,
-    WebSocketService,
-    {
-      provide: InjectableRxStompConfig,
-      useValue: AppModule.loadStompConfig(),
-    },
-    {
-      provide: RxStompService,
-      useFactory: rxStompServiceFactory,
-      deps: [InjectableRxStompConfig],
-    },
-  ],
-  entryComponents: [CoverModalComponent],
-  bootstrap: [AppComponent],
+    declarations: [
+        AppComponent,
+        BrowseComponent,
+        ControlPanelComponent,
+        CoverModalComponent,
+        DirectoriesComponent,
+        DirectoryFilterPipe,
+        EncodeURIComponentPipe,
+        MpdModesComponent,
+        MpdTrackFilterPipe,
+        NavbarComponent,
+        NavigationComponent,
+        PlaylistFilterPipe,
+        PlaylistsComponent,
+        QueueComponent,
+        QueueHeaderComponent,
+        SearchComponent,
+        SecondsToHhMmSsPipe,
+        SecondsToMmSsPipe,
+        SettingsComponent,
+        TrackProgressComponent,
+        TrackTableComponent,
+        TracksComponent,
+        VolumeSliderComponent,
+    ],
+    imports: [
+        AppRoutingModule,
+        BrowserAnimationsModule,
+        BrowserModule,
+        DeviceDetectorModule,
+        FlexLayoutModule,
+        FormsModule,
+        HttpClientModule,
+        // Material
+        MatIconModule,
+        MatSlideToggleModule,
+        MatToolbarModule,
+        MatFormFieldModule,
+        MatGridListModule,
+        MatSliderModule,
+        MatButtonModule,
+        MatButtonToggleModule,
+        MatDividerModule,
+        MatTableModule,
+        MatCardModule,
+        MatDialogModule,
+        MatProgressSpinnerModule,
+        MatInputModule,
+        MatListModule,
+        MatSnackBarModule,
+    ],
+    providers: [
+        BrowseService,
+        MessageService,
+        NotificationService,
+        WebSocketService,
+        {
+            provide: InjectableRxStompConfig,
+            useValue: AppModule.loadStompConfig(),
+        },
+        {
+            provide: RxStompService,
+            useFactory: rxStompServiceFactory,
+            deps: [InjectableRxStompConfig],
+        },
+    ],
+    entryComponents: [CoverModalComponent],
+    bootstrap: [AppComponent],
 })
 export class AppModule {
-  static loadStompConfig(): InjectableRxStompConfig {
-    const myRxStompConfig: InjectableRxStompConfig = {
-      // Which server?
-      brokerURL: ConnConfUtil.getWebSocketAddr(),
+    static loadStompConfig(): InjectableRxStompConfig {
+        const myRxStompConfig: InjectableRxStompConfig = {
+            // Which server?
+            brokerURL: ConnConfUtil.getWebSocketAddr(),
 
-      // Headers
-      // Typical keys: login, passcode, host
-      connectHeaders: {},
+            // Headers
+            // Typical keys: login, passcode, host
+            connectHeaders: {},
 
-      // How often to heartbeat?
-      // Interval in milliseconds, set to 0 to disable
-      heartbeatIncoming: 0, // Typical value 0 - disabled
-      heartbeatOutgoing: 1000, // Typical value 20000 - every 20 seconds
+            // How often to heartbeat?
+            // Interval in milliseconds, set to 0 to disable
+            heartbeatIncoming: 0, // Typical value 0 - disabled
+            heartbeatOutgoing: 1000, // Typical value 20000 - every 20 seconds
 
-      // Wait in milliseconds before attempting auto reconnect
-      // Set to 0 to disable
-      // Typical value 500 (500 milli seconds)
-      reconnectDelay: 100,
+            // Wait in milliseconds before attempting auto reconnect
+            // Set to 0 to disable
+            // Typical value 500 (500 milli seconds)
+            reconnectDelay: 100,
 
-      // Will log diagnostics on console
-      // It can be quite verbose, not recommended in production
-      // Skip this key to stop logging to console
-      // debug: (msg: string): void => {
-      //   console.log(new Date(), msg);
-      // }
-    };
-    return myRxStompConfig;
-  }
+            // Will log diagnostics on console
+            // It can be quite verbose, not recommended in production
+            // Skip this key to stop logging to console
+            // debug: (msg: string): void => {
+            //   console.log(new Date(), msg);
+            // }
+        };
+        return myRxStompConfig;
+    }
 }
 
 

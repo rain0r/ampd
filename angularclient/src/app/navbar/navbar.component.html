@@ -1,49 +1,53 @@
-  <div
-      class="app-main mat-app-background"
-      [ngClass]="{ 'dark-theme': isDarkTheme | async }"
-  >
-    <mat-toolbar class="toolbar" color="primary">
-      <button mat-button [routerLink]="['/']">
-        <mat-icon>format_list_bulleted</mat-icon>
-        <span class="only-on-big-screen">Queue</span>
-      </button>
-      <button mat-button [routerLink]="['/browse']">
-        <mat-icon>folder_open</mat-icon>
-        <span class="only-on-big-screen">
+<div
+    class="app-main mat-app-background"
+    [ngClass]="{ 'dark-theme': isDarkTheme | async }"
+>
+  <mat-toolbar class="toolbar" color="primary">
+    <button mat-button [routerLink]="['/']">
+      <mat-icon>format_list_bulleted</mat-icon>
+      <span class="only-on-big-screen">Queue</span>
+    </button>
+    <button mat-button [routerLink]="['/browse']">
+      <mat-icon>folder_open</mat-icon>
+      <span class="only-on-big-screen">
           Browse
         </span>
-      </button>
-      <button mat-button [routerLink]="['/search']">
-        <mat-icon>search</mat-icon>
-        <span class="only-on-big-screen">
+    </button>
+    <button mat-button [routerLink]="['/search']">
+      <mat-icon>search</mat-icon>
+      <span class="only-on-big-screen">
           Search
         </span>
-      </button>
-      <button mat-button [routerLink]="['/settings']">
-        <mat-icon>settings</mat-icon>
-        <span class="only-on-big-screen">
+    </button>
+    <button mat-button [routerLink]="['/settings']">
+      <mat-icon>settings</mat-icon>
+      <span class="only-on-big-screen">
           Settings
         </span>
-      </button>
+    </button>
 
-      <span [routerLink]="['/']" class="logo only-on-big-screen">ampd</span>
-      <span class="fill-space"></span>
-      <mat-slide-toggle
-          class="space-right"
-          [checked]="isDarkTheme | async"
-          (change)="toggleDarkTheme($event.checked)"
-          title="Turn the lights off / on"
-      >💡
-      </mat-slide-toggle>
-      <!-- There's a lightbulb hidden in here -->
-      <mat-icon>{{ connectedStatusIcon }}</mat-icon>
+    <span [routerLink]="['/']" class="logo only-on-big-screen">ampd</span>
+    <span class="fill-space"></span>
+    <!-- There's a lightbulb hidden in here -->
+    <mat-slide-toggle
+        class="space-right"
+        [checked]="isDarkTheme | async"
+        (change)="toggleDarkTheme($event.checked)"
+        title="Turn the lights off / on"
+    >💡
+    </mat-slide-toggle>
 
-      <div id="status">
-        <div id="indicator" class="{{connState|async}}"></div>
-        <span id="status-label">{{connState|async}}</span>
-      </div>
-    </mat-toolbar>
-    <div class="app-content" [ngClass]="{ 'dark-theme': isDarkTheme | async }">
-      <router-outlet></router-outlet>
-    </div>
+    <container-element [ngSwitch]="connState|async">
+      <some-element *ngSwitchCase="0"><mat-spinner color="warn"></mat-spinner></some-element>
+      <some-element *ngSwitchCase="1"><mat-icon>cloud</mat-icon></some-element>
+      <some-element *ngSwitchCase="2"><mat-spinner color="warn"></mat-spinner></some-element>
+      <some-element *ngSwitchCase="3"><mat-icon>cloud_off</mat-icon></some-element>
+      <some-element *ngSwitchDefault><mat-icon>cloud_off</mat-icon></some-element>
+    </container-element>
+  </mat-toolbar>
+  <div class="app-content" [ngClass]="{ 'dark-theme': isDarkTheme | async }">
+    <router-outlet></router-outlet>
   </div>
+</div>
+
+

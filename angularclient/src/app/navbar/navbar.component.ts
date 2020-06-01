@@ -2,7 +2,6 @@ import {Component, OnInit} from '@angular/core';
 import {Observable} from "rxjs/index";
 import {ThemingService} from "../shared/services/theming.service";
 import {RxStompService} from "@stomp/ng2-stompjs";
-import {RxStompState} from "@stomp/rx-stomp";
 import {map} from "rxjs/internal/operators";
 
 @Component({
@@ -12,14 +11,18 @@ import {map} from "rxjs/internal/operators";
 })
 export class NavbarComponent implements OnInit {
   isDarkTheme: Observable<boolean>;
-  connectedStatusIcon = "cloud_off";
-  connState: Observable<string>;
+  connState: Observable<number>;
 
-  constructor(private themingService: ThemingService,private rxStompService: RxStompService) {
+  constructor(private themingService: ThemingService, private rxStompService: RxStompService) {
     this.isDarkTheme = this.themingService.isDarkTheme;
-    this.connState = this.rxStompService.connectionState$.pipe(map((state) => {
+    // this.connState = this.rxStompService.connectionState$
+    // .subscribe({
+    //   next: (state: RxStompState) => (this.connState = state),
+    //   error: (state: RxStompState) => (this.connState = RxStompState.CLOSED),
+    // });
+    this.connState = rxStompService.connectionState$.pipe(map((state) => {
       // convert numeric RxStompState to string
-      return RxStompState[state];
+      return state;
     }));
   }
 

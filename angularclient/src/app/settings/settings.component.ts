@@ -2,7 +2,7 @@ import {Component} from "@angular/core";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {StompService} from "@stomp/ng2-stompjs";
 import {environment} from "../../environments/environment";
-import {ConnectionConfigUtil} from "../shared/conn-conf/conn-conf-util";
+import {ConnConfUtil} from "../shared/conn-conf/conn-conf-util";
 import {ConnConf} from "../shared/conn-conf/conn-conf";
 
 @Component({
@@ -20,7 +20,7 @@ export class SettingsComponent {
     private snackBar: MatSnackBar,
     private stompService: StompService
   ) {
-    this.ccModel = ConnectionConfigUtil.get();
+    this.ccModel = ConnConfUtil.get();
     this.ampdVersion = environment.ampdVersion;
     this.gitCommitId = environment.gitCommitId;
   }
@@ -32,7 +32,7 @@ export class SettingsComponent {
   saveSettings(): void {
     this.popUp("Saved settings.");
     const data = JSON.stringify(this.ccModel);
-    localStorage.setItem(ConnectionConfigUtil.key, data);
+    localStorage.setItem(ConnConfUtil.key, data);
     this.stompService.initAndConnect();
   }
 

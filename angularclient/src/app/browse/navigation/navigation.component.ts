@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { BROWSE_FILTER } from "../../shared/commands/internal";
 import { MpdCommands } from "../../shared/mpd/mpd-commands";
@@ -12,7 +12,7 @@ import { WebSocketService } from "../../shared/services/web-socket.service";
   templateUrl: "./navigation.component.html",
   styleUrls: ["./navigation.component.scss"],
 })
-export class NavigationComponent implements OnInit {
+export class BrowseNavigationComponent implements OnInit {
   getParamDir = "";
   filter = "";
 
@@ -25,7 +25,14 @@ export class NavigationComponent implements OnInit {
     private messageService: MessageService
   ) {}
 
-  @HostListener("click", ["$event"])
+  ngOnInit(): void {
+    this.activatedRoute.queryParams.subscribe((queryParams) => {
+      const dir = <string>queryParams.dir || "/";
+      this.getParamDir = dir;
+      this.browseService.sendBrowseReq(dir);
+    });
+  }
+
   onAddDir(dir: string): void {
     if (typeof dir !== "string") {
       return;
@@ -39,19 +46,10 @@ export class NavigationComponent implements OnInit {
     this.notificationService.popUp(`Added dir: "${dir}"`);
   }
 
-  @HostListener("click", ["$event"])
   onPlayDir(dir: string): void {
     this.onAddDir(dir);
     this.webSocketService.send(MpdCommands.SET_PLAY);
     this.notificationService.popUp(`Playing dir: "${dir}"`);
-  }
-
-  ngOnInit(): void {
-    this.activatedRoute.queryParams.subscribe((queryParams) => {
-      const dir = <string>queryParams.dir || "/";
-      this.getParamDir = dir;
-      this.browseService.sendBrowseReq(dir);
-    });
   }
 
   onMoveDirUp(): void {

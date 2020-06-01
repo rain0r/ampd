@@ -7,8 +7,8 @@ import { BaseResponse } from "../messages/incoming/base-response";
 import { MpdTypes } from "../mpd/mpd-types";
 import { Observable } from "rxjs";
 import { IStateMsgPayload } from "../messages/incoming/state-msg-payload";
-import { IBrowseRoot } from "../messages/incoming/browse";
-import { ISearchRoot } from "../messages/incoming/search";
+import { IBrowseMsgPayload } from "../messages/incoming/browse";
+import { ISearchMsgPayload, ISearchRoot } from "../messages/incoming/search";
 import { IQueuePayload } from "../messages/incoming/queue-payload";
 import { ConnConfUtil } from "../conn-conf/conn-conf-util";
 
@@ -50,21 +50,22 @@ export class WebSocketService {
     );
   }
 
-  getBrowseSubscription(): Observable<IBrowseRoot> {
+  getBrowseSubscription(): Observable<IBrowseMsgPayload> {
     return this.rxStompService.watch("/topic/controller").pipe(
       map((message: Message) => message.body),
       map((body: string) => <BaseResponse>JSON.parse(body)),
+      filter((body: BaseResponse) => body !== null),
       filter((body: BaseResponse) => body.type === MpdTypes.BROWSE),
-      map((body: BaseResponse) => <IBrowseRoot>body.payload)
+      map((body: BaseResponse) => <IBrowseMsgPayload>body.payload)
     );
   }
 
-  getSearchSubscription(): Observable<ISearchRoot> {
+  getSearchSubscription(): Observable<ISearchMsgPayload> {
     return this.rxStompService.watch("/topic/controller").pipe(
       map((message: Message) => message.body),
       map((body: string) => <ISearchRoot>JSON.parse(body)),
       filter((body: BaseResponse) => body.type === MpdTypes.SEARCH_RESULTS),
-      map((body: BaseResponse) => <ISearchRoot>body.payload)
+      map((body: BaseResponse) => <ISearchMsgPayload>body.payload)
     );
   }
 

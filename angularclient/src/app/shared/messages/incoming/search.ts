@@ -24,13 +24,3 @@ export interface ISearchRoot {
   payload: ISearchMsgPayload;
   type: string;
 }
-
-export class SearchRootImpl implements ISearchRoot {
-  payload: ISearchMsgPayload;
-  type: string;
-
-  constructor(payload: ISearchMsgPayload, type: string) {
-    this.payload = payload;
-    this.type = type;
-  }
-}

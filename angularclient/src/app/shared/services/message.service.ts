@@ -1,6 +1,6 @@
-import { Injectable } from "@angular/core";
-import { Observable, Subject } from "rxjs";
-import { AmpdMessage } from "../messages/internal/ampd-message";
+import {Injectable} from "@angular/core";
+import {Observable, Subject} from "rxjs";
+import {AmpdMessage} from "../messages/internal/ampd-message";
 
 @Injectable()
 export class MessageService {

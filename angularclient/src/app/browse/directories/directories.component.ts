@@ -1,11 +1,11 @@
-import { Component, Input } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
-import { Directory } from "../../shared/messages/incoming/directory";
-import { MpdCommands } from "../../shared/mpd/mpd-commands";
-import { MessageService } from "../../shared/services/message.service";
-import { NotificationService } from "../../shared/services/notification.service";
-import { WebSocketService } from "../../shared/services/web-socket.service";
-import { Filterable } from "../filterable";
+import {Component, Input} from "@angular/core";
+import {ActivatedRoute} from "@angular/router";
+import {Directory} from "../../shared/messages/incoming/directory";
+import {MpdCommands} from "../../shared/mpd/mpd-commands";
+import {MessageService} from "../../shared/services/message.service";
+import {NotificationService} from "../../shared/services/notification.service";
+import {WebSocketService} from "../../shared/services/web-socket.service";
+import {Filterable} from "../filterable";
 
 @Component({
   selector: "app-directories",

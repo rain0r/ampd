@@ -1,5 +1,5 @@
-import { Pipe, PipeTransform } from "@angular/core";
-import { Directory } from "../../messages/incoming/directory";
+import {Pipe, PipeTransform} from "@angular/core";
+import {Directory} from "../../messages/incoming/directory";
 
 @Pipe({ name: "directoryFilter" })
 export class DirectoryFilterPipe implements PipeTransform {

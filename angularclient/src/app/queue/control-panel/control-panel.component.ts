@@ -1,17 +1,8 @@
-import {
-  Component,
-  Input,
-  OnChanges,
-  SimpleChange,
-  SimpleChanges,
-} from "@angular/core";
-import {
-  ControlPanelImpl,
-  IControlPanel,
-} from "../../shared/messages/incoming/control-panel";
-import { MpdCommands } from "../../shared/mpd/mpd-commands";
-import { WebSocketService } from "../../shared/services/web-socket.service";
-import { NotificationService } from "../../shared/services/notification.service";
+import {Component, Input, OnChanges, SimpleChange, SimpleChanges,} from "@angular/core";
+import {ControlPanelImpl, IControlPanel,} from "../../shared/messages/incoming/control-panel";
+import {MpdCommands} from "../../shared/mpd/mpd-commands";
+import {WebSocketService} from "../../shared/services/web-socket.service";
+import {NotificationService} from "../../shared/services/notification.service";
 
 @Component({
   selector: "app-control-panel",

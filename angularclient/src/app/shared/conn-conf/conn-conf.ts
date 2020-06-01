@@ -1,4 +1,4 @@
-export class ConnectionConfig {
+export class ConnConf {
   private _backendAddr: string;
 
   constructor(backendAddr: string) {

@@ -1,9 +1,9 @@
-import { Component } from "@angular/core";
-import { MatSnackBar } from "@angular/material/snack-bar";
-import { StompService } from "@stomp/ng2-stompjs";
-import { environment } from "../../environments/environment";
-import { ConnectionConfigUtil } from "../shared/connection-config/connection-config-util";
-import { ConnectionConfig } from "../shared/connection-config/connection-config";
+import {Component} from "@angular/core";
+import {MatSnackBar} from "@angular/material/snack-bar";
+import {StompService} from "@stomp/ng2-stompjs";
+import {environment} from "../../environments/environment";
+import {ConnectionConfigUtil} from "../shared/conn-conf/conn-conf-util";
+import {ConnConf} from "../shared/conn-conf/conn-conf";
 
 @Component({
   selector: "app-settings",
@@ -11,7 +11,7 @@ import { ConnectionConfig } from "../shared/connection-config/connection-config"
   styleUrls: ["./settings.component.scss"],
 })
 export class SettingsComponent {
-  ccModel: ConnectionConfig;
+  ccModel: ConnConf;
   ampdVersion;
   gitCommitId;
   private submitted = false;

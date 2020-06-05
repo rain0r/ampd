@@ -1,4 +1,10 @@
-import { Component, OnInit } from "@angular/core";
+import {
+  Component,
+  ElementRef,
+  HostListener,
+  OnInit,
+  ViewChild,
+} from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { BROWSE_FILTER } from "../../shared/commands/internal";
 import { MpdCommands } from "../../shared/mpd/mpd-commands";
@@ -13,6 +19,7 @@ import { WebSocketService } from "../../shared/services/web-socket.service";
   styleUrls: ["./navigation.component.scss"],
 })
 export class BrowseNavigationComponent implements OnInit {
+  @ViewChild("filterInputElem") filterInputElem!: ElementRef;
   getParamDir = "";
   filter = "";
 
@@ -24,6 +31,17 @@ export class BrowseNavigationComponent implements OnInit {
     private webSocketService: WebSocketService,
     private messageService: MessageService
   ) {}
+
+  @HostListener("document:keydown.f", ["$event"])
+  onSearchKeydownHandler(event: KeyboardEvent): void {
+    // Don't focus on the 'search' input when we're typing an 's' in the 'add' input
+    // Also, if we're already in the 'search' input, there is no need to focus
+    const isFromInput = (event.target as HTMLInputElement).tagName === "INPUT";
+    if (!isFromInput) {
+      event.preventDefault();
+      (this.filterInputElem.nativeElement as HTMLElement).focus();
+    }
+  }
 
   ngOnInit(): void {
     this.activatedRoute.queryParams.subscribe((queryParams) => {

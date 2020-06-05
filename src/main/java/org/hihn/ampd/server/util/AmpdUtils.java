@@ -29,7 +29,7 @@ public class AmpdUtils {
     try {
       ret = Files.readAllBytes(path);
     } catch (IOException e) {
-      LOG.info("File not found: " + path);
+      LOG.info("File not found: {}", path);
     }
     return ret;
   }
@@ -64,7 +64,7 @@ public class AmpdUtils {
     try (DirectoryStream<Path> stream = Files.newDirectoryStream(path, "cover.{jpg,jpeg,png}")) {
       stream.forEach(file -> covers.add(file));
     } catch (IOException e) {
-      LOG.info("Error while search covers in: {}", path, e);
+      LOG.info("No covers found in: {}", path);
     }
     return covers;
   }

@@ -92,7 +92,7 @@ public class WebSocketController {
     try {
       outgoingMessage = commands.get(incomingMessage.getType()).run(incomingMessage.getPayload());
     } catch (Exception e) {
-      LOG.error("Error processing " + incomingMessage.getType());
+      LOG.error("Error processing {}", incomingMessage.getType());
       LOG.error(e.getMessage(), e);
     }
 
@@ -222,7 +222,7 @@ public class WebSocketController {
     try {
       tmpMpdFiles = mpd.getMusicDatabase().getFileDatabase().listDirectory(mpdFile);
     } catch (Exception e) {
-      LOG.error("Error listing directory '" + path + "'");
+      LOG.error("Error listing directory '{}'", path);
       LOG.error(e.getMessage(), e);
     }
 
@@ -253,7 +253,7 @@ public class WebSocketController {
       int newVolumeValue = volumePayload.get(PAYLOAD_VALUE);
       mpd.getPlayer().setVolume(newVolumeValue);
     } catch (Exception e) {
-      LOG.error(e.getMessage(), e);
+      LOG.error("Error setting volume: {}", e.getMessage(), e);
     }
     return Optional.empty();
   }

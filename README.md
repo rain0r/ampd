@@ -63,8 +63,8 @@ For a full list of options, see [`application.properties`](src/main/resources/ap
 `ampd` has some shortcuts built in:
 
  * `<space>`: Pauses the current running song. If the browser focus is on another button, that button may also be triggered.
- * `arrow right` Next song. If you previously set the volume with the mouse, the shortcut may instead *increase* the volume.
- * `arrow left`: Previous song. If you previously set the volume with the mouse, the shortcut may instead *decrease* the volume.
+ * `<arrow right>` Next song. If you previously set the volume with the mouse, the shortcut may instead *increase* the volume.
+ * `<arrow left>`: Previous song. If you previously set the volume with the mouse, the shortcut may instead *decrease* the volume.
  * `f`: Sets the focus to the filter. This is enabled on both the `Queue` and `Browse` view.
 
 # Hacking

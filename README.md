@@ -57,9 +57,8 @@ To persist these options, create a config file. See chapter `Installation`.
 
 For a full list of options, see [`application.properties`](src/main/resources/application.properties)
 
-## Using
-
-### Shortcuts
+# Using
+## Shortcuts
 
 `ampd` has some shortcuts built in:
 

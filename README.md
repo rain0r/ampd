@@ -59,7 +59,7 @@ For a full list of options, see [`application.properties`](src/main/resources/ap
 
 ## Using
 
-# Shortcuts
+### Shortcuts
 
 `ampd` has some shortcuts built in:
 

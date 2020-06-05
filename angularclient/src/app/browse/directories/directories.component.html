@@ -68,18 +68,43 @@
     *ngFor="let dir of dirQueue | directoryFilter: filterValue"
   >
     <mat-card
-      [routerLink]="['/browse']"
-      [queryParams]="{ dir: dir.path }"
       class="cover-card"
     >
       <mat-card-header>
-        <mat-card-title>{{ dir.displayedPath() }}</mat-card-title>
+        <mat-card-title       [routerLink]="['/browse']"
+                              [queryParams]="{ dir: dir.path }">
+          {{ dir.displayedPath() }}
+        </mat-card-title>
       </mat-card-header>
       <img
         mat-card-image
+        [routerLink]="['/browse']"
+        [queryParams]="{ dir: dir.path }"
         src="{{ dir.coverUrl() }}"
         err-src="/assets/images/transparent.png"
       />
+      <mat-card-footer>
+        <div              fxLayout="row">
+
+          <mat-icon
+              fxFlex="50%"
+              class="chip clickable cover-card-btn"
+              title="Add directory to queue"
+              (click)="onAddDir(dir.path)"
+          >
+            add
+          </mat-icon>
+          <mat-icon
+              fxFlex="50%"
+              class="chip clickable cover-card-btn"
+              title="Play directory"
+              (click)="onPlayDir(dir.path)"
+          >
+            play_arrow
+          </mat-icon>
+        </div>
+
+      </mat-card-footer>
     </mat-card>
   </div>
 </div>

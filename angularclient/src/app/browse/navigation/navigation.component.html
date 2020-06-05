@@ -59,12 +59,14 @@
   <div fxLayoutAlign="center center" fxFlex="30%" fxFlex.lt-md="100%">
     <mat-form-field class="full-width">
       <input
+        #filterInputElem
         matInput
         placeholder="Filter"
         autocomplete="off"
         type="text"
         [(ngModel)]="filter"
         (keyup)="applyFilter($event.target.value)"
+        (keydown.escape)="filterInputElem.blur()"
       />
       <button
         mat-button

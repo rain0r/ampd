@@ -1,10 +1,13 @@
 import {
   Component,
+  ElementRef,
+  HostListener,
   Input,
   OnChanges,
   OnInit,
   SimpleChange,
   SimpleChanges,
+  ViewChild,
 } from "@angular/core";
 import { MatTableDataSource } from "@angular/material/table";
 import { Observable } from "rxjs/index";
@@ -21,6 +24,7 @@ import { IQueuePayload } from "../../shared/messages/incoming/queue-payload";
   styleUrls: ["./track-table.component.scss"],
 })
 export class TrackTableComponent implements OnInit, OnChanges {
+  @ViewChild("filterInputElem") filterInputElem!: ElementRef;
   @Input() currentSong: QueueTrack = new QueueTrack();
   trackTableData = new MatTableDataSource<QueueTrack>();
   checksum = 0; // The checksum of the current queue
@@ -40,6 +44,17 @@ export class TrackTableComponent implements OnInit, OnChanges {
     private webSocketService: WebSocketService
   ) {
     this.queueSubs = this.webSocketService.getQueueSubscription();
+  }
+
+  @HostListener("document:keydown.f", ["$event"])
+  onSearchKeydownHandler(event: KeyboardEvent): void {
+    // Don't focus on the 'search' input when we're typing an 's' in the 'add' input
+    // Also, if we're already in the 'search' input, there is no need to focus
+    const isFromInput = (event.target as HTMLInputElement).tagName === "INPUT";
+    if (!isFromInput) {
+      event.preventDefault();
+      (this.filterInputElem.nativeElement as HTMLElement).focus();
+    }
   }
 
   ngOnInit(): void {

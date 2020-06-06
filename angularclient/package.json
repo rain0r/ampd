@@ -53,6 +53,7 @@
     "serialize-javascript": "^3.0.0",
     "ts-node": "~8.9.1",
     "typescript": "3.8.3",
+    "websocket-extensions": ">=0.1.4",
     "yargs": "^15.3.1"
   }
 }

@@ -66,6 +66,10 @@ For a full list of options, see [`application.properties`](src/main/resources/ap
  * `<arrow right>` Next song. If you previously set the volume with the mouse, the shortcut may instead *increase* the volume.
  * `<arrow left>`: Previous song. If you previously set the volume with the mouse, the shortcut may instead *decrease* the volume.
  * `f`: Sets the focus to the filter. This is enabled on both the `Queue` and `Browse` view.
+ * `1`: Navigate to the queue view
+ * `2`: Navigate to the browse view
+ * `3`: Navigate to the search view
+ * `4`: Navigate to the settings view
 
 # Hacking
 ## Building from source

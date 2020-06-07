@@ -90,31 +90,25 @@ npm install
 ng serve
 ```
 
-This should get you started, you can see the UI at `http://localhost:4200/webpack-dev-server/` but `ampd` won't connect to the backend server. So let's fix that.
+This should get you started, you can see the UI at `http://localhost:4200/` but `ampd` won't connect to the backend server. So let's fix that.
 
 Open the file `angularclient/src/environments/environment.ts` and set change `AMPD_URL` in the first line to your computer name or ip. Run `ng serve` again and - provided there is a `ampd` instance running on that computer - the frontend will connect to that. 
 
-Now let's take a look at the backend server, which is using Spring Boot. To get it all up and running, just hit `mvn spring-boot:run` and let Maven do the magic. 
+Now let's take a look at the backend server, which is using Spring Boot. To get it all up and running, just hit `mvn spring-boot:run`. By default, this would also build the `Angular` frontend. For the moment, we don't need that, so we pass the `-Dskip.npm=true` flag to Maven: `mvn -Dskip.npm=true spring-boot:run`
 
-Of course, there is not much to see for now, the html-files are missing. The development workflow looks like this:
+The development workflow looks like this:
 
-1. Start the backend via `mvn spring-boot:run` on any port you like, let's say `foobar:8888`
+1. Start the backend via `mvn -Dskip.npm=true spring-boot:run` on any port you like, let's say `foobar:8888`
 2. Start the frontend via `ng serve` and make sure you set `foobar:8888` as `AMPD_URL` in the file `angularclient/src/environments/environment.ts`
 
-To create a full relase, make use of the script `angularclient/build.js`:
 
-```
-$ node build.js --help
-Build the ampd frontend.
+The `Build fronted` part of the `pom.xml` is basically calling the file `angularclient/build.js`.  This means, you have two options to build the frontend:
 
-Options:
-  --help     Show help                                                 [boolean]
-  --version  Show version number                                       [boolean]
-  --prod     Is this a production build?              [boolean] [default: false]
-  --url      The url of the backend server       [string] [default: "localhost"]
-  --https    use https instead of http                [boolean] [default: false]
-  --context  The context path of ampd                    [string] [default: "/"]
-```
+ 1. Every time you the Maven `compile` goal is called
+ 2. Manually via `node build.js`
+
+
+See `node angularclient/build.js --help` for more info. Every option can be set in the `<properties>` of the file `pom.xml`.
 
 So, for example, you want to build `ampd` for yourself with these options:
 
@@ -125,7 +119,11 @@ So, for example, you want to build `ampd` for yourself with these options:
 This would be realized via: 
 
 ```
-node build.js --prod=true --url=punica:8003 --https=true --context=/my-music/
+mvn -Dfrontend.url=punica:8003 -Dfrontend.https=true -Dfrontend.context=/my-music/ compile
 ```
 
-After that, the dist files will automatically be copied in `src/main/resources/static` so you can just start the backend server or do a complete build via `mvn install` and run the resulting jar file.
+After that, you can start the resulting jar file:
+
+```
+java -jar target/ampd-*.jar
+```

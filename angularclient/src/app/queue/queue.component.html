@@ -23,12 +23,12 @@
 </div>
 
 <!-- Current track progress -->
-<app-track-progress [currentSong]="currentSong"></app-track-progress>
+<app-track-progress *ngIf="currentSong.length > 0 && currentSong.progress >=0" [currentSong]="currentSong"></app-track-progress>
 
 <mat-divider></mat-divider>
 
 <!-- Volume slider -->
-<app-volume-slider [volume]="volume"></app-volume-slider>
+<app-volume-slider *ngIf="volume > 0" [volume]="volume"></app-volume-slider>
 
 <mat-divider></mat-divider>
 

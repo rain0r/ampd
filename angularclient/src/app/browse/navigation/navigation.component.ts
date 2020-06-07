@@ -34,8 +34,7 @@ export class BrowseNavigationComponent implements OnInit {
 
   @HostListener("document:keydown.f", ["$event"])
   onSearchKeydownHandler(event: KeyboardEvent): void {
-    // Don't focus on the 'search' input when we're typing an 's' in the 'add' input
-    // Also, if we're already in the 'search' input, there is no need to focus
+    // Ignore events that come from input elements
     const isFromInput = (event.target as HTMLInputElement).tagName === "INPUT";
     if (!isFromInput) {
       event.preventDefault();

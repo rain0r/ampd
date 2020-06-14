@@ -1,8 +1,8 @@
-import {Component, HostListener} from "@angular/core";
+import { Component, HostListener } from "@angular/core";
 import { Observable } from "rxjs/index";
 import { ThemingService } from "../shared/services/theming.service";
 import { RxStompService } from "@stomp/ng2-stompjs";
-import {Router} from "@angular/router";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "app-navbar",
@@ -16,7 +16,7 @@ export class NavbarComponent {
   constructor(
     private themingService: ThemingService,
     private rxStompService: RxStompService,
-    private router: Router,
+    private router: Router
   ) {
     this.isDarkTheme = this.themingService.isDarkTheme;
     this.connState = rxStompService.connectionState$;
@@ -29,7 +29,7 @@ export class NavbarComponent {
     if (!isFromInput) {
       event.preventDefault();
       // Go to the queue view
-      void this.router.navigate(['/']);
+      void this.router.navigate(["/"]);
     }
   }
 
@@ -40,7 +40,7 @@ export class NavbarComponent {
     if (!isFromInput) {
       event.preventDefault();
       // Go to the browse view
-      void this.router.navigate(['/browse']);
+      void this.router.navigate(["/browse"]);
     }
   }
 
@@ -51,10 +51,9 @@ export class NavbarComponent {
     if (!isFromInput) {
       event.preventDefault();
       // Go to the search view
-      void this.router.navigate(['/search']);
+      void this.router.navigate(["/search"]);
     }
   }
-
 
   @HostListener("document:keydown.4", ["$event"])
   on4KeydownHandler(event: KeyboardEvent): void {
@@ -63,7 +62,7 @@ export class NavbarComponent {
     if (!isFromInput) {
       event.preventDefault();
       // Go to the settings view
-      void this.router.navigate(['/settings']);
+      void this.router.navigate(["/settings"]);
     }
   }
 

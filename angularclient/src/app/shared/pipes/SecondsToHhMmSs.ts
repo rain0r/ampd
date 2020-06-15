@@ -2,15 +2,12 @@ import { Pipe, PipeTransform } from "@angular/core";
 
 @Pipe({ name: "secondsToHhMmSs" })
 export class SecondsToHhMmSsPipe implements PipeTransform {
-  transform(value: number): string {
-    const hours = Math.floor(value / 60 / 60);
-    const seconds = value % 60;
-    let ret = "";
-    if (hours > 0) {
-      ret = `${hours} hours `;
-    }
-    return `${ret} minutes minutes ${
-      seconds < 10 ? "0" : ""
-    } ${seconds} seconds`;
+  transform(d: number): string {
+    const h = Math.floor(d / 3600);
+    const m = Math.floor((d % 3600) / 60);
+    const s = Math.floor((d % 3600) % 60);
+
+    const hours = h > 0 ? `${`0${h}`.slice(-2)}:` : "";
+    return `${hours}${`0${m}`.slice(-2)}:${`0${s}`.slice(-2)}`;
   }
 }

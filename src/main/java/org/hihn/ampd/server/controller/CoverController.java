@@ -73,8 +73,7 @@ public class CoverController {
     try {
       return coverArtFetcherService.findAlbumCover(trackFilePath);
     } catch (Exception e) {
-      String p = (trackFilePath.isPresent()) ? trackFilePath.get() : "NO_PATH";
-      LOG.warn("Could not find a cover for: " + p);
+      LOG.info("Could not find a cover for: {}", trackFilePath);
     }
     throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Cover Not Found");
   }

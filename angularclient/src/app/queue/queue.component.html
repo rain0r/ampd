@@ -24,11 +24,11 @@
 
 <!-- Current track progress -->
 <app-track-progress *ngIf="currentSong.length > 0 && currentSong.progress >=0" [currentSong]="currentSong"></app-track-progress>
-<mat-divider></mat-divider>
+<mat-divider *ngIf="currentSong.length > 0 && currentSong.progress >=0"></mat-divider>
 
 <!-- Volume slider -->
-<app-volume-slider *ngIf="volume > 0" [volume]="volume"></app-volume-slider>
-<mat-divider *ngIf="volume > 0"></mat-divider>
+<app-volume-slider *ngIf="volume >= 0 && volume <= 100" [volume]="volume"></app-volume-slider>
+<mat-divider *ngIf="volume >= 0 && volume <= 100"></mat-divider>
 
 <!-- Track table -->
 <app-track-table [currentSong]="currentSong"></app-track-table>

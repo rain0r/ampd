@@ -1,5 +1,4 @@
 import { Injectable } from "@angular/core";
-import { Message } from "@stomp/stompjs";
 import { filter, map } from "rxjs/internal/operators";
 import { REMOTE_QUEUE } from "../mpd/mpd-commands";
 import { RxStompService } from "@stomp/ng2-stompjs";
@@ -34,7 +33,7 @@ export class WebSocketService {
 
   getStateSubscription(): Observable<IStateMsgPayload> {
     return this.rxStompService.watch("/topic/state").pipe(
-      map((message: Message) => message.body),
+      map((message) => message.body),
       map((body: string) => <BaseResponse>JSON.parse(body)),
       filter((body: BaseResponse) => body.type === MpdTypes.STATE),
       map((body: BaseResponse) => <IStateMsgPayload>body.payload)
@@ -43,8 +42,9 @@ export class WebSocketService {
 
   getQueueSubscription(): Observable<IQueuePayload> {
     return this.rxStompService.watch("/topic/queue").pipe(
-      map((message: Message) => message.body),
+      map((message) => message.body),
       map((body: string) => <BaseResponse>JSON.parse(body)),
+      filter((body: BaseResponse) => !!body),
       filter((body: BaseResponse) => body.type === MpdTypes.QUEUE),
       map((body: BaseResponse) => <IQueuePayload>body.payload)
     );
@@ -52,9 +52,9 @@ export class WebSocketService {
 
   getBrowseSubscription(): Observable<IBrowseMsgPayload> {
     return this.rxStompService.watch("/topic/controller").pipe(
-      map((message: Message) => message.body),
+      map((message) => message.body),
       map((body: string) => <BaseResponse>JSON.parse(body)),
-      filter((body: BaseResponse) => body !== null),
+      filter((body: BaseResponse) => !!body),
       filter((body: BaseResponse) => body.type === MpdTypes.BROWSE),
       map((body: BaseResponse) => <IBrowseMsgPayload>body.payload)
     );
@@ -62,8 +62,9 @@ export class WebSocketService {
 
   getSearchSubscription(): Observable<ISearchMsgPayload> {
     return this.rxStompService.watch("/topic/controller").pipe(
-      map((message: Message) => message.body),
+      map((message) => message.body),
       map((body: string) => <ISearchRoot>JSON.parse(body)),
+      filter((body: BaseResponse) => !!body),
       filter((body: BaseResponse) => body.type === MpdTypes.SEARCH_RESULTS),
       map((body: BaseResponse) => <ISearchMsgPayload>body.payload)
     );

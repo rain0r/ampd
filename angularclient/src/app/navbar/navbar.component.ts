@@ -65,8 +65,4 @@ export class NavbarComponent {
       void this.router.navigate(["/settings"]);
     }
   }
-
-  toggleDarkTheme(checked: boolean): void {
-    this.themingService.setDarkTheme(checked);
-  }
 }

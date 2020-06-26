@@ -28,14 +28,6 @@
 
     <span [routerLink]="['/']" fxHide.lt-md class="logo">ampd</span>
     <span class="fill-space"></span>
-    <!-- There's a lightbulb hidden in here -->
-    <mat-slide-toggle
-        class="space-right"
-        [checked]="isDarkTheme | async"
-        (change)="toggleDarkTheme($event.checked)"
-        title="Turn the lights off / on"
-    >💡
-    </mat-slide-toggle>
     <div [ngSwitch]="connState|async">
       <mat-spinner color="accent" diameter="30" *ngSwitchCase="0"></mat-spinner>
       <mat-icon *ngSwitchCase="1">cloud</mat-icon>

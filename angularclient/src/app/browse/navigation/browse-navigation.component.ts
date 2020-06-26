@@ -15,8 +15,8 @@ import { WebSocketService } from "../../shared/services/web-socket.service";
 
 @Component({
   selector: "app-navigation",
-  templateUrl: "./navigation.component.html",
-  styleUrls: ["./navigation.component.scss"],
+  templateUrl: "./browse.navigation.component.html",
+  styleUrls: ["./browse.navigation.component.scss"],
 })
 export class BrowseNavigationComponent implements OnInit {
   @ViewChild("filterInputElem") filterInputElem!: ElementRef;

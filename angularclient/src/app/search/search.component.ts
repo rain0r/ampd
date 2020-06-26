@@ -108,4 +108,5 @@ export class SearchComponent {
     });
     this.searchResultCount = searchResultCount;
   }
+
 }

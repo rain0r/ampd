@@ -93,7 +93,7 @@ export class SearchComponent {
     );
   }
 
-  private resetSearch(): void {
+  resetSearch(): void {
     this.titleQueue = [];
     this.searchResultCount = 0;
   }

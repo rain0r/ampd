@@ -74,6 +74,12 @@ export class SearchComponent {
     }
   }
 
+
+  resetSearch(): void {
+    this.titleQueue = [];
+    this.searchResultCount = 0;
+  }
+
   getDisplayedColumns(): string[] {
     const isMobile = this.deviceService.isMobile();
     return this.displayedColumns
@@ -91,11 +97,6 @@ export class SearchComponent {
         message.searchResultCount
       )
     );
-  }
-
-  resetSearch(): void {
-    this.titleQueue = [];
-    this.searchResultCount = 0;
   }
 
   private processSearchResults(

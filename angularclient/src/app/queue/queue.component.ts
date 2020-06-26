@@ -1,14 +1,15 @@
-import { Component, HostListener, OnInit } from "@angular/core";
-import { Observable } from "rxjs";
+import {Component, HostListener, OnInit} from "@angular/core";
+import {Observable} from "rxjs";
 
-import { UPDATE_COVER } from "../shared/commands/internal";
-import { IControlPanel } from "../shared/messages/incoming/control-panel";
-import { IStateMsgPayload } from "../shared/messages/incoming/state-msg-payload";
+import {UPDATE_COVER} from "../shared/commands/internal";
+import {IControlPanel} from "../shared/messages/incoming/control-panel";
+import {IStateMsgPayload} from "../shared/messages/incoming/state-msg-payload";
 
-import { MpdCommands } from "../shared/mpd/mpd-commands";
-import { MessageService } from "../shared/services/message.service";
-import { WebSocketService } from "../shared/services/web-socket.service";
-import { QueueTrack } from "../shared/models/queue-track";
+import {MpdCommands} from "../shared/mpd/mpd-commands";
+import {MessageService} from "../shared/services/message.service";
+import {WebSocketService} from "../shared/services/web-socket.service";
+import {QueueTrack} from "../shared/models/queue-track";
+import {ConnConfUtil} from "../shared/conn-conf/conn-conf-util";
 
 @Component({
   selector: "app-queue",
@@ -23,12 +24,12 @@ export class QueueComponent implements OnInit {
   private stateSubs: Observable<IStateMsgPayload>;
 
   constructor(
-    private webSocketService: WebSocketService,
-    private messageService: MessageService
+      private webSocketService: WebSocketService,
+      private messageService: MessageService
   ) {
     this.stateSubs = this.webSocketService.getStateSubscription();
     this.stateSubs.subscribe((message: IStateMsgPayload) =>
-      this.buildState(message)
+        this.buildState(message)
     );
   }
 
@@ -40,13 +41,10 @@ export class QueueComponent implements OnInit {
   }
 
   getFormattedElapsedTime(elapsedTime: number): string {
-    if (isNaN(this.currentSong.mpdTrack.length)) {
-      return "";
-    }
     const elapsedMinutes = Math.floor(elapsedTime / 60);
     const elapsedSeconds = elapsedTime - elapsedMinutes * 60;
     return `${elapsedMinutes}:${
-      elapsedSeconds < 10 ? "0" : ""
+        elapsedSeconds < 10 ? "0" : ""
     }${elapsedSeconds}`;
   }
 
@@ -54,37 +52,51 @@ export class QueueComponent implements OnInit {
     this.webSocketService.send(MpdCommands.GET_QUEUE);
   }
 
+  showProgress(): boolean {
+    return this.currentSong && this.currentSong.mpdTrack.length > 0 && this.currentSong.progress >= 0;
+  }
+
+  showVolumeSlider(): boolean {
+    return this.currentSong && this.volume >= 0 && this.volume <= 100;
+  }
+
+  showMpdModes(): boolean {
+    return !!this.controlPanel && !!this.currentState;
+  }
+
+  showQueueHeader() {
+    return !!this.currentSong && !!this.currentState;
+  }
+
   private buildState(payload: IStateMsgPayload): void {
-    // let callBuildQueue = false; // Determines if we need to update the queue
-    const hasSongChanged = false;
-
-    /* Call buildQueue once if there is no current track set */
-    // if ("id" in this.currentSong) {
-    //   if (
-    //     payload.currentSong &&
-    //     payload.currentSong.id !== this.currentSong.mpdTrack.id
-    //   ) {
-    //     hasSongChanged = true;
-    //   }
-    // } else {
-    //   callBuildQueue = true;
-    // }
-
     // Build the currentSong object - holds info about the song currently played
-    this.currentSong = new QueueTrack(payload.currentSong);
-    this.currentSong.elapsedFormatted = this.getFormattedElapsedTime(
-      payload.serverStatus.elapsedTime
-    );
-    this.currentSong.progress = payload.serverStatus.elapsedTime;
+    const queueTrack = this.buildQueueTrack(payload);
 
     this.controlPanel = payload.controlPanel;
     this.currentState = payload.serverStatus.state;
     this.volume = payload.serverStatus.volume;
+    this.currentSong = queueTrack;
 
-    if (hasSongChanged) {
-      this.messageService.sendMessage(UPDATE_COVER);
-    }
-
+    this.messageService.sendMessage(UPDATE_COVER);
     this.webSocketService.send(MpdCommands.GET_QUEUE);
+  }
+
+  private buildCoverUrl(title:string) {
+    const backendAddr = ConnConfUtil.getBackendAddr();
+    const currentCoverUrl = "current-cover";
+    // Add a query param to trigger an image change in the browser
+    return `${backendAddr}/${currentCoverUrl}?title=${encodeURIComponent(
+        title
+    )}`;
+  }
+
+  private buildQueueTrack(payload: IStateMsgPayload) {
+    const queueTrack = new QueueTrack(payload.currentSong);
+    queueTrack.coverUrl = this.buildCoverUrl(payload.currentSong.title);
+    queueTrack.elapsedFormatted = this.getFormattedElapsedTime(
+        payload.serverStatus.elapsedTime
+    );
+    queueTrack.progress = payload.serverStatus.elapsedTime;
+    return queueTrack;
   }
 }

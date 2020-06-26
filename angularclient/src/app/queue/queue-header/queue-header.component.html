@@ -27,10 +27,10 @@
     <mat-divider
       fxShow.lt-md="true"
       fxShow="false"
-      *ngIf="currentState != 'stop' && hasCover"
+      *ngIf="currentState != 'stop'"
     ></mat-divider>
     <img
-      *ngIf="currentState != 'stop' && hasCover"
+      *ngIf="currentState != 'stop'"
       src="{{ currentSong.coverUrl }}"
       class="album-art"
       [ngClass]="[coverSizeClass|async]"

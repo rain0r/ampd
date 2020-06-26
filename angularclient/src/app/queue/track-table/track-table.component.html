@@ -34,29 +34,29 @@
   <ng-container matColumnDef="artist">
     <th mat-header-cell *matHeaderCellDef>Artist</th>
     <td mat-cell *matCellDef="let row" (click)="onRowClick(row.file)">
-      <span *ngIf="!row.artistName && !row.albumName && !row.title; else elseBlock">{{row.file}}</span>
-      <ng-template #elseBlock>{{ row.artistName }}</ng-template>
+      <span *ngIf="!row.mpdTrack.artistName && !row.mpdTrack.albumName && !row.mpdTrack.title; else elseBlock">{{row.mpdTrack.file}}</span>
+      <ng-template #elseBlock>{{ row.mpdTrack.artistName }}</ng-template>
     </td>
   </ng-container>
 
   <ng-container matColumnDef="album">
     <th mat-header-cell *matHeaderCellDef>Album</th>
     <td mat-cell *matCellDef="let row" (click)="onRowClick(row.file)">
-      {{ row.albumName }}
+      {{ row.mpdTrack.albumName }}
     </td>
   </ng-container>
 
   <ng-container matColumnDef="title">
     <th mat-header-cell *matHeaderCellDef>Title</th>
     <td mat-cell *matCellDef="let row" (click)="onRowClick(row.file)">
-      {{ row.title }}
+      {{ row.mpdTrack.title }}
     </td>
   </ng-container>
 
   <ng-container matColumnDef="length">
     <th mat-header-cell *matHeaderCellDef>Duration</th>
     <td mat-cell *matCellDef="let track" (click)="onRowClick(track.file)">
-      {{ track.durationFormatted() }}
+      {{ track.mpdTrack.length | secondsToMmSs }}
     </td>
   </ng-container>
 

@@ -16,7 +16,6 @@ export class QueueHeaderComponent {
   @Input() currentSong!: QueueTrack;
   @Input() currentState!: string;
   coverSizeClass: Observable<string>;
-  hasCover = false;
 
   constructor(
     private dialog: MatDialog,
@@ -32,13 +31,4 @@ export class QueueHeaderComponent {
       data: { coverUrl: this.currentSong.coverUrl },
     });
   }
-
-  // private coverUrl(): string {
-  //   const backendAddr = ConnConfUtil.getBackendAddr();
-  //   const currentCoverUrl = "current-cover";
-  //   // Add a query param to trigger an image change in the browser
-  //   return `${backendAddr}/${currentCoverUrl}?title=${encodeURIComponent(
-  //     this.title
-  //   )}`;
-  // }
 }

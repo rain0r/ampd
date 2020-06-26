@@ -68,7 +68,7 @@ export class QueueComponent implements OnInit {
     return !!this.controlPanel && !!this.currentState;
   }
 
-  showQueueHeader() {
+  showQueueHeader(): boolean {
     return !!this.currentSong && !!this.currentState;
   }
 

@@ -73,7 +73,7 @@ export class QueueComponent implements OnInit {
   }
 
   private buildState(payload: IStateMsgPayload) {
-    if (!!payload || !!payload.currentSong) {
+    if (!payload || !payload.currentSong) {
       return;
     }
 

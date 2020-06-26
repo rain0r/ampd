@@ -16,7 +16,7 @@ export class QueueHeaderComponent {
   @Input() currentSong!: QueueTrack;
   @Input() currentState!: string;
   coverSizeClass: Observable<string>;
-  private hasCover = false;
+  hasCover = false;
 
   constructor(
     private dialog: MatDialog,

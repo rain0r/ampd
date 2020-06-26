@@ -68,7 +68,11 @@ export class QueueComponent implements OnInit {
     return !!this.currentSong && !!this.currentState;
   }
 
-  private buildState(payload: IStateMsgPayload): void {
+  private buildState(payload: IStateMsgPayload) {
+    if (!!payload || !!payload.currentSong) {
+      return;
+    }
+
     // Build the currentSong object - holds info about the song currently played
     const queueTrack = this.buildQueueTrack(payload);
 
@@ -81,7 +85,7 @@ export class QueueComponent implements OnInit {
     this.webSocketService.send(MpdCommands.GET_QUEUE);
   }
 
-  private buildCoverUrl(title:string) {
+  private buildCoverUrl(title: string) {
     const backendAddr = ConnConfUtil.getBackendAddr();
     const currentCoverUrl = "current-cover";
     // Add a query param to trigger an image change in the browser

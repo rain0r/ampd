@@ -1,15 +1,15 @@
-import {Component, HostListener, OnInit} from "@angular/core";
-import {Observable} from "rxjs";
+import { Component, HostListener, OnInit } from "@angular/core";
+import { Observable } from "rxjs";
 
-import {UPDATE_COVER} from "../shared/commands/internal";
-import {IControlPanel} from "../shared/messages/incoming/control-panel";
-import {IStateMsgPayload} from "../shared/messages/incoming/state-msg-payload";
+import { UPDATE_COVER } from "../shared/commands/internal";
+import { IControlPanel } from "../shared/messages/incoming/control-panel";
+import { IStateMsgPayload } from "../shared/messages/incoming/state-msg-payload";
 
-import {MpdCommands} from "../shared/mpd/mpd-commands";
-import {MessageService} from "../shared/services/message.service";
-import {WebSocketService} from "../shared/services/web-socket.service";
-import {QueueTrack} from "../shared/models/queue-track";
-import {ConnConfUtil} from "../shared/conn-conf/conn-conf-util";
+import { MpdCommands } from "../shared/mpd/mpd-commands";
+import { MessageService } from "../shared/services/message.service";
+import { WebSocketService } from "../shared/services/web-socket.service";
+import { QueueTrack } from "../shared/models/queue-track";
+import { ConnConfUtil } from "../shared/conn-conf/conn-conf-util";
 
 @Component({
   selector: "app-queue",
@@ -24,12 +24,12 @@ export class QueueComponent implements OnInit {
   private stateSubs: Observable<IStateMsgPayload>;
 
   constructor(
-      private webSocketService: WebSocketService,
-      private messageService: MessageService
+    private webSocketService: WebSocketService,
+    private messageService: MessageService
   ) {
     this.stateSubs = this.webSocketService.getStateSubscription();
     this.stateSubs.subscribe((message: IStateMsgPayload) =>
-        this.buildState(message)
+      this.buildState(message)
     );
   }
 
@@ -44,7 +44,7 @@ export class QueueComponent implements OnInit {
     const elapsedMinutes = Math.floor(elapsedTime / 60);
     const elapsedSeconds = elapsedTime - elapsedMinutes * 60;
     return `${elapsedMinutes}:${
-        elapsedSeconds < 10 ? "0" : ""
+      elapsedSeconds < 10 ? "0" : ""
     }${elapsedSeconds}`;
   }
 
@@ -53,7 +53,11 @@ export class QueueComponent implements OnInit {
   }
 
   showProgress(): boolean {
-    return this.currentSong && this.currentSong.mpdTrack.length > 0 && this.currentSong.progress >= 0;
+    return (
+      this.currentSong &&
+      this.currentSong.mpdTrack.length > 0 &&
+      this.currentSong.progress >= 0
+    );
   }
 
   showVolumeSlider(): boolean {
@@ -81,12 +85,12 @@ export class QueueComponent implements OnInit {
     this.webSocketService.send(MpdCommands.GET_QUEUE);
   }
 
-  private buildCoverUrl(title:string) {
+  private buildCoverUrl(title: string) {
     const backendAddr = ConnConfUtil.getBackendAddr();
     const currentCoverUrl = "current-cover";
     // Add a query param to trigger an image change in the browser
     return `${backendAddr}/${currentCoverUrl}?title=${encodeURIComponent(
-        title
+      title
     )}`;
   }
 
@@ -94,7 +98,7 @@ export class QueueComponent implements OnInit {
     const queueTrack = new QueueTrack(payload.currentSong);
     queueTrack.coverUrl = this.buildCoverUrl(payload.currentSong.title);
     queueTrack.elapsedFormatted = this.getFormattedElapsedTime(
-        payload.serverStatus.elapsedTime
+      payload.serverStatus.elapsedTime
     );
     queueTrack.progress = payload.serverStatus.elapsedTime;
     return queueTrack;

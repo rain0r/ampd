@@ -74,7 +74,6 @@ export class SearchComponent {
     }
   }
 
-
   resetSearch(): void {
     this.titleQueue = [];
     this.searchResultCount = 0;

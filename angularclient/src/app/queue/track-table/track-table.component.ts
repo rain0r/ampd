@@ -12,11 +12,11 @@ import {
 import { MatTableDataSource } from "@angular/material/table";
 import { Observable } from "rxjs/index";
 
-import { QueueTrack } from "../../shared/models/queue-track";
 import { MpdCommands } from "../../shared/mpd/mpd-commands";
 import { WebSocketService } from "../../shared/services/web-socket.service";
 import { DeviceDetectorService } from "ngx-device-detector";
 import { IQueuePayload } from "../../shared/messages/incoming/queue-payload";
+import { QueueTrack } from "../../shared/models/queue-track";
 
 @Component({
   selector: "app-track-table",
@@ -25,7 +25,7 @@ import { IQueuePayload } from "../../shared/messages/incoming/queue-payload";
 })
 export class TrackTableComponent implements OnInit, OnChanges {
   @ViewChild("filterInputElem") filterInputElem!: ElementRef;
-  @Input() currentSong: QueueTrack = new QueueTrack();
+  @Input() currentSong!: QueueTrack;
   trackTableData = new MatTableDataSource<QueueTrack>();
   checksum = 0; // The checksum of the current queue
   queueDuration = 0;
@@ -97,7 +97,7 @@ export class TrackTableComponent implements OnInit, OnChanges {
     if (newState && newState.currentValue) {
       this.currentSong = <QueueTrack>newState.currentValue;
       for (const track of this.trackTableData.data) {
-        track.playing = track.id === this.currentSong.id;
+        track.playing = track.mpdTrack.id === this.currentSong.mpdTrack.id;
       }
     }
   }
@@ -114,7 +114,7 @@ export class TrackTableComponent implements OnInit, OnChanges {
     for (const item of message.tracks) {
       const track: QueueTrack = new QueueTrack(item);
       track.pos = posCounter;
-      if (this.currentSong.id === item.id) {
+      if (this.currentSong.mpdTrack.id === item.id) {
         track.playing = true;
       }
       tmp.push(track);
@@ -136,7 +136,7 @@ export class TrackTableComponent implements OnInit, OnChanges {
   private sumTrackDuration(): number {
     let ret = 0.0;
     for (const item of this.trackTableData.data) {
-      ret += item.length;
+      ret += item.mpdTrack.length;
     }
     return ret;
   }

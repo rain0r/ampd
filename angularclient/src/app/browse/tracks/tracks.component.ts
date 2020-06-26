@@ -1,7 +1,7 @@
 import { Component, Input } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { ConnConfUtil } from "../../shared/conn-conf/conn-conf-util";
-import { IMpdTrack, MpdTrack } from "../../shared/messages/incoming/mpd-track";
+import { MpdTrack } from "../../shared/messages/incoming/mpd-track";
 import { MpdCommands } from "../../shared/mpd/mpd-commands";
 import { MessageService } from "../../shared/services/message.service";
 import { NotificationService } from "../../shared/services/notification.service";
@@ -16,7 +16,7 @@ import { Observable } from "rxjs";
   styleUrls: ["./tracks.component.scss"],
 })
 export class TracksComponent extends Filterable {
-  @Input() titleQueue: MpdTrack[] = [];
+  @Input() titleQueue!: MpdTrack[];
   getParamDir = "";
   coverSizeClass: Observable<string>;
   validCoverUrl = false;
@@ -34,7 +34,7 @@ export class TracksComponent extends Filterable {
       this.activatedRoute.snapshot.queryParamMap.get("dir") || "/";
   }
 
-  onPlayTitle(track: IMpdTrack): void {
+  onPlayTitle(track: MpdTrack): void {
     if (track instanceof MouseEvent) {
       return;
     }
@@ -44,7 +44,7 @@ export class TracksComponent extends Filterable {
     this.notificationService.popUp(`Playing title: "${track.title}"`);
   }
 
-  onAddTitle(track: IMpdTrack): void {
+  onAddTitle(track: MpdTrack): void {
     this.webSocketService.sendData(MpdCommands.ADD_TRACK, {
       path: track.file,
     });

@@ -5,10 +5,7 @@ import {
   SimpleChange,
   SimpleChanges,
 } from "@angular/core";
-import {
-  ControlPanelImpl,
-  IControlPanel,
-} from "../../shared/messages/incoming/control-panel";
+import { IControlPanel } from "../../shared/messages/incoming/control-panel";
 import { MpdCommands } from "../../shared/mpd/mpd-commands";
 import { WebSocketService } from "../../shared/services/web-socket.service";
 import { NotificationService } from "../../shared/services/notification.service";
@@ -19,8 +16,8 @@ import { NotificationService } from "../../shared/services/notification.service"
   styleUrls: ["./control-panel.component.scss"],
 })
 export class ControlPanelComponent implements OnChanges {
-  @Input() currentState = "";
-  @Input() controlPanel: IControlPanel = new ControlPanelImpl();
+  @Input() currentState!: string;
+  @Input() controlPanel!: IControlPanel;
 
   constructor(
     private webSocketService: WebSocketService,

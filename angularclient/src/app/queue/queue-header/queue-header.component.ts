@@ -1,12 +1,11 @@
 import { HttpClient } from "@angular/common/http";
 import { Component, Input } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
-import { Observable, Subscription } from "rxjs/index";
-import { UPDATE_COVER } from "../../shared/commands/internal";
+import { Observable } from "rxjs/index";
 import { CoverModalComponent } from "../../shared/cover-modal/cover-modal.component";
-import { QueueTrack } from "../../shared/models/queue-track";
 import { MessageService } from "../../shared/services/message.service";
 import { ResponsiveCoverSizeService } from "../../shared/services/responsive-cover-size.service";
+import { QueueTrack } from "../../shared/models/queue-track";
 
 @Component({
   selector: "app-queue-header",
@@ -14,11 +13,10 @@ import { ResponsiveCoverSizeService } from "../../shared/services/responsive-cov
   styleUrls: ["./queue-header.component.scss"],
 })
 export class QueueHeaderComponent {
-  @Input() currentSong: QueueTrack = new QueueTrack();
-  @Input() currentState = "";
+  @Input() currentSong!: QueueTrack;
+  @Input() currentState!: string;
   coverSizeClass: Observable<string>;
   private hasCover = false;
-  private subscription: Subscription = new Subscription();
 
   constructor(
     private dialog: MatDialog,
@@ -27,27 +25,20 @@ export class QueueHeaderComponent {
     private responsiveCoverSizeService: ResponsiveCoverSizeService
   ) {
     this.coverSizeClass = responsiveCoverSizeService.getCoverCssClass();
-    this.subscription = this.messageService
-      .getMessage()
-      .subscribe((message) => {
-        if (message.type === UPDATE_COVER) {
-          this.checkCoverUrl();
-        }
-      });
   }
 
   openCoverModal(): void {
     this.dialog.open(CoverModalComponent, {
-      data: { coverUrl: this.currentSong.coverUrl() },
+      data: { coverUrl: this.currentSong.coverUrl },
     });
   }
 
-  private checkCoverUrl(): void {
-    const obs = {
-      error: () => (this.hasCover = false),
-      complete: () => (this.hasCover = true),
-    };
-
-    this.http.head(this.currentSong.coverUrl()).subscribe(obs);
-  }
+  // private coverUrl(): string {
+  //   const backendAddr = ConnConfUtil.getBackendAddr();
+  //   const currentCoverUrl = "current-cover";
+  //   // Add a query param to trigger an image change in the browser
+  //   return `${backendAddr}/${currentCoverUrl}?title=${encodeURIComponent(
+  //     this.title
+  //   )}`;
+  // }
 }

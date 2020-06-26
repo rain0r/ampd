@@ -1,8 +1,5 @@
 import { Component, HostListener, Input } from "@angular/core";
-import {
-  ControlPanelImpl,
-  IControlPanel,
-} from "../../shared/messages/incoming/control-panel";
+import { IControlPanel } from "../../shared/messages/incoming/control-panel";
 import { MpdCommands } from "../../shared/mpd/mpd-commands";
 import { WebSocketService } from "../../shared/services/web-socket.service";
 import { MatButtonToggleChange } from "@angular/material/button-toggle";
@@ -13,8 +10,8 @@ import { MatButtonToggleChange } from "@angular/material/button-toggle";
   styleUrls: ["./mpd-modes.component.scss"],
 })
 export class MpdModesComponent {
-  @Input() controlPanel: IControlPanel = new ControlPanelImpl();
-  @Input() currentState = "";
+  @Input() controlPanel!: IControlPanel;
+  @Input() currentState!: string;
 
   constructor(private webSocketService: WebSocketService) {}
 

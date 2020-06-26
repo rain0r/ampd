@@ -13,7 +13,7 @@ import { Filterable } from "../filterable";
   styleUrls: ["./directories.component.scss"],
 })
 export class DirectoriesComponent extends Filterable {
-  @Input() dirQueue: Directory[] = [];
+  @Input() dirQueue!: Directory[];
   getParamDir = "/";
 
   constructor(
@@ -25,7 +25,6 @@ export class DirectoriesComponent extends Filterable {
     super(messageService);
     this.getParamDir =
       this.activatedRoute.snapshot.queryParamMap.get("dir") || "/";
-
     this.activatedRoute.queryParams.subscribe((queryParams) => {
       this.getParamDir = <string>queryParams.dir || "/";
     });

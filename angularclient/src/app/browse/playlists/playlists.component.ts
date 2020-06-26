@@ -12,7 +12,7 @@ import { Filterable } from "../filterable";
   styleUrls: ["./playlists.component.scss"],
 })
 export class PlaylistsComponent extends Filterable {
-  @Input() playlistQueue: Playlist[] = [];
+  @Input() playlistQueue!: Playlist[];
 
   constructor(
     private notificationService: NotificationService,

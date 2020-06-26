@@ -1,65 +1,78 @@
-import { ConnConfUtil } from "../conn-conf/conn-conf-util";
-import { IMpdTrack } from "../messages/incoming/mpd-track";
+import { MpdTrack } from "../messages/incoming/mpd-track";
 
-export class QueueTrack implements IMpdTrack {
-  /* Override */
-  albumName = "";
-  artistName = "";
-  comment = "";
-  discNumber = "";
-  file = "";
-  genre = "";
-  id = 0;
-  length = 0;
-  name = "";
-  position = 0;
-  title = "";
-  track = 0;
-  year = "";
-
-  /* QueueTrack */
-  progress = 0; // progress in seconds
+export class QueueTrack {
+  mpdTrack: MpdTrack;
+  coverUrl = "";
   elapsedFormatted = ""; // elapsed time readable
   playing = false; // if the track is currently played
+  progress = 0; // progress in seconds
   pos = 0; // position in queue
 
-  constructor(mpdSong?: IMpdTrack) {
-    this.playing = false;
-
-    if (mpdSong) {
-      this.albumName = mpdSong.albumName;
-      this.artistName = mpdSong.artistName;
-      this.comment = mpdSong.comment;
-      this.discNumber = mpdSong.discNumber;
-      this.file = mpdSong.file;
-      this.genre = mpdSong.genre;
-      this.id = mpdSong.id;
-      this.length = mpdSong.length;
-      this.name = mpdSong.name;
-      this.position = mpdSong.position;
-      this.title = mpdSong.title;
-      this.track = mpdSong.track;
-      this.year = mpdSong.year;
-    }
-  }
-
-  coverUrl(): string {
-    const backendAddr = ConnConfUtil.getBackendAddr();
-    const currentCoverUrl = "current-cover";
-    // Add a query param to trigger an image change in the browser
-    return `${backendAddr}/${currentCoverUrl}?title=${encodeURIComponent(
-      this.title
-    )}`;
-  }
-
-  durationFormatted(): string {
-    if (isNaN(this.length)) {
-      return "";
-    }
-    const totalMinutes = Math.floor(this.length / 60);
-    const totalSeconds = this.length - totalMinutes * 60;
-    return `${totalMinutes}  :  ${
-      totalSeconds < 10 ? "0" : ""
-    }  ${totalSeconds}`;
+  constructor(mpdTrack: MpdTrack) {
+    this.mpdTrack = mpdTrack;
   }
 }
+
+// export class QueueTrack implements IMpdTrack {
+//   /* Override */
+//   albumName = "";
+//   artistName = "";
+//   comment = "";
+//   discNumber = "";
+//   file = "";
+//   genre = "";
+//   id = 0;
+//   length = 0;
+//   name = "";
+//   position = 0;
+//   title = "";
+//   track = 0;
+//   year = "";
+//
+//   /* QueueTrack */
+//   coverUrl = "";
+//   elapsedFormatted = ""; // elapsed time readable
+//   playing = false; // if the track is currently played
+//   progress = 0; // progress in seconds
+//   pos = 0; // position in queue
+//
+//   constructor(
+//     albumName: string,
+//     artistName: string,
+//     comment: string,
+//     discNumber: string,
+//     file: string,
+//     genre: string,
+//     id: number,
+//     length: number,
+//     name: string,
+//     position: number,
+//     title: string,
+//     track: number,
+//     year: string,
+//     coverUrl: string,
+//     elapsedFormatted: string,
+//     playing: boolean,
+//     progress: number,
+//     pos: number
+//   ) {
+//     this.albumName = albumName;
+//     this.artistName = artistName;
+//     this.comment = comment;
+//     this.discNumber = discNumber;
+//     this.file = file;
+//     this.genre = genre;
+//     this.id = id;
+//     this.length = length;
+//     this.name = name;
+//     this.position = position;
+//     this.title = title;
+//     this.track = track;
+//     this.year = year;
+//     this.coverUrl = coverUrl;
+//     this.elapsedFormatted = elapsedFormatted;
+//     this.playing = playing;
+//     this.progress = progress;
+//     this.pos = pos;
+//   }
+// }

@@ -2,7 +2,7 @@ import { Component } from "@angular/core";
 
 import { Observable } from "rxjs";
 
-import { IMpdTrack } from "../shared/messages/incoming/mpd-track";
+import { MpdTrack } from "../shared/messages/incoming/mpd-track";
 import {
   ISearchMsgPayload,
   ISearchResult,
@@ -21,7 +21,7 @@ import { NotificationService } from "../shared/services/notification.service";
 export class SearchComponent {
   search = "";
   searchSubs: Observable<ISearchMsgPayload>;
-  titleQueue: IMpdTrack[] = [];
+  titleQueue: QueueTrack[] = [];
   searchResultCount = 0;
   private displayedColumns = [
     { name: "artistName", showMobile: true },
@@ -40,7 +40,7 @@ export class SearchComponent {
     this.getResults();
   }
 
-  onPlayTitle(track: IMpdTrack): void {
+  onPlayTitle(track: MpdTrack): void {
     if (track instanceof MouseEvent) {
       return;
     }
@@ -50,7 +50,7 @@ export class SearchComponent {
     this.notificationService.popUp(`Playing: ${track.title}`);
   }
 
-  onAddTitle(track: IMpdTrack): void {
+  onAddTitle(track: MpdTrack): void {
     if (track instanceof MouseEvent) {
       return;
     }
@@ -108,5 +108,4 @@ export class SearchComponent {
     });
     this.searchResultCount = searchResultCount;
   }
-
 }

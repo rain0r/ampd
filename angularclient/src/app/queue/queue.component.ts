@@ -2,15 +2,13 @@ import { Component, HostListener, OnInit } from "@angular/core";
 import { Observable } from "rxjs";
 
 import { UPDATE_COVER } from "../shared/commands/internal";
-import {
-  ControlPanelImpl,
-  IControlPanel,
-} from "../shared/messages/incoming/control-panel";
+import { IControlPanel } from "../shared/messages/incoming/control-panel";
 import { IStateMsgPayload } from "../shared/messages/incoming/state-msg-payload";
-import { QueueTrack } from "../shared/models/queue-track";
+
 import { MpdCommands } from "../shared/mpd/mpd-commands";
 import { MessageService } from "../shared/services/message.service";
 import { WebSocketService } from "../shared/services/web-socket.service";
+import { QueueTrack } from "../shared/models/queue-track";
 
 @Component({
   selector: "app-queue",
@@ -18,8 +16,8 @@ import { WebSocketService } from "../shared/services/web-socket.service";
   styleUrls: ["./queue.component.scss"],
 })
 export class QueueComponent implements OnInit {
-  controlPanel: IControlPanel = new ControlPanelImpl();
-  currentSong: QueueTrack = new QueueTrack();
+  controlPanel: IControlPanel;
+  currentSong: QueueTrack;
   volume = 0;
   currentState = "";
   private stateSubs: Observable<IStateMsgPayload>;
@@ -32,7 +30,6 @@ export class QueueComponent implements OnInit {
     this.stateSubs.subscribe((message: IStateMsgPayload) =>
       this.buildState(message)
     );
-    this.webSocketService.send(MpdCommands.GET_QUEUE);
   }
 
   @HostListener("document:visibilitychange", ["$event"])
@@ -43,7 +40,7 @@ export class QueueComponent implements OnInit {
   }
 
   getFormattedElapsedTime(elapsedTime: number): string {
-    if (isNaN(this.currentSong.length)) {
+    if (isNaN(this.currentSong.mpdTrack.length)) {
       return "";
     }
     const elapsedMinutes = Math.floor(elapsedTime / 60);
@@ -58,20 +55,20 @@ export class QueueComponent implements OnInit {
   }
 
   private buildState(payload: IStateMsgPayload): void {
-    let callBuildQueue = false; // Determines if we need to update the queue
-    let hasSongChanged = false;
+    // let callBuildQueue = false; // Determines if we need to update the queue
+    const hasSongChanged = false;
 
     /* Call buildQueue once if there is no current track set */
-    if ("id" in this.currentSong === true) {
-      if (
-        payload.currentSong &&
-        payload.currentSong.id !== this.currentSong.id
-      ) {
-        hasSongChanged = true;
-      }
-    } else {
-      callBuildQueue = true;
-    }
+    // if ("id" in this.currentSong) {
+    //   if (
+    //     payload.currentSong &&
+    //     payload.currentSong.id !== this.currentSong.mpdTrack.id
+    //   ) {
+    //     hasSongChanged = true;
+    //   }
+    // } else {
+    //   callBuildQueue = true;
+    // }
 
     // Build the currentSong object - holds info about the song currently played
     this.currentSong = new QueueTrack(payload.currentSong);
@@ -88,8 +85,6 @@ export class QueueComponent implements OnInit {
       this.messageService.sendMessage(UPDATE_COVER);
     }
 
-    if (callBuildQueue) {
-      this.webSocketService.send(MpdCommands.GET_QUEUE);
-    }
+    this.webSocketService.send(MpdCommands.GET_QUEUE);
   }
 }

@@ -11,16 +11,16 @@
 >
   <div fxFlex="55%" fxLayout="column">
     <div class="mat-h2 queue-sub-title" fxFlex="100%">
-      {{ currentSong.title }}
+      {{ currentSong.mpdTrack.title }}
     </div>
     <div
       class="mat-h2 queue-sub-title text-muted"
-      *ngIf="currentSong.albumName"
+      *ngIf="currentSong.mpdTrack.albumName"
     >
-      {{ currentSong.albumName }}
+      {{ currentSong.mpdTrack.albumName }}
     </div>
     <div class="mat-h2 queue-sub-title">
-      {{ currentSong.artistName }}
+      {{ currentSong.mpdTrack.artistName }}
     </div>
   </div>
   <div fxLayoutAlign="end center">
@@ -31,7 +31,7 @@
     ></mat-divider>
     <img
       *ngIf="currentState != 'stop' && hasCover"
-      src="{{ currentSong.coverUrl() }}"
+      src="{{ currentSong.coverUrl }}"
       class="album-art"
       [ngClass]="[coverSizeClass|async]"
       (click)="openCoverModal()"

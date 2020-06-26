@@ -9,7 +9,7 @@ import { WebSocketService } from "../../shared/services/web-socket.service";
   styleUrls: ["./volume-slider.component.scss"],
 })
 export class VolumeSliderComponent {
-  @Input() volume = 0;
+  @Input() volume!: number;
 
   constructor(private webSocketService: WebSocketService) {}
 

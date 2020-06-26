@@ -17,4 +17,12 @@ export class BrowseComponent {
   onBackToTop(): void {
     window.scrollTo(0, 0);
   }
+
+  isLoading(): boolean {
+    return (
+      this.browseInfo.playlistQueue.length === 0 &&
+      this.browseInfo.dirQueue.length === 0 &&
+      this.browseInfo.trackQueue.length === 0
+    );
+  }
 }

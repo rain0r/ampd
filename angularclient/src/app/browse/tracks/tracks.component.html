@@ -18,7 +18,7 @@
 >
   <mat-list-item role="listitem" class="list-item">
     <mat-icon>audiotrack</mat-icon> &nbsp;
-    <span class="text-muted space-right"> &#35;{{ track.track }} </span>
+    <span class="text-muted space-right" (dblclick)="onPlayTitle(track)"> &#35;{{ track.track }} </span>
     {{ track.title }} &nbsp;
     <span class="text-muted">{{ track.length | secondsToMmSs }}</span>
     <span class="fill-space"></span>

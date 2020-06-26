@@ -1,8 +1,8 @@
 import { Component, Input } from "@angular/core";
 import { MatSliderChange } from "@angular/material/slider";
-import { QueueTrack } from "../../shared/models/queue-track";
 import { MpdCommands } from "../../shared/mpd/mpd-commands";
 import { WebSocketService } from "../../shared/services/web-socket.service";
+import { QueueTrack } from "../../shared/models/queue-track";
 
 @Component({
   selector: "app-track-progress",
@@ -10,7 +10,7 @@ import { WebSocketService } from "../../shared/services/web-socket.service";
   styleUrls: ["./track-progress.component.scss"],
 })
 export class TrackProgressComponent {
-  @Input() currentSong: QueueTrack = new QueueTrack();
+  @Input() currentSong!: QueueTrack;
 
   constructor(private webSocketService: WebSocketService) {}
 

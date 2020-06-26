@@ -1,27 +1,44 @@
 <form [formGroup]="settingsForm" (ngSubmit)="onSubmit()" class="settings-form">
   <div fxLayout="column" fxLayoutGap="1rem" fxFlex.gt-md="40%">
-    <div class="mat-display-1"><span class="logo">ampd</span> settings</div>
+    <div class="mat-display-1">
+      <span class="logo">ampd</span> settings
+    </div>
     <mat-divider></mat-divider>
-    <div>
+    <mat-card>
       <mat-form-field class="full-width">
         <input
-          matInput
-          required
-          formControlName="backendAddr"
-          placeholder="http://your-computer:8080"
+            matInput
+            required
+            formControlName="backendAddr"
+            placeholder="http://your-computer:8080"
         />
         <mat-hint align="end"
-          >Use the name or IP of the computer running ampd</mat-hint
+        >Use the name or IP of the computer running ampd
+        </mat-hint
         >
       </mat-form-field>
-    </div>
+    </mat-card>
+    <mat-card>
+      <!-- There's a lightbulb hidden in here -->
+      <mat-slide-toggle
+          class="space-right"
+          [checked]="isDarkTheme | async"
+          (change)="toggleDarkTheme($event.checked)"
+          title="Turn the lights off / on"
+      >💡
+        <mat-hint align="end"
+        >Toggle dark theme
+        </mat-hint
+        >
+      </mat-slide-toggle>
+    </mat-card>
 
     <div>
       <button
-        mat-raised-button
-        color="primary"
-        type="submit"
-        class="full-width themed-element"
+          mat-raised-button
+          color="primary"
+          type="submit"
+          class="full-width themed-element"
       >
         Save
       </button>
@@ -31,17 +48,17 @@
       Version:
       <span class="logo" title="ampd version">{{ ampdVersion }}</span> &nbsp;
       <span
-        *ngIf="gitCommitId !== 'live'"
-        class="text-muted logo"
-        title="git commit id"
-        >{{ gitCommitId }}</span
+          *ngIf="gitCommitId !== 'live'"
+          class="text-muted logo"
+          title="git commit id"
+      >{{ gitCommitId }}</span
       >
     </div>
 
     <div class="mono">
       Source code at:
       <a class="mat-app-background" href="https://github.com/rain0r/ampd"
-        >github.com/rain0r/ampd</a
+      >github.com/rain0r/ampd</a
       >
     </div>
   </div>

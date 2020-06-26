@@ -7,7 +7,7 @@ import { MessageService } from "../../shared/services/message.service";
 import { NotificationService } from "../../shared/services/notification.service";
 import { WebSocketService } from "../../shared/services/web-socket.service";
 import { Filterable } from "../filterable";
-import { ResponsiveCoverSizeService } from "../../shared/cover-size/responsive-cover-size.service";
+import { ResponsiveCoverSizeService } from "../../shared/services/responsive-cover-size.service";
 import { Observable } from "rxjs";
 
 @Component({

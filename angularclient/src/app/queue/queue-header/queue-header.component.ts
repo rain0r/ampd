@@ -6,7 +6,7 @@ import { UPDATE_COVER } from "../../shared/commands/internal";
 import { CoverModalComponent } from "../../shared/cover-modal/cover-modal.component";
 import { QueueTrack } from "../../shared/models/queue-track";
 import { MessageService } from "../../shared/services/message.service";
-import { ResponsiveCoverSizeService } from "../../shared/cover-size/responsive-cover-size.service";
+import { ResponsiveCoverSizeService } from "../../shared/services/responsive-cover-size.service";
 
 @Component({
   selector: "app-queue-header",

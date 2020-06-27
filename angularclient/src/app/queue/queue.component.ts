@@ -10,6 +10,7 @@ import { MessageService } from "../shared/services/message.service";
 import { WebSocketService } from "../shared/services/web-socket.service";
 import { QueueTrack } from "../shared/models/queue-track";
 import { ConnConfUtil } from "../shared/conn-conf/conn-conf-util";
+import {queue} from "rxjs/internal/scheduler/queue";
 
 @Component({
   selector: "app-queue",
@@ -101,9 +102,7 @@ export class QueueComponent implements OnInit {
   private buildQueueTrack(payload: IStateMsgPayload) {
     const queueTrack = new QueueTrack(payload.currentSong);
     queueTrack.coverUrl = this.buildCoverUrl(payload.currentSong.title);
-    queueTrack.elapsedFormatted = this.getFormattedElapsedTime(
-      payload.serverStatus.elapsedTime
-    );
+    queueTrack.elapsed = payload.serverStatus.elapsedTime;
     queueTrack.progress = payload.serverStatus.elapsedTime;
     return queueTrack;
   }

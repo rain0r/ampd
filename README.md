@@ -94,6 +94,14 @@ npm install
 ng serve
 ```
 
+On OSX, the package needs to be installed as well: 
+
+```
+npm i --no-save fsevents
+```
+
+The flag `--no-save` prevents it from showing up under `dependencies` (since it's only needed on OSX).
+
 This should get you started, you can see the UI at `http://localhost:4200/` but `ampd` won't connect to the backend server. So let's fix that.
 
 Open the file `angularclient/src/environments/environment.ts` and set change `AMPD_URL` in the first line to your computer name or ip. Run `ng serve` again and - provided there is a `ampd` instance running on that computer - the frontend will connect to that. 

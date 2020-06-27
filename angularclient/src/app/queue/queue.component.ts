@@ -38,14 +38,6 @@ export class QueueComponent implements OnInit {
     }
   }
 
-  getFormattedElapsedTime(elapsedTime: number): string {
-    const elapsedMinutes = Math.floor(elapsedTime / 60);
-    const elapsedSeconds = elapsedTime - elapsedMinutes * 60;
-    return `${elapsedMinutes}:${
-      elapsedSeconds < 10 ? "0" : ""
-    }${elapsedSeconds}`;
-  }
-
   ngOnInit(): void {
     this.webSocketService.send(MpdCommands.GET_QUEUE);
   }

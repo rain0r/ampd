@@ -2,7 +2,7 @@ import { Subscription } from "rxjs/index";
 import { MessageService } from "../shared/services/message.service";
 import { AmpdMessage } from "../shared/messages/internal/ampd-message";
 import { filter } from "rxjs/operators";
-import { BROWSE_FILTER } from "../shared/commands/internal";
+import { InternalMessageType } from "../shared/messages/internal/internal-message-type.enum";
 
 export abstract class Filterable {
   filterValue = "";
@@ -11,7 +11,11 @@ export abstract class Filterable {
   protected constructor(messageService: MessageService) {
     this.subscription = messageService
       .getMessage()
-      .pipe(filter((msg: AmpdMessage) => msg.type === BROWSE_FILTER))
+      .pipe(
+        filter(
+          (msg: AmpdMessage) => msg.type === InternalMessageType.BrowseFilter
+        )
+      )
       .subscribe((message: AmpdMessage) => {
         this.filterValue = message.data ? message.data : "";
       });

@@ -6,12 +6,12 @@ import {
   ViewChild,
 } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
-import { BROWSE_FILTER } from "../../shared/commands/internal";
 import { MpdCommands } from "../../shared/mpd/mpd-commands";
 import { BrowseService } from "../../shared/services/browse.service";
 import { MessageService } from "../../shared/services/message.service";
 import { NotificationService } from "../../shared/services/notification.service";
 import { WebSocketService } from "../../shared/services/web-socket.service";
+import { InternalMessageType } from "../../shared/messages/internal/internal-message-type.enum";
 
 @Component({
   selector: "app-navigation",
@@ -95,7 +95,10 @@ export class BrowseNavigationComponent implements OnInit {
   applyFilter(filterValue: string): void {
     this.filter = filterValue;
     if (filterValue) {
-      this.messageService.sendMessage(BROWSE_FILTER, filterValue);
+      this.messageService.sendMessage(
+        InternalMessageType.BrowseFilter,
+        filterValue
+      );
     } else {
       this.resetFilter();
     }
@@ -103,6 +106,6 @@ export class BrowseNavigationComponent implements OnInit {
 
   resetFilter(): void {
     this.filter = "";
-    this.messageService.sendMessage(BROWSE_FILTER, "");
+    this.messageService.sendMessage(InternalMessageType.BrowseFilter, "");
   }
 }

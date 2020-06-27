@@ -1,9 +1,10 @@
-<div fxLayout="row wrap" fxLayoutAlign="center">
-  <span class="mat-display-1" *ngIf="currentState == 'stop'">
+<div fxLayout="row wrap" fxLayoutAlign="center" *ngIf="currentState == 'stop' else queueHeader">
+  <span class="mat-display-1">
     Stopped.
   </span>
 </div>
 
+<ng-template #queueHeader>
 <div
   fxLayout="row wrap"
   fxLayoutAlign="space-between start"
@@ -38,5 +39,6 @@
     />
   </div>
 </div>
+</ng-template>
 
 <mat-divider></mat-divider>

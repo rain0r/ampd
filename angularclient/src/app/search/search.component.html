@@ -45,28 +45,28 @@
   <ng-container matColumnDef="artistName">
     <th mat-header-cell *matHeaderCellDef>Artist</th>
     <td mat-cell *matCellDef="let track" (dblclick)="onPlayTitle(track)">
-      {{ track.mpdTrack.artistName }}
+      {{ track.artistName }}
     </td>
   </ng-container>
 
   <ng-container matColumnDef="albumName">
     <th mat-header-cell *matHeaderCellDef>Album</th>
     <td mat-cell *matCellDef="let track" (dblclick)="onPlayTitle(track)">
-      {{ track.mpdTrack.albumName }}
+      {{ track.albumName }}
     </td>
   </ng-container>
 
   <ng-container matColumnDef="title">
     <th mat-header-cell *matHeaderCellDef>Title</th>
     <td mat-cell *matCellDef="let track" (dblclick)="onPlayTitle(track)">
-      {{ track.mpdTrack.title }}
+      {{ track.title }}
     </td>
   </ng-container>
 
   <ng-container matColumnDef="length">
     <th mat-header-cell *matHeaderCellDef>Length</th>
     <td mat-cell *matCellDef="let track" (dblclick)="onPlayTitle(track)">
-      {{ track.mpdTrack.length |secondsToMmSs }}
+      {{ track.length |secondsToMmSs }}
     </td>
   </ng-container>
 

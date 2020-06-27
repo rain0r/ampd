@@ -97,7 +97,7 @@ export class TrackTableComponent implements OnInit, OnChanges {
     if (newState && newState.currentValue) {
       this.currentSong = <QueueTrack>newState.currentValue;
       for (const track of this.trackTableData.data) {
-        track.playing = track.mpdTrack.id === this.currentSong.mpdTrack.id;
+        track.playing = track.id === this.currentSong.id;
       }
     }
   }
@@ -114,7 +114,7 @@ export class TrackTableComponent implements OnInit, OnChanges {
     for (const item of message.tracks) {
       const track: QueueTrack = new QueueTrack(item);
       track.pos = posCounter;
-      if (this.currentSong.mpdTrack.id === item.id) {
+      if (this.currentSong.id === item.id) {
         track.playing = true;
       }
       tmp.push(track);
@@ -136,7 +136,7 @@ export class TrackTableComponent implements OnInit, OnChanges {
   private sumTrackDuration(): number {
     let ret = 0.0;
     for (const item of this.trackTableData.data) {
-      ret += item.mpdTrack.length;
+      ret += item.length;
     }
     return ret;
   }

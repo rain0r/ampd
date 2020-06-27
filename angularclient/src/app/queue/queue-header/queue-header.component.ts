@@ -7,7 +7,7 @@ import { MessageService } from "../../shared/services/message.service";
 import { ResponsiveCoverSizeService } from "../../shared/services/responsive-cover-size.service";
 import { QueueTrack } from "../../shared/models/queue-track";
 import { filter } from "rxjs/operators";
-import { UPDATE_COVER } from "../../shared/commands/internal";
+import { InternalMessageType } from "../../shared/messages/internal/internal-message-type.enum";
 
 @Component({
   selector: "app-queue-header",
@@ -29,7 +29,7 @@ export class QueueHeaderComponent {
     this.coverSizeClass = responsiveCoverSizeService.getCoverCssClass();
     this.messageService
       .getMessage()
-      .pipe(filter((msg) => msg.type === UPDATE_COVER))
+      .pipe(filter((msg) => msg.type === InternalMessageType.UpdateCover))
       .subscribe(() => this.checkCoverUrl());
   }
 

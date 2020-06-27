@@ -1,6 +1,5 @@
 import { Component, HostListener, OnInit } from "@angular/core";
 import { Observable } from "rxjs";
-import { UPDATE_COVER } from "../shared/commands/internal";
 import { IControlPanel } from "../shared/messages/incoming/control-panel";
 import { IStateMsgPayload } from "../shared/messages/incoming/state-msg-payload";
 import { MpdCommands } from "../shared/mpd/mpd-commands";
@@ -8,6 +7,7 @@ import { MessageService } from "../shared/services/message.service";
 import { WebSocketService } from "../shared/services/web-socket.service";
 import { QueueTrack } from "../shared/models/queue-track";
 import { ConnConfUtil } from "../shared/conn-conf/conn-conf-util";
+import { InternalMessageType } from "../shared/messages/internal/internal-message-type.enum";
 
 @Component({
   selector: "app-queue",
@@ -104,7 +104,7 @@ export class QueueComponent implements OnInit {
 
   private updateCover(payload: IStateMsgPayload) {
     if (payload.currentSong.id !== this.currentSong.id) {
-      this.messageService.sendMessage(UPDATE_COVER);
+      this.messageService.sendMessage(InternalMessageType.UpdateCover);
     }
   }
 }

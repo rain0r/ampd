@@ -1,17 +1,19 @@
+import { InternalMessageType } from "./internal-message-type.enum";
+
 export class AmpdMessage {
-  private _type: string;
+  private _type: InternalMessageType;
   private _data: string;
 
-  constructor(type: string, data = "") {
+  constructor(type: InternalMessageType, data = "") {
     this._type = type;
     this._data = data;
   }
 
-  get type(): string {
+  get type(): InternalMessageType {
     return this._type;
   }
 
-  set type(value: string) {
+  set type(value: InternalMessageType) {
     this._type = value;
   }
 

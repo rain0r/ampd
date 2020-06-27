@@ -1,2 +1,0 @@
-export const BROWSE_FILTER = "BROWSE_FILTER";
-export const UPDATE_COVER = "UPDATE_COVER";

@@ -1,10 +1,8 @@
 import { Component, HostListener, OnInit } from "@angular/core";
 import { Observable } from "rxjs";
-
 import { UPDATE_COVER } from "../shared/commands/internal";
 import { IControlPanel } from "../shared/messages/incoming/control-panel";
 import { IStateMsgPayload } from "../shared/messages/incoming/state-msg-payload";
-
 import { MpdCommands } from "../shared/mpd/mpd-commands";
 import { MessageService } from "../shared/services/message.service";
 import { WebSocketService } from "../shared/services/web-socket.service";

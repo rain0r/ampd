@@ -11,16 +11,16 @@
 >
   <div fxFlex="55%" fxLayout="column">
     <div class="mat-h2 queue-sub-title" fxFlex="100%">
-      {{ currentSong.mpdTrack.title }}
+      {{ currentSong.title }}
     </div>
     <div
       class="mat-h2 queue-sub-title text-muted"
-      *ngIf="currentSong.mpdTrack.albumName"
+      *ngIf="currentSong.albumName"
     >
-      {{ currentSong.mpdTrack.albumName }}
+      {{ currentSong.albumName }}
     </div>
     <div class="mat-h2 queue-sub-title">
-      {{ currentSong.mpdTrack.artistName }}
+      {{ currentSong.artistName }}
     </div>
   </div>
   <div fxLayoutAlign="end center">

@@ -10,7 +10,6 @@ import { MessageService } from "../shared/services/message.service";
 import { WebSocketService } from "../shared/services/web-socket.service";
 import { QueueTrack } from "../shared/models/queue-track";
 import { ConnConfUtil } from "../shared/conn-conf/conn-conf-util";
-import {queue} from "rxjs/internal/scheduler/queue";
 
 @Component({
   selector: "app-queue",
@@ -19,7 +18,7 @@ import {queue} from "rxjs/internal/scheduler/queue";
 })
 export class QueueComponent implements OnInit {
   controlPanel: IControlPanel;
-  currentSong: QueueTrack;
+  currentSong: QueueTrack = new QueueTrack();
   volume = 0;
   currentState = "";
   private stateSubs: Observable<IStateMsgPayload>;
@@ -56,7 +55,7 @@ export class QueueComponent implements OnInit {
   showProgress(): boolean {
     return (
       this.currentSong &&
-      this.currentSong.mpdTrack.length > 0 &&
+      this.currentSong.length > 0 &&
       this.currentSong.progress >= 0
     );
   }
@@ -77,16 +76,14 @@ export class QueueComponent implements OnInit {
     if (!payload || !payload.currentSong) {
       return;
     }
-
     // Build the currentSong object - holds info about the song currently played
-    const queueTrack = this.buildQueueTrack(payload);
-
     this.controlPanel = payload.controlPanel;
     this.currentState = payload.serverStatus.state;
     this.volume = payload.serverStatus.volume;
-    this.currentSong = queueTrack;
+    // const queueTrack =  this.buildQueueTrack(payload);
+    this.currentSong = this.buildQueueTrack(payload);
 
-    this.messageService.sendMessage(UPDATE_COVER);
+    this.updateCover(payload);
     this.webSocketService.send(MpdCommands.GET_QUEUE);
   }
 
@@ -105,5 +102,11 @@ export class QueueComponent implements OnInit {
     queueTrack.elapsed = payload.serverStatus.elapsedTime;
     queueTrack.progress = payload.serverStatus.elapsedTime;
     return queueTrack;
+  }
+
+  private updateCover(payload: IStateMsgPayload) {
+    if (payload.currentSong.id !== this.currentSong.id) {
+      this.messageService.sendMessage(UPDATE_COVER);
+    }
   }
 }

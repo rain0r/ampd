@@ -6,13 +6,13 @@
     <mat-slider
       class="full-width"
       min="1"
-      max="{{ currentSong.mpdTrack.length }}"
+      max="{{ currentSong.length }}"
       step="1"
       [(ngModel)]="currentSong.progress"
       (input)="handleCurrentSongProgressSlider($event)"
     ></mat-slider>
   </mat-grid-tile>
   <mat-grid-tile colspan="2">
-    {{ currentSong.mpdTrack.length | secondsToMmSs }}
+    {{ currentSong.length | secondsToMmSs }}
   </mat-grid-tile>
 </mat-grid-list>

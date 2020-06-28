@@ -15,7 +15,7 @@
   </button>
   <button
     mat-stroked-button
-    *ngIf="currentState == 'play'"
+    *ngIf="(currentState|async) === 'play'"
     (click)="handleControlButton($event)"
     id="btn-pause"
   >
@@ -23,7 +23,7 @@
   </button>
   <button
     mat-stroked-button
-    *ngIf="currentState != 'play'"
+    *ngIf="(currentState|async) !== 'play'"
     (click)="handleControlButton($event)"
     id="btn-play"
   >

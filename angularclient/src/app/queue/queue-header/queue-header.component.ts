@@ -6,6 +6,7 @@ import { ResponsiveCoverSizeService } from "../../shared/services/responsive-cov
 import { QueueTrack } from "../../shared/models/queue-track";
 import { MpdService } from "../../shared/services/mpd.service";
 import { catchError } from "rxjs/operators";
+import { CoverModalComponent } from "../../shared/cover-modal/cover-modal.component";
 
 @Component({
   selector: "app-queue-header",
@@ -34,9 +35,9 @@ export class QueueHeaderComponent implements OnInit {
   }
 
   openCoverModal(): void {
-    // this.dialog.open(CoverModalComponent, {
-    //   data: { coverUrl: this.currentSong.coverUrl },
-    // });
+    this.dialog.open(CoverModalComponent, {
+      data: { coverUrl: this.currentSong.coverUrl },
+    });
   }
 
   hasCoverObservable(): Observable<boolean> {
@@ -44,7 +45,6 @@ export class QueueHeaderComponent implements OnInit {
   }
 
   private updateCover(): void {
-    console.log("updateCover");
     this.hasCover.next(false);
     if (!this.currentSong.coverUrl) {
       this.hasCover.next(false);

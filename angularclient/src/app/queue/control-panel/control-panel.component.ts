@@ -1,28 +1,28 @@
-import {
-  Component,
-  Input,
-  OnChanges,
-  SimpleChange,
-  SimpleChanges,
-} from "@angular/core";
+import { Component } from "@angular/core";
 import { IControlPanel } from "../../shared/messages/incoming/control-panel";
 import { MpdCommands } from "../../shared/mpd/mpd-commands";
 import { WebSocketService } from "../../shared/services/web-socket.service";
 import { NotificationService } from "../../shared/services/notification.service";
+import { MpdService } from "../../shared/services/mpd.service";
+import { Observable } from "rxjs";
 
 @Component({
   selector: "app-control-panel",
   templateUrl: "./control-panel.component.html",
   styleUrls: ["./control-panel.component.scss"],
 })
-export class ControlPanelComponent implements OnChanges {
-  @Input() currentState!: string;
-  @Input() controlPanel!: IControlPanel;
+export class ControlPanelComponent {
+  currentState: Observable<string>;
+  controlPanel: Observable<IControlPanel>;
 
   constructor(
+    private mpdService: MpdService,
     private webSocketService: WebSocketService,
     private notificationService: NotificationService
-  ) {}
+  ) {
+    this.currentState = this.mpdService.getStateSubscription();
+    this.controlPanel = this.mpdService.getControlPanelSubscription();
+  }
 
   handleControlButton(event: MouseEvent): void {
     let command = "";
@@ -55,12 +55,5 @@ export class ControlPanelComponent implements OnChanges {
     this.webSocketService.send(MpdCommands.RM_ALL);
     this.webSocketService.send(MpdCommands.GET_QUEUE);
     this.notificationService.popUp("Cleared queue");
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    const newState: SimpleChange = changes.currentState;
-    if (newState && newState.currentValue) {
-      this.currentState = <string>newState.currentValue;
-    }
   }
 }

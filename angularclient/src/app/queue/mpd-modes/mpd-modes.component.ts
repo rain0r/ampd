@@ -1,8 +1,9 @@
-import { Component, HostListener, Input } from "@angular/core";
+import { Component, HostListener } from "@angular/core";
 import { IControlPanel } from "../../shared/messages/incoming/control-panel";
 import { MpdCommands } from "../../shared/mpd/mpd-commands";
 import { WebSocketService } from "../../shared/services/web-socket.service";
 import { MatButtonToggleChange } from "@angular/material/button-toggle";
+import { MpdService } from "../../shared/services/mpd.service";
 
 @Component({
   selector: "app-mpd-modes",
@@ -10,10 +11,20 @@ import { MatButtonToggleChange } from "@angular/material/button-toggle";
   styleUrls: ["./mpd-modes.component.scss"],
 })
 export class MpdModesComponent {
-  @Input() controlPanel!: IControlPanel;
-  @Input() currentState!: string;
+  controlPanel: IControlPanel;
+  private currentState = "stop";
 
-  constructor(private webSocketService: WebSocketService) {}
+  constructor(
+    private webSocketService: WebSocketService,
+    private mpdService: MpdService
+  ) {
+    this.mpdService
+      .getControlPanelSubscription()
+      .subscribe((panel) => (this.controlPanel = panel));
+    this.mpdService
+      .getStateSubscription()
+      .subscribe((state) => (this.currentState = state));
+  }
 
   @HostListener("document:keydown", ["$event"])
   handleKeyDown(event: KeyboardEvent): void {

@@ -11,8 +11,8 @@ import { map } from "rxjs/operators";
   providedIn: "root",
 })
 export class MpdService {
-  private controlPanel: IControlPanel;
-  private volume = 0;
+  private volume = new Subject<number>();
+  private controlPanel = new Subject<IControlPanel>();
   private currentState = new Subject<string>();
   private prevSong = new QueueTrack();
   private currentSong = new Subject<QueueTrack>();
@@ -29,14 +29,21 @@ export class MpdService {
     return this.currentState.asObservable();
   }
 
+  getControlPanelSubscription(): Observable<IControlPanel> {
+    return this.controlPanel.asObservable();
+  }
+
+  getVolumeSubscription(): Observable<number> {
+    return this.volume.asObservable();
+  }
   /**
    * Build the currentSong object - holds info about the song currently played
    * @param payload IStateMsgPayload
    */
   private buildState(payload: IStateMsgPayload) {
-    this.controlPanel = payload.controlPanel;
+    this.controlPanel.next(payload.controlPanel);
     this.currentState.next(payload.serverStatus.state);
-    this.volume = payload.serverStatus.volume;
+    this.volume.next(payload.serverStatus.volume);
     let songChanged = false;
     if (payload.currentSong) {
       if (this.prevSong && this.prevSong.id) {

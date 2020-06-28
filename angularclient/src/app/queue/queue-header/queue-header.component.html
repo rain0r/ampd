@@ -4,7 +4,7 @@
   </span>
 </div>
 
-hasCover: {{_hasCover|async}}
+hasCover: {{hasCoverObservable()|async}}
 
 <ng-template #queueHeader>
 <div
@@ -30,10 +30,10 @@ hasCover: {{_hasCover|async}}
     <mat-divider
       fxShow.lt-md="true"
       fxShow="false"
-      *ngIf="currentState !== 'stop'"
+      *ngIf="currentState !== 'stop' && hasCoverObservable()|async"
     ></mat-divider>
     <img
-      *ngIf="currentState !== 'stop'"
+      *ngIf="currentState !== 'stop' && hasCoverObservable()|async"
       [src]=" currentSong.coverUrl "
       class="album-art clickable"
       [ngClass]="[coverSizeClass|async]"

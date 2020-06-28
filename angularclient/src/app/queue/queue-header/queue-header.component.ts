@@ -1,4 +1,4 @@
-import { HttpClient, HttpErrorResponse } from "@angular/common/http";
+import { HttpClient } from "@angular/common/http";
 import { Component, OnInit } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
 import { BehaviorSubject, Observable, throwError } from "rxjs/index";
@@ -13,10 +13,10 @@ import { catchError } from "rxjs/operators";
   styleUrls: ["./queue-header.component.scss"],
 })
 export class QueueHeaderComponent implements OnInit {
-  private _hasCover = new BehaviorSubject<boolean>(false);
   coverSizeClass: Observable<string>;
   currentState = "stop";
   currentSong = new QueueTrack();
+  hasCover = new BehaviorSubject<boolean>(false);
 
   constructor(
     private dialog: MatDialog,
@@ -39,62 +39,36 @@ export class QueueHeaderComponent implements OnInit {
     // });
   }
 
-  get hasCover(): Observable<boolean> {
-    return this._hasCover.asObservable();
+  hasCoverObservable(): Observable<boolean> {
+    return this.hasCover.asObservable();
   }
 
   private updateCover(): void {
-    console.log("updateCover: ", this.currentSong.coverUrl);
-
+    console.log("updateCover");
+    this.hasCover.next(false);
     if (!this.currentSong.coverUrl) {
-      this._hasCover.next(false);
+      this.hasCover.next(false);
       return;
     }
     this.http
       .head(this.currentSong.coverUrl, { observe: "response" })
-      .pipe(catchError(this.handleError))
-      .subscribe((resp) => {
-        // display its headers
-        console.log(`Headers for: ${this.currentSong.coverUrl}`);
-        const keys = resp.headers.keys();
-        const headers = keys.map((key) => `${key}: ${resp.headers.get(key)}`);
-        console.log("headers:", headers);
-      });
-    this.http
-      .get(this.currentSong.coverUrl, { observe: "response" })
-      .subscribe({
-        error: () => {
-          console.error(`Error loading cover: `);
-        },
-        complete: () => {
-          console.log(`Complete`);
-        },
-      });
-  }
-
-  private handleError(error: HttpErrorResponse) {
-    if (error.error instanceof ErrorEvent) {
-      // A client-side or network error occurred. Handle it accordingly.
-      console.error("An error occurred:", error.error.message);
-    } else {
-      // The backend returned an unsuccessful response code.
-      // The response body may contain clues as to what went wrong,
-      console.error(
-        `Backend returned code ${error.status}, ` + `body was: `,
-        error
-      );
-    }
-    // return an observable with a user-facing error message
-    return throwError("Something bad happened; please try again later.");
+      .pipe(
+        catchError(() => {
+          this.hasCover.next(false);
+          return throwError("Not found");
+        })
+      )
+      .subscribe(() => this.hasCover.next(true));
   }
 
   private getSongSubscription() {
+    let first = true;
     this.mpdService.getSongSubscription().subscribe((queueTrack) => {
       this.currentSong = queueTrack;
-      this.updateCover();
-      // if (queueTrack.changed) {
-      //   this.updateCover();
-      // }
+      if (first || queueTrack.changed) {
+        first = false;
+        this.updateCover();
+      }
     });
   }
 

@@ -2,8 +2,6 @@ package org.hihn.ampd.server.controller;
 
 import java.util.Optional;
 import org.hihn.ampd.server.service.CoverArtFetcherService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -18,9 +16,8 @@ import org.springframework.web.server.ResponseStatusException;
  * Endpoint for everything cover-releated.
  */
 @Controller
+@CrossOrigin
 public class CoverController {
-
-  private static final Logger LOG = LoggerFactory.getLogger(CoverArtFetcherService.class);
 
   private static final String CURRENT_COVER_URL = "/current-cover";
 
@@ -39,15 +36,14 @@ public class CoverController {
    *
    * @return The bytes of the current cover.
    */
-  @CrossOrigin
   @RequestMapping(
       value = {CURRENT_COVER_URL},
       produces = MediaType.IMAGE_JPEG_VALUE
   )
   public @ResponseBody
   byte[] getCurrentCover() {
-    return coverArtFetcherService.getCurrentAlbumCover()
-        .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+    // throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+    return coverArtFetcherService.getCurrentAlbumCover()        .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
   }
 
 
@@ -57,7 +53,6 @@ public class CoverController {
    * @param trackFilePath File path of a track.
    * @return The bytes of the input track.
    */
-  @CrossOrigin
   @RequestMapping(
       value = {FIND_COVER_URL},
       produces = MediaType.IMAGE_JPEG_VALUE

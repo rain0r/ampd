@@ -109,7 +109,7 @@ public class MbCoverService {
       try {
         inputStream = coverArt.getFrontImage().getImage();
         ret = Optional.of(IOUtils.toByteArray(inputStream));
-      } catch (IOException e) {
+      } catch (Exception e) {
         LOG.error(e.getMessage(), e);
       }
     }

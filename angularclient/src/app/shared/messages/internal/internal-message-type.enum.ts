@@ -1,5 +1,6 @@
 export enum InternalMessageType {
   BrowseFilter,
   UpdateCover,
-  SongChanged,
+  Song,
+  StateChanged,
 }

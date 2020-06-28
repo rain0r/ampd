@@ -1,14 +1,16 @@
-<div fxLayout="row wrap" fxLayoutAlign="center" *ngIf="currentState == 'stop' else queueHeader">
+<div fxLayout="row wrap" fxLayoutAlign="center" *ngIf="currentState === 'stop' || !currentSong else queueHeader">
   <span class="mat-display-1">
     Stopped.
   </span>
 </div>
 
+hasCover: {{_hasCover|async}}
+
 <ng-template #queueHeader>
 <div
   fxLayout="row wrap"
   fxLayoutAlign="space-between start"
-  *ngIf="currentState != 'stop'"
+  *ngIf="currentState !== 'stop'"
 >
   <div fxFlex="55%" fxLayout="column">
     <div class="mat-h2 queue-sub-title" fxFlex="100%">
@@ -28,10 +30,10 @@
     <mat-divider
       fxShow.lt-md="true"
       fxShow="false"
-      *ngIf="currentState != 'stop' && hasCover"
+      *ngIf="currentState !== 'stop'"
     ></mat-divider>
     <img
-      *ngIf="currentState != 'stop'"
+      *ngIf="currentState !== 'stop'"
       [src]=" currentSong.coverUrl "
       class="album-art clickable"
       [ngClass]="[coverSizeClass|async]"
@@ -42,5 +44,3 @@
 </ng-template>
 
 <mat-divider></mat-divider>
-
-newSong: {{ newSong|async }}

@@ -64,6 +64,11 @@
       <version>4.0.3</version>
       <optional>true</optional>
     </dependency>
+    <dependency>
+      <groupId>org.hihn</groupId>
+      <artifactId>musicbrainzws2-java</artifactId>
+      <version>3.0.15</version>
+    </dependency>
   </dependencies>
   <build>
     <plugins>

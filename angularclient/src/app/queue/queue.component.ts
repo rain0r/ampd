@@ -1,14 +1,9 @@
 import { Component, HostListener, OnInit } from "@angular/core";
-import { Observable } from "rxjs";
 import { IControlPanel } from "../shared/messages/incoming/control-panel";
-import { IStateMsgPayload } from "../shared/messages/incoming/state-msg-payload";
 import { MpdCommands } from "../shared/mpd/mpd-commands";
-import { MessageService } from "../shared/services/message.service";
 import { WebSocketService } from "../shared/services/web-socket.service";
 import { QueueTrack } from "../shared/models/queue-track";
-import { ConnConfUtil } from "../shared/conn-conf/conn-conf-util";
-import { InternalMessageType } from "../shared/messages/internal/internal-message-type.enum";
-import { SongChangedMessage } from "../shared/messages/internal/message-types/song-changed-message";
+import { MpdService } from "../shared/services/mpd.service";
 
 @Component({
   selector: "app-queue",
@@ -20,16 +15,12 @@ export class QueueComponent implements OnInit {
   currentSong: QueueTrack = new QueueTrack();
   volume = 0;
   currentState = "";
-  private stateSubs: Observable<IStateMsgPayload>;
 
   constructor(
     private webSocketService: WebSocketService,
-    private messageService: MessageService
+    private mpdService: MpdService
   ) {
-    this.stateSubs = this.webSocketService.getStateSubscription();
-    this.stateSubs.subscribe((message: IStateMsgPayload) =>
-      this.buildState(message)
-    );
+    this.getSongSubscription();
   }
 
   @HostListener("document:visibilitychange", ["$event"])
@@ -59,46 +50,13 @@ export class QueueComponent implements OnInit {
     return !!this.controlPanel && !!this.currentState;
   }
 
-  /**
-   * Build the currentSong object - holds info about the song currently played
-   * @param payload IStateMsgPayload
-   */
-  private buildState(payload: IStateMsgPayload) {
-    this.controlPanel = payload.controlPanel;
-    this.currentState = payload.serverStatus.state;
-    this.volume = payload.serverStatus.volume;
-    if (payload.currentSong) {
-      if (this.currentSong && this.currentSong.id) {
-        console.log(
-          `Current song id: ${this.currentSong.id}, payload song id: ${payload.currentSong.id}`
-        );
-        if (payload.currentSong.id !== this.currentSong.id) {
-          const msg: SongChangedMessage = {
-            type: InternalMessageType.SongChanged,
-            song: this.currentSong,
-          } as SongChangedMessage;
-          this.messageService.sendMessage(msg);
-        }
-      }
-      this.currentSong = this.buildQueueTrack(payload);
-    }
-    this.webSocketService.send(MpdCommands.GET_QUEUE);
+  private buildStateReceiver() {
+    this.mpdService.getSongSubscription();
   }
 
-  private buildCoverUrl(title: string) {
-    const backendAddr = ConnConfUtil.getBackendAddr();
-    const currentCoverUrl = "current-coverTODO";
-    // Add a query param to trigger an image change in the browser
-    return `${backendAddr}/${currentCoverUrl}?title=${encodeURIComponent(
-      title
-    )}`;
-  }
-
-  private buildQueueTrack(payload: IStateMsgPayload) {
-    const queueTrack = new QueueTrack(payload.currentSong);
-    queueTrack.coverUrl = this.buildCoverUrl(payload.currentSong.title);
-    queueTrack.elapsed = payload.serverStatus.elapsedTime;
-    queueTrack.progress = payload.serverStatus.elapsedTime;
-    return queueTrack;
+  private getSongSubscription() {
+    this.mpdService
+      .getSongSubscription()
+      .subscribe((queueTrack) => (this.currentSong = queueTrack));
   }
 }

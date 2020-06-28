@@ -3,25 +3,20 @@ package org.hihn.ampd.server.service;
 import static org.hihn.ampd.server.service.CoverCacheService.CoverType.ALBUM;
 import static org.hihn.ampd.server.service.CoverCacheService.CoverType.SINGLETON;
 import static org.hihn.ampd.server.util.AmpdUtils.loadFile;
+import static org.hihn.ampd.server.util.AmpdUtils.scanDir;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Collection;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
-import org.bff.javampd.album.MPDAlbum;
-import org.bff.javampd.art.MPDArtwork;
 import org.bff.javampd.server.MPD;
 import org.bff.javampd.song.MPDSong;
 import org.hihn.ampd.server.config.MpdConfiguration;
 import org.hihn.ampd.server.service.CoverCacheService.CoverType;
-import org.hihn.ampd.server.util.AmpdUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
 /**
  * Looks for album art and covers.
@@ -35,6 +30,8 @@ public class CoverArtFetcherService {
 
   private final CoverCacheService coverCacheService;
 
+  private final MbCoverService mbCoverService;
+
   private final MPD mpd;
 
   @Value("${mpd.music.directory:}")
@@ -45,10 +42,11 @@ public class CoverArtFetcherService {
   public CoverArtFetcherService(
       FileStorageService fileStorageService,
       CoverCacheService coverCacheService,
-      MpdConfiguration mpdConfiguration) {
+      MbCoverService mbCoverService, MpdConfiguration mpdConfiguration) {
 
     this.fileStorageService = fileStorageService;
     this.coverCacheService = coverCacheService;
+    this.mbCoverService = mbCoverService;
     this.mpd = mpdConfiguration.mpd();
   }
 
@@ -78,7 +76,7 @@ public class CoverArtFetcherService {
 
     // Now check the musicbrainz cover api
     if (!cover.isPresent()) {
-      cover = downloadCover();
+      cover = mbCoverService.getMbCover(track);
     }
 
     // Save the cover in the cache
@@ -91,28 +89,6 @@ public class CoverArtFetcherService {
 
   private Optional<byte[]> downloadCover() {
     MPDSong track = mpd.getPlayer().getCurrentSong();
-    Collection<MPDAlbum> albums =
-        mpd.getMusicDatabase().getAlbumDatabase().findAlbum(track.getAlbumName());
-
-    MPDAlbum foundAlbum =
-        albums
-            .stream()
-            .filter(album -> track.getArtistName().equals(album.getArtistName()))
-            .findFirst()
-            .orElse(null);
-
-    if (foundAlbum != null && !StringUtils.isEmpty(foundAlbum.toString())) {
-      try {
-        List<MPDArtwork> foundArtworks = mpd.getArtworkFinder().find(foundAlbum);
-        if (foundArtworks.size() > 0) {
-          MPDArtwork artwork = foundArtworks.get(0);
-          return Optional.of(artwork.getBytes());
-        }
-      } catch (Exception e) {
-        LOG.warn("Could not download cover for: '{}'", foundAlbum);
-      }
-    }
-
     return Optional.empty();
   }
 
@@ -122,21 +98,20 @@ public class CoverArtFetcherService {
    * @param trackFilePath The file path of a track.
    * @return The bytes of the found cover.
    */
-  public byte[] findAlbumCover(Optional<String> trackFilePath) throws Exception {
-
+  public Optional<byte[]> findAlbumCover(Optional<String> trackFilePath) {
     if (!trackFilePath.isPresent()) {
-      return null;
+      return Optional.empty();
     }
 
     Path path = Paths.get(musicDirectory, trackFilePath.get());
-    List<Path> covers = AmpdUtils.scanDir(path);
+    List<Path> covers = scanDir(path);
 
     if (covers.size() > 0) {
       Path coverPath = covers.get(0);
-      return loadFile(coverPath);
+      return Optional.of(loadFile(coverPath));
     }
 
-    throw new NoSuchElementException();
+    return Optional.empty();
   }
 
 

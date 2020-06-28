@@ -46,14 +46,8 @@ public class CoverController {
   )
   public @ResponseBody
   byte[] getCurrentCover() {
-    Optional<byte[]> ret = coverArtFetcherService.getCurrentAlbumCover();
-    if (ret.isPresent()) {
-      return ret.get();
-    }
-
-    throw new ResponseStatusException(
-        HttpStatus.NOT_FOUND, "Cover not found"
-    );
+    return coverArtFetcherService.getCurrentAlbumCover()
+        .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
   }
 
 
@@ -70,11 +64,7 @@ public class CoverController {
   )
   public @ResponseBody
   byte[] findCoverByPath(@RequestParam("path") Optional<String> trackFilePath) {
-    try {
-      return coverArtFetcherService.findAlbumCover(trackFilePath);
-    } catch (Exception e) {
-      LOG.info("Could not find a cover for: {}", trackFilePath);
-    }
-    throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Cover Not Found");
+    return coverArtFetcherService.findAlbumCover(trackFilePath)
+        .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
   }
 }

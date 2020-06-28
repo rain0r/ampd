@@ -151,9 +151,4 @@
     }
   },
   "defaultProject": "ampd",
-  "schematics": {
-    "@schematics/angular:component": {
-      "style": "scss"
-    }
-  }
 }

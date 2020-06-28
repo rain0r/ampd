@@ -42,3 +42,10 @@
 </ng-template>
 
 <mat-divider></mat-divider>
+
+<img [src]="imageToShow"
+     alt="Place image title"
+     *ngIf="!isImageLoading; else noImageFound">
+<ng-template #noImageFound>
+  <img src="fallbackImage.png" alt="Fallbackimage">
+</ng-template>

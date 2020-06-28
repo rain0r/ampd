@@ -4,19 +4,11 @@
 <!-- Control panel -->
 <div fxLayout="row wrap" fxLayoutAlign="space-between end" class="inherit-bg">
   <div fxFlex.lt-md="100%">
-    <app-control-panel
-        *ngIf="showMpdModes()"
-        [controlPanel]="controlPanel"
-      [currentState]="currentState"
-    ></app-control-panel>
+    <app-control-panel></app-control-panel>
     <mat-divider fxShow.lt-md="true" fxShow="false"></mat-divider>
   </div>
   <div fxFlex.lt-md="100%">
-    <app-mpd-modes
-        *ngIf="showMpdModes()"
-      [controlPanel]="controlPanel"
-      [currentState]="currentState"
-    ></app-mpd-modes>
+    <app-mpd-modes></app-mpd-modes>
   </div>
 </div>
 
@@ -25,12 +17,12 @@
 </div>
 
 <!-- Current track progress -->
-<app-track-progress *ngIf="showProgress()" [currentSong]="currentSong"></app-track-progress>
-<mat-divider *ngIf="showProgress()"></mat-divider>
+<app-track-progress></app-track-progress>
+<mat-divider></mat-divider>
 
 <!-- Volume slider -->
-<app-volume-slider *ngIf="showVolumeSlider()" [volume]="volume"></app-volume-slider>
-<mat-divider *ngIf="showVolumeSlider()"></mat-divider>
+<app-volume-slider></app-volume-slider>
+<mat-divider></mat-divider>
 
 <!-- Track table -->
-<app-track-table *ngIf="currentSong" [currentSong]="currentSong"></app-track-table>
+<app-track-table></app-track-table>

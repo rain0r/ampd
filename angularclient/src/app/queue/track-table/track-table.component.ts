@@ -2,7 +2,6 @@ import {
   Component,
   ElementRef,
   HostListener,
-  Input,
   OnChanges,
   OnInit,
   SimpleChange,
@@ -17,6 +16,7 @@ import { WebSocketService } from "../../shared/services/web-socket.service";
 import { DeviceDetectorService } from "ngx-device-detector";
 import { IQueuePayload } from "../../shared/messages/incoming/queue-payload";
 import { QueueTrack } from "../../shared/models/queue-track";
+import { MpdService } from "../../shared/services/mpd.service";
 
 @Component({
   selector: "app-track-table",
@@ -25,7 +25,7 @@ import { QueueTrack } from "../../shared/models/queue-track";
 })
 export class TrackTableComponent implements OnInit, OnChanges {
   @ViewChild("filterInputElem") filterInputElem!: ElementRef;
-  @Input() currentSong!: QueueTrack;
+  currentSong: QueueTrack = new QueueTrack();
   trackTableData = new MatTableDataSource<QueueTrack>();
   checksum = 0; // The checksum of the current queue
   queueDuration = 0;
@@ -41,9 +41,13 @@ export class TrackTableComponent implements OnInit, OnChanges {
 
   constructor(
     private deviceService: DeviceDetectorService,
-    private webSocketService: WebSocketService
+    private webSocketService: WebSocketService,
+    private mpdService: MpdService
   ) {
     this.queueSubs = this.webSocketService.getQueueSubscription();
+    this.mpdService
+      .getSongSubscription()
+      .subscribe((song) => (this.currentSong = song));
   }
 
   @HostListener("document:keydown.f", ["$event"])

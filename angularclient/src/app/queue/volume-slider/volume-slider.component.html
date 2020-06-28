@@ -12,5 +12,5 @@
       (input)="handleVolumeSlider($event)"
     ></mat-slider>
   </mat-grid-tile>
-  <mat-grid-tile colspan="2"> {{ volume }} &#37; </mat-grid-tile>
+  <mat-grid-tile colspan="2"> {{ volume|async }} &#37; </mat-grid-tile>
 </mat-grid-list>

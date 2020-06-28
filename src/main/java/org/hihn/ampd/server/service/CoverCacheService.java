@@ -49,13 +49,19 @@ public class CoverCacheService {
 
     // create ampd home
     if (!Files.exists(Paths.get(ampdHome)) && !new File(ampdHome).mkdirs()) {
-      LOG.error("Could not create dir: " + ampdHome);
+      LOG.warn(
+          "Could not create ampd home-dir: {}. This is not fatal, it just means, we can't save or load covers to the local cache.",
+          ampdHome);
+      return;
     }
 
     // create cover cache dir
     Path fullCacheDir = Paths.get(ampdHome, CACHE_DIR);
     if (!Files.exists(Paths.get(ampdHome)) && !new File(fullCacheDir.toString()).mkdirs()) {
-      LOG.error("Could not create dir: " + ampdHome);
+      LOG.warn(
+          "Could not create ampd home-dir: {}. This is not fatal, it just means, we can't save or load covers to the local cache.",
+          ampdHome);
+      return;
     }
   }
 
@@ -102,11 +108,12 @@ public class CoverCacheService {
 
       // Don't write the file if it already exists
       if (!fullPath.toFile().exists()) {
-        LOG.debug("Saving cover: " + coverType + " :: " + artist + " - " + titleOrAlbum);
+        LOG.debug("Saving cover. coverType: {}, artist: {}, title: {}", coverType, artist,
+            titleOrAlbum);
         Files.write(fullPath, file);
       }
     } catch (IOException e) {
-      LOG.error(e.getMessage(), e);
+      LOG.warn("Failed to save cover to local cache: {}", e.getMessage());
     }
   }
 

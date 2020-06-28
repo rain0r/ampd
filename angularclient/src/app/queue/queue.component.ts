@@ -58,20 +58,18 @@ export class QueueComponent implements OnInit {
     return !!this.controlPanel && !!this.currentState;
   }
 
+  /**
+   * Build the currentSong object - holds info about the song currently played
+   * @param payload IStateMsgPayload
+   */
   private buildState(payload: IStateMsgPayload) {
-    console.log("buildState", payload);
-    if (!payload || !payload.currentSong) {
-      return;
-    }
-    // Build the currentSong object - holds info about the song currently played
     this.controlPanel = payload.controlPanel;
-    console.log("currentState", payload.serverStatus.state);
     this.currentState = payload.serverStatus.state;
     this.volume = payload.serverStatus.volume;
-    // const queueTrack =  this.buildQueueTrack(payload);
-    this.currentSong = this.buildQueueTrack(payload);
-
-    this.updateCover(payload);
+    if (payload.currentSong) {
+      this.currentSong = this.buildQueueTrack(payload);
+      this.updateCover(payload);
+    }
     this.webSocketService.send(MpdCommands.GET_QUEUE);
   }
 

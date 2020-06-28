@@ -31,7 +31,7 @@
       *ngIf="currentState != 'stop' && hasCover"
     ></mat-divider>
     <img
-      *ngIf="currentState != 'stop' && hasCover"
+      *ngIf="currentState != 'stop'"
       [src]=" currentSong.coverUrl "
       class="album-art"
       [ngClass]="[coverSizeClass|async]"

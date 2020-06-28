@@ -41,9 +41,19 @@ export class QueueHeaderComponent {
 
   private checkCoverUrl(): void {
     const obs = {
-      error: () => (this.hasCover = true), // TODO
+      error: () => (this.hasCover = false),
       complete: () => (this.hasCover = true),
     };
-    this.http.head(this.currentSong.coverUrl).subscribe(obs);
+    // this.http.head(this.currentSong.coverUrl).subscribe(obs);
+    this.http
+      .get(this.currentSong.coverUrl, { responseType: "blob" })
+      .subscribe({
+        error: () => {
+          console.error(`Error loading cover: `);
+        },
+        complete: () => {
+          console.log(`Complete`);
+        },
+      });
   }
 }

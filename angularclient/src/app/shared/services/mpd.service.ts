@@ -40,9 +40,6 @@ export class MpdService {
     let songChanged = false;
     if (payload.currentSong) {
       if (this.prevSong && this.prevSong.id) {
-        console.log(
-          `Current song id: ${this.prevSong.id}, payload song id: ${payload.currentSong.id}`
-        );
         if (payload.currentSong.id !== this.prevSong.id) {
           songChanged = true;
         }
@@ -64,7 +61,7 @@ export class MpdService {
 
   private buildCoverUrl(title: string) {
     const backendAddr = ConnConfUtil.getBackendAddr();
-    const currentCoverUrl = "current-coverTODO";
+    const currentCoverUrl = "current-cover";
     // Add a query param to trigger an image change in the browser
     return `${backendAddr}/${currentCoverUrl}?title=${encodeURIComponent(
       title

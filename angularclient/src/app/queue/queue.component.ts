@@ -8,6 +8,7 @@ import { WebSocketService } from "../shared/services/web-socket.service";
 import { QueueTrack } from "../shared/models/queue-track";
 import { ConnConfUtil } from "../shared/conn-conf/conn-conf-util";
 import { InternalMessageType } from "../shared/messages/internal/internal-message-type.enum";
+import { SongChangedMessage } from "../shared/messages/internal/message-types/song-changed-message";
 
 @Component({
   selector: "app-queue",
@@ -67,15 +68,26 @@ export class QueueComponent implements OnInit {
     this.currentState = payload.serverStatus.state;
     this.volume = payload.serverStatus.volume;
     if (payload.currentSong) {
+      if (this.currentSong && this.currentSong.id) {
+        console.log(
+          `Current song id: ${this.currentSong.id}, payload song id: ${payload.currentSong.id}`
+        );
+        if (payload.currentSong.id !== this.currentSong.id) {
+          const msg: SongChangedMessage = {
+            type: InternalMessageType.SongChanged,
+            song: this.currentSong,
+          } as SongChangedMessage;
+          this.messageService.sendMessage(msg);
+        }
+      }
       this.currentSong = this.buildQueueTrack(payload);
-      this.updateCover(payload);
     }
     this.webSocketService.send(MpdCommands.GET_QUEUE);
   }
 
   private buildCoverUrl(title: string) {
     const backendAddr = ConnConfUtil.getBackendAddr();
-    const currentCoverUrl = "current-cover";
+    const currentCoverUrl = "current-coverTODO";
     // Add a query param to trigger an image change in the browser
     return `${backendAddr}/${currentCoverUrl}?title=${encodeURIComponent(
       title
@@ -88,11 +100,5 @@ export class QueueComponent implements OnInit {
     queueTrack.elapsed = payload.serverStatus.elapsedTime;
     queueTrack.progress = payload.serverStatus.elapsedTime;
     return queueTrack;
-  }
-
-  private updateCover(payload: IStateMsgPayload) {
-    if (payload.currentSong.id !== this.currentSong.id) {
-      this.messageService.sendMessage(InternalMessageType.UpdateCover);
-    }
   }
 }

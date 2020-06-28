@@ -8,7 +8,7 @@
       min="1"
       max="100"
       step="1"
-      [(ngModel)]="volume"
+      [(ngModel)]="volume|async"
       (input)="handleVolumeSlider($event)"
     ></mat-slider>
   </mat-grid-tile>

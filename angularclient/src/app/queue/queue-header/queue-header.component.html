@@ -33,7 +33,7 @@
     <img
       *ngIf="currentState != 'stop'"
       [src]=" currentSong.coverUrl "
-      class="album-art"
+      class="album-art clickable"
       [ngClass]="[coverSizeClass|async]"
       (click)="openCoverModal()"
     />
@@ -43,9 +43,4 @@
 
 <mat-divider></mat-divider>
 
-<img [src]="imageToShow"
-     alt="Place image title"
-     *ngIf="!isImageLoading; else noImageFound">
-<ng-template #noImageFound>
-  <img src="fallbackImage.png" alt="Fallbackimage">
-</ng-template>
+newSong: {{ newSong|async }}

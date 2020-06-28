@@ -12,6 +12,7 @@ import { MessageService } from "../../shared/services/message.service";
 import { NotificationService } from "../../shared/services/notification.service";
 import { WebSocketService } from "../../shared/services/web-socket.service";
 import { InternalMessageType } from "../../shared/messages/internal/internal-message-type.enum";
+import { FilterMessage } from "../../shared/messages/internal/message-types/filter-message";
 
 @Component({
   selector: "app-navigation",
@@ -92,13 +93,13 @@ export class BrowseNavigationComponent implements OnInit {
     this.notificationService.popUp("Cleared queue");
   }
 
-  applyFilter(filterValue: string): void {
-    this.filter = filterValue;
-    if (filterValue) {
-      this.messageService.sendMessage(
-        InternalMessageType.BrowseFilter,
-        filterValue
-      );
+  applyFilter(term: string): void {
+    this.filter = term;
+    if (term) {
+      this.messageService.sendMessage({
+        type: InternalMessageType.BrowseFilter,
+        filterValue: term,
+      } as FilterMessage);
     } else {
       this.resetFilter();
     }
@@ -106,6 +107,9 @@ export class BrowseNavigationComponent implements OnInit {
 
   resetFilter(): void {
     this.filter = "";
-    this.messageService.sendMessage(InternalMessageType.BrowseFilter, "");
+    this.messageService.sendMessage({
+      type: InternalMessageType.BrowseFilter,
+      filterValue: "",
+    } as FilterMessage);
   }
 }

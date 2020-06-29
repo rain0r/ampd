@@ -1,3 +1,4 @@
+<div *ngIf="(titleQueue| mpdTrackFilter: filterValue).length">
 <div fxLayout="row" fxLayout.lt-md="column" fxLayoutAlign="space-around">
   <div fxFlex="1 1 auto" fxLayoutAlign="start center">
     <span class="list-header mat-h3">
@@ -38,3 +39,4 @@
     </i>
   </mat-list-item>
 </mat-list>
+</div>

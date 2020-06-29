@@ -1,3 +1,4 @@
+<div *ngIf="(dirQueue| directoryFilter: filterValue).length">
 <div class="sub-menu">
   <span class="list-header mat-h3">
     <span *ngIf="getParamDir != '/'">
@@ -107,4 +108,5 @@
       </mat-card-footer>
     </mat-card>
   </div>
+</div>
 </div>

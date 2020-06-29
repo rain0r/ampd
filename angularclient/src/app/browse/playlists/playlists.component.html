@@ -1,28 +1,32 @@
-<div class="sub-menu">
-  <div>
-    <span class="list-header mat-h3">Playlists</span>
-  </div>
-</div>
-
-<mat-list
-  role="list"
-  *ngFor="let playlist of playlistQueue | playlistFilter: filterValue"
-  (click)="onClickPlaylist(playlist)"
->
-  <mat-list-item role="listitem" class="list-item">
-    <div
-      class="full-width cut-text"
-      fxLayout="row"
-      fxLayoutGap="0.2rem"
-      fxLayoutAlign="center center"
-    >
-      <div><mat-icon>list</mat-icon> &nbsp;</div>
-      <div fxFlex="1 1 auto">
-        {{ playlist.name }}
-      </div>
-      <div class="text-muted">
-        {{ playlist.count }}
-      </div>
+<div *ngIf="(playlistQueue| playlistFilter: filterValue).length">
+  <div class="sub-menu">
+    <div>
+      <span class="list-header mat-h3">Playlists</span>
     </div>
-  </mat-list-item>
-</mat-list>
+  </div>
+
+  <mat-list
+      role="list"
+      *ngFor="let playlist of playlistQueue | playlistFilter: filterValue"
+      (click)="onClickPlaylist(playlist)"
+  >
+    <mat-list-item role="listitem" class="list-item">
+      <div
+          class="full-width cut-text"
+          fxLayout="row"
+          fxLayoutGap="0.2rem"
+          fxLayoutAlign="center center"
+      >
+        <div>
+          <mat-icon>list</mat-icon> &nbsp;
+        </div>
+        <div fxFlex="1 1 auto">
+          {{ playlist.name }}
+        </div>
+        <div class="text-muted">
+          {{ playlist.count }}
+        </div>
+      </div>
+    </mat-list-item>
+  </mat-list>
+</div>

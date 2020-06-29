@@ -50,7 +50,8 @@ public class CoverCacheService {
     // create ampd home
     if (!Files.exists(Paths.get(ampdHome)) && !new File(ampdHome).mkdirs()) {
       LOG.warn(
-          "Could not create ampd home-dir: {}. This is not fatal, it just means, we can't save or load covers to the local cache.",
+          "Could not create ampd home-dir: {}. This is not fatal, "
+              + "it just means, we can't save or load covers to the local cache.",
           ampdHome);
       return;
     }
@@ -59,7 +60,8 @@ public class CoverCacheService {
     Path fullCacheDir = Paths.get(ampdHome, CACHE_DIR);
     if (!Files.exists(Paths.get(ampdHome)) && !new File(fullCacheDir.toString()).mkdirs()) {
       LOG.warn(
-          "Could not create ampd home-dir: {}. This is not fatal, it just means, we can't save or load covers to the local cache.",
+          "Could not create ampd home-dir: {}. This is not fatal, "
+              + "it just means, we can't save or load covers to the local cache.",
           ampdHome);
       return;
     }

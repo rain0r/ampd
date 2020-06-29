@@ -25,6 +25,11 @@ public class MbCoverService {
 
   private static final Logger LOG = LoggerFactory.getLogger(MbCoverService.class);
 
+  /**
+   * Download a cover from Musicbrainz.
+   * @param track A {@link MPDSong}.
+   * @return The cover.
+   */
   public Optional<byte[]> getMbCover(MPDSong track) {
     Optional<byte[]> ret;
     if (StringUtils.isEmpty(track.getAlbumName())) {

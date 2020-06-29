@@ -3,7 +3,6 @@ import { MatSliderChange } from "@angular/material/slider";
 import { MpdCommands } from "../../shared/mpd/mpd-commands";
 import { WebSocketService } from "../../shared/services/web-socket.service";
 import { MpdService } from "../../shared/services/mpd.service";
-import { Observable } from "rxjs";
 
 @Component({
   selector: "app-volume-slider",
@@ -11,13 +10,15 @@ import { Observable } from "rxjs";
   styleUrls: ["./volume-slider.component.scss"],
 })
 export class VolumeSliderComponent {
-  volume: Observable<number>;
+  volume: number;
 
   constructor(
     private webSocketService: WebSocketService,
     private mpdService: MpdService
   ) {
-    this.volume = mpdService.getVolumeSubscription();
+    mpdService
+      .getVolumeSubscription()
+      .subscribe((volume) => (this.volume = volume));
   }
 
   handleVolumeSlider(event: MatSliderChange): void {

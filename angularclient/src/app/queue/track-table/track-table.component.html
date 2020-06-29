@@ -84,9 +84,9 @@
   ></tr>
 </table>
 
-<mat-divider></mat-divider>
+<mat-divider class="bottom"></mat-divider>
 
-<span *ngIf="trackTableData.data.length > 0">
+<span *ngIf="trackTableData.data.length > 0" class="bottom">
   {{ trackTableData.data.length }} tracks in the queue. Duration:
   {{ queueDuration | secondsToHhMmSs }}
 </span>

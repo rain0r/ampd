@@ -12,12 +12,10 @@ export class MessageService {
    * @param {InternalMessageType} type
    */
   sendMessageType(type: InternalMessageType): void {
-    console.log(`Sending message type: ${type}`);
     this.subject.next({ type: type } as InternalMessage);
   }
 
   sendMessage(message: InternalMessage): void {
-    console.log(`Sending message`, message);
     this.subject.next(message);
   }
 

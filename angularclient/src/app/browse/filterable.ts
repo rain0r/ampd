@@ -15,8 +15,9 @@ export abstract class Filterable {
         filter((msg) => msg.type === InternalMessageType.BrowseFilter),
         map((msg) => msg as FilterMessage)
       )
-      .subscribe((message) => {
-        this.filterValue = message.filterValue ? message.filterValue : "";
-      });
+      .subscribe(
+        (message) =>
+          (this.filterValue = message.filterValue ? message.filterValue : "")
+      );
   }
 }

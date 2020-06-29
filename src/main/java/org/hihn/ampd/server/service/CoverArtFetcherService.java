@@ -43,7 +43,6 @@ public class CoverArtFetcherService {
       FileStorageService fileStorageService,
       CoverCacheService coverCacheService,
       MbCoverService mbCoverService, MpdConfiguration mpdConfiguration) {
-
     this.fileStorageService = fileStorageService;
     this.coverCacheService = coverCacheService;
     this.mbCoverService = mbCoverService;
@@ -57,39 +56,27 @@ public class CoverArtFetcherService {
    */
   public Optional<byte[]> getCurrentAlbumCover() {
     MPDSong track = mpd.getPlayer().getCurrentSong();
-
     if (track == null) {
       return Optional.empty();
     }
-
     CoverType coverType = (track.getAlbumName().isEmpty()) ? SINGLETON : ALBUM;
-
     // Try to load the cover from cache
-    Optional<byte[]> cover =
-        coverCacheService.loadCover(coverType, track.getArtistName(), track.getTitle());
-
+    Optional<byte[]> cover = coverCacheService
+        .loadCover(coverType, track.getArtistName(), track.getTitle());
     // If the cover is not in the cache, try to load it from the MPD music directory
     if (!cover.isPresent()) {
       String trackFilePath = track.getFile();
       cover = fileStorageService.loadFileAsResource(trackFilePath);
     }
-
     // Now check the musicbrainz cover api
     if (!cover.isPresent()) {
       cover = mbCoverService.getMbCover(track);
     }
-
     // Save the cover in the cache
     if (cover.isPresent()) {
       coverCacheService.saveCover(coverType, track.getArtistName(), track.getTitle(), cover.get());
     }
-
     return cover;
-  }
-
-  private Optional<byte[]> downloadCover() {
-    MPDSong track = mpd.getPlayer().getCurrentSong();
-    return Optional.empty();
   }
 
   /**
@@ -102,17 +89,12 @@ public class CoverArtFetcherService {
     if (!trackFilePath.isPresent()) {
       return Optional.empty();
     }
-
     Path path = Paths.get(musicDirectory, trackFilePath.get());
     List<Path> covers = scanDir(path);
-
     if (covers.size() > 0) {
       Path coverPath = covers.get(0);
       return Optional.of(loadFile(coverPath));
     }
-
     return Optional.empty();
   }
-
-
 }

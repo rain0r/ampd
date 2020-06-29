@@ -43,7 +43,8 @@ public class CoverController {
   public @ResponseBody
   byte[] getCurrentCover() {
     // throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-    return coverArtFetcherService.getCurrentAlbumCover()        .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+    return coverArtFetcherService.getCurrentAlbumCover()
+        .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
   }
 
 

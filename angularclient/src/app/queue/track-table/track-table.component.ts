@@ -17,6 +17,7 @@ import { DeviceDetectorService } from "ngx-device-detector";
 import { IQueuePayload } from "../../shared/messages/incoming/queue-payload";
 import { QueueTrack } from "../../shared/models/queue-track";
 import { MpdService } from "../../shared/services/mpd.service";
+import { MatSort } from "@angular/material/sort";
 
 @Component({
   selector: "app-track-table",
@@ -24,16 +25,18 @@ import { MpdService } from "../../shared/services/mpd.service";
   styleUrls: ["./track-table.component.scss"],
 })
 export class TrackTableComponent implements OnInit, OnChanges {
-  @ViewChild("filterInputElem") filterInputElem!: ElementRef;
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
+  @ViewChild("filterInputElem") filterInputElem: ElementRef;
   currentSong: QueueTrack = new QueueTrack();
-  trackTableData = new MatTableDataSource<QueueTrack>();
+  dataSource = new MatTableDataSource<QueueTrack>();
   checksum = 0; // The checksum of the current queue
   queueDuration = 0;
+  focus = false;
   private queueSubs: Observable<IQueuePayload>;
   private displayedColumns = [
     { name: "pos", showMobile: false },
-    { name: "artist", showMobile: true },
-    { name: "album", showMobile: false },
+    { name: "artistName", showMobile: true },
+    { name: "albumName", showMobile: false },
     { name: "title", showMobile: true },
     { name: "length", showMobile: false },
     { name: "remove", showMobile: true },
@@ -57,7 +60,7 @@ export class TrackTableComponent implements OnInit, OnChanges {
     const isFromInput = (event.target as HTMLInputElement).tagName === "INPUT";
     if (!isFromInput) {
       event.preventDefault();
-      (this.filterInputElem.nativeElement as HTMLElement).focus();
+      this.focus = true;
     }
   }
 
@@ -66,11 +69,11 @@ export class TrackTableComponent implements OnInit, OnChanges {
   }
 
   applyFilter(filterValue: string): void {
-    this.trackTableData.filter = filterValue.trim().toLowerCase();
+    this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
   resetFilter(): void {
-    this.trackTableData.filter = "";
+    this.dataSource.filter = "";
   }
 
   getDisplayedColumns(): string[] {
@@ -100,7 +103,7 @@ export class TrackTableComponent implements OnInit, OnChanges {
     const newState: SimpleChange = changes.currentSong;
     if (newState && newState.currentValue) {
       this.currentSong = <QueueTrack>newState.currentValue;
-      for (const track of this.trackTableData.data) {
+      for (const track of this.dataSource.data) {
         track.playing = track.id === this.currentSong.id;
       }
     }
@@ -124,7 +127,10 @@ export class TrackTableComponent implements OnInit, OnChanges {
       tmp.push(track);
       posCounter += 1;
     }
-    this.trackTableData.data = tmp; // add the new model object to the trackTableData
+
+    this.dataSource.data = tmp; // add the new model object to the trackTableData
+
+    this.dataSource.sort = this.sort;
     this.queueDuration = this.sumTrackDuration();
   }
 
@@ -139,7 +145,7 @@ export class TrackTableComponent implements OnInit, OnChanges {
    */
   private sumTrackDuration(): number {
     let ret = 0.0;
-    for (const item of this.trackTableData.data) {
+    for (const item of this.dataSource.data) {
       ret += item.length;
     }
     return ret;

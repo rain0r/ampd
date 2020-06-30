@@ -9,7 +9,6 @@ public class Playlist implements Comparable<Playlist> {
 
   private int count = 0;
 
-  @SuppressWarnings("checkstyle:missingjavadocmethod")
   public Playlist(String name, int count) {
     this.name = name;
     this.count = count;

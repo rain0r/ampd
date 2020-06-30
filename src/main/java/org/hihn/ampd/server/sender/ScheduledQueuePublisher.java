@@ -23,7 +23,6 @@ public class ScheduledQueuePublisher {
 
   private final MPD mpd;
 
-  @SuppressWarnings("checkstyle:missingjavadocmethod")
   @Autowired
   public ScheduledQueuePublisher(MpdConfiguration mpdConfiguration) {
     this.mpd = mpdConfiguration.mpd();

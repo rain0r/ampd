@@ -14,7 +14,6 @@ public class ControlPanelService {
 
   private final MPD mpd;
 
-  @SuppressWarnings("checkstyle:missingjavadocmethod")
   @Autowired
   public ControlPanelService(MpdConfiguration mpdConfiguration) {
     this.mpd = mpdConfiguration.mpd();

@@ -12,7 +12,6 @@ public class BrowseMessage extends AmpdMessage {
 
   private final BrowsePayload payload;
 
-  @SuppressWarnings("checkstyle:missingjavadocmethod")
   public BrowseMessage(BrowsePayload browsePayload) {
     this.payload = browsePayload;
   }

@@ -8,20 +8,20 @@
   <div fxFlex="70%">
     <mat-form-field class="full-width">
       <input
-        matInput
-        placeholder="Type to search"
-        autocomplete="off"
-        type="text"
-        [(ngModel)]="search"
-        (keyup)="applySearch($event.target.value)"
+          matInput
+          placeholder="Type to search"
+          autocomplete="off"
+          type="text"
+          [(ngModel)]="search"
+          (keyup)="applySearch($event.target.value)"
       />
       <button
-        mat-button
-        *ngIf="search"
-        matSuffix
-        mat-icon-button
-        aria-label="Clear"
-        (click)="search = ''; resetSearch()"
+          mat-button
+          *ngIf="search"
+          matSuffix
+          mat-icon-button
+          aria-label="Clear"
+          (click)="search = ''; resetSearch()"
       >
         <mat-icon>close</mat-icon>
       </button>
@@ -36,58 +36,94 @@
 </div>
 
 <!-- Search results table -->
-<table
-  mat-table
-  class="search-results-table"
-  [dataSource]="titleQueue"
-  *ngIf="titleQueue.length > 0"
->
-  <ng-container matColumnDef="artistName">
-    <th mat-header-cell *matHeaderCellDef>Artist</th>
-    <td mat-cell *matCellDef="let track" (dblclick)="onPlayTitle(track)">
-      {{ track.artistName }}
-    </td>
+<!--<table mat-table [dataSource]="dataSource" matSort matSortActive="artistName" matSortDisableClear-->
+<!--       class="mat-elevation-z8">-->
+
+<!--  <ng-container matColumnDef="artistName">-->
+<!--    <th mat-header-cell mat-sort-header *matHeaderCellDef>Artist</th>-->
+<!--    <td mat-cell *matCellDef="let track" (dblclick)="onPlayTitle(track)">-->
+<!--      {{ track.artistName }}-->
+<!--    </td>-->
+<!--  </ng-container>-->
+
+<!--  <ng-container matColumnDef="albumName">-->
+<!--    <th mat-header-cell mat-sort-header *matHeaderCellDef>Album</th>-->
+<!--    <td mat-cell *matCellDef="let track" (dblclick)="onPlayTitle(track)">-->
+<!--      {{ track.albumName }}-->
+<!--    </td>-->
+<!--  </ng-container>-->
+
+<!--  <ng-container matColumnDef="title">-->
+<!--    <th mat-header-cell mat-sort-header *matHeaderCellDef>Title</th>-->
+<!--    <td mat-cell *matCellDef="let track" (dblclick)="onPlayTitle(track)">-->
+<!--      {{ track.title }}-->
+<!--    </td>-->
+<!--  </ng-container>-->
+
+<!--  <ng-container matColumnDef="length">-->
+<!--    <th mat-header-cell mat-sort-header *matHeaderCellDef>Length</th>-->
+<!--    <td mat-cell *matCellDef="let track" (dblclick)="onPlayTitle(track)">-->
+<!--      {{ track.length |secondsToMmSs }}-->
+<!--    </td>-->
+<!--  </ng-container>-->
+
+<!--  <ng-container matColumnDef="addTitle">-->
+<!--    <th mat-header-cell *matHeaderCellDef></th>-->
+<!--    <td mat-cell *matCellDef="let track">-->
+<!--      <span (click)="onPlayTitle(track)" class="clickable chip">-->
+<!--        <mat-icon> play_arrow </mat-icon>-->
+<!--      </span>-->
+<!--    </td>-->
+<!--  </ng-container>-->
+
+<!--  <ng-container matColumnDef="playTitle">-->
+<!--    <th mat-header-cell *matHeaderCellDef></th>-->
+<!--    <td mat-cell *matCellDef="let track">-->
+<!--          <span (click)="onAddTitle(track)" class="clickable chip">-->
+<!--        <mat-icon> add </mat-icon>-->
+<!--      </span>-->
+<!--    </td>-->
+<!--  </ng-container>-->
+
+<!--  <tr mat-header-row *matHeaderRowDef="getDisplayedColumns()"></tr>-->
+<!--  <tr-->
+<!--      mat-row-->
+<!--      *matRowDef="let row; columns: getDisplayedColumns()"-->
+<!--      class="table-row"-->
+<!--  ></tr>-->
+<!--</table>-->
+
+
+<table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+
+  <!-- Position Column -->
+  <ng-container matColumnDef="position">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> No. </th>
+    <td mat-cell *matCellDef="let element"> {{element.position}} </td>
   </ng-container>
 
-  <ng-container matColumnDef="albumName">
-    <th mat-header-cell *matHeaderCellDef>Album</th>
-    <td mat-cell *matCellDef="let track" (dblclick)="onPlayTitle(track)">
-      {{ track.albumName }}
-    </td>
+  <!-- Name Column -->
+  <ng-container matColumnDef="name">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+    <td mat-cell *matCellDef="let element"> {{element.name}} </td>
   </ng-container>
 
-  <ng-container matColumnDef="title">
-    <th mat-header-cell *matHeaderCellDef>Title</th>
-    <td mat-cell *matCellDef="let track" (dblclick)="onPlayTitle(track)">
-      {{ track.title }}
-    </td>
+  <!-- Weight Column -->
+  <ng-container matColumnDef="weight">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> Weight </th>
+    <td mat-cell *matCellDef="let element"> {{element.weight}} </td>
   </ng-container>
 
-  <ng-container matColumnDef="length">
-    <th mat-header-cell *matHeaderCellDef>Length</th>
-    <td mat-cell *matCellDef="let track" (dblclick)="onPlayTitle(track)">
-      {{ track.length |secondsToMmSs }}
-    </td>
+  <!-- Symbol Column -->
+  <ng-container matColumnDef="symbol">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> Symbol </th>
+    <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>
   </ng-container>
 
-  <ng-container matColumnDef="action">
-    <th mat-header-cell *matHeaderCellDef></th>
-    <td mat-cell *matCellDef="let track">
-      <div fxLayout="row nowrap">
-      <span (click)="onPlayTitle(track)" class="clickable chip">
-        <mat-icon> play_arrow </mat-icon>
-      </span>
-      <span (click)="onAddTitle(track)" class="clickable chip">
-        <mat-icon> add </mat-icon>
-      </span>
-      </div>
-    </td>
-  </ng-container>
-
-  <tr mat-header-row *matHeaderRowDef="getDisplayedColumns()"></tr>
-  <tr
-    mat-row
-    *matRowDef="let row; columns: getDisplayedColumns()"
-    class="table-row"
-  ></tr>
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 </table>
+
+
+<!-- Loading animation -->
+<mat-spinner class="centered" *ngIf="spinnerVisible"></mat-spinner>

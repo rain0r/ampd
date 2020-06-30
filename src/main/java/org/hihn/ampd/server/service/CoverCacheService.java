@@ -25,7 +25,7 @@ public class CoverCacheService {
   private static final Logger LOG = LoggerFactory.getLogger(CoverCacheService.class);
 
   @Value("${local.cover.cache:true}")
-  private boolean useCache;
+  private boolean localCoverCache;
 
   @Value("${mpd.music.directory:}")
   // ':' sets an empty str if the prop is not set
@@ -42,7 +42,6 @@ public class CoverCacheService {
     this.chacheDir = buildCacheDir();
   }
 
-
   /**
    * Loads a cover from the local cache.
    *
@@ -52,7 +51,7 @@ public class CoverCacheService {
    * @return An optional with the bytes of the found cover in a successful case.
    */
   public Optional<byte[]> loadCover(CoverType coverType, String artist, String titleOrAlbum) {
-    if (!this.useCache) {
+    if (!this.useCache()) {
       return Optional.empty();
     }
 
@@ -75,7 +74,7 @@ public class CoverCacheService {
    * @param file         The cover itself.
    */
   public void saveCover(CoverType coverType, String artist, String titleOrAlbum, byte[] file) {
-    if (!this.useCache) {
+    if (!this.useCache()) {
       return;
     }
 
@@ -156,7 +155,7 @@ public class CoverCacheService {
   }
 
   private Optional<Path> buildCacheDir() {
-    if (!this.useCache) {
+    if (!this.useCache()) {
       return Optional.empty();
     }
 
@@ -174,4 +173,9 @@ public class CoverCacheService {
 
     return Optional.of(cacheDirPath);
   }
+
+  private boolean useCache() {
+    return this.localCoverCache && this.chacheDir.isPresent();
+  }
+
 }

@@ -49,7 +49,6 @@ public class WebSocketController {
 
   private final ControlPanelService controlPanelService;
 
-  @SuppressWarnings("checkstyle:missingjavadocmethod")
   @Autowired
   public WebSocketController(
       MpdConfiguration mpdConfiguration,

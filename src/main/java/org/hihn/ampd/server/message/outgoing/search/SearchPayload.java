@@ -14,11 +14,9 @@ public class SearchPayload {
 
   String query = null;
 
-  @SuppressWarnings("checkstyle:missingjavadocmethod")
   public SearchPayload() {
   }
 
-  @SuppressWarnings("checkstyle:missingjavadocmethod")
   public SearchPayload(List<MPDSong> searchResults, int searchResultCount, String query) {
     this.searchResults = searchResults;
     this.searchResultCount = searchResultCount;

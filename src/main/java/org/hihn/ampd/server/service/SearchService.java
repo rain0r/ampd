@@ -18,7 +18,6 @@ public class SearchService {
 
   private final MPD mpd;
 
-  @SuppressWarnings("checkstyle:missingjavadocmethod")
   @Autowired
   public SearchService(MpdConfiguration mpdConfiguration) {
     this.mpd = mpdConfiguration.mpd();

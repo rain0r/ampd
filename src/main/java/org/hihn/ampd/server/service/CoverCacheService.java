@@ -7,13 +7,14 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.Optional;
+import org.hihn.ampd.server.cover.CoverType;
 import org.hihn.ampd.server.util.AmpdUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
 /**
  * Handles the caching of album art.
@@ -23,58 +24,24 @@ public class CoverCacheService {
 
   private static final Logger LOG = LoggerFactory.getLogger(CoverCacheService.class);
 
-  @Value("${ampd.home:}")
-  private String ampdHome;
+  @Value("${local.cover.cache:true}")
+  private boolean useCache;
 
+  @Value("${mpd.music.directory:}")
+  // ':' sets an empty str if the prop is not set
+  private String musicDirectory;
+
+  private Optional<Path> chacheDir;
+
+  /**
+   * Name of the dir that holds all covers
+   */
   private static final String CACHE_DIR = "covers";
 
-  public enum CoverType {
-    ALBUM("a_"),
-    SINGLETON("s_");
-
-    private String prefix;
-
-    CoverType(String prefix) {
-      this.prefix = prefix;
-    }
-
-    public String getPrefix() {
-      return prefix;
-    }
-  }
-
-  @SuppressWarnings("checkstyle:missingjavadocmethod")
   public CoverCacheService() {
-    ampdHome = buildAmpdHome();
-
-    // create ampd home
-    if (!Files.exists(Paths.get(ampdHome)) && !new File(ampdHome).mkdirs()) {
-      LOG.warn(
-          "Could not create ampd home-dir: {}. This is not fatal, "
-              + "it just means, we can't save or load covers to the local cache.",
-          ampdHome);
-      return;
-    }
-
-    // create cover cache dir
-    Path fullCacheDir = Paths.get(ampdHome, CACHE_DIR);
-    if (!Files.exists(Paths.get(ampdHome)) && !new File(fullCacheDir.toString()).mkdirs()) {
-      LOG.warn(
-          "Could not create ampd home-dir: {}. This is not fatal, "
-              + "it just means, we can't save or load covers to the local cache.",
-          ampdHome);
-      return;
-    }
+    this.chacheDir = buildCacheDir();
   }
 
-  private String buildAmpdHome() {
-    String ret = ampdHome;
-    if (StringUtils.isEmpty(ret)) {
-      Path p = Paths.get(System.getProperty("user.home"), ".local", "share", "ampd");
-      ret = p.toString();
-    }
-    return ret;
-  }
 
   /**
    * Loads a cover from the local cache.
@@ -85,14 +52,18 @@ public class CoverCacheService {
    * @return An optional with the bytes of the found cover in a successful case.
    */
   public Optional<byte[]> loadCover(CoverType coverType, String artist, String titleOrAlbum) {
+    if (!this.useCache) {
+      return Optional.empty();
+    }
+
     String fileName = buildFileName(coverType, artist, titleOrAlbum);
-    Path fullPath = Paths.get(buildAmpdHome(), CACHE_DIR, fileName).toAbsolutePath();
+    Path fullPath = Paths.get(this.chacheDir.get().toString(), CACHE_DIR, fileName)
+        .toAbsolutePath();
     try {
       return Optional.of(loadFile(fullPath));
     } catch (Exception e) {
-      // Do nothing
+      return Optional.empty();
     }
-    return Optional.empty();
   }
 
   /**
@@ -104,9 +75,13 @@ public class CoverCacheService {
    * @param file         The cover itself.
    */
   public void saveCover(CoverType coverType, String artist, String titleOrAlbum, byte[] file) {
+    if (!this.useCache) {
+      return;
+    }
+
     try {
       String fileName = buildFileName(coverType, artist, titleOrAlbum);
-      Path fullPath = Paths.get(buildAmpdHome(), CACHE_DIR, fileName).toAbsolutePath();
+      Path fullPath = Paths.get(this.chacheDir.get().toString(), fileName).toAbsolutePath();
 
       // Don't write the file if it already exists
       if (!fullPath.toFile().exists()) {
@@ -119,11 +94,84 @@ public class CoverCacheService {
     }
   }
 
+  /**
+   * Reads a track from disk.
+   *
+   * @param trackFilePath The path of the file to read.
+   * @return An optional with the bytes of the found cover in a successful case.
+   */
+  public Optional<byte[]> loadFileAsResource(String trackFilePath) {
+
+    Optional<Path> p;
+    Optional<Path> coverFile = findCoverFileName(trackFilePath);
+    Optional<byte[]> ret = Optional.empty();
+
+    /* Load the file */
+    if (coverFile.isPresent()) {
+      ret = Optional.of(loadFile(coverFile.get()));
+    }
+
+    return ret;
+  }
+
+  @edu.umd.cs.findbugs.annotations.SuppressFBWarnings(
+      value = "NP_NULL_ON_SOME_PATH_FROM_RETURN_VALUE")
+  private Optional<Path> findCoverFileName(String trackFilePath) {
+
+    if (musicDirectory.isEmpty()) {
+      LOG.info("No music directory set, aborting.");
+      return Optional.empty();
+    }
+
+    Optional<Path> ret = Optional.empty();
+    Path path = Paths.get(musicDirectory, trackFilePath);
+
+    try {
+      if (path.getParent() == null || !path.toFile().exists()) {
+        throw new Exception();
+      }
+    } catch (Exception e) {
+      LOG.error("No valid path: '{}'", path);
+      return Optional.empty();
+    }
+
+    if (path.getParent() == null) {
+      return Optional.empty();
+    }
+    List<Path> covers = AmpdUtils.scanDir(path.getParent());
+
+    if (covers.size() > 0) {
+      ret = Optional.of(covers.get(0));
+    }
+
+    return ret;
+  }
+
   private String buildFileName(CoverType coverType, String artist, String titleOrAlbum) {
     return coverType.getPrefix()
         + AmpdUtils.stripAccents(artist)
         + "_"
         + AmpdUtils.stripAccents(titleOrAlbum)
         + ".jpg";
+  }
+
+  private Optional<Path> buildCacheDir() {
+    if (!this.useCache) {
+      return Optional.empty();
+    }
+
+    Path cacheDirPath = Paths
+        .get(System.getProperty("user.home"), ".local", "share", "ampd", CACHE_DIR);
+
+    // create ampd home
+    if (!Files.exists(cacheDirPath) && !new File(cacheDirPath.toString()).mkdirs()) {
+      LOG.warn(
+          "Could not create ampd home-dir: {}. This is not fatal, "
+              + "it just means, we can't save or load covers to the local cache.",
+          cacheDirPath);
+      return Optional.empty();
+    }
+
+    return Optional.of(cacheDirPath);
   }
 }

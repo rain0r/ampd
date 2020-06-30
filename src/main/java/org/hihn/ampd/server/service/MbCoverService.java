@@ -17,6 +17,7 @@ import org.musicbrainz.model.searchresult.RecordingResultWs2;
 import org.musicbrainz.model.searchresult.ReleaseResultWs2;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -25,17 +26,23 @@ public class MbCoverService {
 
   private static final Logger LOG = LoggerFactory.getLogger(MbCoverService.class);
 
+  @Value("${mb.cover.service:true}")
+  private boolean useMbService;
+
   /**
    * Download a cover from Musicbrainz.
+   *
    * @param track A {@link MPDSong}.
    * @return The cover.
    */
   public Optional<byte[]> getMbCover(MPDSong track) {
-    Optional<byte[]> ret;
-    if (StringUtils.isEmpty(track.getAlbumName())) {
-      ret = searchSingletonMusicBrainzCover(track);
-    } else {
-      ret = searchAlbumMusicBrainzCover(track);
+    Optional<byte[]> ret = Optional.empty();
+    if (this.useMbService) {
+      if (StringUtils.isEmpty(track.getAlbumName())) {
+        ret = searchSingletonMusicBrainzCover(track);
+      } else {
+        ret = searchAlbumMusicBrainzCover(track);
+      }
     }
     return ret;
   }

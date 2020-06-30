@@ -17,11 +17,9 @@ public class StatePayload {
 
   private ControlPanel controlPanel;
 
-  @SuppressWarnings("checkstyle:missingjavadocmethod")
   public StatePayload() {
   }
 
-  @SuppressWarnings("checkstyle:missingjavadocmethod")
   public StatePayload(ServerStatus serverStatus, MPDSong currentSong, ControlPanel controlPanel) {
     this.serverStatus = serverStatus;
     this.currentSong = currentSong;

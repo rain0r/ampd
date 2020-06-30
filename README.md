@@ -55,7 +55,28 @@ java -jar -Dserver.address=localhost -Dmpd.server=myhostname ampd.jar
 
 To persist these options, create a config file. See chapter `Installation`.
 
-For a full list of options, see [`application.properties`](src/main/resources/application.properties)
+These are all options that can be set via `-D`:
+
+```
+# Corresponds to the value of music_directory in the mpd.conf
+mpd.music.directory=/home/foo/Music
+
+# The ip or name of the server that runs MPD
+mpd.server=localhost
+
+# The port on which MPD runs
+mpd.port=6600
+
+# If MPD uses a password, set it here
+# mpd.password=
+
+# Covers can be cached locally in
+# ~/.local/share/ampd/
+local.cover.cache=true
+
+# Covers can be fetched from Musicbrainz
+mb.cover.service=true
+```
 
 # Using
 ## Shortcuts

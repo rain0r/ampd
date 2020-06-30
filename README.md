@@ -70,6 +70,7 @@ For a full list of options, see [`application.properties`](src/main/resources/ap
  * `2`: Navigate to the browse view
  * `3`: Navigate to the search view
  * `4`: Navigate to the settings view
+ * `<doubleclick>` on a track: play it
 
 # Hacking
 ## Building from source

@@ -1,10 +1,10 @@
 <div fxLayout="row wrap" fxLayoutGap="0.5%" fxLayoutGap.lt-md="2%">
   <div fxLayoutAlign="center center">
     <button
-      mat-button
-      [routerLink]="['/browse']"
-      mat-raised-button
-      class="mat-small"
+        [routerLink]="['/browse']"
+        class="mat-small"
+        mat-button
+        mat-raised-button
     >
       <mat-icon>expand_less</mat-icon>
       <span fxHide.lt-md>
@@ -59,22 +59,23 @@
   <div class="filter-flex" fxLayoutAlign="center center" fxFlex="30%" fxFlex.lt-md="100%">
     <mat-form-field class="full-width">
       <input
-        #filterInputElem
-        matInput
-        placeholder="Filter"
-        autocomplete="off"
-        type="text"
-        [(ngModel)]="filter"
-        (keyup)="applyFilter($event.target.value)"
-        (keydown.escape)="filterInputElem.blur()"
+          #filterInputElem
+          (keydown.escape)="filterInputElem.blur()"
+          (keyup)="applyFilter($event.target.value)"
+          [(ngModel)]="filter"
+          [autofocus]="focus"
+          autocomplete="off"
+          matInput
+          placeholder="Filter"
+          type="text"
       />
       <button
-        mat-button
-        *ngIf="filter"
-        matSuffix
-        mat-icon-button
-        aria-label="Clear"
-        (click)="filter = ''; resetFilter()"
+          (click)="filter = ''; resetFilter()"
+          *ngIf="filter"
+          aria-label="Clear"
+          mat-button
+          mat-icon-button
+          matSuffix
       >
         <mat-icon>close</mat-icon>
       </button>

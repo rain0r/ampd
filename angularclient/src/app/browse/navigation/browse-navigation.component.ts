@@ -1,10 +1,4 @@
-import {
-  Component,
-  ElementRef,
-  HostListener,
-  OnInit,
-  ViewChild,
-} from "@angular/core";
+import { Component, HostListener, OnInit, ViewChild } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { MpdCommands } from "../../shared/mpd/mpd-commands";
 import { BrowseService } from "../../shared/services/browse.service";
@@ -20,9 +14,10 @@ import { FilterMessage } from "../../shared/messages/internal/message-types/filt
   styleUrls: ["./browse.navigation.component.scss"],
 })
 export class BrowseNavigationComponent implements OnInit {
-  @ViewChild("filterInputElem") filterInputElem!: ElementRef;
+  @ViewChild("filterInputElem") filterInputElem;
   getParamDir = "";
   filter = "";
+  focus = false;
 
   constructor(
     private router: Router,
@@ -39,7 +34,7 @@ export class BrowseNavigationComponent implements OnInit {
     const isFromInput = (event.target as HTMLInputElement).tagName === "INPUT";
     if (!isFromInput) {
       event.preventDefault();
-      (this.filterInputElem.nativeElement as HTMLElement).focus();
+      this.focus = true;
     }
   }
 

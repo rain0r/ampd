@@ -16,7 +16,7 @@ import { Observable } from "rxjs";
   styleUrls: ["./tracks.component.scss"],
 })
 export class TracksComponent extends Filterable {
-  @Input() titleQueue!: MpdTrack[];
+  @Input() titleQueue: MpdTrack[] = [];
   getParamDir = "";
   coverSizeClass: Observable<string>;
   validCoverUrl = false;

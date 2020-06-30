@@ -13,7 +13,7 @@ import { Filterable } from "../filterable";
   styleUrls: ["./directories.component.scss"],
 })
 export class DirectoriesComponent extends Filterable {
-  @Input() dirQueue!: Directory[];
+  @Input() dirQueue: Directory[] = [];
   getParamDir = "/";
 
   constructor(

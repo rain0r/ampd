@@ -1,4 +1,4 @@
-package org.hihn.ampd.server.cover;
+package org.hihn.ampd.server.model;
 
 public enum CoverType {
   ALBUM("a_"),

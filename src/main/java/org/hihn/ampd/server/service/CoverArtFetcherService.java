@@ -11,7 +11,7 @@ import java.util.Optional;
 import org.bff.javampd.server.MPD;
 import org.bff.javampd.song.MPDSong;
 import org.hihn.ampd.server.config.MpdConfiguration;
-import org.hihn.ampd.server.cover.CoverType;
+import org.hihn.ampd.server.model.CoverType;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 

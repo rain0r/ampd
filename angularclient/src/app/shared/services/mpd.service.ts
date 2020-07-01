@@ -7,7 +7,6 @@ import { ConnConfUtil } from "../conn-conf/conn-conf-util";
 import { Observable, Subject } from "rxjs";
 import { map } from "rxjs/operators";
 import { filter } from "rxjs/internal/operators";
-import { BaseResponse } from "../messages/incoming/base-response";
 
 @Injectable({
   providedIn: "root",

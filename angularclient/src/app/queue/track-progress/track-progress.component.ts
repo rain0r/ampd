@@ -4,6 +4,7 @@ import { MpdCommands } from "../../shared/mpd/mpd-commands";
 import { WebSocketService } from "../../shared/services/web-socket.service";
 import { QueueTrack } from "../../shared/models/queue-track";
 import { MpdService } from "../../shared/services/mpd.service";
+import { Observable } from "rxjs";
 
 @Component({
   selector: "app-track-progress",
@@ -12,6 +13,7 @@ import { MpdService } from "../../shared/services/mpd.service";
 })
 export class TrackProgressComponent {
   currentSong: QueueTrack = new QueueTrack();
+  state: Observable<string>;
 
   constructor(
     private webSocketService: WebSocketService,
@@ -20,6 +22,7 @@ export class TrackProgressComponent {
     this.mpdService
       .getSongSubscription()
       .subscribe((song) => (this.currentSong = song));
+    this.state = this.mpdService.getStateSubscription();
   }
 
   handleCurrentSongProgressSlider(event: MatSliderChange): void {

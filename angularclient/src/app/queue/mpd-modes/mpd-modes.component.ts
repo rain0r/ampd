@@ -28,10 +28,6 @@ export class MpdModesComponent {
 
   @HostListener("document:keydown", ["$event"])
   handleKeyDown(event: KeyboardEvent): void {
-    if (!event) {
-      return;
-    }
-
     const inputElement = event.target as HTMLInputElement;
     if (inputElement.tagName === "MAT-SLIDER") {
       /* We want to change the volume (with the keyboard) - not skip the track. */
@@ -44,15 +40,14 @@ export class MpdModesComponent {
     }
 
     let command = "";
-
-    switch (event.which) {
-      case 37: // left
+    switch (event.key) {
+      case "ArrowLeft": // left
         command = MpdCommands.SET_PREV;
         break;
-      case 39: // right
+      case "ArrowRight": // right
         command = MpdCommands.SET_NEXT;
         break;
-      case 32: // space
+      case "Space": // space
         if (this.currentState === "pause") {
           command = MpdCommands.SET_PLAY;
         } else if (this.currentState === "play") {
@@ -70,11 +65,7 @@ export class MpdModesComponent {
 
   toggleCtrl(event: MatButtonToggleChange): void {
     for (const key in this.controlPanel) {
-      if ((event.value as string).includes(key)) {
-        this.controlPanel[key] = true;
-      } else {
-        this.controlPanel[key] = false;
-      }
+      this.controlPanel[key] = (event.value as string).includes(key);
     }
     this.webSocketService.sendData(MpdCommands.TOGGLE_CONTROL, {
       controlPanel: this.controlPanel,

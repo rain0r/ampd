@@ -6,6 +6,8 @@ import { QueueTrack } from "../models/queue-track";
 import { ConnConfUtil } from "../conn-conf/conn-conf-util";
 import { Observable, Subject } from "rxjs";
 import { map } from "rxjs/operators";
+import { filter } from "rxjs/internal/operators";
+import { BaseResponse } from "../messages/incoming/base-response";
 
 @Injectable({
   providedIn: "root",
@@ -78,7 +80,10 @@ export class MpdService {
   private init() {
     this.webSocketService
       .getStateSubscription()
-      .pipe(map((msg) => this.buildState(msg)))
+      .pipe(
+        map((msg) => this.buildState(msg)),
+        filter((queueTrack: QueueTrack) => !!queueTrack)
+      )
       .subscribe((queueTrack) => this.currentSong.next(queueTrack));
   }
 }

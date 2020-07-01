@@ -35,6 +35,7 @@ export class WebSocketService {
     return this.rxStompService.watch("/topic/state").pipe(
       map((message) => message.body),
       map((body: string) => <BaseResponse>JSON.parse(body)),
+      filter((body: BaseResponse) => !!body),
       filter((body: BaseResponse) => body.type === MpdTypes.STATE),
       map((body: BaseResponse) => <IStateMsgPayload>body.payload)
     );

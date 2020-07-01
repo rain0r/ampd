@@ -12,7 +12,7 @@ import org.bff.javampd.server.MPD;
 import org.bff.javampd.song.MPDSong;
 import org.hihn.ampd.server.config.MpdConfiguration;
 import org.hihn.ampd.server.model.CoverType;
-import org.springframework.beans.factory.annotation.Value;
+import org.hihn.ampd.server.model.SettingsBean;
 import org.springframework.stereotype.Service;
 
 /**
@@ -25,17 +25,17 @@ public class CoverArtFetcherService {
 
   private final MbCoverService mbCoverService;
 
-  private final MPD mpd;
+  private final SettingsBean settingsBean;
 
-  @Value("${mpd.music.directory:}")
-  // ':' sets an empty str if the prop is not set
-  private String musicDirectory;
+  private final MPD mpd;
 
   public CoverArtFetcherService(
       CoverCacheService coverCacheService,
-      MbCoverService mbCoverService, MpdConfiguration mpdConfiguration) {
+      MbCoverService mbCoverService,
+      SettingsBean settingsBean, MpdConfiguration mpdConfiguration) {
     this.coverCacheService = coverCacheService;
     this.mbCoverService = mbCoverService;
+    this.settingsBean = settingsBean;
     this.mpd = mpdConfiguration.mpd();
   }
 
@@ -79,7 +79,7 @@ public class CoverArtFetcherService {
     if (!trackFilePath.isPresent()) {
       return Optional.empty();
     }
-    Path path = Paths.get(musicDirectory, trackFilePath.get());
+    Path path = Paths.get(settingsBean.getMusicDirectory(), trackFilePath.get());
     List<Path> covers = scanDir(path);
     if (covers.size() > 0) {
       Path coverPath = covers.get(0);

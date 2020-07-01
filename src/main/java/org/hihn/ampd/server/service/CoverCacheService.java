@@ -35,7 +35,6 @@ public class CoverCacheService {
 
   public CoverCacheService(SettingsBean settingsBean) {
     this.settingsBean = settingsBean;
-    this.chacheDir = buildCacheDir();
   }
 
   /**
@@ -171,8 +170,8 @@ public class CoverCacheService {
   }
 
   private boolean useCache() {
-    System.out.println("use cache: " + this.settingsBean.isLocalCoverCache());
-    return true; // TODO this.settingsService.getAmpdSettings().isLocalCoverCache() && this.chacheDir.isPresent();
+    this.chacheDir = buildCacheDir();
+    return this.settingsBean.isLocalCoverCache() && this.chacheDir.isPresent();
   }
 
 }

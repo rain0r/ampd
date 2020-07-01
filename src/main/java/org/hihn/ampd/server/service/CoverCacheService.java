@@ -9,7 +9,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
-import org.hihn.ampd.server.cover.CoverType;
+import org.hihn.ampd.server.model.CoverType;
 import org.hihn.ampd.server.util.AmpdUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

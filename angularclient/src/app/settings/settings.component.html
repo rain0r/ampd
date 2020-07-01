@@ -4,6 +4,7 @@
       <span class="logo">ampd</span> settings
     </div>
     <mat-divider></mat-divider>
+    <!-- Backend address -->
     <mat-card>
       <mat-form-field class="full-width">
         <input
@@ -18,6 +19,7 @@
         >
       </mat-form-field>
     </mat-card>
+    <!-- Dark mode toggle -->
     <mat-card>
       <!-- There's a lightbulb hidden in here -->
       <mat-slide-toggle
@@ -26,6 +28,20 @@
           (change)="toggleDarkTheme($event.checked)"
           title="Turn the lights off / on"
       >💡
+        <mat-hint align="end"
+        >Toggle dark theme
+        </mat-hint
+        >
+      </mat-slide-toggle>
+    </mat-card>
+    <!-- Cover cache -->
+    <mat-card>
+      Cover cache
+      <mat-slide-toggle
+          class="space-right"
+          disabled
+          title="Cover cache is turned on"
+      >
         <mat-hint align="end"
         >Toggle dark theme
         </mat-hint

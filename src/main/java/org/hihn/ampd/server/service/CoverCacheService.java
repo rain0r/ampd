@@ -10,10 +10,10 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
 import org.hihn.ampd.server.model.CoverType;
+import org.hihn.ampd.server.model.SettingsBean;
 import org.hihn.ampd.server.util.AmpdUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 /**
@@ -24,12 +24,7 @@ public class CoverCacheService {
 
   private static final Logger LOG = LoggerFactory.getLogger(CoverCacheService.class);
 
-  @Value("${local.cover.cache:true}")
-  private boolean localCoverCache;
-
-  @Value("${mpd.music.directory:}")
-  // ':' sets an empty str if the prop is not set
-  private String musicDirectory;
+  private final SettingsBean settingsBean;
 
   private Optional<Path> chacheDir;
 
@@ -38,7 +33,8 @@ public class CoverCacheService {
    */
   private static final String CACHE_DIR = "covers";
 
-  public CoverCacheService() {
+  public CoverCacheService(SettingsBean settingsBean) {
+    this.settingsBean = settingsBean;
     this.chacheDir = buildCacheDir();
   }
 
@@ -117,13 +113,13 @@ public class CoverCacheService {
       value = "NP_NULL_ON_SOME_PATH_FROM_RETURN_VALUE")
   private Optional<Path> findCoverFileName(String trackFilePath) {
 
-    if (musicDirectory.isEmpty()) {
+    if (settingsBean.getMusicDirectory().isEmpty()) {
       LOG.info("No music directory set, aborting.");
       return Optional.empty();
     }
 
     Optional<Path> ret = Optional.empty();
-    Path path = Paths.get(musicDirectory, trackFilePath);
+    Path path = Paths.get(settingsBean.getMusicDirectory(), trackFilePath);
 
     try {
       if (path.getParent() == null || !path.toFile().exists()) {
@@ -175,7 +171,8 @@ public class CoverCacheService {
   }
 
   private boolean useCache() {
-    return this.localCoverCache && this.chacheDir.isPresent();
+    System.out.println("use cache: " + this.settingsBean.isLocalCoverCache());
+    return true; // TODO this.settingsService.getAmpdSettings().isLocalCoverCache() && this.chacheDir.isPresent();
   }
 
 }

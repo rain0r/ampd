@@ -9,7 +9,7 @@ public class Settings {
 
   private String mpdServer;
 
-  private String mpdPort;
+  private int mpdPort;
 
   private String mpdPassword;
 
@@ -17,7 +17,7 @@ public class Settings {
 
   private boolean mbCoverService;
 
-  public Settings(String musicDirectory, String mpdServer, String mpdPort,
+  public Settings(String musicDirectory, String mpdServer, int mpdPort,
       String mpdPassword, boolean localCoverCache, boolean mbCoverService) {
     this.musicDirectory = musicDirectory;
     this.mpdServer = mpdServer;
@@ -35,7 +35,7 @@ public class Settings {
     return mpdServer;
   }
 
-  public String getMpdPort() {
+  public int getMpdPort() {
     return mpdPort;
   }
 

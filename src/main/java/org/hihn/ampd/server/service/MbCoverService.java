@@ -10,6 +10,7 @@ import java.util.Optional;
 import java.util.UUID;
 import org.apache.commons.io.IOUtils;
 import org.bff.javampd.song.MPDSong;
+import org.hihn.ampd.server.model.SettingsBean;
 import org.musicbrainz.controller.Recording;
 import org.musicbrainz.controller.Release;
 import org.musicbrainz.model.entity.ReleaseWs2;
@@ -17,7 +18,6 @@ import org.musicbrainz.model.searchresult.RecordingResultWs2;
 import org.musicbrainz.model.searchresult.ReleaseResultWs2;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -26,8 +26,11 @@ public class MbCoverService {
 
   private static final Logger LOG = LoggerFactory.getLogger(MbCoverService.class);
 
-  @Value("${mb.cover.service:true}")
-  private boolean useMbService;
+  private final SettingsBean settingsBean;
+
+  public MbCoverService(SettingsBean settingsBean) {
+    this.settingsBean = settingsBean;
+  }
 
   /**
    * Download a cover from Musicbrainz.
@@ -37,7 +40,7 @@ public class MbCoverService {
    */
   public Optional<byte[]> getMbCover(MPDSong track) {
     Optional<byte[]> ret = Optional.empty();
-    if (this.useMbService) {
+    if (settingsBean.isMbCoverService()) {
       if (StringUtils.isEmpty(track.getAlbumName())) {
         ret = searchSingletonMusicBrainzCover(track);
       } else {

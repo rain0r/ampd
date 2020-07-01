@@ -67,7 +67,6 @@ export class QueueHeaderComponent implements OnInit {
       this.currentSong = queueTrack;
       if (first || queueTrack.changed) {
         first = false;
-        console.log(queueTrack);
         this.updateCover();
       }
     });

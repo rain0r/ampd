@@ -1,4 +1,4 @@
-<mat-grid-list cols="10" rowHeight="1.5em">
+<mat-grid-list cols="10" rowHeight="1.5em" *ngIf="(state|async) !== 'stop'">
   <mat-grid-tile>
     {{ currentSong.elapsed | secondsToMmSs }}
   </mat-grid-tile>
@@ -16,3 +16,5 @@
     {{ currentSong.length | secondsToMmSs }}
   </mat-grid-tile>
 </mat-grid-list>
+
+<mat-divider *ngIf="(state|async) !== 'stop'"></mat-divider>

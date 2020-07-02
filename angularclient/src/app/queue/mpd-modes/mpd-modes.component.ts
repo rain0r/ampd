@@ -4,6 +4,7 @@ import { MpdCommands } from "../../shared/mpd/mpd-commands";
 import { WebSocketService } from "../../shared/services/web-socket.service";
 import { MatButtonToggleChange } from "@angular/material/button-toggle";
 import { MpdService } from "../../shared/services/mpd.service";
+import { NotificationService } from "../../shared/services/notification.service";
 
 @Component({
   selector: "app-mpd-modes",
@@ -13,10 +14,18 @@ import { MpdService } from "../../shared/services/mpd.service";
 export class MpdModesComponent {
   controlPanel: IControlPanel;
   private currentState = "stop";
+  private controlPanelOpts = [
+    "random",
+    "consume",
+    "single",
+    "crossfade",
+    "repeat",
+  ];
 
   constructor(
     private webSocketService: WebSocketService,
-    private mpdService: MpdService
+    private mpdService: MpdService,
+    private notificationService: NotificationService
   ) {
     this.mpdService
       .getControlPanelSubscription()
@@ -64,11 +73,23 @@ export class MpdModesComponent {
   }
 
   toggleCtrl(event: MatButtonToggleChange): void {
+    const tmpControlPanel = { ...this.controlPanel };
+
     for (const key in this.controlPanel) {
       this.controlPanel[key] = (event.value as string).includes(key);
     }
+    this.showMessage(tmpControlPanel);
     this.webSocketService.sendData(MpdCommands.TOGGLE_CONTROL, {
       controlPanel: this.controlPanel,
     });
+  }
+
+  private showMessage(tmpControlPanel: IControlPanel) {
+    for (const opt of this.controlPanelOpts) {
+      if (tmpControlPanel[opt] !== this.controlPanel[opt]) {
+        const on = this.controlPanel[opt] ? "on" : "off";
+        this.notificationService.popUp(`Turned ${opt} ${on}`);
+      }
+    }
   }
 }

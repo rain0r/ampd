@@ -1,9 +1,5 @@
 package org.hihn.ampd.server.service;
 
-
-import static org.hihn.ampd.server.util.AmpdUtils.loadFile;
-import static org.hihn.ampd.server.util.AmpdUtils.scanDir;
-
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
@@ -76,14 +72,13 @@ public class CoverArtFetcherService {
    * @return The bytes of the found cover.
    */
   public Optional<byte[]> findAlbumCover(Optional<String> trackFilePath) {
-    if (!trackFilePath.isPresent()) {
-      return Optional.empty();
-    }
-    Path path = Paths.get(settingsBean.getMusicDirectory(), trackFilePath.get());
-    List<Path> covers = scanDir(path);
-    if (covers.size() > 0) {
-      Path coverPath = covers.get(0);
-      return Optional.of(loadFile(coverPath));
+    if (trackFilePath.isPresent()) {
+      Path path = Paths.get(settingsBean.getMusicDirectory(), trackFilePath.get());
+      List<Path> covers = coverCacheService.scanDir(path);
+      if (covers.size() > 0) {
+        Path coverPath = covers.get(0);
+        return coverCacheService.loadFile(coverPath);
+      }
     }
     return Optional.empty();
   }

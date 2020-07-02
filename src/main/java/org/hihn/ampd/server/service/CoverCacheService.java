@@ -95,8 +95,6 @@ public class CoverCacheService {
    * @return An optional with the bytes of the found cover in a successful case.
    */
   public Optional<byte[]> loadFileAsResource(String trackFilePath) {
-
-    Optional<Path> p;
     Optional<Path> coverFile = findCoverFileName(trackFilePath);
     Optional<byte[]> ret = Optional.empty();
 

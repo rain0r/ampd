@@ -11,16 +11,17 @@
   *ngIf="currentState !== 'stop'"
 >
   <div fxFlex="55%" fxLayout="column">
-    <div class="mat-h2 queue-sub-title" fxFlex="100%">
+    <div class="mat-h2 queue-sub-title" fxFlex="100%" title="Title: {{currentSong.title}}">
       {{ currentSong.title }}
     </div>
     <div
       class="mat-h2 queue-sub-title text-muted"
       *ngIf="currentSong.albumName"
+      title="Album: {{currentSong.albumName}}"
     >
       {{ currentSong.albumName }}
     </div>
-    <div class="mat-h2 queue-sub-title">
+    <div class="mat-h2 queue-sub-title" title="Artist: {{currentSong.artistName}}">
       {{ currentSong.artistName }}
     </div>
   </div>

@@ -10,7 +10,7 @@ import { MpdService } from "../../shared/services/mpd.service";
   styleUrls: ["./volume-slider.component.scss"],
 })
 export class VolumeSliderComponent {
-  volume: number;
+  volume = -1;
 
   constructor(
     private webSocketService: WebSocketService,

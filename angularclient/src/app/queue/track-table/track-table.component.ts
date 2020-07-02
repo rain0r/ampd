@@ -28,6 +28,7 @@ export class TrackTableComponent implements OnInit, OnChanges {
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild("filterInputElem") filterInputElem: ElementRef;
   currentSong: QueueTrack = new QueueTrack();
+  currentSongObservable: Observable<QueueTrack>;
   dataSource = new MatTableDataSource<QueueTrack>();
   checksum = 0; // The checksum of the current queue
   queueDuration = 0;
@@ -48,9 +49,7 @@ export class TrackTableComponent implements OnInit, OnChanges {
     private mpdService: MpdService
   ) {
     this.queueSubs = this.webSocketService.getQueueSubscription();
-    this.mpdService
-      .getSongSubscription()
-      .subscribe((song) => (this.currentSong = song));
+    this.currentSongObservable = this.mpdService.getSongSubscription();
   }
 
   @HostListener("document:keydown.f", ["$event"])
@@ -110,8 +109,12 @@ export class TrackTableComponent implements OnInit, OnChanges {
   }
 
   private buildQueue(message: IQueuePayload): void {
+    console.log(`${new Date()} buildQueue`);
     // Check if the queue has changed. Abort if not.
     if (message.checkSum === this.checksum) {
+      console.log("Nothing changed, return");
+      console.log("message.checkSum", message.checkSum)
+      console.log("this.checksum", this.checksum)
       return;
     }
 
@@ -121,7 +124,10 @@ export class TrackTableComponent implements OnInit, OnChanges {
     for (const item of message.tracks) {
       const track: QueueTrack = new QueueTrack(item);
       track.pos = posCounter;
+      // console.log("this.currentSong.id", this.currentSong);
+      // console.log("item.id", item.id);
       if (this.currentSong.id === item.id) {
+        console.log("Setting playing to true");
         track.playing = true;
       }
       tmp.push(track);
@@ -135,9 +141,12 @@ export class TrackTableComponent implements OnInit, OnChanges {
   }
 
   private buildQueueMsgReceiver(): void {
-    this.queueSubs.subscribe((message: IQueuePayload) =>
-      this.buildQueue(message)
-    );
+    this.mpdService.getSongSubscription().subscribe((song) => {
+      this.currentSong = song;
+      this.queueSubs.subscribe((message: IQueuePayload) =>
+        this.buildQueue(message)
+      );
+    });
   }
 
   /**

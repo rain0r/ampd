@@ -28,10 +28,10 @@
     <mat-divider
       fxShow.lt-md="true"
       fxShow="false"
-      *ngIf="currentState !== 'stop' && hasCoverObservable()|async"
+      *ngIf="isDisplayCover|async"
     ></mat-divider>
     <img
-      *ngIf="currentState !== 'stop' && hasCoverObservable()|async"
+      *ngIf="isDisplayCover|async"
       [src]=" currentSong.coverUrl "
       class="album-art clickable"
       [ngClass]="[coverSizeClass|async]"

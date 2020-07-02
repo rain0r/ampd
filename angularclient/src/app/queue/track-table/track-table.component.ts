@@ -21,7 +21,7 @@ import { MatSort } from "@angular/material/sort";
   templateUrl: "./track-table.component.html",
   styleUrls: ["./track-table.component.scss"],
 })
-export class TrackTableComponent implements OnInit {
+export class TrackTableComponent {
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild("filterInputElem") filterInputElem: ElementRef;
   currentSong: QueueTrack = new QueueTrack();
@@ -46,6 +46,7 @@ export class TrackTableComponent implements OnInit {
     private mpdService: MpdService
   ) {
     this.currentSongObservable = this.mpdService.getSongSubscription();
+    this.buildMessageReceiver();
   }
 
   @HostListener("document:keydown.f", ["$event"])
@@ -57,10 +58,6 @@ export class TrackTableComponent implements OnInit {
       event.preventDefault();
       this.focus = true;
     }
-  }
-
-  ngOnInit(): void {
-    this.buildMessageReceiver();
   }
 
   applyFilter(filterValue: string): void {
@@ -99,6 +96,7 @@ export class TrackTableComponent implements OnInit {
     if (this.currentSong.length == 0 || message.checkSum === this.checksum) {
       return;
     }
+    console.log(new Date(), "Building new queue");
     this.checksum = message.checkSum;
     const tmp: QueueTrack[] = [];
     let posCounter = 1;

@@ -1,10 +1,11 @@
 .settings-form {
   padding-top: 1rem;
+  margin-bottom: 1rem;
 }
 
-@media only screen and (min-width: 1000px) {
+@media only screen and (min-width: 1280px) {
   .settings-form {
-    padding: 1px 10% 0 10%;
+    padding: 1px 5% 0 5%;
   }
 }
 

@@ -8,7 +8,7 @@ export class QueueTrack implements MpdTrack {
   file: string;
   genre: string;
   id: number;
-  length: number;
+  length = 0;
   name: string;
   position: number;
   title: string;

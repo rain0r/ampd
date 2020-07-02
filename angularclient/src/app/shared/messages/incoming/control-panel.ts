@@ -4,5 +4,4 @@ export interface IControlPanel {
   single: boolean;
   crossfade: boolean;
   repeat: boolean;
-  xfade: number;
 }

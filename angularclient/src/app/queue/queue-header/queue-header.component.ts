@@ -7,6 +7,7 @@ import { QueueTrack } from "../../shared/models/queue-track";
 import { MpdService } from "../../shared/services/mpd.service";
 import { catchError } from "rxjs/operators";
 import { CoverModalComponent } from "../../shared/cover-modal/cover-modal.component";
+import { SettingsService } from "../../shared/services/settings.service";
 
 @Component({
   selector: "app-queue-header",
@@ -17,14 +18,17 @@ export class QueueHeaderComponent implements OnInit {
   coverSizeClass: Observable<string>;
   currentState = "stop";
   currentSong = new QueueTrack();
-  hasCover = new BehaviorSubject<boolean>(false);
+  isDisplayCover: Observable<boolean>;
+  private displayCoverSubject = new BehaviorSubject<boolean>(false);
 
   constructor(
     private dialog: MatDialog,
     private http: HttpClient,
     private responsiveCoverSizeService: ResponsiveCoverSizeService,
-    private mpdService: MpdService
+    private mpdService: MpdService,
+    private settingsService: SettingsService
   ) {
+    this.isDisplayCover = this.displayCoverSubject.asObservable();
     this.coverSizeClass = responsiveCoverSizeService.getCoverCssClass();
     this.getSongSubscription();
     this.getStateSubscription();
@@ -40,25 +44,26 @@ export class QueueHeaderComponent implements OnInit {
     });
   }
 
-  hasCoverObservable(): Observable<boolean> {
-    return this.hasCover.asObservable();
-  }
-
   private updateCover(): void {
-    this.hasCover.next(false);
+    this.displayCoverSubject.next(false);
     if (!this.currentSong.coverUrl) {
-      this.hasCover.next(false);
       return;
     }
     this.http
       .head(this.currentSong.coverUrl, { observe: "response" })
       .pipe(
         catchError(() => {
-          this.hasCover.next(false);
           return throwError("Not found");
         })
       )
-      .subscribe(() => this.hasCover.next(true));
+      .subscribe(() => {
+        if (
+          this.currentState !== "stop" &&
+          this.settingsService.isDisplayCovers()
+        ) {
+          this.displayCoverSubject.next(true);
+        }
+      });
   }
 
   private getSongSubscription() {

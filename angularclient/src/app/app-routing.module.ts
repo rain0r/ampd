@@ -10,6 +10,7 @@ const routes: Routes = [
   { path: "browse", component: BrowseComponent },
   { path: "search", component: SearchComponent },
   { path: "settings", component: SettingsComponent },
+  { path: '**', redirectTo: ''}
 ];
 
 @NgModule({

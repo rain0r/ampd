@@ -44,8 +44,6 @@ public class ControlPanel {
         case "repeat":
           setRepeat(newValue);
           break;
-        default:
-          LOG.debug("Unknown status: " + splitted[0]);
       }
     }
   }

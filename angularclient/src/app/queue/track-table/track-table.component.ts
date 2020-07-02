@@ -1,13 +1,6 @@
-import {
-  Component,
-  ElementRef,
-  HostListener,
-  OnInit,
-  ViewChild,
-} from "@angular/core";
+import { Component, ElementRef, HostListener, ViewChild } from "@angular/core";
 import { MatTableDataSource } from "@angular/material/table";
 import { Observable } from "rxjs/index";
-
 import { MpdCommands } from "../../shared/mpd/mpd-commands";
 import { WebSocketService } from "../../shared/services/web-socket.service";
 import { DeviceDetectorService } from "ngx-device-detector";

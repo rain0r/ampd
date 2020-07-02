@@ -68,11 +68,12 @@ public class CoverCacheService {
    */
   public Optional<byte[]> loadCover(CoverType coverType, String artist, String titleOrAlbum) {
     if (!this.useCache()) {
+      LOG.debug("Cache-use is turned off");
       return Optional.empty();
     }
 
     String fileName = buildFileName(coverType, artist, titleOrAlbum);
-    Path fullPath = Paths.get(this.chacheDir.get().toString(), CACHE_DIR_NAME, fileName)
+    Path fullPath = Paths.get(this.chacheDir.get().toString(), fileName)
         .toAbsolutePath();
     try {
       return loadFile(fullPath);

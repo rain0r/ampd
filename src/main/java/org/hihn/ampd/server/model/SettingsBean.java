@@ -38,12 +38,11 @@ public class SettingsBean {
     this.localCoverCache = localCoverCache;
     this.mbCoverService = mbCoverService;
 
-    LOG.warn("================== " + mpdServer + "================== ");
-    LOG.warn("================== " + musicDirectory + "================== ");
-    LOG.warn("================== " + mpdPort + "================== ");
-    LOG.warn("================== " + mpdPassword + "================== ");
-    LOG.warn("================== " + localCoverCache + "================== ");
-    LOG.warn("================== " + mbCoverService + "================== ");
+    LOG.warn("mpdServer: " + mpdServer);
+    LOG.warn("musicDirectory: " + musicDirectory);
+    LOG.warn("mpdPort: " + mpdPort);
+    LOG.warn("localCoverCache: " + localCoverCache);
+    LOG.warn("mbCoverService: " + mbCoverService);
   }
 
   public String getMusicDirectory() {

@@ -9,6 +9,8 @@ import org.bff.javampd.song.MPDSong;
 import org.hihn.ampd.server.config.MpdConfiguration;
 import org.hihn.ampd.server.model.CoverType;
 import org.hihn.ampd.server.model.SettingsBean;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 /**
@@ -16,6 +18,8 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class CoverArtFetcherService {
+
+  private static final Logger LOG = LoggerFactory.getLogger(CoverArtFetcherService.class);
 
   private final CoverCacheService coverCacheService;
 
@@ -43,19 +47,23 @@ public class CoverArtFetcherService {
   public Optional<byte[]> getCurrentAlbumCover() {
     MPDSong track = mpd.getPlayer().getCurrentSong();
     if (track == null) {
+      LOG.debug("Could not get current song");
       return Optional.empty();
     }
     CoverType coverType = (track.getAlbumName().isEmpty()) ? CoverType.SINGLETON : CoverType.ALBUM;
+    LOG.debug("Trying to load a cover of type {} from local cache", coverType);
     // Try to load the cover from cache
     Optional<byte[]> cover = coverCacheService
         .loadCover(coverType, track.getArtistName(), track.getTitle());
     // If the cover is not in the cache, try to load it from the MPD music directory
     if (!cover.isPresent()) {
+      LOG.debug("Trying to load a cover from the track directory");
       String trackFilePath = track.getFile();
       cover = coverCacheService.loadFileAsResource(trackFilePath);
     }
     // Now check the musicbrainz cover api
     if (!cover.isPresent()) {
+      LOG.debug("Trying to load a cover from the MusicBrainz API");
       cover = mbCoverService.getMbCover(track);
     }
     // Save the cover in the cache

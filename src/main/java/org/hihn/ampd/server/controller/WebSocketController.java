@@ -94,8 +94,6 @@ public class WebSocketController {
       LOG.error("Error processing {}", incomingMessage.getType());
       LOG.error(e.getMessage(), e);
     }
-
-    LOG.debug(outgoingMessage.toString());
     return outgoingMessage;
   }
 

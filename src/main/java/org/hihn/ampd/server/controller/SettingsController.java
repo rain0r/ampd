@@ -16,7 +16,6 @@ public class SettingsController {
     this.settingsBean = settingsBean;
   }
 
-
   @GetMapping("/settings")
   public Settings getAmpdSettings() {
     return settingsBean.getAmpdSettings();

@@ -18,19 +18,18 @@ export class BrowseService {
     );
   }
 
-  sendBrowseReq(pPath: string): void {
-    if (pPath && !pPath.startsWith("/")) {
-      pPath = "/" + pPath;
+  sendBrowseReq(path: string): void {
+    if (path && !path.startsWith("/")) {
+      path = "/" + path;
     }
-    const path = pPath ? pPath : "/";
+    const fullPath = path ? path : "/";
     this.webSocketService.sendData(MpdCommands.GET_BROWSE, {
-      path,
+      path: fullPath,
     });
   }
 
   private onBrowseResponse(payload: IBrowseMsgPayload): void {
     this.browseInfo.clearAll();
-
     payload.directories.forEach((dir) => {
       const directory = new Directory(true, dir.path);
       this.browseInfo.dirQueue.push(directory);

@@ -2,10 +2,7 @@ import {
   Component,
   ElementRef,
   HostListener,
-  OnChanges,
   OnInit,
-  SimpleChange,
-  SimpleChanges,
   ViewChild,
 } from "@angular/core";
 import { MatTableDataSource } from "@angular/material/table";
@@ -24,7 +21,7 @@ import { MatSort } from "@angular/material/sort";
   templateUrl: "./track-table.component.html",
   styleUrls: ["./track-table.component.scss"],
 })
-export class TrackTableComponent implements OnInit, OnChanges {
+export class TrackTableComponent implements OnInit {
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild("filterInputElem") filterInputElem: ElementRef;
   currentSong: QueueTrack = new QueueTrack();
@@ -33,7 +30,7 @@ export class TrackTableComponent implements OnInit, OnChanges {
   checksum = 0; // The checksum of the current queue
   queueDuration = 0;
   focus = false;
-  private queueSubs: Observable<IQueuePayload>;
+
   private displayedColumns = [
     { name: "pos", showMobile: false },
     { name: "artistName", showMobile: true },
@@ -48,7 +45,6 @@ export class TrackTableComponent implements OnInit, OnChanges {
     private webSocketService: WebSocketService,
     private mpdService: MpdService
   ) {
-    this.queueSubs = this.webSocketService.getQueueSubscription();
     this.currentSongObservable = this.mpdService.getSongSubscription();
   }
 
@@ -64,7 +60,7 @@ export class TrackTableComponent implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {
-    this.buildQueueMsgReceiver();
+    this.buildMessageReceiver();
   }
 
   applyFilter(filterValue: string): void {
@@ -92,61 +88,41 @@ export class TrackTableComponent implements OnInit, OnChanges {
   /**
    * Play the track from the queue which has been clicked.
    *
-   * @param {string} pFile
+   * @param {string} file
    */
-  onRowClick(pFile: string): void {
-    this.webSocketService.sendData(MpdCommands.PLAY_TRACK, { path: pFile });
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    const newState: SimpleChange = changes.currentSong;
-    if (newState && newState.currentValue) {
-      this.currentSong = <QueueTrack>newState.currentValue;
-      for (const track of this.dataSource.data) {
-        track.playing = track.id === this.currentSong.id;
-      }
-    }
+  onRowClick(file: string): void {
+    this.webSocketService.sendData(MpdCommands.PLAY_TRACK, { path: file });
   }
 
   private buildQueue(message: IQueuePayload): void {
-    console.log(`${new Date()} buildQueue`);
     // Check if the queue has changed. Abort if not.
-    if (message.checkSum === this.checksum) {
-      console.log("Nothing changed, return");
-      console.log("message.checkSum", message.checkSum)
-      console.log("this.checksum", this.checksum)
+    if (this.currentSong.length == 0 || message.checkSum === this.checksum) {
       return;
     }
-
     this.checksum = message.checkSum;
     const tmp: QueueTrack[] = [];
     let posCounter = 1;
     for (const item of message.tracks) {
       const track: QueueTrack = new QueueTrack(item);
       track.pos = posCounter;
-      // console.log("this.currentSong.id", this.currentSong);
-      // console.log("item.id", item.id);
-      if (this.currentSong.id === item.id) {
-        console.log("Setting playing to true");
-        track.playing = true;
-      }
       tmp.push(track);
       posCounter += 1;
     }
-
     this.dataSource.data = tmp; // add the new model object to the trackTableData
-
     this.dataSource.sort = this.sort;
     this.queueDuration = this.sumTrackDuration();
   }
 
-  private buildQueueMsgReceiver(): void {
+  private buildMessageReceiver(): void {
     this.mpdService.getSongSubscription().subscribe((song) => {
       this.currentSong = song;
-      this.queueSubs.subscribe((message: IQueuePayload) =>
-        this.buildQueue(message)
-      );
+      for (const track of this.dataSource.data) {
+        track.playing = track.id === this.currentSong.id;
+      }
     });
+    this.webSocketService
+      .getQueueSubscription()
+      .subscribe((message: IQueuePayload) => this.buildQueue(message));
   }
 
   /**

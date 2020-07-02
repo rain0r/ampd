@@ -86,10 +86,9 @@ export class TrackTableComponent {
 
   private buildQueue(message: IQueuePayload): void {
     // Check if the queue has changed. Abort if not.
-    if (this.currentSong.length == 0 || message.checkSum === this.checksum) {
+    if (message.checkSum === this.checksum) {
       return;
     }
-    console.log(new Date(), "Building new queue");
     this.checksum = message.checkSum;
     const tmp: QueueTrack[] = [];
     let posCounter = 1;

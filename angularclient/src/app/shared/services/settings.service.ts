@@ -19,7 +19,7 @@ export class SettingsService {
   }
 
   isDisplayCovers(): boolean {
-    return this.getBoolValue(DISPLAY_COVERS_KEY);
+    return this.getBoolValue(DISPLAY_COVERS_KEY, true);
   }
 
   setDarkTheme(darkTheme: boolean): void {
@@ -52,12 +52,13 @@ export class SettingsService {
     document.documentElement.style.setProperty("--border-color", borderColor);
   }
 
-  private getBoolValue(key: string): boolean {
+  private getBoolValue(key: string, defaultValue = false): boolean {
     try {
-      const saved: string = localStorage.getItem(key) || "";
+      const saved: string =
+        localStorage.getItem(key) || defaultValue.toString();
       return <boolean>JSON.parse(saved);
     } catch (err) {
-      return false;
+      return defaultValue;
     }
   }
 }

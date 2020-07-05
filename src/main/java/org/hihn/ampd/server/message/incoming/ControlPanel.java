@@ -44,6 +44,8 @@ public class ControlPanel {
         case "repeat":
           setRepeat(newValue);
           break;
+        default:
+          // Do nothing
       }
     }
   }

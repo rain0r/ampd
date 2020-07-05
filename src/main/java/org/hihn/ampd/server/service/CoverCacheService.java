@@ -30,7 +30,7 @@ public class CoverCacheService {
   private final Optional<Path> chacheDir;
 
   /**
-   * Name of the dir that holds all covers
+   * Name of the dir that holds all covers.
    */
   private static final String CACHE_DIR_NAME = "covers";
 

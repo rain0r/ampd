@@ -19,6 +19,11 @@ public class MpdConfiguration {
   @Value("${mpd.password:}")
   private String mpdPassword;
 
+  /**
+   * Builds an {@link MPD} instance.
+   *
+   * @return A connection to the MPD server defined in the application.properties.
+   */
   public MPD mpd() {
     if (mpdPassword.equals("")) {
       return new MPD.Builder().server(mpdServer).port(mpdPort).build();

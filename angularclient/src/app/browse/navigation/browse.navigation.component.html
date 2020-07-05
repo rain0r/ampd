@@ -1,4 +1,4 @@
-<div fxLayout="row wrap" fxLayoutGap="0.5%" fxLayoutGap.lt-md="2%">
+<div fxLayout="row wrap" fxLayoutGap="0.5%" fxLayoutGap.lt-md="1%">
   <div fxLayoutAlign="center center">
     <button
         [routerLink]="['/browse']"
@@ -56,8 +56,8 @@
   </div>
 
   <!--Filter-->
-  <div class="filter-flex" fxLayoutAlign="center center" fxFlex="30%" fxFlex.lt-md="100%">
-    <mat-form-field class="full-width">
+  <div fxLayoutAlign="center center" fxFlex="30%" fxFlex.lt-md="100%">
+    <mat-form-field>
       <input
           #filterInputElem
           (keydown.escape)="filterInputElem.blur()"

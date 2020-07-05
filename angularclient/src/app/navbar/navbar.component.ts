@@ -1,8 +1,8 @@
 import { Component, HostListener } from "@angular/core";
 import { Observable } from "rxjs/index";
-import { ThemingService } from "../shared/services/theming.service";
 import { RxStompService } from "@stomp/ng2-stompjs";
 import { Router } from "@angular/router";
+import { SettingsService } from "../shared/services/settings.service";
 
 @Component({
   selector: "app-navbar",
@@ -14,11 +14,11 @@ export class NavbarComponent {
   connState: Observable<number>;
 
   constructor(
-    private themingService: ThemingService,
     private rxStompService: RxStompService,
+    private settingsService: SettingsService,
     private router: Router
   ) {
-    this.isDarkTheme = this.themingService.isDarkTheme;
+    this.isDarkTheme = this.settingsService.isDarkTheme();
     this.connState = rxStompService.connectionState$;
   }
 

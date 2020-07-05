@@ -1,5 +1,4 @@
 import { Injectable } from "@angular/core";
-import { Observable } from "rxjs/index";
 import { IBrowseMsgPayload } from "../messages/incoming/browse";
 import { Directory } from "../messages/incoming/directory";
 import { BrowseInfo } from "../models/browse-info";
@@ -9,13 +8,9 @@ import { WebSocketService } from "./web-socket.service";
 @Injectable()
 export class BrowseService {
   browseInfo: BrowseInfo = new BrowseInfo();
-  browseSubs: Observable<IBrowseMsgPayload>;
 
   constructor(private webSocketService: WebSocketService) {
-    this.browseSubs = this.webSocketService.getBrowseSubscription();
-    this.browseSubs.subscribe((message: IBrowseMsgPayload) =>
-      this.onBrowseResponse(message)
-    );
+    this.buildMsgReceiver();
   }
 
   sendBrowseReq(path: string): void {
@@ -40,5 +35,13 @@ export class BrowseService {
     payload.playlists.forEach((playlist) => {
       this.browseInfo.playlistQueue.push(playlist);
     });
+  }
+
+  private buildMsgReceiver() {
+    this.webSocketService
+      .getBrowseSubscription()
+      .subscribe((message: IBrowseMsgPayload) =>
+        this.onBrowseResponse(message)
+      );
   }
 }

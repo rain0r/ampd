@@ -5,7 +5,7 @@ import { NotificationService } from "../shared/services/notification.service";
 import { WebSocketService } from "../shared/services/web-socket.service";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Observable } from "rxjs";
-import { ThemingService } from "../shared/services/theming.service";
+
 import { HttpClient } from "@angular/common/http";
 import { BackendSettings } from "../shared/models/backend-settings";
 import { SettingsService } from "../shared/services/settings.service";
@@ -27,14 +27,13 @@ export class SettingsComponent {
     private notificationService: NotificationService,
     private webSocketService: WebSocketService,
     private formBuilder: FormBuilder,
-    private themingService: ThemingService,
     private settingsService: SettingsService,
     private http: HttpClient
   ) {
     const savedAddr = ConnConfUtil.getBackendAddr();
     this.ampdVersion = environment.ampdVersion;
     this.gitCommitId = environment.gitCommitId;
-    this.isDarkTheme = this.themingService.isDarkTheme;
+    this.isDarkTheme = this.settingsService.isDarkTheme();
     this.backendSettings = this.getSettings();
     this.isDisplayCovers = this.settingsService.isDisplayCovers();
     this.settingsForm = this.formBuilder.group({
@@ -53,7 +52,7 @@ export class SettingsComponent {
   }
 
   toggleDarkTheme(checked: boolean): void {
-    this.themingService.setDarkTheme(checked);
+    this.settingsService.setDarkTheme(checked);
     this.notificationService.popUp("Saved settings.");
   }
 

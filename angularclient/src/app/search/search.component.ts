@@ -1,4 +1,4 @@
-import { Component, ViewChild } from "@angular/core";
+import { Component, OnInit, ViewChild } from "@angular/core";
 
 import { MpdTrack } from "../shared/messages/incoming/mpd-track";
 import {
@@ -12,17 +12,17 @@ import { DeviceDetectorService } from "ngx-device-detector";
 import { NotificationService } from "../shared/services/notification.service";
 import { MatSort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
+import { MatPaginator } from "@angular/material/paginator";
 
 @Component({
   selector: "app-search",
   templateUrl: "./search.component.html",
   styleUrls: ["./search.component.scss"],
 })
-export class SearchComponent {
+export class SearchComponent implements OnInit {
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
-  dataSource: MatTableDataSource<QueueTrack> = new MatTableDataSource<
-    QueueTrack
-  >([]);
+  dataSource = new MatTableDataSource<QueueTrack>([]);
   searchResultCount = 0;
   search = "";
   spinnerVisible = false;
@@ -41,7 +41,11 @@ export class SearchComponent {
     private webSocketService: WebSocketService,
     private deviceService: DeviceDetectorService
   ) {
-    this.setupSearchListener();
+    this.buildMsgReceiver();
+  }
+
+  ngOnInit() {
+    this.dataSource.paginator = this.paginator;
   }
 
   onPlayTitle(track: MpdTrack): void {
@@ -62,7 +66,7 @@ export class SearchComponent {
     this.search = searchValue;
     if (searchValue) {
       // Only search when the term is at least 3 chars long
-      if (searchValue.length > 3) {
+      if (searchValue.length > 2) {
         this.webSocketService.sendData(MpdCommands.SEARCH, {
           query: searchValue,
         });
@@ -88,7 +92,7 @@ export class SearchComponent {
   /**
    * Listen for results on the websocket channel
    */
-  private setupSearchListener(): void {
+  private buildMsgReceiver(): void {
     this.webSocketService
       .getSearchSubscription()
       .subscribe((message: ISearchMsgPayload) =>
@@ -110,6 +114,7 @@ export class SearchComponent {
     });
     this.dataSource = new MatTableDataSource<QueueTrack>(tableData);
     this.dataSource.sort = this.sort;
+    this.dataSource.paginator = this.paginator;
     this.searchResultCount = searchResultCount;
     this.spinnerVisible = false;
   }

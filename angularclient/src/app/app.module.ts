@@ -56,6 +56,7 @@ import { MatInputModule } from "@angular/material/input";
 import { MatSnackBarModule } from "@angular/material/snack-bar";
 import { MatListModule } from "@angular/material/list";
 import { MatSortModule } from "@angular/material/sort";
+import { MatPaginatorModule } from "@angular/material/paginator";
 
 @NgModule({
   declarations: [
@@ -110,6 +111,7 @@ import { MatSortModule } from "@angular/material/sort";
     MatListModule,
     MatSnackBarModule,
     MatSortModule,
+    MatPaginatorModule,
   ],
   providers: [
     BrowseService,

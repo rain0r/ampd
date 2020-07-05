@@ -44,7 +44,7 @@ export class SearchComponent implements OnInit {
     this.buildMsgReceiver();
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.dataSource.paginator = this.paginator;
   }
 

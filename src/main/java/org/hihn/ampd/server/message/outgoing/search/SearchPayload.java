@@ -1,14 +1,14 @@
 package org.hihn.ampd.server.message.outgoing.search;
 
 import java.util.List;
-import org.bff.javampd.song.MPDSong;
+import org.bff.javampd.song.MpdSong;
 
 /**
  * Represents the structure of the search payload returned to the frontend.
  */
 public class SearchPayload {
 
-  List<MPDSong> searchResults = null;
+  List<MpdSong> searchResults = null;
 
   int searchResultCount = 0;
 
@@ -17,17 +17,17 @@ public class SearchPayload {
   public SearchPayload() {
   }
 
-  public SearchPayload(List<MPDSong> searchResults, int searchResultCount, String query) {
+  public SearchPayload(List<MpdSong> searchResults, int searchResultCount, String query) {
     this.searchResults = searchResults;
     this.searchResultCount = searchResultCount;
     this.query = query;
   }
 
-  public List<MPDSong> getSearchResults() {
+  public List<MpdSong> getSearchResults() {
     return searchResults;
   }
 
-  public void setSearchResults(List<MPDSong> searchResults) {
+  public void setSearchResults(List<MpdSong> searchResults) {
     this.searchResults = searchResults;
   }
 

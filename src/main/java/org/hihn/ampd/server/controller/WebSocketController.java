@@ -8,9 +8,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
-import org.bff.javampd.file.MPDFile;
-import org.bff.javampd.server.MPD;
-import org.bff.javampd.song.MPDSong;
+import org.bff.javampd.file.MpdFile;
+import org.bff.javampd.server.Mpd;
+import org.bff.javampd.song.MpdSong;
 import org.hihn.ampd.server.config.MpdConfiguration;
 import org.hihn.ampd.server.message.AmpdMessage.MessageType;
 import org.hihn.ampd.server.message.Message;
@@ -40,7 +40,7 @@ public class WebSocketController {
 
   private static final String PAYLOAD_VALUE = "value";
 
-  private final MPD mpd;
+  private final Mpd mpd;
 
   private final EnumMap<MessageType, AmpdCommandRunner> commands =
       new EnumMap<>(MessageType.class);
@@ -107,9 +107,9 @@ public class WebSocketController {
   private Optional<Message> addPlaylist(Object inputPayload) {
     HashMap<String, String> payload = (HashMap<String, String>) inputPayload;
     String playlist = payload.get("playlist");
-    ArrayList<MPDSong> mpdSongs = new ArrayList<>();
+    ArrayList<MpdSong> mpdSongs = new ArrayList<>();
 
-    Collection<MPDSong> mpdSongCollection =
+    Collection<MpdSong> mpdSongCollection =
         mpd.getMusicDatabase().getPlaylistDatabase().listPlaylistSongs(playlist);
 
     mpdSongs.addAll(mpdSongCollection);
@@ -121,7 +121,7 @@ public class WebSocketController {
   private Optional<Message> addTrack(Object inputPayload) {
     HashMap<String, String> payload = (HashMap<String, String>) inputPayload;
     String path = payload.get("path");
-    MPDFile mpdFile = new MPDFile(path);
+    MpdFile mpdFile = new MpdFile(path);
     mpdFile.setDirectory(false);
     mpd.getPlaylist().addFileOrDirectory(mpdFile);
     return Optional.empty();
@@ -173,7 +173,7 @@ public class WebSocketController {
   private Optional<Message> addDir(Object inputPayload) {
     HashMap<String, String> payload = (HashMap<String, String>) inputPayload;
     String path = payload.get("dir");
-    MPDFile mpdFile = new MPDFile(path);
+    MpdFile mpdFile = new MpdFile(path);
     mpd.getPlaylist().addFileOrDirectory(mpdFile);
     return Optional.empty();
   }
@@ -212,9 +212,9 @@ public class WebSocketController {
 
   private BrowsePayload browseDir(String path) {
     BrowsePayload browsePayload = new BrowsePayload();
-    MPDFile mpdFile = new MPDFile(path);
+    MpdFile mpdFile = new MpdFile(path);
     mpdFile.setDirectory(true);
-    Collection<MPDFile> tmpMpdFiles = new ArrayList<>();
+    Collection<MpdFile> tmpMpdFiles = new ArrayList<>();
 
     try {
       tmpMpdFiles = mpd.getMusicDatabase().getFileDatabase().listDirectory(mpdFile);
@@ -223,12 +223,12 @@ public class WebSocketController {
       LOG.error(e.getMessage(), e);
     }
 
-    for (MPDFile file : tmpMpdFiles) {
+    for (MpdFile file : tmpMpdFiles) {
       if (file.isDirectory()) {
         Directory d = new Directory(file.getPath());
         browsePayload.addDirectory(d);
       } else {
-        Collection<MPDSong> searchResults =
+        Collection<MpdSong> searchResults =
             mpd.getMusicDatabase().getSongDatabase().searchFileName(file.getPath());
         if (!searchResults.isEmpty()) {
           browsePayload.addTrack(searchResults.iterator().next());
@@ -258,11 +258,11 @@ public class WebSocketController {
   private Optional<Message> playTrack(Object inputPayload) {
     HashMap<String, String> payload = (HashMap<String, String>) inputPayload;
     String path = payload.get("path");
-    List<MPDSong> trackList = mpd.getPlaylist().getSongList();
-    Collection<MPDSong> mpdSongCollection =
+    List<MpdSong> trackList = mpd.getPlaylist().getSongList();
+    Collection<MpdSong> mpdSongCollection =
         mpd.getMusicDatabase().getSongDatabase().searchFileName(path);
 
-    List<MPDSong> result =
+    List<MpdSong> result =
         trackList.stream().filter(n -> mpdSongCollection.contains(n)).collect(Collectors.toList());
 
     if (result.size() > 0) {

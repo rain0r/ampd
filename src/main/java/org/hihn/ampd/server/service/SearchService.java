@@ -1,8 +1,8 @@
 package org.hihn.ampd.server.service;
 
 import java.util.ArrayList;
-import org.bff.javampd.server.MPD;
-import org.bff.javampd.song.MPDSong;
+import org.bff.javampd.server.Mpd;
+import org.bff.javampd.song.MpdSong;
 import org.bff.javampd.song.SongSearcher.ScopeType;
 import org.hihn.ampd.server.config.MpdConfiguration;
 import org.hihn.ampd.server.message.outgoing.search.SearchMessage;
@@ -11,12 +11,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
- * Searches the MPD database.
+ * Searches the Mpd database.
  */
 @Service
 public class SearchService {
 
-  private final MPD mpd;
+  private final Mpd mpd;
 
   @Autowired
   public SearchService(MpdConfiguration mpdConfiguration) {
@@ -24,13 +24,13 @@ public class SearchService {
   }
 
   /**
-   * Takes a query and searches the MPD database for it.
+   * Takes a query and searches the Mpd database for it.
    *
    * @param query What to search for.
    * @return A message with the search results.
    */
   public SearchMessage search(String query) {
-    ArrayList<MPDSong> searchResults = new ArrayList<>();
+    ArrayList<MpdSong> searchResults = new ArrayList<>();
     searchResults.addAll(mpd.getSongSearcher().search(ScopeType.ANY, query));
 
     SearchMessage searchResult =

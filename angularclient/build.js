@@ -46,6 +46,7 @@ if (argv['https'] === true) {
   ws = 'ws';
 }
 
+console.log("Building the ampd frontend");
 console.log(`Using context path: ${argv['context']}`);
 console.log(`Using versionParser: ${ampdVersion}`);
 console.log(`Using prod: ${argv['prod']}`);
@@ -104,17 +105,9 @@ const spawnArgs = argv['prod']
 const spawnOpt = { cwd: __dirname };
 const child = spawn('ng', spawnArgs, spawnOpt);
 
-child.stdout.on('data', (data) => {
-  console.log(`stdout: ${data}`);
-});
-
-child.stderr.on('data', (data) => {
-  console.error(`stderr: ${data}`);
-});
-
 child.on('close', (code) => {
-  console.log(`child process exited with code ${code}`);
   if (code > 0) {
+    console.log(`child process exited with code ${code}`);
     process.exit(1);
   }
 });

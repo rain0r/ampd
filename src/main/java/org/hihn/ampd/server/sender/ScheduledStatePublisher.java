@@ -1,6 +1,6 @@
 package org.hihn.ampd.server.sender;
 
-import org.bff.javampd.server.MPD;
+import org.bff.javampd.server.Mpd;
 import org.hihn.ampd.server.config.MpdConfiguration;
 import org.hihn.ampd.server.message.incoming.ControlPanel;
 import org.hihn.ampd.server.message.outgoing.state.StateMessage;
@@ -21,7 +21,7 @@ public class ScheduledStatePublisher {
   @Autowired
   private SimpMessagingTemplate template;
 
-  private final MPD mpd;
+  private final Mpd mpd;
 
   @Autowired
   public ScheduledStatePublisher(MpdConfiguration mpdConfiguration) {
@@ -29,7 +29,7 @@ public class ScheduledStatePublisher {
   }
 
   /**
-   * Publishes the MPD server state every second.
+   * Publishes the Mpd server state every second.
    */
   @Scheduled(fixedDelay = 1 * 1000L)
   public void publishUpdates() {

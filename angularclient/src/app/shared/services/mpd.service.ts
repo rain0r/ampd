@@ -7,6 +7,8 @@ import { ConnConfUtil } from "../conn-conf/conn-conf-util";
 import { Observable, Subject } from "rxjs";
 import { map } from "rxjs/operators";
 import { filter } from "rxjs/internal/operators";
+import { SavePlaylistData } from "../save-playlist-modal/save-playlist-data";
+import { MpdCommands } from "../mpd/mpd-commands";
 
 @Injectable({
   providedIn: "root",
@@ -84,5 +86,9 @@ export class MpdService {
         filter((queueTrack: QueueTrack) => !!queueTrack)
       )
       .subscribe((queueTrack) => this.currentSong.next(queueTrack));
+  }
+
+  savePlaylist(playlistData: SavePlaylistData) {
+    // this.webSocketService.sendData(MpdCommands.SAVE_PLAYLIST, playlistData);
   }
 }

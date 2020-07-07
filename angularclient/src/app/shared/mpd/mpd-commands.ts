@@ -11,6 +11,7 @@ export class MpdCommands {
   static readonly PLAY_TRACK = "PLAY_TRACK";
   static readonly RM_ALL = "RM_ALL";
   static readonly RM_TRACK = "RM_TRACK";
+  static readonly SAVE_PLAYLIST = "SAVE_PLAYLIST";
   static readonly SEARCH = "SEARCH";
   static readonly SET_NEXT = "SET_NEXT";
   static readonly SET_PAUSE = "SET_PAUSE";

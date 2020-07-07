@@ -58,9 +58,14 @@ export class TrackTableComponent {
   }
 
   openCoverModal(): void {
-    this.dialog.open(SavePlaylistModalComponent, {
+    const dialogRef = this.dialog.open(SavePlaylistModalComponent, {
       data: { name: "", tracks: this.dataSource.data } as SavePlaylistData,
     });
+    dialogRef
+      .afterClosed()
+      .subscribe((result: SavePlaylistData) =>
+        this.mpdService.savePlaylist(result)
+      );
   }
 
   applyFilter(filterValue: string): void {

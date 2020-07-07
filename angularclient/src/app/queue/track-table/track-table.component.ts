@@ -8,6 +8,9 @@ import { IQueuePayload } from "../../shared/messages/incoming/queue-payload";
 import { QueueTrack } from "../../shared/models/queue-track";
 import { MpdService } from "../../shared/services/mpd.service";
 import { MatSort } from "@angular/material/sort";
+import { MatDialog } from "@angular/material/dialog";
+import { SavePlaylistModalComponent } from "../../shared/save-playlist-modal/save-playlist-modal.component";
+import { SavePlaylistData } from "../../shared/save-playlist-modal/save-playlist-data";
 
 @Component({
   selector: "app-track-table",
@@ -34,6 +37,7 @@ export class TrackTableComponent {
   ];
 
   constructor(
+    private dialog: MatDialog,
     private deviceService: DeviceDetectorService,
     private webSocketService: WebSocketService,
     private mpdService: MpdService
@@ -51,6 +55,12 @@ export class TrackTableComponent {
       event.preventDefault();
       this.focus = true;
     }
+  }
+
+  openCoverModal(): void {
+    this.dialog.open(SavePlaylistModalComponent, {
+      data: { name: "", tracks: this.dataSource.data } as SavePlaylistData,
+    });
   }
 
   applyFilter(filterValue: string): void {

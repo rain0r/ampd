@@ -1,26 +1,35 @@
-<mat-form-field class="full-width" *ngIf="dataSource.data.length > 0">
-  <input
-      #filterInputElem
-      (keydown.escape)="filterInputElem.blur()"
-      (keyup)="applyFilter($event.target.value)"
-      [(ngModel)]="dataSource.filter"
-      [autofocus]="focus"
-      autocomplete="off"
-      matInput
-      placeholder="Filter queue"
-      type="text"
-  />
-  <button
-      (click)="resetFilter()"
-      *ngIf="dataSource.filter"
-      aria-label="Clear"
-      mat-button
-      mat-icon-button
-      matSuffix
-  >
-    <mat-icon>close</mat-icon>
-  </button>
-</mat-form-field>
+<div fxLayout="row nowrap" fxLayoutAlign="center">
+  <div fxFlex="1 1 auto">
+    <mat-form-field class="full-width" *ngIf="dataSource.data.length > 0">
+      <input
+          #filterInputElem
+          (keydown.escape)="filterInputElem.blur()"
+          (keyup)="applyFilter($event.target.value)"
+          [(ngModel)]="dataSource.filter"
+          [autofocus]="focus"
+          autocomplete="off"
+          matInput
+          placeholder="Filter queue"
+          type="text"
+      />
+      <button
+          (click)="resetFilter()"
+          *ngIf="dataSource.filter"
+          aria-label="Clear"
+          mat-button
+          mat-icon-button
+          matSuffix
+      >
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>
+  </div>
+  <div>
+    <button mat-button (click)="openCoverModal()">
+      Save playlist
+    </button>
+  </div>
+</div>
 
 <table mat-table [dataSource]="dataSource" matSort matSortActive="artistName" matSortDisableClear>
   <ng-container matColumnDef="pos">

@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from "@angular/core";
+import { Component, Inject } from "@angular/core";
 import { Observable } from "rxjs";
 import { SettingsService } from "../services/settings.service";
 import { OverlayContainer } from "@angular/cdk/overlay";

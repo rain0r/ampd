@@ -68,7 +68,6 @@ export class TrackTableComponent {
         playlistName: playlistName,
       });
       this.mpdService.getPlaylistSavedSubscription().subscribe((msg) => {
-        console.log("msg", msg);
         const text = msg.success
           ? `Saved queue as playlist '${msg.playlistName}'`
           : `Error saving queue as playlist '${msg.playlistName}'`;

@@ -19,6 +19,7 @@ public abstract class AmpdMessage implements Message {
     PLAY_TRACK,
     RM_ALL,
     RM_TRACK,
+    SAVE_PLAYLIST,
     SEARCH,
     SET_NEXT,
     SET_PAUSE,

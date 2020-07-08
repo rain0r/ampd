@@ -68,6 +68,7 @@ public class WebSocketController {
     commands.put(MessageType.RM_ALL, this::removeAll);
     commands.put(MessageType.RM_TRACK, this::removeTrack);
     commands.put(MessageType.SEARCH, this::search);
+    commands.put(MessageType.SAVE_PLAYLIST, this::savePlaylist);
     commands.put(MessageType.SET_NEXT, this::playNext);
     commands.put(MessageType.SET_PAUSE, this::pause);
     commands.put(MessageType.SET_PLAY, this::play);
@@ -155,6 +156,11 @@ public class WebSocketController {
 
   private Optional<Message> playPrevious(Object o) {
     mpd.getPlayer().playPrevious();
+    return Optional.empty();
+  }
+
+
+  private Optional<Message> savePlaylist(Object o) {
     return Optional.empty();
   }
 

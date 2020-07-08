@@ -4,8 +4,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
-import org.bff.javampd.server.MPD;
-import org.bff.javampd.song.MPDSong;
+import org.bff.javampd.server.Mpd;
+import org.bff.javampd.song.MpdSong;
 import org.hihn.ampd.server.config.MpdConfiguration;
 import org.hihn.ampd.server.model.CoverType;
 import org.hihn.ampd.server.model.SettingsBean;
@@ -27,7 +27,7 @@ public class CoverArtFetcherService {
 
   private final SettingsBean settingsBean;
 
-  private final MPD mpd;
+  private final Mpd mpd;
 
   public CoverArtFetcherService(
       CoverCacheService coverCacheService,
@@ -45,7 +45,7 @@ public class CoverArtFetcherService {
    * @return The bytes of the found cover.
    */
   public Optional<byte[]> getCurrentAlbumCover() {
-    MPDSong track = mpd.getPlayer().getCurrentSong();
+    MpdSong track = mpd.getPlayer().getCurrentSong();
     if (track == null) {
       LOG.debug("Could not get current song");
       return Optional.empty();
@@ -55,7 +55,7 @@ public class CoverArtFetcherService {
     // Try to load the cover from cache
     Optional<byte[]> cover = coverCacheService
         .loadCover(coverType, track.getArtistName(), track.getTitle());
-    // If the cover is not in the cache, try to load it from the MPD music directory
+    // If the cover is not in the cache, try to load it from the Mpd music directory
     if (!cover.isPresent()) {
       LOG.debug("Trying to load a cover from the track directory");
       String trackFilePath = track.getFile();

@@ -1,5 +1,5 @@
 import { Component, Input } from "@angular/core";
-import { Playlist } from "../../shared/messages/incoming/playlist";
+import { PlaylistImpl } from "../../shared/messages/incoming/playlist-impl";
 import { MpdCommands } from "../../shared/mpd/mpd-commands";
 import { MessageService } from "../../shared/services/message.service";
 import { NotificationService } from "../../shared/services/notification.service";
@@ -12,7 +12,7 @@ import { Filterable } from "../filterable";
   styleUrls: ["./playlists.component.scss"],
 })
 export class PlaylistsComponent extends Filterable {
-  @Input() playlistQueue: Playlist[] = [];
+  @Input() playlistQueue: PlaylistImpl[] = [];
 
   constructor(
     private notificationService: NotificationService,
@@ -22,7 +22,7 @@ export class PlaylistsComponent extends Filterable {
     super(messageService);
   }
 
-  onClickPlaylist(event: Playlist): void {
+  onClickPlaylist(event: PlaylistImpl): void {
     this.webSocketService.sendData(MpdCommands.ADD_PLAYLIST, {
       playlist: event.name,
     });

@@ -1,13 +1,14 @@
 import { Pipe, PipeTransform } from "@angular/core";
-import { Playlist } from "../../messages/incoming/playlist";
+import { PlaylistImpl } from "../../messages/incoming/playlist-impl";
 
 @Pipe({ name: "playlistFilter" })
 export class PlaylistFilterPipe implements PipeTransform {
-  transform(value: Playlist[], filterBy: string): Playlist[] {
+  transform(value: PlaylistImpl[], filterBy: string): PlaylistImpl[] {
     filterBy = filterBy ? filterBy.toLocaleLowerCase() : "";
     return filterBy
       ? value.filter(
-          (pl: Playlist) => pl.name.toLocaleLowerCase().indexOf(filterBy) !== -1
+          (pl: PlaylistImpl) =>
+            pl.name.toLocaleLowerCase().indexOf(filterBy) !== -1
         )
       : value;
   }

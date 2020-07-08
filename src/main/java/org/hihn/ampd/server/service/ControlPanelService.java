@@ -1,18 +1,18 @@
 package org.hihn.ampd.server.service;
 
 import java.util.HashMap;
-import org.bff.javampd.server.MPD;
+import org.bff.javampd.server.Mpd;
 import org.hihn.ampd.server.config.MpdConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
- * Represents the control panel of MPD.
+ * Represents the control panel of Mpd.
  */
 @Service
 public class ControlPanelService {
 
-  private final MPD mpd;
+  private final Mpd mpd;
 
   @Autowired
   public ControlPanelService(MpdConfiguration mpdConfiguration) {

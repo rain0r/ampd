@@ -1,6 +1,6 @@
 package org.hihn.ampd.server.sender;
 
-import org.bff.javampd.server.MPD;
+import org.bff.javampd.server.Mpd;
 import org.hihn.ampd.server.config.MpdConfiguration;
 import org.hihn.ampd.server.message.outgoing.queue.QueueMessage;
 import org.hihn.ampd.server.message.outgoing.queue.QueuePayload;
@@ -21,7 +21,7 @@ public class ScheduledQueuePublisher {
   @Autowired
   private SimpMessagingTemplate template;
 
-  private final MPD mpd;
+  private final Mpd mpd;
 
   @Autowired
   public ScheduledQueuePublisher(MpdConfiguration mpdConfiguration) {

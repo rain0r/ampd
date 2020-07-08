@@ -1,6 +1,6 @@
 import { Component, Input } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
-import { Directory } from "../../shared/messages/incoming/directory";
+import { DirectoryImpl } from "../../shared/messages/incoming/directory-impl";
 import { MpdCommands } from "../../shared/mpd/mpd-commands";
 import { MessageService } from "../../shared/services/message.service";
 import { NotificationService } from "../../shared/services/notification.service";
@@ -13,7 +13,7 @@ import { Filterable } from "../filterable";
   styleUrls: ["./directories.component.scss"],
 })
 export class DirectoriesComponent extends Filterable {
-  @Input() dirQueue: Directory[] = [];
+  @Input() dirQueue: DirectoryImpl[] = [];
   getParamDir = "/";
 
   constructor(

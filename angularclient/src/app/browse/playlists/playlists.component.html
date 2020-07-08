@@ -8,7 +8,6 @@
   <mat-list
       role="list"
       *ngFor="let playlist of playlistQueue | playlistFilter: filterValue"
-      (click)="onClickPlaylist(playlist.name)"
   >
     <mat-list-item role="listitem" class="list-item">
       <div
@@ -17,13 +16,13 @@
           fxLayoutGap="0.2rem"
           fxLayoutAlign="center center"
       >
-        <div>
+        <div (click)="onClickPlaylist(playlist.name)">
           <mat-icon>list</mat-icon> &nbsp;
         </div>
-        <div fxFlex="1 1 auto">
+        <div fxFlex="1 1 auto" (click)="onClickPlaylist(playlist.name)">
           {{ playlist.name }}
         </div>
-        <div class="text-muted">
+        <div class="text-muted" (click)="onClickPlaylist(playlist.name)">
           {{ playlist.count }}
         </div>
         <div>

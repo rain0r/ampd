@@ -1,5 +1,5 @@
 import { Component, HostListener } from "@angular/core";
-import { IControlPanel } from "../../shared/messages/incoming/control-panel";
+import { ControlPanel } from "../../shared/messages/incoming/control-panel";
 import { MpdCommands } from "../../shared/mpd/mpd-commands";
 import { WebSocketService } from "../../shared/services/web-socket.service";
 import { MatButtonToggleChange } from "@angular/material/button-toggle";
@@ -12,7 +12,7 @@ import { NotificationService } from "../../shared/services/notification.service"
   styleUrls: ["./mpd-modes.component.scss"],
 })
 export class MpdModesComponent {
-  controlPanel: IControlPanel;
+  controlPanel: ControlPanel;
   private currentState = "stop";
   private controlPanelOpts = [
     "random",
@@ -84,7 +84,7 @@ export class MpdModesComponent {
     });
   }
 
-  private showMessage(tmpControlPanel: IControlPanel) {
+  private showMessage(tmpControlPanel: ControlPanel) {
     for (const opt of this.controlPanelOpts) {
       if (tmpControlPanel[opt] !== this.controlPanel[opt]) {
         const on = this.controlPanel[opt] ? "on" : "off";

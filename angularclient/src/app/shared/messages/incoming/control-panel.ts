@@ -1,4 +1,4 @@
-export interface IControlPanel {
+export interface ControlPanel {
   random: boolean;
   consume: boolean;
   single: boolean;

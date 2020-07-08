@@ -1,6 +1,6 @@
 import { MpdTrack } from "./mpd-track";
 
-export interface IQueuePayload {
+export interface QueuePayload {
   tracks: MpdTrack[];
   checkSum: number;
 }

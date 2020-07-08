@@ -1,4 +1,4 @@
-export interface ISearchResult {
+export interface SearchResult {
   name: string;
   title: string;
   artistName: string;
@@ -14,13 +14,13 @@ export interface ISearchResult {
   id: number;
 }
 
-export interface ISearchMsgPayload {
-  searchResults: ISearchResult[];
+export interface SearchMsgPayload {
+  searchResults: SearchResult[];
   searchResultCount: number;
   query: string;
 }
 
-export interface ISearchRoot {
-  payload: ISearchMsgPayload;
+export interface SearchRoot {
+  payload: SearchMsgPayload;
   type: string;
 }

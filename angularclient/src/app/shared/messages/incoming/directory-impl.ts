@@ -1,12 +1,12 @@
 import { ConnConfUtil } from "../../conn-conf/conn-conf-util";
 
-export interface IDirectory {
+export interface Directory {
   directory: boolean;
   path: string;
   lastModified?: Date;
 }
 
-export class Directory implements IDirectory {
+export class DirectoryImpl implements Directory {
   directory: boolean;
   path: string;
 

@@ -2,8 +2,8 @@ import { Component, OnInit, ViewChild } from "@angular/core";
 
 import { MpdTrack } from "../shared/messages/incoming/mpd-track";
 import {
-  ISearchMsgPayload,
-  ISearchResult,
+  SearchMsgPayload,
+  SearchResult,
 } from "../shared/messages/incoming/search";
 import { QueueTrack } from "../shared/models/queue-track";
 import { MpdCommands } from "../shared/mpd/mpd-commands";
@@ -95,7 +95,7 @@ export class SearchComponent implements OnInit {
   private buildMsgReceiver(): void {
     this.webSocketService
       .getSearchSubscription()
-      .subscribe((message: ISearchMsgPayload) =>
+      .subscribe((message: SearchMsgPayload) =>
         this.processSearchResults(
           message.searchResults,
           message.searchResultCount
@@ -104,12 +104,12 @@ export class SearchComponent implements OnInit {
   }
 
   private processSearchResults(
-    searchResults: ISearchResult[],
+    searchResults: SearchResult[],
     searchResultCount: number
   ): void {
     this.resetSearch();
     const tableData = [];
-    searchResults.forEach((track: ISearchResult) => {
+    searchResults.forEach((track: SearchResult) => {
       tableData.push(new QueueTrack(track));
     });
     this.dataSource = new MatTableDataSource<QueueTrack>(tableData);

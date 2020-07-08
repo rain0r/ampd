@@ -19,6 +19,8 @@ import org.hihn.ampd.server.message.outgoing.browse.BrowseMessage;
 import org.hihn.ampd.server.message.outgoing.browse.BrowsePayload;
 import org.hihn.ampd.server.message.outgoing.browse.Directory;
 import org.hihn.ampd.server.message.outgoing.browse.Playlist;
+import org.hihn.ampd.server.message.outgoing.playlist.PlaylistSavedMessage;
+import org.hihn.ampd.server.message.outgoing.playlist.PlaylistSavedPayload;
 import org.hihn.ampd.server.message.outgoing.queue.QueueMessage;
 import org.hihn.ampd.server.message.outgoing.queue.QueuePayload;
 import org.hihn.ampd.server.service.ControlPanelService;
@@ -109,12 +111,9 @@ public class WebSocketController {
     HashMap<String, String> payload = (HashMap<String, String>) inputPayload;
     String playlist = payload.get("playlist");
     ArrayList<MpdSong> mpdSongs = new ArrayList<>();
-
     Collection<MpdSong> mpdSongCollection =
         mpd.getMusicDatabase().getPlaylistDatabase().listPlaylistSongs(playlist);
-
     mpdSongs.addAll(mpdSongCollection);
-
     mpd.getPlaylist().addSongs(mpdSongs);
     return Optional.empty();
   }
@@ -163,8 +162,10 @@ public class WebSocketController {
   private Optional<Message> savePlaylist(Object inputPayload) {
     HashMap<String, String> payload = (HashMap<String, String>) inputPayload;
     String playlistName = payload.get("playlistName");
-    mpd.getPlaylist().savePlaylist(playlistName);
-    return Optional.empty();
+    boolean success = mpd.getPlaylist().savePlaylist(playlistName);
+    PlaylistSavedPayload playlistSavedPayload = new PlaylistSavedPayload(playlistName, success);
+    PlaylistSavedMessage playlistSavedMessage = new PlaylistSavedMessage(playlistSavedPayload);
+    return Optional.of(playlistSavedMessage);
   }
 
   private Optional<Message> seek(Object inputPayload) {

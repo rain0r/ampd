@@ -1,9 +1,9 @@
-export interface IPlaylist {
+export interface Playlist {
   name: string;
   count: number;
 }
 
-export class Playlist implements IPlaylist {
+export class PlaylistImpl implements Playlist {
   name: string;
   count: number;
 

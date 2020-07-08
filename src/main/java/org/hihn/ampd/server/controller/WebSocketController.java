@@ -64,6 +64,7 @@ public class WebSocketController {
     commands.put(MessageType.ADD_PLAYLIST, this::addPlaylist);
     commands.put(MessageType.ADD_PLAY_TRACK, this::addPlayTrack);
     commands.put(MessageType.ADD_TRACK, this::addTrack);
+    commands.put(MessageType.DELETE_PLAYLIST, this::deletePlaylist);
     commands.put(MessageType.GET_BROWSE, this::browse);
     commands.put(MessageType.GET_QUEUE, this::getQueue);
     commands.put(MessageType.PLAY_TRACK, this::playTrack);
@@ -103,7 +104,6 @@ public class WebSocketController {
   private Optional<Message> search(Object inputPayload) {
     HashMap<String, String> payload = (HashMap<String, String>) inputPayload;
     String query = payload.get("query");
-
     return Optional.of(searchService.search(query));
   }
 
@@ -130,6 +130,13 @@ public class WebSocketController {
   private Optional<Message> addPlayTrack(Object inputPayload) {
     addTrack(inputPayload);
     playTrack(inputPayload);
+    return Optional.empty();
+  }
+
+  private Optional<Message> deletePlaylist(Object inputPayload) {
+    HashMap<String, String> payload = (HashMap<String, String>) inputPayload;
+    String playlistName = payload.get("playlistName");
+    mpd.getPlaylist().deletePlaylist(playlistName);
     return Optional.empty();
   }
 
@@ -248,12 +255,6 @@ public class WebSocketController {
     return browsePayload;
   }
 
-  private Optional<Message> getQueue(Object inputPayload) {
-    QueuePayload queuePayload = new QueuePayload(mpd.getPlaylist().getSongList());
-    QueueMessage queue = new QueueMessage(queuePayload);
-    return Optional.of(queue);
-  }
-
   private Optional<Message> setVolume(Object inputVolume) {
     try {
       HashMap<String, Integer> volumePayload = (HashMap<String, Integer>) inputVolume;
@@ -295,4 +296,11 @@ public class WebSocketController {
     mpd.getPlaylist().clearPlaylist();
     return Optional.empty();
   }
+
+  private Optional<Message> getQueue(Object inputPayload) {
+    QueuePayload queuePayload = new QueuePayload(mpd.getPlaylist().getSongList());
+    QueueMessage queue = new QueueMessage(queuePayload);
+    return Optional.of(queue);
+  }
+
 }

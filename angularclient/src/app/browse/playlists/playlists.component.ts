@@ -22,10 +22,17 @@ export class PlaylistsComponent extends Filterable {
     super(messageService);
   }
 
-  onClickPlaylist(event: PlaylistImpl): void {
+  onClickPlaylist(playlistName: string): void {
     this.webSocketService.sendData(MpdCommands.ADD_PLAYLIST, {
-      playlist: event.name,
+      playlist: playlistName,
     });
-    this.notificationService.popUp(`Added playlist: "${event.name}"`);
+    this.notificationService.popUp(`Added playlist: "${playlistName}"`);
+  }
+
+  onDeletePlaylist(playlistName: string) {
+    this.webSocketService.sendData(MpdCommands.DELETE_PLAYLIST, {
+      playlist: playlistName,
+    });
+    this.notificationService.popUp(`Deleted playlist: "${playlistName}"`);
   }
 }

@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import org.apache.commons.io.IOUtils;
-import org.bff.javampd.song.MPDSong;
+import org.bff.javampd.song.MpdSong;
 import org.hihn.ampd.server.model.SettingsBean;
 import org.musicbrainz.controller.Recording;
 import org.musicbrainz.controller.Release;
@@ -35,10 +35,10 @@ public class MbCoverService {
   /**
    * Download a cover from Musicbrainz.
    *
-   * @param track A {@link MPDSong}.
+   * @param track A {@link MpdSong}.
    * @return The cover.
    */
-  public Optional<byte[]> getMbCover(MPDSong track) {
+  public Optional<byte[]> getMbCover(MpdSong track) {
     Optional<byte[]> ret = Optional.empty();
     if (settingsBean.isMbCoverService()) {
       if (StringUtils.isEmpty(track.getAlbumName())) {
@@ -50,7 +50,7 @@ public class MbCoverService {
     return ret;
   }
 
-  private Optional<byte[]> searchAlbumMusicBrainzCover(MPDSong track) {
+  private Optional<byte[]> searchAlbumMusicBrainzCover(MpdSong track) {
     Optional<byte[]> cover = Optional.empty();
     Release releaseController = new Release();
     releaseController.getSearchFilter().setLimit((long) 10);
@@ -78,7 +78,7 @@ public class MbCoverService {
     return cover;
   }
 
-  private Optional<byte[]> searchSingletonMusicBrainzCover(MPDSong track) {
+  private Optional<byte[]> searchSingletonMusicBrainzCover(MpdSong track) {
     Optional<byte[]> cover = Optional.empty();
     Recording recordingController = new Recording();
     recordingController.getSearchFilter().setLimit((long) 10);

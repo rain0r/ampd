@@ -1,22 +1,24 @@
 import { Injectable } from "@angular/core";
 import { WebSocketService } from "./web-socket.service";
-import { IStateMsgPayload } from "../messages/incoming/state-msg-payload";
-import { IControlPanel } from "../messages/incoming/control-panel";
+import { StateMsgPayload } from "../messages/incoming/state-msg-payload";
+import { ControlPanel } from "../messages/incoming/control-panel";
 import { QueueTrack } from "../models/queue-track";
 import { ConnConfUtil } from "../conn-conf/conn-conf-util";
 import { Observable, Subject } from "rxjs";
 import { map } from "rxjs/operators";
 import { filter } from "rxjs/internal/operators";
+import { PlaylistSaved } from "../messages/incoming/playlist-saved";
 
 @Injectable({
   providedIn: "root",
 })
 export class MpdService {
-  private volume = new Subject<number>();
-  private controlPanel = new Subject<IControlPanel>();
-  private currentState = new Subject<string>();
-  private prevSong = new QueueTrack();
+  private controlPanel = new Subject<ControlPanel>();
   private currentSong = new Subject<QueueTrack>();
+  private currentState = new Subject<string>();
+  private playlistSaved = new Subject<PlaylistSaved>();
+  private prevSong = new QueueTrack();
+  private volume = new Subject<number>();
 
   constructor(private webSocketService: WebSocketService) {
     this.init();
@@ -30,18 +32,23 @@ export class MpdService {
     return this.currentState.asObservable();
   }
 
-  getControlPanelSubscription(): Observable<IControlPanel> {
+  getControlPanelSubscription(): Observable<ControlPanel> {
     return this.controlPanel.asObservable();
   }
 
   getVolumeSubscription(): Observable<number> {
     return this.volume.asObservable();
   }
+
+  getPlaylistSavedSubscription(): Observable<PlaylistSaved> {
+    return this.playlistSaved.asObservable();
+  }
+
   /**
    * Build the currentSong object - holds info about the song currently played
    * @param payload IStateMsgPayload
    */
-  private buildState(payload: IStateMsgPayload) {
+  private buildState(payload: StateMsgPayload) {
     this.controlPanel.next(payload.controlPanel);
     this.currentState.next(payload.serverStatus.state);
     this.volume.next(payload.serverStatus.volume);
@@ -58,7 +65,7 @@ export class MpdService {
     }
   }
 
-  private buildQueueTrack(payload: IStateMsgPayload, songChanged: boolean) {
+  private buildQueueTrack(payload: StateMsgPayload, songChanged: boolean) {
     const queueTrack = new QueueTrack(payload.currentSong);
     queueTrack.coverUrl = this.buildCoverUrl(payload.currentSong.title);
     queueTrack.elapsed = payload.serverStatus.elapsedTime;
@@ -77,6 +84,11 @@ export class MpdService {
   }
 
   private init() {
+    this.buildStateSubscription();
+    this.buildPlaylistSavedSubscription();
+  }
+
+  private buildStateSubscription() {
     this.webSocketService
       .getStateSubscription()
       .pipe(
@@ -84,5 +96,11 @@ export class MpdService {
         filter((queueTrack: QueueTrack) => !!queueTrack)
       )
       .subscribe((queueTrack) => this.currentSong.next(queueTrack));
+  }
+
+  private buildPlaylistSavedSubscription() {
+    this.webSocketService
+      .getPlaylistSavedSubscription()
+      .subscribe((msg) => this.playlistSaved.next(msg));
   }
 }

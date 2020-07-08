@@ -24,7 +24,7 @@ public class ControlPanel {
 
   public ControlPanel(ServerStatus serverStatus) {
     Collection<String> statusList = serverStatus.getStatus();
-    setCrossfade(serverStatus.getXFade());
+    setCrossfade(serverStatus.getCrossfade());
 
     for (String status : statusList) {
 

@@ -1,45 +1,46 @@
-<div fxLayout="row wrap" fxLayoutAlign="center" *ngIf="currentState === 'stop' || !currentSong else queueHeader">
+<div fxLayout="row wrap" fxLayoutAlign="center"
+     *ngIf="currentState === 'stop' || !currentSong else queueHeader">
   <span class="mat-display-1">
     Stopped.
   </span>
 </div>
 
 <ng-template #queueHeader>
-<div
-  fxLayout="row wrap"
-  fxLayoutAlign="space-between start"
-  *ngIf="currentState !== 'stop'"
->
-  <div fxFlex="55%" fxLayout="column">
-    <div class="mat-h2 queue-sub-title" fxFlex="100%" title="Title: {{currentSong.title}}">
-      {{ currentSong.title }}
+  <div
+      fxLayout="row wrap"
+      fxLayoutAlign="space-between start"
+      *ngIf="currentState !== 'stop'"
+  >
+    <div fxFlex="55%" fxLayout="column">
+      <div class="mat-h2 queue-sub-title" fxFlex="100%" title="Title: {{currentSong.title}}">
+        {{ currentSong.title }}
+      </div>
+      <div
+          class="mat-h2 queue-sub-title text-muted"
+          *ngIf="currentSong.albumName"
+          title="Album: {{currentSong.albumName}}"
+      >
+        {{ currentSong.albumName }}
+      </div>
+      <div class="mat-h2 queue-sub-title" title="Artist: {{currentSong.artistName}}">
+        {{ currentSong.artistName }}
+      </div>
     </div>
-    <div
-      class="mat-h2 queue-sub-title text-muted"
-      *ngIf="currentSong.albumName"
-      title="Album: {{currentSong.albumName}}"
-    >
-      {{ currentSong.albumName }}
-    </div>
-    <div class="mat-h2 queue-sub-title" title="Artist: {{currentSong.artistName}}">
-      {{ currentSong.artistName }}
+    <div fxLayoutAlign="end center">
+      <mat-divider
+          fxShow.lt-md="true"
+          fxShow="false"
+          *ngIf="isDisplayCover|async"
+      ></mat-divider>
+      <img
+          *ngIf="isDisplayCover|async"
+          [src]=" currentSong.coverUrl "
+          class="album-art clickable"
+          [ngClass]="[coverSizeClass|async]"
+          (click)="openCoverModal()"
+      />
     </div>
   </div>
-  <div fxLayoutAlign="end center">
-    <mat-divider
-      fxShow.lt-md="true"
-      fxShow="false"
-      *ngIf="isDisplayCover|async"
-    ></mat-divider>
-    <img
-      *ngIf="isDisplayCover|async"
-      [src]=" currentSong.coverUrl "
-      class="album-art clickable"
-      [ngClass]="[coverSizeClass|async]"
-      (click)="openCoverModal()"
-    />
-  </div>
-</div>
 </ng-template>
 
 <mat-divider></mat-divider>

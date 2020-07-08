@@ -1,46 +1,46 @@
 <div fxLayout="row wrap" fxLayoutAlign="space-between end">
   <button
-    mat-stroked-button
-    (click)="handleControlButton($event)"
-    id="btn-prev"
+      mat-stroked-button
+      (click)="handleControlButton($event)"
+      id="btn-prev"
   >
     <mat-icon>skip_previous</mat-icon>
   </button>
   <button
-    mat-stroked-button
-    (click)="handleControlButton($event)"
-    id="btn-stop"
+      mat-stroked-button
+      (click)="handleControlButton($event)"
+      id="btn-stop"
   >
     <mat-icon>stop</mat-icon>
   </button>
   <button
-    mat-stroked-button
-    *ngIf="(currentState|async) === 'play'"
-    (click)="handleControlButton($event)"
-    id="btn-pause"
+      mat-stroked-button
+      *ngIf="(currentState|async) === 'play'"
+      (click)="handleControlButton($event)"
+      id="btn-pause"
   >
     <mat-icon>pause</mat-icon>
   </button>
   <button
-    mat-stroked-button
-    *ngIf="(currentState|async) !== 'play'"
-    (click)="handleControlButton($event)"
-    id="btn-play"
+      mat-stroked-button
+      *ngIf="(currentState|async) !== 'play'"
+      (click)="handleControlButton($event)"
+      id="btn-play"
   >
     <mat-icon>play_arrow</mat-icon>
   </button>
   <button
-    mat-stroked-button
-    (click)="handleControlButton($event)"
-    id="btn-next"
+      mat-stroked-button
+      (click)="handleControlButton($event)"
+      id="btn-next"
   >
     <mat-icon>skip_next</mat-icon>
   </button>
   <button
-    mat-stroked-button
-    (click)="onClearQueue()"
-    title="Remove all items from the queue"
-    class="valign-top clear-queue"
+      mat-stroked-button
+      (click)="onClearQueue()"
+      title="Remove all items from the queue"
+      class="valign-top clear-queue"
   >
     <mat-icon>delete</mat-icon>
     <span fxHide.lt-md>

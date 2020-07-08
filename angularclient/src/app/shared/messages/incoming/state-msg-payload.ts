@@ -1,10 +1,10 @@
-import { IControlPanel } from "./control-panel";
+import { ControlPanel } from "./control-panel";
 import { MpdTrack } from "./mpd-track";
-import { IServerStatus } from "./server-status";
+import { ServerStatus } from "./server-status";
 
-export interface IStateMsgPayload {
-  serverStatus: IServerStatus;
+export interface StateMsgPayload {
+  serverStatus: ServerStatus;
   currentSong: MpdTrack;
   cover?: unknown;
-  controlPanel: IControlPanel;
+  controlPanel: ControlPanel;
 }

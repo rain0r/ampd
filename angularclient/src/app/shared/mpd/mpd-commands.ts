@@ -6,6 +6,7 @@ export class MpdCommands {
   static readonly ADD_PLAYLIST = "ADD_PLAYLIST";
   static readonly ADD_PLAY_TRACK = "ADD_PLAY_TRACK";
   static readonly ADD_TRACK = "ADD_TRACK";
+  static readonly DELETE_PLAYLIST = "DELETE_PLAYLIST";
   static readonly GET_BROWSE = "GET_BROWSE";
   static readonly GET_QUEUE = "GET_QUEUE";
   static readonly PLAY_TRACK = "PLAY_TRACK";

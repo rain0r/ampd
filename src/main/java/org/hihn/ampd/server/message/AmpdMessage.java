@@ -14,6 +14,7 @@ public abstract class AmpdMessage implements Message {
     ADD_PLAYLIST,
     ADD_PLAY_TRACK,
     ADD_TRACK,
+    DELETE_PLAYLIST,
     GET_BROWSE,
     GET_QUEUE,
     PLAY_TRACK,

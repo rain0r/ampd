@@ -8,7 +8,7 @@
   <mat-list
       role="list"
       *ngFor="let playlist of playlistQueue | playlistFilter: filterValue"
-      (click)="onClickPlaylist(playlist)"
+      (click)="onClickPlaylist(playlist.name)"
   >
     <mat-list-item role="listitem" class="list-item">
       <div
@@ -25,6 +25,16 @@
         </div>
         <div class="text-muted">
           {{ playlist.count }}
+        </div>
+        <div>
+          <button
+              mat-button
+              class="btn-remove-track"
+              title="Remove from queue"
+              (click)="onDeletePlaylist(playlist.name)"
+          >
+            <mat-icon>backspace</mat-icon>
+          </button>
         </div>
       </div>
     </mat-list-item>

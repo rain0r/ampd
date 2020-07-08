@@ -1,7 +1,5 @@
 import { Component, Inject } from "@angular/core";
 import { Observable } from "rxjs";
-import { SettingsService } from "../services/settings.service";
-import { OverlayContainer } from "@angular/cdk/overlay";
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 
 @Component({
@@ -14,17 +12,8 @@ export class SavePlaylistModalComponent {
 
   constructor(
     public dialogRef: MatDialogRef<SavePlaylistModalComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: string,
-    private settingsService: SettingsService,
-    private overlayContainer: OverlayContainer
-  ) {
-    this.isDarkTheme = this.settingsService.isDarkTheme();
-    this.settingsService.isDarkTheme().subscribe((dark) => {
-      if (dark) {
-        overlayContainer.getContainerElement().classList.add("dark-theme");
-      }
-    });
-  }
+    @Inject(MAT_DIALOG_DATA) public data: string
+  ) {}
 
   onNoClick(): void {
     this.dialogRef.close();

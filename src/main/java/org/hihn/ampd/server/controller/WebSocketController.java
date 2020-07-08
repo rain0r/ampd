@@ -160,7 +160,10 @@ public class WebSocketController {
   }
 
 
-  private Optional<Message> savePlaylist(Object o) {
+  private Optional<Message> savePlaylist(Object inputPayload) {
+    HashMap<String, String> payload = (HashMap<String, String>) inputPayload;
+    String playlistName = payload.get("playlistName");
+    mpd.getPlaylist().savePlaylist(playlistName);
     return Optional.empty();
   }
 

@@ -44,7 +44,8 @@
   <ng-container matColumnDef="artistName">
     <th mat-header-cell mat-sort-header *matHeaderCellDef>Artist</th>
     <td mat-cell *matCellDef="let row" (click)="onRowClick(row.file)">
-      <span *ngIf="!row.artistName && !row.albumName && !row.title; else elseBlock">{{row.file}}</span>
+      <span
+          *ngIf="!row.artistName && !row.albumName && !row.title; else elseBlock">{{row.file}}</span>
       <ng-template #elseBlock>{{ row.artistName }}</ng-template>
     </td>
   </ng-container>
@@ -74,10 +75,10 @@
     <th mat-header-cell *matHeaderCellDef></th>
     <td mat-cell *matCellDef="let element">
       <button
-        mat-button
-        class="btn-remove-track"
-        title="Remove from queue"
-        (click)="onRemoveTrack(element.position)"
+          mat-button
+          class="btn-remove-track"
+          title="Remove from queue"
+          (click)="onRemoveTrack(element.position)"
       >
         <mat-icon>backspace</mat-icon>
       </button>
@@ -87,10 +88,10 @@
   <tr mat-header-row *matHeaderRowDef="getDisplayedColumns()"></tr>
 
   <tr
-    mat-row
-    *matRowDef="let row; columns: getDisplayedColumns()"
-    class="table-row"
-    [ngClass]="{ themedbg: row.playing === true, playing: row.playing === true }"
+      mat-row
+      *matRowDef="let row; columns: getDisplayedColumns()"
+      class="table-row"
+      [ngClass]="{ themedbg: row.playing === true, playing: row.playing === true }"
   ></tr>
 </table>
 

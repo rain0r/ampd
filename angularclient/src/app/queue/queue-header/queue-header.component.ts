@@ -8,7 +8,6 @@ import { MpdService } from "../../shared/services/mpd.service";
 import { catchError } from "rxjs/operators";
 import { CoverModalComponent } from "../../shared/cover-modal/cover-modal.component";
 import { SettingsService } from "../../shared/services/settings.service";
-import { OverlayContainer } from "@angular/cdk/overlay";
 
 @Component({
   selector: "app-queue-header",
@@ -27,18 +26,12 @@ export class QueueHeaderComponent implements OnInit {
     private http: HttpClient,
     private responsiveCoverSizeService: ResponsiveCoverSizeService,
     private mpdService: MpdService,
-    private settingsService: SettingsService,
-    private overlayContainer: OverlayContainer
+    private settingsService: SettingsService
   ) {
     this.isDisplayCover = this.displayCoverSubject.asObservable();
     this.coverSizeClass = responsiveCoverSizeService.getCoverCssClass();
     this.getSongSubscription();
     this.getStateSubscription();
-    this.settingsService.isDarkTheme().subscribe((dark) => {
-      if (dark) {
-        overlayContainer.getContainerElement().classList.add("dark-theme");
-      }
-    });
   }
 
   ngOnInit(): void {

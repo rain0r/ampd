@@ -1,42 +1,44 @@
 <div *ngIf="(titleQueue| mpdTrackFilter: filterValue).length">
-<div fxLayout="row" fxLayout.lt-md="column" fxLayoutAlign="space-around">
-  <div fxFlex="1 1 auto" fxLayoutAlign="start center">
+  <div fxLayout="row" fxLayout.lt-md="column" fxLayoutAlign="space-around">
+    <div fxFlex="1 1 auto" fxLayoutAlign="start center">
     <span class="list-header mat-h3">
       <span class="dir-prefix" title="Directory">Dir:</span>{{ getParamDir }}
     </span>
+    </div>
+    <div fxFlex="1 1 auto" fxLayoutAlign="end end">
+      <img *ngIf="coverUrl()" [hidden]="!validCoverUrl" [src]="coverUrl()"
+           [ngClass]="[coverSizeClass|async]" (error)="onError()" (load)="onLoad()"/>
+    </div>
   </div>
-  <div fxFlex="1 1 auto" fxLayoutAlign="end end">
-    <img *ngIf="coverUrl()" [hidden]="!validCoverUrl" [src]="coverUrl()" [ngClass]="[coverSizeClass|async]" (error)="onError()" (load)="onLoad()"/>
-  </div>
-</div>
 
-<mat-divider></mat-divider>
+  <mat-divider></mat-divider>
 
-<mat-list
-  role="list"
-  *ngFor="let track of titleQueue | mpdTrackFilter: filterValue"
-  (click)="onAddTitle(track)"
->
-  <mat-list-item role="listitem" class="list-item">
-    <mat-icon>audiotrack</mat-icon> &nbsp;
-    <span class="text-muted space-right" (dblclick)="onPlayTitle(track)"> &#35;{{ track.track }} </span>
-    {{ track.title }} &nbsp;
-    <span class="text-muted">{{ track.length | secondsToMmSs }}</span>
-    <span class="fill-space"></span>
-    <i
-      class="material-icons clickable chip"
-      (click)="onPlayTitle(track)"
-      title="Play track"
-    >
-      play_arrow
-    </i>
-    <i
-      class="material-icons clickable chip"
+  <mat-list
+      role="list"
+      *ngFor="let track of titleQueue | mpdTrackFilter: filterValue"
       (click)="onAddTitle(track)"
-      title="Add track to queue"
-    >
-      add
-    </i>
-  </mat-list-item>
-</mat-list>
+  >
+    <mat-list-item role="listitem" class="list-item">
+      <mat-icon>audiotrack</mat-icon> &nbsp;
+      <span class="text-muted space-right"
+            (dblclick)="onPlayTitle(track)"> &#35;{{ track.track }} </span>
+      {{ track.title }} &nbsp;
+      <span class="text-muted">{{ track.length | secondsToMmSs }}</span>
+      <span class="fill-space"></span>
+      <i
+          class="material-icons clickable chip"
+          (click)="onPlayTitle(track)"
+          title="Play track"
+      >
+        play_arrow
+      </i>
+      <i
+          class="material-icons clickable chip"
+          (click)="onAddTitle(track)"
+          title="Add track to queue"
+      >
+        add
+      </i>
+    </mat-list-item>
+  </mat-list>
 </div>

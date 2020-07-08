@@ -1,5 +1,5 @@
 <div *ngIf="(dirQueue| directoryFilter: filterValue).length">
-<div class="sub-menu">
+  <div class="sub-menu">
   <span class="list-header mat-h3">
     <span *ngIf="getParamDir != '/'">
       <span class="dir-prefix" title="Directory">
@@ -9,104 +9,104 @@
     </span>
     <span *ngIf="getParamDir == '/'">Directories</span>
   </span>
-</div>
+  </div>
 
-<mat-list
-  role="list"
-  *ngFor="let dir of dirQueue | directoryFilter: filterValue"
->
-  <mat-list-item role="listitem" class="browse-list-item list-item">
-    <div
-      class="full-width cut-text"
-      fxLayout="row"
-      fxLayoutGap.gt-md="0.4rem"
-      fxLayoutAlign="center center"
-    >
-      <div>
-        <mat-icon>folder_open</mat-icon>
-      </div>
-      <div
-        fxFlex="1 1 auto"
-        [routerLink]="['/browse']"
-        [queryParams]="{ dir: dir.path }"
-        class="clickable"
-      >
-        {{ dir.displayedPath() }}
-      </div>
-      <div>
-        <mat-icon
-          class="chip clickable"
-          title="Play directory"
-          (click)="onPlayDir(dir.path)"
-        >
-          play_arrow
-        </mat-icon>
-      </div>
-      <div>
-        <mat-icon
-          class="chip clickable"
-          title="Add directory to queue"
-          (click)="onAddDir(dir.path)"
-        >
-          add
-        </mat-icon>
-      </div>
-    </div>
-  </mat-list-item>
-</mat-list>
-
-<mat-divider *ngIf="getParamDir != '/' && dirQueue.length < 9"></mat-divider>
-
-<div
-  class="cover-grid"
-  fxLayoutGap="0.4rem"
-  fxLayout="row wrap"
-  fxLayout.lt-md="column"
-  *ngIf="getParamDir != '/' && dirQueue.length < 20"
->
-  <div
-    fxLayoutAlign="center center"
-    *ngFor="let dir of dirQueue | directoryFilter: filterValue"
+  <mat-list
+      role="list"
+      *ngFor="let dir of dirQueue | directoryFilter: filterValue"
   >
-    <mat-card
-      class="cover-card"
-    >
-      <mat-card-header>
-        <mat-card-title       [routerLink]="['/browse']"
-                              [queryParams]="{ dir: dir.path }">
+    <mat-list-item role="listitem" class="browse-list-item list-item">
+      <div
+          class="full-width cut-text"
+          fxLayout="row"
+          fxLayoutGap.gt-md="0.4rem"
+          fxLayoutAlign="center center"
+      >
+        <div>
+          <mat-icon>folder_open</mat-icon>
+        </div>
+        <div
+            fxFlex="1 1 auto"
+            [routerLink]="['/browse']"
+            [queryParams]="{ dir: dir.path }"
+            class="clickable"
+        >
           {{ dir.displayedPath() }}
-        </mat-card-title>
-      </mat-card-header>
-      <img
-        mat-card-image
-        [routerLink]="['/browse']"
-        [queryParams]="{ dir: dir.path }"
-        src="{{ dir.coverUrl() }}"
-        err-src="/assets/images/transparent.png"
-      />
-      <mat-card-footer>
-        <div              fxLayout="row">
-
+        </div>
+        <div>
           <mat-icon
-              fxFlex="50%"
-              class="chip clickable cover-card-btn"
-              title="Add directory to queue"
-              (click)="onAddDir(dir.path)"
-          >
-            add
-          </mat-icon>
-          <mat-icon
-              fxFlex="50%"
-              class="chip clickable cover-card-btn"
+              class="chip clickable"
               title="Play directory"
               (click)="onPlayDir(dir.path)"
           >
             play_arrow
           </mat-icon>
         </div>
+        <div>
+          <mat-icon
+              class="chip clickable"
+              title="Add directory to queue"
+              (click)="onAddDir(dir.path)"
+          >
+            add
+          </mat-icon>
+        </div>
+      </div>
+    </mat-list-item>
+  </mat-list>
 
-      </mat-card-footer>
-    </mat-card>
+  <mat-divider *ngIf="getParamDir != '/' && dirQueue.length < 9"></mat-divider>
+
+  <div
+      class="cover-grid"
+      fxLayoutGap="0.4rem"
+      fxLayout="row wrap"
+      fxLayout.lt-md="column"
+      *ngIf="getParamDir != '/' && dirQueue.length < 20"
+  >
+    <div
+        fxLayoutAlign="center center"
+        *ngFor="let dir of dirQueue | directoryFilter: filterValue"
+    >
+      <mat-card
+          class="cover-card"
+      >
+        <mat-card-header>
+          <mat-card-title [routerLink]="['/browse']"
+                          [queryParams]="{ dir: dir.path }">
+            {{ dir.displayedPath() }}
+          </mat-card-title>
+        </mat-card-header>
+        <img
+            mat-card-image
+            [routerLink]="['/browse']"
+            [queryParams]="{ dir: dir.path }"
+            src="{{ dir.coverUrl() }}"
+            err-src="/assets/images/transparent.png"
+        />
+        <mat-card-footer>
+          <div fxLayout="row">
+
+            <mat-icon
+                fxFlex="50%"
+                class="chip clickable cover-card-btn"
+                title="Add directory to queue"
+                (click)="onAddDir(dir.path)"
+            >
+              add
+            </mat-icon>
+            <mat-icon
+                fxFlex="50%"
+                class="chip clickable cover-card-btn"
+                title="Play directory"
+                (click)="onPlayDir(dir.path)"
+            >
+              play_arrow
+            </mat-icon>
+          </div>
+
+        </mat-card-footer>
+      </mat-card>
+    </div>
   </div>
-</div>
 </div>

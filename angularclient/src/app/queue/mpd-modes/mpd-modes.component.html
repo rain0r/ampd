@@ -1,13 +1,13 @@
 <mat-button-toggle-group
-  fxLayoutAlign="space-between"
-  multiple
-  *ngIf="controlPanel"
-  (change)="toggleCtrl($event)"
+    fxLayoutAlign="space-between"
+    multiple
+    *ngIf="controlPanel"
+    (change)="toggleCtrl($event)"
 >
   <mat-button-toggle
-    value="random"
-    [checked]="controlPanel.random"
-    (change)="controlPanel.random = $event.source.checked"
+      value="random"
+      [checked]="controlPanel.random"
+      (change)="controlPanel.random = $event.source.checked"
   >
     <mat-icon>
       shuffle
@@ -17,9 +17,9 @@
     </span>
   </mat-button-toggle>
   <mat-button-toggle
-    value="consume"
-    [checked]="controlPanel.consume"
-    (change)="controlPanel.consume = $event.source.checked"
+      value="consume"
+      [checked]="controlPanel.consume"
+      (change)="controlPanel.consume = $event.source.checked"
   >
     <mat-icon>
       whatshot
@@ -29,9 +29,9 @@
     </span>
   </mat-button-toggle>
   <mat-button-toggle
-    value="single"
-    [checked]="controlPanel.single"
-    (change)="controlPanel.single = $event.source.checked"
+      value="single"
+      [checked]="controlPanel.single"
+      (change)="controlPanel.single = $event.source.checked"
   >
     <mat-icon>
       star_border
@@ -41,9 +41,9 @@
     </span>
   </mat-button-toggle>
   <mat-button-toggle
-    value="crossfade"
-    [checked]="controlPanel.crossfade"
-    (change)="controlPanel.crossfade = $event.source.checked"
+      value="crossfade"
+      [checked]="controlPanel.crossfade"
+      (change)="controlPanel.crossfade = $event.source.checked"
   >
     <mat-icon>
       compare_arrows
@@ -53,9 +53,9 @@
     </span>
   </mat-button-toggle>
   <mat-button-toggle
-    value="repeat"
-    [checked]="controlPanel.repeat"
-    (change)="controlPanel.repeat = $event.source.checked"
+      value="repeat"
+      [checked]="controlPanel.repeat"
+      (change)="controlPanel.repeat = $event.source.checked"
   >
     <mat-icon>
       repeat

@@ -61,6 +61,9 @@ export class TrackTableComponent {
   openCoverModal(): void {
     const dialogRef = this.dialog.open(SavePlaylistModalComponent);
     dialogRef.afterClosed().subscribe((playlistName: string) => {
+      if (!playlistName) {
+        return;
+      }
       this.webSocketService.sendData(MpdCommands.SAVE_PLAYLIST, {
         playlistName: playlistName,
       });

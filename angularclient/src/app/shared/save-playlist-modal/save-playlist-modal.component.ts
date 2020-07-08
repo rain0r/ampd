@@ -3,7 +3,6 @@ import { Observable } from "rxjs";
 import { SettingsService } from "../services/settings.service";
 import { OverlayContainer } from "@angular/cdk/overlay";
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
-import { SavePlaylistData } from "./save-playlist-data";
 
 @Component({
   selector: "app-save-playlist-modal",
@@ -15,7 +14,7 @@ export class SavePlaylistModalComponent {
 
   constructor(
     public dialogRef: MatDialogRef<SavePlaylistModalComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: SavePlaylistData,
+    @Inject(MAT_DIALOG_DATA) public data: string,
     private settingsService: SettingsService,
     private overlayContainer: OverlayContainer
   ) {

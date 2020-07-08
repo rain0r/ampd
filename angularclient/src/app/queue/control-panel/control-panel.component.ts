@@ -1,5 +1,5 @@
 import { Component } from "@angular/core";
-import { IControlPanel } from "../../shared/messages/incoming/control-panel";
+import { ControlPanel } from "../../shared/messages/incoming/control-panel";
 import { MpdCommands } from "../../shared/mpd/mpd-commands";
 import { WebSocketService } from "../../shared/services/web-socket.service";
 import { NotificationService } from "../../shared/services/notification.service";
@@ -13,7 +13,7 @@ import { Observable } from "rxjs";
 })
 export class ControlPanelComponent {
   currentState: Observable<string>;
-  controlPanel: Observable<IControlPanel>;
+  controlPanel: Observable<ControlPanel>;
 
   constructor(
     private mpdService: MpdService,

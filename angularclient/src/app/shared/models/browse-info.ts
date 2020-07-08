@@ -2,13 +2,13 @@
  * Bundles the browse-information that was received from the WebSocket-Service.
  * That is playlists, directories and tracks.
  */
-import { Directory } from "../messages/incoming/directory";
+import { DirectoryImpl } from "../messages/incoming/directory-impl";
 import { MpdTrack } from "../messages/incoming/mpd-track";
-import { Playlist } from "../messages/incoming/playlist";
+import { PlaylistImpl } from "../messages/incoming/playlist-impl";
 
 export class BrowseInfo {
-  dirQueue: Directory[] = [];
-  playlistQueue: Playlist[] = [];
+  dirQueue: DirectoryImpl[] = [];
+  playlistQueue: PlaylistImpl[] = [];
   trackQueue: MpdTrack[] = [];
 
   clearAll(): void {

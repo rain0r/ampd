@@ -32,6 +32,7 @@ public abstract class AmpdMessage implements Message {
 
     /* Outgoing */
     BROWSE,
+    PLAYLIST_SAVED,
     QUEUE,
     SEARCH_RESULTS,
     STATE,

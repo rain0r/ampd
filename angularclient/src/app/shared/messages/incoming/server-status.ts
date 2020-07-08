@@ -1,4 +1,4 @@
-export interface IServerStatus {
+export interface ServerStatus {
   audio: string;
   playlistVersion: number;
   bitrate: number;

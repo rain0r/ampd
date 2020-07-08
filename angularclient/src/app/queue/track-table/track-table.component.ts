@@ -4,13 +4,13 @@ import { Observable } from "rxjs/index";
 import { MpdCommands } from "../../shared/mpd/mpd-commands";
 import { WebSocketService } from "../../shared/services/web-socket.service";
 import { DeviceDetectorService } from "ngx-device-detector";
-import { IQueuePayload } from "../../shared/messages/incoming/queue-payload";
+import { QueuePayload } from "../../shared/messages/incoming/queue-payload";
 import { QueueTrack } from "../../shared/models/queue-track";
 import { MpdService } from "../../shared/services/mpd.service";
 import { MatSort } from "@angular/material/sort";
 import { MatDialog } from "@angular/material/dialog";
 import { SavePlaylistModalComponent } from "../../shared/save-playlist-modal/save-playlist-modal.component";
-import { SavePlaylistData } from "../../shared/save-playlist-modal/save-playlist-data";
+import { NotificationService } from "../../shared/services/notification.service";
 
 @Component({
   selector: "app-track-table",
@@ -40,7 +40,8 @@ export class TrackTableComponent {
     private dialog: MatDialog,
     private deviceService: DeviceDetectorService,
     private webSocketService: WebSocketService,
-    private mpdService: MpdService
+    private mpdService: MpdService,
+    private notificationService: NotificationService
   ) {
     this.currentSongObservable = this.mpdService.getSongSubscription();
     this.buildMessageReceiver();
@@ -58,14 +59,19 @@ export class TrackTableComponent {
   }
 
   openCoverModal(): void {
-    const dialogRef = this.dialog.open(SavePlaylistModalComponent, {
-      data: { name: "", tracks: this.dataSource.data } as SavePlaylistData,
+    const dialogRef = this.dialog.open(SavePlaylistModalComponent);
+    dialogRef.afterClosed().subscribe((playlistName: string) => {
+      this.webSocketService.sendData(MpdCommands.SAVE_PLAYLIST, {
+        playlistName: playlistName,
+      });
+      this.mpdService.getPlaylistSavedSubscription().subscribe((msg) => {
+        console.log("msg", msg);
+        const text = msg.success
+          ? `Saved queue as playlist '${msg.playlistName}'`
+          : `Error saving queue as playlist '${msg.playlistName}'`;
+        this.notificationService.popUp(text);
+      });
     });
-    dialogRef
-      .afterClosed()
-      .subscribe((result: SavePlaylistData) =>
-        this.mpdService.savePlaylist(result)
-      );
   }
 
   applyFilter(filterValue: string): void {
@@ -99,7 +105,7 @@ export class TrackTableComponent {
     this.webSocketService.sendData(MpdCommands.PLAY_TRACK, { path: file });
   }
 
-  private buildQueue(message: IQueuePayload): void {
+  private buildQueue(message: QueuePayload): void {
     // Check if the queue has changed. Abort if not.
     if (message.checkSum === this.checksum) {
       return;
@@ -127,7 +133,7 @@ export class TrackTableComponent {
     });
     this.webSocketService
       .getQueueSubscription()
-      .subscribe((message: IQueuePayload) => this.buildQueue(message));
+      .subscribe((message: QueuePayload) => this.buildQueue(message));
   }
 
   /**

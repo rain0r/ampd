@@ -5,11 +5,12 @@ import { RxStompService } from "@stomp/ng2-stompjs";
 import { BaseResponse } from "../messages/incoming/base-response";
 import { MpdTypes } from "../mpd/mpd-types";
 import { Observable } from "rxjs";
-import { IStateMsgPayload } from "../messages/incoming/state-msg-payload";
+import { StateMsgPayload } from "../messages/incoming/state-msg-payload";
 import { IBrowseMsgPayload } from "../messages/incoming/browse";
-import { ISearchMsgPayload, ISearchRoot } from "../messages/incoming/search";
-import { IQueuePayload } from "../messages/incoming/queue-payload";
+import { SearchMsgPayload, SearchRoot } from "../messages/incoming/search";
+import { QueuePayload } from "../messages/incoming/queue-payload";
 import { ConnConfUtil } from "../conn-conf/conn-conf-util";
+import { PlaylistSaved } from "../messages/incoming/playlist-saved";
 
 @Injectable()
 export class WebSocketService {
@@ -31,23 +32,23 @@ export class WebSocketService {
     this.rxStompService.publish({ destination: REMOTE_QUEUE, body: data });
   }
 
-  getStateSubscription(): Observable<IStateMsgPayload> {
+  getStateSubscription(): Observable<StateMsgPayload> {
     return this.rxStompService.watch("/topic/state").pipe(
       map((message) => message.body),
       map((body: string) => <BaseResponse>JSON.parse(body)),
       filter((body: BaseResponse) => !!body),
       filter((body: BaseResponse) => body.type === MpdTypes.STATE),
-      map((body: BaseResponse) => <IStateMsgPayload>body.payload)
+      map((body: BaseResponse) => <StateMsgPayload>body.payload)
     );
   }
 
-  getQueueSubscription(): Observable<IQueuePayload> {
+  getQueueSubscription(): Observable<QueuePayload> {
     return this.rxStompService.watch("/topic/queue").pipe(
       map((message) => message.body),
       map((body: string) => <BaseResponse>JSON.parse(body)),
       filter((body: BaseResponse) => !!body),
       filter((body: BaseResponse) => body.type === MpdTypes.QUEUE),
-      map((body: BaseResponse) => <IQueuePayload>body.payload)
+      map((body: BaseResponse) => <QueuePayload>body.payload)
     );
   }
 
@@ -61,13 +62,23 @@ export class WebSocketService {
     );
   }
 
-  getSearchSubscription(): Observable<ISearchMsgPayload> {
+  getSearchSubscription(): Observable<SearchMsgPayload> {
     return this.rxStompService.watch("/topic/controller").pipe(
       map((message) => message.body),
-      map((body: string) => <ISearchRoot>JSON.parse(body)),
+      map((body: string) => <SearchRoot>JSON.parse(body)),
       filter((body: BaseResponse) => !!body),
       filter((body: BaseResponse) => body.type === MpdTypes.SEARCH_RESULTS),
-      map((body: BaseResponse) => <ISearchMsgPayload>body.payload)
+      map((body: BaseResponse) => <SearchMsgPayload>body.payload)
+    );
+  }
+
+  getPlaylistSavedSubscription(): Observable<PlaylistSaved> {
+    return this.rxStompService.watch("/topic/controller").pipe(
+      map((message) => message.body),
+      map((body: string) => <BaseResponse>JSON.parse(body)),
+      filter((body: BaseResponse) => !!body),
+      filter((body: BaseResponse) => body.type === MpdTypes.PLAYLIST_SAVED),
+      map((body: BaseResponse) => <PlaylistSaved>body.payload)
     );
   }
 

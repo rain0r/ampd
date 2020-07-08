@@ -29,9 +29,14 @@ export class PlaylistsComponent extends Filterable {
     this.notificationService.popUp(`Added playlist: "${playlistName}"`);
   }
 
-  onDeletePlaylist(playlistName: string) {
+  onDeletePlaylist(playlistName: string): void {
     this.webSocketService.sendData(MpdCommands.DELETE_PLAYLIST, {
-      playlist: playlistName,
+      playlistName: playlistName,
+    });
+    this.playlistQueue.forEach((item, index) => {
+      if (item.name === playlistName) {
+        this.playlistQueue.splice(index, 1);
+      }
     });
     this.notificationService.popUp(`Deleted playlist: "${playlistName}"`);
   }

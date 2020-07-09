@@ -26,14 +26,10 @@
           {{ playlist.count }}
         </div>
         <div>
-          <button
-              mat-button
-              class="btn-remove-track"
-              title="Delete playlist {{playlist.name}}"
-              (click)="onDeletePlaylist(playlist.name)"
-          >
-            <mat-icon>backspace</mat-icon>
-          </button>
+          <mat-icon
+              title="Info about playlist: {{playlist.name}}"
+              (click)="onPlaylistInfo(playlist)"
+          >info</mat-icon>
         </div>
       </div>
     </mat-list-item>

@@ -1,10 +1,10 @@
-package org.hihn.ampd.server.controller;
+package org.hihn.ampd.server.config;
 
 import java.util.Optional;
 import org.hihn.ampd.server.message.Message;
 
 /**
- * Defines the structure of the endpoint processing.
+ * Defines the structure of the websocket endpoint processing.
  */
 public interface AmpdCommandRunner {
 

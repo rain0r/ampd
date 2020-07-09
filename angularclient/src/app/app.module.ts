@@ -58,6 +58,7 @@ import { MatListModule } from "@angular/material/list";
 import { MatSortModule } from "@angular/material/sort";
 import { MatPaginatorModule } from "@angular/material/paginator";
 import { SavePlaylistModalComponent } from "./shared/save-playlist-modal/save-playlist-modal.component";
+import { PlaylistInfoModalComponent } from "./browse/playlists/playlist-info-modal/playlist-info-modal.component";
 
 @NgModule({
   declarations: [
@@ -85,6 +86,7 @@ import { SavePlaylistModalComponent } from "./shared/save-playlist-modal/save-pl
     TracksComponent,
     VolumeSliderComponent,
     SavePlaylistModalComponent,
+    PlaylistInfoModalComponent,
   ],
   imports: [
     AppRoutingModule,

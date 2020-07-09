@@ -8,6 +8,7 @@ import { Observable, Subject } from "rxjs";
 import { map } from "rxjs/operators";
 import { filter } from "rxjs/internal/operators";
 import { PlaylistSaved } from "../messages/incoming/playlist-saved";
+import { MpdCommands } from "../mpd/mpd-commands";
 
 @Injectable({
   providedIn: "root",
@@ -42,6 +43,12 @@ export class MpdService {
 
   getPlaylistSavedSubscription(): Observable<PlaylistSaved> {
     return this.playlistSaved.asObservable();
+  }
+
+  getPlaylistInfo(playlistName: string): void {
+    this.webSocketService.sendData(MpdCommands.GET_PLAYLIST_INFO, {
+      playlistName: playlistName,
+    });
   }
 
   /**

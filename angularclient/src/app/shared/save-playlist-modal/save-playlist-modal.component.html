@@ -3,10 +3,10 @@
   <p>What's the name of the playlist?</p>
   <mat-form-field>
     <mat-label>Name</mat-label>
-    <input matInput [(ngModel)]="data">
+    <input matInput [(ngModel)]="data" (keyup.enter)="onEnterPressed()" focus>
   </mat-form-field>
 </div>
 <div mat-dialog-actions>
-  <button mat-button (click)="onNoClick()">Cancel</button>
-  <button mat-button [mat-dialog-close]="data" cdkFocusInitial>Ok</button>
+  <button mat-stroked-button (click)="closeModal()">Cancel</button>
+  <button mat-stroked-button [mat-dialog-close]="data">Ok</button>
 </div>

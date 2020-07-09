@@ -40,7 +40,7 @@ export class QueueHeaderComponent implements OnInit {
 
   openCoverModal(): void {
     this.dialog.open(CoverModalComponent, {
-      data: { coverUrl: this.currentSong.coverUrl },
+      data: this.currentSong.coverUrl,
     });
   }
 

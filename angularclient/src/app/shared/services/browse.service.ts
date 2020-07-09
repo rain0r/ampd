@@ -1,15 +1,18 @@
 import { Injectable } from "@angular/core";
-import { IBrowseMsgPayload } from "../messages/incoming/browse";
+import { BrowseMsgPayload } from "../messages/incoming/browse";
 import { DirectoryImpl } from "../messages/incoming/directory-impl";
 import { BrowseInfo } from "../models/browse-info";
 import { MpdCommands } from "../mpd/mpd-commands";
 import { WebSocketService } from "./web-socket.service";
+import { Observable, Subject } from "rxjs";
 
 @Injectable()
 export class BrowseService {
-  browseInfo: BrowseInfo = new BrowseInfo();
+  browseInfo: Observable<BrowseInfo>;
+  private browseInfoSubject: Subject<BrowseInfo> = new Subject<BrowseInfo>();
 
   constructor(private webSocketService: WebSocketService) {
+    this.browseInfo = this.browseInfoSubject.asObservable();
     this.buildMsgReceiver();
   }
 
@@ -23,25 +26,24 @@ export class BrowseService {
     });
   }
 
-  private onBrowseResponse(payload: IBrowseMsgPayload): void {
-    this.browseInfo.clearAll();
+  private onBrowseResponse(payload: BrowseMsgPayload): void {
+    const newBrowseInfo = new BrowseInfo();
     payload.directories.forEach((dir) => {
       const directory = new DirectoryImpl(true, dir.path);
-      this.browseInfo.dirQueue.push(directory);
+      newBrowseInfo.dirQueue.push(directory);
     });
     payload.tracks.forEach((track) => {
-      this.browseInfo.trackQueue.push(track);
+      newBrowseInfo.trackQueue.push(track);
     });
     payload.playlists.forEach((playlist) => {
-      this.browseInfo.playlistQueue.push(playlist);
+      newBrowseInfo.playlistQueue.push(playlist);
     });
+    this.browseInfoSubject.next(newBrowseInfo);
   }
 
   private buildMsgReceiver() {
     this.webSocketService
       .getBrowseSubscription()
-      .subscribe((message: IBrowseMsgPayload) =>
-        this.onBrowseResponse(message)
-      );
+      .subscribe((message: BrowseMsgPayload) => this.onBrowseResponse(message));
   }
 }

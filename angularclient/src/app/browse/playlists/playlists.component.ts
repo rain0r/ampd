@@ -1,10 +1,12 @@
 import { Component, Input } from "@angular/core";
-import { PlaylistImpl } from "../../shared/messages/incoming/playlist-impl";
+import { Playlist } from "../../shared/messages/incoming/playlist-impl";
 import { MpdCommands } from "../../shared/mpd/mpd-commands";
 import { MessageService } from "../../shared/services/message.service";
 import { NotificationService } from "../../shared/services/notification.service";
 import { WebSocketService } from "../../shared/services/web-socket.service";
 import { Filterable } from "../filterable";
+import { MatDialog } from "@angular/material/dialog";
+import { PlaylistInfoModalComponent } from "./playlist-info-modal/playlist-info-modal.component";
 
 @Component({
   selector: "app-playlists",
@@ -12,12 +14,13 @@ import { Filterable } from "../filterable";
   styleUrls: ["./playlists.component.scss"],
 })
 export class PlaylistsComponent extends Filterable {
-  @Input() playlistQueue: PlaylistImpl[] = [];
+  @Input() playlistQueue: Playlist[] = [];
 
   constructor(
     private notificationService: NotificationService,
     private webSocketService: WebSocketService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private dialog: MatDialog
   ) {
     super(messageService);
   }
@@ -29,15 +32,9 @@ export class PlaylistsComponent extends Filterable {
     this.notificationService.popUp(`Added playlist: "${playlistName}"`);
   }
 
-  onDeletePlaylist(playlistName: string): void {
-    this.webSocketService.sendData(MpdCommands.DELETE_PLAYLIST, {
-      playlistName: playlistName,
+  onPlaylistInfo(playlist: Playlist): void {
+    this.dialog.open(PlaylistInfoModalComponent, {
+      data: playlist,
     });
-    this.playlistQueue.forEach((item, index) => {
-      if (item.name === playlistName) {
-        this.playlistQueue.splice(index, 1);
-      }
-    });
-    this.notificationService.popUp(`Deleted playlist: "${playlistName}"`);
   }
 }

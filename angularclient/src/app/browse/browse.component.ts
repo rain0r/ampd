@@ -8,10 +8,10 @@ import { BrowseService } from "../shared/services/browse.service";
   styleUrls: ["./browse.component.scss"],
 })
 export class BrowseComponent {
-  browseInfo: BrowseInfo;
+  browseInfo: BrowseInfo = new BrowseInfo();
 
   constructor(private browseService: BrowseService) {
-    this.browseInfo = this.browseService.browseInfo;
+    browseService.browseInfo.subscribe((info) => (this.browseInfo = info));
   }
 
   onBackToTop(): void {

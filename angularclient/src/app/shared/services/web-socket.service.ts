@@ -6,7 +6,7 @@ import { BaseResponse } from "../messages/incoming/base-response";
 import { MpdTypes } from "../mpd/mpd-types";
 import { Observable } from "rxjs";
 import { StateMsgPayload } from "../messages/incoming/state-msg-payload";
-import { IBrowseMsgPayload } from "../messages/incoming/browse";
+import { BrowseMsgPayload } from "../messages/incoming/browse";
 import { SearchMsgPayload, SearchRoot } from "../messages/incoming/search";
 import { QueuePayload } from "../messages/incoming/queue-payload";
 import { ConnConfUtil } from "../conn-conf/conn-conf-util";
@@ -52,13 +52,13 @@ export class WebSocketService {
     );
   }
 
-  getBrowseSubscription(): Observable<IBrowseMsgPayload> {
+  getBrowseSubscription(): Observable<BrowseMsgPayload> {
     return this.rxStompService.watch("/topic/controller").pipe(
       map((message) => message.body),
       map((body: string) => <BaseResponse>JSON.parse(body)),
       filter((body: BaseResponse) => !!body),
       filter((body: BaseResponse) => body.type === MpdTypes.BROWSE),
-      map((body: BaseResponse) => <IBrowseMsgPayload>body.payload)
+      map((body: BaseResponse) => <BrowseMsgPayload>body.payload)
     );
   }
 

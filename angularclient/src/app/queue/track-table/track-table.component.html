@@ -12,7 +12,7 @@
           placeholder="Filter queue"
           type="text"
       />
-      <button
+      <mat-icon
           (click)="resetFilter()"
           *ngIf="dataSource.filter"
           aria-label="Clear"
@@ -20,11 +20,11 @@
           mat-icon-button
           matSuffix
       >
-        <mat-icon>close</mat-icon>
-      </button>
+        close
+      </mat-icon>
     </mat-form-field>
   </div>
-  <div>
+  <div fxLayoutAlign="end baseline">
     <button mat-button (click)="openCoverModal()">
       Save playlist
     </button>

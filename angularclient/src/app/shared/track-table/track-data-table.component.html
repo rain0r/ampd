@@ -1,6 +1,6 @@
-<table mat-table [dataSource]="dataSource" matSort matSortActive="artistName" matSortDisableClear>
+<table mat-table [dataSource]="dataSource" matSort matSortDisableClear>
   <ng-container matColumnDef="pos">
-    <th mat-header-cell mat-sort-header *matHeaderCellDef>
+    <th mat-header-cell mat-sort-header [disabled]=!active *matHeaderCellDef>
       #
     </th>
     <td mat-cell *matCellDef="let row" (click)="onRowClick(row.file)">
@@ -9,7 +9,7 @@
   </ng-container>
 
   <ng-container matColumnDef="artistName">
-    <th mat-header-cell mat-sort-header *matHeaderCellDef>Artist</th>
+    <th mat-header-cell mat-sort-header [disabled]=!active *matHeaderCellDef>Artist</th>
     <td mat-cell *matCellDef="let row" (click)="onRowClick(row.file)">
       <span
           *ngIf="!row.artistName && !row.albumName && !row.title; else elseBlock">{{row.file}}</span>
@@ -18,21 +18,21 @@
   </ng-container>
 
   <ng-container matColumnDef="albumName">
-    <th mat-header-cell mat-sort-header *matHeaderCellDef>Album</th>
+    <th mat-header-cell mat-sort-header [disabled]=!active *matHeaderCellDef>Album</th>
     <td mat-cell *matCellDef="let row" (click)="onRowClick(row.file)">
       {{ row.albumName }}
     </td>
   </ng-container>
 
   <ng-container matColumnDef="title">
-    <th mat-header-cell mat-sort-header *matHeaderCellDef>Title</th>
+    <th mat-header-cell mat-sort-header [disabled]=!active *matHeaderCellDef>Title</th>
     <td mat-cell *matCellDef="let row" (click)="onRowClick(row.file)">
       {{ row.title }}
     </td>
   </ng-container>
 
   <ng-container matColumnDef="length">
-    <th mat-header-cell mat-sort-header *matHeaderCellDef>Duration</th>
+    <th mat-header-cell mat-sort-header [disabled]=!active *matHeaderCellDef>Duration</th>
     <td mat-cell *matCellDef="let track" (click)="onRowClick(track.file)">
       {{ track.length | secondsToMmSs }}
     </td>

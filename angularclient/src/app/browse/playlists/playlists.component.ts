@@ -34,6 +34,7 @@ export class PlaylistsComponent extends Filterable {
 
   onPlaylistInfo(playlist: Playlist): void {
     this.dialog.open(PlaylistInfoModalComponent, {
+      width: "70%",
       data: playlist,
     });
   }

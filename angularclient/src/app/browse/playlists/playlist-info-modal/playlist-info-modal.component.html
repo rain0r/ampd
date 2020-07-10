@@ -2,7 +2,8 @@
   <h2 mat-dialog-title>Playlist:  {{info.name}} ({{info.trackCount}} tracks)</h2>
 
   <mat-dialog-content>
-    <app-track-data-table [dataSource]="info.tracks" [displayedColumns]="displayedColumns" [activeRows]="false"></app-track-data-table>
+    <app-track-data-table [dataSource]="info.tracks" [displayedColumns]="displayedColumns"
+                          [active]="false"></app-track-data-table>
   </mat-dialog-content>
 
   <mat-dialog-actions align="end">

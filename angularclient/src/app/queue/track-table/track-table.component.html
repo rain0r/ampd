@@ -1,4 +1,4 @@
-<div fxLayout="row nowrap" fxLayoutAlign="center">
+<div fxLayout="row nowrap" fxLayoutAlign="center" *ngIf="currentState !== 'stop'">
   <div fxFlex="1 1 auto">
     <mat-form-field class="full-width" *ngIf="dataSource.data.length > 0">
       <input
@@ -31,7 +31,8 @@
   </div>
 </div>
 
-<app-track-data-table [dataSource]="dataSource" [displayedColumns]="displayedColumns" [activeRows]="true"></app-track-data-table>
+<app-track-data-table [dataSource]="dataSource" [displayedColumns]="displayedColumns"
+                      [active]="true"></app-track-data-table>
 
 <mat-divider class="bottom"></mat-divider>
 

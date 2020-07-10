@@ -6,7 +6,7 @@
     <input matInput [(ngModel)]="data" (keyup.enter)="onEnterPressed()" focus>
   </mat-form-field>
 </div>
-<div mat-dialog-actions>
+<div mat-dialog-actions align="end">
   <button mat-stroked-button (click)="closeModal()">Cancel</button>
   <button mat-stroked-button [mat-dialog-close]="data">Ok</button>
 </div>

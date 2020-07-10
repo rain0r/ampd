@@ -20,10 +20,16 @@ export class TrackTableComponent {
   currentSong: QueueTrack = new QueueTrack();
   currentSongObservable: Observable<QueueTrack>;
   dataSource = new MatTableDataSource<QueueTrack>();
-  displayedColumns = [];
-  checksum = 0; // The checksum of the current queue
-  queueDuration = 0;
+  displayedColumns: string[];
+
+  /**
+   * The checksum of the current queue.
+   */
+  checksum = 0;
+
+  currentState = "stop";
   focus = false;
+  queueDuration = 0;
 
   constructor(
     private dialog: MatDialog,
@@ -35,6 +41,7 @@ export class TrackTableComponent {
     this.currentSongObservable = this.mpdService.getSongSubscription();
     this.displayedColumns = this.getDisplayedColumns();
     this.buildMessageReceiver();
+    this.getStateSubscription();
   }
 
   @HostListener("document:keydown.f", ["$event"])
@@ -104,7 +111,6 @@ export class TrackTableComponent {
       posCounter += 1;
     }
     this.dataSource.data = tmp; // add the new model object to the trackTableData
-    // this.dataSource.sort = this.sort;
     this.queueDuration = this.sumTrackDuration();
   }
 
@@ -129,5 +135,11 @@ export class TrackTableComponent {
       ret += item.length;
     }
     return ret;
+  }
+
+  private getStateSubscription() {
+    this.mpdService
+      .getStateSubscription()
+      .subscribe((state) => (this.currentState = state));
   }
 }

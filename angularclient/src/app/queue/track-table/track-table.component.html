@@ -16,8 +16,6 @@
           (click)="resetFilter()"
           *ngIf="dataSource.filter"
           aria-label="Clear"
-          mat-button
-          mat-icon-button
           matSuffix
       >
         close
@@ -25,7 +23,7 @@
     </mat-form-field>
   </div>
   <div fxLayoutAlign="end baseline">
-    <button mat-button (click)="openCoverModal()">
+    <button mat-stroked-button (click)="openCoverModal()">
       Save playlist
     </button>
   </div>

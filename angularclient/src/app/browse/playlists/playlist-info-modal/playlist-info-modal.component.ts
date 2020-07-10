@@ -6,6 +6,9 @@ import { WebSocketService } from "../../../shared/services/web-socket.service";
 import { NotificationService } from "../../../shared/services/notification.service";
 import { ActivatedRoute } from "@angular/router";
 import { MpdService } from "../../../shared/services/mpd.service";
+import { PlaylistInfo } from "../../../shared/models/playlist-info";
+import { Observable } from "rxjs";
+import { DeviceDetectorService } from "ngx-device-detector";
 
 @Component({
   selector: "app-playlist-info-modal",
@@ -13,17 +16,23 @@ import { MpdService } from "../../../shared/services/mpd.service";
   styleUrls: ["./playlist-info-modal.component.scss"],
 })
 export class PlaylistInfoModalComponent implements OnInit {
+  displayedColumns = [];
+  playlistInfo: Observable<PlaylistInfo>;
+
   constructor(
     public dialogRef: MatDialogRef<PlaylistInfoModalComponent>,
     @Inject(MAT_DIALOG_DATA) public data: Playlist,
     private webSocketService: WebSocketService,
     private activatedRoute: ActivatedRoute,
     private notificationService: NotificationService,
-    private mpdService: MpdService
-  ) {}
+    private mpdService: MpdService,
+    private deviceService: DeviceDetectorService
+  ) {
+    this.displayedColumns = this.getDisplayedColumns();
+  }
 
   ngOnInit(): void {
-    this.mpdService.getPlaylistInfo(this.data.name);
+    this.playlistInfo = this.mpdService.getPlaylistInfo(this.data.name);
   }
 
   closeModal(): void {
@@ -34,11 +43,6 @@ export class PlaylistInfoModalComponent implements OnInit {
     this.webSocketService.sendData(MpdCommands.DELETE_PLAYLIST, {
       playlistName: this.data.name,
     });
-    // this.playlistQueue.forEach((item, index) => {
-    //   if (item.name === playlistName) {
-    //     this.playlistQueue.splice(index, 1);
-    //   }
-    // });
     this.dialogRef.close();
     this.notificationService.popUp(`Deleted playlist: "${this.data.name}"`);
     this.activatedRoute.queryParams.subscribe((queryParams) => {
@@ -47,5 +51,19 @@ export class PlaylistInfoModalComponent implements OnInit {
         path: dir,
       });
     });
+  }
+
+  private getDisplayedColumns(): string[] {
+    const displayedColumns = [
+      { name: "pos", showMobile: false },
+      { name: "artistName", showMobile: true },
+      { name: "albumName", showMobile: false },
+      { name: "title", showMobile: true },
+      { name: "length", showMobile: false },
+    ];
+    const isMobile = this.deviceService.isMobile();
+    return displayedColumns
+      .filter((cd) => !isMobile || cd.showMobile)
+      .map((cd) => cd.name);
   }
 }

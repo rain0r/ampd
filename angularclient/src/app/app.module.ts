@@ -59,6 +59,7 @@ import { MatSortModule } from "@angular/material/sort";
 import { MatPaginatorModule } from "@angular/material/paginator";
 import { SavePlaylistModalComponent } from "./shared/save-playlist-modal/save-playlist-modal.component";
 import { PlaylistInfoModalComponent } from "./browse/playlists/playlist-info-modal/playlist-info-modal.component";
+import { TrackDataTableComponent } from "./shared/track-table/track-data-table.component";
 
 @NgModule({
   declarations: [
@@ -83,6 +84,7 @@ import { PlaylistInfoModalComponent } from "./browse/playlists/playlist-info-mod
     SettingsComponent,
     TrackProgressComponent,
     TrackTableComponent,
+    TrackDataTableComponent,
     TracksComponent,
     VolumeSliderComponent,
     SavePlaylistModalComponent,

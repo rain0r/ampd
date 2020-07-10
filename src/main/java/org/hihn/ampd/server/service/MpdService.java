@@ -26,6 +26,7 @@ import org.hihn.ampd.server.message.outgoing.queue.QueueMessage;
 import org.hihn.ampd.server.message.outgoing.queue.QueuePayload;
 import org.hihn.ampd.server.message.outgoing.search.SearchMessage;
 import org.hihn.ampd.server.message.outgoing.search.SearchPayload;
+import org.hihn.ampd.server.model.PlaylistInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -43,9 +44,27 @@ public class MpdService {
     this.buildCommandMap();
   }
 
+  public Mpd getMpd() {
+    return mpd;
+  }
+
   public Optional<Message> process(Message message) {
     LOG.debug("Processiong message: {}", message);
     return commands.get(message.getType()).run(message.getPayload());
+  }
+
+  public Optional<PlaylistInfo> getPlaylistInfo(String name) {
+    Optional<PlaylistInfo> ret = Optional.empty();
+    try {
+      Collection<MpdSong> playlists = mpd.getMusicDatabase().getPlaylistDatabase()
+          .listPlaylistSongs(name);
+      int trackCount = mpd.getMusicDatabase().getPlaylistDatabase()
+          .countPlaylistSongs(name);
+      ret = Optional.of(new PlaylistInfo(name, trackCount, playlists));
+    } catch (Exception e) {
+      LOG.warn("Could not get info about playlist: {}", name);
+    }
+    return ret;
   }
 
   private Optional<Message> addDir(Object inputPayload) {
@@ -185,12 +204,10 @@ public class MpdService {
   private Collection<Playlist> getPlaylists() {
     TreeSet<Playlist> ret = new TreeSet<>();
     Collection<String> playlists = mpd.getMusicDatabase().getPlaylistDatabase().listPlaylists();
-
     for (String playlist : playlists) {
       int count = mpd.getMusicDatabase().getPlaylistDatabase().countPlaylistSongs(playlist);
       ret.add(new Playlist(playlist, count));
     }
-
     return ret;
   }
 

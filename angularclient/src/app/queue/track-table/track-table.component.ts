@@ -1,4 +1,4 @@
-import { Component, ElementRef, HostListener, ViewChild } from "@angular/core";
+import { Component, HostListener } from "@angular/core";
 import { MatTableDataSource } from "@angular/material/table";
 import { Observable } from "rxjs/index";
 import { MpdCommands } from "../../shared/mpd/mpd-commands";
@@ -7,7 +7,6 @@ import { DeviceDetectorService } from "ngx-device-detector";
 import { QueuePayload } from "../../shared/messages/incoming/queue-payload";
 import { QueueTrack } from "../../shared/models/queue-track";
 import { MpdService } from "../../shared/services/mpd.service";
-import { MatSort } from "@angular/material/sort";
 import { MatDialog } from "@angular/material/dialog";
 import { SavePlaylistModalComponent } from "../../shared/save-playlist-modal/save-playlist-modal.component";
 import { NotificationService } from "../../shared/services/notification.service";
@@ -18,23 +17,13 @@ import { NotificationService } from "../../shared/services/notification.service"
   styleUrls: ["./track-table.component.scss"],
 })
 export class TrackTableComponent {
-  @ViewChild(MatSort, { static: true }) sort: MatSort;
-  @ViewChild("filterInputElem") filterInputElem: ElementRef;
   currentSong: QueueTrack = new QueueTrack();
   currentSongObservable: Observable<QueueTrack>;
   dataSource = new MatTableDataSource<QueueTrack>();
+  displayedColumns = [];
   checksum = 0; // The checksum of the current queue
   queueDuration = 0;
   focus = false;
-
-  private displayedColumns = [
-    { name: "pos", showMobile: false },
-    { name: "artistName", showMobile: true },
-    { name: "albumName", showMobile: false },
-    { name: "title", showMobile: true },
-    { name: "length", showMobile: false },
-    { name: "remove", showMobile: true },
-  ];
 
   constructor(
     private dialog: MatDialog,
@@ -44,6 +33,7 @@ export class TrackTableComponent {
     private notificationService: NotificationService
   ) {
     this.currentSongObservable = this.mpdService.getSongSubscription();
+    this.displayedColumns = this.getDisplayedColumns();
     this.buildMessageReceiver();
   }
 
@@ -84,27 +74,19 @@ export class TrackTableComponent {
     this.dataSource.filter = "";
   }
 
-  getDisplayedColumns(): string[] {
+  private getDisplayedColumns(): string[] {
+    const displayedColumns = [
+      { name: "pos", showMobile: false },
+      { name: "artistName", showMobile: true },
+      { name: "albumName", showMobile: false },
+      { name: "title", showMobile: true },
+      { name: "length", showMobile: false },
+      { name: "remove", showMobile: true },
+    ];
     const isMobile = this.deviceService.isMobile();
-    return this.displayedColumns
+    return displayedColumns
       .filter((cd) => !isMobile || cd.showMobile)
       .map((cd) => cd.name);
-  }
-
-  onRemoveTrack(position: number): void {
-    this.webSocketService.sendData(MpdCommands.RM_TRACK, {
-      position,
-    });
-    this.webSocketService.send(MpdCommands.GET_QUEUE);
-  }
-
-  /**
-   * Play the track from the queue which has been clicked.
-   *
-   * @param {string} file
-   */
-  onRowClick(file: string): void {
-    this.webSocketService.sendData(MpdCommands.PLAY_TRACK, { path: file });
   }
 
   private buildQueue(message: QueuePayload): void {
@@ -122,7 +104,7 @@ export class TrackTableComponent {
       posCounter += 1;
     }
     this.dataSource.data = tmp; // add the new model object to the trackTableData
-    this.dataSource.sort = this.sort;
+    // this.dataSource.sort = this.sort;
     this.queueDuration = this.sumTrackDuration();
   }
 

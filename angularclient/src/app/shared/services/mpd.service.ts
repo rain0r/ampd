@@ -8,7 +8,8 @@ import { Observable, Subject } from "rxjs";
 import { map } from "rxjs/operators";
 import { filter } from "rxjs/internal/operators";
 import { PlaylistSaved } from "../messages/incoming/playlist-saved";
-import { MpdCommands } from "../mpd/mpd-commands";
+import { HttpClient } from "@angular/common/http";
+import { PlaylistInfo } from "../models/playlist-info";
 
 @Injectable({
   providedIn: "root",
@@ -21,7 +22,10 @@ export class MpdService {
   private prevSong = new QueueTrack();
   private volume = new Subject<number>();
 
-  constructor(private webSocketService: WebSocketService) {
+  constructor(
+    private webSocketService: WebSocketService,
+    private http: HttpClient
+  ) {
     this.init();
   }
 
@@ -45,10 +49,10 @@ export class MpdService {
     return this.playlistSaved.asObservable();
   }
 
-  getPlaylistInfo(playlistName: string): void {
-    this.webSocketService.sendData(MpdCommands.GET_PLAYLIST_INFO, {
-      playlistName: playlistName,
-    });
+  getPlaylistInfo(playlistName: string): Observable<PlaylistInfo> {
+    const cc = ConnConfUtil.get();
+    const url = `${cc.backendAddr}/api/playlist/${playlistName}`;
+    return this.http.get<PlaylistInfo>(url);
   }
 
   /**

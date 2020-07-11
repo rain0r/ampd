@@ -35,8 +35,13 @@ import org.springframework.stereotype.Service;
 public class MpdService {
 
   private static final Logger LOG = LoggerFactory.getLogger(MpdService.class);
+
+  /**
+   * Maps all incoming websocket message types to a method.
+   */
   private final EnumMap<MessageType, AmpdCommandRunner> commands =
       new EnumMap<>(MessageType.class);
+
   private final Mpd mpd;
 
   public MpdService(MpdConfiguration mpdConfiguration) {
@@ -48,11 +53,24 @@ public class MpdService {
     return mpd;
   }
 
+  /**
+   * Processes an incoming websocket message according to the commands map and returns the
+   * response if there is one.
+   *
+   * @param message The incoming websocket message.
+   * @return A websocket message that holds the response if there is one.
+   */
   public Optional<Message> process(Message message) {
     LOG.debug("Processiong message: {}", message);
     return commands.get(message.getType()).run(message.getPayload());
   }
 
+  /**
+   * Gets info about a playlist from the MPD server.
+   *
+   * @param name The name of the playlist.
+   * @return Info about the specified playlist.
+   */
   public Optional<PlaylistInfo> getPlaylistInfo(String name) {
     Optional<PlaylistInfo> ret = Optional.empty();
     try {

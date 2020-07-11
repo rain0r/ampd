@@ -1,4 +1,6 @@
-<div fxLayout="row nowrap" fxLayoutAlign="center center" *ngIf="volume >= 0 && volume <= 100">
+<div fxLayout="row nowrap" fxLayoutAlign="center center"
+     fxLayoutGap.gt-md="0.1rem"
+     *ngIf="volume >= 0 && volume <= 100">
   <div>
     <mat-icon>volume_down</mat-icon>
   </div>

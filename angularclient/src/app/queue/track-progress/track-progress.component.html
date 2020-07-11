@@ -1,4 +1,5 @@
 <div fxLayout="row nowrap" fxLayoutAlign="center center"
+     fxLayoutGap.gt-md="0.4rem"
      *ngIf="(state|async) !== 'stop' && currentSong.length > 0">
   <div>
     {{ currentSong.elapsed | secondsToMmSs }}

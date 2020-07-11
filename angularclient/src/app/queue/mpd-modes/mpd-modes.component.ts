@@ -56,7 +56,7 @@ export class MpdModesComponent {
       case "ArrowRight": // right
         command = MpdCommands.SET_NEXT;
         break;
-      case "Space": // space
+      case " ": // space
         if (this.currentState === "pause") {
           command = MpdCommands.SET_PLAY;
         } else if (this.currentState === "play") {

@@ -20,10 +20,9 @@ export class DirectoryImpl implements Directory {
   }
 
   coverUrl(): string {
-    const cc = ConnConfUtil.get();
     const currentCoverUrl = "find-cover";
     // Add a query param to trigger an image change in the browser
-    return `${cc.backendAddr}/${currentCoverUrl}?path=${encodeURIComponent(
+    return `${ConnConfUtil.getBackendAddr()}/${currentCoverUrl}?path=${encodeURIComponent(
       this.path
     )}`;
   }

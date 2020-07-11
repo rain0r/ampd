@@ -62,8 +62,8 @@ export class SettingsComponent {
   }
 
   private getSettings() {
-    const cc = ConnConfUtil.get();
-    const url = `${cc.backendAddr}/api/settings`;
+    const backendAddr = ConnConfUtil.getBackendAddr();
+    const url = `${backendAddr}/api/settings`;
     return this.http.get<BackendSettings>(url);
   }
 }

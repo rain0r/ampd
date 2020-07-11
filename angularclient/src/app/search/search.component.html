@@ -33,64 +33,7 @@
 </div>
 
 <!-- Search results table -->
-<table mat-table [dataSource]="dataSource" matSort matSortActive="artistName" matSortDisableClear>
-
-  <ng-container matColumnDef="artistName">
-    <th mat-header-cell mat-sort-header *matHeaderCellDef>Artist</th>
-    <td mat-cell *matCellDef="let track" (dblclick)="onPlayTitle(track)">
-      {{ track.artistName }}
-    </td>
-  </ng-container>
-
-  <ng-container matColumnDef="albumName">
-    <th mat-header-cell mat-sort-header *matHeaderCellDef>Album</th>
-    <td mat-cell *matCellDef="let track" (dblclick)="onPlayTitle(track)">
-      {{ track.albumName }}
-    </td>
-  </ng-container>
-
-  <ng-container matColumnDef="title">
-    <th mat-header-cell mat-sort-header *matHeaderCellDef>Title</th>
-    <td mat-cell *matCellDef="let track" (dblclick)="onPlayTitle(track)">
-      {{ track.title }}
-    </td>
-  </ng-container>
-
-  <ng-container matColumnDef="length">
-    <th mat-header-cell mat-sort-header *matHeaderCellDef>Length</th>
-    <td mat-cell *matCellDef="let track" (dblclick)="onPlayTitle(track)">
-      {{ track.length |secondsToMmSs }}
-    </td>
-  </ng-container>
-
-  <ng-container matColumnDef="addTitle">
-    <th mat-header-cell *matHeaderCellDef></th>
-    <td mat-cell *matCellDef="let track">
-      <span (click)="onPlayTitle(track)" class="clickable chip">
-        <mat-icon> play_arrow </mat-icon>
-      </span>
-    </td>
-  </ng-container>
-
-  <ng-container matColumnDef="playTitle">
-    <th mat-header-cell *matHeaderCellDef></th>
-    <td mat-cell *matCellDef="let track">
-          <span (click)="onAddTitle(track)" class="clickable chip">
-        <mat-icon> add </mat-icon>
-      </span>
-    </td>
-  </ng-container>
-
-  <tr mat-header-row *matHeaderRowDef="getDisplayedColumns()"></tr>
-  <tr
-      mat-row
-      *matRowDef="let row; columns: getDisplayedColumns()"
-      class="table-row"
-  ></tr>
-</table>
-<mat-paginator [pageSize]="25"
-               [pageSizeOptions]="[10, 20, 50, 100]" showFirstLastButtons></mat-paginator>
-
+<app-track-data-table [trackTableData]="trackTableData"></app-track-data-table>
 
 <!-- Loading animation -->
 <mat-spinner class="centered" *ngIf="spinnerVisible"></mat-spinner>

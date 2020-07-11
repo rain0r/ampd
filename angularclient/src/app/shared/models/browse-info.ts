@@ -10,10 +10,4 @@ export class BrowseInfo {
   dirQueue: DirectoryImpl[] = [];
   playlistQueue: PlaylistImpl[] = [];
   trackQueue: MpdTrack[] = [];
-
-  clearAll(): void {
-    this.dirQueue = [];
-    this.playlistQueue = [];
-    this.trackQueue = [];
-  }
 }

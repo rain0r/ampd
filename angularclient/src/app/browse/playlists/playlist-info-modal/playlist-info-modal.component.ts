@@ -7,8 +7,12 @@ import { NotificationService } from "../../../shared/services/notification.servi
 import { ActivatedRoute } from "@angular/router";
 import { MpdService } from "../../../shared/services/mpd.service";
 import { PlaylistInfo } from "../../../shared/models/playlist-info";
-import { Observable } from "rxjs";
+import { Observable, Subject } from "rxjs";
 import { DeviceDetectorService } from "ngx-device-detector";
+import { TrackTableData } from "../../../shared/track-table/track-table-data";
+import { MpdTrack } from "../../../shared/messages/incoming/mpd-track";
+import { QueueTrack } from "../../../shared/models/queue-track";
+import { MatTableDataSource } from "@angular/material/table";
 
 @Component({
   selector: "app-playlist-info-modal",
@@ -16,8 +20,11 @@ import { DeviceDetectorService } from "ngx-device-detector";
   styleUrls: ["./playlist-info-modal.component.scss"],
 })
 export class PlaylistInfoModalComponent implements OnInit {
-  displayedColumns = [];
   playlistInfo: Observable<PlaylistInfo>;
+  trackTableData = new TrackTableData();
+  private playlistInfoSubject: Subject<PlaylistInfo> = new Subject<
+    PlaylistInfo
+  >();
 
   constructor(
     public dialogRef: MatDialogRef<PlaylistInfoModalComponent>,
@@ -28,11 +35,17 @@ export class PlaylistInfoModalComponent implements OnInit {
     private mpdService: MpdService,
     private deviceService: DeviceDetectorService
   ) {
-    this.displayedColumns = this.getDisplayedColumns();
+    this.playlistInfo = this.playlistInfoSubject.asObservable();
   }
 
   ngOnInit(): void {
-    this.playlistInfo = this.mpdService.getPlaylistInfo(this.data.name);
+    this.mpdService.getPlaylistInfo(this.data.name).subscribe((info) => {
+      const tableData = new TrackTableData();
+      tableData.dataSource = this.buildDataSource(info.tracks);
+      tableData.displayedColumns = this.getDisplayedColumns();
+      this.trackTableData = tableData;
+      this.playlistInfoSubject.next(info);
+    });
   }
 
   closeModal(): void {
@@ -65,5 +78,19 @@ export class PlaylistInfoModalComponent implements OnInit {
     return displayedColumns
       .filter((cd) => !isMobile || cd.showMobile)
       .map((cd) => cd.name);
+  }
+
+  private buildDataSource(tracks: MpdTrack[]) {
+    const dataSource = new MatTableDataSource<QueueTrack>();
+    const tmp: QueueTrack[] = [];
+    let posCounter = 1;
+    for (const item of tracks) {
+      const track: QueueTrack = new QueueTrack(item);
+      track.pos = posCounter;
+      tmp.push(track);
+      posCounter += 1;
+    }
+    dataSource.data = tmp;
+    return dataSource;
   }
 }

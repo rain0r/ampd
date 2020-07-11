@@ -8,8 +8,9 @@ import { QueuePayload } from "../../shared/messages/incoming/queue-payload";
 import { QueueTrack } from "../../shared/models/queue-track";
 import { MpdService } from "../../shared/services/mpd.service";
 import { MatDialog } from "@angular/material/dialog";
-import { SavePlaylistModalComponent } from "../../shared/save-playlist-modal/save-playlist-modal.component";
+import { SavePlaylistModalComponent } from "../save-playlist-modal/save-playlist-modal.component";
 import { NotificationService } from "../../shared/services/notification.service";
+import { TrackTableData } from "../../shared/track-table/track-table-data";
 
 @Component({
   selector: "app-track-table",
@@ -17,18 +18,16 @@ import { NotificationService } from "../../shared/services/notification.service"
   styleUrls: ["./track-table.component.scss"],
 })
 export class TrackTableComponent {
-  currentSong: QueueTrack = new QueueTrack();
-  currentSongObservable: Observable<QueueTrack>;
-  dataSource = new MatTableDataSource<QueueTrack>();
-  displayedColumns: string[];
-
   /**
    * The checksum of the current queue.
    */
   checksum = 0;
-
+  currentSong: QueueTrack = new QueueTrack();
+  currentSongObservable: Observable<QueueTrack>;
   currentState = "stop";
+  dataSource = new MatTableDataSource<QueueTrack>();
   focus = false;
+  trackTableData = new TrackTableData();
   queueDuration = 0;
 
   constructor(
@@ -39,7 +38,6 @@ export class TrackTableComponent {
     private notificationService: NotificationService
   ) {
     this.currentSongObservable = this.mpdService.getSongSubscription();
-    this.displayedColumns = this.getDisplayedColumns();
     this.buildMessageReceiver();
     this.getStateSubscription();
   }
@@ -111,7 +109,17 @@ export class TrackTableComponent {
       posCounter += 1;
     }
     this.dataSource.data = tmp; // add the new model object to the trackTableData
+    this.trackTableData = this.buildTableData();
     this.queueDuration = this.sumTrackDuration();
+  }
+
+  private buildTableData() {
+    const trackTable = new TrackTableData();
+    trackTable.dataSource = this.dataSource;
+    trackTable.clickable = true;
+    trackTable.displayedColumns = this.getDisplayedColumns();
+    trackTable.sortable = true;
+    return trackTable;
   }
 
   private buildMessageReceiver(): void {

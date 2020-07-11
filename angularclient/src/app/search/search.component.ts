@@ -1,6 +1,4 @@
-import { Component, OnInit, ViewChild } from "@angular/core";
-
-import { MpdTrack } from "../shared/messages/incoming/mpd-track";
+import { Component } from "@angular/core";
 import {
   SearchMsgPayload,
   SearchResult,
@@ -9,57 +7,26 @@ import { QueueTrack } from "../shared/models/queue-track";
 import { MpdCommands } from "../shared/mpd/mpd-commands";
 import { WebSocketService } from "../shared/services/web-socket.service";
 import { DeviceDetectorService } from "ngx-device-detector";
-import { NotificationService } from "../shared/services/notification.service";
-import { MatSort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
-import { MatPaginator } from "@angular/material/paginator";
+import { TrackTableData } from "../shared/track-table/track-table-data";
 
 @Component({
   selector: "app-search",
   templateUrl: "./search.component.html",
   styleUrls: ["./search.component.scss"],
 })
-export class SearchComponent implements OnInit {
-  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
-  @ViewChild(MatSort, { static: true }) sort: MatSort;
+export class SearchComponent {
   dataSource = new MatTableDataSource<QueueTrack>([]);
   searchResultCount = 0;
   search = "";
   spinnerVisible = false;
-
-  private displayedColumns = [
-    { name: "artistName", showMobile: true },
-    { name: "albumName", showMobile: false },
-    { name: "title", showMobile: true },
-    { name: "length", showMobile: false },
-    { name: "addTitle", showMobile: true },
-    { name: "playTitle", showMobile: true },
-  ];
+  trackTableData = new TrackTableData();
 
   constructor(
-    private notificationService: NotificationService,
     private webSocketService: WebSocketService,
     private deviceService: DeviceDetectorService
   ) {
     this.buildMsgReceiver();
-  }
-
-  ngOnInit(): void {
-    this.dataSource.paginator = this.paginator;
-  }
-
-  onPlayTitle(track: MpdTrack): void {
-    this.webSocketService.sendData(MpdCommands.ADD_PLAY_TRACK, {
-      path: track.file,
-    });
-    this.notificationService.popUp(`Playing: ${track.title}`);
-  }
-
-  onAddTitle(track: MpdTrack): void {
-    this.webSocketService.sendData(MpdCommands.ADD_TRACK, {
-      path: track.file,
-    });
-    this.notificationService.popUp(`Added: ${track.title}`);
   }
 
   applySearch(searchValue: string): void {
@@ -82,13 +49,6 @@ export class SearchComponent implements OnInit {
     this.searchResultCount = 0;
   }
 
-  getDisplayedColumns(): string[] {
-    const isMobile = this.deviceService.isMobile();
-    return this.displayedColumns
-      .filter((cd) => !isMobile || cd.showMobile)
-      .map((cd) => cd.name);
-  }
-
   /**
    * Listen for results on the websocket channel
    */
@@ -108,14 +68,42 @@ export class SearchComponent implements OnInit {
     searchResultCount: number
   ): void {
     this.resetSearch();
-    const tableData = [];
+    const tracks = [];
     searchResults.forEach((track: SearchResult) => {
-      tableData.push(new QueueTrack(track));
+      tracks.push(new QueueTrack(track));
     });
-    this.dataSource = new MatTableDataSource<QueueTrack>(tableData);
-    this.dataSource.sort = this.sort;
-    this.dataSource.paginator = this.paginator;
+    this.dataSource = new MatTableDataSource<QueueTrack>(tracks);
+    this.trackTableData = this.buildTableData();
+    // this.dataSource.sort = this.sort;
+    // this.dataSource.paginator = this.paginator;
     this.searchResultCount = searchResultCount;
     this.spinnerVisible = false;
+  }
+
+  private buildTableData() {
+    const trackTable = new TrackTableData();
+    trackTable.addTitleColumn = true;
+    trackTable.clickable = true;
+    trackTable.dataSource = this.dataSource;
+    trackTable.displayedColumns = this.getDisplayedColumns();
+    trackTable.pagination = true;
+    trackTable.playTitleColumn = true;
+    trackTable.sortable = true;
+    return trackTable;
+  }
+
+  private getDisplayedColumns(): string[] {
+    const isMobile = this.deviceService.isMobile();
+    const displayedColumns = [
+      { name: "artistName", showMobile: true },
+      { name: "albumName", showMobile: false },
+      { name: "title", showMobile: true },
+      { name: "length", showMobile: false },
+      { name: "addTitle", showMobile: true },
+      { name: "playTitle", showMobile: true },
+    ];
+    return displayedColumns
+      .filter((cd) => !isMobile || cd.showMobile)
+      .map((cd) => cd.name);
   }
 }

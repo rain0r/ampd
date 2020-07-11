@@ -50,8 +50,8 @@ export class MpdService {
   }
 
   getPlaylistInfo(playlistName: string): Observable<PlaylistInfo> {
-    const cc = ConnConfUtil.get();
-    const url = `${cc.backendAddr}/api/playlist/${playlistName}`;
+    const backendAddr = ConnConfUtil.getBackendAddr();
+    const url = `${backendAddr}/api/playlist/${playlistName}`;
     return this.http.get<PlaylistInfo>(url);
   }
 

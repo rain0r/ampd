@@ -1,6 +1,6 @@
-<table mat-table [dataSource]="dataSource" matSort matSortDisableClear>
+<table mat-table [dataSource]="trackTableData.dataSource" matSort matSortDisableClear>
   <ng-container matColumnDef="pos">
-    <th mat-header-cell mat-sort-header [disabled]=!active *matHeaderCellDef>
+    <th mat-header-cell mat-sort-header [disabled]=!trackTableData.sortable *matHeaderCellDef>
       #
     </th>
     <td mat-cell *matCellDef="let row" (click)="onRowClick(row.file)">
@@ -9,7 +9,7 @@
   </ng-container>
 
   <ng-container matColumnDef="artistName">
-    <th mat-header-cell mat-sort-header [disabled]=!active *matHeaderCellDef>Artist</th>
+    <th mat-header-cell mat-sort-header [disabled]=!trackTableData.sortable *matHeaderCellDef>Artist</th>
     <td mat-cell *matCellDef="let row" (click)="onRowClick(row.file)">
       <span
           *ngIf="!row.artistName && !row.albumName && !row.title; else elseBlock">{{row.file}}</span>
@@ -18,21 +18,21 @@
   </ng-container>
 
   <ng-container matColumnDef="albumName">
-    <th mat-header-cell mat-sort-header [disabled]=!active *matHeaderCellDef>Album</th>
+    <th mat-header-cell mat-sort-header [disabled]=!trackTableData.sortable *matHeaderCellDef>Album</th>
     <td mat-cell *matCellDef="let row" (click)="onRowClick(row.file)">
       {{ row.albumName }}
     </td>
   </ng-container>
 
   <ng-container matColumnDef="title">
-    <th mat-header-cell mat-sort-header [disabled]=!active *matHeaderCellDef>Title</th>
+    <th mat-header-cell mat-sort-header [disabled]=!trackTableData.sortable *matHeaderCellDef>Title</th>
     <td mat-cell *matCellDef="let row" (click)="onRowClick(row.file)">
       {{ row.title }}
     </td>
   </ng-container>
 
   <ng-container matColumnDef="length">
-    <th mat-header-cell mat-sort-header [disabled]=!active *matHeaderCellDef>Duration</th>
+    <th mat-header-cell mat-sort-header [disabled]=!trackTableData.sortable *matHeaderCellDef>Duration</th>
     <td mat-cell *matCellDef="let track" (click)="onRowClick(track.file)">
       {{ track.length | secondsToMmSs }}
     </td>
@@ -49,11 +49,29 @@
     </td>
   </ng-container>
 
-  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <ng-container matColumnDef="addTitle" *ngIf="trackTableData.addTitleColumn">
+    <th mat-header-cell *matHeaderCellDef></th>
+    <td mat-cell *matCellDef="let track">
+      <span (click)="onPlayTitle(track)" class="clickable chip">
+        <mat-icon> play_arrow </mat-icon>
+      </span>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="playTitle" *ngIf="trackTableData.playTitleColumn">
+    <th mat-header-cell *matHeaderCellDef></th>
+    <td mat-cell *matCellDef="let track">
+          <span (click)="onAddTitle(track)" class="clickable chip">
+        <mat-icon> add </mat-icon>
+      </span>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="trackTableData.displayedColumns"></tr>
 
   <tr
       mat-row
-      *matRowDef="let row; columns: displayedColumns"
+      *matRowDef="let row; columns: trackTableData.displayedColumns"
       class="table-row"
       [ngClass]="{ themedbg: row.playing === true, playing: row.playing === true }"
   ></tr>

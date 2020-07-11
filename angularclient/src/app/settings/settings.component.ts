@@ -17,7 +17,7 @@ import { SettingsService } from "../shared/services/settings.service";
 })
 export class SettingsComponent {
   ampdVersion: string;
-  coverCacheUsage: Observable<number> = 0;
+  coverCacheUsage = new Observable<number>();
   gitCommitId: string;
   isDarkTheme: Observable<boolean>;
   isDisplayCovers: boolean;

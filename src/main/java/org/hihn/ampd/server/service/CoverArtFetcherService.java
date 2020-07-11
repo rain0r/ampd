@@ -65,10 +65,10 @@ public class CoverArtFetcherService {
     if (!cover.isPresent()) {
       LOG.debug("Trying to load a cover from the MusicBrainz API");
       cover = mbCoverService.getMbCover(track);
-    }
-    // Save the cover in the cache
-    if (cover.isPresent()) {
-      coverCacheService.saveCover(coverType, track.getArtistName(), track.getTitle(), cover.get());
+      // Save the cover in the cache
+      if (cover.isPresent()) {
+        coverCacheService.saveCover(coverType, track.getArtistName(), track.getTitle(), cover.get());
+      }
     }
     return cover;
   }

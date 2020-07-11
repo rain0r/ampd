@@ -17,6 +17,7 @@ import { SettingsService } from "../shared/services/settings.service";
 })
 export class SettingsComponent {
   ampdVersion: string;
+  coverCacheUsage: Observable<number> = 0;
   gitCommitId: string;
   isDarkTheme: Observable<boolean>;
   isDisplayCovers: boolean;
@@ -62,8 +63,15 @@ export class SettingsComponent {
   }
 
   private getSettings() {
+    this.coverCacheUsage = this.getCoverCacheDiskUsage();
     const backendAddr = ConnConfUtil.getBackendAddr();
     const url = `${backendAddr}/api/settings`;
     return this.http.get<BackendSettings>(url);
+  }
+
+  private getCoverCacheDiskUsage() {
+    const backendAddr = ConnConfUtil.getBackendAddr();
+    const url = `${backendAddr}/api/cover-usage`;
+    return this.http.get<number>(url);
   }
 }

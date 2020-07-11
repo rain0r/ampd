@@ -31,23 +31,6 @@ public class CoverController {
   }
 
   /**
-   * Returns the cover of the currently running track.
-   *
-   * @return The bytes of the current cover.
-   */
-  @RequestMapping(
-      value = {CURRENT_COVER_URL},
-      produces = MediaType.IMAGE_JPEG_VALUE
-  )
-  public @ResponseBody
-  byte[] getCurrentCover() {
-    // throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-    return coverArtFetcherService.getCurrentAlbumCover()
-        .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
-  }
-
-
-  /**
    * Tries to find the cover for a track.
    *
    * @param trackFilePath File path of a track.
@@ -60,6 +43,21 @@ public class CoverController {
   public @ResponseBody
   byte[] findCoverByPath(@RequestParam("path") Optional<String> trackFilePath) {
     return coverArtFetcherService.findAlbumCover(trackFilePath)
+        .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+  }
+
+  /**
+   * Returns the cover of the currently running track.
+   *
+   * @return The bytes of the current cover.
+   */
+  @RequestMapping(
+      value = {CURRENT_COVER_URL},
+      produces = MediaType.IMAGE_JPEG_VALUE
+  )
+  public @ResponseBody
+  byte[] getCurrentCover() {
+    return coverArtFetcherService.getCurrentAlbumCover()
         .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
   }
 }

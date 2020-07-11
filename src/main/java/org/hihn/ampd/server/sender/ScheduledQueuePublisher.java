@@ -17,15 +17,13 @@ import org.springframework.stereotype.Component;
 public class ScheduledQueuePublisher {
 
   private static final String PUBLISH_URL = "/topic/queue";
-
+  private final Mpd mpd;
   @Autowired
   private SimpMessagingTemplate template;
 
-  private final Mpd mpd;
-
   @Autowired
   public ScheduledQueuePublisher(MpdConfiguration mpdConfiguration) {
-    this.mpd = mpdConfiguration.mpd();
+    mpd = mpdConfiguration.mpd();
   }
 
   /**

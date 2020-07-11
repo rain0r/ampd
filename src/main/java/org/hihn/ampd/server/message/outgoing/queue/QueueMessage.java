@@ -13,13 +13,13 @@ public class QueueMessage extends AmpdMessage {
   }
 
   @Override
-  public MessageType getType() {
-    return type;
+  public Object getPayload() {
+    return payload;
   }
 
   @Override
-  public Object getPayload() {
-    return payload;
+  public MessageType getType() {
+    return type;
   }
 
 

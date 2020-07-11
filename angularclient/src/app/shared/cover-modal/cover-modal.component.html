@@ -1,7 +1,7 @@
 <div mat-dialog-content>
-  <img src="{{ data }}" alt="Cover" />
+  <img src="{{ data.coverUrl }}" alt="Cover" />
 </div>
 <div mat-dialog-actions align="end">
-  <a mat-stroked-button href="{{data}}" target="_blank">Open</a>
+  <a mat-stroked-button href="{{data.coverUrl}}" target="_blank">Open</a>
   <button mat-stroked-button (click)="onNoClick()">Close</button>
 </div>

@@ -13,16 +13,16 @@ public class StateMessage extends AmpdMessage {
   }
 
   @Override
-  public MessageType getType() {
-    return type;
-  }
-
-  @Override
   public Object getPayload() {
     return payload;
   }
 
   public void setPayload(StatePayload payload) {
     this.payload = payload;
+  }
+
+  @Override
+  public MessageType getType() {
+    return type;
   }
 }

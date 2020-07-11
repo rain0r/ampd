@@ -8,21 +8,20 @@ import org.hihn.ampd.server.message.AmpdMessage;
  */
 public class BrowseMessage extends AmpdMessage {
 
+  private final BrowsePayload payload;
   private final MessageType type = MessageType.BROWSE;
 
-  private final BrowsePayload payload;
-
   public BrowseMessage(BrowsePayload browsePayload) {
-    this.payload = browsePayload;
-  }
-
-  @Override
-  public MessageType getType() {
-    return type;
+    payload = browsePayload;
   }
 
   @Override
   public BrowsePayload getPayload() {
     return payload;
+  }
+
+  @Override
+  public MessageType getType() {
+    return type;
   }
 }

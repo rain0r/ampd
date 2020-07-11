@@ -5,28 +5,11 @@ package org.hihn.ampd.server.message.outgoing.browse;
  */
 public class Playlist implements Comparable<Playlist> {
 
-  private String name;
-
   private int count = 0;
+  private String name;
 
   public Playlist(String name, int count) {
     this.name = name;
-    this.count = count;
-  }
-
-  public String getName() {
-    return name;
-  }
-
-  public void setName(String name) {
-    this.name = name;
-  }
-
-  public int getCount() {
-    return count;
-  }
-
-  public void setCount(int count) {
     this.count = count;
   }
 
@@ -50,6 +33,22 @@ public class Playlist implements Comparable<Playlist> {
       return false;
     }
     return name != null ? name.equals(playlist.name) : playlist.name == null;
+  }
+
+  public int getCount() {
+    return count;
+  }
+
+  public void setCount(int count) {
+    this.count = count;
+  }
+
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
   }
 
   @Override

@@ -9,13 +9,10 @@ import org.hihn.ampd.server.message.incoming.ControlPanel;
  */
 public class StatePayload {
 
-  private ServerStatus serverStatus;
-
-  private MpdSong currentSong;
-
-  private String cover;
-
   private ControlPanel controlPanel;
+  private String cover;
+  private MpdSong currentSong;
+  private ServerStatus serverStatus;
 
   public StatePayload() {
   }
@@ -34,12 +31,12 @@ public class StatePayload {
     this.controlPanel = controlPanel;
   }
 
-  public ServerStatus getServerStatus() {
-    return serverStatus;
+  public String getCover() {
+    return cover;
   }
 
-  public void setServerStatus(ServerStatus serverStatus) {
-    this.serverStatus = serverStatus;
+  public void setCover(String cover) {
+    this.cover = cover;
   }
 
   public MpdSong getCurrentSong() {
@@ -50,11 +47,11 @@ public class StatePayload {
     this.currentSong = currentSong;
   }
 
-  public String getCover() {
-    return cover;
+  public ServerStatus getServerStatus() {
+    return serverStatus;
   }
 
-  public void setCover(String cover) {
-    this.cover = cover;
+  public void setServerStatus(ServerStatus serverStatus) {
+    this.serverStatus = serverStatus;
   }
 }

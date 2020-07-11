@@ -6,20 +6,19 @@ import org.bff.javampd.song.MpdSong;
 
 public class QueuePayload {
 
-  private final List<MpdSong> tracks;
-
   private final int checkSum;
+  private final List<MpdSong> tracks;
 
   public QueuePayload(List<MpdSong> tracks) {
     this.tracks = tracks;
-    this.checkSum = tracks.hashCode();
-  }
-
-  public List<MpdSong> getTracks() {
-    return tracks;
+    checkSum = tracks.hashCode();
   }
 
   public int getCheckSum() {
     return checkSum;
+  }
+
+  public List<MpdSong> getTracks() {
+    return tracks;
   }
 }

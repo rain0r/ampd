@@ -5,17 +5,12 @@ package org.hihn.ampd.server.model;
  */
 public class Settings {
 
-  private String musicDirectory;
-
-  private String mpdServer;
-
-  private int mpdPort;
-
-  private String mpdPassword;
-
-  private boolean localCoverCache;
-
-  private boolean mbCoverService;
+  private final boolean localCoverCache;
+  private final boolean mbCoverService;
+  private final String mpdPassword;
+  private final int mpdPort;
+  private final String mpdServer;
+  private final String musicDirectory;
 
   public Settings(String musicDirectory, String mpdServer, int mpdPort,
       String mpdPassword, boolean localCoverCache, boolean mbCoverService) {
@@ -27,20 +22,20 @@ public class Settings {
     this.mbCoverService = mbCoverService;
   }
 
-  public String getMusicDirectory() {
-    return musicDirectory;
-  }
-
-  public String getMpdServer() {
-    return mpdServer;
+  public String getMpdPassword() {
+    return mpdPassword;
   }
 
   public int getMpdPort() {
     return mpdPort;
   }
 
-  public String getMpdPassword() {
-    return mpdPassword;
+  public String getMpdServer() {
+    return mpdServer;
+  }
+
+  public String getMusicDirectory() {
+    return musicDirectory;
   }
 
   public boolean isLocalCoverCache() {

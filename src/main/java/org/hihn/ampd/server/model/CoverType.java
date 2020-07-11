@@ -4,7 +4,7 @@ public enum CoverType {
   ALBUM("a_"),
   SINGLETON("s_");
 
-  private String prefix;
+  private final String prefix;
 
   CoverType(String prefix) {
     this.prefix = prefix;

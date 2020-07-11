@@ -11,14 +11,12 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class MpdConfiguration {
 
-  @Value("${mpd.server}")
-  private String mpdServer;
-
-  @Value("${mpd.port}")
-  private int mpdPort;
-
   @Value("${mpd.password:}")
   private String mpdPassword;
+  @Value("${mpd.port}")
+  private int mpdPort;
+  @Value("${mpd.server}")
+  private String mpdServer;
 
   /**
    * Builds an {@link Mpd} instance.

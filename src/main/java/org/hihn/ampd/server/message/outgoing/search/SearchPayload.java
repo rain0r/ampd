@@ -8,11 +8,9 @@ import org.bff.javampd.song.MpdSong;
  */
 public class SearchPayload {
 
-  List<MpdSong> searchResults = null;
-
-  int searchResultCount = 0;
-
   String query = null;
+  int searchResultCount = 0;
+  List<MpdSong> searchResults = null;
 
   public SearchPayload() {
   }
@@ -23,12 +21,12 @@ public class SearchPayload {
     this.query = query;
   }
 
-  public List<MpdSong> getSearchResults() {
-    return searchResults;
+  public String getQuery() {
+    return query;
   }
 
-  public void setSearchResults(List<MpdSong> searchResults) {
-    this.searchResults = searchResults;
+  public void setQuery(String query) {
+    this.query = query;
   }
 
   public int getSearchResultCount() {
@@ -39,11 +37,11 @@ public class SearchPayload {
     this.searchResultCount = searchResultCount;
   }
 
-  public String getQuery() {
-    return query;
+  public List<MpdSong> getSearchResults() {
+    return searchResults;
   }
 
-  public void setQuery(String query) {
-    this.query = query;
+  public void setSearchResults(List<MpdSong> searchResults) {
+    this.searchResults = searchResults;
   }
 }

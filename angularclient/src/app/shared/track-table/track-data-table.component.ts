@@ -37,11 +37,6 @@ export class TrackDataTableComponent implements OnChanges {
         this.trackTableData.dataSource.sort = this.sort;
       }
     }
-
-    // if (this.trackTableData.sortable) {
-    //   console.log("Setting sort");
-    //   this.trackTableData.dataSource.sort = this.sort;
-    // }
   }
 
   /**

@@ -11,16 +11,11 @@ import org.slf4j.LoggerFactory;
 public class ControlPanel {
 
   private static final Logger LOG = LoggerFactory.getLogger(ControlPanel.class);
-
-  boolean random = false;
-
   boolean consume = false;
-
-  boolean single = false;
-
   boolean crossfade = false;
-
+  boolean random = false;
   boolean repeat = false;
+  boolean single = false;
 
   public ControlPanel(ServerStatus serverStatus) {
     Collection<String> statusList = serverStatus.getStatus();
@@ -50,12 +45,16 @@ public class ControlPanel {
     }
   }
 
-  public boolean isRandom() {
-    return random;
-  }
-
-  public void setRandom(boolean random) {
-    this.random = random;
+  /**
+   * Returns if xfade is active.
+   *
+   * @return 1 for active, 0 for inactive.
+   */
+  public int getXFade() {
+    if (isCrossfade()) {
+      return 1;
+    }
+    return 0;
   }
 
   public boolean isConsume() {
@@ -64,14 +63,6 @@ public class ControlPanel {
 
   public void setConsume(boolean consume) {
     this.consume = consume;
-  }
-
-  public boolean isSingle() {
-    return single;
-  }
-
-  public void setSingle(boolean single) {
-    this.single = single;
   }
 
   public boolean isCrossfade() {
@@ -86,6 +77,14 @@ public class ControlPanel {
     setCrossfade(1 == xfade);
   }
 
+  public boolean isRandom() {
+    return random;
+  }
+
+  public void setRandom(boolean random) {
+    this.random = random;
+  }
+
   public boolean isRepeat() {
     return repeat;
   }
@@ -94,16 +93,12 @@ public class ControlPanel {
     this.repeat = repeat;
   }
 
-  /**
-   * Returns if xfade is active.
-   *
-   * @return 1 for active, 0 for inactive.
-   */
-  public int getXFade() {
-    if (this.isCrossfade()) {
-      return 1;
-    }
-    return 0;
+  public boolean isSingle() {
+    return single;
+  }
+
+  public void setSingle(boolean single) {
+    this.single = single;
   }
 
 

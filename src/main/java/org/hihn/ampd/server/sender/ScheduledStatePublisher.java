@@ -17,15 +17,13 @@ import org.springframework.stereotype.Component;
 public class ScheduledStatePublisher {
 
   private static final String PUBLISH_URL = "/topic/state";
-
+  private final Mpd mpd;
   @Autowired
   private SimpMessagingTemplate template;
 
-  private final Mpd mpd;
-
   @Autowired
   public ScheduledStatePublisher(MpdConfiguration mpdConfiguration) {
-    this.mpd = mpdConfiguration.mpd();
+    mpd = mpdConfiguration.mpd();
   }
 
   /**

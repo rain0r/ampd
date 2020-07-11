@@ -41,10 +41,28 @@ public class MbCoverService {
   public Optional<byte[]> getMbCover(MpdSong track) {
     Optional<byte[]> ret = Optional.empty();
     if (settingsBean.isMbCoverService()) {
-      if (StringUtils.isEmpty(track.getAlbumName())) {
-        ret = searchSingletonMusicBrainzCover(track);
-      } else {
-        ret = searchAlbumMusicBrainzCover(track);
+      return ret;
+    }
+    if (StringUtils.isEmpty(track.getAlbumName())) {
+      ret = searchSingletonMusicBrainzCover(track);
+    } else {
+      ret = searchAlbumMusicBrainzCover(track);
+    }
+    return ret;
+  }
+
+  private Optional<byte[]> downloadCover(String uuid) {
+    Optional<byte[]> ret = Optional.empty();
+    CoverArtArchiveClient client = new DefaultCoverArtArchiveClient();
+    UUID mbId = UUID.fromString(uuid);
+    CoverArt coverArt = client.getByMbid(mbId);
+    if (coverArt != null) {
+      InputStream inputStream;
+      try {
+        inputStream = coverArt.getFrontImage().getImage();
+        ret = Optional.of(IOUtils.toByteArray(inputStream));
+      } catch (Exception e) {
+        LOG.error(e.getMessage(), e);
       }
     }
     return ret;
@@ -111,22 +129,5 @@ public class MbCoverService {
       }
     }
     return cover;
-  }
-
-  private Optional<byte[]> downloadCover(String uuid) {
-    Optional<byte[]> ret = Optional.empty();
-    CoverArtArchiveClient client = new DefaultCoverArtArchiveClient();
-    UUID mbId = UUID.fromString(uuid);
-    CoverArt coverArt = client.getByMbid(mbId);
-    if (coverArt != null) {
-      InputStream inputStream;
-      try {
-        inputStream = coverArt.getFrontImage().getImage();
-        ret = Optional.of(IOUtils.toByteArray(inputStream));
-      } catch (Exception e) {
-        LOG.error(e.getMessage(), e);
-      }
-    }
-    return ret;
   }
 }

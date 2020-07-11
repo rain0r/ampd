@@ -7,7 +7,7 @@ import org.hihn.ampd.server.message.AmpdMessage.MessageType;
  */
 public interface Message {
 
-  MessageType getType();
-
   Object getPayload();
+
+  MessageType getType();
 }

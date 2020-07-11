@@ -24,10 +24,8 @@ public class CoverArtFetcherService {
   private final CoverCacheService coverCacheService;
 
   private final MbCoverService mbCoverService;
-
-  private final SettingsBean settingsBean;
-
   private final Mpd mpd;
+  private final SettingsBean settingsBean;
 
   public CoverArtFetcherService(
       CoverCacheService coverCacheService,
@@ -36,7 +34,25 @@ public class CoverArtFetcherService {
     this.coverCacheService = coverCacheService;
     this.mbCoverService = mbCoverService;
     this.settingsBean = settingsBean;
-    this.mpd = mpdConfiguration.mpd();
+    mpd = mpdConfiguration.mpd();
+  }
+
+  /**
+   * See if path leads to an album directory and try to load the cover.
+   *
+   * @param trackFilePath The file path of a track.
+   * @return The bytes of the found cover.
+   */
+  public Optional<byte[]> findAlbumCover(Optional<String> trackFilePath) {
+    if (trackFilePath.isPresent()) {
+      Path path = Paths.get(settingsBean.getMusicDirectory(), trackFilePath.get());
+      List<Path> covers = coverCacheService.scanDir(path);
+      if (covers.size() > 0) {
+        Path coverPath = covers.get(0);
+        return coverCacheService.loadFile(coverPath);
+      }
+    }
+    return Optional.empty();
   }
 
   /**
@@ -67,27 +83,10 @@ public class CoverArtFetcherService {
       cover = mbCoverService.getMbCover(track);
       // Save the cover in the cache
       if (cover.isPresent()) {
-        coverCacheService.saveCover(coverType, track.getArtistName(), track.getTitle(), cover.get());
+        coverCacheService
+            .saveCover(coverType, track.getArtistName(), track.getTitle(), cover.get());
       }
     }
     return cover;
-  }
-
-  /**
-   * See if path leads to an album directory and try to load the cover.
-   *
-   * @param trackFilePath The file path of a track.
-   * @return The bytes of the found cover.
-   */
-  public Optional<byte[]> findAlbumCover(Optional<String> trackFilePath) {
-    if (trackFilePath.isPresent()) {
-      Path path = Paths.get(settingsBean.getMusicDirectory(), trackFilePath.get());
-      List<Path> covers = coverCacheService.scanDir(path);
-      if (covers.size() > 0) {
-        Path coverPath = covers.get(0);
-        return coverCacheService.loadFile(coverPath);
-      }
-    }
-    return Optional.empty();
   }
 }

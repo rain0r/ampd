@@ -23,20 +23,118 @@ import org.springframework.stereotype.Service;
 @Service
 public class CoverCacheService {
 
-  private static final Logger LOG = LoggerFactory.getLogger(CoverCacheService.class);
-
-  private final SettingsBean settingsBean;
-
-  private final Optional<Path> chacheDir;
-
   /**
    * Name of the dir that holds all covers.
    */
   private static final String CACHE_DIR_NAME = "covers";
+  private static final Logger LOG = LoggerFactory.getLogger(CoverCacheService.class);
+  private final Optional<Path> chacheDir;
+  private final SettingsBean settingsBean;
 
   public CoverCacheService(SettingsBean settingsBean) {
     this.settingsBean = settingsBean;
-    this.chacheDir = this.buildCacheDir();
+    chacheDir = buildCacheDir();
+  }
+
+  /**
+   * Return who many disk space the cached cover use.
+   *
+   * @return The size of the cover cache dir in bytes.
+   */
+  public Long getCoverDiskUsage() {
+    long size = 0;
+    try {
+      if (chacheDir.isPresent()) {
+        size = Files.walk(chacheDir.get())
+            .filter(p -> p.toFile().isFile())
+            .mapToLong(p -> p.toFile().length())
+            .sum();
+      }
+    } catch (IOException e) {
+      LOG.warn("Could not get the size of the cover cache dir: {}", e.getMessage());
+    }
+    return size;
+  }
+
+  /**
+   * Loads a cover from the local cache.
+   *
+   * @param coverType    The type of the cover.
+   * @param artist       Artist to which the cover is associated.
+   * @param titleOrAlbum Are we looking for the cover of an album or single track.
+   * @return An optional with the bytes of the found cover in a successful case.
+   */
+  public Optional<byte[]> loadCover(CoverType coverType, String artist, String titleOrAlbum) {
+    if (!useCache()) {
+      LOG.debug("Cache-use is turned off");
+      return Optional.empty();
+    }
+
+    String fileName = buildFileName(coverType, artist, titleOrAlbum);
+    Path fullPath = Paths.get(chacheDir.get().toString(), fileName)
+        .toAbsolutePath();
+    try {
+      return loadFile(fullPath);
+    } catch (Exception e) {
+      return Optional.empty();
+    }
+  }
+
+  /**
+   * Reads a file from disk.
+   *
+   * @param path The path of a file.
+   * @return The bytes of the file.
+   */
+  public Optional<byte[]> loadFile(Path path) {
+    try {
+      return Optional.of(Files.readAllBytes(path));
+    } catch (IOException e) {
+      return Optional.empty();
+    }
+  }
+
+  /**
+   * Reads a track from disk.
+   *
+   * @param trackFilePath The path of the file to read.
+   * @return An optional with the bytes of the found cover in a successful case.
+   */
+  public Optional<byte[]> loadFileAsResource(String trackFilePath) {
+    Optional<Path> coverFile = findCoverFileName(trackFilePath);
+    Optional<byte[]> ret = Optional.empty();
+    if (coverFile.isPresent()) {
+      ret = loadFile(coverFile.get());
+    }
+    return ret;
+  }
+
+  /**
+   * Saves a given cover to the local cache.
+   *
+   * @param coverType    The type of the cover.
+   * @param artist       Artist to which the cover is associated.
+   * @param titleOrAlbum Is this the cover of an album or a single track.
+   * @param file         The cover itself.
+   */
+  public void saveCover(CoverType coverType, String artist, String titleOrAlbum, byte[] file) {
+    if (!useCache()) {
+      return;
+    }
+
+    try {
+      String fileName = buildFileName(coverType, artist, titleOrAlbum);
+      Path fullPath = Paths.get(chacheDir.get().toString(), fileName).toAbsolutePath();
+
+      // Don't write the file if it already exists
+      if (!fullPath.toFile().exists()) {
+        LOG.debug("Saving cover. coverType: {}, artist: {}, title: {}", coverType, artist,
+            titleOrAlbum);
+        Files.write(fullPath, file);
+      }
+    } catch (IOException e) {
+      LOG.warn("Failed to save cover to local cache: {}", e.getMessage());
+    }
   }
 
   /**
@@ -58,85 +156,32 @@ public class CoverCacheService {
     return covers;
   }
 
-  /**
-   * Loads a cover from the local cache.
-   *
-   * @param coverType    The type of the cover.
-   * @param artist       Artist to which the cover is associated.
-   * @param titleOrAlbum Are we looking for the cover of an album or single track.
-   * @return An optional with the bytes of the found cover in a successful case.
-   */
-  public Optional<byte[]> loadCover(CoverType coverType, String artist, String titleOrAlbum) {
-    if (!this.useCache()) {
-      LOG.debug("Cache-use is turned off");
+  private Optional<Path> buildCacheDir() {
+    if (!settingsBean.isLocalCoverCache()) {
       return Optional.empty();
     }
 
-    String fileName = buildFileName(coverType, artist, titleOrAlbum);
-    Path fullPath = Paths.get(this.chacheDir.get().toString(), fileName)
-        .toAbsolutePath();
-    try {
-      return loadFile(fullPath);
-    } catch (Exception e) {
+    Path cacheDirPath = Paths
+        .get(System.getProperty("user.home"), ".local", "share", "ampd", CACHE_DIR_NAME);
+
+    // create ampd home
+    if (!Files.exists(cacheDirPath) && !new File(cacheDirPath.toString()).mkdirs()) {
+      LOG.warn(
+          "Could not create ampd home-dir: {}. This is not fatal, "
+              + "it just means, we can't save or load covers to the local cache.",
+          cacheDirPath);
       return Optional.empty();
     }
+
+    return Optional.of(cacheDirPath);
   }
 
-  /**
-   * Saves a given cover to the local cache.
-   *
-   * @param coverType    The type of the cover.
-   * @param artist       Artist to which the cover is associated.
-   * @param titleOrAlbum Is this the cover of an album or a single track.
-   * @param file         The cover itself.
-   */
-  public void saveCover(CoverType coverType, String artist, String titleOrAlbum, byte[] file) {
-    if (!this.useCache()) {
-      return;
-    }
-
-    try {
-      String fileName = buildFileName(coverType, artist, titleOrAlbum);
-      Path fullPath = Paths.get(this.chacheDir.get().toString(), fileName).toAbsolutePath();
-
-      // Don't write the file if it already exists
-      if (!fullPath.toFile().exists()) {
-        LOG.debug("Saving cover. coverType: {}, artist: {}, title: {}", coverType, artist,
-            titleOrAlbum);
-        Files.write(fullPath, file);
-      }
-    } catch (IOException e) {
-      LOG.warn("Failed to save cover to local cache: {}", e.getMessage());
-    }
-  }
-
-  /**
-   * Reads a track from disk.
-   *
-   * @param trackFilePath The path of the file to read.
-   * @return An optional with the bytes of the found cover in a successful case.
-   */
-  public Optional<byte[]> loadFileAsResource(String trackFilePath) {
-    Optional<Path> coverFile = findCoverFileName(trackFilePath);
-    Optional<byte[]> ret = Optional.empty();
-    if (coverFile.isPresent()) {
-      ret = loadFile(coverFile.get());
-    }
-    return ret;
-  }
-
-  /**
-   * Reads a file from disk.
-   *
-   * @param path The path of a file.
-   * @return The bytes of the file.
-   */
-  public Optional<byte[]> loadFile(Path path) {
-    try {
-      return Optional.of(Files.readAllBytes(path));
-    } catch (IOException e) {
-      return Optional.empty();
-    }
+  private String buildFileName(CoverType coverType, String artist, String titleOrAlbum) {
+    return coverType.getPrefix()
+        + stripAccents(artist)
+        + "_"
+        + stripAccents(titleOrAlbum)
+        + ".jpg";
   }
 
   @edu.umd.cs.findbugs.annotations.SuppressFBWarnings(
@@ -168,14 +213,6 @@ public class CoverCacheService {
     return ret;
   }
 
-  private String buildFileName(CoverType coverType, String artist, String titleOrAlbum) {
-    return coverType.getPrefix()
-        + stripAccents(artist)
-        + "_"
-        + stripAccents(titleOrAlbum)
-        + ".jpg";
-  }
-
   /**
    * Strips all unpleasant characters from a string.
    *
@@ -192,28 +229,8 @@ public class CoverCacheService {
     return pattern.matcher(decomposed).replaceAll("");
   }
 
-  private Optional<Path> buildCacheDir() {
-    if (!this.settingsBean.isLocalCoverCache()) {
-      return Optional.empty();
-    }
-
-    Path cacheDirPath = Paths
-        .get(System.getProperty("user.home"), ".local", "share", "ampd", CACHE_DIR_NAME);
-
-    // create ampd home
-    if (!Files.exists(cacheDirPath) && !new File(cacheDirPath.toString()).mkdirs()) {
-      LOG.warn(
-          "Could not create ampd home-dir: {}. This is not fatal, "
-              + "it just means, we can't save or load covers to the local cache.",
-          cacheDirPath);
-      return Optional.empty();
-    }
-
-    return Optional.of(cacheDirPath);
-  }
-
   private boolean useCache() {
-    return this.settingsBean.isLocalCoverCache() && this.chacheDir.isPresent();
+    return settingsBean.isLocalCoverCache() && chacheDir.isPresent();
   }
 
 }

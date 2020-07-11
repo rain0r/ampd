@@ -18,6 +18,11 @@ public class SearchMessage extends AmpdMessage {
     this.payload = payload;
   }
 
+  @Override
+  public Object getPayload() {
+    return payload;
+  }
+
   public void setPayload(SearchPayload payload) {
     this.payload = payload;
   }
@@ -25,10 +30,5 @@ public class SearchMessage extends AmpdMessage {
   @Override
   public MessageType getType() {
     return type;
-  }
-
-  @Override
-  public Object getPayload() {
-    return payload;
   }
 }

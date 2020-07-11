@@ -10,18 +10,12 @@ import org.springframework.stereotype.Component;
 public class SettingsBean {
 
   private static final Logger LOG = LoggerFactory.getLogger(SettingsBean.class);
-
-  private final String musicDirectory;
-
-  private final String mpdServer;
-
-  private final int mpdPort;
-
-  private final String mpdPassword;
-
   private final boolean localCoverCache;
-
   private final boolean mbCoverService;
+  private final String mpdPassword;
+  private final int mpdPort;
+  private final String mpdServer;
+  private final String musicDirectory;
 
   @Autowired
   public SettingsBean(@Value("${mpd.server:localhost}") String mpdServer,
@@ -45,20 +39,25 @@ public class SettingsBean {
     LOG.warn("mbCoverService: " + mbCoverService);
   }
 
-  public String getMusicDirectory() {
-    return musicDirectory;
+  public Settings getAmpdSettings() {
+    return new Settings(musicDirectory, mpdServer, mpdPort, mpdPassword, localCoverCache,
+        mbCoverService);
   }
 
-  public String getMpdServer() {
-    return mpdServer;
+  public String getMpdPassword() {
+    return mpdPassword;
   }
 
   public int getMpdPort() {
     return mpdPort;
   }
 
-  public String getMpdPassword() {
-    return mpdPassword;
+  public String getMpdServer() {
+    return mpdServer;
+  }
+
+  public String getMusicDirectory() {
+    return musicDirectory;
   }
 
   public boolean isLocalCoverCache() {
@@ -67,10 +66,5 @@ public class SettingsBean {
 
   public boolean isMbCoverService() {
     return mbCoverService;
-  }
-
-  public Settings getAmpdSettings() {
-    return new Settings(musicDirectory, mpdServer, mpdPort, mpdPassword, localCoverCache,
-        mbCoverService);
   }
 }

@@ -45,24 +45,12 @@ public class MpdService {
   private final Mpd mpd;
 
   public MpdService(MpdConfiguration mpdConfiguration) {
-    this.mpd = mpdConfiguration.mpd();
-    this.buildCommandMap();
+    mpd = mpdConfiguration.mpd();
+    buildCommandMap();
   }
 
   public Mpd getMpd() {
     return mpd;
-  }
-
-  /**
-   * Processes an incoming websocket message according to the commands map and returns the
-   * response if there is one.
-   *
-   * @param message The incoming websocket message.
-   * @return A websocket message that holds the response if there is one.
-   */
-  public Optional<Message> process(Message message) {
-    LOG.debug("Processiong message: {}", message);
-    return commands.get(message.getType()).run(message.getPayload());
   }
 
   /**
@@ -83,6 +71,18 @@ public class MpdService {
       LOG.warn("Could not get info about playlist: {}", name);
     }
     return ret;
+  }
+
+  /**
+   * Processes an incoming websocket message according to the commands map and returns the response
+   * if there is one.
+   *
+   * @param message The incoming websocket message.
+   * @return A websocket message that holds the response if there is one.
+   */
+  public Optional<Message> process(Message message) {
+    LOG.debug("Processiong message: {}", message);
+    return commands.get(message.getType()).run(message.getPayload());
   }
 
   private Optional<Message> addDir(Object inputPayload) {

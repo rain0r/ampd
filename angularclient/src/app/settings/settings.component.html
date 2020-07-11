@@ -90,6 +90,11 @@
         >
           <mat-hint align="end"
           >Get covers from MusicBrainz.
+            <span *ngIf="coverCacheUsage | async as usage">
+              <span *ngIf="usage > 0">
+              Currently {{ usage | filesize }} used.
+                </span>
+            </span>
           </mat-hint
           >
         </mat-slide-toggle>

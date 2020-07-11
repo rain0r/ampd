@@ -78,20 +78,18 @@ export class MpdService {
 
   private buildQueueTrack(payload: StateMsgPayload, songChanged: boolean) {
     const queueTrack = new QueueTrack(payload.currentSong);
-    queueTrack.coverUrl = this.buildCoverUrl(payload.currentSong.title);
+    queueTrack.coverUrl = this.buildCoverUrl(payload.currentSong.file);
     queueTrack.elapsed = payload.serverStatus.elapsedTime;
     queueTrack.progress = payload.serverStatus.elapsedTime;
     queueTrack.changed = songChanged;
     return queueTrack;
   }
 
-  private buildCoverUrl(title: string) {
+  private buildCoverUrl(file: string) {
     const backendAddr = ConnConfUtil.getBackendAddr();
-    const currentCoverUrl = "current-cover";
+    const currentCoverUrl = "find-cover";
     // Add a query param to trigger an image change in the browser
-    return `${backendAddr}/${currentCoverUrl}?title=${encodeURIComponent(
-      title
-    )}`;
+    return `${backendAddr}/${currentCoverUrl}?path=${encodeURIComponent(file)}`;
   }
 
   private init() {

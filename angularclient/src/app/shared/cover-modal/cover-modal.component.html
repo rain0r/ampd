@@ -1,3 +1,8 @@
+<div mat-dialog-title fxLayout="row nowrap" fxLayoutGap="1rem">
+  {{ data.artistName }}
+  <span *ngIf="data.albumName"> ‎– {{ data.albumName }}</span>
+  ‎– {{ data.title }}
+</div>
 <div mat-dialog-content>
   <img src="{{ data.coverUrl }}" alt="Cover" />
 </div>

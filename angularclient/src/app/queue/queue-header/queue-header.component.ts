@@ -8,7 +8,6 @@ import { MpdService } from "../../shared/services/mpd.service";
 import { catchError } from "rxjs/operators";
 import { CoverModalComponent } from "../../shared/cover-modal/cover-modal.component";
 import { SettingsService } from "../../shared/services/settings.service";
-import { ModalData } from "../../shared/cover-modal/modal-data";
 
 @Component({
   selector: "app-queue-header",
@@ -42,10 +41,7 @@ export class QueueHeaderComponent implements OnInit {
   openCoverModal(): void {
     this.dialog.open(CoverModalComponent, {
       autoFocus: false,
-      data: {
-        file: this.currentSong.file,
-        coverUrl: this.currentSong.coverUrl,
-      } as ModalData,
+      data: this.currentSong,
     });
   }
 

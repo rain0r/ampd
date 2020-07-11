@@ -1,6 +1,6 @@
 import { Component, Inject } from "@angular/core";
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
-import { ModalData } from "./modal-data";
+import { QueueTrack } from "../models/queue-track";
 
 @Component({
   selector: "app-cover-modal",
@@ -10,7 +10,7 @@ import { ModalData } from "./modal-data";
 export class CoverModalComponent {
   constructor(
     public dialogRef: MatDialogRef<CoverModalComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: ModalData
+    @Inject(MAT_DIALOG_DATA) public data: QueueTrack
   ) {}
 
   onNoClick(): void {

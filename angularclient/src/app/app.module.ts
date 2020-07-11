@@ -60,6 +60,7 @@ import { MatPaginatorModule } from "@angular/material/paginator";
 import { SavePlaylistModalComponent } from "./queue/save-playlist-modal/save-playlist-modal.component";
 import { PlaylistInfoModalComponent } from "./browse/playlists/playlist-info-modal/playlist-info-modal.component";
 import { TrackDataTableComponent } from "./shared/track-table/track-data-table.component";
+import { NgxFilesizeModule } from "ngx-filesize";
 
 @NgModule({
   declarations: [
@@ -99,6 +100,7 @@ import { TrackDataTableComponent } from "./shared/track-table/track-data-table.c
     FormsModule,
     HttpClientModule,
     ReactiveFormsModule,
+    NgxFilesizeModule,
     // Material
     MatIconModule,
     MatSlideToggleModule,

@@ -60,10 +60,11 @@ public class CoverArtFetcherService {
 
   /**
    * Looks in a specific dirctory for a cover.
+   *
    * @param dir The directory that contains a cover.
    * @return The content of the found cover.
    */
-  public Optional<byte[]> findAlbumCoverForDir(final Optional<String> dir){
+  public Optional<byte[]> findAlbumCoverForDir(final Optional<String> dir) {
     if (dir.isPresent()) {
       Path path = Paths.get(settingsBean.getMusicDirectory(), dir.get());
       List<Path> covers = coverCacheService.scanDir(path);

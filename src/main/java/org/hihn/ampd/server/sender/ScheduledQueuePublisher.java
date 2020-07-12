@@ -17,12 +17,14 @@ import org.springframework.stereotype.Component;
 public class ScheduledQueuePublisher {
 
   private static final String PUBLISH_URL = "/topic/queue";
+
   private final Mpd mpd;
+
   @Autowired
   private SimpMessagingTemplate template;
 
   @Autowired
-  public ScheduledQueuePublisher(MpdConfiguration mpdConfiguration) {
+  public ScheduledQueuePublisher(final MpdConfiguration mpdConfiguration) {
     mpd = mpdConfiguration.mpd();
   }
 
@@ -36,8 +38,8 @@ public class ScheduledQueuePublisher {
     }
 
     mpd.getServerStatus().setExpiryInterval(1L); // Tells javampd to get fresh data every second
-    QueuePayload queuePayload = new QueuePayload(mpd.getPlaylist().getSongList());
-    QueueMessage queue = new QueueMessage(queuePayload);
+    final QueuePayload queuePayload = new QueuePayload(mpd.getPlaylist().getSongList());
+    final QueueMessage queue = new QueueMessage(queuePayload);
     template.convertAndSend(PUBLISH_URL, queue);
   }
 }

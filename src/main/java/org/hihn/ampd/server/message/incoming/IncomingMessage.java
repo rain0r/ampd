@@ -1,5 +1,6 @@
 package org.hihn.ampd.server.message.incoming;
 
+import java.util.Map;
 import org.hihn.ampd.server.message.AmpdMessage;
 
 /**
@@ -7,16 +8,16 @@ import org.hihn.ampd.server.message.AmpdMessage;
  */
 public class IncomingMessage extends AmpdMessage {
 
-  private Object payload = null;
+  private Map<String, Object> payload;
 
-  private MessageType type = null;
+  private MessageType type;
 
   @Override
-  public Object getPayload() {
+  public Map<String, Object> getPayload() {
     return payload;
   }
 
-  public void setPayload(Object payload) {
+  public void setPayload(Map<String, Object> payload) {
     this.payload = payload;
   }
 
@@ -25,7 +26,7 @@ public class IncomingMessage extends AmpdMessage {
     return type;
   }
 
-  public void setType(MessageType type) {
+  public void setType(final MessageType type) {
     this.type = type;
   }
 

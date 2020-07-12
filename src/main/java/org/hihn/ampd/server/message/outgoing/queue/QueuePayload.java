@@ -7,9 +7,10 @@ import org.bff.javampd.song.MpdSong;
 public class QueuePayload {
 
   private final int checkSum;
+
   private final List<MpdSong> tracks;
 
-  public QueuePayload(List<MpdSong> tracks) {
+  public QueuePayload(final List<MpdSong> tracks) {
     this.tracks = tracks;
     checkSum = tracks.hashCode();
   }

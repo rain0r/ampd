@@ -19,12 +19,12 @@ public class PlaylistController {
 
   private final MpdService mpdService;
 
-  public PlaylistController(MpdService mpdService) {
+  public PlaylistController(final MpdService mpdService) {
     this.mpdService = mpdService;
   }
 
   @RequestMapping(value = "/playlist/{name}", method = GET)
-  public PlaylistInfo getPlaylist(@PathVariable("name") String name) {
+  public PlaylistInfo getPlaylist(@PathVariable("name") final String name) {
     return mpdService.getPlaylistInfo(name).orElseThrow(() -> new ResponseStatusException(
         HttpStatus.NOT_FOUND));
   }

@@ -8,7 +8,7 @@ import org.bff.javampd.file.MpdFile;
  */
 public class Directory extends MpdFile {
 
-  public Directory(String path) {
+  public Directory(final String path) {
     super(path);
   }
 }

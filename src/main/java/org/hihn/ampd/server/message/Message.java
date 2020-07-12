@@ -1,5 +1,6 @@
 package org.hihn.ampd.server.message;
 
+import java.util.Map;
 import org.hihn.ampd.server.message.AmpdMessage.MessageType;
 
 /**
@@ -7,7 +8,7 @@ import org.hihn.ampd.server.message.AmpdMessage.MessageType;
  */
 public interface Message {
 
-  Object getPayload();
+  Map<String, Object> getPayload();
 
   MessageType getType();
 }

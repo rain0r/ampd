@@ -1,25 +1,28 @@
 package org.hihn.ampd.server.message.outgoing.browse;
 
+import java.util.Objects;
+
 /**
  * Represents the structure of the payload payload returned to the frontend.
  */
 public class Playlist implements Comparable<Playlist> {
 
-  private int count = 0;
+  private int count;
+
   private String name;
 
-  public Playlist(String name, int count) {
+  public Playlist(final String name, final int count) {
     this.name = name;
     this.count = count;
   }
 
   @Override
-  public int compareTo(Playlist o) {
+  public int compareTo(final Playlist o) {
     return name.compareTo(o.getName());
   }
 
   @Override
-  public boolean equals(Object o) {
+  public boolean equals(final Object o) {
     if (this == o) {
       return true;
     }
@@ -27,19 +30,19 @@ public class Playlist implements Comparable<Playlist> {
       return false;
     }
 
-    Playlist playlist = (Playlist) o;
+    final Playlist playlist = (Playlist) o;
 
     if (count != playlist.count) {
       return false;
     }
-    return name != null ? name.equals(playlist.name) : playlist.name == null;
+    return Objects.equals(name, playlist.name);
   }
 
   public int getCount() {
     return count;
   }
 
-  public void setCount(int count) {
+  public void setCount(final int count) {
     this.count = count;
   }
 
@@ -47,7 +50,7 @@ public class Playlist implements Comparable<Playlist> {
     return name;
   }
 
-  public void setName(String name) {
+  public void setName(final String name) {
     this.name = name;
   }
 

@@ -6,7 +6,7 @@ public class PlaylistSavedPayload {
 
   private final boolean success;
 
-  public PlaylistSavedPayload(String playlistName, boolean success) {
+  public PlaylistSavedPayload(final String playlistName, final boolean success) {
     this.playlistName = playlistName;
     this.success = success;
   }

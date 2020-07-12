@@ -6,14 +6,19 @@ package org.hihn.ampd.server.model;
 public class Settings {
 
   private final boolean localCoverCache;
+
   private final boolean mbCoverService;
+
   private final String mpdPassword;
+
   private final int mpdPort;
+
   private final String mpdServer;
+
   private final String musicDirectory;
 
-  public Settings(String musicDirectory, String mpdServer, int mpdPort,
-      String mpdPassword, boolean localCoverCache, boolean mbCoverService) {
+  public Settings(final String musicDirectory, final String mpdServer, final int mpdPort,
+      final String mpdPassword, final boolean localCoverCache, final boolean mbCoverService) {
     this.musicDirectory = musicDirectory;
     this.mpdServer = mpdServer;
     this.mpdPort = mpdPort;

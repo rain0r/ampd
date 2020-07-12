@@ -17,7 +17,7 @@ public class ServerApplication {
   @Value("${server.port}")
   private int port;
 
-  public static void main(String[] args) {
+  public static void main(final String[] args) {
     SpringApplication.run(ServerApplication.class, args);
   }
 

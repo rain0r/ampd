@@ -1,5 +1,7 @@
 package org.hihn.ampd.server.message.outgoing.browse;
 
+import java.util.HashMap;
+import java.util.Map;
 import org.hihn.ampd.server.message.AmpdMessage;
 
 /**
@@ -9,15 +11,20 @@ import org.hihn.ampd.server.message.AmpdMessage;
 public class BrowseMessage extends AmpdMessage {
 
   private final BrowsePayload payload;
+
   private final MessageType type = MessageType.BROWSE;
 
-  public BrowseMessage(BrowsePayload browsePayload) {
+  public BrowseMessage(final BrowsePayload browsePayload) {
     payload = browsePayload;
   }
 
   @Override
-  public BrowsePayload getPayload() {
-    return payload;
+  public Map<String, Object> getPayload() {
+    Map<String, Object> ret = new HashMap<>();
+    ret.put("directories", payload.getDirectories());
+    ret.put("playlists", payload.getPlaylists());
+    ret.put("tracks", payload.getTracks());
+    return ret;
   }
 
   @Override

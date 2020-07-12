@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
@@ -32,15 +33,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 @Service
-public class MpdService {
+public class MpdService implements WebsocketService {
 
   private static final Logger LOG = LoggerFactory.getLogger(MpdService.class);
 
   /**
    * Maps all incoming websocket message types to a method.
    */
-  private final EnumMap<MessageType, AmpdCommandRunner> commands =
-      new EnumMap<>(MessageType.class);
+  private final EnumMap<MessageType, AmpdCommandRunner> commands = new EnumMap<>(MessageType.class);
 
   private final Mpd mpd;
 
@@ -85,82 +85,28 @@ public class MpdService {
     return commands.get(message.getType()).run(message.getPayload());
   }
 
-  private Optional<Message> addDir(Object inputPayload) {
-    HashMap<String, String> payload = getStringStringHashMap(
-        (HashMap<String, String>) inputPayload);
-    String path = payload.get("dir");
-    MpdFile mpdFile = new MpdFile(path);
-    mpd.getPlaylist().addFileOrDirectory(mpdFile);
-    return Optional.empty();
-  }
-
-  private Optional<Message> addPlayTrack(Object inputPayload) {
-    addTrack(inputPayload);
-    playTrack(inputPayload);
-    return Optional.empty();
-  }
-
-  private Optional<Message> addPlaylist(Object inputPayload) {
-    HashMap<String, String> payload = (HashMap<String, String>) inputPayload;
-    String playlist = payload.get("playlist");
-    ArrayList<MpdSong> mpdSongs = new ArrayList<>();
-    Collection<MpdSong> mpdSongCollection =
-        mpd.getMusicDatabase().getPlaylistDatabase().listPlaylistSongs(playlist);
-    mpdSongs.addAll(mpdSongCollection);
-    mpd.getPlaylist().addSongs(mpdSongs);
-    return Optional.empty();
-  }
-
-  private Optional<Message> addTrack(Object inputPayload) {
-    HashMap<String, String> payload = (HashMap<String, String>) inputPayload;
-    String path = payload.get("path");
-    MpdFile mpdFile = new MpdFile(path);
-    mpdFile.setDirectory(false);
-    mpd.getPlaylist().addFileOrDirectory(mpdFile);
-    return Optional.empty();
+  /**
+   * Maps the incoming websocket message from <code>Map&lt;String, Object&gt;</code> to
+   * <code>Map&lt;String, String&gt;</code>.
+   *
+   * @param map A map which values should be mapped to String.
+   * @return A map with typed values.
+   */
+  private Map<String, String> inputToStrMap(Map<String, Object> map) {
+    return map.entrySet().stream()
+        .collect(Collectors.toMap(Map.Entry::getKey, e -> (String) e.getValue()));
   }
 
   /**
-   * Sets the state of the control panel.
+   * Maps the incoming websocket message from <code>Map&lt;String, Object&gt;</code> to
+   * <code>Map&lt;String, Integer&gt;</code>.
    *
-   * @param incomingPayload The new control panel state.
+   * @param map A map which values should be mapped to Boolean.
+   * @return A map with typed values.
    */
-  private void applyControlPanelChanges(Object incomingPayload) {
-    HashMap<String, HashMap<String, Boolean>> payload =
-        (HashMap<String, HashMap<String, Boolean>>) incomingPayload;
-    HashMap<String, Boolean> controlPanel = payload.get("controlPanel");
-
-    boolean random = controlPanel.get("random");
-    boolean repeat = controlPanel.get("repeat");
-    int xfade = controlPanel.get("crossfade") ? 1 : 0;
-    boolean consume = controlPanel.get("consume");
-    boolean single = controlPanel.get("single");
-
-    mpd.getPlayer().setRandom(random);
-    mpd.getPlayer().setRepeat(repeat);
-    mpd.getPlayer().setXFade(xfade);
-    mpd.getPlayer().setConsume(consume);
-    mpd.getPlayer().setSingle(single);
-  }
-
-  private Optional<Message> browse(Object inputPayload) {
-    /* Map and extract payload */
-    HashMap<String, String> payload = (HashMap<String, String>) inputPayload;
-    String path = payload.get("path");
-
-    /* Remove leading slashes */
-    path = path.replaceAll("^/+", "");
-
-    /* Outgoing payload */
-    BrowsePayload browsePayload = browseDir(path);
-
-    if (path.trim().length() < 2) {
-      /* '/' or '' */
-      browsePayload.addPlaylists(getPlaylists());
-    }
-
-    BrowseMessage browseMessage = new BrowseMessage(browsePayload);
-    return Optional.of(browseMessage);
+  private Map<String, Integer> inputToIntMap(Map<String, Object> map) {
+    return map.entrySet().stream()
+        .collect(Collectors.toMap(Map.Entry::getKey, e -> (Integer) e.getValue()));
   }
 
   private BrowsePayload browseDir(String path) {
@@ -212,16 +158,10 @@ public class MpdService {
     commands.put(MessageType.TOGGLE_CONTROL, this::toggleControlPanel);
   }
 
-  private Optional<Message> deletePlaylist(Object inputPayload) {
-    HashMap<String, String> payload = (HashMap<String, String>) inputPayload;
-    String playlistName = payload.get("playlistName");
-    mpd.getPlaylist().deletePlaylist(playlistName);
-    return Optional.empty();
-  }
-
   private Collection<Playlist> getPlaylists() {
     TreeSet<Playlist> ret = new TreeSet<>();
-    Collection<String> playlists = mpd.getMusicDatabase().getPlaylistDatabase().listPlaylists();
+    Collection<String> playlists = mpd.getMusicDatabase().getPlaylistDatabase()
+        .listPlaylists();
     for (String playlist : playlists) {
       int count = mpd.getMusicDatabase().getPlaylistDatabase().countPlaylistSongs(playlist);
       ret.add(new Playlist(playlist, count));
@@ -229,69 +169,128 @@ public class MpdService {
     return ret;
   }
 
-  private Optional<Message> getQueue(Object inputPayload) {
+  /**
+   * Takes a query and searches the Mpd database for it.
+   *
+   * @param query What to search for.
+   * @return A message with the search results.
+   */
+  private SearchMessage searchDatabase(String query) {
+    ArrayList<MpdSong> searchResults = new ArrayList<>(
+        mpd.getSongSearcher().search(ScopeType.ANY, query));
+    return new SearchMessage(new SearchPayload(searchResults, searchResults.size(), query));
+  }
+
+
+  @Override
+  public Optional<Message> addDir(Map<String, Object> inputPayload) {
+    Map<String, String> payload = inputToStrMap(inputPayload);
+    String path = payload.get("dir");
+    MpdFile mpdFile = new MpdFile(path);
+    mpd.getPlaylist().addFileOrDirectory(mpdFile);
+    return Optional.empty();
+  }
+
+  @Override
+  public Optional<Message> addPlaylist(Map<String, Object> inputPayload) {
+    Map<String, String> payload = inputToStrMap(inputPayload);
+    String playlist = payload.get("playlist");
+    Collection<MpdSong> mpdSongCollection =
+        mpd.getMusicDatabase().getPlaylistDatabase().listPlaylistSongs(playlist);
+    ArrayList<MpdSong> mpdSongs = new ArrayList<>(mpdSongCollection);
+    mpd.getPlaylist().addSongs(mpdSongs);
+    return Optional.empty();
+  }
+
+  @Override
+  public Optional<Message> addPlayTrack(Map<String, Object> inputPayload) {
+    addTrack(inputPayload);
+    playTrack(inputPayload);
+    return Optional.empty();
+  }
+
+  @Override
+  public Optional<Message> addTrack(Map<String, Object> inputPayload) {
+    Map<String, String> payload = inputToStrMap(inputPayload);
+    String path = payload.get("path");
+    MpdFile mpdFile = new MpdFile(path);
+    mpdFile.setDirectory(false);
+    mpd.getPlaylist().addFileOrDirectory(mpdFile);
+    return Optional.empty();
+  }
+
+  @Override
+  public Optional<Message> deletePlaylist(Map<String, Object> inputPayload) {
+    Map<String, String> payload = inputToStrMap(inputPayload);
+    String playlistName = payload.get("playlistName");
+    mpd.getPlaylist().deletePlaylist(playlistName);
+    return Optional.empty();
+  }
+
+  @Override
+  public Optional<Message> browse(Map<String, Object> inputPayload) {
+    Map<String, String> payload = inputToStrMap(inputPayload);
+    String path = payload.get("path");
+    /* Remove leading slashes */
+    path = path.replaceAll("^/+", "");
+    /* Outgoing payload */
+    BrowsePayload browsePayload = browseDir(path);
+    if (path.trim().length() < 2) {
+      /* '/' or '' */
+      browsePayload.addPlaylists(getPlaylists());
+    }
+    BrowseMessage browseMessage = new BrowseMessage(browsePayload);
+    return Optional.of(browseMessage);
+  }
+
+  @Override
+  public Optional<Message> getQueue(Map<String, Object> inputPayload) {
     QueuePayload queuePayload = new QueuePayload(mpd.getPlaylist().getSongList());
     QueueMessage queue = new QueueMessage(queuePayload);
     return Optional.of(queue);
   }
 
-  private HashMap<String, String> getStringStringHashMap(HashMap<String, String> inputPayload) {
-    return inputPayload;
-  }
-
-  private Optional<Message> pause(Object o) {
-    mpd.getPlayer().pause();
-    return Optional.empty();
-  }
-
-  private Optional<Message> play(Object o) {
-    mpd.getPlayer().play();
-    return Optional.empty();
-  }
-
-  private Optional<Message> playNext(Object o) {
-    mpd.getPlayer().playNext();
-    return Optional.empty();
-  }
-
-  private Optional<Message> playPrevious(Object o) {
-    mpd.getPlayer().playPrevious();
-    return Optional.empty();
-  }
-
-  private Optional<Message> playTrack(Object inputPayload) {
-    HashMap<String, String> payload = (HashMap<String, String>) inputPayload;
+  @Override
+  public Optional<Message> playTrack(Map<String, Object> inputPayload) {
+    Map<String, String> payload = inputToStrMap(inputPayload);
     String path = payload.get("path");
     List<MpdSong> trackList = mpd.getPlaylist().getSongList();
     Collection<MpdSong> mpdSongCollection =
         mpd.getMusicDatabase().getSongDatabase().searchFileName(path);
-
     List<MpdSong> result =
-        trackList.stream().filter(n -> mpdSongCollection.contains(n)).collect(Collectors.toList());
-
+        trackList.stream().filter(mpdSongCollection::contains).collect(Collectors.toList());
     if (result.size() > 0) {
       mpd.getPlayer().playSong(result.iterator().next());
     } else {
-      LOG.error("Track not found: " + path);
+      LOG.warn("Track not found: " + path);
     }
-
     return Optional.empty();
   }
 
-  private Optional<Message> removeAll(Object o) {
+  @Override
+  public Optional<Message> removeAll(Map<String, Object> inputPayload) {
     mpd.getPlaylist().clearPlaylist();
     return Optional.empty();
   }
 
-  private Optional<Message> removeTrack(Object inputPayload) {
-    HashMap<String, Integer> payload = (HashMap<String, Integer>) inputPayload;
+  @Override
+  public Optional<Message> removeTrack(Map<String, Object> inputPayload) {
+    Map<String, Integer> payload = inputToIntMap(inputPayload);
     int position = payload.get("position");
     mpd.getPlaylist().removeSong(position);
     return Optional.empty();
   }
 
-  private Optional<Message> savePlaylist(Object inputPayload) {
-    HashMap<String, String> payload = (HashMap<String, String>) inputPayload;
+  @Override
+  public Optional<Message> search(Map<String, Object> inputPayload) {
+    Map<String, String> payload = inputToStrMap(inputPayload);
+    String query = payload.get("query");
+    return Optional.of(searchDatabase(query));
+  }
+
+  @Override
+  public Optional<Message> savePlaylist(Map<String, Object> inputPayload) {
+    Map<String, String> payload = inputToStrMap(inputPayload);
     String playlistName = payload.get("playlistName");
     boolean success;
     try {
@@ -306,52 +305,69 @@ public class MpdService {
     return Optional.of(playlistSavedMessage);
   }
 
-  private Optional<Message> search(Object inputPayload) {
-    HashMap<String, String> payload = (HashMap<String, String>) inputPayload;
-    String query = payload.get("query");
-    return Optional.of(searchDatabase(query));
+  @Override
+  public Optional<Message> playNext(Map<String, Object> inputPayload) {
+    mpd.getPlayer().playNext();
+    return Optional.empty();
   }
 
-  /**
-   * Takes a query and searches the Mpd database for it.
-   *
-   * @param query What to search for.
-   * @return A message with the search results.
-   */
-  private SearchMessage searchDatabase(String query) {
-    ArrayList<MpdSong> searchResults = new ArrayList<>();
-    searchResults.addAll(mpd.getSongSearcher().search(ScopeType.ANY, query));
-
-    SearchMessage searchResult =
-        new SearchMessage(new SearchPayload(searchResults, searchResults.size(), query));
-    return searchResult;
+  @Override
+  public Optional<Message> pause(Map<String, Object> inputPayload) {
+    mpd.getPlayer().pause();
+    return Optional.empty();
   }
 
-  private Optional<Message> seek(Object inputPayload) {
-    HashMap<String, Integer> payload = (HashMap<String, Integer>) inputPayload;
+  @Override
+  public Optional<Message> play(Map<String, Object> inputPayload) {
+    mpd.getPlayer().play();
+    return Optional.empty();
+  }
+
+  @Override
+  public Optional<Message> playPrevious(Map<String, Object> inputPayload) {
+    mpd.getPlayer().pause();
+    return Optional.empty();
+  }
+
+  @Override
+  public Optional<Message> seek(Map<String, Object> inputPayload) {
+    Map<String, Integer> payload = inputToIntMap(inputPayload);
     int value = payload.get("value");
     mpd.getPlayer().seek(value);
     return Optional.empty();
   }
 
-  private Optional<Message> setVolume(Object inputVolume) {
-    try {
-      HashMap<String, Integer> volumePayload = (HashMap<String, Integer>) inputVolume;
-      int newVolumeValue = volumePayload.get("value");
-      mpd.getPlayer().setVolume(newVolumeValue);
-    } catch (Exception e) {
-      LOG.error("Error setting volume: {}", e.getMessage(), e);
-    }
-    return Optional.empty();
-  }
-
-  private Optional<Message> stop(Object o) {
+  @Override
+  public Optional<Message> stop(Map<String, Object> inputPayload) {
     mpd.getPlayer().stop();
     return Optional.empty();
   }
 
-  private Optional<Message> toggleControlPanel(Object inputPayload) {
-    applyControlPanelChanges(inputPayload);
+  @Override
+  public Optional<Message> setVolume(Map<String, Object> inputPayload) {
+    try {
+      Map<String, Integer> payload = inputToIntMap(inputPayload);
+      int newVolumeValue = payload.get("value");
+      mpd.getPlayer().setVolume(newVolumeValue);
+    } catch (Exception e) {
+      LOG.warn("Could not set volume: {}", e.getMessage(), e);
+    }
+    return Optional.empty();
+  }
+
+  @Override
+  public Optional<Message> toggleControlPanel(Map<String, Object> inputPayload) {
+    // Map the input so we don't have to do ugly castings
+    Map<String, HashMap<String, Boolean>> newMap = inputPayload.entrySet().stream()
+        .collect(Collectors.toMap(Map.Entry::getKey, e -> (HashMap<String, Boolean>) e.getValue()));
+
+    HashMap<String, Boolean> controlPanel = newMap.get("controlPanel");
+
+    mpd.getPlayer().setRandom(controlPanel.get("random"));
+    mpd.getPlayer().setRepeat(controlPanel.get("repeat"));
+    mpd.getPlayer().setXFade(controlPanel.get("crossfade") ? 1 : 0);
+    mpd.getPlayer().setConsume(controlPanel.get("consume"));
+    mpd.getPlayer().setSingle(controlPanel.get("single"));
     return Optional.empty();
   }
 }

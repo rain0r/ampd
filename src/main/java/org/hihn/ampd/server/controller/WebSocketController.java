@@ -22,7 +22,7 @@ public class WebSocketController {
   private final MpdService mpdService;
 
   @Autowired
-  public WebSocketController(MpdService mpdService) {
+  public WebSocketController(final MpdService mpdService) {
     this.mpdService = mpdService;
   }
 
@@ -34,11 +34,11 @@ public class WebSocketController {
    */
   @MessageMapping("/mpd")
   @SendTo("/topic/controller")
-  public Optional<Message> send(IncomingMessage incomingMessage) {
+  public Optional<Message> send(final IncomingMessage incomingMessage) {
     Optional<Message> outgoingMessage = Optional.empty();
     try {
       outgoingMessage = mpdService.process(incomingMessage);
-    } catch (Exception e) {
+    } catch (final Exception e) {
       LOG.error("Error processing {}", incomingMessage.getType());
       LOG.error(e.getMessage(), e);
     }

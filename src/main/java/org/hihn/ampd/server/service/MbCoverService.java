@@ -5,6 +5,7 @@ import fm.last.musicbrainz.coverart.CoverArtArchiveClient;
 import fm.last.musicbrainz.coverart.impl.DefaultCoverArtArchiveClient;
 import java.io.InputStream;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -28,7 +29,7 @@ public class MbCoverService {
 
   private final SettingsBean settingsBean;
 
-  public MbCoverService(SettingsBean settingsBean) {
+  public MbCoverService(final SettingsBean settingsBean) {
     this.settingsBean = settingsBean;
   }
 
@@ -38,56 +39,52 @@ public class MbCoverService {
    * @param track A {@link MpdSong}.
    * @return The cover.
    */
-  public Optional<byte[]> getMbCover(MpdSong track) {
-    Optional<byte[]> ret = Optional.empty();
-    if (settingsBean.isMbCoverService()) {
-      return ret;
+  public Optional<byte[]> getMbCover(final MpdSong track) {
+    if (!settingsBean.isMbCoverService()) {
+      return Optional.empty();
     }
-    if (StringUtils.isEmpty(track.getAlbumName())) {
-      ret = searchSingletonMusicBrainzCover(track);
-    } else {
-      ret = searchAlbumMusicBrainzCover(track);
-    }
-    return ret;
+    return (StringUtils.isEmpty(track.getAlbumName())) ? searchSingletonMusicBrainzCover(track)
+        : searchAlbumMusicBrainzCover(track);
   }
 
-  private Optional<byte[]> downloadCover(String uuid) {
+  private Optional<byte[]> downloadCover(final String uuid) {
     Optional<byte[]> ret = Optional.empty();
-    CoverArtArchiveClient client = new DefaultCoverArtArchiveClient();
-    UUID mbId = UUID.fromString(uuid);
-    CoverArt coverArt = client.getByMbid(mbId);
+    final CoverArtArchiveClient client = new DefaultCoverArtArchiveClient();
+    final UUID mbId = UUID.fromString(uuid);
+    final CoverArt coverArt = client.getByMbid(mbId);
     if (coverArt != null) {
-      InputStream inputStream;
+      final InputStream inputStream;
       try {
         inputStream = coverArt.getFrontImage().getImage();
         ret = Optional.of(IOUtils.toByteArray(inputStream));
-      } catch (Exception e) {
+      } catch (final Exception e) {
         LOG.error(e.getMessage(), e);
       }
     }
     return ret;
   }
 
-  private Optional<byte[]> searchAlbumMusicBrainzCover(MpdSong track) {
+  private Optional<byte[]> searchAlbumMusicBrainzCover(final MpdSong track) {
     Optional<byte[]> cover = Optional.empty();
-    Release releaseController = new Release();
+    final Release releaseController = new Release();
     releaseController.getSearchFilter().setLimit((long) 10);
     releaseController.getSearchFilter().setMinScore((long) 60);
-    String query;
+    final String query;
     List<ReleaseResultWs2> releaseResults = null;
     try {
       query = String
-          .format("artist:%s%%20AND%%title:%s", URLEncoder.encode(track.getArtistName(), "UTF-8"),
-              URLEncoder.encode(track.getAlbumName(), "UTF-8"));
+          .format("artist:%s%%20AND%%title:%s", URLEncoder.encode(track.getArtistName(),
+              StandardCharsets.UTF_8),
+              URLEncoder.encode(track.getAlbumName(), StandardCharsets.UTF_8));
       releaseController.search(query);
       releaseResults = releaseController.getFirstSearchResultPage();
-    } catch (Exception e) {
+    } catch (final Exception e) {
       LOG.error(e.getMessage(), e);
     }
     if (releaseResults == null) {
       return Optional.empty();
     }
-    for (ReleaseResultWs2 releaseResultWs2 : releaseResults) {
+    for (final ReleaseResultWs2 releaseResultWs2 : releaseResults) {
       cover = downloadCover(releaseResultWs2.getRelease().getId());
       if (cover.isPresent()) {
         break;
@@ -96,28 +93,29 @@ public class MbCoverService {
     return cover;
   }
 
-  private Optional<byte[]> searchSingletonMusicBrainzCover(MpdSong track) {
+  private Optional<byte[]> searchSingletonMusicBrainzCover(final MpdSong track) {
     Optional<byte[]> cover = Optional.empty();
-    Recording recordingController = new Recording();
+    final Recording recordingController = new Recording();
     recordingController.getSearchFilter().setLimit((long) 10);
     recordingController.getSearchFilter().setMinScore((long) 60);
-    String query;
+    final String query;
     List<RecordingResultWs2> recordingResults = null;
     try {
       query = String
-          .format("artist:%s%%20AND%%20title:%s", URLEncoder.encode(track.getArtistName(), "UTF-8"),
-              URLEncoder.encode(track.getTitle(), "UTF-8"));
+          .format("artist:%s%%20AND%%20title:%s", URLEncoder.encode(track.getArtistName(),
+              StandardCharsets.UTF_8),
+              URLEncoder.encode(track.getTitle(), StandardCharsets.UTF_8));
       recordingController.search(query);
       recordingResults = recordingController.getFirstSearchResultPage();
-    } catch (Exception e) {
+    } catch (final Exception e) {
       LOG.error(e.getMessage(), e);
     }
     if (recordingResults == null) {
       return Optional.empty();
     }
     boolean running = true;
-    for (RecordingResultWs2 recordingResult : recordingResults) {
-      for (ReleaseWs2 release : recordingResult.getRecording().getReleases()) {
+    for (final RecordingResultWs2 recordingResult : recordingResults) {
+      for (final ReleaseWs2 release : recordingResult.getRecording().getReleases()) {
         cover = downloadCover(release.getId());
         if (cover.isPresent()) {
           running = false;

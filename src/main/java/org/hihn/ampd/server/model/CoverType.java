@@ -6,7 +6,7 @@ public enum CoverType {
 
   private final String prefix;
 
-  CoverType(String prefix) {
+  CoverType(final String prefix) {
     this.prefix = prefix;
   }
 

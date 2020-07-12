@@ -17,36 +17,28 @@
  -->
 
 <module name="Checker">
-  <property name="charset" value="UTF-8"/>
-
-  <property name="severity" value="warning"/>
-
-  <property name="fileExtensions" value="java, properties, xml"/>
-  <!-- Excludes all 'module-info.java' files              -->
-  <!-- See https://checkstyle.org/config_filefilters.html -->
   <module name="BeforeExecutionExclusionFileFilter">
     <property name="fileNamePattern" value="module\-info\.java$"/>
   </module>
-  <!-- https://checkstyle.org/config_filters.html#SuppressionFilter -->
+
   <module name="SuppressionFilter">
-    <property name="file" value="${org.checkstyle.google.suppressionfilter.config}"
-      default="checkstyle-suppressions.xml"/>
+    <property default="checkstyle-suppressions.xml" name="file"
+      value="${org.checkstyle.google.suppressionfilter.config}"/>
     <property name="optional" value="true"/>
   </module>
 
-  <!-- Checks for whitespace                               -->
-  <!-- See http://checkstyle.org/config_whitespace.html -->
   <module name="FileTabCharacter">
     <property name="eachLine" value="true"/>
   </module>
-
+  <!-- Excludes all 'module-info.java' files              -->
+  <!-- See https://checkstyle.org/config_filefilters.html -->
   <module name="LineLength">
     <property name="fileExtensions" value="java"/>
     <property name="max" value="100"/>
     <property name="ignorePattern"
       value="^package.*|^import.*|a href|href|http://|https://|ftp://"/>
   </module>
-
+  <!-- https://checkstyle.org/config_filters.html#SuppressionFilter -->
   <module name="TreeWalker">
     <module name="SuppressWarningsHolder"/>
     <module name="OuterTypeFilename"/>
@@ -104,8 +96,10 @@
                                                  or preceding-sibling::*[last()][self::LCURLY]]"/>
     </module>
     <module name="WhitespaceAround">
-      <property name="allowEmptyConstructors" value="true"/>
-      <property name="allowEmptyLambdas" value="true"/>
+      <message key="ws.notFollowed"
+        value="WhitespaceAround: ''{0}'' is not followed by whitespace. Empty blocks may only be represented as '{}' when not part of a multi-block statement (4.1.3)"/>
+      <message key="ws.notPreceded"
+        value="WhitespaceAround: ''{0}'' is not preceded with whitespace."/>
       <property name="allowEmptyMethods" value="true"/>
       <property name="allowEmptyTypes" value="true"/>
       <property name="allowEmptyLoops" value="true"/>
@@ -117,10 +111,8 @@
                      LITERAL_TRY, LITERAL_WHILE, LOR, LT, MINUS, MINUS_ASSIGN, MOD, MOD_ASSIGN,
                      NOT_EQUAL, PLUS, PLUS_ASSIGN, QUESTION, RCURLY, SL, SLIST, SL_ASSIGN, SR,
                      SR_ASSIGN, STAR, STAR_ASSIGN, LITERAL_ASSERT, TYPE_EXTENSION_AND"/>
-      <message key="ws.notFollowed"
-        value="WhitespaceAround: ''{0}'' is not followed by whitespace. Empty blocks may only be represented as '{}' when not part of a multi-block statement (4.1.3)"/>
-      <message key="ws.notPreceded"
-        value="WhitespaceAround: ''{0}'' is not preceded with whitespace."/>
+      <property name="allowEmptyConstructors" value="true"/>
+      <property name="allowEmptyLambdas" value="true"/>
     </module>
     <module name="OneStatementPerLine"/>
     <module name="MultipleVariableDeclarations"/>
@@ -163,54 +155,54 @@
       <property name="option" value="nl"/>
     </module>
     <module name="PackageName">
-      <property name="format" value="^[a-z]+(\.[a-z][a-z0-9]*)*$"/>
       <message key="name.invalidPattern"
         value="Package name ''{0}'' must match pattern ''{1}''."/>
+      <property name="format" value="^[a-z]+(\.[a-z][a-z0-9]*)*$"/>
     </module>
     <module name="TypeName">
-      <property name="tokens" value="CLASS_DEF, INTERFACE_DEF, ENUM_DEF, ANNOTATION_DEF"/>
       <message key="name.invalidPattern"
         value="Type name ''{0}'' must match pattern ''{1}''."/>
+      <property name="tokens" value="CLASS_DEF, INTERFACE_DEF, ENUM_DEF, ANNOTATION_DEF"/>
     </module>
     <module name="MemberName">
-      <property name="format" value="^[a-z][a-z0-9][a-zA-Z0-9]*$"/>
       <message key="name.invalidPattern"
         value="Member name ''{0}'' must match pattern ''{1}''."/>
+      <property name="format" value="^[a-z][a-z0-9][a-zA-Z0-9]*$"/>
     </module>
     <module name="ParameterName">
-      <property name="format" value="^[a-z]([a-z0-9][a-zA-Z0-9]*)?$"/>
       <message key="name.invalidPattern"
         value="Parameter name ''{0}'' must match pattern ''{1}''."/>
+      <property name="format" value="^[a-z]([a-z0-9][a-zA-Z0-9]*)?$"/>
     </module>
     <module name="LambdaParameterName">
-      <property name="format" value="^[a-z]([a-z0-9][a-zA-Z0-9]*)?$"/>
       <message key="name.invalidPattern"
         value="Lambda parameter name ''{0}'' must match pattern ''{1}''."/>
+      <property name="format" value="^[a-z]([a-z0-9][a-zA-Z0-9]*)?$"/>
     </module>
     <module name="CatchParameterName">
-      <property name="format" value="^[a-z]([a-z0-9][a-zA-Z0-9]*)?$"/>
       <message key="name.invalidPattern"
         value="Catch parameter name ''{0}'' must match pattern ''{1}''."/>
+      <property name="format" value="^[a-z]([a-z0-9][a-zA-Z0-9]*)?$"/>
     </module>
     <module name="LocalVariableName">
-      <property name="format" value="^[a-z]([a-z0-9][a-zA-Z0-9]*)?$"/>
       <message key="name.invalidPattern"
         value="Local variable name ''{0}'' must match pattern ''{1}''."/>
+      <property name="format" value="^[a-z]([a-z0-9][a-zA-Z0-9]*)?$"/>
     </module>
     <module name="ClassTypeParameterName">
-      <property name="format" value="(^[A-Z][0-9]?)$|([A-Z][a-zA-Z0-9]*[T]$)"/>
       <message key="name.invalidPattern"
         value="Class type name ''{0}'' must match pattern ''{1}''."/>
+      <property name="format" value="(^[A-Z][0-9]?)$|([A-Z][a-zA-Z0-9]*[T]$)"/>
     </module>
     <module name="MethodTypeParameterName">
-      <property name="format" value="(^[A-Z][0-9]?)$|([A-Z][a-zA-Z0-9]*[T]$)"/>
       <message key="name.invalidPattern"
         value="Method type name ''{0}'' must match pattern ''{1}''."/>
+      <property name="format" value="(^[A-Z][0-9]?)$|([A-Z][a-zA-Z0-9]*[T]$)"/>
     </module>
     <module name="InterfaceTypeParameterName">
-      <property name="format" value="(^[A-Z][0-9]?)$|([A-Z][a-zA-Z0-9]*[T]$)"/>
       <message key="name.invalidPattern"
         value="Interface type name ''{0}'' must match pattern ''{1}''."/>
+      <property name="format" value="(^[A-Z][0-9]?)$|([A-Z][a-zA-Z0-9]*[T]$)"/>
     </module>
     <module name="NoFinalizer"/>
     <module name="GenericWhitespace">
@@ -306,9 +298,9 @@
       <property name="tokens" value="METHOD_DEF, ANNOTATION_FIELD_DEF"/>
     </module>
     <module name="MethodName">
-      <property name="format" value="^[a-z][a-z0-9][a-zA-Z0-9_]*$"/>
       <message key="name.invalidPattern"
         value="Method name ''{0}'' must match pattern ''{1}''."/>
+      <property name="format" value="^[a-z][a-z0-9][a-zA-Z0-9_]*$"/>
     </module>
     <module name="SingleLineJavadoc">
       <property name="ignoreInlineTags" value="false"/>
@@ -321,10 +313,18 @@
     </module>
     <!-- https://checkstyle.org/config_filters.html#SuppressionXpathFilter -->
     <module name="SuppressionXpathFilter">
-      <property name="file" value="${org.checkstyle.google.suppressionxpathfilter.config}"
-        default="checkstyle-xpath-suppressions.xml"/>
+      <property default="checkstyle-xpath-suppressions.xml" name="file"
+        value="${org.checkstyle.google.suppressionxpathfilter.config}"/>
       <property name="optional" value="true"/>
     </module>
   </module>
+
+  <!-- Checks for whitespace                               -->
+  <!-- See http://checkstyle.org/config_whitespace.html -->
   <module name="SuppressWarningsFilter"/>
+
+  <property name="charset" value="UTF-8"/>
+
+  <property name="severity" value="warning"/>
+  <property name="fileExtensions" value="java, properties, xml"/>
 </module>

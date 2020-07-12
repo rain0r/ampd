@@ -13,8 +13,10 @@ public class MpdConfiguration {
 
   @Value("${mpd.password:}")
   private String mpdPassword;
+
   @Value("${mpd.port}")
   private int mpdPort;
+
   @Value("${mpd.server}")
   private String mpdServer;
 

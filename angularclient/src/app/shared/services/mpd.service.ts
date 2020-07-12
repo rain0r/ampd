@@ -86,10 +86,9 @@ export class MpdService {
   }
 
   private buildCoverUrl(file: string) {
-    const backendAddr = ConnConfUtil.getBackendAddr();
-    const currentCoverUrl = "find-cover";
-    // Add a query param to trigger an image change in the browser
-    return `${backendAddr}/${currentCoverUrl}?path=${encodeURIComponent(file)}`;
+    return `${ConnConfUtil.getFindTrackCoverUrl()}?path=${encodeURIComponent(
+      file
+    )}`;
   }
 
   private init() {

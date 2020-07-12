@@ -12,6 +12,24 @@ export class ConnConfUtil {
    */
   static readonly key: string = "ConnConf";
 
+  /**
+   * Returns the api endpoint of the backend that looks for covers in a directory specified by
+   * a directory path.
+   */
+  static getFindDirCoverUrl(): string {
+    const currentCoverUrl = "find-dir-cover";
+    return `${ConnConfUtil.getBackendAddr()}/${currentCoverUrl}`;
+  }
+
+  /**
+   * Returns the api endpoint of the backend that looks for covers in a directory specified by
+   * a track path.
+   */
+  static getFindTrackCoverUrl(): string {
+    const currentCoverUrl = "find-dir-cover";
+    return `${ConnConfUtil.getBackendAddr()}/${currentCoverUrl}`;
+  }
+
   static getBackendAddr(): string {
     let backendAddr = localStorage.getItem(ConnConfUtil.key) || "";
     if (!backendAddr) {

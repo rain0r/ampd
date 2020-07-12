@@ -55,20 +55,21 @@ export class TrackDataTableComponent implements OnChanges {
   }
 
   onRowClick(track: MpdTrack): void {
+    console.log("onRowClick");
     this.preventSingleClick = false;
     this.timer = setTimeout(() => {
       // We'll wait for $delay if this might be a double click
       if (!this.preventSingleClick) {
-        this.execRowAction(track);
+        this.execRowAction(track, this.trackTableData.onRowClick);
       }
     }, this.delay);
   }
 
   onRowDoubleClick(track: MpdTrack): void {
+    console.log("onRowDoubleClick");
     this.preventSingleClick = true;
     clearTimeout(this.timer);
-    console.log("onRowDoubleClick");
-    this.execRowAction(track);
+    this.execRowAction(track, this.trackTableData.onRowDoubleClick);
   }
 
   onRemoveTrack(position: number): void {
@@ -94,11 +95,11 @@ export class TrackDataTableComponent implements OnChanges {
     this.notificationService.popUp(`Added: ${track.title}`);
   }
 
-  private execRowAction(track: MpdTrack) {
+  private execRowAction(track: MpdTrack, action: RowClickActions) {
     if (!this.trackTableData.clickable) {
       return;
     }
-    switch (this.trackTableData.onRowClick) {
+    switch (action) {
       case RowClickActions.AddTrack:
         this.onAddTrack(track);
         break;

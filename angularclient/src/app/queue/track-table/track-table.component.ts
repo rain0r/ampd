@@ -11,6 +11,7 @@ import { MatDialog } from "@angular/material/dialog";
 import { SavePlaylistModalComponent } from "../save-playlist-modal/save-playlist-modal.component";
 import { NotificationService } from "../../shared/services/notification.service";
 import { TrackTableData } from "../../shared/track-table/track-table-data";
+import { RowClickActions } from "../../shared/track-table/row-click-actions.enum";
 
 @Component({
   selector: "app-track-table",
@@ -114,6 +115,7 @@ export class TrackTableComponent {
     trackTable.dataSource = this.dataSource;
     trackTable.clickable = true;
     trackTable.displayedColumns = this.getDisplayedColumns();
+    trackTable.onRowClick = RowClickActions.PlayTrack;
     trackTable.sortable = true;
     return trackTable;
   }

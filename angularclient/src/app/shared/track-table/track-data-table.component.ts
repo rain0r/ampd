@@ -12,6 +12,7 @@ import { WebSocketService } from "../services/web-socket.service";
 import { TrackTableData } from "./track-table-data";
 import { MpdTrack } from "../messages/incoming/mpd-track";
 import { NotificationService } from "../services/notification.service";
+import { MatPaginator } from "@angular/material/paginator";
 
 @Component({
   selector: "app-track-data-table",
@@ -20,8 +21,9 @@ import { NotificationService } from "../services/notification.service";
 })
 export class TrackDataTableComponent implements OnChanges {
   @Input() trackTableData: TrackTableData;
-  @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild("filterInputElem") filterInputElem: ElementRef;
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
 
   constructor(
     private webSocketService: WebSocketService,
@@ -30,11 +32,16 @@ export class TrackDataTableComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if ("trackTableData" in changes) {
-      const hugo: TrackTableData = <TrackTableData>(
+      const tableData: TrackTableData = <TrackTableData>(
         changes.trackTableData.currentValue
       );
-      if (hugo.dataSource.data.length > 0 && hugo.sortable) {
-        this.trackTableData.dataSource.sort = this.sort;
+      if (tableData.dataSource.data.length > 0) {
+        if (tableData.sortable) {
+          this.trackTableData.dataSource.sort = this.sort;
+        }
+        if (tableData.pagination) {
+          this.trackTableData.dataSource.paginator = this.paginator;
+        }
       }
     }
   }

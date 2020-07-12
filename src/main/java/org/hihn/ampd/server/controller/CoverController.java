@@ -19,10 +19,6 @@ import org.springframework.web.server.ResponseStatusException;
 @CrossOrigin
 public class CoverController {
 
-  private static final String CURRENT_COVER_URL = "/current-cover";
-
-  private static final String FIND_COVER_URL = "/find-cover";
-
   private final CoverArtFetcherService coverArtFetcherService;
 
   @Autowired
@@ -31,33 +27,49 @@ public class CoverController {
   }
 
   /**
-   * Tries to find the cover for a track.
+   * Tries to find the cover for a directory.
    *
-   * @param trackFilePath File path of a track.
-   * @return The bytes of the input track.
+   * @param dirPath Path of a directory.
+   * @return The bytes of the found cover.
    */
   @RequestMapping(
-      value = {FIND_COVER_URL},
+      value = {"/find-dir-cover"},
       produces = MediaType.IMAGE_JPEG_VALUE
   )
   public @ResponseBody
-  byte[] findCoverByPath(@RequestParam("path") final Optional<String> trackFilePath) {
-    return coverArtFetcherService.findAlbumCover(trackFilePath)
+  byte[] findAlbumCoverForDir(@RequestParam("path") final Optional<String> dirPath) {
+    return coverArtFetcherService.findAlbumCoverForDir(dirPath)
+        .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+  }
+
+  /**
+   * Tries to find the cover for a track.
+   *
+   * @param trackFilePath File path of a track.
+   * @return The bytes of the found cover.
+   */
+  @RequestMapping(
+      value = {"/find-track-cover"},
+      produces = MediaType.IMAGE_JPEG_VALUE
+  )
+  public @ResponseBody
+  byte[] findAlbumCoverForTrack(@RequestParam("path") final Optional<String> trackFilePath) {
+    return coverArtFetcherService.findAlbumCoverForTrack(trackFilePath)
         .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
   }
 
   /**
    * Returns the cover of the currently running track.
    *
-   * @return The bytes of the current cover.
+   * @return The bytes of the cover of the currently played track.
    */
   @RequestMapping(
-      value = {CURRENT_COVER_URL},
+      value = {"/current-cover"},
       produces = MediaType.IMAGE_JPEG_VALUE
   )
   public @ResponseBody
-  byte[] getCurrentCover() {
-    return coverArtFetcherService.getCurrentAlbumCover()
+  byte[] getCoverForCurrentTrack() {
+    return coverArtFetcherService.getCoverForCurrentTrack()
         .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
   }
 }

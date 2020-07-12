@@ -82,7 +82,7 @@
             [routerLink]="['/browse']"
             [queryParams]="{ dir: dir.path }"
             src="{{ dir.coverUrl() }}"
-            err-src="/assets/images/transparent.png"
+            alt="Cover of {{dir.path}}"
         />
         <mat-card-footer>
           <div fxLayout="row">

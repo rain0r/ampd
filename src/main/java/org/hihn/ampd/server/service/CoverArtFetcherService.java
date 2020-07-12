@@ -1,6 +1,9 @@
 package org.hihn.ampd.server.service;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 import org.bff.javampd.server.Mpd;
 import org.bff.javampd.song.MpdSong;
@@ -30,7 +33,7 @@ public class CoverArtFetcherService {
   public CoverArtFetcherService(
       final CoverCacheService coverCacheService,
       final MbCoverService mbCoverService,
-      final SettingsBean settingsBean, final MpdConfiguration mpdConfiguration) {
+      final MpdConfiguration mpdConfiguration, SettingsBean settingsBean) {
     this.coverCacheService = coverCacheService;
     this.mbCoverService = mbCoverService;
     this.settingsBean = settingsBean;
@@ -38,12 +41,12 @@ public class CoverArtFetcherService {
   }
 
   /**
-   * See if path leads to an album directory and try to load the cover.
+   * See if the path of track leads to an album directory and try to load the cover.
    *
    * @param trackFilePath The file path of a track.
    * @return The bytes of the found cover.
    */
-  public Optional<byte[]> findAlbumCover(final Optional<String> trackFilePath) {
+  public Optional<byte[]> findAlbumCoverForTrack(final Optional<String> trackFilePath) {
     if (trackFilePath.isEmpty()) {
       return Optional.empty();
     }
@@ -56,11 +59,28 @@ public class CoverArtFetcherService {
   }
 
   /**
+   * Looks in a specific dirctory for a cover.
+   * @param dir The directory that contains a cover.
+   * @return The content of the found cover.
+   */
+  public Optional<byte[]> findAlbumCoverForDir(final Optional<String> dir){
+    if (dir.isPresent()) {
+      Path path = Paths.get(settingsBean.getMusicDirectory(), dir.get());
+      List<Path> covers = coverCacheService.scanDir(path);
+      if (covers.size() > 0) {
+        Path coverPath = covers.get(0);
+        return coverCacheService.loadFile(coverPath);
+      }
+    }
+    return Optional.empty();
+  }
+
+  /**
    * Searches multiple sources for the cover of the currently played track.
    *
    * @return The bytes of the found cover.
    */
-  public Optional<byte[]> getCurrentAlbumCover() {
+  public Optional<byte[]> getCoverForCurrentTrack() {
     return getAlbumCoverForTrack(mpd.getPlayer().getCurrentSong());
   }
 

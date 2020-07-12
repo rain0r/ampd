@@ -20,7 +20,7 @@ export class DirectoryImpl implements Directory {
   }
 
   coverUrl(): string {
-    return `${ConnConfUtil.getFindTrackCoverUrl()}?path=${encodeURIComponent(
+    return `${ConnConfUtil.getFindDirCoverUrl()}?path=${encodeURIComponent(
       this.path
     )}`;
   }

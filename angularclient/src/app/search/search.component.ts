@@ -69,9 +69,9 @@ export class SearchComponent {
   ): void {
     this.resetSearch();
     const tracks = [];
-    searchResults.forEach((track: SearchResult) => {
-      tracks.push(new QueueTrack(track));
-    });
+    searchResults.forEach((track: SearchResult) =>
+      tracks.push(new QueueTrack(track))
+    );
     this.dataSource = new MatTableDataSource<QueueTrack>(tracks);
     this.trackTableData = this.buildTableData();
     this.searchResultCount = searchResultCount;

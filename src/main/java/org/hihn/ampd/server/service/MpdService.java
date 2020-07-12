@@ -111,6 +111,7 @@ public class MpdService implements WebsocketService {
 
   private BrowsePayload browseDir(String path) {
     BrowsePayload browsePayload = new BrowsePayload();
+    // Build a MpdFile from path, this is a directory
     MpdFile mpdFile = new MpdFile(path);
     mpdFile.setDirectory(true);
     Collection<MpdFile> tmpMpdFiles = new ArrayList<>();

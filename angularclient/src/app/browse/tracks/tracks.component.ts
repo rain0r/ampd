@@ -1,29 +1,27 @@
-import { Component, Input } from "@angular/core";
+import { Component, Input, OnInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { ConnConfUtil } from "../../shared/conn-conf/conn-conf-util";
 import { MpdTrack } from "../../shared/messages/incoming/mpd-track";
-import { MpdCommands } from "../../shared/mpd/mpd-commands";
 import { MessageService } from "../../shared/services/message.service";
-import { NotificationService } from "../../shared/services/notification.service";
-import { WebSocketService } from "../../shared/services/web-socket.service";
 import { Filterable } from "../filterable";
 import { ResponsiveCoverSizeService } from "../../shared/services/responsive-cover-size.service";
 import { Observable } from "rxjs";
+import { TrackTableData } from "../../shared/track-table/track-table-data";
+import { MatTableDataSource } from "@angular/material/table";
 
 @Component({
   selector: "app-tracks",
   templateUrl: "./tracks.component.html",
   styleUrls: ["./tracks.component.scss"],
 })
-export class TracksComponent extends Filterable {
-  @Input() titleQueue: MpdTrack[] = [];
-  getParamDir = "";
+export class TracksComponent extends Filterable implements OnInit {
+  @Input() tracks: MpdTrack[] = [];
   coverSizeClass: Observable<string>;
+  getParamDir = "";
+  trackTableData = new TrackTableData();
   validCoverUrl = false;
 
   constructor(
-    private notificationService: NotificationService,
-    private webSocketService: WebSocketService,
     private activatedRoute: ActivatedRoute,
     private messageService: MessageService,
     private responsiveCoverSizeService: ResponsiveCoverSizeService
@@ -34,21 +32,8 @@ export class TracksComponent extends Filterable {
       this.activatedRoute.snapshot.queryParamMap.get("dir") || "/";
   }
 
-  onPlayTitle(track: MpdTrack): void {
-    if (track instanceof MouseEvent) {
-      return;
-    }
-    this.webSocketService.sendData(MpdCommands.ADD_PLAY_TRACK, {
-      path: track.file,
-    });
-    this.notificationService.popUp(`Playing title: "${track.title}"`);
-  }
-
-  onAddTitle(track: MpdTrack): void {
-    this.webSocketService.sendData(MpdCommands.ADD_TRACK, {
-      path: track.file,
-    });
-    this.notificationService.popUp(`Added title: "${track.title}"`);
+  ngOnInit(): void {
+    this.trackTableData = this.buildTableData();
   }
 
   coverUrl(): string {
@@ -64,5 +49,27 @@ export class TracksComponent extends Filterable {
 
   onLoad(): void {
     this.validCoverUrl = true;
+  }
+
+  private buildTableData() {
+    const trackTable = new TrackTableData();
+    trackTable.addTitleColumn = true;
+    trackTable.clickable = true;
+    trackTable.dataSource = new MatTableDataSource<MpdTrack>(this.tracks);
+    trackTable.displayedColumns = this.getDisplayedColumns();
+    trackTable.playTitleColumn = true;
+    return trackTable;
+  }
+
+  private getDisplayedColumns(): string[] {
+    return [
+      "position",
+      "artistName",
+      "albumName",
+      "title",
+      "length",
+      "addTitle",
+      "playTitle",
+    ];
   }
 }

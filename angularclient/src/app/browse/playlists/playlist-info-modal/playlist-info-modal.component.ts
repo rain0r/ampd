@@ -68,7 +68,7 @@ export class PlaylistInfoModalComponent implements OnInit {
 
   private getDisplayedColumns(): string[] {
     const displayedColumns = [
-      { name: "pos", showMobile: false },
+      { name: "position", showMobile: false },
       { name: "artistName", showMobile: true },
       { name: "albumName", showMobile: false },
       { name: "title", showMobile: true },
@@ -83,12 +83,8 @@ export class PlaylistInfoModalComponent implements OnInit {
   private buildDataSource(tracks: MpdTrack[]) {
     const dataSource = new MatTableDataSource<QueueTrack>();
     const tmp: QueueTrack[] = [];
-    let posCounter = 1;
     for (const item of tracks) {
-      const track: QueueTrack = new QueueTrack(item);
-      track.pos = posCounter;
-      tmp.push(track);
-      posCounter += 1;
+      tmp.push(new QueueTrack(item));
     }
     dataSource.data = tmp;
     return dataSource;

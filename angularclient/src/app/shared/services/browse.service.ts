@@ -32,7 +32,8 @@ export class BrowseService {
       const directory = new DirectoryImpl(true, dir.path);
       newBrowseInfo.dirQueue.push(directory);
     });
-    payload.tracks.forEach((track) => {
+    payload.tracks.forEach((track, index) => {
+      track.position = index;
       newBrowseInfo.trackQueue.push(track);
     });
     payload.playlists.forEach((playlist) => {

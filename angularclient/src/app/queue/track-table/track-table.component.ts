@@ -81,7 +81,7 @@ export class TrackTableComponent {
 
   private getDisplayedColumns(): string[] {
     const displayedColumns = [
-      { name: "pos", showMobile: false },
+      { name: "position", showMobile: false },
       { name: "artistName", showMobile: true },
       { name: "albumName", showMobile: false },
       { name: "title", showMobile: true },
@@ -101,12 +101,8 @@ export class TrackTableComponent {
     }
     this.checksum = message.checkSum;
     const tmp: QueueTrack[] = [];
-    let posCounter = 1;
     for (const item of message.tracks) {
-      const track: QueueTrack = new QueueTrack(item);
-      track.pos = posCounter;
-      tmp.push(track);
-      posCounter += 1;
+      tmp.push(new QueueTrack(item));
     }
     this.dataSource.data = tmp; // add the new model object to the trackTableData
     this.trackTableData = this.buildTableData();

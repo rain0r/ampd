@@ -13,6 +13,7 @@ import { TrackTableData } from "./track-table-data";
 import { MpdTrack } from "../messages/incoming/mpd-track";
 import { NotificationService } from "../services/notification.service";
 import { MatPaginator } from "@angular/material/paginator";
+import { RowClickActions } from "./row-click-actions.enum";
 
 @Component({
   selector: "app-track-data-table",
@@ -24,6 +25,13 @@ export class TrackDataTableComponent implements OnChanges {
   @ViewChild("filterInputElem") filterInputElem: ElementRef;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
+
+  /**
+   * To distinguish double clicks from clicks, we need to listen for a second click.
+   */
+  private timer = -1;
+  private preventSingleClick = false;
+  private delay = 300;
 
   constructor(
     private webSocketService: WebSocketService,
@@ -46,15 +54,21 @@ export class TrackDataTableComponent implements OnChanges {
     }
   }
 
-  /**
-   * Play the track from the queue which has been clicked.
-   *
-   * @param {string} file
-   */
-  onRowClick(file: string): void {
-    if (this.trackTableData.clickable) {
-      this.webSocketService.sendData(MpdCommands.PLAY_TRACK, { path: file });
-    }
+  onRowClick(track: MpdTrack): void {
+    this.preventSingleClick = false;
+    this.timer = setTimeout(() => {
+      // We'll wait for $delay if this might be a double click
+      if (!this.preventSingleClick) {
+        this.execRowAction(track);
+      }
+    }, this.delay);
+  }
+
+  onRowDoubleClick(track: MpdTrack): void {
+    this.preventSingleClick = true;
+    clearTimeout(this.timer);
+    console.log("onRowDoubleClick");
+    this.execRowAction(track);
   }
 
   onRemoveTrack(position: number): void {
@@ -66,17 +80,33 @@ export class TrackDataTableComponent implements OnChanges {
     }
   }
 
-  onPlayTitle(track: MpdTrack): void {
+  onPlayTrack(track: MpdTrack): void {
     this.webSocketService.sendData(MpdCommands.ADD_PLAY_TRACK, {
       path: track.file,
     });
     this.notificationService.popUp(`Playing: ${track.title}`);
   }
 
-  onAddTitle(track: MpdTrack): void {
+  onAddTrack(track: MpdTrack): void {
     this.webSocketService.sendData(MpdCommands.ADD_TRACK, {
       path: track.file,
     });
     this.notificationService.popUp(`Added: ${track.title}`);
+  }
+
+  private execRowAction(track: MpdTrack) {
+    if (!this.trackTableData.clickable) {
+      return;
+    }
+    switch (this.trackTableData.onRowClick) {
+      case RowClickActions.AddTrack:
+        this.onAddTrack(track);
+        break;
+      case RowClickActions.PlayTrack:
+        this.onPlayTrack(track);
+        break;
+      default:
+      // Ignore it
+    }
   }
 }

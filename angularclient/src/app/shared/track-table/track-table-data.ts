@@ -1,5 +1,6 @@
 import { MatTableDataSource } from "@angular/material/table";
-import { QueueTrack } from "../models/queue-track";
+import { MpdTrack } from "../messages/incoming/mpd-track";
+import { RowClickActions } from "./row-click-actions.enum";
 
 /**
  * When including the track table in a view, some parameters are needed. Too much, to insert them
@@ -12,19 +13,29 @@ export class TrackTableData {
   private _addTitleColumn = false;
 
   /**
-   * If true, the rows of the table are clickable and trigger an action.
+   * If true, the rows of the table are clickable and a click adds the track to the queue.
    */
   private _clickable = false;
 
   /**
    * The tracks that will be displayed in the track table.
    */
-  private _dataSource = new MatTableDataSource<QueueTrack>();
+  private _dataSource = new MatTableDataSource<MpdTrack>();
 
   /**
    * Which columns this track table will have.
    */
   private _displayedColumns: string[] = [];
+
+  /**
+   * The action that will be triggered on a row click.
+   */
+  private _onRowClick = RowClickActions.AddTrack;
+
+  /**
+   * The action that will be triggered on a row double click.
+   */
+  private _onRowDoubleClick = RowClickActions.PlayTrack;
 
   /**
    * If true, the table has pagination elements.
@@ -57,11 +68,11 @@ export class TrackTableData {
     this._clickable = value;
   }
 
-  get dataSource(): MatTableDataSource<QueueTrack> {
+  get dataSource(): MatTableDataSource<MpdTrack> {
     return this._dataSource;
   }
 
-  set dataSource(value: MatTableDataSource<QueueTrack>) {
+  set dataSource(value: MatTableDataSource<MpdTrack>) {
     this._dataSource = value;
   }
 
@@ -71,6 +82,22 @@ export class TrackTableData {
 
   set displayedColumns(value: string[]) {
     this._displayedColumns = value;
+  }
+
+  get onRowClick(): RowClickActions {
+    return this._onRowClick;
+  }
+
+  set onRowClick(value: RowClickActions) {
+    this._onRowClick = value;
+  }
+
+  get onRowDoubleClick(): RowClickActions {
+    return this._onRowDoubleClick;
+  }
+
+  set onRowDoubleClick(value: RowClickActions) {
+    this._onRowDoubleClick = value;
   }
 
   get pagination(): boolean {

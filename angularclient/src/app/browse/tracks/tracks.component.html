@@ -1,4 +1,4 @@
-<div *ngIf="(titleQueue| mpdTrackFilter: filterValue).length">
+<div *ngIf="(tracks| mpdTrackFilter: filterValue).length">
   <div fxLayout="row" fxLayout.lt-md="column" fxLayoutAlign="space-around">
     <div fxFlex="1 1 auto" fxLayoutAlign="start center">
     <span class="list-header mat-h3">
@@ -13,32 +13,6 @@
 
   <mat-divider></mat-divider>
 
-  <mat-list
-      role="list"
-      *ngFor="let track of titleQueue | mpdTrackFilter: filterValue"
-      (click)="onAddTitle(track)"
-  >
-    <mat-list-item role="listitem" class="list-item">
-      <mat-icon>audiotrack</mat-icon> &nbsp;
-      <span class="text-muted space-right"
-            (dblclick)="onPlayTitle(track)"> &#35;{{ track.track }} </span>
-      {{ track.title }} &nbsp;
-      <span class="text-muted">{{ track.length | secondsToMmSs }}</span>
-      <span class="fill-space"></span>
-      <i
-          class="material-icons clickable chip"
-          (click)="onPlayTitle(track)"
-          title="Play track"
-      >
-        play_arrow
-      </i>
-      <i
-          class="material-icons clickable chip"
-          (click)="onAddTitle(track)"
-          title="Add track to queue"
-      >
-        add
-      </i>
-    </mat-list-item>
-  </mat-list>
+  <!-- Tracks in this dir -->
+  <app-track-data-table [trackTableData]="trackTableData"></app-track-data-table>
 </div>

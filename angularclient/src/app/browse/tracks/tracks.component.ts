@@ -53,7 +53,7 @@ export class TracksComponent extends Filterable {
 
   coverUrl(): string {
     // Add a query param to trigger an image change in the browser
-    return `${ConnConfUtil.getFindTrackCoverUrl()}?path=${encodeURIComponent(
+    return `${ConnConfUtil.getFindDirCoverUrl()}?path=${encodeURIComponent(
       this.getParamDir
     )}`;
   }

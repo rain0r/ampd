@@ -26,7 +26,7 @@ export class ConnConfUtil {
    * a track path.
    */
   static getFindTrackCoverUrl(): string {
-    const currentCoverUrl = "find-dir-cover";
+    const currentCoverUrl = "find-track-cover";
     return `${ConnConfUtil.getBackendAddr()}/${currentCoverUrl}`;
   }
 

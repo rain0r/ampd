@@ -10,20 +10,26 @@ import org.springframework.stereotype.Component;
 public class SettingsBean {
 
   private static final Logger LOG = LoggerFactory.getLogger(SettingsBean.class);
+
   private final boolean localCoverCache;
+
   private final boolean mbCoverService;
+
   private final String mpdPassword;
+
   private final int mpdPort;
+
   private final String mpdServer;
+
   private final String musicDirectory;
 
   @Autowired
-  public SettingsBean(@Value("${mpd.server:localhost}") String mpdServer,
-      @Value("${mpd.music.directory:}") String musicDirectory,
-      @Value("${mpd.port:660}") int mpdPort,
-      @Value("${mpd.password:}") String mpdPassword,
-      @Value("${local.cover.cache:true}") boolean localCoverCache,
-      @Value("${mb.cover.service:true}") boolean mbCoverService
+  public SettingsBean(@Value("${mpd.server:localhost}") final String mpdServer,
+      @Value("${mpd.music.directory:}") final String musicDirectory,
+      @Value("${mpd.port:660}") final int mpdPort,
+      @Value("${mpd.password:}") final String mpdPassword,
+      @Value("${local.cover.cache:true}") final boolean localCoverCache,
+      @Value("${mb.cover.service:true}") final boolean mbCoverService
   ) {
     this.mpdServer = mpdServer;
     this.musicDirectory = musicDirectory;

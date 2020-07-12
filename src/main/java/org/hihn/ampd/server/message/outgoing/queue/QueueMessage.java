@@ -1,5 +1,7 @@
 package org.hihn.ampd.server.message.outgoing.queue;
 
+import java.util.HashMap;
+import java.util.Map;
 import org.hihn.ampd.server.message.AmpdMessage;
 
 public class QueueMessage extends AmpdMessage {
@@ -8,13 +10,16 @@ public class QueueMessage extends AmpdMessage {
 
   private final QueuePayload payload;
 
-  public QueueMessage(QueuePayload payload) {
+  public QueueMessage(final QueuePayload payload) {
     this.payload = payload;
   }
 
   @Override
-  public Object getPayload() {
-    return payload;
+  public Map<String, Object> getPayload() {
+    Map<String, Object> ret = new HashMap<>();
+    ret.put("checkSum", payload.getCheckSum());
+    ret.put("tracks", payload.getTracks());
+    return ret;
   }
 
   @Override

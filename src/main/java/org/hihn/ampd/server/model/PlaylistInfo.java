@@ -14,8 +14,8 @@ public class PlaylistInfo {
 
   private Collection<MpdSong> tracks;
 
-  public PlaylistInfo(String name, int trackCount,
-      Collection<MpdSong> tracks) {
+  public PlaylistInfo(final String name, final int trackCount,
+      final Collection<MpdSong> tracks) {
     this.name = name;
     this.trackCount = trackCount;
     this.tracks = tracks;
@@ -25,7 +25,7 @@ public class PlaylistInfo {
     return name;
   }
 
-  public void setName(String name) {
+  public void setName(final String name) {
     this.name = name;
   }
 
@@ -33,7 +33,7 @@ public class PlaylistInfo {
     return trackCount;
   }
 
-  public void setTrackCount(int trackCount) {
+  public void setTrackCount(final int trackCount) {
     this.trackCount = trackCount;
   }
 
@@ -41,7 +41,7 @@ public class PlaylistInfo {
     return tracks;
   }
 
-  public void setTracks(Collection<MpdSong> tracks) {
+  public void setTracks(final Collection<MpdSong> tracks) {
     this.tracks = tracks;
   }
 }

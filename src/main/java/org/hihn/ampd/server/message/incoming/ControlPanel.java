@@ -11,20 +11,24 @@ import org.slf4j.LoggerFactory;
 public class ControlPanel {
 
   private static final Logger LOG = LoggerFactory.getLogger(ControlPanel.class);
-  boolean consume = false;
-  boolean crossfade = false;
-  boolean random = false;
-  boolean repeat = false;
-  boolean single = false;
 
-  public ControlPanel(ServerStatus serverStatus) {
-    Collection<String> statusList = serverStatus.getStatus();
+  boolean consume;
+
+  boolean crossfade;
+
+  boolean random;
+
+  boolean repeat;
+
+  boolean single;
+
+  public ControlPanel(final ServerStatus serverStatus) {
+    final Collection<String> statusList = serverStatus.getStatus();
     setCrossfade(serverStatus.getCrossfade());
 
-    for (String status : statusList) {
-
-      String[] splitted = status.split(":");
-      boolean newValue = "1".equals(splitted[1].trim());
+    for (final String status : statusList) {
+      final String[] splitted = status.split(":");
+      final boolean newValue = "1".equals(splitted[1].trim());
 
       switch (splitted[0].trim()) {
         case "random":
@@ -61,7 +65,7 @@ public class ControlPanel {
     return consume;
   }
 
-  public void setConsume(boolean consume) {
+  public void setConsume(final boolean consume) {
     this.consume = consume;
   }
 
@@ -69,11 +73,11 @@ public class ControlPanel {
     return crossfade;
   }
 
-  public void setCrossfade(boolean crossfade) {
+  public void setCrossfade(final boolean crossfade) {
     this.crossfade = crossfade;
   }
 
-  public void setCrossfade(int xfade) {
+  public void setCrossfade(final int xfade) {
     setCrossfade(1 == xfade);
   }
 
@@ -81,7 +85,7 @@ public class ControlPanel {
     return random;
   }
 
-  public void setRandom(boolean random) {
+  public void setRandom(final boolean random) {
     this.random = random;
   }
 
@@ -89,7 +93,7 @@ public class ControlPanel {
     return repeat;
   }
 
-  public void setRepeat(boolean repeat) {
+  public void setRepeat(final boolean repeat) {
     this.repeat = repeat;
   }
 
@@ -97,7 +101,7 @@ public class ControlPanel {
     return single;
   }
 
-  public void setSingle(boolean single) {
+  public void setSingle(final boolean single) {
     this.single = single;
   }
 

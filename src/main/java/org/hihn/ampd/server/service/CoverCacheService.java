@@ -27,11 +27,14 @@ public class CoverCacheService {
    * Name of the dir that holds all covers.
    */
   private static final String CACHE_DIR_NAME = "covers";
+
   private static final Logger LOG = LoggerFactory.getLogger(CoverCacheService.class);
+
   private final Optional<Path> chacheDir;
+
   private final SettingsBean settingsBean;
 
-  public CoverCacheService(SettingsBean settingsBean) {
+  public CoverCacheService(final SettingsBean settingsBean) {
     this.settingsBean = settingsBean;
     chacheDir = buildCacheDir();
   }
@@ -50,7 +53,7 @@ public class CoverCacheService {
             .mapToLong(p -> p.toFile().length())
             .sum();
       }
-    } catch (IOException e) {
+    } catch (final IOException e) {
       LOG.warn("Could not get the size of the cover cache dir: {}", e.getMessage());
     }
     return size;
@@ -64,18 +67,18 @@ public class CoverCacheService {
    * @param titleOrAlbum Are we looking for the cover of an album or single track.
    * @return An optional with the bytes of the found cover in a successful case.
    */
-  public Optional<byte[]> loadCover(CoverType coverType, String artist, String titleOrAlbum) {
-    if (!useCache()) {
-      LOG.debug("Cache-use is turned off");
+  public Optional<byte[]> loadCover(final CoverType coverType, final String artist,
+      final String titleOrAlbum) {
+    if (!cachingActive()) {
       return Optional.empty();
     }
 
-    String fileName = buildFileName(coverType, artist, titleOrAlbum);
-    Path fullPath = Paths.get(chacheDir.get().toString(), fileName)
+    final String fileName = buildFileName(coverType, artist, titleOrAlbum);
+    final Path fullPath = Paths.get(chacheDir.get().toString(), fileName)
         .toAbsolutePath();
     try {
       return loadFile(fullPath);
-    } catch (Exception e) {
+    } catch (final Exception e) {
       return Optional.empty();
     }
   }
@@ -86,10 +89,10 @@ public class CoverCacheService {
    * @param path The path of a file.
    * @return The bytes of the file.
    */
-  public Optional<byte[]> loadFile(Path path) {
+  public Optional<byte[]> loadFile(final Path path) {
     try {
       return Optional.of(Files.readAllBytes(path));
-    } catch (IOException e) {
+    } catch (final IOException e) {
       return Optional.empty();
     }
   }
@@ -100,8 +103,8 @@ public class CoverCacheService {
    * @param trackFilePath The path of the file to read.
    * @return An optional with the bytes of the found cover in a successful case.
    */
-  public Optional<byte[]> loadFileAsResource(String trackFilePath) {
-    Optional<Path> coverFile = findCoverFileName(trackFilePath);
+  public Optional<byte[]> loadFileAsResource(final String trackFilePath) {
+    final Optional<Path> coverFile = findCoverFileName(trackFilePath);
     Optional<byte[]> ret = Optional.empty();
     if (coverFile.isPresent()) {
       ret = loadFile(coverFile.get());
@@ -117,14 +120,15 @@ public class CoverCacheService {
    * @param titleOrAlbum Is this the cover of an album or a single track.
    * @param file         The cover itself.
    */
-  public void saveCover(CoverType coverType, String artist, String titleOrAlbum, byte[] file) {
-    if (!useCache()) {
+  public void saveCover(final CoverType coverType, final String artist, final String titleOrAlbum,
+      final byte[] file) {
+    if (!cachingActive()) {
       return;
     }
 
     try {
-      String fileName = buildFileName(coverType, artist, titleOrAlbum);
-      Path fullPath = Paths.get(chacheDir.get().toString(), fileName).toAbsolutePath();
+      final String fileName = buildFileName(coverType, artist, titleOrAlbum);
+      final Path fullPath = Paths.get(chacheDir.get().toString(), fileName).toAbsolutePath();
 
       // Don't write the file if it already exists
       if (!fullPath.toFile().exists()) {
@@ -132,7 +136,7 @@ public class CoverCacheService {
             titleOrAlbum);
         Files.write(fullPath, file);
       }
-    } catch (IOException e) {
+    } catch (final IOException e) {
       LOG.warn("Failed to save cover to local cache: {}", e.getMessage());
     }
   }
@@ -146,11 +150,12 @@ public class CoverCacheService {
   @edu.umd.cs.findbugs.annotations.SuppressFBWarnings(
       value = "RCN_REDUNDANT_NULLCHECK_WOULD_HAVE_BEEN_A_NPE",
       justification = "It's a java 11 compiler bug")
-  public List<Path> scanDir(Path path) {
-    List<Path> covers = new ArrayList<>();
-    try (DirectoryStream<Path> stream = Files.newDirectoryStream(path, "cover.{jpg,jpeg,png}")) {
-      stream.forEach(file -> covers.add(file));
-    } catch (IOException e) {
+  public List<Path> scanDir(final Path path) {
+    final List<Path> covers = new ArrayList<>();
+    try (final DirectoryStream<Path> stream = Files
+        .newDirectoryStream(path, "cover.{jpg,jpeg,png}")) {
+      stream.forEach(covers::add);
+    } catch (final IOException e) {
       LOG.debug("No covers found in: {}", path);
     }
     return covers;
@@ -161,7 +166,7 @@ public class CoverCacheService {
       return Optional.empty();
     }
 
-    Path cacheDirPath = Paths
+    final Path cacheDirPath = Paths
         .get(System.getProperty("user.home"), ".local", "share", "ampd", CACHE_DIR_NAME);
 
     // create ampd home
@@ -176,7 +181,8 @@ public class CoverCacheService {
     return Optional.of(cacheDirPath);
   }
 
-  private String buildFileName(CoverType coverType, String artist, String titleOrAlbum) {
+  private String buildFileName(final CoverType coverType, final String artist,
+      final String titleOrAlbum) {
     return coverType.getPrefix()
         + stripAccents(artist)
         + "_"
@@ -186,7 +192,7 @@ public class CoverCacheService {
 
   @edu.umd.cs.findbugs.annotations.SuppressFBWarnings(
       value = "NP_NULL_ON_SOME_PATH_FROM_RETURN_VALUE")
-  private Optional<Path> findCoverFileName(String trackFilePath) {
+  private Optional<Path> findCoverFileName(final String trackFilePath) {
 
     if (settingsBean.getMusicDirectory().isEmpty()) {
       LOG.info("No music directory set, aborting.");
@@ -194,7 +200,7 @@ public class CoverCacheService {
     }
 
     Optional<Path> ret = Optional.empty();
-    Path path = Paths.get(settingsBean.getMusicDirectory(), trackFilePath);
+    final Path path = Paths.get(settingsBean.getMusicDirectory(), trackFilePath);
 
     if (path.getParent() == null || !path.toFile().exists()) {
       LOG.error("No valid path: '{}'", path);
@@ -204,7 +210,7 @@ public class CoverCacheService {
     if (path.getParent() == null) {
       return Optional.empty();
     }
-    List<Path> covers = scanDir(path.getParent());
+    final List<Path> covers = scanDir(path.getParent());
 
     if (covers.size() > 0) {
       ret = Optional.of(covers.get(0));
@@ -219,17 +225,17 @@ public class CoverCacheService {
    * @param input Input string to strip.
    * @return The stripped string.
    */
-  private String stripAccents(final String input) {
+  private String stripAccents(String input) {
     if (input == null) {
       return null;
     }
-    final Pattern pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+"); // $NON-NLS-1$
-    final StringBuilder decomposed =
+    Pattern pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+"); // $NON-NLS-1$
+    StringBuilder decomposed =
         new StringBuilder(Normalizer.normalize(input, Normalizer.Form.NFD));
     return pattern.matcher(decomposed).replaceAll("");
   }
 
-  private boolean useCache() {
+  private boolean cachingActive() {
     return settingsBean.isLocalCoverCache() && chacheDir.isPresent();
   }
 

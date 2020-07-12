@@ -26,7 +26,7 @@ public class CoverController {
   private final CoverArtFetcherService coverArtFetcherService;
 
   @Autowired
-  public CoverController(CoverArtFetcherService coverArtFetcherService) {
+  public CoverController(final CoverArtFetcherService coverArtFetcherService) {
     this.coverArtFetcherService = coverArtFetcherService;
   }
 
@@ -41,7 +41,7 @@ public class CoverController {
       produces = MediaType.IMAGE_JPEG_VALUE
   )
   public @ResponseBody
-  byte[] findCoverByPath(@RequestParam("path") Optional<String> trackFilePath) {
+  byte[] findCoverByPath(@RequestParam("path") final Optional<String> trackFilePath) {
     return coverArtFetcherService.findAlbumCover(trackFilePath)
         .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
   }

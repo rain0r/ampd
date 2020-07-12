@@ -17,12 +17,14 @@ import org.springframework.stereotype.Component;
 public class ScheduledStatePublisher {
 
   private static final String PUBLISH_URL = "/topic/state";
+
   private final Mpd mpd;
+
   @Autowired
   private SimpMessagingTemplate template;
 
   @Autowired
-  public ScheduledStatePublisher(MpdConfiguration mpdConfiguration) {
+  public ScheduledStatePublisher(final MpdConfiguration mpdConfiguration) {
     mpd = mpdConfiguration.mpd();
   }
 
@@ -36,11 +38,11 @@ public class ScheduledStatePublisher {
     }
 
     mpd.getServerStatus().setExpiryInterval(1L); // Tells javampd to get fresh data every second
-    ControlPanel controlPanel = new ControlPanel(mpd.getServerStatus());
-    StatePayload statePayload =
+    final ControlPanel controlPanel = new ControlPanel(mpd.getServerStatus());
+    final StatePayload statePayload =
         new StatePayload(mpd.getServerStatus(), mpd.getPlayer().getCurrentSong(), controlPanel);
 
-    StateMessage message = new StateMessage(statePayload);
+    final StateMessage message = new StateMessage(statePayload);
     template.convertAndSend(PUBLISH_URL, message);
   }
 }

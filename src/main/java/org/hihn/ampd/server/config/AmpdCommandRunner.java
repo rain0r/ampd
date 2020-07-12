@@ -1,5 +1,6 @@
 package org.hihn.ampd.server.config;
 
+import java.util.Map;
 import java.util.Optional;
 import org.hihn.ampd.server.message.Message;
 
@@ -8,5 +9,5 @@ import org.hihn.ampd.server.message.Message;
  */
 public interface AmpdCommandRunner {
 
-  Optional<Message> run(Object inputPayload);
+  Optional<Message> run(Map<String, Object> inputPayload);
 }

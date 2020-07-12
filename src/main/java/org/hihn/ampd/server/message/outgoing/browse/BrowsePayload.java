@@ -12,19 +12,21 @@ import org.bff.javampd.song.MpdSong;
  */
 public class BrowsePayload {
 
-  private final ArrayList<MpdFile> directories = new ArrayList<>();
-  private final ArrayList<Playlist> playlists = new ArrayList<>();
-  private final ArrayList<MpdSong> tracks = new ArrayList<>();
+  private final List<MpdFile> directories = new ArrayList<>();
 
-  public void addDirectory(MpdFile mpdFile) {
+  private final List<Playlist> playlists = new ArrayList<>();
+
+  private final List<MpdSong> tracks = new ArrayList<>();
+
+  public void addDirectory(final MpdFile mpdFile) {
     directories.add(mpdFile);
   }
 
-  public void addPlaylists(Collection<Playlist> inputPlaylists) {
+  public void addPlaylists(final Collection<Playlist> inputPlaylists) {
     playlists.addAll(inputPlaylists);
   }
 
-  public void addTrack(MpdSong track) {
+  public void addTrack(final MpdSong track) {
     tracks.add(track);
   }
 

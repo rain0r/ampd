@@ -1,5 +1,7 @@
 package org.hihn.ampd.server.message.outgoing.state;
 
+import java.util.HashMap;
+import java.util.Map;
 import org.hihn.ampd.server.message.AmpdMessage;
 
 public class StateMessage extends AmpdMessage {
@@ -8,16 +10,21 @@ public class StateMessage extends AmpdMessage {
 
   private StatePayload payload;
 
-  public StateMessage(StatePayload payload) {
+  public StateMessage(final StatePayload payload) {
     this.payload = payload;
   }
 
   @Override
-  public Object getPayload() {
-    return payload;
+  public Map<String, Object> getPayload() {
+    Map<String, Object> ret = new HashMap<>();
+    ret.put("controlPanel", payload.getControlPanel());
+    ret.put("cover", payload.getCover());
+    ret.put("currentSong", payload.getCurrentSong());
+    ret.put("serverStatus", payload.getServerStatus());
+    return ret;
   }
 
-  public void setPayload(StatePayload payload) {
+  public void setPayload(final StatePayload payload) {
     this.payload = payload;
   }
 

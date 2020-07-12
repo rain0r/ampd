@@ -14,9 +14,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class SettingsController {
 
   private final CoverCacheService coverCacheService;
+
   private final SettingsBean settingsBean;
 
-  public SettingsController(SettingsBean settingsBean, CoverCacheService coverCacheService) {
+  public SettingsController(final SettingsBean settingsBean,
+      final CoverCacheService coverCacheService) {
     this.settingsBean = settingsBean;
     this.coverCacheService = coverCacheService;
   }

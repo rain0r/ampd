@@ -22,9 +22,7 @@ import { MatTableDataSource } from "@angular/material/table";
 export class PlaylistInfoModalComponent implements OnInit {
   playlistInfo: Observable<PlaylistInfo>;
   trackTableData = new TrackTableData();
-  private playlistInfoSubject: Subject<PlaylistInfo> = new Subject<
-    PlaylistInfo
-  >();
+  private playlistInfoSubject = new Subject<PlaylistInfo>();
 
   constructor(
     public dialogRef: MatDialogRef<PlaylistInfoModalComponent>,
@@ -83,9 +81,10 @@ export class PlaylistInfoModalComponent implements OnInit {
   private buildDataSource(tracks: MpdTrack[]) {
     const dataSource = new MatTableDataSource<QueueTrack>();
     const tmp: QueueTrack[] = [];
-    for (const item of tracks) {
-      tmp.push(new QueueTrack(item));
-    }
+    tracks.forEach((track, index) => {
+      track.position = index;
+      tmp.push(new QueueTrack(track));
+    });
     dataSource.data = tmp;
     return dataSource;
   }

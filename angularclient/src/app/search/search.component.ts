@@ -67,7 +67,6 @@ export class SearchComponent {
     searchResults: SearchResult[],
     searchResultCount: number
   ): void {
-    debugger
     this.resetSearch();
     const tracks = [];
     searchResults.forEach((track: SearchResult) => {
@@ -75,8 +74,6 @@ export class SearchComponent {
     });
     this.dataSource = new MatTableDataSource<QueueTrack>(tracks);
     this.trackTableData = this.buildTableData();
-    // this.dataSource.sort = this.sort;
-    // this.dataSource.paginator = this.paginator;
     this.searchResultCount = searchResultCount;
     this.spinnerVisible = false;
   }

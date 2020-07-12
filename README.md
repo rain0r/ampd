@@ -85,7 +85,7 @@ mb.cover.service=true
 
 `ampd` has some shortcuts built in:
 
- * `<space>`: Pauses the current running song. If the browser focus is on another button, that button may also be triggered.
+ * `<space>` or `p`: Pauses the current running song. If the browser focus is on another button, that button may also be triggered.
  * `<arrow right>` Next song. If you previously set the volume with the mouse, the shortcut may instead *increase* the volume.
  * `<arrow left>`: Previous song. If you previously set the volume with the mouse, the shortcut may instead *decrease* the volume.
  * `f`: Sets the focus to the filter. This is enabled on both the `Queue` and `Browse` view.
@@ -93,7 +93,7 @@ mb.cover.service=true
  * `2`: Navigate to the browse view
  * `3`: Navigate to the search view
  * `4`: Navigate to the settings view
- * `<doubleclick>` on a track plays it
+ * `<doubleclick>` on a track adds it to the queue and plays it
 
 # Hacking
 ## Building from source

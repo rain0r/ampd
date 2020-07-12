@@ -67,6 +67,7 @@ export class SearchComponent {
     searchResults: SearchResult[],
     searchResultCount: number
   ): void {
+    debugger
     this.resetSearch();
     const tracks = [];
     searchResults.forEach((track: SearchResult) => {

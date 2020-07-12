@@ -50,13 +50,14 @@ export class MpdModesComponent {
 
     let command = "";
     switch (event.key) {
-      case "ArrowLeft": // left
+      case "ArrowLeft": // Left: Previous track
         command = MpdCommands.SET_PREV;
         break;
-      case "ArrowRight": // right
+      case "ArrowRight": // Right: Next track
         command = MpdCommands.SET_NEXT;
         break;
-      case " ": // space
+      case "p":
+      case " ": // Space or 'p': pause
         if (this.currentState === "pause") {
           command = MpdCommands.SET_PLAY;
         } else if (this.currentState === "play") {

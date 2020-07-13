@@ -28,6 +28,11 @@ export class TrackTableData {
   private _displayedColumns: string[] = [];
 
   /**
+   * If true, a notification will be shown after a click action.
+   */
+  private _notify = false;
+
+  /**
    * The action that will be triggered on a row click.
    */
   private _onRowClick = RowClickActions.AddTrack;
@@ -82,6 +87,14 @@ export class TrackTableData {
 
   set displayedColumns(value: string[]) {
     this._displayedColumns = value;
+  }
+
+  get notify(): boolean {
+    return this._notify;
+  }
+
+  set notify(value: boolean) {
+    this._notify = value;
   }
 
   get onRowClick(): RowClickActions {

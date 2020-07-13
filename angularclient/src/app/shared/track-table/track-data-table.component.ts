@@ -86,7 +86,9 @@ export class TrackDataTableComponent implements OnChanges {
     this.webSocketService.sendData(MpdCommands.PLAY_TRACK, {
       path: track.file,
     });
-    this.notificationService.popUp(`Playing: ${track.title}`);
+    if (this.trackTableData.notify) {
+      this.notificationService.popUp(`Playing: ${track.title}`);
+    }
   }
 
   onAddPlayTrack(track: MpdTrack): void {
@@ -95,14 +97,18 @@ export class TrackDataTableComponent implements OnChanges {
     this.webSocketService.sendData(MpdCommands.ADD_PLAY_TRACK, {
       path: track.file,
     });
-    this.notificationService.popUp(`Playing: ${track.title}`);
+    if (this.trackTableData.notify) {
+      this.notificationService.popUp(`Playing: ${track.title}`);
+    }
   }
 
   onAddTrack(track: MpdTrack): void {
     this.webSocketService.sendData(MpdCommands.ADD_TRACK, {
       path: track.file,
     });
-    this.notificationService.popUp(`Added: ${track.title}`);
+    if (this.trackTableData.notify) {
+      this.notificationService.popUp(`Added: ${track.title}`);
+    }
   }
 
   private execRowAction(track: MpdTrack, action: RowClickActions) {

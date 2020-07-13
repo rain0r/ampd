@@ -57,6 +57,7 @@ export class TracksComponent extends Filterable implements OnInit {
     trackTable.clickable = true;
     trackTable.dataSource = new MatTableDataSource<MpdTrack>(this.tracks);
     trackTable.displayedColumns = this.getDisplayedColumns();
+    trackTable.notify = true;
     trackTable.playTitleColumn = true;
     return trackTable;
   }

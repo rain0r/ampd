@@ -46,7 +46,6 @@ export class QueueHeaderComponent implements OnInit {
   }
 
   private updateCover(): void {
-    this.displayCoverSubject.next(false);
     if (!this.currentSong.coverUrl) {
       return;
     }

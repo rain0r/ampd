@@ -10,16 +10,21 @@ export class DirectoryImpl implements Directory {
   directory: boolean;
   path: string;
 
+  coverUrl: string;
+  displayedPath: string;
+
   constructor(directory: boolean, path: string) {
     this.directory = directory;
     this.path = path;
+    this.coverUrl = this.buildCoverUrl();
+    this.displayedPath = this.buildDisplayedPath();
   }
 
-  displayedPath(): string {
+  private buildDisplayedPath(): string {
     return this.path.trim().split("/").pop() || "";
   }
 
-  coverUrl(): string {
+  private buildCoverUrl(): string {
     return `${ConnConfUtil.getFindDirCoverUrl()}?path=${encodeURIComponent(
       this.path
     )}`;

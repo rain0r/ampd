@@ -64,6 +64,13 @@ export class PlaylistInfoModalComponent implements OnInit {
     });
   }
 
+  onAddPlaylist(): void {
+    this.webSocketService.sendData(MpdCommands.ADD_PLAYLIST, {
+      playlist: this.data.name,
+    });
+    this.notificationService.popUp(`Added playlist: "${this.data.name}"`);
+  }
+
   private getDisplayedColumns(): string[] {
     const displayedColumns = [
       { name: "position", showMobile: false },

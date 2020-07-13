@@ -55,7 +55,6 @@ export class TrackDataTableComponent implements OnChanges {
   }
 
   onRowClick(track: MpdTrack): void {
-    console.log("onRowClick");
     this.preventSingleClick = false;
     this.timer = setTimeout(() => {
       // We'll wait for $delay if this might be a double click
@@ -82,6 +81,17 @@ export class TrackDataTableComponent implements OnChanges {
   }
 
   onPlayTrack(track: MpdTrack): void {
+    // Since this is triggered via table row icon (-> we're in /browse), we need to add
+    // the track first before we can play it
+    this.webSocketService.sendData(MpdCommands.PLAY_TRACK, {
+      path: track.file,
+    });
+    this.notificationService.popUp(`Playing: ${track.title}`);
+  }
+
+  onAddPlayTrack(track: MpdTrack): void {
+    // Since this is triggered via table row icon (-> we're in /browse), we need to add
+    // the track first before we can play it
     this.webSocketService.sendData(MpdCommands.ADD_PLAY_TRACK, {
       path: track.file,
     });

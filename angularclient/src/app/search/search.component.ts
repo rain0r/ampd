@@ -84,6 +84,7 @@ export class SearchComponent {
     trackTable.clickable = true;
     trackTable.dataSource = this.dataSource;
     trackTable.displayedColumns = this.getDisplayedColumns();
+    trackTable.notify = true;
     trackTable.pagination = true;
     trackTable.playTitleColumn = true;
     trackTable.sortable = true;

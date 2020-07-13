@@ -52,7 +52,7 @@
   <ng-container matColumnDef="addTitle" *ngIf="trackTableData.addTitleColumn">
     <th mat-header-cell *matHeaderCellDef></th>
     <td mat-cell *matCellDef="let track">
-      <span (click)="onPlayTrack(track)" class="clickable chip">
+      <span (click)="onAddPlayTrack(track)" class="clickable chip">
         <mat-icon> play_arrow </mat-icon>
       </span>
     </td>

@@ -9,27 +9,28 @@
       role="list"
       *ngFor="let playlist of playlistQueue | playlistFilter: filterValue"
   >
-    <mat-list-item role="listitem" class="list-item">
+    <mat-list-item role="listitem" class="list-item"
+                   (click)="onClickPlaylist(playlist.name)">
       <div
           class="full-width"
           fxLayout="row"
           fxLayoutGap="0.2rem"
           fxLayoutAlign="center center"
       >
-        <div (click)="onClickPlaylist(playlist.name)">
+        <div>
           <mat-icon>list</mat-icon> &nbsp;
         </div>
-        <div fxFlex="1 1 auto" (click)="onClickPlaylist(playlist.name)">
+        <div fxFlex="1 1 auto">
           {{ playlist.name }}
         </div>
-        <div class="text-muted" (click)="onClickPlaylist(playlist.name)">
+        <div class="text-muted">
           {{ playlist.count }}
         </div>
         <div>
           <mat-icon
               class="space-left"
               title="Info about playlist: {{playlist.name}}"
-              (click)="onPlaylistInfo(playlist)"
+              (click)="onPlaylistInfo($event, playlist)"
           >info</mat-icon>
         </div>
       </div>

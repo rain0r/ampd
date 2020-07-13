@@ -32,7 +32,8 @@ export class PlaylistsComponent extends Filterable {
     this.notificationService.popUp(`Added playlist: "${playlistName}"`);
   }
 
-  onPlaylistInfo(playlist: Playlist): void {
+  onPlaylistInfo($event: MouseEvent, playlist: Playlist): void {
+    $event.stopPropagation();
     this.dialog.open(PlaylistInfoModalComponent, {
       width: "70%",
       data: playlist,

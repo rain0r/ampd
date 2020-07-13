@@ -1,6 +1,9 @@
 import { Component, Input } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
-import { DirectoryImpl } from "../../shared/messages/incoming/directory-impl";
+import { ActivatedRoute, Router } from "@angular/router";
+import {
+  Directory,
+  DirectoryImpl,
+} from "../../shared/messages/incoming/directory-impl";
 import { MpdCommands } from "../../shared/mpd/mpd-commands";
 import { MessageService } from "../../shared/services/message.service";
 import { NotificationService } from "../../shared/services/notification.service";
@@ -20,7 +23,8 @@ export class DirectoriesComponent extends Filterable {
     private activatedRoute: ActivatedRoute,
     private webSocketService: WebSocketService,
     private notificationService: NotificationService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private router: Router
   ) {
     super(messageService);
     this.getParamDir =
@@ -30,13 +34,15 @@ export class DirectoriesComponent extends Filterable {
     });
   }
 
-  onPlayDir(dir: string): void {
-    this.onAddDir(dir);
+  onPlayDir($event: MouseEvent, dir: string): void {
+    $event.stopPropagation();
+    this.onAddDir($event, dir);
     this.webSocketService.send(MpdCommands.SET_PLAY);
     this.notificationService.popUp(`Playing dir: "${dir}"`);
   }
 
-  onAddDir(dir: string): void {
+  onAddDir($event: MouseEvent, dir: string): void {
+    $event.stopPropagation();
     if (dir.startsWith("/")) {
       dir = dir.substr(1, dir.length);
     }
@@ -44,5 +50,11 @@ export class DirectoriesComponent extends Filterable {
       dir,
     });
     this.notificationService.popUp(`Added dir: "${dir}"`);
+  }
+
+  onRowClick(dir: Directory): void {
+    this.router
+      .navigate(["browse"], { queryParams: { dir: dir.path } })
+      .catch(() => void 0);
   }
 }

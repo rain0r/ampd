@@ -15,7 +15,8 @@
       role="list"
       *ngFor="let dir of dirQueue | directoryFilter: filterValue"
   >
-    <mat-list-item role="listitem" class="browse-list-item list-item">
+    <mat-list-item role="listitem" class="browse-list-item list-item"
+    (click)="onRowClick(dir)">
       <div
           class="full-width"
           fxLayout="row"
@@ -25,19 +26,14 @@
         <div>
           <mat-icon>folder_open</mat-icon>
         </div>
-        <div
-            fxFlex="1 1 auto"
-            [routerLink]="['/browse']"
-            [queryParams]="{ dir: dir.path }"
-            class="clickable"
-        >
-          {{ dir.displayedPath() }}
+        <div fxFlex="1 1 auto">
+          {{ dir.displayedPath }}
         </div>
         <div>
           <mat-icon
               class="chip clickable"
               title="Play directory"
-              (click)="onPlayDir(dir.path)"
+              (click)="onPlayDir($event, dir.path)"
           >
             play_arrow
           </mat-icon>
@@ -46,7 +42,7 @@
           <mat-icon
               class="chip clickable"
               title="Add directory to queue"
-              (click)="onAddDir(dir.path)"
+              (click)="onAddDir($event, dir.path)"
           >
             add
           </mat-icon>
@@ -74,14 +70,14 @@
         <mat-card-header>
           <mat-card-title [routerLink]="['/browse']"
                           [queryParams]="{ dir: dir.path }">
-            {{ dir.displayedPath() }}
+            {{ dir.displayedPath }}
           </mat-card-title>
         </mat-card-header>
         <img
             mat-card-image
             [routerLink]="['/browse']"
             [queryParams]="{ dir: dir.path }"
-            src="{{ dir.coverUrl() }}"
+            src="{{ dir.coverUrl }}"
             alt="Cover of {{dir.path}}"
         />
         <mat-card-footer>
@@ -91,7 +87,7 @@
                 fxFlex="50%"
                 class="chip clickable cover-card-btn"
                 title="Add directory to queue"
-                (click)="onAddDir(dir.path)"
+                (click)="onAddDir($event, dir.path)"
             >
               add
             </mat-icon>
@@ -99,7 +95,7 @@
                 fxFlex="50%"
                 class="chip clickable cover-card-btn"
                 title="Play directory"
-                (click)="onPlayDir(dir.path)"
+                (click)="onPlayDir($event, dir.path)"
             >
               play_arrow
             </mat-icon>

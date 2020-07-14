@@ -4,11 +4,11 @@ import {
   SearchResult,
 } from "../shared/messages/incoming/search";
 import { QueueTrack } from "../shared/models/queue-track";
-import { MpdCommands } from "../shared/mpd/mpd-commands";
 import { WebSocketService } from "../shared/services/web-socket.service";
 import { DeviceDetectorService } from "ngx-device-detector";
 import { MatTableDataSource } from "@angular/material/table";
 import { TrackTableData } from "../shared/track-table/track-table-data";
+import { MpdCommands } from "../shared/mpd/mpd-commands.enum";
 
 @Component({
   selector: "app-search",

@@ -1,12 +1,12 @@
 import { Component, HostListener, OnInit, ViewChild } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
-import { MpdCommands } from "../../shared/mpd/mpd-commands";
 import { BrowseService } from "../../shared/services/browse.service";
 import { MessageService } from "../../shared/services/message.service";
 import { NotificationService } from "../../shared/services/notification.service";
 import { WebSocketService } from "../../shared/services/web-socket.service";
 import { InternalMessageType } from "../../shared/messages/internal/internal-message-type.enum";
 import { FilterMessage } from "../../shared/messages/internal/message-types/filter-message";
+import { MpdCommands } from "../../shared/mpd/mpd-commands.enum";
 
 @Component({
   selector: "app-navigation",

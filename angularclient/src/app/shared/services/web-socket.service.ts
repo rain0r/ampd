@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { filter, map } from "rxjs/internal/operators";
-import { REMOTE_QUEUE } from "../mpd/mpd-commands";
+
 import { RxStompService } from "@stomp/ng2-stompjs";
 import { BaseResponse } from "../messages/incoming/base-response";
 import { MpdTypes } from "../mpd/mpd-types";
@@ -11,25 +11,31 @@ import { SearchMsgPayload, SearchRoot } from "../messages/incoming/search";
 import { QueuePayload } from "../messages/incoming/queue-payload";
 import { ConnConfUtil } from "../conn-conf/conn-conf-util";
 import { PlaylistSaved } from "../messages/incoming/playlist-saved";
+import { MpdCommands } from "../mpd/mpd-commands.enum";
 
 @Injectable()
 export class WebSocketService {
+  /**
+   * Command target
+   * */
+  readonly REMOTE_QUEUE = "/app/mpd";
+
   constructor(private rxStompService: RxStompService) {}
 
-  send(cmd: string): void {
+  send(cmd: MpdCommands): void {
     const data = JSON.stringify({
       type: cmd,
       payload: null,
     });
-    this.rxStompService.publish({ destination: REMOTE_QUEUE, body: data });
+    this.rxStompService.publish({ destination: this.REMOTE_QUEUE, body: data });
   }
 
-  sendData(cmd: string, payload: Record<string, unknown>): void {
+  sendData(cmd: MpdCommands, payload: Record<string, unknown>): void {
     const data = JSON.stringify({
       type: cmd,
       payload,
     });
-    this.rxStompService.publish({ destination: REMOTE_QUEUE, body: data });
+    this.rxStompService.publish({ destination: this.REMOTE_QUEUE, body: data });
   }
 
   getStateSubscription(): Observable<StateMsgPayload> {

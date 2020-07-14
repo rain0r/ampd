@@ -22,6 +22,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+/**
+ * Queries MusicBrainz for covers.
+ */
 @Service
 public class MbCoverService {
 

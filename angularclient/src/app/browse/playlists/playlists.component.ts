@@ -1,12 +1,12 @@
 import { Component, Input } from "@angular/core";
 import { Playlist } from "../../shared/messages/incoming/playlist-impl";
-import { MpdCommands } from "../../shared/mpd/mpd-commands";
 import { MessageService } from "../../shared/services/message.service";
 import { NotificationService } from "../../shared/services/notification.service";
 import { WebSocketService } from "../../shared/services/web-socket.service";
 import { Filterable } from "../filterable";
 import { MatDialog } from "@angular/material/dialog";
 import { PlaylistInfoModalComponent } from "./playlist-info-modal/playlist-info-modal.component";
+import { MpdCommands } from "../../shared/mpd/mpd-commands.enum";
 
 @Component({
   selector: "app-playlists",

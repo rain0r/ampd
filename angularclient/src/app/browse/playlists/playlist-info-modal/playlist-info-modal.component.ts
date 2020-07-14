@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from "@angular/core";
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import { Playlist } from "../../../shared/messages/incoming/playlist-impl";
-import { MpdCommands } from "../../../shared/mpd/mpd-commands";
+
 import { WebSocketService } from "../../../shared/services/web-socket.service";
 import { NotificationService } from "../../../shared/services/notification.service";
 import { ActivatedRoute } from "@angular/router";
@@ -13,6 +13,7 @@ import { TrackTableData } from "../../../shared/track-table/track-table-data";
 import { MpdTrack } from "../../../shared/messages/incoming/mpd-track";
 import { QueueTrack } from "../../../shared/models/queue-track";
 import { MatTableDataSource } from "@angular/material/table";
+import { MpdCommands } from "../../../shared/mpd/mpd-commands.enum";
 
 @Component({
   selector: "app-playlist-info-modal",

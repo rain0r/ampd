@@ -7,6 +7,7 @@
   <img src="{{ data.coverUrl }}" alt="Cover" />
 </div>
 <div mat-dialog-actions align="end">
+  <button mat-stroked-button (click)="onBlacklistCover()">Blacklist</button>
   <a mat-stroked-button href="{{data.coverUrl}}" target="_blank">Open</a>
   <button mat-stroked-button (click)="onNoClick()">Close</button>
 </div>

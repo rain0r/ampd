@@ -1,10 +1,10 @@
 import { Component, HostListener } from "@angular/core";
 import { ControlPanel } from "../../shared/messages/incoming/control-panel";
-import { MpdCommands } from "../../shared/mpd/mpd-commands";
 import { WebSocketService } from "../../shared/services/web-socket.service";
 import { MatButtonToggleChange } from "@angular/material/button-toggle";
 import { MpdService } from "../../shared/services/mpd.service";
 import { NotificationService } from "../../shared/services/notification.service";
+import { MpdCommands } from "../../shared/mpd/mpd-commands.enum";
 
 @Component({
   selector: "app-mpd-modes",
@@ -48,7 +48,7 @@ export class MpdModesComponent {
       return;
     }
 
-    let command = "";
+    let command;
     switch (event.key) {
       case "ArrowLeft": // Left: Previous track
         command = MpdCommands.SET_PREV;
@@ -65,7 +65,8 @@ export class MpdModesComponent {
         }
         break;
       default:
-      // Ignore it
+        // Ignore it
+        return;
     }
     if (command) {
       this.webSocketService.send(command);

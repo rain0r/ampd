@@ -7,13 +7,13 @@ import {
   ViewChild,
 } from "@angular/core";
 import { MatSort } from "@angular/material/sort";
-import { MpdCommands } from "../mpd/mpd-commands";
 import { WebSocketService } from "../services/web-socket.service";
 import { TrackTableData } from "./track-table-data";
 import { MpdTrack } from "../messages/incoming/mpd-track";
 import { NotificationService } from "../services/notification.service";
 import { MatPaginator } from "@angular/material/paginator";
 import { RowClickActions } from "./row-click-actions.enum";
+import { MpdCommands } from "../mpd/mpd-commands.enum";
 
 @Component({
   selector: "app-track-data-table",

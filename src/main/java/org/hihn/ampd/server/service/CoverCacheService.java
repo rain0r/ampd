@@ -1,6 +1,5 @@
 package org.hihn.ampd.server.service;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
@@ -23,20 +22,21 @@ import org.springframework.stereotype.Service;
 @Service
 public class CoverCacheService {
 
-  /**
-   * Name of the dir that holds all covers.
-   */
-  private static final String CACHE_DIR_NAME = "covers";
-
   private static final Logger LOG = LoggerFactory.getLogger(CoverCacheService.class);
-
-  private final Optional<Path> chacheDir;
 
   private final SettingsBean settingsBean;
 
-  public CoverCacheService(final SettingsBean settingsBean) {
+  private final boolean cacheEnabled;
+
+  private Path chacheDir;
+
+  public CoverCacheService(final SettingsBean settingsBean,
+      final AmpdDirService ampdDirService) {
     this.settingsBean = settingsBean;
-    chacheDir = buildCacheDir();
+    cacheEnabled = settingsBean.isLocalCoverCache() && ampdDirService.getCacheDir().isPresent();
+    if (cacheEnabled) {
+      chacheDir = ampdDirService.getCacheDir().get();
+    }
   }
 
   /**
@@ -47,8 +47,8 @@ public class CoverCacheService {
   public Long getCoverDiskUsage() {
     long size = 0;
     try {
-      if (chacheDir.isPresent()) {
-        size = Files.walk(chacheDir.get())
+      if (cacheEnabled) {
+        size = Files.walk(chacheDir)
             .filter(p -> p.toFile().isFile())
             .mapToLong(p -> p.toFile().length())
             .sum();
@@ -69,12 +69,12 @@ public class CoverCacheService {
    */
   public Optional<byte[]> loadCover(final CoverType coverType, final String artist,
       final String titleOrAlbum) {
-    if (!cachingActive()) {
+    if (!cacheEnabled) {
       return Optional.empty();
     }
 
     final String fileName = buildFileName(coverType, artist, titleOrAlbum);
-    final Path fullPath = Paths.get(chacheDir.get().toString(), fileName)
+    final Path fullPath = Paths.get(chacheDir.toString(), fileName)
         .toAbsolutePath();
     try {
       return loadFile(fullPath);
@@ -122,13 +122,13 @@ public class CoverCacheService {
    */
   public void saveCover(final CoverType coverType, final String artist, final String titleOrAlbum,
       final byte[] file) {
-    if (!cachingActive()) {
+    if (!cacheEnabled) {
       return;
     }
 
     try {
       final String fileName = buildFileName(coverType, artist, titleOrAlbum);
-      final Path fullPath = Paths.get(chacheDir.get().toString(), fileName).toAbsolutePath();
+      final Path fullPath = Paths.get(chacheDir.toString(), fileName).toAbsolutePath();
 
       // Don't write the file if it already exists
       if (!fullPath.toFile().exists()) {
@@ -159,26 +159,6 @@ public class CoverCacheService {
       LOG.debug("No covers found in: {}", path);
     }
     return covers;
-  }
-
-  private Optional<Path> buildCacheDir() {
-    if (!settingsBean.isLocalCoverCache()) {
-      return Optional.empty();
-    }
-
-    final Path cacheDirPath = Paths
-        .get(System.getProperty("user.home"), ".local", "share", "ampd", CACHE_DIR_NAME);
-
-    // create ampd home
-    if (!Files.exists(cacheDirPath) && !new File(cacheDirPath.toString()).mkdirs()) {
-      LOG.warn(
-          "Could not create ampd home-dir: {}. This is not fatal, "
-              + "it just means, we can't save or load covers to the local cache.",
-          cacheDirPath);
-      return Optional.empty();
-    }
-
-    return Optional.of(cacheDirPath);
   }
 
   private String buildFileName(final CoverType coverType, final String artist,
@@ -234,9 +214,4 @@ public class CoverCacheService {
         new StringBuilder(Normalizer.normalize(input, Normalizer.Form.NFD));
     return pattern.matcher(decomposed).replaceAll("");
   }
-
-  private boolean cachingActive() {
-    return settingsBean.isLocalCoverCache() && chacheDir.isPresent();
-  }
-
 }

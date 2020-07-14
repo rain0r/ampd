@@ -3,6 +3,7 @@ package org.hihn.ampd.server.controller;
 import java.util.Optional;
 import org.hihn.ampd.server.message.Message;
 import org.hihn.ampd.server.message.incoming.IncomingMessage;
+import org.hihn.ampd.server.service.CoverBlacklistService;
 import org.hihn.ampd.server.service.MpdService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,8 +23,10 @@ public class WebSocketController {
   private final MpdService mpdService;
 
   @Autowired
-  public WebSocketController(final MpdService mpdService) {
+  public WebSocketController(final MpdService mpdService,
+      CoverBlacklistService coverBlacklistService) {
     this.mpdService = mpdService;
+    coverBlacklistService.loadBlacklistFile();
   }
 
   /**
@@ -37,6 +40,7 @@ public class WebSocketController {
   public Optional<Message> send(final IncomingMessage incomingMessage) {
     Optional<Message> outgoingMessage = Optional.empty();
     try {
+
       outgoingMessage = mpdService.process(incomingMessage);
     } catch (final Exception e) {
       LOG.error("Error processing {}", incomingMessage.getType());

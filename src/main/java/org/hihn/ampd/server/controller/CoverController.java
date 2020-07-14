@@ -1,7 +1,7 @@
 package org.hihn.ampd.server.controller;
 
 import java.util.Optional;
-import org.hihn.ampd.server.service.CoverArtFetcherService;
+import org.hihn.ampd.server.service.CoverFetcherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -19,11 +19,11 @@ import org.springframework.web.server.ResponseStatusException;
 @CrossOrigin
 public class CoverController {
 
-  private final CoverArtFetcherService coverArtFetcherService;
+  private final CoverFetcherService coverFetcherService;
 
   @Autowired
-  public CoverController(final CoverArtFetcherService coverArtFetcherService) {
-    this.coverArtFetcherService = coverArtFetcherService;
+  public CoverController(final CoverFetcherService coverFetcherService) {
+    this.coverFetcherService = coverFetcherService;
   }
 
   /**
@@ -38,7 +38,7 @@ public class CoverController {
   )
   public @ResponseBody
   byte[] findAlbumCoverForDir(@RequestParam("path") final Optional<String> dirPath) {
-    return coverArtFetcherService.findAlbumCoverForDir(dirPath)
+    return coverFetcherService.findAlbumCoverForDir(dirPath)
         .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
   }
 
@@ -54,7 +54,7 @@ public class CoverController {
   )
   public @ResponseBody
   byte[] findAlbumCoverForTrack(@RequestParam("path") final Optional<String> trackFilePath) {
-    return coverArtFetcherService.findAlbumCoverForTrack(trackFilePath)
+    return coverFetcherService.findAlbumCoverForTrack(trackFilePath)
         .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
   }
 
@@ -69,7 +69,7 @@ public class CoverController {
   )
   public @ResponseBody
   byte[] getCoverForCurrentTrack() {
-    return coverArtFetcherService.getCoverForCurrentTrack()
+    return coverFetcherService.getCoverForCurrentTrack()
         .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
   }
 }

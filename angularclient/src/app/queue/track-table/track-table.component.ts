@@ -1,7 +1,6 @@
 import { Component, HostListener } from "@angular/core";
 import { MatTableDataSource } from "@angular/material/table";
 import { Observable } from "rxjs/index";
-import { MpdCommands } from "../../shared/mpd/mpd-commands";
 import { WebSocketService } from "../../shared/services/web-socket.service";
 import { DeviceDetectorService } from "ngx-device-detector";
 import { QueuePayload } from "../../shared/messages/incoming/queue-payload";
@@ -12,6 +11,7 @@ import { SavePlaylistModalComponent } from "../save-playlist-modal/save-playlist
 import { NotificationService } from "../../shared/services/notification.service";
 import { TrackTableData } from "../../shared/track-table/track-table-data";
 import { RowClickActions } from "../../shared/track-table/row-click-actions.enum";
+import { MpdCommands } from "../../shared/mpd/mpd-commands.enum";
 
 @Component({
   selector: "app-track-table",

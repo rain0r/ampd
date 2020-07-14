@@ -1,10 +1,10 @@
 import { Component } from "@angular/core";
 import { ControlPanel } from "../../shared/messages/incoming/control-panel";
-import { MpdCommands } from "../../shared/mpd/mpd-commands";
 import { WebSocketService } from "../../shared/services/web-socket.service";
 import { NotificationService } from "../../shared/services/notification.service";
 import { MpdService } from "../../shared/services/mpd.service";
 import { Observable } from "rxjs";
+import { MpdCommands } from "../../shared/mpd/mpd-commands.enum";
 
 @Component({
   selector: "app-control-panel",
@@ -25,7 +25,7 @@ export class ControlPanelComponent {
   }
 
   handleControlButton(event: MouseEvent): void {
-    let command = "";
+    let command;
     const element = event.currentTarget as HTMLInputElement;
     switch (element.id) {
       case "btn-prev":
@@ -44,7 +44,8 @@ export class ControlPanelComponent {
         command = MpdCommands.SET_NEXT;
         break;
       default:
-      // Ignore it
+        // Ignore it
+        return;
     }
     if (command) {
       this.webSocketService.send(command);

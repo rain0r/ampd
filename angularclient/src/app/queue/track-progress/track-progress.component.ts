@@ -1,10 +1,10 @@
 import { Component } from "@angular/core";
 import { MatSliderChange } from "@angular/material/slider";
-import { MpdCommands } from "../../shared/mpd/mpd-commands";
 import { WebSocketService } from "../../shared/services/web-socket.service";
 import { QueueTrack } from "../../shared/models/queue-track";
 import { MpdService } from "../../shared/services/mpd.service";
 import { Observable } from "rxjs";
+import { MpdCommands } from "../../shared/mpd/mpd-commands.enum";
 
 @Component({
   selector: "app-track-progress",

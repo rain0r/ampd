@@ -2,9 +2,9 @@ import { Injectable } from "@angular/core";
 import { BrowseMsgPayload } from "../messages/incoming/browse";
 import { DirectoryImpl } from "../messages/incoming/directory-impl";
 import { BrowseInfo } from "../models/browse-info";
-import { MpdCommands } from "../mpd/mpd-commands";
 import { WebSocketService } from "./web-socket.service";
 import { Observable, Subject } from "rxjs";
+import { MpdCommands } from "../mpd/mpd-commands.enum";
 
 @Injectable()
 export class BrowseService {

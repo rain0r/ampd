@@ -15,12 +15,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 /**
- * Looks for album art and covers.
+ * Searches the local cache and MusicBrainz for covers.
  */
 @Service
-public class CoverArtFetcherService {
+public class CoverFetcherService {
 
-  private static final Logger LOG = LoggerFactory.getLogger(CoverArtFetcherService.class);
+  private static final Logger LOG = LoggerFactory.getLogger(CoverFetcherService.class);
 
   private final CoverCacheService coverCacheService;
 
@@ -30,14 +30,18 @@ public class CoverArtFetcherService {
 
   private final SettingsBean settingsBean;
 
-  public CoverArtFetcherService(
+  private final CoverBlacklistService coverBlacklistService;
+
+  public CoverFetcherService(
       final CoverCacheService coverCacheService,
       final MbCoverService mbCoverService,
-      final MpdConfiguration mpdConfiguration, SettingsBean settingsBean) {
+      final MpdConfiguration mpdConfiguration, SettingsBean settingsBean,
+      CoverBlacklistService coverBlacklistService) {
     this.coverCacheService = coverCacheService;
     this.mbCoverService = mbCoverService;
     this.settingsBean = settingsBean;
     mpd = mpdConfiguration.mpd();
+    this.coverBlacklistService = coverBlacklistService;
   }
 
   /**
@@ -86,7 +90,7 @@ public class CoverArtFetcherService {
   }
 
   private Optional<byte[]> getAlbumCoverForTrack(final MpdSong track) {
-    if (track == null) {
+    if (track == null || coverBlacklistService.isBlacklisted(track.getFile())) {
       return Optional.empty();
     }
     final CoverType coverType =

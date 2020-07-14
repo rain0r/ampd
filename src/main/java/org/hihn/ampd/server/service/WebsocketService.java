@@ -17,6 +17,8 @@ public interface WebsocketService {
 
   Optional<Message> addTrack(Map<String, Object> inputPayload);
 
+  Optional<Message> blacklistCover(Map<String, Object> inputPayload);
+
   Optional<Message> deletePlaylist(Map<String, Object> inputPayload);
 
   Optional<Message> browse(Map<String, Object> inputPayload);

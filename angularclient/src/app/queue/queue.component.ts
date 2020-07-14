@@ -1,6 +1,6 @@
 import { Component, HostListener, OnInit } from "@angular/core";
-import { MpdCommands } from "../shared/mpd/mpd-commands";
 import { WebSocketService } from "../shared/services/web-socket.service";
+import { MpdCommands } from "../shared/mpd/mpd-commands.enum";
 
 @Component({
   selector: "app-queue",

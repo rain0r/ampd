@@ -81,7 +81,8 @@ export class SettingsComponent {
     const getParam =
       this.activatedRoute.snapshot.queryParamMap.get("backend") || "";
     if (getParam) {
-      // We got a backend addr via get paramater, so we use it
+      // We got a backend addr via get paramater, save and display it
+      ConnConfUtil.setBackendAddr(getParam);
       return getParam;
     }
 

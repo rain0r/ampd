@@ -22,6 +22,7 @@ export class SettingsComponent {
   isDarkTheme: Observable<boolean>;
   isDisplayCovers: boolean;
   backendSettings: Observable<BackendSettings>;
+  coverBlacklist: Observable<string[]>;
   settingsForm: FormGroup;
 
   constructor(
@@ -36,6 +37,7 @@ export class SettingsComponent {
     this.gitCommitId = environment.gitCommitId;
     this.isDarkTheme = this.settingsService.isDarkTheme();
     this.backendSettings = this.getSettings();
+    this.coverBlacklist = this.getCoverBlacklist();
     this.isDisplayCovers = this.settingsService.isDisplayCovers();
     this.settingsForm = this.formBuilder.group({
       backendAddr: [savedAddr, Validators.required],
@@ -73,5 +75,11 @@ export class SettingsComponent {
     const backendAddr = ConnConfUtil.getBackendAddr();
     const url = `${backendAddr}/api/cover-usage`;
     return this.http.get<number>(url);
+  }
+
+  private getCoverBlacklist() {
+    const backendAddr = ConnConfUtil.getBackendAddr();
+    const url = `${backendAddr}/api/cover-blacklist`;
+    return this.http.get<string[]>(url);
   }
 }

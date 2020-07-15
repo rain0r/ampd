@@ -98,6 +98,24 @@
           </mat-hint
           >
         </mat-slide-toggle>
+
+        <!-- Cover blacklist -->
+        <mat-card *ngIf="settings.mbCoverService && coverBlacklist | async as blacklist">
+          <mat-card-header>
+            <mat-card-title>Cover blacklist</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <mat-list role="list">
+              <mat-list-item *ngFor="let song of blacklist">
+                {{song}}
+              </mat-list-item>
+            </mat-list>
+          </mat-card-content>
+          <mat-card-footer class="card-footer">
+            These files will not download a cover from MusicBrainz.
+          </mat-card-footer>
+        </mat-card>
+
       </mat-card-content>
       <mat-card-footer class="card-footer">
         Configure with <span class="mono code">-Dmb.cover.service=true</span> when starting ampd.
@@ -157,6 +175,7 @@
         Configure with <span class="mono code">-Dmpd.port=6600</span> when starting ampd.
       </mat-card-footer>
     </mat-card>
+    <!-- Submit Button -->
     <div>
       <button
           mat-raised-button

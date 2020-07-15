@@ -72,4 +72,8 @@ public class CoverBlacklistService {
       LOG.error(e.getMessage(), e);
     }
   }
+
+  public Set<String> getBlacklistedFiles() {
+    return blacklistedFiles;
+  }
 }

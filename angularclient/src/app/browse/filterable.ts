@@ -1,4 +1,3 @@
-import { Subscription } from "rxjs/index";
 import { MessageService } from "../shared/services/message.service";
 import { filter, map } from "rxjs/operators";
 import { InternalMessageType } from "../shared/messages/internal/internal-message-type.enum";
@@ -6,10 +5,9 @@ import { FilterMessage } from "../shared/messages/internal/message-types/filter-
 
 export abstract class Filterable {
   filterValue = "";
-  private subscription: Subscription = new Subscription();
 
   protected constructor(messageService: MessageService) {
-    this.subscription = messageService
+    messageService
       .getMessage()
       .pipe(
         filter((msg) => msg.type === InternalMessageType.BrowseFilter),

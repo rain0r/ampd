@@ -1,5 +1,9 @@
 package org.hihn.ampd.server;
 
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
+import java.net.Socket;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -28,8 +32,26 @@ public class ServerApplication {
   public void doSomethingAfterStartup() {
     System.out.println("\n==================================================");
     System.out.println("ampd is running on: " + address + ":" + port);
-    System.out.println("Visit http://localhost:" + port + " to configure it.");
+    System.out.println("Visit http://" + getLocalIp() + ":" + port + "?backend=" + getLocalIp()
+        + " to configure it.");
     System.out.println("(If you haven't already.)");
     System.out.println("==================================================");
+  }
+
+  private String getLocalIp() {
+    try (final DatagramSocket datagramSocket = new DatagramSocket()) {
+      datagramSocket.connect(InetAddress.getByName("google.com"), 10002);
+      String ip = datagramSocket.getLocalAddress().getHostAddress();
+      if (ip.equals("0.0.0.0")) {
+        // We're on a Mac, try something different
+        Socket socket = new Socket();
+        socket.connect(new InetSocketAddress("google.com", 80));
+        InetAddress foo = socket.getLocalAddress();
+        ip = socket.getLocalAddress().toString().replace("/", "");
+      }
+      return ip;
+    } catch (Exception e) {
+      return "localhost";
+    }
   }
 }

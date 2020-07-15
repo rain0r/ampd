@@ -1,6 +1,7 @@
 package org.hihn.ampd.server.service;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -31,14 +32,24 @@ public class AmpdDirService {
   public Optional<Path> getBlacklistFile() {
     final Path path = Paths
         .get(System.getProperty("user.home"), ".local", "share", "ampd", MB_BLACKLIST_FILE);
-
-    // Check, if the local ampd dir exists. If not, create it
-    if (!Files.exists(path) && !new File(path.toString()).canWrite()) {
+    if (!Files.exists(path)) {
+      try {
+        path.toFile().createNewFile();
+      } catch (IOException e) {
+        LOG.error("Could not create the MusicBrainz blacklist file: {}", path);
+        return Optional.empty();
+      }
+    }
+    if (!Files.exists(path)) {
       LOG.warn(
           "Could not find the MusicBrainz blacklist file: {}. This is not fatal, "
               + "it just means, we can't save or load the list of files which "
               + "should not get a MusicBrainz cover.",
           path);
+      return Optional.empty();
+    }
+    if (!new File(path.toString()).canWrite()) {
+      LOG.warn("Cannot write MusicBrainz blacklist file: {}", path);
       return Optional.empty();
     }
     return Optional.of(path);
@@ -47,7 +58,6 @@ public class AmpdDirService {
   public Optional<Path> getCacheDir() {
     final Path cacheDirPath = Paths
         .get(System.getProperty("user.home"), ".local", "share", "ampd", CACHE_DIR_NAME);
-
     // create ampd home
     if (!Files.exists(cacheDirPath) && !new File(cacheDirPath.toString()).mkdirs()) {
       LOG.warn(

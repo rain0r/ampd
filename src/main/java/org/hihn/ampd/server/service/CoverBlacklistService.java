@@ -22,7 +22,7 @@ public class CoverBlacklistService {
 
   private final SettingsBean settingsBean;
 
-  private final Set<String> blacklistedFiles = new HashSet();
+  private final Set<String> blacklistedFiles = new HashSet<>();
 
   public CoverBlacklistService(AmpdDirService ampdDirService,
       SettingsBean settingsBean) {

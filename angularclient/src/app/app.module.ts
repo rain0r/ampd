@@ -7,7 +7,7 @@ import {
   RxStompService,
   rxStompServiceFactory,
 } from "@stomp/ng2-stompjs";
-import { CoverModalComponent } from "src/app/shared/cover-modal/cover-modal.component";
+import { CoverModalComponent } from "src/app/queue/cover-modal/cover-modal.component";
 import { AppComponent } from "./app.component";
 import { BrowseComponent } from "./browse/browse.component";
 import { DirectoriesComponent } from "./browse/directories/directories.component";

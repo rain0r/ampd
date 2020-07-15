@@ -5,9 +5,12 @@ import { BehaviorSubject, Observable, throwError } from "rxjs/index";
 import { ResponsiveCoverSizeService } from "../../shared/services/responsive-cover-size.service";
 import { QueueTrack } from "../../shared/models/queue-track";
 import { MpdService } from "../../shared/services/mpd.service";
-import { catchError } from "rxjs/operators";
-import { CoverModalComponent } from "../../shared/cover-modal/cover-modal.component";
+import { catchError, filter, map } from "rxjs/operators";
+import { CoverModalComponent } from "../cover-modal/cover-modal.component";
 import { SettingsService } from "../../shared/services/settings.service";
+import { MessageService } from "../../shared/services/message.service";
+import { InternalMessageType } from "../../shared/messages/internal/internal-message-type.enum";
+import { FilterMessage } from "../../shared/messages/internal/message-types/filter-message";
 
 @Component({
   selector: "app-queue-header",
@@ -26,12 +29,14 @@ export class QueueHeaderComponent implements OnInit {
     private http: HttpClient,
     private responsiveCoverSizeService: ResponsiveCoverSizeService,
     private mpdService: MpdService,
-    private settingsService: SettingsService
+    private settingsService: SettingsService,
+    private messageService: MessageService
   ) {
     this.isDisplayCover = this.displayCoverSubject.asObservable();
     this.coverSizeClass = responsiveCoverSizeService.getCoverCssClass();
     this.getSongSubscription();
     this.getStateSubscription();
+    this.buildMessageReceiver();
   }
 
   ngOnInit(): void {
@@ -53,6 +58,7 @@ export class QueueHeaderComponent implements OnInit {
       .head(this.currentSong.coverUrl, { observe: "response" })
       .pipe(
         catchError(() => {
+          this.displayCoverSubject.next(false);
           return throwError("Not found");
         })
       )
@@ -81,5 +87,15 @@ export class QueueHeaderComponent implements OnInit {
     this.mpdService
       .getStateSubscription()
       .subscribe((state) => (this.currentState = state));
+  }
+
+  private buildMessageReceiver() {
+    this.messageService
+      .getMessage()
+      .pipe(
+        filter((msg) => msg.type === InternalMessageType.UpdateCover),
+        map((msg) => msg as FilterMessage)
+      )
+      .subscribe(() => this.updateCover());
   }
 }

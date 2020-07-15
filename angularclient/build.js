@@ -14,7 +14,7 @@ const argv = require('yargs')
   .option('url')
   .string('url')
   .describe('url', 'The url of the backend server')
-  .default('url', 'localhost')
+  .default('url', 'http://localhost:8080')
   .option('https')
   .boolean('https')
   .describe('https', 'use https instead of http')
@@ -38,7 +38,7 @@ const gitCommitId = require('child_process')
   .trim();
 
 let http, ws;
-if (argv['https'] === true) {
+if (argv['https']) {
   http = 'https';
   ws = 'wss';
 } else {
@@ -51,8 +51,8 @@ console.log(`Using context path: ${argv['context']}`);
 console.log(`Using versionParser: ${ampdVersion}`);
 console.log(`Using prod: ${argv['prod']}`);
 console.log(`Using url: ${argv['url']}`);
-console.log(`Using http: ${argv['https'] === true}`);
-console.log(`Using ws: ${argv['https'] === true}`);
+console.log(`Using https: ${argv['https']}`);
+console.log(`Using wss: ${argv['https']}`);
 console.log(`Using gitCommitId: ${gitCommitId}`);
 
 // Copy the environment template

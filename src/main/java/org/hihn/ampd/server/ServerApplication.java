@@ -32,7 +32,7 @@ public class ServerApplication {
   public void doSomethingAfterStartup() {
     System.out.println("\n==================================================");
     System.out.println("ampd is running on: " + address + ":" + port);
-    System.out.println("Visit http://" + getLocalIp() + ":" + port + "?backend=" + getLocalIp()
+    System.out.println("Visit http://" + getLocalIp() + ":" + port + "/settings?backend=" + getLocalIp() + ":" + port
         + " to configure it.");
     System.out.println("(If you haven't already.)");
     System.out.println("==================================================");

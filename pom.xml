@@ -17,7 +17,7 @@
     <java.version>11</java.version>
     <project.scm.id>github</project.scm.id>
     <frontend.prod>true</frontend.prod>
-    <frontend.url>localhost</frontend.url>
+    <frontend.url>localhost:8080</frontend.url>
     <frontend.https>false</frontend.https>
     <frontend.context>/</frontend.context>
     <skip.npm>false</skip.npm>

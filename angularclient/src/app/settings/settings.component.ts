@@ -9,6 +9,7 @@ import { Observable } from "rxjs";
 import { HttpClient } from "@angular/common/http";
 import { BackendSettings } from "../shared/models/backend-settings";
 import { SettingsService } from "../shared/services/settings.service";
+import { ActivatedRoute } from "@angular/router";
 
 @Component({
   selector: "app-settings",
@@ -30,9 +31,10 @@ export class SettingsComponent {
     private webSocketService: WebSocketService,
     private formBuilder: FormBuilder,
     private settingsService: SettingsService,
-    private http: HttpClient
+    private http: HttpClient,
+    private activatedRoute: ActivatedRoute
   ) {
-    const savedAddr = ConnConfUtil.getBackendAddr();
+    const savedAddr = this.getBackendAddr();
     this.ampdVersion = environment.ampdVersion;
     this.gitCommitId = environment.gitCommitId;
     this.isDarkTheme = this.settingsService.isDarkTheme();
@@ -81,5 +83,18 @@ export class SettingsComponent {
     const backendAddr = ConnConfUtil.getBackendAddr();
     const url = `${backendAddr}/api/cover-blacklist`;
     return this.http.get<string[]>(url);
+  }
+
+  private getBackendAddr() {
+    const getParam =
+      this.activatedRoute.snapshot.queryParamMap.get("backend") || "";
+    if (getParam) {
+      // We got a backend addr via get paramater, save and display it
+      ConnConfUtil.setBackendAddr(getParam);
+      return getParam;
+    }
+
+    // Return the saved backend addr
+    return ConnConfUtil.getBackendAddr();
   }
 }

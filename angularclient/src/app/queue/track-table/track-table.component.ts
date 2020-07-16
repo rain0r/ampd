@@ -12,6 +12,10 @@ import { NotificationService } from "../../shared/services/notification.service"
 import { TrackTableData } from "../../shared/track-table/track-table-data";
 import { RowClickActions } from "../../shared/track-table/row-click-actions.enum";
 import { MpdCommands } from "../../shared/mpd/mpd-commands.enum";
+import {
+  DISPLAY_SAVE_PLAYLIST_KEY,
+  SettingsService,
+} from "../../shared/services/settings.service";
 
 @Component({
   selector: "app-track-table",
@@ -27,6 +31,7 @@ export class TrackTableComponent {
   currentSongObservable: Observable<QueueTrack>;
   currentState = "stop";
   dataSource = new MatTableDataSource<QueueTrack>();
+  displaySaveCoverBtn: boolean;
   focus = false;
   trackTableData = new TrackTableData();
   queueDuration = 0;
@@ -36,11 +41,17 @@ export class TrackTableComponent {
     private deviceService: DeviceDetectorService,
     private webSocketService: WebSocketService,
     private mpdService: MpdService,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    private settingsService: SettingsService
   ) {
     this.currentSongObservable = this.mpdService.getSongSubscription();
     this.buildMessageReceiver();
     this.getStateSubscription();
+    this.displaySaveCoverBtn = settingsService.getBoolValue(
+      DISPLAY_SAVE_PLAYLIST_KEY,
+      true
+    );
+    console.log("displaySaveCoverBtn", this.displaySaveCoverBtn);
   }
 
   @HostListener("document:keydown.f", ["$event"])

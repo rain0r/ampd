@@ -22,7 +22,7 @@
       </mat-icon>
     </mat-form-field>
   </div>
-  <div fxLayoutAlign="end baseline">
+  <div fxLayoutAlign="end baseline" *ngIf="displaySaveCoverBtn">
     <button mat-stroked-button (click)="openCoverModal()">
       Save playlist
     </button>

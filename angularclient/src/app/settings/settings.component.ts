@@ -8,7 +8,11 @@ import { Observable } from "rxjs";
 
 import { HttpClient } from "@angular/common/http";
 import { BackendSettings } from "../shared/models/backend-settings";
-import { SettingsService } from "../shared/services/settings.service";
+import {
+  DISPLAY_COVERS_KEY,
+  DISPLAY_SAVE_PLAYLIST_KEY,
+  SettingsService,
+} from "../shared/services/settings.service";
 import { ActivatedRoute } from "@angular/router";
 
 @Component({
@@ -22,6 +26,7 @@ export class SettingsComponent {
   gitCommitId: string;
   isDarkTheme: Observable<boolean>;
   isDisplayCovers: boolean;
+  isDisplaySavePlaylist: boolean;
   backendSettings: Observable<BackendSettings>;
   coverBlacklist: Observable<string[]>;
   settingsForm: FormGroup;
@@ -40,7 +45,14 @@ export class SettingsComponent {
     this.isDarkTheme = this.settingsService.isDarkTheme();
     this.backendSettings = this.getSettings();
     this.coverBlacklist = this.getCoverBlacklist();
-    this.isDisplayCovers = this.settingsService.isDisplayCovers();
+    this.isDisplayCovers = this.settingsService.getBoolValue(
+      DISPLAY_COVERS_KEY,
+      true
+    );
+    this.isDisplaySavePlaylist = this.settingsService.getBoolValue(
+      DISPLAY_SAVE_PLAYLIST_KEY,
+      true
+    );
     this.settingsForm = this.formBuilder.group({
       backendAddr: [savedAddr, Validators.required],
     });
@@ -62,7 +74,12 @@ export class SettingsComponent {
   }
 
   toggleDisplayCovers(checked: boolean): void {
-    this.settingsService.setDisplayCovers(checked);
+    this.settingsService.setBoolVale(DISPLAY_COVERS_KEY, checked);
+    this.notificationService.popUp("Saved settings.");
+  }
+
+  toggleDisplaySavePlaylist(checked: boolean): void {
+    this.settingsService.setBoolVale(DISPLAY_SAVE_PLAYLIST_KEY, checked);
     this.notificationService.popUp("Saved settings.");
   }
 

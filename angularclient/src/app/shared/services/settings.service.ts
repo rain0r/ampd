@@ -1,13 +1,17 @@
 import { Injectable } from "@angular/core";
 import { BehaviorSubject, Observable } from "rxjs";
 
-const DARK_MODE_KEY = "isDarkTheme";
-const DISPLAY_COVERS_KEY = "isDisplayCovers";
+export const DARK_MODE_KEY = "isDarkTheme";
+export const DISPLAY_COVERS_KEY = "isDisplayCovers";
+export const DISPLAY_SAVE_PLAYLIST_KEY = "isDisplaySavePlaylist";
 
 @Injectable({
   providedIn: "root",
 })
 export class SettingsService {
+  /**
+   * Since we want this to be automatically applied, we store it in a subject.
+   */
   private darkThemeSubject = new BehaviorSubject(false);
 
   constructor() {
@@ -16,10 +20,6 @@ export class SettingsService {
 
   isDarkTheme(): Observable<boolean> {
     return this.darkThemeSubject.asObservable();
-  }
-
-  isDisplayCovers(): boolean {
-    return this.getBoolValue(DISPLAY_COVERS_KEY, true);
   }
 
   setDarkTheme(darkTheme: boolean): void {
@@ -32,8 +32,18 @@ export class SettingsService {
     }
   }
 
-  setDisplayCovers(displayCovers: boolean): void {
-    localStorage.setItem(DISPLAY_COVERS_KEY, JSON.stringify(displayCovers));
+  setBoolVale(key: string, value: boolean): void {
+    localStorage.setItem(key, JSON.stringify(value));
+  }
+
+  getBoolValue(key: string, defaultValue = false): boolean {
+    try {
+      const saved: string =
+        localStorage.getItem(key) || defaultValue.toString();
+      return <boolean>JSON.parse(saved);
+    } catch (err) {
+      return defaultValue;
+    }
   }
 
   private changeTheme(
@@ -50,15 +60,5 @@ export class SettingsService {
       backgroundColor
     );
     document.documentElement.style.setProperty("--border-color", borderColor);
-  }
-
-  private getBoolValue(key: string, defaultValue = false): boolean {
-    try {
-      const saved: string =
-        localStorage.getItem(key) || defaultValue.toString();
-      return <boolean>JSON.parse(saved);
-    } catch (err) {
-      return defaultValue;
-    }
   }
 }

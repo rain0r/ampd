@@ -21,9 +21,9 @@ import { ActivatedRoute } from "@angular/router";
   styleUrls: ["./settings.component.scss"],
 })
 export class SettingsComponent {
-  ampdVersion: string;
+  ampdVersion = environment.ampdVersion;
   coverCacheUsage = new Observable<number>();
-  gitCommitId: string;
+  gitCommitId = environment.gitCommitId;
   isDarkTheme: Observable<boolean>;
   isDisplayCovers: boolean;
   isDisplaySavePlaylist: boolean;
@@ -39,12 +39,11 @@ export class SettingsComponent {
     private http: HttpClient,
     private activatedRoute: ActivatedRoute
   ) {
-    const savedAddr = this.getBackendAddr();
-    this.ampdVersion = environment.ampdVersion;
-    this.gitCommitId = environment.gitCommitId;
+    this.settingsForm = this.formBuilder.group({
+      backendAddr: [this.getBackendAddr(), Validators.required],
+    });
+    // Backend settings
     this.isDarkTheme = this.settingsService.isDarkTheme();
-    this.backendSettings = this.getSettings();
-    this.coverBlacklist = this.getCoverBlacklist();
     this.isDisplayCovers = this.settingsService.getBoolValue(
       DISPLAY_COVERS_KEY,
       true
@@ -53,9 +52,10 @@ export class SettingsComponent {
       DISPLAY_SAVE_PLAYLIST_KEY,
       true
     );
-    this.settingsForm = this.formBuilder.group({
-      backendAddr: [savedAddr, Validators.required],
-    });
+    // Frontend settings
+    this.coverCacheUsage = this.settingsService.getCoverCacheDiskUsage();
+    this.backendSettings = this.settingsService.getBackendSettings();
+    this.coverBlacklist = this.settingsService.getCoverBlacklist();
   }
 
   onSubmit(): void {
@@ -81,25 +81,6 @@ export class SettingsComponent {
   toggleDisplaySavePlaylist(checked: boolean): void {
     this.settingsService.setBoolVale(DISPLAY_SAVE_PLAYLIST_KEY, checked);
     this.notificationService.popUp("Saved settings.");
-  }
-
-  private getSettings() {
-    this.coverCacheUsage = this.getCoverCacheDiskUsage();
-    const backendAddr = ConnConfUtil.getBackendAddr();
-    const url = `${backendAddr}/api/settings`;
-    return this.http.get<BackendSettings>(url);
-  }
-
-  private getCoverCacheDiskUsage() {
-    const backendAddr = ConnConfUtil.getBackendAddr();
-    const url = `${backendAddr}/api/cover-usage`;
-    return this.http.get<number>(url);
-  }
-
-  private getCoverBlacklist() {
-    const backendAddr = ConnConfUtil.getBackendAddr();
-    const url = `${backendAddr}/api/cover-blacklist`;
-    return this.http.get<string[]>(url);
   }
 
   private getBackendAddr() {

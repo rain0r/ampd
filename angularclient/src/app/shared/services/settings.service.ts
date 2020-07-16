@@ -1,5 +1,8 @@
 import { Injectable } from "@angular/core";
 import { BehaviorSubject, Observable } from "rxjs";
+import { ConnConfUtil } from "../conn-conf/conn-conf-util";
+import { BackendSettings } from "../models/backend-settings";
+import { HttpClient } from "@angular/common/http";
 
 export const DARK_MODE_KEY = "isDarkTheme";
 export const DISPLAY_COVERS_KEY = "isDisplayCovers";
@@ -14,7 +17,7 @@ export class SettingsService {
    */
   private darkThemeSubject = new BehaviorSubject(false);
 
-  constructor() {
+  constructor(private http: HttpClient) {
     this.setDarkTheme(this.getBoolValue(DARK_MODE_KEY));
   }
 
@@ -44,6 +47,24 @@ export class SettingsService {
     } catch (err) {
       return defaultValue;
     }
+  }
+
+  getBackendSettings() {
+    const backendAddr = ConnConfUtil.getBackendAddr();
+    const url = `${backendAddr}/api/settings`;
+    return this.http.get<BackendSettings>(url);
+  }
+
+  getCoverCacheDiskUsage() {
+    const backendAddr = ConnConfUtil.getBackendAddr();
+    const url = `${backendAddr}/api/cover-usage`;
+    return this.http.get<number>(url);
+  }
+
+  getCoverBlacklist() {
+    const backendAddr = ConnConfUtil.getBackendAddr();
+    const url = `${backendAddr}/api/cover-blacklist`;
+    return this.http.get<string[]>(url);
   }
 
   private changeTheme(

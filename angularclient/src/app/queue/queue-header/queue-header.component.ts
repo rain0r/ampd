@@ -7,7 +7,10 @@ import { QueueTrack } from "../../shared/models/queue-track";
 import { MpdService } from "../../shared/services/mpd.service";
 import { catchError, filter, map } from "rxjs/operators";
 import { CoverModalComponent } from "../cover-modal/cover-modal.component";
-import { SettingsService } from "../../shared/services/settings.service";
+import {
+  DISPLAY_COVERS_KEY,
+  SettingsService,
+} from "../../shared/services/settings.service";
 import { MessageService } from "../../shared/services/message.service";
 import { InternalMessageType } from "../../shared/messages/internal/internal-message-type.enum";
 import { FilterMessage } from "../../shared/messages/internal/message-types/filter-message";
@@ -65,7 +68,7 @@ export class QueueHeaderComponent implements OnInit {
       .subscribe(() => {
         if (
           this.currentState !== "stop" &&
-          this.settingsService.isDisplayCovers()
+          this.settingsService.getBoolValue(DISPLAY_COVERS_KEY, true)
         ) {
           this.displayCoverSubject.next(true);
         }

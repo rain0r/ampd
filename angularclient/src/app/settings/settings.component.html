@@ -4,21 +4,7 @@
       <span class="logo">ampd</span> settings
     </div>
     <mat-divider></mat-divider>
-    <!-- Backend address -->
-    <mat-card>
-      <mat-form-field class="full-width">
-        <input
-            matInput
-            required
-            formControlName="backendAddr"
-            placeholder="http://your-computer:8080"
-        />
-        <mat-hint align="end"
-        >Use the name or IP of the computer running ampd.
-        </mat-hint
-        >
-      </mat-form-field>
-    </mat-card>
+    <span class="mat-headline">Appearance</span>
     <!-- Dark mode toggle -->
     <mat-card>
       <mat-card-header>
@@ -32,7 +18,7 @@
             title="Turn the lights off / on"
         >💡
           <mat-hint align="end"
-          >Toggle the theme.
+          >Toggle the theme from bright to dark and back.
           </mat-hint
           >
         </mat-slide-toggle>
@@ -50,11 +36,50 @@
             (change)="toggleDisplayCovers($event.checked)"
         >💡
           <mat-hint align="end"
-          >Toggle if covers should be displayed.
+          >Toggle if covers should be displayed in the queue.
           </mat-hint
           >
         </mat-slide-toggle>
       </mat-card-content>
+    </mat-card>
+    <!-- Toggle display 'Save playlist' button -->
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Display &quot;Save playlist&quot; button</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <mat-slide-toggle
+            class="space-right"
+            [checked]="isDisplaySavePlaylist"
+            (change)="toggleDisplaySavePlaylist($event.checked)"
+        >💡
+          <mat-hint align="end"
+          >Toggle the button &quot;Save playlist&quot; should be display in the queue.
+          </mat-hint
+          >
+        </mat-slide-toggle>
+      </mat-card-content>
+    </mat-card>
+    <mat-divider></mat-divider>
+    <span class="mat-headline">Backend settings</span>
+    <div class="mat-caption">These settings have to be changed via
+      <span class="mono code">-D</span> when starting ampd. Alternatively, write them to
+      an <span class="mono code">ampd.conf</span> file. See the
+      <a [ngClass]="{ 'dark-theme': isDarkTheme | async }" href="https://github.com/rain0r/ampd/blob/master/README.md">README</a> for more.</div>
+    <!-- Backend  -->
+    <mat-card>
+      <mat-form-field class="full-width">
+        <input
+            matInput
+            required
+            formControlName="backendAddr"
+            placeholder="http://your-computer:8080"
+        />
+        <mat-hint align="end"
+        >Use the name or IP of the computer running ampd.
+        </mat-hint
+        >
+      </mat-form-field>
     </mat-card>
     <!-- Cover cache -->
     <mat-card *ngIf="backendSettings | async as settings">
@@ -98,27 +123,25 @@
           </mat-hint
           >
         </mat-slide-toggle>
-
-        <!-- Cover blacklist -->
-        <mat-card *ngIf="settings.mbCoverService && coverBlacklist | async as blacklist">
-          <mat-card-header>
-            <mat-card-title>Cover blacklist</mat-card-title>
-          </mat-card-header>
-          <mat-card-content>
-            <mat-list role="list">
-              <mat-list-item *ngFor="let song of blacklist">
-                {{song}}
-              </mat-list-item>
-            </mat-list>
-          </mat-card-content>
-          <mat-card-footer class="card-footer">
-            These files will not download a cover from MusicBrainz.
-          </mat-card-footer>
-        </mat-card>
-
       </mat-card-content>
       <mat-card-footer class="card-footer">
         Configure with <span class="mono code">-Dmb.cover.service=true</span> when starting ampd.
+      </mat-card-footer>
+    </mat-card>
+    <!-- Cover blacklist -->
+    <mat-card *ngIf="backendSettings | async as settings">
+      <mat-card-header>
+        <mat-card-title>Cover blacklist</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <mat-list role="list" *ngIf="settings.mbCoverService && coverBlacklist | async as blacklist">
+          <mat-list-item *ngFor="let song of blacklist" class="smaller-font">
+            {{song}}
+          </mat-list-item>
+        </mat-list>
+      </mat-card-content>
+      <mat-card-footer class="card-footer">
+        These files will not download a cover from MusicBrainz.
       </mat-card-footer>
     </mat-card>
     <!-- Music directory -->

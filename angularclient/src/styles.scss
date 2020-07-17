@@ -68,6 +68,18 @@ table {
 $hover-background-color: var(--hover-background-color);
 $background-color: var(--background-color);
 $border-color: var(--border-color);
+$font-color: var(--font-color);
+
+// "Normal" hyperlinks
+.no-deco-links {
+  text-decoration: none;
+  color: var(--font-color);
+}
+
+.no-deco-links:hover {
+  text-decoration: underline;
+  color: var(--font-color);
+}
 
 // Track table
 .table-row:hover {
@@ -170,4 +182,10 @@ $border-color: var(--border-color);
 
 .smaller-font {
   font-size: smaller !important;
+}
+
+.bottom-divider {
+  /* top | right | bottom | left */
+  padding: 1rem 0 1rem 0;
+  margin: 1rem 0 1rem 0;
 }

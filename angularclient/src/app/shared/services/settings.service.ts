@@ -29,9 +29,9 @@ export class SettingsService {
     localStorage.setItem(DARK_MODE_KEY, JSON.stringify(darkTheme));
     this.darkThemeSubject.next(darkTheme);
     if (darkTheme) {
-      this.changeTheme("#607d8b", "#ff9100", "#868e96");
+      this.changeTheme("#607d8b", "#ff9100", "#868e96", "white");
     } else {
-      this.changeTheme("#eeee", "#eeee", "#000");
+      this.changeTheme("#eeee", "#eeee", "#000", "rgba(0, 0, 0, 0.87)");
     }
   }
 
@@ -49,19 +49,19 @@ export class SettingsService {
     }
   }
 
-  getBackendSettings() {
+  getBackendSettings(): Observable<BackendSettings> {
     const backendAddr = ConnConfUtil.getBackendAddr();
     const url = `${backendAddr}/api/settings`;
     return this.http.get<BackendSettings>(url);
   }
 
-  getCoverCacheDiskUsage() {
+  getCoverCacheDiskUsage(): Observable<number> {
     const backendAddr = ConnConfUtil.getBackendAddr();
     const url = `${backendAddr}/api/cover-usage`;
     return this.http.get<number>(url);
   }
 
-  getCoverBlacklist() {
+  getCoverBlacklist(): Observable<string[]> {
     const backendAddr = ConnConfUtil.getBackendAddr();
     const url = `${backendAddr}/api/cover-blacklist`;
     return this.http.get<string[]>(url);
@@ -70,7 +70,8 @@ export class SettingsService {
   private changeTheme(
     hoverBackgroundColor: string,
     backgroundColor: string,
-    borderColor: string
+    borderColor: string,
+    fontColor: string
   ): void {
     document.documentElement.style.setProperty(
       "--hover-background-color",
@@ -81,5 +82,6 @@ export class SettingsService {
       backgroundColor
     );
     document.documentElement.style.setProperty("--border-color", borderColor);
+    document.documentElement.style.setProperty("--font-color", fontColor);
   }
 }

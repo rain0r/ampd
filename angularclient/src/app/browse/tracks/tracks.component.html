@@ -15,4 +15,15 @@
 
   <!-- Tracks in this dir -->
   <app-track-data-table [trackTableData]="trackTableData"></app-track-data-table>
+
+  <mat-divider class="bottom-divider"></mat-divider>
+
+  <div *ngIf="trackTableData.dataSource.data.length > 0" class="bottom-divider">
+    <span [ngPlural]="trackTableData.dataSource.data.length">
+      <ng-template ngPluralCase="=1">1 track </ng-template>
+      <ng-template ngPluralCase="other">{{ trackTableData.dataSource.data.length }} tracks</ng-template>
+    </span> in this directory.
+    Total playtime:     {{ queueDuration | secondsToHhMmSs }}
+  </div>
+
 </div>

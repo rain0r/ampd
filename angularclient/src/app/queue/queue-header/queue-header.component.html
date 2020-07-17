@@ -13,17 +13,23 @@
   >
     <div fxFlex="55%" fxLayout="column">
       <div class="mat-h2 queue-sub-title" fxFlex="100%" title="Title: {{currentSong.title}}">
+        <a class="no-deco-links" [routerLink]="['browse']" [queryParams]="{'dir': currentSong.dir}">
         {{ currentSong.title }}
+        </a>
       </div>
       <div
           class="mat-h2 queue-sub-title text-muted"
           *ngIf="currentSong.albumName"
           title="Album: {{currentSong.albumName}}"
       >
+        <a class="no-deco-links" [routerLink]="['browse']" [queryParams]="{'dir': currentSong.dir}">
         {{ currentSong.albumName }}
+        </a>
       </div>
       <div class="mat-h2 queue-sub-title" title="Artist: {{currentSong.artistName}}">
+        <a class="no-deco-links" [routerLink]="['browse']" [queryParams]="{'dir': currentSong.dir}">
         {{ currentSong.artistName }}
+        </a>
       </div>
     </div>
     <div fxLayoutAlign="end center">

@@ -20,6 +20,7 @@ export class TracksComponent extends Filterable implements OnInit {
   getParamDir = "";
   trackTableData = new TrackTableData();
   validCoverUrl = false;
+  queueDuration = 0;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -34,6 +35,7 @@ export class TracksComponent extends Filterable implements OnInit {
 
   ngOnInit(): void {
     this.trackTableData = this.buildTableData();
+    this.queueDuration = this.sumTrackDuration();
   }
 
   coverUrl(): string {
@@ -72,5 +74,16 @@ export class TracksComponent extends Filterable implements OnInit {
       "addTitle",
       "playTitle",
     ];
+  }
+
+  /**
+   * Calculate the sum of all track durations.
+   */
+  private sumTrackDuration(): number {
+    let ret = 0.0;
+    for (const item of this.trackTableData.dataSource.data) {
+      ret += item.length;
+    }
+    return ret;
   }
 }

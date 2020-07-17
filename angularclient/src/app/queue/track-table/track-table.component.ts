@@ -51,7 +51,6 @@ export class TrackTableComponent {
       DISPLAY_SAVE_PLAYLIST_KEY,
       true
     );
-    console.log("displaySaveCoverBtn", this.displaySaveCoverBtn);
   }
 
   @HostListener("document:keydown.f", ["$event"])

@@ -82,6 +82,7 @@ export class MpdService {
     queueTrack.elapsed = payload.serverStatus.elapsedTime;
     queueTrack.progress = payload.serverStatus.elapsedTime;
     queueTrack.changed = songChanged;
+    queueTrack.dir = this.buildDirForTrack(payload.currentSong.file);
     return queueTrack;
   }
 
@@ -110,5 +111,11 @@ export class MpdService {
     this.webSocketService
       .getPlaylistSavedSubscription()
       .subscribe((msg) => this.playlistSaved.next(msg));
+  }
+
+  private buildDirForTrack(file: string) {
+    const splitted = file.split("/");
+    const ret = splitted.slice(0, splitted.length - 1);
+    return ret.join("/");
   }
 }

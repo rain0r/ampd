@@ -25,6 +25,7 @@ export class QueueTrack implements MpdTrack {
   playing = false; // if the track is currently played
   progress = 0; // progress in seconds
   changed = false; // is this a new song
+  dir = ""; // the directory of this track
 
   constructor(currentSong?: MpdTrack) {
     if (currentSong) {

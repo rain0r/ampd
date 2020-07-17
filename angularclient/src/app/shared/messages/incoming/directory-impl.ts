@@ -9,7 +9,6 @@ export interface Directory {
 export class DirectoryImpl implements Directory {
   directory: boolean;
   path: string;
-
   coverUrl: string;
   displayedPath: string;
 

@@ -5,8 +5,6 @@ import { NotificationService } from "../shared/services/notification.service";
 import { WebSocketService } from "../shared/services/web-socket.service";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Observable } from "rxjs";
-
-import { HttpClient } from "@angular/common/http";
 import { BackendSettings } from "../shared/models/backend-settings";
 import {
   DISPLAY_COVERS_KEY,
@@ -36,7 +34,6 @@ export class SettingsComponent {
     private webSocketService: WebSocketService,
     private formBuilder: FormBuilder,
     private settingsService: SettingsService,
-    private http: HttpClient,
     private activatedRoute: ActivatedRoute
   ) {
     this.settingsForm = this.formBuilder.group({

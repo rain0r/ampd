@@ -31,9 +31,9 @@
 
 <app-track-data-table [trackTableData]="trackTableData"></app-track-data-table>
 
-<mat-divider class="bottom"></mat-divider>
+<mat-divider class="bottom-divider"></mat-divider>
 
-<span *ngIf="dataSource.data.length > 0" class="bottom">
+<span *ngIf="dataSource.data.length > 0" class="bottom-divider">
   {{ dataSource.data.length }} tracks in the queue. Duration:
   {{ queueDuration | secondsToHhMmSs }}
 </span>

@@ -20,12 +20,13 @@ public class ScheduledStatePublisher {
 
   private final Mpd mpd;
 
-  @Autowired
-  private SimpMessagingTemplate template;
+  private final SimpMessagingTemplate template;
 
   @Autowired
-  public ScheduledStatePublisher(final MpdConfiguration mpdConfiguration) {
+  public ScheduledStatePublisher(final MpdConfiguration mpdConfiguration,
+      SimpMessagingTemplate template) {
     mpd = mpdConfiguration.mpd();
+    this.template = template;
   }
 
   /**

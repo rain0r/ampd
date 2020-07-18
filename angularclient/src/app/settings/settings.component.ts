@@ -81,10 +81,13 @@ export class SettingsComponent {
   }
 
   private getBackendAddr() {
-    const getParam =
+    let getParam =
       this.activatedRoute.snapshot.queryParamMap.get("backend") || "";
     if (getParam) {
       // We got a backend addr via get paramater, save and display it
+      if (!getParam.startsWith("http://")) {
+        getParam = `http://${getParam}`;
+      }
       ConnConfUtil.setBackendAddr(getParam);
       return getParam;
     }

@@ -23,11 +23,8 @@ import org.springframework.stereotype.Service;
 public class CoverCacheService {
 
   private static final Logger LOG = LoggerFactory.getLogger(CoverCacheService.class);
-
-  private final SettingsBean settingsBean;
-
   private final boolean cacheEnabled;
-
+  private final SettingsBean settingsBean;
   private Path chacheDir;
 
   public CoverCacheService(final SettingsBean settingsBean,

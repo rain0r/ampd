@@ -219,7 +219,7 @@
         <artifactId>maven-checkstyle-plugin</artifactId>
         <version>3.1.1</version>
         <configuration>
-          <configLocation>${project.resources[0].directory}/ampd_google_checks.xml</configLocation>
+          <configLocation>${basedir}/src/main/resources/ampd_google_checks.xml</configLocation>
         </configuration>
         <reportSets>
           <reportSet>

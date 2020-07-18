@@ -14,20 +14,21 @@ export const DISPLAY_SAVE_PLAYLIST_KEY = "isDisplaySavePlaylist";
 export class SettingsService {
   /**
    * Since we want this to be automatically applied, we store it in a subject.
+   * Dark theme is default active.
    */
-  private darkThemeSubject = new BehaviorSubject(false);
+  private isDarkThemeSubject = new BehaviorSubject(true);
 
   constructor(private http: HttpClient) {
     this.setDarkTheme(this.getBoolValue(DARK_MODE_KEY));
   }
 
   isDarkTheme(): Observable<boolean> {
-    return this.darkThemeSubject.asObservable();
+    return this.isDarkThemeSubject.asObservable();
   }
 
   setDarkTheme(darkTheme: boolean): void {
     localStorage.setItem(DARK_MODE_KEY, JSON.stringify(darkTheme));
-    this.darkThemeSubject.next(darkTheme);
+    this.isDarkThemeSubject.next(darkTheme);
     if (darkTheme) {
       this.changeTheme("#607d8b", "#ff9100", "#868e96", "white");
     } else {

@@ -29,6 +29,11 @@ public class AmpdDirService {
 
   private static final Logger LOG = LoggerFactory.getLogger(CoverCacheService.class);
 
+  /**
+   * Returns the path of the file that contains the files that are banned from getting a
+   * cover from MusicBrainz. Creates it, if it doesn't exist.
+   * @return The path of the blacklist file.
+   */
   public Optional<Path> getBlacklistFile() {
     final Path path = Paths
         .get(System.getProperty("user.home"), ".local", "share", "ampd", MB_BLACKLIST_FILE);
@@ -55,6 +60,10 @@ public class AmpdDirService {
     return Optional.of(path);
   }
 
+  /**
+   * Returns the path of the ampd cache directory. Creates it, if it doesn't exist.
+   * @return The path of the cache dir.
+   */
   public Optional<Path> getCacheDir() {
     final Path cacheDirPath = Paths
         .get(System.getProperty("user.home"), ".local", "share", "ampd", CACHE_DIR_NAME);

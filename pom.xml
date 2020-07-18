@@ -197,7 +197,7 @@
           <encoding>${project.build.sourceEncoding}</encoding>
           <includeTests>true</includeTests>
           <classFilesDirectory>${project.build.outputDirectory}</classFilesDirectory>
-          <spotbugs.xmlOutput>true</spotbugs.xmlOutput>
+          <xmlOutput>true</xmlOutput>
           <plugins>
             <plugin>
               <groupId>jp.skypencil.findbugs.slf4j</groupId>

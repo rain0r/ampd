@@ -21,16 +21,11 @@ import org.springframework.stereotype.Service;
 public class CoverFetcherService {
 
   private static final Logger LOG = LoggerFactory.getLogger(CoverFetcherService.class);
-
-  private final CoverCacheService coverCacheService;
-
-  private final MbCoverService mbCoverService;
-
-  private final Mpd mpd;
-
-  private final SettingsBean settingsBean;
-
   private final CoverBlacklistService coverBlacklistService;
+  private final CoverCacheService coverCacheService;
+  private final MbCoverService mbCoverService;
+  private final Mpd mpd;
+  private final SettingsBean settingsBean;
 
   public CoverFetcherService(
       final CoverCacheService coverCacheService,
@@ -42,24 +37,6 @@ public class CoverFetcherService {
     this.settingsBean = settingsBean;
     mpd = mpdConfiguration.mpd();
     this.coverBlacklistService = coverBlacklistService;
-  }
-
-  /**
-   * See if the path of track leads to an album directory and try to load the cover.
-   *
-   * @param trackFilePath The file path of a track.
-   * @return The bytes of the found cover.
-   */
-  public Optional<byte[]> findAlbumCoverForTrack(final Optional<String> trackFilePath) {
-    if (trackFilePath.isEmpty()) {
-      return Optional.empty();
-    }
-    final Collection<MpdSong> foundSongs = mpd.getMusicDatabase().getSongDatabase()
-        .searchFileName(trackFilePath.get());
-    if (foundSongs.size() == 1) {
-      return getAlbumCoverForTrack(foundSongs.iterator().next());
-    }
-    return Optional.empty();
   }
 
   /**
@@ -76,6 +53,24 @@ public class CoverFetcherService {
         Path coverPath = covers.get(0);
         return coverCacheService.loadFile(coverPath);
       }
+    }
+    return Optional.empty();
+  }
+
+  /**
+   * See if the path of track leads to an album directory and try to load the cover.
+   *
+   * @param trackFilePath The file path of a track.
+   * @return The bytes of the found cover.
+   */
+  public Optional<byte[]> findAlbumCoverForTrack(final Optional<String> trackFilePath) {
+    if (trackFilePath.isEmpty()) {
+      return Optional.empty();
+    }
+    final Collection<MpdSong> foundSongs = mpd.getMusicDatabase().getSongDatabase()
+        .searchFileName(trackFilePath.get());
+    if (foundSongs.size() == 1) {
+      return getAlbumCoverForTrack(foundSongs.iterator().next());
     }
     return Optional.empty();
   }

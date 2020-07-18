@@ -32,9 +32,9 @@ public class ServerApplication {
   public void doSomethingAfterStartup() {
     System.out.println("\n==================================================");
     System.out.println("ampd is running on: " + address + ":" + port);
-    System.out.println( "If this is your first start, visit "
+    System.out.println("If this is your first start, visit "
         + "http://" + getLocalIp() + ":" + port + "/settings?backend=" + getLocalIp() + ":"
-            + port + " and save the backend address.");
+        + port + " and save the backend address.");
     System.out.println("==================================================");
   }
 
@@ -46,7 +46,6 @@ public class ServerApplication {
         // We're on a Mac, try something different
         Socket socket = new Socket();
         socket.connect(new InetSocketAddress("google.com", 80));
-        InetAddress foo = socket.getLocalAddress();
         ip = socket.getLocalAddress().toString().replace("/", "");
       }
       return ip;

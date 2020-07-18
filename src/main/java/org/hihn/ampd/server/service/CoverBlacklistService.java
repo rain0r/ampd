@@ -19,10 +19,8 @@ public class CoverBlacklistService {
   private static final Logger LOG = LoggerFactory.getLogger(CoverBlacklistService.class);
 
   private final AmpdDirService ampdDirService;
-
-  private final SettingsBean settingsBean;
-
   private final Set<String> blacklistedFiles = new HashSet<>();
+  private final SettingsBean settingsBean;
 
   public CoverBlacklistService(AmpdDirService ampdDirService,
       SettingsBean settingsBean) {
@@ -32,7 +30,36 @@ public class CoverBlacklistService {
   }
 
   /**
+   * Adds a file to the blacklist.
+   *
+   * @param file The file to add to the blacklist.
+   */
+  public void blacklistFile(final String file) {
+    // Check if the file exists
+    boolean exist = Paths.get(settingsBean.getMusicDirectory(), file).toFile().exists();
+    if (exist) {
+      blacklistedFiles.add(file);
+      saveFile();
+    }
+  }
+
+  public Set<String> getBlacklistedFiles() {
+    return blacklistedFiles;
+  }
+
+  /**
+   * Checks, if the blacklist contains a file.
+   *
+   * @param file The file to check.
+   * @return If the file is in the blacklist.
+   */
+  public boolean isBlacklisted(final String file) {
+    return blacklistedFiles.contains(file);
+  }
+
+  /**
    * Reads the blacklist file.
+   *
    * @return The content of the blacklist file.
    */
   public Set<String> loadBlacklistFile() {
@@ -53,28 +80,6 @@ public class CoverBlacklistService {
     return ret;
   }
 
-  /**
-   * Checks, if the blacklist contains a file.
-   * @param file The file to check.
-   * @return If the file is in the blacklist.
-   */
-  public boolean isBlacklisted(final String file) {
-    return blacklistedFiles.contains(file);
-  }
-
-  /**
-   * Adds a file to the blacklist.
-   * @param file The file to add to the blacklist.
-   */
-  public void blacklistFile(final String file) {
-    // Check if the file exists
-    boolean exist = Paths.get(settingsBean.getMusicDirectory(), file).toFile().exists();
-    if (exist) {
-      blacklistedFiles.add(file);
-      saveFile();
-    }
-  }
-
   private void saveFile() {
     if (ampdDirService.getBlacklistFile().isEmpty()) {
       return;
@@ -84,9 +89,5 @@ public class CoverBlacklistService {
     } catch (IOException e) {
       LOG.error(e.getMessage(), e);
     }
-  }
-
-  public Set<String> getBlacklistedFiles() {
-    return blacklistedFiles;
   }
 }

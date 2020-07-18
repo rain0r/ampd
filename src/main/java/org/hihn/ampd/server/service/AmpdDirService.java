@@ -20,18 +20,17 @@ public class AmpdDirService {
    * Name of the dir that holds all covers.
    */
   private static final String CACHE_DIR_NAME = "covers";
-
+  private static final Logger LOG = LoggerFactory.getLogger(CoverCacheService.class);
   /**
    * Name of the text file that contains all tracks that are banned from getting a MusicBrainz
    * cover.
    */
   private static final String MB_BLACKLIST_FILE = "mb_blacklist.txt";
 
-  private static final Logger LOG = LoggerFactory.getLogger(CoverCacheService.class);
-
   /**
-   * Returns the path of the file that contains the files that are banned from getting a
-   * cover from MusicBrainz. Creates it, if it doesn't exist.
+   * Returns the path of the file that contains the files that are banned from getting a cover from
+   * MusicBrainz. Creates it, if it doesn't exist.
+   *
    * @return The path of the blacklist file.
    */
   public Optional<Path> getBlacklistFile() {
@@ -62,6 +61,7 @@ public class AmpdDirService {
 
   /**
    * Returns the path of the ampd cache directory. Creates it, if it doesn't exist.
+   *
    * @return The path of the cache dir.
    */
   public Optional<Path> getCacheDir() {

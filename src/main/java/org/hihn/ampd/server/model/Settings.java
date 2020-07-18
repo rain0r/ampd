@@ -6,14 +6,14 @@ package org.hihn.ampd.server.model;
 public class Settings {
 
   /**
-   * If true, covers that have been downloaded from MusicBrainz will be saved to disk and used
-   * the next time the cached cover will be displayed.
+   * If true, covers that have been downloaded from MusicBrainz will be saved to disk and used the
+   * next time the cached cover will be displayed.
    */
   private final boolean localCoverCache;
 
   /**
-   * If true, covers that couldn't be found in the directory of the track will be downloaded
-   * from MusicBrainz.
+   * If true, covers that couldn't be found in the directory of the track will be downloaded from
+   * MusicBrainz.
    */
   private final boolean mbCoverService;
 
@@ -33,8 +33,8 @@ public class Settings {
   private final String mpdServer;
 
   /**
-   * The directory where all the tracks are stored. This setting is needed for ampd to display
-   * the covers that usually lie in the direcotry of the tracks.
+   * The directory where all the tracks are stored. This setting is needed for ampd to display the
+   * covers that usually lie in the direcotry of the tracks.
    */
   private final String musicDirectory;
 

@@ -41,10 +41,8 @@ public class MpdService implements WebsocketService {
    * Maps all incoming websocket message types to a method.
    */
   private final EnumMap<MessageType, AmpdCommandRunner> commands = new EnumMap<>(MessageType.class);
-
-  private final Mpd mpd;
-
   private final CoverBlacklistService coverBlacklistService;
+  private final Mpd mpd;
 
   public MpdService(MpdConfiguration mpdConfiguration,
       CoverBlacklistService coverBlacklistService) {

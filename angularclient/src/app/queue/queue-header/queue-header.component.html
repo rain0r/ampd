@@ -11,7 +11,7 @@
       fxLayoutAlign="space-between start"
       *ngIf="currentState !== 'stop'"
   >
-    <div fxFlex="55%" fxLayout="column">
+    <div fxFlex="1 0 55%" fxLayout="column">
       <div class="mat-h2 queue-sub-title" fxFlex="100%" title="Title: {{currentSong.title}}">
         <a class="no-deco-links" [routerLink]="['browse']" [queryParams]="{'dir': currentSong.dir}">
         {{ currentSong.title }}
@@ -32,14 +32,12 @@
         </a>
       </div>
     </div>
-    <div fxLayoutAlign="end center">
+    <div fxLayoutAlign="end center" *ngIf="isDisplayCover|async">
       <mat-divider
           fxShow.lt-md="true"
           fxShow="false"
-          *ngIf="isDisplayCover|async"
       ></mat-divider>
       <img
-          *ngIf="isDisplayCover|async"
           [src]=" currentSong.coverUrl "
           class="album-art clickable"
           [ngClass]="[coverSizeClass|async]"

@@ -9,6 +9,8 @@ import { NotificationService } from "../../shared/services/notification.service"
 import { WebSocketService } from "../../shared/services/web-socket.service";
 import { Filterable } from "../filterable";
 import { MpdCommands } from "../../shared/mpd/mpd-commands.enum";
+import { Observable } from "rxjs/index";
+import { ResponsiveCoverSizeService } from "../../shared/services/responsive-cover-size.service";
 
 @Component({
   selector: "app-directories",
@@ -17,6 +19,7 @@ import { MpdCommands } from "../../shared/mpd/mpd-commands.enum";
 })
 export class DirectoriesComponent extends Filterable {
   @Input() dirQueue: DirectoryImpl[] = [];
+  coverSizeClass: Observable<string>;
   getParamDir = "/";
 
   constructor(
@@ -24,9 +27,11 @@ export class DirectoriesComponent extends Filterable {
     private webSocketService: WebSocketService,
     private notificationService: NotificationService,
     private messageService: MessageService,
+    private responsiveCoverSizeService: ResponsiveCoverSizeService,
     private router: Router
   ) {
     super(messageService);
+    this.coverSizeClass = responsiveCoverSizeService.getCoverCssClass();
     this.getParamDir =
       this.activatedRoute.snapshot.queryParamMap.get("dir") || "/";
   }

@@ -63,10 +63,13 @@
   >
     <div
         fxLayoutAlign="center center"
+        fxFlex="1 1 30%"
         *ngFor="let dir of dirQueue | directoryFilter: filterValue"
     >
       <mat-card
           class="cover-card"
+          fxLayoutAlign="center center"
+          fxLayout="column"
       >
         <mat-card-header>
           <mat-card-title [routerLink]="['/browse']"
@@ -76,14 +79,14 @@
         </mat-card-header>
         <img
             mat-card-image
-            [routerLink]="['/browse']"
+            [ngClass]="[coverSizeClass|async]"
             [queryParams]="{ dir: dir.path }"
-            src="{{ dir.coverUrl }}"
+            [routerLink]="['/browse']"
             alt="Cover of {{dir.path}}"
+            src="{{ dir.coverUrl }}"
         />
         <mat-card-footer>
           <div fxLayout="row">
-
             <mat-icon
                 fxFlex="50%"
                 class="chip clickable cover-card-btn"

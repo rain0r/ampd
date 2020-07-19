@@ -3,6 +3,11 @@
   width: 1%;
 }
 
+.mat-column-remove {
+  text-align: right;
+  width: 1%;
+}
+
 @media only screen and (max-width: 1280px) {
   // We don't have space for padding on mobile devices
   .mat-column-action {
@@ -10,6 +15,7 @@
   }
   .mat-column-artistName {
     padding-left: 0 !important;
+    margin-left: 0 !important;
   }
   td {
     font-size: smaller;
@@ -31,9 +37,4 @@
     overflow: hidden;
     text-overflow: ellipsis;
   }
-}
-
-.mat-column-remove {
-  text-align: right;
-  width: 1%;
 }

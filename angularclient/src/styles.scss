@@ -130,7 +130,7 @@ $font-color: var(--font-color);
   background: var(--background-color);
 }
 
-@media only screen and (max-width: 700px) {
+@media only screen and (max-width: 1280px) {
   // Needs to be here to override Angular's own padding
   .browse-list-item > .mat-list-item-content {
     padding-right: 5px !important;

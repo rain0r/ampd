@@ -1,13 +1,10 @@
-<div mat-dialog-title fxLayout="row wrap" fxLayoutGap="1rem">
-  <div fxFlex.lt-md="100%">{{ data.artistName }}</div>
-  <div fxFlex.lt-md="100%" *ngIf="data.albumName">{{ data.albumName }}</div>
-  <div fxFlex.lt-md="100%">{{ data.title }}</div>
-</div>
 <div mat-dialog-content>
+  {{ data.artistName }} <span *ngIf="data.albumName">— {{ data.albumName }}</span> — {{ data.title }}
+  <mat-divider></mat-divider>
   <img src="{{ data.coverUrl }}" alt="Cover" />
 </div>
 <div mat-dialog-actions align="end" fxLayout="row nowrap">
-  <button mat-stroked-button (click)="onBlacklistCover()">Blacklist</button>
+  <button *ngIf="data" mat-stroked-button (click)="onBlacklistCover()">Blacklist</button>
   <a mat-stroked-button href="{{data.coverUrl}}" target="_blank">Open</a>
   <button mat-stroked-button (click)="onNoClick()">Close</button>
 </div>

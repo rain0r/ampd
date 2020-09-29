@@ -32,7 +32,7 @@ export class SettingsService {
     if (darkTheme) {
       this.changeTheme("#607d8b", "#ff9100", "#868e96", "white");
     } else {
-      this.changeTheme("#eeee", "#eeee", "#000", "rgba(0, 0, 0, 0.87)");
+      this.changeTheme("#eeee", "#fafafa", "#000", "rgba(0, 0, 0, 0.87)");
     }
   }
 

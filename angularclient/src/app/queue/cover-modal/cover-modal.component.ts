@@ -6,6 +6,9 @@ import { NotificationService } from "../../shared/services/notification.service"
 import { MpdCommands } from "../../shared/mpd/mpd-commands.enum";
 import { MessageService } from "../../shared/services/message.service";
 import { InternalMessageType } from "../../shared/messages/internal/internal-message-type.enum";
+import { SettingsService } from "../../shared/services/settings.service";
+import { Observable } from "rxjs";
+import { BackendSettings } from "../../shared/models/backend-settings";
 
 @Component({
   selector: "app-cover-modal",
@@ -13,13 +16,18 @@ import { InternalMessageType } from "../../shared/messages/internal/internal-mes
   styleUrls: ["./cover-modal.component.scss"],
 })
 export class CoverModalComponent {
+  backendSettings: Observable<BackendSettings>;
+
   constructor(
     public dialogRef: MatDialogRef<CoverModalComponent>,
     @Inject(MAT_DIALOG_DATA) public data: QueueTrack,
     private notificationService: NotificationService,
     private webSocketService: WebSocketService,
-    private messageService: MessageService
-  ) {}
+    private messageService: MessageService,
+    private settingsService: SettingsService
+  ) {
+    this.backendSettings = this.settingsService.getBackendSettings();
+  }
 
   onNoClick(): void {
     this.dialogRef.close();

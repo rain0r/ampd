@@ -30,9 +30,15 @@ export class SettingsService {
     localStorage.setItem(DARK_MODE_KEY, JSON.stringify(darkTheme));
     this.isDarkThemeSubject.next(darkTheme);
     if (darkTheme) {
-      this.changeTheme("#607d8b", "#ff9100", "#868e96", "white");
+      this.changeTheme("#607d8b", "#ff9100", "#868e96", "white", "#303030");
     } else {
-      this.changeTheme("#eeee", "#fafafa", "#000", "rgba(0, 0, 0, 0.87)");
+      this.changeTheme(
+        "#eeee",
+        "#eeee",
+        "#000",
+        "rgba(0, 0, 0, 0.87)",
+        "#fafafa"
+      );
     }
   }
 
@@ -72,7 +78,8 @@ export class SettingsService {
     hoverBackgroundColor: string,
     backgroundColor: string,
     borderColor: string,
-    fontColor: string
+    fontColor: string,
+    bodyBackgroundColor: string
   ): void {
     document.documentElement.style.setProperty(
       "--hover-background-color",
@@ -84,5 +91,9 @@ export class SettingsService {
     );
     document.documentElement.style.setProperty("--border-color", borderColor);
     document.documentElement.style.setProperty("--font-color", fontColor);
+    document.documentElement.style.setProperty(
+      "--body-background-color",
+      bodyBackgroundColor
+    );
   }
 }

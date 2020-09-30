@@ -1,7 +1,7 @@
 <form [formGroup]="settingsForm" (ngSubmit)="onSubmit()" class="settings-form">
   <div fxLayout="column" fxLayoutGap="1rem" fxFlex.gt-md="75%">
     <div class="mat-display-1">
-      <span class="logo">ampd</span> settings
+      <span class="mono">ampd</span> settings
     </div>
     <mat-divider></mat-divider>
     <span class="mat-headline">Appearance</span>
@@ -212,10 +212,10 @@
 
     <div class="mono">
       Version:
-      <span class="logo" title="ampd version">{{ ampdVersion }}</span> &nbsp;
+      <span title="ampd version">{{ ampdVersion }}</span> &nbsp;
       <span
           *ngIf="gitCommitId !== 'live'"
-          class="text-muted logo"
+          class="text-muted"
           title="git commit id"
       >{{ gitCommitId }}</span
       >

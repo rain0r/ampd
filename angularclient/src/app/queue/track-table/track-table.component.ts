@@ -1,4 +1,4 @@
-import { Component, HostListener } from "@angular/core";
+import { Component, ElementRef, HostListener, ViewChild } from "@angular/core";
 import { MatTableDataSource } from "@angular/material/table";
 
 import { WebSocketService } from "../../shared/services/web-socket.service";
@@ -24,6 +24,8 @@ import { Observable } from "rxjs";
   styleUrls: ["./track-table.component.scss"],
 })
 export class TrackTableComponent {
+  @ViewChild("filterInputElem") myInputField: ElementRef;
+
   /**
    * The checksum of the current queue.
    */
@@ -33,7 +35,6 @@ export class TrackTableComponent {
   currentState = "stop";
   dataSource = new MatTableDataSource<QueueTrack>();
   displaySaveCoverBtn: boolean;
-  focus = false;
   trackTableData = new TrackTableData();
   queueDuration = 0;
 
@@ -55,14 +56,9 @@ export class TrackTableComponent {
   }
 
   @HostListener("document:keydown.f", ["$event"])
-  onSearchKeydownHandler(event: KeyboardEvent): void {
-    // Don't focus on the 'search' input when we're typing an 's' in the 'add' input
-    // Also, if we're already in the 'search' input, there is no need to focus
-    const isFromInput = (event.target as HTMLInputElement).tagName === "INPUT";
-    if (!isFromInput) {
-      event.preventDefault();
-      this.focus = true;
-    }
+  onFocusKeydownHandler(event: KeyboardEvent): void {
+    event.preventDefault();
+    (this.myInputField.nativeElement as HTMLElement).focus();
   }
 
   openCoverModal(): void {

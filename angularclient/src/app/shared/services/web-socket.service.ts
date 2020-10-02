@@ -1,5 +1,4 @@
 import { Injectable } from "@angular/core";
-import { filter, map } from "rxjs/internal/operators";
 
 import { RxStompService } from "@stomp/ng2-stompjs";
 import { BaseResponse } from "../messages/incoming/base-response";
@@ -12,6 +11,7 @@ import { QueuePayload } from "../messages/incoming/queue-payload";
 import { ConnConfUtil } from "../conn-conf/conn-conf-util";
 import { PlaylistSaved } from "../messages/incoming/playlist-saved";
 import { MpdCommands } from "../mpd/mpd-commands.enum";
+import { filter, map } from "rxjs/operators";
 
 @Injectable()
 export class WebSocketService {

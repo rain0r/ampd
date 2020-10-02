@@ -61,7 +61,6 @@ import { SavePlaylistModalComponent } from "./queue/save-playlist-modal/save-pla
 import { PlaylistInfoModalComponent } from "./browse/playlists/playlist-info-modal/playlist-info-modal.component";
 import { TrackDataTableComponent } from "./shared/track-table/track-data-table.component";
 import { NgxFilesizeModule } from "ngx-filesize";
-
 @NgModule({
   declarations: [
     AppComponent,

@@ -1,4 +1,10 @@
-import { Component, HostListener, OnInit, ViewChild } from "@angular/core";
+import {
+  Component,
+  ElementRef,
+  HostListener,
+  OnInit,
+  ViewChild,
+} from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { BrowseService } from "../../shared/services/browse.service";
 import { MessageService } from "../../shared/services/message.service";
@@ -14,7 +20,8 @@ import { MpdCommands } from "../../shared/mpd/mpd-commands.enum";
   styleUrls: ["./browse.navigation.component.scss"],
 })
 export class BrowseNavigationComponent implements OnInit {
-  @ViewChild("filterInputElem") filterInputElem;
+  @ViewChild("filterInputElem") myInputField: ElementRef;
+
   getParamDir = "";
   filter = "";
   focus = false;
@@ -30,12 +37,8 @@ export class BrowseNavigationComponent implements OnInit {
 
   @HostListener("document:keydown.f", ["$event"])
   onSearchKeydownHandler(event: KeyboardEvent): void {
-    // Ignore events that come from input elements
-    const isFromInput = (event.target as HTMLInputElement).tagName === "INPUT";
-    if (!isFromInput) {
-      event.preventDefault();
-      this.focus = true;
-    }
+    event.preventDefault();
+    (this.myInputField.nativeElement as HTMLElement).focus();
   }
 
   ngOnInit(): void {

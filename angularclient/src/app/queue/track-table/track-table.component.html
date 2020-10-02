@@ -6,7 +6,6 @@
           (keydown.escape)="filterInputElem.blur()"
           (keyup)="applyFilter($event.target.value)"
           [(ngModel)]="dataSource.filter"
-          [autofocus]="focus"
           autocomplete="off"
           matInput
           placeholder="Filter queue"

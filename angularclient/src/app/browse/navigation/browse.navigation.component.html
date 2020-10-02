@@ -62,7 +62,6 @@
           (keydown.escape)="filterInputElem.blur()"
           (keyup)="applyFilter($event.target.value)"
           [(ngModel)]="filter"
-          [autofocus]="focus"
           autocomplete="off"
           matInput
           placeholder="Filter"

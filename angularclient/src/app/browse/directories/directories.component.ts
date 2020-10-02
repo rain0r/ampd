@@ -9,8 +9,9 @@ import { NotificationService } from "../../shared/services/notification.service"
 import { WebSocketService } from "../../shared/services/web-socket.service";
 import { Filterable } from "../filterable";
 import { MpdCommands } from "../../shared/mpd/mpd-commands.enum";
-import { Observable } from "rxjs/index";
+
 import { ResponsiveCoverSizeService } from "../../shared/services/responsive-cover-size.service";
+import { Observable } from "rxjs";
 
 @Component({
   selector: "app-directories",

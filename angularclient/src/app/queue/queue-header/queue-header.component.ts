@@ -1,7 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Component, OnInit } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
-import { BehaviorSubject, Observable, throwError } from "rxjs/index";
+
 import { ResponsiveCoverSizeService } from "../../shared/services/responsive-cover-size.service";
 import { QueueTrack } from "../../shared/models/queue-track";
 import { MpdService } from "../../shared/services/mpd.service";
@@ -14,6 +14,7 @@ import {
 import { MessageService } from "../../shared/services/message.service";
 import { InternalMessageType } from "../../shared/messages/internal/internal-message-type.enum";
 import { FilterMessage } from "../../shared/messages/internal/message-types/filter-message";
+import { BehaviorSubject, Observable, throwError } from "rxjs";
 
 @Component({
   selector: "app-queue-header",

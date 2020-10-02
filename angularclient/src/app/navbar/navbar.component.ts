@@ -1,8 +1,9 @@
 import { Component, HostListener } from "@angular/core";
-import { Observable } from "rxjs/index";
+
 import { RxStompService } from "@stomp/ng2-stompjs";
 import { Router } from "@angular/router";
 import { SettingsService } from "../shared/services/settings.service";
+import { Observable } from "rxjs";
 
 @Component({
   selector: "app-navbar",

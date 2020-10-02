@@ -1,6 +1,6 @@
 import { Component, HostListener } from "@angular/core";
 import { MatTableDataSource } from "@angular/material/table";
-import { Observable } from "rxjs/index";
+
 import { WebSocketService } from "../../shared/services/web-socket.service";
 import { DeviceDetectorService } from "ngx-device-detector";
 import { QueuePayload } from "../../shared/messages/incoming/queue-payload";
@@ -16,6 +16,7 @@ import {
   DISPLAY_SAVE_PLAYLIST_KEY,
   SettingsService,
 } from "../../shared/services/settings.service";
+import { Observable } from "rxjs";
 
 @Component({
   selector: "app-track-table",

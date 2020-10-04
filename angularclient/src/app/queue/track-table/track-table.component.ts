@@ -57,6 +57,9 @@ export class TrackTableComponent {
 
   @HostListener("document:keydown.f", ["$event"])
   onFocusKeydownHandler(event: KeyboardEvent): void {
+    if ((event.target as HTMLInputElement).tagName === "INPUT") {
+      return;
+    }
     event.preventDefault();
     (this.myInputField.nativeElement as HTMLElement).focus();
   }

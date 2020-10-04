@@ -37,6 +37,9 @@ export class BrowseNavigationComponent implements OnInit {
 
   @HostListener("document:keydown.f", ["$event"])
   onSearchKeydownHandler(event: KeyboardEvent): void {
+    if ((event.target as HTMLInputElement).tagName === "INPUT") {
+      return;
+    }
     event.preventDefault();
     (this.myInputField.nativeElement as HTMLElement).focus();
   }

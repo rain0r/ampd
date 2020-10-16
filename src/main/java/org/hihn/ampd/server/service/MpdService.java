@@ -171,7 +171,7 @@ public class MpdService implements WebsocketService {
 
   @Override
   public Optional<Message> playPrevious(Map<String, Object> inputPayload) {
-    mpd.getPlayer().pause();
+    mpd.getPlayer().playPrevious();
     return Optional.empty();
   }
 

@@ -96,7 +96,7 @@ $font-color: var(--font-color);
 
 // Browse
 .list-item {
-  white-space: nowrap;
+  white-space: hidden;
   place-content: start center;
   overflow: hidden;              /* "overflow"-Wert darf nicht "visible" sein */
   text-overflow: ellipsis;

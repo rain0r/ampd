@@ -95,23 +95,11 @@ $font-color: var(--font-color);
 }
 
 // Browse
-.list-item {
-  white-space: hidden;
-  place-content: start center;
-  overflow: hidden;              /* "overflow"-Wert darf nicht "visible" sein */
-  text-overflow: ellipsis;
-}
-.list-item:hover {
-  cursor: pointer;
-  background: var(--hover-background-color);
-}
-
 .mat-list-item-content {
   border: 1px solid var(--border-color);
 }
 
 .mat-list-item-content:hover {
-  // cursor: pointer;
   background: var(--hover-background-color);
 }
 

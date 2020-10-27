@@ -1,57 +1,48 @@
-<div *ngIf="(dirQueue| directoryFilter: filterValue).length">
+<div *ngIf="(dirQueue| directoryFilter: filterValue).length && getParamDir() | async as param">
   <div class="sub-menu">
-  <span class="list-header mat-h3">
-    <span *ngIf="getParamDir != '/'">
+  <span class="mat-h3">
+
+
+    <span *ngIf="param != '/'">
       <span class="dir-prefix" title="Directory">
-        Dir:
+        Directory
       </span>
-      {{ getParamDir }}
+      {{ param }}
     </span>
-    <span *ngIf="getParamDir == '/'">Directories</span>
+    <span *ngIf="param == '/'">Directories</span>
+
   </span>
   </div>
 
-  <mat-list
-      role="list"
-      *ngFor="let dir of dirQueue | directoryFilter: filterValue"
-  >
-    <mat-list-item role="listitem" class="browse-list-item list-item"
-    (click)="onRowClick(dir)">
-      <div
-          class="full-width clamped"
-          fxLayout="row"
-          fxLayoutGap.gt-md="0.4rem"
-          fxLayoutAlign="center center"
-      >
-        <div>
-          <mat-icon>folder_open</mat-icon>
-        </div>
-        <div fxFlex="1 1 auto">
-          {{ dir.displayedPath }}
-        </div>
-        <div>
-          <mat-icon
-              class="chip clickable"
-              title="Play directory"
-              (click)="onPlayDir($event, dir.path)"
-          >
-            play_arrow
-          </mat-icon>
-        </div>
-        <div>
-          <mat-icon
-              class="chip clickable"
-              title="Add directory to queue"
-              (click)="onAddDir($event, dir.path)"
-          >
-            add
-          </mat-icon>
-        </div>
-      </div>
-    </mat-list-item>
-  </mat-list>
+  <div *ngFor="let dir of dirQueue | directoryFilter: filterValue">
 
-  <mat-divider *ngIf="getParamDir != '/' && dirQueue.length < 9"></mat-divider>
+    <div (click)="onRowClick(dir)"
+         fxLayout="row nowrap"
+         fxLayoutGap="1%"
+         fxLayoutAlign="center center"
+         class="dir-list-item">
+
+      <mat-icon>folder_open</mat-icon>
+      {{ dir.displayedPath }}
+      <div fxFlex></div>
+      <mat-icon
+          class="chip clickable"
+          title="Play directory"
+          (click)="onPlayDir($event, dir.path)"
+      >
+        play_arrow
+      </mat-icon>
+      <mat-icon
+          class="chip clickable"
+          title="Add directory to queue"
+          (click)="onAddDir($event, dir.path)"
+      >
+        add
+      </mat-icon>
+    </div>
+  </div>
+
+  <mat-divider *ngIf="param != '/' && dirQueue.length < 9"></mat-divider>
 
   <!-- Cover grid -->
   <div
@@ -59,7 +50,7 @@
       fxLayoutGap="0.4rem"
       fxLayout="row wrap"
       fxLayout.lt-md="column"
-      *ngIf="getParamDir != '/' && dirQueue.length < 20"
+      *ngIf="param != '/' && dirQueue.length < 20"
   >
     <div
         fxLayoutAlign="center center"

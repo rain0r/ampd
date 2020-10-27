@@ -1,5 +1,5 @@
 import { Component, Input } from "@angular/core";
-import { ActivatedRoute, Router } from "@angular/router";
+import { ActivatedRoute, ParamMap, Router } from "@angular/router";
 import {
   Directory,
   DirectoryImpl,
@@ -11,7 +11,8 @@ import { Filterable } from "../filterable";
 import { MpdCommands } from "../../shared/mpd/mpd-commands.enum";
 
 import { ResponsiveCoverSizeService } from "../../shared/services/responsive-cover-size.service";
-import { Observable } from "rxjs";
+import { BehaviorSubject, Observable } from "rxjs";
+import { defaultIfEmpty, filter, map } from "rxjs/operators";
 
 @Component({
   selector: "app-directories",
@@ -21,7 +22,7 @@ import { Observable } from "rxjs";
 export class DirectoriesComponent extends Filterable {
   @Input() dirQueue: DirectoryImpl[] = [];
   coverSizeClass: Observable<string>;
-  getParamDir = "/";
+  dirQueryParam = new BehaviorSubject<string>("/");
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -33,8 +34,18 @@ export class DirectoriesComponent extends Filterable {
   ) {
     super(messageService);
     this.coverSizeClass = responsiveCoverSizeService.getCoverCssClass();
-    this.getParamDir =
-      this.activatedRoute.snapshot.queryParamMap.get("dir") || "/";
+    this.activatedRoute.queryParamMap.subscribe((params) => {
+      console.log("params", params);
+      if (params.has("dir")) {
+        this.dirQueryParam.next(params.get("dir"));
+      } else {
+        this.dirQueryParam.next("/");
+      }
+    });
+  }
+
+  getParamDir(): Observable<string> {
+    return this.dirQueryParam.asObservable();
   }
 
   onPlayDir($event: MouseEvent, dir: string): void {

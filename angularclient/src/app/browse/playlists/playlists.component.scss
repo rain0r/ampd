@@ -1,9 +1,14 @@
 @import '../browse.component.scss';
 
-.list-item:hover {
-  cursor: pointer;
+
+.playlist-list-item {
+  font-size: larger;
+  margin-bottom: 0.5rem;
+  border: 1px solid var(--border-color);
+  padding: 0.5rem;
 }
 
-.space-left {
-  margin-left: 0.5rem;
+.playlist-list-item:hover {
+  cursor: pointer;
+  background: var(--hover-background-color);
 }

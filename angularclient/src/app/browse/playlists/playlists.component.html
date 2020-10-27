@@ -1,39 +1,32 @@
 <div *ngIf="(playlistQueue| playlistFilter: filterValue).length">
   <div class="sub-menu">
-    <div>
       <span class="list-header mat-h3">Playlists</span>
-    </div>
   </div>
 
-  <mat-list
-      role="list"
-      *ngFor="let playlist of playlistQueue | playlistFilter: filterValue"
-  >
-    <mat-list-item role="listitem" class="list-item"
-                   (click)="onClickPlaylist(playlist.name)">
-      <div
-          class="full-width"
-          fxLayout="row"
-          fxLayoutGap="0.2rem"
-          fxLayoutAlign="center center"
-      >
-        <div>
-          <mat-icon>list</mat-icon> &nbsp;
-        </div>
-        <div fxFlex="1 1 auto">
-          {{ playlist.name }}
-        </div>
-        <div class="text-muted">
-          {{ playlist.count }}
-        </div>
-        <div>
-          <mat-icon
-              class="space-left"
-              title="Info about playlist: {{playlist.name}}"
-              (click)="onPlaylistInfo($event, playlist)"
-          >info</mat-icon>
-        </div>
+  <div *ngFor="let playlist of playlistQueue | playlistFilter: filterValue">
+
+    <div (click)="onClickPlaylist(playlist.name)"
+         class="playlist-list-item"
+         fxLayout="row nowrap"
+         fxLayoutGap="1%"
+         fxLayoutAlign="center center"
+    >
+
+      <mat-icon>list</mat-icon> &nbsp;
+
+      <div fxFlex>
+        {{ playlist.name }}
       </div>
-    </mat-list-item>
-  </mat-list>
+      <div class="text-muted">
+        {{ playlist.count }}
+      </div>
+
+      <mat-icon
+          title="Info about playlist: {{playlist.name}}"
+          (click)="onPlaylistInfo($event, playlist)"
+      >info
+      </mat-icon>
+
+    </div>
+  </div>
 </div>

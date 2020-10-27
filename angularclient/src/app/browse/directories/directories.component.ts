@@ -1,5 +1,5 @@
 import { Component, Input } from "@angular/core";
-import { ActivatedRoute, ParamMap, Router } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import {
   Directory,
   DirectoryImpl,
@@ -12,7 +12,6 @@ import { MpdCommands } from "../../shared/mpd/mpd-commands.enum";
 
 import { ResponsiveCoverSizeService } from "../../shared/services/responsive-cover-size.service";
 import { BehaviorSubject, Observable } from "rxjs";
-import { defaultIfEmpty, filter, map } from "rxjs/operators";
 
 @Component({
   selector: "app-directories",

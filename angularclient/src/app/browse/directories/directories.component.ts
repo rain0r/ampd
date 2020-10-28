@@ -34,7 +34,6 @@ export class DirectoriesComponent extends Filterable {
     super(messageService);
     this.coverSizeClass = responsiveCoverSizeService.getCoverCssClass();
     this.activatedRoute.queryParamMap.subscribe((params) => {
-      console.log("params", params);
       if (params.has("dir")) {
         this.dirQueryParam.next(params.get("dir"));
       } else {

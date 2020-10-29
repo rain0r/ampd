@@ -1,5 +1,6 @@
 <div fxLayout="row wrap" fxLayoutGap="0.5%" fxLayoutGap.lt-md="1%">
-  <div fxLayoutAlign="center center">
+  <div *ngIf="getParamDir !== '/'" fxLayoutAlign="center center" fxLayoutGap="0.5%">
+    <!--Return to top -->
     <button
         [routerLink]="['/browse']"
         class="mat-small"
@@ -10,10 +11,8 @@
         Return to top
       </span>
     </button>
-  </div>
 
-  <!--Return-->
-  <div *ngIf="getParamDir && getParamDir !== '/'" fxLayoutAlign="center center">
+    <!--Return -->
     <button class="mat-small" mat-raised-button (click)="onMoveDirUp()">
       <mat-icon>
         navigate_before
@@ -22,20 +21,16 @@
         Return
       </span>
     </button>
-  </div>
 
-  <!--Add all-->
-  <div *ngIf="getParamDir && getParamDir !== '/'" fxLayoutAlign="center center">
-    <button class="mat-small" mat-raised-button (click)="onAddDir(getParamDir)">
-      <mat-icon> add</mat-icon>
-      <span fxHide.lt-md>
+    <!--Add all-->
+      <button class="mat-small" mat-raised-button (click)="onAddDir(getParamDir)">
+        <mat-icon> add</mat-icon>
+        <span fxHide.lt-md>
         Add all
       </span>
-    </button>
-  </div>
+      </button>
 
-  <!--Play all-->
-  <div *ngIf="getParamDir && getParamDir !== '/'" fxLayoutAlign="center center">
+    <!--Play all-->
     <button class="mat-small" mat-raised-button (click)="onPlayDir(getParamDir)">
       <mat-icon> play_arrow</mat-icon>
       <span fxHide.lt-md>

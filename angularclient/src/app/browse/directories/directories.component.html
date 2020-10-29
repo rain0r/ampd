@@ -12,13 +12,11 @@
   </div>
 
   <div *ngFor="let dir of dirQueue | directoryFilter: filterValue">
-
     <div (click)="onRowClick(dir)"
          fxLayout="row nowrap"
          fxLayoutGap="1%"
          fxLayoutAlign="center center"
          class="dir-list-item">
-
       <mat-icon>folder_open</mat-icon>
       {{ dir.displayedPath }}
       <div fxFlex></div>
@@ -39,13 +37,11 @@
     </div>
   </div>
 
-  <mat-divider *ngIf="param != '/' && dirQueue.length < 9"></mat-divider>
-
   <!-- Cover grid -->
   <div
       class="clickable"
-      fxLayoutGap="1rem"
       fxLayout="row wrap"
+      fxLayoutAlign="space-between"
       fxLayout.lt-md="column"
       *ngIf="param != '/' && dirQueue.length < 20"
   >
@@ -55,21 +51,15 @@
     >
       <mat-card
           class="cover-card"
-          fxLayoutAlign="start start"
           fxLayout="column"
       >
-        <mat-card-header>
-          <mat-card-title [routerLink]="['/browse']"
-                          [queryParams]="{ dir: dir.path }">
-            {{ dir.displayedPath }}
-          </mat-card-title>
-        </mat-card-header>
         <img
             mat-card-image
             [ngClass]="[coverSizeClass|async]"
             [queryParams]="{ dir: dir.path }"
             [routerLink]="['/browse']"
-            alt="Cover of {{dir.path}}"
+            [title]="dir.displayedPath"
+            alt="Cover of {{dir.displayedPath}}"
             src="{{ dir.coverUrl }}"
         />
         <mat-card-actions>

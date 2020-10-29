@@ -17,6 +17,7 @@ export class BrowseService {
   }
 
   sendBrowseReq(path: string): void {
+    this.clearBrowseInfo();
     if (path && !path.startsWith("/")) {
       path = "/" + path;
     }
@@ -24,6 +25,9 @@ export class BrowseService {
     this.webSocketService.sendData(MpdCommands.GET_BROWSE, {
       path: fullPath,
     });
+  }
+  private clearBrowseInfo() {
+    this.browseInfoSubject.next(new BrowseInfo());
   }
 
   private onBrowseResponse(payload: BrowseMsgPayload): void {

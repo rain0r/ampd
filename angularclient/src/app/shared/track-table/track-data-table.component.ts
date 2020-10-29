@@ -65,7 +65,6 @@ export class TrackDataTableComponent implements OnChanges {
   }
 
   onRowDoubleClick(track: MpdTrack): void {
-    console.log("onRowDoubleClick");
     this.preventSingleClick = true;
     clearTimeout(this.timer);
     this.execRowAction(track, this.trackTableData.onRowDoubleClick);

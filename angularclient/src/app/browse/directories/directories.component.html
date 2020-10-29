@@ -1,8 +1,6 @@
 <div *ngIf="(dirQueue| directoryFilter: filterValue).length && getParamDir() | async as param">
   <div class="sub-menu">
   <span class="mat-h3">
-
-
     <span *ngIf="param != '/'">
       <span class="dir-prefix" title="Directory">
         Directory
@@ -46,20 +44,19 @@
 
   <!-- Cover grid -->
   <div
-      class="cover-grid"
-      fxLayoutGap="0.4rem"
+      class="clickable"
+      fxLayoutGap="1rem"
       fxLayout="row wrap"
       fxLayout.lt-md="column"
       *ngIf="param != '/' && dirQueue.length < 20"
   >
     <div
         fxLayoutAlign="center center"
-        fxFlex="1 1 30%"
         *ngFor="let dir of dirQueue | directoryFilter: filterValue"
     >
       <mat-card
           class="cover-card"
-          fxLayoutAlign="center center"
+          fxLayoutAlign="start start"
           fxLayout="column"
       >
         <mat-card-header>
@@ -76,27 +73,10 @@
             alt="Cover of {{dir.path}}"
             src="{{ dir.coverUrl }}"
         />
-        <mat-card-footer>
-          <div fxLayout="row">
-            <mat-icon
-                fxFlex="50%"
-                class="chip clickable cover-card-btn"
-                title="Add directory to queue"
-                (click)="onAddDir($event, dir.path)"
-            >
-              add
-            </mat-icon>
-            <mat-icon
-                fxFlex="50%"
-                class="chip clickable cover-card-btn"
-                title="Play directory"
-                (click)="onPlayDir($event, dir.path)"
-            >
-              play_arrow
-            </mat-icon>
-          </div>
-
-        </mat-card-footer>
+        <mat-card-actions>
+          <button mat-button (click)="onPlayDir($event, dir.path)">Play</button>
+          <button mat-button (click)="onAddDir($event, dir.path)">Add</button>
+        </mat-card-actions>
       </mat-card>
     </div>
   </div>

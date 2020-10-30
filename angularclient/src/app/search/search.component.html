@@ -13,6 +13,7 @@
           autocomplete="off"
           type="text"
           [(ngModel)]="search"
+          (keydown.escape)="search = ''; resetSearch()"
           (keyup)="applySearch($event.target.value)"
       />
       <button

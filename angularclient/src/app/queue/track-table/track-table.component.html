@@ -3,7 +3,7 @@
     <mat-form-field class="full-width" *ngIf="dataSource.data.length > 0">
       <input
           #filterInputElem
-          (keydown.escape)="dataSource.filter = ''; resetFilter()"
+          (keydown.escape)="resetFilter()"
           (keyup)="applyFilter($event.target.value)"
           [(ngModel)]="dataSource.filter"
           autocomplete="off"

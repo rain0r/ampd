@@ -28,7 +28,7 @@
 
     <span class="fill-space"></span>
     <span [routerLink]="['/']" fxHide.lt-md class="mono space-right clickable">ampd</span>
-    <div [ngSwitch]="connState|async">
+    <div [ngSwitch]="connState|async" fxLayoutAlign="center center">
       <mat-spinner color="accent" diameter="30" *ngSwitchCase="0"></mat-spinner>
       <mat-icon *ngSwitchCase="1">cloud</mat-icon>
       <mat-spinner color="accent" diameter="30" *ngSwitchCase="2"></mat-spinner>

@@ -68,7 +68,7 @@ export class BrowseNavigationComponent implements OnInit {
   onPlayDir(dir: string): void {
     this.onAddDir(dir);
     this.webSocketService.send(MpdCommands.SET_PLAY);
-    this.notificationService.popUp(`Playing dir: "${dir}"`);
+    this.notificationService.popUp(`Playing directory: "${dir}"`);
   }
 
   onMoveDirUp(): void {

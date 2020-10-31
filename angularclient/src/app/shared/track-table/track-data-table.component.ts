@@ -79,17 +79,6 @@ export class TrackDataTableComponent implements OnChanges {
     }
   }
 
-  onPlayTrack(track: MpdTrack): void {
-    // Since this is triggered via table row icon (-> we're in /browse), we need to add
-    // the track first before we can play it
-    this.webSocketService.sendData(MpdCommands.PLAY_TRACK, {
-      path: track.file,
-    });
-    if (this.trackTableData.notify) {
-      this.notificationService.popUp(`Playing: ${track.title}`);
-    }
-  }
-
   onAddPlayTrack(track: MpdTrack): void {
     // Since this is triggered via table row icon (-> we're in /browse), we need to add
     // the track first before we can play it
@@ -119,7 +108,7 @@ export class TrackDataTableComponent implements OnChanges {
         this.onAddTrack(track);
         break;
       case RowClickActions.PlayTrack:
-        this.onPlayTrack(track);
+        this.onAddPlayTrack(track);
         break;
       default:
       // Ignore it

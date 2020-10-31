@@ -50,7 +50,7 @@ export class DirectoriesComponent extends Filterable {
     $event.stopPropagation();
     this.onAddDir($event, dir);
     this.webSocketService.send(MpdCommands.SET_PLAY);
-    this.notificationService.popUp(`Playing dir: "${dir}"`);
+    this.notificationService.popUp(`Playing directory: "${dir}"`);
   }
 
   onAddDir($event: MouseEvent, dir: string): void {

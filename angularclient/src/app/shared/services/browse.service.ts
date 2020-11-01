@@ -26,6 +26,7 @@ export class BrowseService {
       path: fullPath,
     });
   }
+
   private clearBrowseInfo() {
     this.browseInfoSubject.next(new BrowseInfo());
   }

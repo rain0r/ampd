@@ -26,13 +26,6 @@ export class TrackDataTableComponent implements OnChanges {
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
-  /**
-   * To distinguish double clicks from clicks, we need to listen for a second click.
-   */
-  private timer = -1;
-  private preventSingleClick = false;
-  private delay = 300;
-
   constructor(
     private webSocketService: WebSocketService,
     private notificationService: NotificationService
@@ -55,19 +48,7 @@ export class TrackDataTableComponent implements OnChanges {
   }
 
   onRowClick(track: MpdTrack): void {
-    this.preventSingleClick = false;
-    this.timer = setTimeout(() => {
-      // We'll wait for $delay if this might be a double click
-      if (!this.preventSingleClick) {
-        this.execRowAction(track, this.trackTableData.onRowClick);
-      }
-    }, this.delay);
-  }
-
-  onRowDoubleClick(track: MpdTrack): void {
-    this.preventSingleClick = true;
-    clearTimeout(this.timer);
-    this.execRowAction(track, this.trackTableData.onRowDoubleClick);
+    this.execRowAction(track, this.trackTableData.onRowClick);
   }
 
   onRemoveTrack(position: number): void {
@@ -76,17 +57,6 @@ export class TrackDataTableComponent implements OnChanges {
         position,
       });
       this.webSocketService.send(MpdCommands.GET_QUEUE);
-    }
-  }
-
-  onAddPlayTrack(track: MpdTrack): void {
-    // Since this is triggered via table row icon (-> we're in /browse), we need to add
-    // the track first before we can play it
-    this.webSocketService.sendData(MpdCommands.ADD_PLAY_TRACK, {
-      path: track.file,
-    });
-    if (this.trackTableData.notify) {
-      this.notificationService.popUp(`Playing: ${track.title}`);
     }
   }
 
@@ -99,6 +69,17 @@ export class TrackDataTableComponent implements OnChanges {
     }
   }
 
+  onPlayTrack(track: MpdTrack): void {
+    // Since this is triggered via table row icon (-> we're in /browse), we need to add
+    // the track first before we can play it
+    this.webSocketService.sendData(MpdCommands.PLAY_TRACK, {
+      path: track.file,
+    });
+    if (this.trackTableData.notify) {
+      this.notificationService.popUp(`Playing: ${track.title}`);
+    }
+  }
+
   private execRowAction(track: MpdTrack, action: RowClickActions) {
     if (!this.trackTableData.clickable) {
       return;
@@ -108,7 +89,7 @@ export class TrackDataTableComponent implements OnChanges {
         this.onAddTrack(track);
         break;
       case RowClickActions.PlayTrack:
-        this.onAddPlayTrack(track);
+        this.onPlayTrack(track);
         break;
       default:
       // Ignore it

@@ -1,12 +1,19 @@
 import { MatTableDataSource } from "@angular/material/table";
 import { MpdTrack } from "../messages/incoming/mpd-track";
-import { RowClickActions } from "./row-click-actions.enum";
+import { ClickActions } from "./click-actions.enum";
 
 /**
  * When including the track table in a view, some parameters are needed. Too much, to insert them
  * from the template.
  */
 export class TrackTableData {
+  get onPlayClick(): ClickActions {
+    return this._onPlayClick;
+  }
+
+  set onPlayClick(value: ClickActions) {
+    this._onPlayClick = value;
+  }
   /**
    * If true, the table as an 'add title' colum.
    */
@@ -35,17 +42,17 @@ export class TrackTableData {
   /**
    * The action that will be triggered on a row click.
    */
-  private _onRowClick = RowClickActions.AddTrack;
-
-  /**
-   * The action that will be triggered on a row double click.
-   */
-  private _onRowDoubleClick = RowClickActions.PlayTrack;
+  private _onRowClick = ClickActions.AddTrack;
 
   /**
    * If true, the table has pagination elements.
    */
   private _pagination = false;
+
+  /**
+   * The action that will be triggered on a click on the play button.
+   */
+  private _onPlayClick = ClickActions.PlayTrack;
 
   /**
    * If true, the table as a 'play title' colum.
@@ -97,20 +104,12 @@ export class TrackTableData {
     this._notify = value;
   }
 
-  get onRowClick(): RowClickActions {
+  get onRowClick(): ClickActions {
     return this._onRowClick;
   }
 
-  set onRowClick(value: RowClickActions) {
+  set onRowClick(value: ClickActions) {
     this._onRowClick = value;
-  }
-
-  get onRowDoubleClick(): RowClickActions {
-    return this._onRowDoubleClick;
-  }
-
-  set onRowDoubleClick(value: RowClickActions) {
-    this._onRowDoubleClick = value;
   }
 
   get pagination(): boolean {

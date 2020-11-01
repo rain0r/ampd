@@ -12,7 +12,7 @@ import { TrackTableData } from "./track-table-data";
 import { MpdTrack } from "../messages/incoming/mpd-track";
 import { NotificationService } from "../services/notification.service";
 import { MatPaginator } from "@angular/material/paginator";
-import { RowClickActions } from "./row-click-actions.enum";
+import { ClickActions } from "./click-actions.enum";
 import { MpdCommands } from "../mpd/mpd-commands.enum";
 
 @Component({
@@ -48,7 +48,22 @@ export class TrackDataTableComponent implements OnChanges {
   }
 
   onRowClick(track: MpdTrack): void {
-    this.execRowAction(track, this.trackTableData.onRowClick);
+    if (!this.trackTableData.clickable) {
+      return;
+    }
+    switch (this.trackTableData.onRowClick) {
+      case ClickActions.AddTrack:
+        this.addTrack(track);
+        break;
+      case ClickActions.PlayTrack:
+        this.playTrack(track);
+        break;
+      case ClickActions.AddPlayTrack:
+        this.addPlayTrack(track);
+        break;
+      default:
+      // Ignore it
+    }
   }
 
   onRemoveTrack(position: number): void {
@@ -61,6 +76,32 @@ export class TrackDataTableComponent implements OnChanges {
   }
 
   onAddTrack(track: MpdTrack): void {
+    this.addTrack(track);
+  }
+
+  onPlayTrack(track: MpdTrack): void {
+    switch (this.trackTableData.onPlayClick) {
+      case ClickActions.PlayTrack:
+        this.playTrack(track);
+        break;
+      case ClickActions.AddPlayTrack:
+        this.addPlayTrack(track);
+        break;
+      default:
+      // Ignore it
+    }
+  }
+
+  private addPlayTrack(track: MpdTrack): void {
+    this.webSocketService.sendData(MpdCommands.ADD_PLAY_TRACK, {
+      path: track.file,
+    });
+    if (this.trackTableData.notify) {
+      this.notificationService.popUp(`Playing: ${track.title}`);
+    }
+  }
+
+  private addTrack(track: MpdTrack): void {
     this.webSocketService.sendData(MpdCommands.ADD_TRACK, {
       path: track.file,
     });
@@ -69,30 +110,12 @@ export class TrackDataTableComponent implements OnChanges {
     }
   }
 
-  onPlayTrack(track: MpdTrack): void {
-    // Since this is triggered via table row icon (-> we're in /browse), we need to add
-    // the track first before we can play it
+  private playTrack(track: MpdTrack): void {
     this.webSocketService.sendData(MpdCommands.PLAY_TRACK, {
       path: track.file,
     });
     if (this.trackTableData.notify) {
       this.notificationService.popUp(`Playing: ${track.title}`);
-    }
-  }
-
-  private execRowAction(track: MpdTrack, action: RowClickActions) {
-    if (!this.trackTableData.clickable) {
-      return;
-    }
-    switch (action) {
-      case RowClickActions.AddTrack:
-        this.onAddTrack(track);
-        break;
-      case RowClickActions.PlayTrack:
-        this.onPlayTrack(track);
-        break;
-      default:
-      // Ignore it
     }
   }
 }

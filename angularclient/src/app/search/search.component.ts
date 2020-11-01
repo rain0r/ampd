@@ -9,6 +9,7 @@ import { DeviceDetectorService } from "ngx-device-detector";
 import { MatTableDataSource } from "@angular/material/table";
 import { TrackTableData } from "../shared/track-table/track-table-data";
 import { MpdCommands } from "../shared/mpd/mpd-commands.enum";
+import { ClickActions } from "../shared/track-table/click-actions.enum";
 
 @Component({
   selector: "app-search",
@@ -84,6 +85,7 @@ export class SearchComponent {
     trackTable.clickable = true;
     trackTable.dataSource = this.dataSource;
     trackTable.displayedColumns = this.getDisplayedColumns();
+    trackTable.onPlayClick = ClickActions.AddPlayTrack;
     trackTable.notify = true;
     trackTable.pagination = true;
     trackTable.playTitleColumn = true;

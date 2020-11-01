@@ -8,6 +8,7 @@ import { ResponsiveCoverSizeService } from "../../shared/services/responsive-cov
 import { Observable } from "rxjs";
 import { TrackTableData } from "../../shared/track-table/track-table-data";
 import { MatTableDataSource } from "@angular/material/table";
+import { ClickActions } from "../../shared/track-table/click-actions.enum";
 
 @Component({
   selector: "app-tracks",
@@ -59,6 +60,7 @@ export class TracksComponent extends Filterable implements OnInit {
     trackTable.clickable = true;
     trackTable.dataSource = new MatTableDataSource<MpdTrack>(this.tracks);
     trackTable.displayedColumns = this.getDisplayedColumns();
+    trackTable.onPlayClick = ClickActions.AddPlayTrack;
     trackTable.notify = true;
     trackTable.playTitleColumn = true;
     return trackTable;

@@ -5,7 +5,7 @@ ampd is a web-based client for [MPD](https://www.musicpd.org/). It is build with
 
 ## Screenshots
 
-Desktop             |  Mobile
+Desktop (dark theme)             |  Mobile (light heme)
 :-------------------------:|:-------------------------:
 ![Screenshot of ampd on a desktop](.github/desktop.png)  |  ![Screenshot of ampd on a mobile device](.github/mobile.png)
 

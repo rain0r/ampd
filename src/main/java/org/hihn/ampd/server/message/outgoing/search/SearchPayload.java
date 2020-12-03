@@ -1,5 +1,7 @@
 package org.hihn.ampd.server.message.outgoing.search;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import org.bff.javampd.song.MpdSong;
 
@@ -8,16 +10,15 @@ import org.bff.javampd.song.MpdSong;
  */
 public class SearchPayload {
 
-  private String query;
+  private final String query;
 
-  private int searchResultCount;
+  private final int searchResultCount;
 
-  private List<MpdSong> searchResults;
+  private final List<MpdSong> searchResults = new ArrayList<>();
 
-  public SearchPayload(final List<MpdSong> searchResults, final int searchResultCount,
-      final String query) {
-    this.searchResults = searchResults;
-    this.searchResultCount = searchResultCount;
+  public SearchPayload(Collection<MpdSong> songs, String query) {
+    searchResults.addAll(songs);
+    searchResultCount = songs.size();
     this.query = query;
   }
 
@@ -25,23 +26,11 @@ public class SearchPayload {
     return query;
   }
 
-  public void setQuery(final String query) {
-    this.query = query;
-  }
-
   public int getSearchResultCount() {
     return searchResultCount;
   }
 
-  public void setSearchResultCount(final int searchResultCount) {
-    this.searchResultCount = searchResultCount;
-  }
-
   public List<MpdSong> getSearchResults() {
     return searchResults;
-  }
-
-  public void setSearchResults(final List<MpdSong> searchResults) {
-    this.searchResults = searchResults;
   }
 }

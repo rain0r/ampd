@@ -60,4 +60,12 @@ public class Playlist implements Comparable<Playlist> {
     result = 31 * result + count;
     return result;
   }
+
+  @Override
+  public String toString() {
+    return "Playlist{" +
+        "count=" + count +
+        ", name='" + name + '\'' +
+        '}';
+  }
 }

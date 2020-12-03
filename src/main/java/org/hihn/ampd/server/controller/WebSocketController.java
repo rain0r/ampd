@@ -41,6 +41,7 @@ public class WebSocketController {
     Optional<Message> outgoingMessage = Optional.empty();
     try {
       outgoingMessage = mpdService.process(incomingMessage);
+      LOG.debug("Response message: {}", outgoingMessage);
     } catch (final Exception e) {
       LOG.error("Error processing {}", incomingMessage.getType());
       LOG.error(e.getMessage(), e);

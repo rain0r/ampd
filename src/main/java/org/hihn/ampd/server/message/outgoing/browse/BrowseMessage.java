@@ -31,4 +31,12 @@ public class BrowseMessage extends AmpdMessage {
   public MessageType getType() {
     return type;
   }
+
+  @Override
+  public String toString() {
+    return "BrowseMessage{" +
+        "payload=" + payload +
+        ", type=" + type +
+        '}';
+  }
 }

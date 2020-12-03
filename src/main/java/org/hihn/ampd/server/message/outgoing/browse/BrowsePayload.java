@@ -41,13 +41,4 @@ public class BrowsePayload {
   public List<MpdSong> getTracks() {
     return Collections.unmodifiableList(tracks);
   }
-
-  @Override
-  public String toString() {
-    return "BrowsePayload{" +
-        "directories=" + directories +
-        ", playlists=" + playlists +
-        ", tracks=" + tracks +
-        '}';
-  }
 }

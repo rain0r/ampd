@@ -377,6 +377,7 @@ public class MpdService implements WebsocketService {
    * @return A message with the search results.
    */
   private SearchMessage searchDatabase(String query) {
-    return new SearchMessage(new SearchPayload(mpd.getSongSearcher().search(ScopeType.ANY, query), query));
+    return new SearchMessage(
+        new SearchPayload(mpd.getSongSearcher().search(ScopeType.ANY, query), query));
   }
 }

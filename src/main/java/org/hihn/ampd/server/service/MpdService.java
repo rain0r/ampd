@@ -41,7 +41,9 @@ public class MpdService implements WebsocketService {
    * Maps all incoming websocket message types to a method.
    */
   private final EnumMap<MessageType, AmpdCommandRunner> commands = new EnumMap<>(MessageType.class);
+
   private final CoverBlacklistService coverBlacklistService;
+
   private final Mpd mpd;
 
   public MpdService(MpdConfiguration mpdConfiguration,
@@ -378,6 +380,6 @@ public class MpdService implements WebsocketService {
    */
   private SearchMessage searchDatabase(String query) {
     return new SearchMessage(
-        new SearchPayload(mpd.getSongSearcher().search(ScopeType.ANY, query), query));
+        new SearchPayload(mpd.getSongSearcher().search(ScopeType.ANY, query.trim()), query.trim()));
   }
 }

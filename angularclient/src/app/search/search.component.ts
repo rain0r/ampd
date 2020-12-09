@@ -31,7 +31,7 @@ export class SearchComponent {
   }
 
   applySearch(searchValue: string): void {
-    this.search = searchValue;
+    this.search = searchValue.trim();
     if (searchValue) {
       // Only search when the term is at least 3 chars long
       if (searchValue.length > 2) {

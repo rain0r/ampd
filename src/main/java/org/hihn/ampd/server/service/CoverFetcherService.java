@@ -9,7 +9,7 @@ import org.bff.javampd.server.Mpd;
 import org.bff.javampd.song.MpdSong;
 import org.hihn.ampd.server.config.MpdConfiguration;
 import org.hihn.ampd.server.model.CoverType;
-import org.hihn.ampd.server.model.SettingsBean;
+import org.hihn.ampd.server.model.Settings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -21,20 +21,25 @@ import org.springframework.stereotype.Service;
 public class CoverFetcherService {
 
   private static final Logger LOG = LoggerFactory.getLogger(CoverFetcherService.class);
+
   private final CoverBlacklistService coverBlacklistService;
+
   private final CoverCacheService coverCacheService;
+
   private final MbCoverService mbCoverService;
+
   private final Mpd mpd;
-  private final SettingsBean settingsBean;
+
+  private final Settings settings;
 
   public CoverFetcherService(
       final CoverCacheService coverCacheService,
       final MbCoverService mbCoverService,
-      final MpdConfiguration mpdConfiguration, SettingsBean settingsBean,
+      final MpdConfiguration mpdConfiguration, Settings settings,
       CoverBlacklistService coverBlacklistService) {
     this.coverCacheService = coverCacheService;
     this.mbCoverService = mbCoverService;
-    this.settingsBean = settingsBean;
+    this.settings = settings;
     mpd = mpdConfiguration.mpd();
     this.coverBlacklistService = coverBlacklistService;
   }
@@ -47,7 +52,7 @@ public class CoverFetcherService {
    */
   public Optional<byte[]> findAlbumCoverForDir(final Optional<String> dir) {
     if (dir.isPresent()) {
-      Path path = Paths.get(settingsBean.getMusicDirectory(), dir.get());
+      Path path = Paths.get(settings.getMusicDirectory(), dir.get());
       List<Path> covers = coverCacheService.scanDir(path);
       if (covers.size() > 0) {
         Path coverPath = covers.get(0);

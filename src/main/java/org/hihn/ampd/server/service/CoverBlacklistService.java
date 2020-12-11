@@ -8,7 +8,7 @@ import java.nio.file.Paths;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
-import org.hihn.ampd.server.model.SettingsBean;
+import org.hihn.ampd.server.model.Settings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -19,15 +19,18 @@ public class CoverBlacklistService {
   private static final Logger LOG = LoggerFactory.getLogger(CoverBlacklistService.class);
 
   private final AmpdDirService ampdDirService;
+
   private final Set<String> blacklistedFiles = new HashSet<>();
-  private final SettingsBean settingsBean;
+
+  private final Settings settings;
 
   public CoverBlacklistService(AmpdDirService ampdDirService,
-      SettingsBean settingsBean) {
+      Settings settings) {
     this.ampdDirService = ampdDirService;
-    this.settingsBean = settingsBean;
+    this.settings = settings;
     blacklistedFiles.addAll(loadBlacklistFile());
   }
+
 
   /**
    * Adds a file to the blacklist.
@@ -36,7 +39,7 @@ public class CoverBlacklistService {
    */
   public void blacklistFile(final String file) {
     // Check if the file exists
-    boolean exist = Paths.get(settingsBean.getMusicDirectory(), file).toFile().exists();
+    boolean exist = Paths.get(settings.getMusicDirectory(), file).toFile().exists();
     if (exist) {
       blacklistedFiles.add(file);
       saveFile();

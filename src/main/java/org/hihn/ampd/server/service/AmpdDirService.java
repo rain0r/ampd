@@ -20,7 +20,9 @@ public class AmpdDirService {
    * Name of the dir that holds all covers.
    */
   private static final String CACHE_DIR_NAME = "covers";
+
   private static final Logger LOG = LoggerFactory.getLogger(CoverCacheService.class);
+
   /**
    * Name of the text file that contains all tracks that are banned from getting a MusicBrainz
    * cover.

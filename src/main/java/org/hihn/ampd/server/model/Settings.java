@@ -1,9 +1,18 @@
 package org.hihn.ampd.server.model;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
 /**
  * Represents all possible ampd settings. Can't be changed during runtime.
  */
+@Component
 public class Settings {
+
+  private static final Logger LOG = LoggerFactory.getLogger(Settings.class);
 
   /**
    * If true, covers that have been downloaded from MusicBrainz will be saved to disk and used the
@@ -38,14 +47,30 @@ public class Settings {
    */
   private final String musicDirectory;
 
-  public Settings(final String musicDirectory, final String mpdServer, final int mpdPort,
-      final String mpdPassword, final boolean localCoverCache, final boolean mbCoverService) {
-    this.musicDirectory = musicDirectory;
+  private final boolean resetModesOnClear;
+
+  @Autowired
+  public Settings(@Value("${mpd.server:localhost}") final String mpdServer,
+      @Value("${mpd.music.directory:}") final String musicDirectory,
+      @Value("${mpd.port:660}") final int mpdPort,
+      @Value("${mpd.password:}") final String mpdPassword,
+      @Value("${local.cover.cache:true}") final boolean localCoverCache,
+      @Value("${mb.cover.service:true}") final boolean mbCoverService,
+      @Value("${reset.modes.on.clear:false}") final boolean resetModesOnClear
+  ) {
     this.mpdServer = mpdServer;
+    this.musicDirectory = musicDirectory;
     this.mpdPort = mpdPort;
     this.mpdPassword = mpdPassword;
     this.localCoverCache = localCoverCache;
     this.mbCoverService = mbCoverService;
+    this.resetModesOnClear = resetModesOnClear;
+
+    LOG.warn("mpdServer: " + mpdServer);
+    LOG.warn("musicDirectory: " + musicDirectory);
+    LOG.warn("mpdPort: " + mpdPort);
+    LOG.warn("localCoverCache: " + localCoverCache);
+    LOG.warn("mbCoverService: " + mbCoverService);
   }
 
   public String getMpdPassword() {
@@ -70,5 +95,9 @@ public class Settings {
 
   public boolean isMbCoverService() {
     return mbCoverService;
+  }
+
+  public boolean isResetModesOnClear() {
+    return resetModesOnClear;
   }
 }

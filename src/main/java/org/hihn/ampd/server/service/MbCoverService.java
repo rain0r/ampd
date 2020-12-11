@@ -11,7 +11,7 @@ import java.util.Optional;
 import java.util.UUID;
 import org.apache.commons.io.IOUtils;
 import org.bff.javampd.song.MpdSong;
-import org.hihn.ampd.server.model.SettingsBean;
+import org.hihn.ampd.server.model.Settings;
 import org.musicbrainz.controller.Recording;
 import org.musicbrainz.controller.Release;
 import org.musicbrainz.model.entity.ReleaseWs2;
@@ -30,10 +30,10 @@ public class MbCoverService {
 
   private static final Logger LOG = LoggerFactory.getLogger(MbCoverService.class);
 
-  private final SettingsBean settingsBean;
+  private final Settings settings;
 
-  public MbCoverService(final SettingsBean settingsBean) {
-    this.settingsBean = settingsBean;
+  public MbCoverService(final Settings settings) {
+    this.settings = settings;
   }
 
   /**
@@ -43,7 +43,7 @@ public class MbCoverService {
    * @return The cover.
    */
   public Optional<byte[]> getMbCover(final MpdSong track) {
-    if (!settingsBean.isMbCoverService()) {
+    if (!settings.isMbCoverService()) {
       return Optional.empty();
     }
     return (StringUtils.isEmpty(track.getAlbumName())) ? searchSingletonMusicBrainzCover(track)

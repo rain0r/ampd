@@ -28,6 +28,7 @@ import org.hihn.ampd.server.message.outgoing.queue.QueuePayload;
 import org.hihn.ampd.server.message.outgoing.search.SearchMessage;
 import org.hihn.ampd.server.message.outgoing.search.SearchPayload;
 import org.hihn.ampd.server.model.PlaylistInfo;
+import org.hihn.ampd.server.model.Settings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -44,12 +45,15 @@ public class MpdService implements WebsocketService {
 
   private final CoverBlacklistService coverBlacklistService;
 
+  private final Settings settings;
+
   private final Mpd mpd;
 
   public MpdService(MpdConfiguration mpdConfiguration,
-      CoverBlacklistService coverBlacklistService) {
+      CoverBlacklistService coverBlacklistService, Settings settings) {
     mpd = mpdConfiguration.mpd();
     this.coverBlacklistService = coverBlacklistService;
+    this.settings = settings;
     buildCommandMap();
   }
 
@@ -209,6 +213,13 @@ public class MpdService implements WebsocketService {
   @Override
   public Optional<Message> removeAll(Map<String, Object> inputPayload) {
     mpd.getPlaylist().clearPlaylist();
+    if (settings.isResetModesOnClear()) {
+      mpd.getPlayer().setRandom(false);
+      mpd.getPlayer().setRepeat(false);
+      mpd.getPlayer().setXFade(0);
+      mpd.getPlayer().setConsume(false);
+      mpd.getPlayer().setSingle(false);
+    }
     return Optional.empty();
   }
 

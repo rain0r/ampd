@@ -2,7 +2,6 @@ package org.hihn.ampd.server.controller;
 
 import java.util.Set;
 import org.hihn.ampd.server.model.Settings;
-import org.hihn.ampd.server.model.SettingsBean;
 import org.hihn.ampd.server.service.CoverBlacklistService;
 import org.hihn.ampd.server.service.CoverCacheService;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -16,10 +15,12 @@ import org.springframework.web.bind.annotation.RestController;
 public class SettingsController {
 
   private final CoverBlacklistService coverBlacklistService;
-  private final CoverCacheService coverCacheService;
-  private final SettingsBean settingsBean;
 
-  public SettingsController(final SettingsBean settingsBean,
+  private final CoverCacheService coverCacheService;
+
+  private final Settings settingsBean;
+
+  public SettingsController(final Settings settingsBean,
       final CoverCacheService coverCacheService,
       CoverBlacklistService coverBlacklistService) {
     this.settingsBean = settingsBean;
@@ -29,7 +30,7 @@ public class SettingsController {
 
   @GetMapping("/settings")
   public Settings getAmpdSettings() {
-    return settingsBean.getAmpdSettings();
+    return settingsBean;
   }
 
   @GetMapping("/cover-blacklist")

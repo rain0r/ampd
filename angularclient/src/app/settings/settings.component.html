@@ -60,12 +60,9 @@
         </mat-slide-toggle>
       </mat-card-content>
     </mat-card>
+
     <mat-divider></mat-divider>
-    <span class="mat-headline">Backend settings</span>
-    <div class="mat-caption">These settings have to be changed via
-      <span class="mono code">-D</span> when starting ampd. Alternatively, write them to
-      an <span class="mono code">ampd.conf</span> file. See the
-      <a class="no-deco-links" href="https://github.com/rain0r/ampd/blob/master/README.md">README</a> for more.</div>
+    <span class="mat-headline">Backend</span>
     <!-- Backend  -->
     <mat-card>
       <mat-form-field class="full-width">
@@ -81,8 +78,19 @@
         >
       </mat-form-field>
     </mat-card>
+
+    <mat-divider></mat-divider>
+    <span class="mat-headline">Backend settings</span>
+    <div class="mat-caption">These settings have to be changed via
+      <span class="mono code">-D</span> when starting ampd. Alternatively, write them to
+      an <span class="mono code">ampd.conf</span> file. See the
+      <a class="no-deco-links"
+         href="https://github.com/rain0r/ampd/blob/master/README.md">README</a> for more.
+    </div>
+
     <!-- Cover cache -->
-    <div fxLayout="column" fxLayoutGap="1rem" fxFlex.gt-md="75%" *ngIf="backendSettings | async as settings">
+    <div fxLayout="column" fxLayoutGap="1rem" fxFlex.gt-md="75%"
+         *ngIf="backendSettings | async as settings">
       <mat-card>
         <mat-card-header>
           <mat-card-title>Cover cache</mat-card-title>
@@ -145,6 +153,31 @@
           These files will not download a cover from MusicBrainz.
         </mat-card-footer>
       </mat-card>
+
+      <!-- Reset MPD modes on clear -->
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>Reset MPD modes on "Clear Queue"</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <mat-slide-toggle
+              class="space-right"
+              [checked]="settings.resetModesOnClear"
+              disabled
+          >
+            <mat-hint align="end"
+            >When true, all active MPD modes (shuffle etc.) will be turned off when the playlist
+              is cleared.
+            </mat-hint
+            >
+          </mat-slide-toggle>
+        </mat-card-content>
+        <mat-card-footer class="card-footer">
+          Configure with <span class="mono code">-Dreset.modes.on.clear=true</span> when starting
+          ampd.
+        </mat-card-footer>
+      </mat-card>
+
       <!-- Music directory -->
       <mat-card>
         <mat-card-header>

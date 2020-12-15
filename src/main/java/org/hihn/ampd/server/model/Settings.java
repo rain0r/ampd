@@ -47,6 +47,10 @@ public class Settings {
    */
   private final String musicDirectory;
 
+  /**
+   * When true, all active MPD modes (shuffle, consume, ...) will be turned off, when the playlist
+   * is cleared.
+   */
   private final boolean resetModesOnClear;
 
   @Autowired

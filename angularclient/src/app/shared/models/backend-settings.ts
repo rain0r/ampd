@@ -8,4 +8,5 @@ export interface BackendSettings {
   mpdPassword: string;
   localCoverCache: boolean;
   mbCoverService: boolean;
+  resetModesOnClear: boolean;
 }

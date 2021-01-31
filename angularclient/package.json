@@ -56,6 +56,7 @@
     "prettier": "2.0.5",
     "protractor": "~7.0.0",
     "serialize-javascript": "^5.0.1",
+    "socket.io": ">=2.4.0",
     "ts-node": "~8.9.1",
     "typescript": "3.9.7",
     "websocket-extensions": ">=0.1.4",

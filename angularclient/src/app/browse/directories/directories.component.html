@@ -43,7 +43,7 @@
       fxLayout="row wrap"
       fxLayoutAlign="space-between"
       fxLayout.lt-md="column"
-      *ngIf="param != '/' && dirQueue.length < 20"
+      *ngIf="param != '/' && dirQueue.length < maxCoversDisplayed"
   >
     <div
         fxLayoutAlign="center center"

@@ -22,6 +22,7 @@ export class DirectoriesComponent extends Filterable {
   @Input() dirQueue: DirectoryImpl[] = [];
   coverSizeClass: Observable<string>;
   dirQueryParam = new BehaviorSubject<string>("/");
+  maxCoversDisplayed = 50;
 
   constructor(
     private activatedRoute: ActivatedRoute,

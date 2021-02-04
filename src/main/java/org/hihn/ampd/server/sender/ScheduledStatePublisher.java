@@ -1,6 +1,6 @@
 package org.hihn.ampd.server.sender;
 
-import org.bff.javampd.server.Mpd;
+import org.bff.javampd.server.MPD;
 import org.hihn.ampd.server.config.MpdConfiguration;
 import org.hihn.ampd.server.message.incoming.ControlPanel;
 import org.hihn.ampd.server.message.outgoing.state.StateMessage;
@@ -18,7 +18,7 @@ public class ScheduledStatePublisher {
 
   private static final String PUBLISH_URL = "/topic/state";
 
-  private final Mpd mpd;
+  private final MPD mpd;
 
   private final SimpMessagingTemplate template;
 

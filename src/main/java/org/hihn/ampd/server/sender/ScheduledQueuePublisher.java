@@ -1,6 +1,6 @@
 package org.hihn.ampd.server.sender;
 
-import org.bff.javampd.server.Mpd;
+import org.bff.javampd.server.MPD;
 import org.hihn.ampd.server.config.MpdConfiguration;
 import org.hihn.ampd.server.message.outgoing.queue.QueueMessage;
 import org.hihn.ampd.server.message.outgoing.queue.QueuePayload;
@@ -18,7 +18,7 @@ public class ScheduledQueuePublisher {
 
   private static final String PUBLISH_URL = "/topic/queue";
 
-  private final Mpd mpd;
+  private final MPD mpd;
 
   private final SimpMessagingTemplate template;
 

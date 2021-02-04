@@ -2,15 +2,15 @@ package org.hihn.ampd.server.message.outgoing.queue;
 
 
 import java.util.List;
-import org.bff.javampd.song.MpdSong;
+import org.bff.javampd.song.MPDSong;
 
 public class QueuePayload {
 
   private final int checkSum;
 
-  private final List<MpdSong> tracks;
+  private final List<MPDSong> tracks;
 
-  public QueuePayload(final List<MpdSong> tracks) {
+  public QueuePayload(final List<MPDSong> tracks) {
     this.tracks = tracks;
     checkSum = tracks.hashCode();
   }
@@ -19,7 +19,7 @@ public class QueuePayload {
     return checkSum;
   }
 
-  public List<MpdSong> getTracks() {
+  public List<MPDSong> getTracks() {
     return tracks;
   }
 }

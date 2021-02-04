@@ -1,12 +1,12 @@
 package org.hihn.ampd.server.config;
 
 
-import org.bff.javampd.server.Mpd;
+import org.bff.javampd.server.MPD;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * Wrapper around the {@link Mpd} library.
+ * Wrapper around the {@link MPD} library.
  */
 @Configuration
 public class MpdConfiguration {
@@ -21,15 +21,15 @@ public class MpdConfiguration {
   private String mpdServer;
 
   /**
-   * Builds an {@link Mpd} instance.
+   * Builds an {@link MPD} instance.
    *
    * @return A connection to the MPD server defined in the application.properties.
    */
-  public Mpd mpd() {
+  public MPD mpd() {
     if (mpdPassword.equals("")) {
-      return new Mpd.Builder().server(mpdServer).port(mpdPort).build();
+      return new MPD.Builder().server(mpdServer).port(mpdPort).build();
     } else {
-      return new Mpd.Builder().server(mpdServer).port(mpdPort).password(mpdPassword).build();
+      return new MPD.Builder().server(mpdServer).port(mpdPort).password(mpdPassword).build();
     }
   }
 }

@@ -4,21 +4,22 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import org.bff.javampd.file.MpdFile;
-import org.bff.javampd.song.MpdSong;
+import org.bff.javampd.file.MPDFile;
+import org.bff.javampd.song.MPDSong;
+
 
 /**
  * Represents the structure of the browse payload returned to the frontend.
  */
 public class BrowsePayload {
 
-  private final List<MpdFile> directories = new ArrayList<>();
+  private final List<MPDFile> directories = new ArrayList<>();
 
   private final List<Playlist> playlists = new ArrayList<>();
 
-  private final List<MpdSong> tracks = new ArrayList<>();
+  private final List<MPDSong> tracks = new ArrayList<>();
 
-  public void addDirectory(final MpdFile mpdFile) {
+  public void addDirectory(final MPDFile mpdFile) {
     directories.add(mpdFile);
   }
 
@@ -26,11 +27,11 @@ public class BrowsePayload {
     playlists.addAll(inputPlaylists);
   }
 
-  public void addTrack(final MpdSong track) {
+  public void addTrack(final MPDSong track) {
     tracks.add(track);
   }
 
-  public List<MpdFile> getDirectories() {
+  public List<MPDFile> getDirectories() {
     return Collections.unmodifiableList(directories);
   }
 
@@ -38,7 +39,7 @@ public class BrowsePayload {
     return Collections.unmodifiableList(playlists);
   }
 
-  public List<MpdSong> getTracks() {
+  public List<MPDSong> getTracks() {
     return Collections.unmodifiableList(tracks);
   }
 }

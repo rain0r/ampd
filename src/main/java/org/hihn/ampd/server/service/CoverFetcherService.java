@@ -5,8 +5,8 @@ import java.nio.file.Paths;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
-import org.bff.javampd.server.Mpd;
-import org.bff.javampd.song.MpdSong;
+import org.bff.javampd.server.MPD;
+import org.bff.javampd.song.MPDSong;
 import org.hihn.ampd.server.config.MpdConfiguration;
 import org.hihn.ampd.server.model.CoverType;
 import org.hihn.ampd.server.model.Settings;
@@ -28,7 +28,7 @@ public class CoverFetcherService {
 
   private final MbCoverService mbCoverService;
 
-  private final Mpd mpd;
+  private final MPD mpd;
 
   private final Settings settings;
 
@@ -72,7 +72,7 @@ public class CoverFetcherService {
     if (trackFilePath.isEmpty()) {
       return Optional.empty();
     }
-    final Collection<MpdSong> foundSongs = mpd.getMusicDatabase().getSongDatabase()
+    final Collection<MPDSong> foundSongs = mpd.getMusicDatabase().getSongDatabase()
         .searchFileName(trackFilePath.get());
     if (foundSongs.size() == 1) {
       return getAlbumCoverForTrack(foundSongs.iterator().next());
@@ -89,7 +89,7 @@ public class CoverFetcherService {
     return getAlbumCoverForTrack(mpd.getPlayer().getCurrentSong());
   }
 
-  private Optional<byte[]> getAlbumCoverForTrack(final MpdSong track) {
+  private Optional<byte[]> getAlbumCoverForTrack(final MPDSong track) {
     if (track == null || coverBlacklistService.isBlacklisted(track.getFile())) {
       return Optional.empty();
     }

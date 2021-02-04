@@ -9,9 +9,9 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
-import org.bff.javampd.file.MpdFile;
-import org.bff.javampd.server.Mpd;
-import org.bff.javampd.song.MpdSong;
+import org.bff.javampd.file.MPDFile;
+import org.bff.javampd.server.MPD;
+import org.bff.javampd.song.MPDSong;
 import org.bff.javampd.song.SongSearcher.ScopeType;
 import org.hihn.ampd.server.config.AmpdCommandRunner;
 import org.hihn.ampd.server.config.MpdConfiguration;
@@ -47,7 +47,7 @@ public class MpdService implements WebsocketService {
 
   private final Settings settings;
 
-  private final Mpd mpd;
+  private final MPD mpd;
 
   public MpdService(MpdConfiguration mpdConfiguration,
       CoverBlacklistService coverBlacklistService, Settings settings) {
@@ -61,7 +61,7 @@ public class MpdService implements WebsocketService {
   public Optional<Message> addDir(Map<String, Object> inputPayload) {
     Map<String, String> payload = inputToStrMap(inputPayload);
     String path = payload.get("dir");
-    MpdFile mpdFile = new MpdFile(path);
+    MPDFile mpdFile = new MPDFile(path);
     mpd.getPlaylist().addFileOrDirectory(mpdFile);
     return Optional.empty();
   }
@@ -77,9 +77,9 @@ public class MpdService implements WebsocketService {
   public Optional<Message> addPlaylist(Map<String, Object> inputPayload) {
     Map<String, String> payload = inputToStrMap(inputPayload);
     String playlist = payload.get("playlist");
-    Collection<MpdSong> mpdSongCollection =
+    Collection<MPDSong> mpdSongCollection =
         mpd.getMusicDatabase().getPlaylistDatabase().listPlaylistSongs(playlist);
-    ArrayList<MpdSong> mpdSongs = new ArrayList<>(mpdSongCollection);
+    ArrayList<MPDSong> mpdSongs = new ArrayList<>(mpdSongCollection);
     mpd.getPlaylist().addSongs(mpdSongs);
     return Optional.empty();
   }
@@ -88,7 +88,7 @@ public class MpdService implements WebsocketService {
   public Optional<Message> addTrack(Map<String, Object> inputPayload) {
     Map<String, String> payload = inputToStrMap(inputPayload);
     String path = payload.get("path");
-    MpdFile mpdFile = new MpdFile(path);
+    MPDFile mpdFile = new MPDFile(path);
     mpdFile.setDirectory(false);
     mpd.getPlaylist().addFileOrDirectory(mpdFile);
     return Optional.empty();
@@ -126,7 +126,7 @@ public class MpdService implements WebsocketService {
     return Optional.empty();
   }
 
-  public Mpd getMpd() {
+  public MPD getMpd() {
     return mpd;
   }
 
@@ -139,7 +139,7 @@ public class MpdService implements WebsocketService {
   public Optional<PlaylistInfo> getPlaylistInfo(String name) {
     Optional<PlaylistInfo> ret = Optional.empty();
     try {
-      Collection<MpdSong> playlists = mpd.getMusicDatabase().getPlaylistDatabase()
+      Collection<MPDSong> playlists = mpd.getMusicDatabase().getPlaylistDatabase()
           .listPlaylistSongs(name);
       int trackCount = mpd.getMusicDatabase().getPlaylistDatabase()
           .countPlaylistSongs(name);
@@ -185,10 +185,10 @@ public class MpdService implements WebsocketService {
   public Optional<Message> playTrack(Map<String, Object> inputPayload) {
     Map<String, String> payload = inputToStrMap(inputPayload);
     String path = payload.get("path");
-    List<MpdSong> trackList = mpd.getPlaylist().getSongList();
-    Collection<MpdSong> mpdSongCollection =
+    List<MPDSong> trackList = mpd.getPlaylist().getSongList();
+    Collection<MPDSong> mpdSongCollection =
         mpd.getMusicDatabase().getSongDatabase().searchFileName(path);
-    List<MpdSong> result =
+    List<MPDSong> result =
         trackList.stream().filter(mpdSongCollection::contains).collect(Collectors.toList());
     if (result.size() > 0) {
       mpd.getPlayer().playSong(result.iterator().next());
@@ -299,22 +299,22 @@ public class MpdService implements WebsocketService {
 
   private BrowsePayload browseDir(String path) {
     BrowsePayload browsePayload = new BrowsePayload();
-    // Build a MpdFile from path, this is a directory
-    MpdFile mpdFile = new MpdFile(path);
+    // Build a MPDFile from path, this is a directory
+    MPDFile mpdFile = new MPDFile(path);
     mpdFile.setDirectory(true);
-    Collection<MpdFile> tmpMpdFiles = new ArrayList<>();
+    Collection<MPDFile> tmpMpdFiles = new ArrayList<>();
     try {
       tmpMpdFiles = mpd.getMusicDatabase().getFileDatabase().listDirectory(mpdFile);
     } catch (Exception e) {
       LOG.error("Error listing directory '{}'", path);
       LOG.error(e.getMessage(), e);
     }
-    for (MpdFile file : tmpMpdFiles) {
+    for (MPDFile file : tmpMpdFiles) {
       if (file.isDirectory()) {
         Directory d = new Directory(file.getPath());
         browsePayload.addDirectory(d);
       } else {
-        Collection<MpdSong> searchResults =
+        Collection<MPDSong> searchResults =
             mpd.getMusicDatabase().getSongDatabase().searchFileName(file.getPath());
         if (!searchResults.isEmpty()) {
           browsePayload.addTrack(searchResults.iterator().next());
@@ -384,7 +384,7 @@ public class MpdService implements WebsocketService {
   }
 
   /**
-   * Takes a query and searches the Mpd database for it.
+   * Takes a query and searches the MPD database for it.
    *
    * @param query What to search for.
    * @return A message with the search results.

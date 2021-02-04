@@ -1,7 +1,7 @@
 package org.hihn.ampd.server.model;
 
 import java.util.Collection;
-import org.bff.javampd.song.MpdSong;
+import org.bff.javampd.song.MPDSong;
 
 /**
  * Holds information about a saved playlist.
@@ -12,10 +12,10 @@ public class PlaylistInfo {
 
   private int trackCount;
 
-  private Collection<MpdSong> tracks;
+  private Collection<MPDSong> tracks;
 
   public PlaylistInfo(final String name, final int trackCount,
-      final Collection<MpdSong> tracks) {
+      final Collection<MPDSong> tracks) {
     this.name = name;
     this.trackCount = trackCount;
     this.tracks = tracks;
@@ -37,11 +37,11 @@ public class PlaylistInfo {
     this.trackCount = trackCount;
   }
 
-  public Collection<MpdSong> getTracks() {
+  public Collection<MPDSong> getTracks() {
     return tracks;
   }
 
-  public void setTracks(final Collection<MpdSong> tracks) {
+  public void setTracks(final Collection<MPDSong> tracks) {
     this.tracks = tracks;
   }
 }

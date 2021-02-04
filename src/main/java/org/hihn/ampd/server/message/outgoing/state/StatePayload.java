@@ -1,7 +1,7 @@
 package org.hihn.ampd.server.message.outgoing.state;
 
 import org.bff.javampd.server.ServerStatus;
-import org.bff.javampd.song.MpdSong;
+import org.bff.javampd.song.MPDSong;
 import org.hihn.ampd.server.message.incoming.ControlPanel;
 
 /**
@@ -13,11 +13,11 @@ public class StatePayload {
 
   private String cover;
 
-  private MpdSong currentSong;
+  private MPDSong currentSong;
 
   private ServerStatus serverStatus;
 
-  public StatePayload(final ServerStatus serverStatus, final MpdSong currentSong,
+  public StatePayload(final ServerStatus serverStatus, final MPDSong currentSong,
       final ControlPanel controlPanel) {
     this.serverStatus = serverStatus;
     this.currentSong = currentSong;
@@ -40,11 +40,11 @@ public class StatePayload {
     this.cover = cover;
   }
 
-  public MpdSong getCurrentSong() {
+  public MPDSong getCurrentSong() {
     return currentSong;
   }
 
-  public void setCurrentSong(final MpdSong currentSong) {
+  public void setCurrentSong(final MPDSong currentSong) {
     this.currentSong = currentSong;
   }
 

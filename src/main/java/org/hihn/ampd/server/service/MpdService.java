@@ -281,6 +281,7 @@ public class MpdService implements WebsocketService {
     return Optional.empty();
   }
 
+  @SuppressWarnings("unchecked")
   @Override
   public Optional<Message> toggleControlPanel(Map<String, Object> inputPayload) {
     // Map the input so we don't have to do ugly castings

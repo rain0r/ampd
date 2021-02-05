@@ -6,6 +6,7 @@ import fm.last.musicbrainz.coverart.impl.DefaultCoverArtArchiveClient;
 import java.io.InputStream;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -55,10 +56,10 @@ public class MbCoverService {
   }
 
   private Optional<byte[]> downloadCover(final String uuid) {
-    Optional<byte[]> ret = Optional.empty();
     final CoverArtArchiveClient client = new DefaultCoverArtArchiveClient();
     final UUID mbId = UUID.fromString(uuid);
     final CoverArt coverArt = client.getByMbid(mbId);
+    Optional<byte[]> ret = Optional.empty();
     if (coverArt != null) {
       final InputStream inputStream;
       try {
@@ -72,12 +73,11 @@ public class MbCoverService {
   }
 
   private Optional<byte[]> searchAlbumMusicBrainzCover(final MPDSong track) {
-    Optional<byte[]> cover = Optional.empty();
     final Release releaseController = new Release();
     releaseController.getSearchFilter().setLimit((long) 10);
     releaseController.getSearchFilter().setMinScore((long) 60);
     final String query;
-    List<ReleaseResultWs2> releaseResults = null;
+    List<ReleaseResultWs2> releaseResults = new ArrayList<>();
     try {
       query = String
           .format("artist:%s%%20AND%%title:%s", URLEncoder.encode(track.getArtistName(),
@@ -91,6 +91,8 @@ public class MbCoverService {
     if (releaseResults == null) {
       return Optional.empty();
     }
+
+    Optional<byte[]> cover = Optional.empty();
     for (final ReleaseResultWs2 releaseResultWs2 : releaseResults) {
       cover = downloadCover(releaseResultWs2.getRelease().getId());
       if (cover.isPresent()) {

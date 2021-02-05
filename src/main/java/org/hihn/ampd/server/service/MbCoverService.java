@@ -3,6 +3,12 @@ package org.hihn.ampd.server.service;
 import fm.last.musicbrainz.coverart.CoverArt;
 import fm.last.musicbrainz.coverart.CoverArtArchiveClient;
 import fm.last.musicbrainz.coverart.impl.DefaultCoverArtArchiveClient;
+import java.io.InputStream;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 import org.apache.commons.io.IOUtils;
 import org.bff.javampd.song.MPDSong;
 import org.hihn.ampd.server.model.Settings;
@@ -15,13 +21,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
-
-import java.io.InputStream;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
 
 /**
  * Queries MusicBrainz for covers.

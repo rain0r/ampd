@@ -31,8 +31,11 @@ export class ConnConfUtil {
   }
 
   static getBackendAddr(): string {
-    let backendAddr = localStorage.getItem(ConnConfUtil.key) || "";
-    if (!backendAddr) {
+    let backendAddr: string;
+    if (environment.production) {
+      backendAddr =
+        localStorage.getItem(ConnConfUtil.key) || window.location.href;
+    } else {
       backendAddr = environment.backendAddr;
     }
     return backendAddr;
@@ -44,17 +47,17 @@ export class ConnConfUtil {
    */
   static getBrokerUrl(): string {
     const backendAddr = ConnConfUtil.getBackendAddr();
-    let ret: string;
+    let brokerUrl: string;
     if (backendAddr.includes("https")) {
-      ret = backendAddr.replace("https", "wss");
+      brokerUrl = backendAddr.replace("https", "wss");
     } else {
-      ret = backendAddr.replace("http", "ws");
+      brokerUrl = backendAddr.replace("http", "ws");
     }
-    if (!ret.endsWith("/")) {
-      ret = `${ret}/`;
+    if (!brokerUrl.endsWith("/")) {
+      brokerUrl = `${brokerUrl}/`;
     }
-    ret = `${ret}mpd`;
-    return ret;
+    brokerUrl = `${brokerUrl}mpd`;
+    return brokerUrl;
   }
 
   static setBackendAddr(addr: string): void {

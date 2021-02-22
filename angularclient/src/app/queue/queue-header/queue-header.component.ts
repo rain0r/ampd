@@ -7,14 +7,12 @@ import { QueueTrack } from "../../shared/models/queue-track";
 import { MpdService } from "../../shared/services/mpd.service";
 import { catchError, filter, map } from "rxjs/operators";
 import { CoverModalComponent } from "../cover-modal/cover-modal.component";
-import {
-  DISPLAY_COVERS_KEY,
-  SettingsService,
-} from "../../shared/services/settings.service";
+import { SettingsService } from "../../shared/services/settings.service";
 import { MessageService } from "../../shared/services/message.service";
 import { InternalMessageType } from "../../shared/messages/internal/internal-message-type.enum";
 import { FilterMessage } from "../../shared/messages/internal/message-types/filter-message";
 import { BehaviorSubject, Observable, throwError } from "rxjs";
+import { DISPLAY_COVERS_KEY } from "../../shared/local-storage-keys";
 
 @Component({
   selector: "app-queue-header",

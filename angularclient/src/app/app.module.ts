@@ -2,11 +2,6 @@ import { NgModule } from "@angular/core";
 import { FlexLayoutModule } from "@angular/flex-layout";
 import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
-import {
-  InjectableRxStompConfig,
-  RxStompService,
-  rxStompServiceFactory,
-} from "@stomp/ng2-stompjs";
 import { CoverModalComponent } from "src/app/queue/cover-modal/cover-modal.component";
 import { AppComponent } from "./app.component";
 import { BrowseComponent } from "./browse/browse.component";
@@ -23,7 +18,6 @@ import { TrackTableComponent } from "./queue/track-table/track-table.component";
 import { VolumeSliderComponent } from "./queue/volume-slider/volume-slider.component";
 import { SearchComponent } from "./search/search.component";
 import { SettingsComponent } from "./settings/settings.component";
-import { ConnConfUtil } from "./shared/conn-conf/conn-conf-util";
 import { EncodeURIComponentPipe } from "./shared/pipes/EncodeURI";
 import { DirectoryFilterPipe } from "./shared/pipes/filter/DirectoryFilter";
 import { MpdTrackFilterPipe } from "./shared/pipes/filter/MpdTrackFilter";
@@ -33,7 +27,6 @@ import { AppRoutingModule } from "./app-routing.module";
 import { BrowseService } from "./shared/services/browse.service";
 import { MessageService } from "./shared/services/message.service";
 import { NotificationService } from "./shared/services/notification.service";
-import { WebSocketService } from "./shared/services/web-socket.service";
 import { SecondsToHhMmSsPipe } from "./shared/pipes/SecondsToHhMmSs";
 import { NavbarComponent } from "./navbar/navbar.component";
 import { DeviceDetectorModule } from "ngx-device-detector";
@@ -61,6 +54,14 @@ import { SavePlaylistModalComponent } from "./queue/save-playlist-modal/save-pla
 import { PlaylistInfoModalComponent } from "./browse/playlists/playlist-info-modal/playlist-info-modal.component";
 import { TrackDataTableComponent } from "./shared/track-table/track-data-table.component";
 import { NgxFilesizeModule } from "ngx-filesize";
+import {
+  InjectableRxStompConfig,
+  RxStompService,
+  rxStompServiceFactory,
+} from "@stomp/ng2-stompjs";
+import { WebSocketService } from "./shared/services/web-socket.service";
+import { AmpdRxStompConfig } from "./ampd-rx-stomp-config.service";
+import { ReplaceNullWithTextPipe } from "./shared/pipes/replace-null-with-text.pipe";
 
 @NgModule({
   declarations: [
@@ -71,6 +72,7 @@ import { NgxFilesizeModule } from "ngx-filesize";
     DirectoriesComponent,
     DirectoryFilterPipe,
     EncodeURIComponentPipe,
+    ReplaceNullWithTextPipe,
     MpdModesComponent,
     MpdTrackFilterPipe,
     NavbarComponent,
@@ -128,7 +130,7 @@ import { NgxFilesizeModule } from "ngx-filesize";
     WebSocketService,
     {
       provide: InjectableRxStompConfig,
-      useValue: ConnConfUtil.loadStompConfig(),
+      useClass: AmpdRxStompConfig,
     },
     {
       provide: RxStompService,

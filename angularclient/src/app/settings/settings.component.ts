@@ -1,17 +1,17 @@
 import { Component } from "@angular/core";
 import { environment } from "../../environments/environment";
-import { ConnConfUtil } from "../shared/conn-conf/conn-conf-util";
+
 import { NotificationService } from "../shared/services/notification.service";
 import { WebSocketService } from "../shared/services/web-socket.service";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Observable } from "rxjs";
 import { BackendSettings } from "../shared/models/backend-settings";
+import { SettingsService } from "../shared/services/settings.service";
 import {
   DISPLAY_COVERS_KEY,
   DISPLAY_SAVE_PLAYLIST_KEY,
-  SettingsService,
-} from "../shared/services/settings.service";
-import { ActivatedRoute } from "@angular/router";
+} from "../shared/local-storage-keys";
+import { CoverBlacklistFiles } from "../shared/models/cover-blacklist-files";
 
 @Component({
   selector: "app-settings",
@@ -26,15 +26,14 @@ export class SettingsComponent {
   isDisplayCovers: boolean;
   isDisplaySavePlaylist: boolean;
   backendSettings: Observable<BackendSettings>;
-  coverBlacklist: Observable<string[]>;
+  coverBlacklist: Observable<CoverBlacklistFiles>;
   settingsForm: FormGroup;
 
   constructor(
     private notificationService: NotificationService,
     private webSocketService: WebSocketService,
     private formBuilder: FormBuilder,
-    private settingsService: SettingsService,
-    private activatedRoute: ActivatedRoute
+    private settingsService: SettingsService
   ) {
     this.settingsForm = this.formBuilder.group({
       backendAddr: [this.getBackendAddr(), Validators.required],
@@ -60,13 +59,14 @@ export class SettingsComponent {
       this.notificationService.popUp("Invalid input.");
       return;
     }
-    ConnConfUtil.setBackendAddr(this.settingsForm.controls.backendAddr.value);
-    this.webSocketService.init();
+    this.settingsService.setBackendAddr(
+      this.settingsForm.controls.backendAddr.value
+    );
     this.notificationService.popUp("Saved settings.");
   }
 
   toggleDarkTheme(checked: boolean): void {
-    this.settingsService.setDarkTheme(checked);
+    this.settingsService.setTheme(checked);
     this.notificationService.popUp("Saved settings.");
   }
 
@@ -81,18 +81,7 @@ export class SettingsComponent {
   }
 
   private getBackendAddr() {
-    let getParam =
-      this.activatedRoute.snapshot.queryParamMap.get("backend") || "";
-    if (getParam) {
-      // We got a backend addr via get paramater, save and display it
-      if (!getParam.startsWith("http://")) {
-        getParam = `http://${getParam}`;
-      }
-      ConnConfUtil.setBackendAddr(getParam);
-      return getParam;
-    }
-
     // Return the saved backend addr
-    return ConnConfUtil.getBackendAddr();
+    return this.settingsService.getBackendAddr();
   }
 }

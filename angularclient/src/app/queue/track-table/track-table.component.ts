@@ -12,11 +12,9 @@ import { NotificationService } from "../../shared/services/notification.service"
 import { TrackTableData } from "../../shared/track-table/track-table-data";
 import { ClickActions } from "../../shared/track-table/click-actions.enum";
 import { MpdCommands } from "../../shared/mpd/mpd-commands.enum";
-import {
-  DISPLAY_SAVE_PLAYLIST_KEY,
-  SettingsService,
-} from "../../shared/services/settings.service";
+import { SettingsService } from "../../shared/services/settings.service";
 import { Observable } from "rxjs";
+import { DISPLAY_SAVE_PLAYLIST_KEY } from "../../shared/local-storage-keys";
 
 @Component({
   selector: "app-track-table",

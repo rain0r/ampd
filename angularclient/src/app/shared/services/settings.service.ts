@@ -1,12 +1,12 @@
 import { Injectable } from "@angular/core";
 import { BehaviorSubject, Observable } from "rxjs";
-import { ConnConfUtil } from "../conn-conf/conn-conf-util";
 import { BackendSettings } from "../models/backend-settings";
 import { HttpClient } from "@angular/common/http";
-
-export const DARK_MODE_KEY = "isDarkTheme";
-export const DISPLAY_COVERS_KEY = "isDisplayCovers";
-export const DISPLAY_SAVE_PLAYLIST_KEY = "isDisplaySavePlaylist";
+import { ApiEndpoints } from "../api-endpoints";
+import { BACKEND_ADDRESS_KEY, DARK_MODE_KEY } from "../local-storage-keys";
+import { CoverBlacklistFiles } from "../models/cover-blacklist-files";
+import { Location } from "@angular/common";
+import { DarkTheme, LightTheme } from "../themes/themes";
 
 @Injectable({
   providedIn: "root",
@@ -18,27 +18,22 @@ export class SettingsService {
    */
   private isDarkThemeSubject = new BehaviorSubject(true);
 
-  constructor(private http: HttpClient) {
-    this.setDarkTheme(this.getBoolValue(DARK_MODE_KEY));
+  constructor(private http: HttpClient, private location: Location) {
+    const isDarkTheme: boolean = this.getBoolValue(DARK_MODE_KEY);
+    this.setTheme(isDarkTheme);
   }
 
   isDarkTheme(): Observable<boolean> {
     return this.isDarkThemeSubject.asObservable();
   }
 
-  setDarkTheme(darkTheme: boolean): void {
-    localStorage.setItem(DARK_MODE_KEY, JSON.stringify(darkTheme));
-    this.isDarkThemeSubject.next(darkTheme);
-    if (darkTheme) {
-      this.changeTheme("#607d8b", "#ff9100", "#868e96", "white", "#303030");
+  setTheme(isDarkTheme: boolean): void {
+    localStorage.setItem(DARK_MODE_KEY, JSON.stringify(isDarkTheme));
+    this.isDarkThemeSubject.next(isDarkTheme);
+    if (isDarkTheme) {
+      this.changeTheme(DarkTheme);
     } else {
-      this.changeTheme(
-        "#eeee",
-        "#eeee",
-        "#000",
-        "rgba(0, 0, 0, 0.87)",
-        "#fafafa"
-      );
+      this.changeTheme(LightTheme);
     }
   }
 
@@ -57,43 +52,69 @@ export class SettingsService {
   }
 
   getBackendSettings(): Observable<BackendSettings> {
-    const backendAddr = ConnConfUtil.getBackendAddr();
-    const url = `${backendAddr}/api/settings`;
+    const url = `${this.getBackendContextAddr()}api/settings`;
     return this.http.get<BackendSettings>(url);
   }
 
   getCoverCacheDiskUsage(): Observable<number> {
-    const backendAddr = ConnConfUtil.getBackendAddr();
-    const url = `${backendAddr}/api/cover-usage`;
+    const url = `${this.getBackendContextAddr()}api/cover-disk-usage`;
     return this.http.get<number>(url);
   }
 
-  getCoverBlacklist(): Observable<string[]> {
-    const backendAddr = ConnConfUtil.getBackendAddr();
-    const url = `${backendAddr}/api/cover-blacklist`;
-    return this.http.get<string[]>(url);
+  getCoverBlacklist(): Observable<CoverBlacklistFiles> {
+    const url = `${this.getBackendContextAddr()}api/cover-blacklist`;
+    return this.http.get<CoverBlacklistFiles>(url);
   }
 
-  private changeTheme(
-    hoverBackgroundColor: string,
-    backgroundColor: string,
-    borderColor: string,
-    fontColor: string,
-    bodyBackgroundColor: string
-  ): void {
-    document.documentElement.style.setProperty(
-      "--hover-background-color",
-      hoverBackgroundColor
-    );
-    document.documentElement.style.setProperty(
-      "--background-color",
-      backgroundColor
-    );
-    document.documentElement.style.setProperty("--border-color", borderColor);
-    document.documentElement.style.setProperty("--font-color", fontColor);
-    document.documentElement.style.setProperty(
-      "--body-background-color",
-      bodyBackgroundColor
-    );
+  /**
+   * Returns the api endpoint of the backend that looks for covers in a directory specified by
+   * a directory path.
+   */
+  getFindDirCoverUrl(): string {
+    return `${this.getBackendContextAddr()}api/find-dir-cover`;
+  }
+
+  /**
+   * Returns the api endpoint of the backend that looks for covers in a directory specified by
+   * a track path.
+   */
+  getFindTrackCoverUrl(): string {
+    return `${this.getBackendContextAddr()}api/find-track-cover`;
+  }
+
+  /**
+   * Returns the api endpoint of the backend that returns info about a specific playlist.
+   * @param playlistName The playlist to get the info on.
+   */
+  getPlaylistInfoUrl(playlistName: string): string {
+    return `${this.getBackendContextAddr()}api/playlist/${playlistName}`;
+  }
+
+  /**
+   * See the corresponding method in {@link ApiEndpoints}.
+   */
+  getBackendAddr(): string {
+    return ApiEndpoints.getBackendAddr();
+  }
+
+  /**
+   * Returns the API-base URL respecting a potential context. For example, if the base href is set to 'ampd' it will
+   * return 'example.com/ampd'.
+   */
+  getBackendContextAddr(): string {
+    const backendContextAddr = `${ApiEndpoints.getBackendAddr()}${this.location.prepareExternalUrl(
+      ""
+    )}`;
+    return backendContextAddr;
+  }
+
+  setBackendAddr(backendAddr: string): void {
+    localStorage.setItem(BACKEND_ADDRESS_KEY, backendAddr);
+  }
+
+  private changeTheme(theme: Map<string, string>): void {
+    theme.forEach((value, prop) => {
+      document.documentElement.style.setProperty(prop, value);
+    });
   }
 }

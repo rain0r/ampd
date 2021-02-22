@@ -28,9 +28,9 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
-public class MpdService implements WebsocketService {
+public class MpdServiceMpd implements MpdWebsocketService {
 
-    private static final Logger LOG = LoggerFactory.getLogger(MpdService.class);
+    private static final Logger LOG = LoggerFactory.getLogger(MpdServiceMpd.class);
 
     /**
      * Maps all incoming websocket message types to a method.
@@ -43,8 +43,8 @@ public class MpdService implements WebsocketService {
 
     private final MPD mpd;
 
-    public MpdService(MpdConfiguration mpdConfiguration,
-                      CoverBlacklistService coverBlacklistService, Settings settings) {
+    public MpdServiceMpd(MpdConfiguration mpdConfiguration,
+                         CoverBlacklistService coverBlacklistService, Settings settings) {
         mpd = mpdConfiguration.mpd();
         this.coverBlacklistService = coverBlacklistService;
         this.settings = settings;
@@ -85,6 +85,18 @@ public class MpdService implements WebsocketService {
         MPDFile mpdFile = new MPDFile(path);
         mpdFile.setDirectory(false);
         mpd.getPlaylist().addFileOrDirectory(mpdFile);
+        return Optional.empty();
+    }
+
+    @SuppressWarnings(value = "unchecked")
+    @Override
+    public Optional<Message> addTracks(Map<String, Object> inputPayload) {
+        ArrayList<String> filePaths = (ArrayList<String>) inputPayload.get("tracks");
+        for (String file : filePaths) {
+            MPDFile mpdFile = new MPDFile(file);
+            mpdFile.setDirectory(false);
+            mpd.getPlaylist().addFileOrDirectory(mpdFile);
+        }
         return Optional.empty();
     }
 
@@ -275,14 +287,14 @@ public class MpdService implements WebsocketService {
         return Optional.empty();
     }
 
+    @SuppressWarnings(value = "unchecked")
     @Override
     public Optional<Message> toggleControlPanel(Map<String, Object> inputPayload) {
         // Map the input so we don't have to do ugly castings
-        Map<String, HashMap<String, Boolean>> newMap = inputPayload.entrySet().stream()
-                .collect(Collectors.toMap(Map.Entry::getKey, e -> (HashMap<String, Boolean>) e.getValue()));
+        Map<String, Map<String, Boolean>> newMap = inputPayload.entrySet().stream()
+                .collect(Collectors.toMap(Map.Entry::getKey, e -> (Map<String, Boolean>) e.getValue()));
 
-        HashMap<String, Boolean> controlPanel = newMap.get("controlPanel");
-
+        Map<String, Boolean> controlPanel = newMap.get("controlPanel");
         mpd.getPlayer().setRandom(controlPanel.get("random"));
         mpd.getPlayer().setRepeat(controlPanel.get("repeat"));
         mpd.getPlayer().setXFade(controlPanel.get("crossfade") ? 1 : 0);
@@ -323,6 +335,7 @@ public class MpdService implements WebsocketService {
         commands.put(MessageType.ADD_PLAYLIST, this::addPlaylist);
         commands.put(MessageType.ADD_PLAY_TRACK, this::addPlayTrack);
         commands.put(MessageType.ADD_TRACK, this::addTrack);
+        commands.put(MessageType.ADD_TRACKS, this::addTracks);
         commands.put(MessageType.BLACKLIST_COVER, this::blacklistCover);
         commands.put(MessageType.DELETE_PLAYLIST, this::deletePlaylist);
         commands.put(MessageType.GET_BROWSE, this::browse);

@@ -7,7 +7,7 @@ import org.hihn.ampd.server.message.Message;
 /**
  * Defines all methods that are avaiable via websocket commands.
  */
-public interface WebsocketService {
+public interface MpdWebsocketService {
 
   Optional<Message> addDir(Map<String, Object> inputPayload);
 
@@ -16,6 +16,8 @@ public interface WebsocketService {
   Optional<Message> addPlaylist(Map<String, Object> inputPayload);
 
   Optional<Message> addTrack(Map<String, Object> inputPayload);
+
+  Optional<Message> addTracks(Map<String, Object> inputPayload);
 
   Optional<Message> blacklistCover(Map<String, Object> inputPayload);
 

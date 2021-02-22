@@ -1,4 +1,4 @@
-import { Directory } from "./directory-impl";
+import { Directory } from "./directory";
 import { MpdTrack } from "./mpd-track";
 import { Playlist } from "./playlist-impl";
 

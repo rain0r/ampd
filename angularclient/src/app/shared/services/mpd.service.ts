@@ -3,12 +3,12 @@ import { WebSocketService } from "./web-socket.service";
 import { StateMsgPayload } from "../messages/incoming/state-msg-payload";
 import { ControlPanel } from "../messages/incoming/control-panel";
 import { QueueTrack } from "../models/queue-track";
-import { ConnConfUtil } from "../conn-conf/conn-conf-util";
 import { Observable, Subject } from "rxjs";
 import { filter, map } from "rxjs/operators";
 import { PlaylistSaved } from "../messages/incoming/playlist-saved";
 import { HttpClient } from "@angular/common/http";
 import { PlaylistInfo } from "../models/playlist-info";
+import { SettingsService } from "./settings.service";
 
 @Injectable({
   providedIn: "root",
@@ -23,7 +23,8 @@ export class MpdService {
 
   constructor(
     private webSocketService: WebSocketService,
-    private http: HttpClient
+    private http: HttpClient,
+    private settingsService: SettingsService
   ) {
     this.init();
   }
@@ -49,9 +50,9 @@ export class MpdService {
   }
 
   getPlaylistInfo(playlistName: string): Observable<PlaylistInfo> {
-    const backendAddr = ConnConfUtil.getBackendAddr();
-    const url = `${backendAddr}/api/playlist/${playlistName}`;
-    return this.http.get<PlaylistInfo>(url);
+    return this.http.get<PlaylistInfo>(
+      this.settingsService.getPlaylistInfoUrl(playlistName)
+    );
   }
 
   /**
@@ -86,7 +87,7 @@ export class MpdService {
   }
 
   private buildCoverUrl(file: string) {
-    return `${ConnConfUtil.getFindTrackCoverUrl()}?path=${encodeURIComponent(
+    return `${this.settingsService.getFindTrackCoverUrl()}?path=${encodeURIComponent(
       file
     )}`;
   }

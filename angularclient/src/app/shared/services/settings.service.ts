@@ -53,7 +53,6 @@ export class SettingsService {
 
   getBackendSettings(): Observable<BackendSettings> {
     const url = `${this.getBackendContextAddr()}api/settings`;
-    // console.log("getBackendSettings()", url);
     return this.http.get<BackendSettings>(url);
   }
 
@@ -106,7 +105,6 @@ export class SettingsService {
     const backendContextAddr = `${ApiEndpoints.getBackendAddr()}${this.location.prepareExternalUrl(
       ""
     )}`;
-    // console.log("backendContextAddr", backendContextAddr);
     return backendContextAddr;
   }
 
@@ -118,27 +116,5 @@ export class SettingsService {
     theme.forEach((value, prop) => {
       document.documentElement.style.setProperty(prop, value);
     });
-
-    // document.documentElement.style.setProperty(
-    //   "--hover-background-color",
-    //   theme.hoverBgColor
-    // );
-    // document.documentElement.style.setProperty(
-    //   "--background-color",
-    //   theme.firstBgColor
-    // );
-    // document.documentElement.style.setProperty(
-    //   "--border-color",
-    //   theme.borderColor
-    // );
-    // document.documentElement.style.setProperty("--font-color", theme.fontColor);
-    // document.documentElement.style.setProperty(
-    //   "--body-background-color",
-    //   theme.bodyBgColor
-    // );
-    // document.documentElement.style.setProperty(
-    //   "--second-background-color",
-    //   theme.secondBgColor
-    // );
   }
 }

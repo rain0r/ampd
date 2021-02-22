@@ -24,8 +24,6 @@ export class BrowseNavigationComponent implements OnInit {
 
   getParamDir = "";
   filter = "";
-  focus = false;
-
   constructor(
     private router: Router,
     private notificationService: NotificationService,

@@ -4,8 +4,8 @@
 
 <mat-divider></mat-divider>
 
-<div fxLayout="row wrap" fxLayoutAlign="start baseline">
-  <div fxLayout="row nowrap" fxFlex="70%" fxFlex.lt-md="100%">
+<div fxLayout="row wrap" fxLayoutAlign="start baseline" style="border: 1px white">
+  <div fxLayout="row nowrap" fxFlex="50%" fxFlex.lt-md="100%">
     <mat-form-field class="full-width">
       <input
           matInput
@@ -28,8 +28,27 @@
       </button>
     </mat-form-field>
   </div>
-  <div fxFlex="30%" fxLayoutAlign="end center">
-    <span *ngIf="searchResultCount > 0" class="text-muted"> {{ searchResultCount }} results </span>
+  <div *ngIf="searchResultCount > 0" fxLayout="row nowrap" fxFlex="50%" fxFlex.lt-md="100%" fxLayoutAlign="end center" fxLayoutGap="0.5rem">
+    <div>
+      <span fxFlex class="text-muted">{{ searchResultCount }} results </span>
+    </div>
+
+
+    <!--Clear queue-->
+    <button class="mat-small" mat-raised-button (click)="onClearQueue()">
+      <mat-icon>delete</mat-icon>
+      <span fxHide.lt-md>
+        Clear queue
+      </span>
+    </button>
+
+    <!--Add all-->
+    <button class="mat-small" mat-raised-button (click)="onAddAll()">
+      <mat-icon> add</mat-icon>
+      <span fxHide.lt-md>
+        Add all
+      </span>
+    </button>
   </div>
 </div>
 

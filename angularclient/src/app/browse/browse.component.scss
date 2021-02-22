@@ -3,3 +3,16 @@
   padding-bottom: 0.25rem;
 }
 
+.list-item {
+  font-size: larger;
+  margin-bottom: 0.65rem;
+  // margin-right: 1rem;
+  // border: 0.1px solid var(--border-color);
+  padding: 0.5rem;
+  background: var(--second-background-color);
+}
+
+.list-item:hover {
+  cursor: pointer;
+  background: var(--hover-background-color);
+}

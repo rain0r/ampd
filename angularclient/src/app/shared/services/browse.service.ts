@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { BrowseMsgPayload } from "../messages/incoming/browse";
-import { DirectoryImpl } from "../messages/incoming/directory-impl";
+import { Directory } from "../messages/incoming/directory";
 import { BrowseInfo } from "../models/browse-info";
 import { WebSocketService } from "./web-socket.service";
 import { Observable, Subject } from "rxjs";
@@ -34,7 +34,10 @@ export class BrowseService {
   private onBrowseResponse(payload: BrowseMsgPayload): void {
     const newBrowseInfo = new BrowseInfo();
     payload.directories.forEach((dir) => {
-      const directory = new DirectoryImpl(true, dir.path);
+      const directory: Directory = {
+        directory: true,
+        path: dir.path,
+      } as Directory;
       newBrowseInfo.dirQueue.push(directory);
     });
     payload.tracks.forEach((track, index) => {

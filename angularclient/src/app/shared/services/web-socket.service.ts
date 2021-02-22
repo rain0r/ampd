@@ -8,7 +8,6 @@ import { StateMsgPayload } from "../messages/incoming/state-msg-payload";
 import { BrowseMsgPayload } from "../messages/incoming/browse";
 import { SearchMsgPayload, SearchRoot } from "../messages/incoming/search";
 import { QueuePayload } from "../messages/incoming/queue-payload";
-import { ConnConfUtil } from "../conn-conf/conn-conf-util";
 import { PlaylistSaved } from "../messages/incoming/playlist-saved";
 import { MpdCommands } from "../mpd/mpd-commands.enum";
 import { filter, map } from "rxjs/operators";
@@ -86,10 +85,5 @@ export class WebSocketService {
       filter((body: BaseResponse) => body.type === MpdTypes.PLAYLIST_SAVED),
       map((body: BaseResponse) => <PlaylistSaved>body.payload)
     );
-  }
-
-  init(): void {
-    this.rxStompService.configure(ConnConfUtil.loadStompConfig());
-    this.rxStompService.activate();
   }
 }

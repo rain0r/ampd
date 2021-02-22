@@ -1,6 +1,5 @@
 import { Component, Input, OnInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
-import { ConnConfUtil } from "../../shared/conn-conf/conn-conf-util";
 import { MpdTrack } from "../../shared/messages/incoming/mpd-track";
 import { MessageService } from "../../shared/services/message.service";
 import { Filterable } from "../filterable";
@@ -9,6 +8,7 @@ import { Observable } from "rxjs";
 import { TrackTableData } from "../../shared/track-table/track-table-data";
 import { MatTableDataSource } from "@angular/material/table";
 import { ClickActions } from "../../shared/track-table/click-actions.enum";
+import { SettingsService } from "../../shared/services/settings.service";
 
 @Component({
   selector: "app-tracks",
@@ -26,7 +26,8 @@ export class TracksComponent extends Filterable implements OnInit {
   constructor(
     private activatedRoute: ActivatedRoute,
     private messageService: MessageService,
-    private responsiveCoverSizeService: ResponsiveCoverSizeService
+    private responsiveCoverSizeService: ResponsiveCoverSizeService,
+    private settingsService: SettingsService
   ) {
     super(messageService);
     this.coverSizeClass = responsiveCoverSizeService.getCoverCssClass();
@@ -41,7 +42,7 @@ export class TracksComponent extends Filterable implements OnInit {
 
   coverUrl(): string {
     // Add a query param to trigger an image change in the browser
-    return `${ConnConfUtil.getFindDirCoverUrl()}?path=${encodeURIComponent(
+    return `${this.settingsService.getFindDirCoverUrl()}?path=${encodeURIComponent(
       this.getParamDir
     )}`;
   }

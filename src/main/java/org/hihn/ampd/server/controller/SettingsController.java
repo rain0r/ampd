@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Collections;
 import java.util.Map;
 
+
 @RestController
 @RequestMapping("/api")
 @CrossOrigin
@@ -49,7 +50,6 @@ public class SettingsController {
     @GetMapping("/cover-disk-usage")
     public Map<String, Long> getCoverDiskUsage() {
         return Collections.singletonMap("coverDiskUsage", coverCacheService.getCoverDiskUsage());
-        // return coverCacheService.getCoverDiskUsage();
     }
 
     @GetMapping("/backend-address")

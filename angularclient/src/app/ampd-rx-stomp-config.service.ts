@@ -33,25 +33,14 @@ export class AmpdRxStompConfig extends InjectableRxStompConfig {
    * websocket library.
    */
   private getBrokerUrl(): string {
-    // const backendAddr = ApiEndpoints.getBackendAddr();
-    // console.log("getBrokerUrl(): backendAddr", backendAddr);
-    // console.log(
-    //   "getBrokerUrl(): prepareExternalUrl",
-    //   this.location.prepareExternalUrl("mpd")
-    // );
     let brokerUrl = `${ApiEndpoints.getBackendAddr()}${this.location.prepareExternalUrl(
       "mpd"
     )}`;
-    // let brokerUrl: string;
     if (brokerUrl.includes("https")) {
       brokerUrl = brokerUrl.replace("https", "wss");
     } else {
       brokerUrl = brokerUrl.replace("http", "ws");
     }
-    // if (!brokerUrl.endsWith("/")) {
-    //   brokerUrl = `${brokerUrl}/`;
-    // }
-    // brokerUrl = `${brokerUrl}mpd`;
     console.log("brokerUrl", brokerUrl);
     return brokerUrl;
   }

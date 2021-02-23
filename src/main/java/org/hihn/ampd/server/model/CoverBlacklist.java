@@ -3,19 +3,21 @@ package org.hihn.ampd.server.model;
 import java.util.Set;
 
 public class CoverBlacklist {
-    private final String filePath;
-    private final Set<String> blacklistedFiles;
 
-    public CoverBlacklist(String filePath, Set<String> blacklistedFiles) {
-        this.filePath = filePath;
-        this.blacklistedFiles = blacklistedFiles;
-    }
+  private final Set<String> blacklistedFiles;
 
-    public String getFilePath() {
-        return filePath;
-    }
+  private final String filePath;
 
-    public Set<String> getBlacklistedFiles() {
-        return blacklistedFiles;
-    }
+  public CoverBlacklist(String filePath, Set<String> blacklistedFiles) {
+    this.filePath = filePath;
+    this.blacklistedFiles = blacklistedFiles;
+  }
+
+  public Set<String> getBlacklistedFiles() {
+    return blacklistedFiles;
+  }
+
+  public String getFilePath() {
+    return filePath;
+  }
 }

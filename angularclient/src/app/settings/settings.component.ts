@@ -1,14 +1,17 @@
-import {Component} from "@angular/core";
-import {environment} from "../../environments/environment";
+import { Component } from "@angular/core";
+import { environment } from "../../environments/environment";
 
-import {NotificationService} from "../shared/services/notification.service";
-import {WebSocketService} from "../shared/services/web-socket.service";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {Observable} from "rxjs";
-import {BackendSettings} from "../shared/models/backend-settings";
-import {SettingsService} from "../shared/services/settings.service";
-import {DISPLAY_COVERS_KEY, DISPLAY_SAVE_PLAYLIST_KEY,} from "../shared/local-storage-keys";
-import {CoverBlacklistFiles} from "../shared/models/cover-blacklist-files";
+import { NotificationService } from "../shared/services/notification.service";
+import { WebSocketService } from "../shared/services/web-socket.service";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { Observable } from "rxjs";
+import { BackendSettings } from "../shared/models/backend-settings";
+import { SettingsService } from "../shared/services/settings.service";
+import {
+  DISPLAY_COVERS_KEY,
+  DISPLAY_SAVE_PLAYLIST_KEY,
+} from "../shared/local-storage-keys";
+import { CoverBlacklistFiles } from "../shared/models/cover-blacklist-files";
 
 @Component({
   selector: "app-settings",
@@ -27,21 +30,21 @@ export class SettingsComponent {
   settingsForm: FormGroup;
 
   constructor(
-      private notificationService: NotificationService,
-      private webSocketService: WebSocketService,
-      private formBuilder: FormBuilder,
-      private settingsService: SettingsService
+    private notificationService: NotificationService,
+    private webSocketService: WebSocketService,
+    private formBuilder: FormBuilder,
+    private settingsService: SettingsService
   ) {
     this.settingsForm = this.buildSettingsForm();
     // Backend settings
     this.isDarkTheme = this.settingsService.isDarkTheme();
     this.isDisplayCovers = this.settingsService.getBoolValue(
-        DISPLAY_COVERS_KEY,
-        true
+      DISPLAY_COVERS_KEY,
+      true
     );
     this.isDisplaySavePlaylist = this.settingsService.getBoolValue(
-        DISPLAY_SAVE_PLAYLIST_KEY,
-        true
+      DISPLAY_SAVE_PLAYLIST_KEY,
+      true
     );
     // Frontend settings
     this.coverCacheUsage = this.settingsService.getCoverCacheDiskUsage();
@@ -55,7 +58,7 @@ export class SettingsComponent {
       return;
     }
     this.settingsService.setBackendAddr(
-        this.settingsForm.controls.backendAddr.value
+      this.settingsForm.controls.backendAddr.value
     );
     this.notificationService.popUp("Saved settings.");
   }

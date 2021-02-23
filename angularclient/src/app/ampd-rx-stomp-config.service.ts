@@ -1,7 +1,7 @@
-import { InjectableRxStompConfig } from "@stomp/ng2-stompjs";
-import { ApiEndpoints } from "./shared/api-endpoints";
-import { Injectable } from "@angular/core";
-import { Location } from "@angular/common";
+import {InjectableRxStompConfig} from "@stomp/ng2-stompjs";
+import {ApiEndpoints} from "./shared/api-endpoints";
+import {Injectable} from "@angular/core";
+import {Location} from "@angular/common";
 
 @Injectable()
 export class AmpdRxStompConfig extends InjectableRxStompConfig {
@@ -34,14 +34,14 @@ export class AmpdRxStompConfig extends InjectableRxStompConfig {
    */
   private getBrokerUrl(): string {
     let brokerUrl = `${ApiEndpoints.getBackendAddr()}${this.location.prepareExternalUrl(
-      "mpd"
+        "mpd"
     )}`;
     if (brokerUrl.includes("https")) {
       brokerUrl = brokerUrl.replace("https", "wss");
     } else {
       brokerUrl = brokerUrl.replace("http", "ws");
     }
-    console.log("getBackendAddr()", brokerUrl);
+    console.log("getBrokerUrl()", brokerUrl);
     return brokerUrl;
   }
 }

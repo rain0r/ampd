@@ -51,10 +51,6 @@ public class MbCoverService {
         : searchAlbumMusicBrainzCover(track);
   }
 
-  private boolean isEmpty(@Nullable Object str) {
-    return str == null || "".equals(str);
-  }
-
   private Optional<byte[]> downloadCover(final String uuid) {
     final CoverArtArchiveClient client = new DefaultCoverArtArchiveClient();
     final UUID mbId = UUID.fromString(uuid);
@@ -70,6 +66,10 @@ public class MbCoverService {
       }
     }
     return ret;
+  }
+
+  private boolean isEmpty(@Nullable Object str) {
+    return str == null || "".equals(str);
   }
 
   private Optional<byte[]> searchAlbumMusicBrainzCover(final MPDSong track) {

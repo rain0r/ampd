@@ -7,7 +7,7 @@ import org.hihn.ampd.server.message.outgoing.OutgoingMessage;
 public class PlaylistSavedMessage extends OutgoingMessage {
 
   private final PlaylistSavedPayload payload;
-  
+
   public PlaylistSavedMessage(final PlaylistSavedPayload payload) {
     super(MessageType.PLAYLIST_SAVED);
     this.payload = payload;

@@ -88,4 +88,4 @@ To persist these options, create a config file. See chapter `Installation`.
  [Install]
  WantedBy=multi-user.target
  ```
- Afterwards, enable it with `systemctl enable myapp.service`.
+ Afterwards, enable it with `systemctl enable ampd.service`.

@@ -1,12 +1,12 @@
-import { Injectable } from "@angular/core";
-import { BehaviorSubject, Observable } from "rxjs";
-import { BackendSettings } from "../models/backend-settings";
-import { HttpClient } from "@angular/common/http";
-import { ApiEndpoints } from "../api-endpoints";
-import { BACKEND_ADDRESS_KEY, DARK_MODE_KEY } from "../local-storage-keys";
-import { CoverBlacklistFiles } from "../models/cover-blacklist-files";
-import { Location } from "@angular/common";
-import { DarkTheme, LightTheme } from "../themes/themes";
+import {Injectable} from "@angular/core";
+import {BehaviorSubject, Observable} from "rxjs";
+import {BackendSettings} from "../models/backend-settings";
+import {HttpClient} from "@angular/common/http";
+import {ApiEndpoints} from "../api-endpoints";
+import {BACKEND_ADDRESS_KEY, DARK_MODE_KEY} from "../local-storage-keys";
+import {CoverBlacklistFiles} from "../models/cover-blacklist-files";
+import {Location} from "@angular/common";
+import {DarkTheme, LightTheme} from "../themes/themes";
 
 @Injectable({
   providedIn: "root",
@@ -44,7 +44,7 @@ export class SettingsService {
   getBoolValue(key: string, defaultValue = false): boolean {
     try {
       const saved: string =
-        localStorage.getItem(key) || defaultValue.toString();
+          localStorage.getItem(key) || defaultValue.toString();
       return <boolean>JSON.parse(saved);
     } catch (err) {
       return defaultValue;
@@ -103,13 +103,16 @@ export class SettingsService {
    */
   getBackendContextAddr(): string {
     const backendContextAddr = `${ApiEndpoints.getBackendAddr()}${this.location.prepareExternalUrl(
-      ""
+        ""
     )}`;
     return backendContextAddr;
   }
 
   setBackendAddr(backendAddr: string): void {
+    console.log("setBackendAddr()")
+    console.log("BACKEND_ADDRESS_KEY", BACKEND_ADDRESS_KEY)
     localStorage.setItem(BACKEND_ADDRESS_KEY, backendAddr);
+    console.log("BACKEND_ADDRESS_KEY", localStorage.getItem(BACKEND_ADDRESS_KEY))
   }
 
   private changeTheme(theme: Map<string, string>): void {

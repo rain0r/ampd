@@ -2,19 +2,18 @@ package org.hihn.ampd.server.message.outgoing.browse;
 
 import java.util.HashMap;
 import java.util.Map;
-import org.hihn.ampd.server.message.AmpdMessage;
+import org.hihn.ampd.server.message.outgoing.OutgoingMessage;
 
 /**
  * Represents the structure of a browse message returned to the frontend. Contains the message type
  * and the payload.
  */
-public class BrowseMessage extends AmpdMessage {
+public class BrowseMessage extends OutgoingMessage {
 
   private final BrowsePayload payload;
 
-  private final MessageType type = MessageType.BROWSE;
-
   public BrowseMessage(final BrowsePayload browsePayload) {
+    super(MessageType.BROWSE);
     payload = browsePayload;
   }
 
@@ -25,10 +24,5 @@ public class BrowseMessage extends AmpdMessage {
     ret.put("playlists", payload.getPlaylists());
     ret.put("tracks", payload.getTracks());
     return ret;
-  }
-
-  @Override
-  public MessageType getType() {
-    return type;
   }
 }

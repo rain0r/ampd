@@ -2,15 +2,14 @@ package org.hihn.ampd.server.message.outgoing.state;
 
 import java.util.HashMap;
 import java.util.Map;
-import org.hihn.ampd.server.message.AmpdMessage;
+import org.hihn.ampd.server.message.outgoing.OutgoingMessage;
 
-public class StateMessage extends AmpdMessage {
-
-  private static final MessageType type = MessageType.STATE;
+public class StateMessage extends OutgoingMessage {
 
   private StatePayload payload;
 
   public StateMessage(final StatePayload payload) {
+    super(MessageType.STATE);
     this.payload = payload;
   }
 
@@ -26,10 +25,5 @@ public class StateMessage extends AmpdMessage {
 
   public void setPayload(final StatePayload payload) {
     this.payload = payload;
-  }
-
-  @Override
-  public MessageType getType() {
-    return type;
   }
 }

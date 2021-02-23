@@ -2,15 +2,14 @@ package org.hihn.ampd.server.message.outgoing.queue;
 
 import java.util.HashMap;
 import java.util.Map;
-import org.hihn.ampd.server.message.AmpdMessage;
+import org.hihn.ampd.server.message.outgoing.OutgoingMessage;
 
-public class QueueMessage extends AmpdMessage {
-
-  private static final MessageType type = MessageType.QUEUE;
+public class QueueMessage extends OutgoingMessage {
 
   private final QueuePayload payload;
 
   public QueueMessage(final QueuePayload payload) {
+    super(MessageType.QUEUE);
     this.payload = payload;
   }
 
@@ -21,11 +20,5 @@ public class QueueMessage extends AmpdMessage {
     ret.put("tracks", payload.getTracks());
     return ret;
   }
-
-  @Override
-  public MessageType getType() {
-    return type;
-  }
-
 
 }

@@ -2,15 +2,14 @@ package org.hihn.ampd.server.message.outgoing.playlist;
 
 import java.util.HashMap;
 import java.util.Map;
-import org.hihn.ampd.server.message.AmpdMessage;
+import org.hihn.ampd.server.message.outgoing.OutgoingMessage;
 
-public class PlaylistSavedMessage extends AmpdMessage {
+public class PlaylistSavedMessage extends OutgoingMessage {
 
   private final PlaylistSavedPayload payload;
-
-  private final MessageType type = MessageType.PLAYLIST_SAVED;
-
+  
   public PlaylistSavedMessage(final PlaylistSavedPayload payload) {
+    super(MessageType.PLAYLIST_SAVED);
     this.payload = payload;
   }
 
@@ -20,10 +19,5 @@ public class PlaylistSavedMessage extends AmpdMessage {
     ret.put("playlistName", payload.getPlaylistName());
     ret.put("success", payload.isSuccess());
     return ret;
-  }
-
-  @Override
-  public MessageType getType() {
-    return type;
   }
 }

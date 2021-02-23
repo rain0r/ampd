@@ -41,6 +41,7 @@ export class AmpdRxStompConfig extends InjectableRxStompConfig {
     } else {
       brokerUrl = brokerUrl.replace("http", "ws");
     }
+    console.log("getBackendAddr()", brokerUrl);
     return brokerUrl;
   }
 }

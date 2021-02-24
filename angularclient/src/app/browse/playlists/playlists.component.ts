@@ -25,7 +25,7 @@ export class PlaylistsComponent extends Filterable {
     super(messageService);
   }
 
-  onClickPlaylist(playlistName: string): void {
+  onRowClick(playlistName: string): void {
     this.webSocketService.sendData(MpdCommands.ADD_PLAYLIST, {
       playlist: playlistName,
     });

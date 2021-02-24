@@ -16,7 +16,6 @@ export class ApiEndpoints {
     } else {
       backendAddr = environment.backendAddr;
     }
-    console.log("getBackendAddr()", backendAddr);
     return backendAddr;
   }
 }

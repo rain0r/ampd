@@ -109,13 +109,7 @@ export class SettingsService {
   }
 
   setBackendAddr(backendAddr: string): void {
-    console.log("setBackendAddr()");
-    console.log("BACKEND_ADDRESS_KEY", BACKEND_ADDRESS_KEY);
     localStorage.setItem(BACKEND_ADDRESS_KEY, backendAddr);
-    console.log(
-      "BACKEND_ADDRESS_KEY",
-      localStorage.getItem(BACKEND_ADDRESS_KEY)
-    );
   }
 
   private changeTheme(theme: Map<string, string>): void {

@@ -1,72 +1,74 @@
 <div *ngIf="(dirQueue| directoryFilter: filterValue).length && getParamDir() | async as param">
-    <div class="sub-menu">
+  <div class="sub-menu">
   <span class="mat-h3">
-    <span *ngIf="param != '/'">
+    <span *ngIf="param != '/' else getParamRoot">
       <span class="dir-prefix" title="Directory">
         Directory
       </span>
-        {{ param }}
+      {{ param }}
     </span>
-    <span *ngIf="param == '/'">Directories</span>
+    <ng-template #getParamRoot>
+      Directories
+    </ng-template>
   </span>
-    </div>
+  </div>
 
-    <div *ngFor="let dir of dirQueue | directoryFilter: filterValue">
-        <div (click)="onRowClick(dir)"
-             fxLayout="row nowrap"
-             fxLayoutGap="1%"
-             fxLayoutAlign="center center"
-             class="list-item dir-list-item">
-            <mat-icon>folder_open</mat-icon>
-            {{ getDisplayedPath(dir.path) }}
-            <div fxFlex></div>
-            <mat-icon
-                    class="chip clickable"
-                    title="Play directory"
-                    (click)="onPlayDir($event, dir.path)"
-            >
-                play_arrow
-            </mat-icon>
-            <mat-icon
-                    class="chip clickable"
-                    title="Add directory to queue"
-                    (click)="onAddDir($event, dir.path)"
-            >
-                add
-            </mat-icon>
-        </div>
-    </div>
+  <div *ngFor="let dir of dirQueue | directoryFilter: filterValue">
+    <div (click)="onRowClick(dir)"
+         fxLayout="row nowrap"
+         fxLayoutGap="1%"
+         fxLayoutAlign="center center"
+         class="list-item">
 
-    <!-- Cover grid -->
+      <mat-icon>folder_open</mat-icon>
+      <div fxFlex>
+        {{ getDisplayedPath(dir.path) }}
+      </div>
+      <button class="mat-small" mat-button
+          title="Play directory"
+          (click)="onPlayDir($event, dir.path)"
+      >
+        <mat-icon> play_arrow</mat-icon>
+      </button>
+      <button class="mat-small" mat-button
+          title="Add directory to queue"
+          (click)="onAddDir($event, dir.path)"
+      >
+        <mat-icon> add</mat-icon>
+      </button>
+    </div>
+  </div>
+
+  <!-- Cover grid -->
+  <div
+      fxLayout="row wrap"
+      fxLayoutAlign="space-between"
+      fxLayout.lt-md="column"
+      fxLayoutGap="1rem grid"
+      *ngIf="param != '/' && dirQueue.length < maxCoversDisplayed"
+  >
     <div
-            class="clickable"
-            fxLayout="row wrap"
-            fxLayoutAlign="space-between"
-            fxLayout.lt-md="column"
-            *ngIf="param != '/' && dirQueue.length < maxCoversDisplayed"
+        fxLayoutAlign="center center"
+        *ngFor="let dir of dirQueue | directoryFilter: filterValue"
     >
-        <div
-                fxLayoutAlign="center center"
-                *ngFor="let dir of dirQueue | directoryFilter: filterValue"
-        >
-            <mat-card
-                    class="cover-card"
-                    fxLayout="column"
-            >
-                <img
-                        mat-card-image
-                        [ngClass]="[coverSizeClass|async]"
-                        [queryParams]="{ dir: dir.path }"
-                        [routerLink]="['/browse']"
-                        [title]="getDisplayedPath(dir.path)"
-                        alt="Cover of {{getDisplayedPath(dir.path)}}"
-                        src="{{ getAlbumCoverUrl(dir.path) }}"
-                />
-                <mat-card-actions>
-                    <button mat-button (click)="onPlayDir($event, dir.path)">Play</button>
-                    <button mat-button (click)="onAddDir($event, dir.path)">Add</button>
-                </mat-card-actions>
-            </mat-card>
-        </div>
+      <mat-card
+          fxLayout="column"
+      >
+        <img
+            mat-card-image
+            class="clickable"
+            [ngClass]="[coverSizeClass|async]"
+            [queryParams]="{ dir: dir.path }"
+            [routerLink]="['/browse']"
+            [title]="getDisplayedPath(dir.path)"
+            alt="Cover of {{getDisplayedPath(dir.path)}}"
+            src="{{ getAlbumCoverUrl(dir.path) }}"
+        />
+        <mat-card-actions fxLayout="row wrap" fxLayoutAlign="space-between baseline">
+          <button mat-stroked-button (click)="onPlayDir($event, dir.path)">Play</button>
+          <button mat-stroked-button (click)="onAddDir($event, dir.path)">Add</button>
+        </mat-card-actions>
+      </mat-card>
     </div>
+  </div>
 </div>

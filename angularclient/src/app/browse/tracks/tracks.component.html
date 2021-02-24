@@ -1,29 +1,28 @@
-<div *ngIf="(tracks| mpdTrackFilter: filterValue).length">
-  <div fxLayout="row" fxLayout.lt-md="column" fxLayoutAlign="space-around">
-    <div fxFlex="1 1 auto" fxLayoutAlign="start center">
+<div fxLayout="row" fxLayout.lt-md="column" fxLayoutAlign="space-around">
+  <div fxFlex="1 1 auto" fxLayoutAlign="start center">
     <span class="list-header mat-h3">
       <span class="dir-prefix" title="Directory">Directory</span>{{ getParamDir }}
     </span>
-    </div>
-    <div fxFlex="1 1 auto" fxLayoutAlign="end end">
-      <img *ngIf="coverUrl()" [hidden]="!validCoverUrl" [src]="coverUrl()"
-           [ngClass]="[coverSizeClass|async]" (error)="onError()" (load)="onLoad()"/>
-    </div>
   </div>
+  <div fxFlex="1 1 auto" fxLayoutAlign="end end">
+    <img [alt]="'Cover of ' + getParamDir" *ngIf="coverUrl()" [hidden]="!validCoverUrl"
+         [src]="coverUrl()"
+         [ngClass]="[coverSizeClass|async]" (error)="onError()" (load)="onLoad()"/>
+  </div>
+</div>
 
-  <mat-divider></mat-divider>
+<mat-divider></mat-divider>
 
-  <!-- Tracks in this dir -->
-  <app-track-data-table [trackTableData]="trackTableData"></app-track-data-table>
+<!-- Tracks in this dir -->
+<app-track-data-table [trackTableData]="trackTableData"></app-track-data-table>
 
-  <mat-divider class="bottom-divider"></mat-divider>
+<mat-divider class="bottom-divider"></mat-divider>
 
-  <div *ngIf="trackTableData.dataSource.data.length > 0" class="bottom-divider">
+<div *ngIf="trackTableData.dataSource.data.length > 0" class="bottom-divider">
     <span [ngPlural]="trackTableData.dataSource.data.length">
       <ng-template ngPluralCase="=1">1 track </ng-template>
-      <ng-template ngPluralCase="other">{{ trackTableData.dataSource.data.length }} tracks</ng-template>
+      <ng-template ngPluralCase="other">{{ trackTableData.dataSource.data.length }}
+        tracks</ng-template>
     </span> in this directory.
-    Total playtime:     {{ queueDuration | secondsToHhMmSs }}
-  </div>
-
+  Total playtime:     {{ queueDuration | secondsToHhMmSs }}
 </div>

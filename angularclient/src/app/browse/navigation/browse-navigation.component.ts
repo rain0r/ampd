@@ -14,7 +14,7 @@ import { InternalMessageType } from "../../shared/messages/internal/internal-mes
 import { FilterMessage } from "../../shared/messages/internal/message-types/filter-message";
 import { MpdCommands } from "../../shared/mpd/mpd-commands.enum";
 import { BrowseInfo } from "../../shared/models/browse-info";
-import { BehaviorSubject, Observable } from "rxjs";
+import { BehaviorSubject } from "rxjs";
 
 @Component({
   selector: "app-navigation",

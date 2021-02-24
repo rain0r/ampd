@@ -24,6 +24,7 @@
     <frontend.context>/</frontend.context>
     <skip.npm>false</skip.npm>
     <skip.npm.warnings>true</skip.npm.warnings>
+    <npm.verbose>false</npm.verbose>
   </properties>
   <scm>
     <url>https://github.com/rain0r/ampd</url>
@@ -151,6 +152,7 @@
               <workingDirectory>./angularclient</workingDirectory>
               <arguments>
                 <argument>build.js</argument>
+                <argument>--verbose=${npm.verbose}</argument>
                 <argument>--prod=${frontend.prod}</argument>
                 <argument>--url=${frontend.url}</argument>
                 <argument>--https=${frontend.https}</argument>

@@ -20,7 +20,6 @@ import { SearchComponent } from "./search/search.component";
 import { SettingsComponent } from "./settings/settings.component";
 import { EncodeURIComponentPipe } from "./shared/pipes/EncodeURI";
 import { DirectoryFilterPipe } from "./shared/pipes/filter/DirectoryFilter";
-import { MpdTrackFilterPipe } from "./shared/pipes/filter/MpdTrackFilter";
 import { PlaylistFilterPipe } from "./shared/pipes/filter/PlaylistFilter";
 import { SecondsToMmSsPipe } from "./shared/pipes/SecondsToMmSs";
 import { AppRoutingModule } from "./app-routing.module";
@@ -74,7 +73,6 @@ import { ReplaceNullWithTextPipe } from "./shared/pipes/replace-null-with-text.p
     EncodeURIComponentPipe,
     ReplaceNullWithTextPipe,
     MpdModesComponent,
-    MpdTrackFilterPipe,
     NavbarComponent,
     BrowseNavigationComponent,
     PlaylistFilterPipe,

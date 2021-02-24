@@ -13,6 +13,8 @@ import { WebSocketService } from "../../shared/services/web-socket.service";
 import { InternalMessageType } from "../../shared/messages/internal/internal-message-type.enum";
 import { FilterMessage } from "../../shared/messages/internal/message-types/filter-message";
 import { MpdCommands } from "../../shared/mpd/mpd-commands.enum";
+import { BrowseInfo } from "../../shared/models/browse-info";
+import { BehaviorSubject, Observable } from "rxjs";
 
 @Component({
   selector: "app-navigation",
@@ -22,8 +24,10 @@ import { MpdCommands } from "../../shared/mpd/mpd-commands.enum";
 export class BrowseNavigationComponent implements OnInit {
   @ViewChild("filterInputElem") myInputField: ElementRef;
 
+  displayFilter = new BehaviorSubject<boolean>(true);
   getParamDir = "";
   filter = "";
+
   constructor(
     private router: Router,
     private notificationService: NotificationService,
@@ -47,6 +51,10 @@ export class BrowseNavigationComponent implements OnInit {
       const dir = <string>queryParams.dir || "/";
       this.getParamDir = dir;
       this.browseService.sendBrowseReq(dir);
+    });
+    this.browseService.browseInfo.subscribe((foo) => {
+      // We don't support filtering the tracks of a single album
+      this.displayFilter.next(this.isTracksOnly(foo) ? false : true);
     });
   }
 
@@ -110,5 +118,13 @@ export class BrowseNavigationComponent implements OnInit {
       type: InternalMessageType.BrowseFilter,
       filterValue: "",
     } as FilterMessage);
+  }
+
+  private isTracksOnly(browseInfo: BrowseInfo) {
+    return (
+      browseInfo.dirQueue.length === 0 &&
+      browseInfo.playlistQueue.length === 0 &&
+      browseInfo.trackQueue.length > 0
+    );
   }
 }

@@ -87,7 +87,6 @@ export class SearchComponent {
     searchResultCount: number
   ): void {
     this.resetSearch();
-    // const tracks = [];
     this.searchResultTracks = [];
     searchResults.forEach((track: SearchResult) =>
       this.searchResultTracks.push(new QueueTrack(track))

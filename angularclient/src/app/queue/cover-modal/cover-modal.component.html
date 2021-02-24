@@ -4,10 +4,6 @@
     <img src="{{ data.coverUrl }}" alt="Cover"/>
 </div>
 <div mat-dialog-actions align="end" fxLayout="row nowrap">
-    <!--    <span *ngIf="backendSettings | async as settings">-->
-    <!--        <button *ngIf="settings.mbCoverService" mat-stroked-button (click)="onBlacklistCover()">Blacklist-->
-    <!--        </button>-->
-    <!--    </span>-->
     <button *ngIf="(backendSettings | async)?.mbCoverService" mat-stroked-button (click)="onBlacklistCover()">Blacklist
     </button>
     <a mat-stroked-button href="{{data.coverUrl}}" target="_blank">Open</a>

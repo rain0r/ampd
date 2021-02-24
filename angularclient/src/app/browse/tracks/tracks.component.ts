@@ -2,7 +2,6 @@ import { Component, Input, OnInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { MpdTrack } from "../../shared/messages/incoming/mpd-track";
 import { MessageService } from "../../shared/services/message.service";
-import { Filterable } from "../filterable";
 import { ResponsiveCoverSizeService } from "../../shared/services/responsive-cover-size.service";
 import { Observable } from "rxjs";
 import { TrackTableData } from "../../shared/track-table/track-table-data";
@@ -15,7 +14,7 @@ import { SettingsService } from "../../shared/services/settings.service";
   templateUrl: "./tracks.component.html",
   styleUrls: ["./tracks.component.scss"],
 })
-export class TracksComponent extends Filterable implements OnInit {
+export class TracksComponent implements OnInit {
   @Input() tracks: MpdTrack[] = [];
   coverSizeClass: Observable<string>;
   getParamDir = "";
@@ -25,11 +24,9 @@ export class TracksComponent extends Filterable implements OnInit {
 
   constructor(
     private activatedRoute: ActivatedRoute,
-    private messageService: MessageService,
     private responsiveCoverSizeService: ResponsiveCoverSizeService,
     private settingsService: SettingsService
   ) {
-    super(messageService);
     this.coverSizeClass = responsiveCoverSizeService.getCoverCssClass();
     this.getParamDir =
       this.activatedRoute.snapshot.queryParamMap.get("dir") || "/";

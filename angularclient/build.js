@@ -3,39 +3,38 @@
 const fs = require("fs");
 const path = require("path");
 const replace = require("replace-in-file");
-const spawn = require("child_process").spawn;
 const versionParser = require("child_process");
 const argv = require("yargs")
-  .usage("Build the ampd frontend.")
-  .option("prod")
-  .boolean("prod")
-  .default("prod", false)
-  .describe("prod", "Is this a production build?")
-  .option("url")
-  .string("url")
-  .describe("url", "The url of the backend server")
-  .default("url", "http://localhost:8080")
-  .option("https")
-  .boolean("https")
-  .describe("https", "use https instead of http")
-  .default("https", false)
-  .option("context")
-  .string("context")
-  .describe("context", "The context path of ampd")
-  .default("context", "/").argv;
+.usage("Build the ampd frontend.")
+.option("prod")
+.boolean("prod")
+.default("prod", false)
+.describe("prod", "Is this a production build?")
+.option("url")
+.string("url")
+.describe("url", "The url of the backend server")
+.default("url", "http://localhost:8080")
+.option("https")
+.boolean("https")
+.describe("https", "use https instead of http")
+.default("https", false)
+.option("context")
+.string("context")
+.describe("context", "The context path of ampd")
+.default("context", "/").argv;
 
 const ampdVersion = versionParser
-  .execSync(
+.execSync(
     "mvn -q -Dexec.executable=\"echo\" -Dexec.args='${project.version}' --non-recursive exec:exec",
     { cwd: path.join(__dirname, "..") }
-  )
-  .toString()
-  .trim();
+)
+.toString()
+.trim();
 
 const gitCommitId = require("child_process")
-  .execSync("git rev-parse --short HEAD")
-  .toString()
-  .trim();
+.execSync("git rev-parse --short HEAD")
+.toString()
+.trim();
 
 let http, ws;
 if (argv["https"]) {
@@ -57,11 +56,11 @@ console.log(`Using gitCommitId: ${gitCommitId}`);
 
 // Copy the environment template
 fs.copyFile(
-  path.join(__dirname, "src/templates/environment.prod.txt"),
-  path.join(__dirname, "src/environments/environment.prod.ts"),
-  (err) => {
-    if (err) throw err;
-  }
+    path.join(__dirname, "src/templates/environment.prod.txt"),
+    path.join(__dirname, "src/environments/environment.prod.ts"),
+    (err) => {
+      if (err) throw err;
+    }
 );
 
 // Replace some variables
@@ -90,30 +89,55 @@ try {
 } catch (err) {
   throw err;
 }
-
-console.log("Starting build");
 const spawnArgs = argv["prod"]
-  ? ["build", "--configuration=production", `--base-href=${argv["context"]}`]
-  : [
+    ? [
       "build",
+      "--progress",
+      "--configuration=production",
+      `--base-href=${argv["context"]}`,
+    ]
+    : [
+      "build",
+      "--progress",
       "--source-map",
       "--prod=false",
       "--build-optimizer=false",
       `--base-href=${argv["context"]}`,
     ];
-
-console.log(`Executing 'ng ${spawnArgs.join(" ")}`);
 const spawnOpt = { cwd: __dirname };
-const child = spawn("ng", spawnArgs, spawnOpt);
-
-child.on("close", (code) => {
-  if (code > 0) {
-    console.log(`child process exited with code ${code}`);
-    process.exit(1);
-  }
+const child_process = require("child_process");
+run_script("ng", spawnArgs, spawnOpt, function (output, exit_code) {
+  console.log("Process Finished.");
+  console.log("closing code: " + exit_code);
+  console.log("Full output of script: ", output);
 });
 
-child.on("error", (err) => {
-  console.error(err);
-  process.exit(1);
-});
+// This function will output the lines from the script
+// AS is runs, AND will return the full combined output
+// as well as exit code when it's done (using the callback).
+function run_script(command, args, opts, callback) {
+  console.log("Starting Process.");
+  const child = child_process.spawn(command, args);
+
+  let scriptOutput = "";
+
+  child.stdout.setEncoding("utf8");
+  child.stdout.on("data", function (data) {
+    console.log("stdout: " + data);
+
+    data = data.toString();
+    scriptOutput += data;
+  });
+
+  child.stderr.setEncoding("utf8");
+  child.stderr.on("data", function (data) {
+    console.log("stderr: " + data);
+
+    data = data.toString();
+    scriptOutput += data;
+  });
+
+  child.on("close", function (code) {
+    callback(scriptOutput, code);
+  });
+}

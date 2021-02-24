@@ -1,7 +1,6 @@
 import { Component, Input, OnInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { MpdTrack } from "../../shared/messages/incoming/mpd-track";
-import { MessageService } from "../../shared/services/message.service";
 import { ResponsiveCoverSizeService } from "../../shared/services/responsive-cover-size.service";
 import { Observable } from "rxjs";
 import { TrackTableData } from "../../shared/track-table/track-table-data";

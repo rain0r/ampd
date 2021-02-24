@@ -125,14 +125,14 @@ function run_script(command, args, opts, callback) {
   child.stdout.setEncoding("utf8");
   child.stdout.on("data", function (data) {
     if (argv["verbose"]) {
-      console.log("stdout: " + data);
+      process.stdout.write(data);
     }
   });
 
   child.stderr.setEncoding("utf8");
   child.stderr.on("data", function (data) {
     if (argv["verbose"]) {
-      console.log("stderr: " + data);
+      process.stdout.write(data);
     }
   });
 

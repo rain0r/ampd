@@ -1,7 +1,7 @@
-import {InjectableRxStompConfig} from "@stomp/ng2-stompjs";
-import {ApiEndpoints} from "./shared/api-endpoints";
-import {Injectable} from "@angular/core";
-import {Location} from "@angular/common";
+import { InjectableRxStompConfig } from "@stomp/ng2-stompjs";
+import { ApiEndpoints } from "./shared/api-endpoints";
+import { Injectable } from "@angular/core";
+import { Location } from "@angular/common";
 
 @Injectable()
 export class AmpdRxStompConfig extends InjectableRxStompConfig {
@@ -33,10 +33,13 @@ export class AmpdRxStompConfig extends InjectableRxStompConfig {
    * websocket library.
    */
   private getBrokerUrl(): string {
-    console.log("${this.location.prepareExternalUrl(mpd)}", this.location.prepareExternalUrl("mpd"));
-    
+    console.log(
+      "location.prepareExternalUrl(mpd)",
+      this.location.prepareExternalUrl("mpd")
+    );
+
     let brokerUrl = `${ApiEndpoints.getBackendAddr()}${this.location.prepareExternalUrl(
-        "mpd"
+      "mpd"
     )}`;
     if (brokerUrl.includes("https")) {
       brokerUrl = brokerUrl.replace("https", "wss");

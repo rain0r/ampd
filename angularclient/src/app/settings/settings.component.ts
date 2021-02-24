@@ -80,7 +80,7 @@ export class SettingsComponent {
 
   private getBackendAddr() {
     // Return the saved backend addr
-    return this.settingsService.getBackendAddr();
+    return this.settingsService.getBackendContextAddr();
   }
 
   private buildSettingsForm() {

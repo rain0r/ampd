@@ -52,7 +52,7 @@
   <div fxFlex></div>
 
   <!--Filter-->
-  <div *ngIf="displayFilter|async" fxLayoutAlign="center center" fxFlex="30%" fxFlex.lt-md="100%">
+  <div fxLayoutAlign="center center" fxFlex="30%" fxFlex.lt-md="100%">
     <mat-form-field>
       <input
           #filterInputElem
@@ -63,6 +63,7 @@
           matInput
           placeholder="Filter"
           type="text"
+          [disabled]="!(displayFilter|async)"
       />
       <button
           (click)="filter = ''; resetFilter()"

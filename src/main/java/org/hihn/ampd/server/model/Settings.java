@@ -70,11 +70,12 @@ public class Settings {
     this.mbCoverService = mbCoverService;
     this.resetModesOnClear = resetModesOnClear;
 
-    LOG.warn("mpdServer: " + mpdServer);
-    LOG.warn("musicDirectory: " + musicDirectory);
-    LOG.warn("mpdPort: " + mpdPort);
-    LOG.warn("localCoverCache: " + localCoverCache);
-    LOG.warn("mbCoverService: " + mbCoverService);
+    LOG.debug("mpdServer: " + mpdServer);
+    LOG.debug("musicDirectory: " + musicDirectory);
+    LOG.debug("mpdPort: " + mpdPort);
+    LOG.debug("localCoverCache: " + localCoverCache);
+    LOG.debug("mbCoverService: " + mbCoverService);
+    LOG.debug("resetModesOnClear: " + resetModesOnClear);
   }
 
   public String getMpdPassword() {

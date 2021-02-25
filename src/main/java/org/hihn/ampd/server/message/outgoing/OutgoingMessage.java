@@ -17,9 +17,6 @@ public abstract class OutgoingMessage extends AmpdMessage {
 
   @Override
   public String toString() {
-    return "QueueMessage{" +
-        "payload=" + getPayload() +
-        ", type=" + type +
-        '}';
+    return "QueueMessage{" + "payload=" + getPayload() + ", type=" + type + '}';
   }
 }

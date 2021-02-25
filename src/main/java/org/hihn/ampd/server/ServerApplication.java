@@ -28,7 +28,6 @@ public class ServerApplication {
   public void doSomethingAfterStartup() {
     System.out.println("\n==================================================");
     System.out.println("ampd is running on: " + address + ":" + port);
-    System.out.println("Visit: http://" + AmpdUtils.getLocalIp() + ":" + port);
     System.out.println("==================================================");
   }
 

@@ -51,6 +51,11 @@ public class CoverBlacklistService {
     return blacklistedFiles;
   }
 
+  /**
+   * Returns info and content of the local cover blacklist file.
+   *
+   * @return Path and content of the cover blacklist.
+   */
   public CoverBlacklist getCoverBlacklist() {
     String filePath = "";
     if (ampdDirService.getBlacklistFile().isPresent()) {

@@ -73,6 +73,9 @@ To persist these options, create a config file. See chapter `Installation`.
  ln -sf /opt/ampd/ampd.jar /etc/init.d/ampd
  /etc/init.d/ampd start
  ```
+ 
+If you get the error: `start-stop-daemon: unrecognized option '--no-close'`, remove that option from the jar-file with: `sed -i 's/--no-close//g' /opt/ampd/ampd.jar`
+
  #### systemd
  Create the file `/etc/systemd/system/ampd.service`
  ```

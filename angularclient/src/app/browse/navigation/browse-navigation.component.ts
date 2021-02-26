@@ -52,9 +52,9 @@ export class BrowseNavigationComponent implements OnInit {
       this.getParamDir = dir;
       this.browseService.sendBrowseReq(dir);
     });
-    this.browseService.browseInfo.subscribe((foo) => {
+    this.browseService.browseInfo.subscribe((browseInfo) => {
       // We don't support filtering the tracks of a single album
-      this.displayFilter.next(this.isTracksOnly(foo) ? false : true);
+      this.displayFilter.next(!this.isTracksOnly(browseInfo));
     });
   }
 

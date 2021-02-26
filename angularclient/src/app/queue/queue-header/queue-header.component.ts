@@ -11,14 +11,7 @@ import { SettingsService } from "../../shared/services/settings.service";
 import { MessageService } from "../../shared/services/message.service";
 import { InternalMessageType } from "../../shared/messages/internal/internal-message-type.enum";
 import { FilterMessage } from "../../shared/messages/internal/message-types/filter-message";
-import {
-  BehaviorSubject,
-  combineLatest,
-  Observable,
-  of,
-  throwError,
-} from "rxjs";
-import { DISPLAY_COVERS_KEY } from "../../shared/local-storage-keys";
+import { BehaviorSubject, combineLatest, Observable, throwError } from "rxjs";
 
 @Component({
   selector: "app-queue-header",
@@ -74,7 +67,7 @@ export class QueueHeaderComponent implements OnInit {
     combineLatest([
       httpObs,
       this.currentState,
-      of(this.settingsService.getBoolValue(DISPLAY_COVERS_KEY, true)),
+      this.settingsService.getDisplayCovers(),
     ])
       .pipe(filter((result) => result[1] !== "stop"))
       .subscribe(() => this.displayCoverSubject.next(true));

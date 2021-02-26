@@ -5,6 +5,7 @@ import { MpdService } from "../shared/services/mpd.service";
 import { Title } from "@angular/platform-browser";
 import { combineLatest } from "rxjs";
 import { map } from "rxjs/operators";
+import { SettingsService } from "../shared/services/settings.service";
 
 @Component({
   selector: "app-queue",
@@ -15,10 +16,9 @@ export class QueueComponent implements OnInit {
   constructor(
     private webSocketService: WebSocketService,
     private titleService: Title,
-    private mpdService: MpdService
-  ) {
-    this.buildTitle();
-  }
+    private mpdService: MpdService,
+    private settingsService: SettingsService
+  ) {}
 
   @HostListener("document:visibilitychange", ["$event"])
   onKeyUp(): void {
@@ -28,7 +28,9 @@ export class QueueComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    console.log("ngOnInit");
     this.webSocketService.send(MpdCommands.GET_QUEUE);
+    this.buildTitle();
   }
 
   /**
@@ -38,9 +40,20 @@ export class QueueComponent implements OnInit {
     combineLatest([
       this.mpdService.getStateSubscription(),
       this.mpdService.getTrackSubscription(),
+      this.settingsService.getTabTitleOption(),
     ])
-      .pipe(map((results) => ({ state: results[0], track: results[1] })))
+      .pipe(
+        map((results) => ({
+          state: results[0],
+          track: results[1],
+          tabTitle: results[2],
+        }))
+      )
       .subscribe((result) => {
+        if (!result.tabTitle) {
+          this.titleService.setTitle("ampd — Queue");
+          return;
+        }
         if (result.state === "stop") {
           this.titleService.setTitle("Stopped");
         } else {

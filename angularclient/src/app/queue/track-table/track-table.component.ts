@@ -14,7 +14,6 @@ import { ClickActions } from "../../shared/track-table/click-actions.enum";
 import { MpdCommands } from "../../shared/mpd/mpd-commands.enum";
 import { SettingsService } from "../../shared/services/settings.service";
 import { Observable } from "rxjs";
-import { DISPLAY_SAVE_PLAYLIST_KEY } from "../../shared/local-storage-keys";
 
 @Component({
   selector: "app-track-table",
@@ -32,7 +31,7 @@ export class TrackTableComponent {
   currentSongObservable: Observable<QueueTrack>;
   currentState = "stop";
   dataSource = new MatTableDataSource<QueueTrack>();
-  displaySaveCoverBtn: boolean;
+  displaySaveCoverBtn: Observable<boolean>;
   trackTableData = new TrackTableData();
   queueDuration = 0;
 
@@ -47,10 +46,7 @@ export class TrackTableComponent {
     this.currentSongObservable = this.mpdService.getTrackSubscription();
     this.buildMessageReceiver();
     this.getStateSubscription();
-    this.displaySaveCoverBtn = settingsService.getBoolValue(
-      DISPLAY_SAVE_PLAYLIST_KEY,
-      true
-    );
+    this.displaySaveCoverBtn = settingsService.getDisplaySavePlaylist();
   }
 
   @HostListener("document:keydown.f", ["$event"])

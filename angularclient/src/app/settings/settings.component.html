@@ -1,268 +1,221 @@
 <form [formGroup]="settingsForm" (ngSubmit)="onSubmit()" class="settings-form">
-    <div fxLayout="column" fxLayoutGap="1rem" fxFlex.gt-md="75%">
-        <div class="mat-display-1">
-            <span class="mono">ampd</span> settings
-        </div>
-        <mat-divider></mat-divider>
-        <span class="mat-headline">Appearance</span>
-        <!-- Dark mode toggle -->
-        <mat-card>
-            <mat-card-header>
-                <mat-card-title>Dark theme</mat-card-title>
-            </mat-card-header>
-            <mat-card-content>
-                <mat-slide-toggle
-                        class="space-right"
-                        [checked]="isDarkTheme | async"
-                        (change)="toggleDarkTheme($event.checked)"
-                        title="Turn the lights off / on"
-                >💡
-                    <mat-hint align="end"
-                    >Toggle the theme from bright to dark and back.
-                    </mat-hint
-                    >
-                </mat-slide-toggle>
-            </mat-card-content>
-        </mat-card>
-        <!-- Toggle cover display -->
-        <mat-card>
-            <mat-card-header>
-                <mat-card-title>Display covers</mat-card-title>
-            </mat-card-header>
-            <mat-card-content>
-                <mat-slide-toggle
-                        class="space-right"
-                        [checked]="isDisplayCovers"
-                        (change)="toggleDisplayCovers($event.checked)"
-                >💡
-                    <mat-hint align="end"
-                    >Toggle if covers should be displayed in the queue.
-                    </mat-hint
-                    >
-                </mat-slide-toggle>
-            </mat-card-content>
-        </mat-card>
-        <!-- Toggle display 'Save playlist' button -->
-        <mat-card>
-            <mat-card-header>
-                <mat-card-title>Display &quot;Save playlist&quot; button</mat-card-title>
-            </mat-card-header>
-            <mat-card-content>
-                <mat-slide-toggle
-                        class="space-right"
-                        [checked]="isDisplaySavePlaylist"
-                        (change)="toggleDisplaySavePlaylist($event.checked)"
-                >💡
-                    <mat-hint align="end"
-                    >Toggle the button &quot;Save playlist&quot; should be display in the queue.
-                    </mat-hint
-                    >
-                </mat-slide-toggle>
-            </mat-card-content>
-        </mat-card>
+  <div fxLayout="column" fxLayoutGap="1rem" fxFlex.gt-md="75%">
+    <div class="mat-display-1">
+      <span class="mono">ampd</span> settings
+    </div>
+    <mat-divider></mat-divider>
+    <span class="mat-headline">Appearance</span>
 
-        <mat-divider></mat-divider>
-        <span class="mat-headline">Backend</span>
-        <!-- Backend  -->
-        <mat-card>
-            <mat-form-field class="full-width">
-                <input
-                        matInput
-                        required
-                        formControlName="backendAddr"
-                        placeholder="http://your-computer:8080"
-                />
-                <mat-hint align="end"
-                >This will be set automatically. Don't change it if ampd works.
-                    The name or IP of the computer running ampd.
-                </mat-hint
-                >
-            </mat-form-field>
-        </mat-card>
+    <!-- Toggle Dark/Light theme -->
+    <app-theme></app-theme>
 
-        <mat-divider></mat-divider>
-        <span class="mat-headline">Backend settings</span>
-        <div class="mat-caption">These settings need to be changed via
-            <span class="mono code">-D</span> when starting ampd. Alternatively, write them to
-            an <span class="mono code">ampd.conf</span> file. See the
-            <a class="no-deco-links"
-               href="https://github.com/rain0r/ampd/blob/master/README.md">README</a> for more.
-        </div>
+    <!-- Toggle cover display -->
+    <app-display-cover></app-display-cover>
 
-        <!-- Cover cache -->
-        <div fxLayout="column" fxLayoutGap="1rem" fxFlex.gt-md="75%"
-             *ngIf="backendSettings | async as settings">
-            <mat-card>
-                <mat-card-header>
-                    <mat-card-title>Cover cache</mat-card-title>
-                </mat-card-header>
-                <mat-card-content>
-                    <mat-slide-toggle
-                            class="space-right"
-                            [checked]="settings.localCoverCache"
-                            disabled
-                    >
-                        <mat-hint align="end"
-                        >Saves covers locally.
-                        </mat-hint
-                        >
-                    </mat-slide-toggle>
-                </mat-card-content>
-                <mat-card-footer class="card-footer">
-                    Configure with <span class="mono code">-Dlocal.cover.cache=true</span> when starting ampd.
-                </mat-card-footer>
-            </mat-card>
-            <!-- MusicBrainz cover service -->
-            <mat-card>
-                <mat-card-header>
-                    <mat-card-title>MusicBrainz</mat-card-title>
-                </mat-card-header>
-                <mat-card-content>
-                    <mat-slide-toggle
-                            class="space-right"
-                            [checked]="settings.mbCoverService"
-                            disabled
-                    >
-                        <mat-hint align="end"
-                        >Get covers from MusicBrainz.
-                            <span *ngIf="coverCacheUsage | async as usage">
+    <!-- Toggle display 'Save playlist' button -->
+    <app-display-save-playlist></app-display-save-playlist>
+
+    <!-- Toggle setting of tab titles -->
+    <app-tab-title></app-tab-title>
+
+    <mat-divider></mat-divider>
+    <!-- Backend  -->
+    <span class="mat-headline">Backend settings</span>
+    <div class="">These settings need to be changed via
+      <span class="mono code">-D</span> when starting ampd. Alternatively, write them to
+      an <span class="mono code">ampd.conf</span> file. See the
+      <a class="no-deco-links mono code"
+         href="https://github.com/rain0r/ampd/blob/master/README.md">README</a> for more.
+    </div>
+    <mat-card>
+      <mat-form-field class="full-width">
+        <input
+            matInput
+            required
+            formControlName="backendAddr"
+            placeholder="http://your-computer:8080"
+        />
+        <mat-hint align="end"
+        >This will be set automatically. Don't change it if ampd works.
+          The name or IP of the computer running ampd.
+        </mat-hint
+        >
+      </mat-form-field>
+    </mat-card>
+    <!-- Cover cache -->
+    <div fxLayout="column" fxLayoutGap="1rem" fxFlex.gt-md="75%"
+         *ngIf="backendSettings | async as settings">
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>Cover cache</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <mat-slide-toggle
+              class="space-right"
+              [checked]="settings.localCoverCache"
+              disabled
+          >
+            <mat-hint align="end"
+            >Saves covers locally.
+            </mat-hint
+            >
+          </mat-slide-toggle>
+        </mat-card-content>
+        <mat-card-footer class="card-footer">
+          Configure with <span class="mono code">-Dlocal.cover.cache=true</span> when starting ampd.
+        </mat-card-footer>
+      </mat-card>
+      <!-- MusicBrainz cover service -->
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>MusicBrainz</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <mat-slide-toggle
+              class="space-right"
+              [checked]="settings.mbCoverService"
+              disabled
+          >
+            <mat-hint align="end"
+            >Get covers from MusicBrainz.
+              <span *ngIf="coverCacheUsage | async as usage">
                 <span *ngIf="usage > 0">
                 Currently {{ usage | filesize }} used.
                   </span>
               </span>
-                        </mat-hint
-                        >
-                    </mat-slide-toggle>
-                </mat-card-content>
-                <mat-card-footer class="card-footer">
-                    Configure with <span class="mono code">-Dmb.cover.service=true</span> when starting ampd.
-                </mat-card-footer>
-            </mat-card>
-            <!-- Cover blacklist -->
-            <mat-card *ngIf="settings.mbCoverService && coverBlacklist | async as blacklist">
-                <mat-card-header>
-                    <mat-card-title>Cover blacklist</mat-card-title>
-                </mat-card-header>
-                <mat-card-content>
-                    <mat-list role="list">
-                        <mat-list-item *ngFor="let song of blacklist.blacklistedFiles" class="smaller-font">
-                            {{song}}
-                        </mat-list-item>
-                    </mat-list>
-                </mat-card-content>
-                <mat-card-footer class="card-footer">
-                    These files will not download a cover from MusicBrainz. The blacklist is located at
-                    <span class="mono code">{{blacklist.filePath}}</span>
-                </mat-card-footer>
-            </mat-card>
-
-            <!-- Reset MPD modes on clear -->
-            <mat-card>
-                <mat-card-header>
-                    <mat-card-title>Reset MPD modes on "Clear Queue"</mat-card-title>
-                </mat-card-header>
-                <mat-card-content>
-                    <mat-slide-toggle
-                            class="space-right"
-                            [checked]="settings.resetModesOnClear"
-                            disabled
-                    >
-                        <mat-hint align="end"
-                        >When true, all active MPD modes (shuffle etc.) will be turned off when the playlist
-                            is cleared.
-                        </mat-hint
-                        >
-                    </mat-slide-toggle>
-                </mat-card-content>
-                <mat-card-footer class="card-footer">
-                    Configure with <span class="mono code">-Dreset.modes.on.clear=true</span> when starting
-                    ampd.
-                </mat-card-footer>
-            </mat-card>
-
-            <!-- Music directory -->
-            <mat-card>
-                <mat-card-header>
-                    <mat-card-title>Music directory</mat-card-title>
-                </mat-card-header>
-                <mat-card-content>
-                    <mat-form-field appearance="fill" class="full-width">
-                        <mat-label>{{settings.musicDirectory | replaceNullWithText}}</mat-label>
-                        <input matInput disabled>
-                        <mat-hint>
-                            Corresponds to the value of <span class="mono">music_directory</span> in the mpd.conf.
-                        </mat-hint>
-                    </mat-form-field>
-                </mat-card-content>
-                <mat-card-footer class="card-footer">
-                    Configure with <span class="mono code">-Dmpd.music.directory</span> when starting ampd.
-                </mat-card-footer>
-            </mat-card>
-            <!-- MPD Server -->
-            <mat-card>
-                <mat-card-header>
-                    <mat-card-title>MPD server</mat-card-title>
-                </mat-card-header>
-                <mat-card-content>
-                    <mat-form-field appearance="fill" class="full-width">
-                        <mat-label>{{settings.mpdServer}}</mat-label>
-                        <input matInput disabled>
-                        <mat-hint>
-                            The name or ip of the computer that runs MPD.
-                        </mat-hint>
-                    </mat-form-field>
-                </mat-card-content>
-                <mat-card-footer class="card-footer">
-                    Configure with <span class="mono code">-Dmpd.server</span> when starting ampd.
-                </mat-card-footer>
-            </mat-card>
-            <!-- MPD Server -->
-            <mat-card>
-                <mat-card-header>
-                    <mat-card-title>MPD port</mat-card-title>
-                </mat-card-header>
-                <mat-card-content>
-                    <mat-form-field appearance="fill" class="full-width">
-                        <mat-label>{{settings.mpdPort}}</mat-label>
-                        <input matInput disabled>
-                        <mat-hint>
-                            The port on which MPD runs.
-                        </mat-hint>
-                    </mat-form-field>
-                </mat-card-content>
-                <mat-card-footer class="card-footer">
-                    Configure with <span class="mono code">-Dmpd.port=6600</span> when starting ampd.
-                </mat-card-footer>
-            </mat-card>
-        </div>
-        <!-- Submit Button -->
-        <div>
-            <button
-                    mat-raised-button
-                    color="primary"
-                    type="submit"
-                    class="full-width themed-element"
+            </mat-hint
             >
-                Save
-            </button>
-        </div>
+          </mat-slide-toggle>
+        </mat-card-content>
+        <mat-card-footer class="card-footer">
+          Configure with <span class="mono code">-Dmb.cover.service=true</span> when starting ampd.
+        </mat-card-footer>
+      </mat-card>
+      <!-- Cover blacklist -->
+      <mat-card *ngIf="settings.mbCoverService && coverBlacklist | async as blacklist">
+        <mat-card-header>
+          <mat-card-title>Cover blacklist</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <mat-list role="list">
+            <mat-list-item *ngFor="let song of blacklist.blacklistedFiles" class="smaller-font">
+              {{song}}
+            </mat-list-item>
+          </mat-list>
+        </mat-card-content>
+        <mat-card-footer class="card-footer">
+          These files will not download a cover from MusicBrainz. The blacklist is located at
+          <span class="mono code">{{blacklist.filePath}}</span>
+        </mat-card-footer>
+      </mat-card>
 
-        <div class="mono">
-            Version:
-            <span title="ampd version">{{ ampdVersion }}</span> &nbsp;
-            <span
-                    *ngIf="gitCommitId !== 'live'"
-                    class="text-muted"
-                    title="git commit id"
-            >{{ gitCommitId }}</span
+      <!-- Reset MPD modes on clear -->
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>Reset MPD modes on "Clear Queue"</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <mat-slide-toggle
+              class="space-right"
+              [checked]="settings.resetModesOnClear"
+              disabled
+          >
+            <mat-hint align="end"
+            >When true, all active MPD modes (shuffle etc.) will be turned off when the playlist
+              is cleared.
+            </mat-hint
             >
-        </div>
+          </mat-slide-toggle>
+        </mat-card-content>
+        <mat-card-footer class="card-footer">
+          Configure with <span class="mono code">-Dreset.modes.on.clear=true</span> when starting
+          ampd.
+        </mat-card-footer>
+      </mat-card>
 
-        <div class="mono">
-            Source code at:
-            <a class="mat-app-background" href="https://github.com/rain0r/ampd"
-            >github.com/rain0r/ampd</a
-            >
-        </div>
+      <!-- Music directory -->
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>Music directory</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <mat-form-field appearance="fill" class="full-width">
+            <mat-label>{{settings.musicDirectory | replaceNullWithText}}</mat-label>
+            <input matInput disabled>
+            <mat-hint>
+              Corresponds to the value of <span class="mono">music_directory</span> in the mpd.conf.
+            </mat-hint>
+          </mat-form-field>
+        </mat-card-content>
+        <mat-card-footer class="card-footer">
+          Configure with <span class="mono code">-Dmpd.music.directory</span> when starting ampd.
+        </mat-card-footer>
+      </mat-card>
+      <!-- MPD Server -->
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>MPD server</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <mat-form-field appearance="fill" class="full-width">
+            <mat-label>{{settings.mpdServer}}</mat-label>
+            <input matInput disabled>
+            <mat-hint>
+              The name or ip of the computer that runs MPD.
+            </mat-hint>
+          </mat-form-field>
+        </mat-card-content>
+        <mat-card-footer class="card-footer">
+          Configure with <span class="mono code">-Dmpd.server</span> when starting ampd.
+        </mat-card-footer>
+      </mat-card>
+      <!-- MPD Server -->
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>MPD port</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <mat-form-field appearance="fill" class="full-width">
+            <mat-label>{{settings.mpdPort}}</mat-label>
+            <input matInput disabled>
+            <mat-hint>
+              The port on which MPD runs.
+            </mat-hint>
+          </mat-form-field>
+        </mat-card-content>
+        <mat-card-footer class="card-footer">
+          Configure with <span class="mono code">-Dmpd.port=6600</span> when starting ampd.
+        </mat-card-footer>
+      </mat-card>
     </div>
+    <!-- Submit Button -->
+    <div>
+      <button
+          mat-raised-button
+          color="primary"
+          type="submit"
+          class="full-width themed-element"
+      >
+        Save
+      </button>
+    </div>
+
+    <div class="mono">
+      Version:
+      <span title="ampd version">{{ frontendSettings.ampdVersion }}</span> &nbsp;
+      <span
+          *ngIf="frontendSettings.gitCommitId !== 'live'"
+          class="text-muted"
+          title="git commit id"
+      >{{ frontendSettings.gitCommitId }}</span
+      >
+    </div>
+
+    <div class="mono">
+      Source code at:
+      <a class="mat-app-background" href="https://github.com/rain0r/ampd"
+      >github.com/rain0r/ampd</a
+      >
+    </div>
+  </div>
 </form>

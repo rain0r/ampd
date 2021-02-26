@@ -61,6 +61,10 @@ import {
 import { WebSocketService } from "./shared/services/web-socket.service";
 import { AmpdRxStompConfig } from "./ampd-rx-stomp-config.service";
 import { ReplaceNullWithTextPipe } from "./shared/pipes/replace-null-with-text.pipe";
+import { ThemeComponent } from "./settings/theme/theme.component";
+import { DisplayCoverComponent } from "./settings/display-cover/display-cover.component";
+import { DisplaySavePlaylistComponent } from "./settings/display-save-playlist/display-save-playlist.component";
+import { TabTitleComponent } from "./settings/tab-title/tab-title.component";
 
 @NgModule({
   declarations: [
@@ -90,6 +94,10 @@ import { ReplaceNullWithTextPipe } from "./shared/pipes/replace-null-with-text.p
     VolumeSliderComponent,
     SavePlaylistModalComponent,
     PlaylistInfoModalComponent,
+    ThemeComponent,
+    DisplayCoverComponent,
+    DisplaySavePlaylistComponent,
+    TabTitleComponent,
   ],
   imports: [
     AppRoutingModule,

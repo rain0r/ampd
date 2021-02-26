@@ -29,7 +29,7 @@ export class MpdService {
     this.init();
   }
 
-  getSongSubscription(): Observable<QueueTrack> {
+  getTrackSubscription(): Observable<QueueTrack> {
     return this.currentSong.asObservable();
   }
 

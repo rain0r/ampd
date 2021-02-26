@@ -44,7 +44,7 @@ export class TrackTableComponent {
     private notificationService: NotificationService,
     private settingsService: SettingsService
   ) {
-    this.currentSongObservable = this.mpdService.getSongSubscription();
+    this.currentSongObservable = this.mpdService.getTrackSubscription();
     this.buildMessageReceiver();
     this.getStateSubscription();
     this.displaySaveCoverBtn = settingsService.getBoolValue(
@@ -129,7 +129,7 @@ export class TrackTableComponent {
   }
 
   private buildMessageReceiver(): void {
-    this.mpdService.getSongSubscription().subscribe((song) => {
+    this.mpdService.getTrackSubscription().subscribe((song) => {
       this.currentSong = song;
       for (const track of this.dataSource.data) {
         track.playing = track.id === this.currentSong.id;

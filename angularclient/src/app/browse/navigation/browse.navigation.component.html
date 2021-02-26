@@ -1,4 +1,4 @@
-<div fxLayout="row wrap" fxLayoutGap="0.5%" fxLayoutGap.lt-md="1%">
+<div fxLayout="row wrap" fxLayoutGap="0.75rem" fxLayoutGap.lt-md="1%">
   <div *ngIf="getParamDir !== '/'" fxLayoutAlign="center center" fxLayoutGap="0.75rem">
     <!--Return to top -->
     <button
@@ -23,12 +23,12 @@
     </button>
 
     <!--Add all-->
-      <button class="mat-small" mat-raised-button (click)="onAddDir(getParamDir)">
-        <mat-icon> add</mat-icon>
-        <span fxHide.lt-md>
+    <button class="mat-small" mat-raised-button (click)="onAddDir(getParamDir)">
+      <mat-icon> add</mat-icon>
+      <span fxHide.lt-md>
         Add all
       </span>
-      </button>
+    </button>
 
     <!--Play all-->
     <button class="mat-small" mat-raised-button (click)="onPlayDir(getParamDir)">

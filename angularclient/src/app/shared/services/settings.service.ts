@@ -102,10 +102,9 @@ export class SettingsService {
    * return 'example.com/ampd'.
    */
   getBackendContextAddr(): string {
-    const backendContextAddr = `${ApiEndpoints.getBackendAddr()}${this.location.prepareExternalUrl(
+    return `${ApiEndpoints.getBackendAddr()}${this.location.prepareExternalUrl(
       ""
     )}`;
-    return backendContextAddr;
   }
 
   setBackendAddr(backendAddr: string): void {

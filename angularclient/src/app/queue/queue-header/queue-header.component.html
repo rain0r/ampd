@@ -1,5 +1,5 @@
 <div fxLayout="row wrap" fxLayoutAlign="center"
-     *ngIf="currentState === 'stop' || !currentSong else queueHeader">
+     *ngIf="(currentState|async) === 'stop' || !currentSong else queueHeader">
   <span class="mat-display-1">
     Stopped.
   </span>
@@ -9,12 +9,13 @@
   <div
       fxLayout="row wrap"
       fxLayoutAlign="space-between start"
-      *ngIf="currentState !== 'stop'"
+      *ngIf="(currentState|async) !== 'stop'"
   >
     <div fxFlex="1 0 55%" fxLayout="column">
       <div class="mat-h2 queue-sub-title" fxFlex="100%" title="Title: {{currentSong.title}}">
-        <a class=" no-deco-links" [routerLink]="['browse']" [queryParams]="{'dir': currentSong.dir}">
-        {{ currentSong.title }}
+        <a class=" no-deco-links" [routerLink]="['browse']"
+           [queryParams]="{'dir': currentSong.dir}">
+          {{ currentSong.title }}
         </a>
       </div>
       <mat-divider></mat-divider>
@@ -23,13 +24,14 @@
           *ngIf="currentSong.albumName"
           title="Album: {{currentSong.albumName}}"
       >
-        <a class="no-deco-links text-muted" [routerLink]="['browse']" [queryParams]="{'dir': currentSong.dir}">
-        {{ currentSong.albumName }}
+        <a class="no-deco-links text-muted" [routerLink]="['browse']"
+           [queryParams]="{'dir': currentSong.dir}">
+          {{ currentSong.albumName }}
         </a>
       </div>
       <div class="mat-h3 queue-sub-title" title="Artist: {{currentSong.artistName}}">
         <a class="no-deco-links" [routerLink]="['browse']" [queryParams]="{'dir': currentSong.dir}">
-        {{ currentSong.artistName }}
+          {{ currentSong.artistName }}
         </a>
       </div>
     </div>

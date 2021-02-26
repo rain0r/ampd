@@ -20,7 +20,7 @@ export class TrackProgressComponent {
     private mpdService: MpdService
   ) {
     this.mpdService
-      .getSongSubscription()
+      .getTrackSubscription()
       .subscribe((song) => (this.currentSong = song));
     this.state = this.mpdService.getStateSubscription();
   }

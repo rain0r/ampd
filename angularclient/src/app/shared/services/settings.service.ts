@@ -3,10 +3,18 @@ import { BehaviorSubject, Observable } from "rxjs";
 import { BackendSettings } from "../models/backend-settings";
 import { HttpClient } from "@angular/common/http";
 import { ApiEndpoints } from "../api-endpoints";
-import { BACKEND_ADDRESS_KEY, DARK_MODE_KEY } from "../local-storage-keys";
+import {
+  BACKEND_ADDRESS_KEY,
+  DARK_MODE_KEY,
+  DISPLAY_COVERS_KEY,
+  DISPLAY_SAVE_PLAYLIST_KEY,
+  SET_TAB_TITLE,
+} from "../local-storage-keys";
 import { CoverBlacklistFiles } from "../models/cover-blacklist-files";
 import { Location } from "@angular/common";
 import { DarkTheme, LightTheme } from "../themes/themes";
+import { FrontendSettings } from "../models/frontend-settings";
+import { environment } from "../../../environments/environment";
 
 @Injectable({
   providedIn: "root",
@@ -16,29 +24,65 @@ export class SettingsService {
    * Since we want this to be automatically applied, we store it in a subject.
    * Dark theme is default active.
    */
-  private isDarkThemeSubject = new BehaviorSubject(true);
+  private isDarkTheme = new BehaviorSubject(true);
+
+  private isDisplayCovers = new BehaviorSubject(true);
+
+  private isDisplaySavePlaylist = new BehaviorSubject(true);
+
+  private isSetTabTitle = new BehaviorSubject(true);
 
   constructor(private http: HttpClient, private location: Location) {
-    const isDarkTheme: boolean = this.getBoolValue(DARK_MODE_KEY);
-    this.setTheme(isDarkTheme);
+    this.setDarkTheme(this.getBoolValue(DARK_MODE_KEY, true));
+    this.setDisplayCovers(this.getBoolValue(DISPLAY_COVERS_KEY, true));
+    this.setDisplaySavePlaylist(
+      this.getBoolValue(DISPLAY_SAVE_PLAYLIST_KEY, true)
+    );
+    this.setTabTitleOption(this.getBoolValue(SET_TAB_TITLE, true));
   }
 
-  isDarkTheme(): Observable<boolean> {
-    return this.isDarkThemeSubject.asObservable();
+  getTabTitleOption(): Observable<boolean> {
+    return this.isSetTabTitle.asObservable();
   }
 
-  setTheme(isDarkTheme: boolean): void {
+  setTabTitleOption(isTabTitle: boolean): void {
+    localStorage.setItem(SET_TAB_TITLE, JSON.stringify(isTabTitle));
+    this.isSetTabTitle.next(isTabTitle);
+  }
+
+  getDisplaySavePlaylist(): Observable<boolean> {
+    return this.isDisplaySavePlaylist.asObservable();
+  }
+
+  setDisplaySavePlaylist(isDisplaySavePlaylist: boolean): void {
+    localStorage.setItem(
+      DISPLAY_SAVE_PLAYLIST_KEY,
+      JSON.stringify(isDisplaySavePlaylist)
+    );
+    this.isDisplaySavePlaylist.next(isDisplaySavePlaylist);
+  }
+
+  getDisplayCovers(): Observable<boolean> {
+    return this.isDisplayCovers.asObservable();
+  }
+
+  setDisplayCovers(isDisplayCovers: boolean): void {
+    localStorage.setItem(DISPLAY_COVERS_KEY, JSON.stringify(isDisplayCovers));
+    this.isDisplayCovers.next(isDisplayCovers);
+  }
+
+  getDarkTheme(): Observable<boolean> {
+    return this.isDarkTheme.asObservable();
+  }
+
+  setDarkTheme(isDarkTheme: boolean): void {
     localStorage.setItem(DARK_MODE_KEY, JSON.stringify(isDarkTheme));
-    this.isDarkThemeSubject.next(isDarkTheme);
+    this.isDarkTheme.next(isDarkTheme);
     if (isDarkTheme) {
       this.changeTheme(DarkTheme);
     } else {
       this.changeTheme(LightTheme);
     }
-  }
-
-  setBoolVale(key: string, value: boolean): void {
-    localStorage.setItem(key, JSON.stringify(value));
   }
 
   getBoolValue(key: string, defaultValue = false): boolean {
@@ -109,6 +153,17 @@ export class SettingsService {
 
   setBackendAddr(backendAddr: string): void {
     localStorage.setItem(BACKEND_ADDRESS_KEY, backendAddr);
+  }
+
+  getFrontendSettings(): FrontendSettings {
+    const frontendSettings = new FrontendSettings();
+    frontendSettings.ampdVersion = environment.ampdVersion;
+    frontendSettings.gitCommitId = environment.gitCommitId;
+    frontendSettings.isDarkTheme = this.getDarkTheme();
+    frontendSettings.isDisplayCovers = this.getDisplayCovers();
+    frontendSettings.isDisplaySavePlaylist = this.getDisplaySavePlaylist();
+    frontendSettings.isSetTabTitle = this.getTabTitleOption();
+    return frontendSettings;
   }
 
   private changeTheme(theme: Map<string, string>): void {

@@ -1,0 +1,19 @@
+<!-- Dark mode toggle -->
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Dark theme</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <mat-slide-toggle
+        class="space-right"
+        [checked]="frontendSettings.isDarkTheme | async"
+        (change)="toggle($event.checked)"
+        title="Turn the lights off / on"
+    >💡
+      <mat-hint align="end"
+      >Toggle the theme from bright to dark and back.
+      </mat-hint
+      >
+    </mat-slide-toggle>
+  </mat-card-content>
+</mat-card>

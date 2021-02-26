@@ -1,0 +1,17 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Display &quot;Save playlist&quot; button</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <mat-slide-toggle
+        class="space-right"
+        [checked]="frontendSettings.isDisplaySavePlaylist|async"
+        (change)="toggle($event.checked)"
+    >💡
+      <mat-hint align="end"
+      >Toggle the button &quot;Save playlist&quot; should be display in the queue.
+      </mat-hint
+      >
+    </mat-slide-toggle>
+  </mat-card-content>
+</mat-card>

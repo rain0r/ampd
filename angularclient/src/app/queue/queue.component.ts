@@ -1,6 +1,10 @@
 import { Component, HostListener, OnInit } from "@angular/core";
 import { WebSocketService } from "../shared/services/web-socket.service";
 import { MpdCommands } from "../shared/mpd/mpd-commands.enum";
+import { MpdService } from "../shared/services/mpd.service";
+import { Title } from "@angular/platform-browser";
+import { combineLatest } from "rxjs";
+import { map } from "rxjs/operators";
 
 @Component({
   selector: "app-queue",
@@ -8,7 +12,13 @@ import { MpdCommands } from "../shared/mpd/mpd-commands.enum";
   styleUrls: ["./queue.component.scss"],
 })
 export class QueueComponent implements OnInit {
-  constructor(private webSocketService: WebSocketService) {}
+  constructor(
+    private webSocketService: WebSocketService,
+    private titleService: Title,
+    private mpdService: MpdService
+  ) {
+    this.buildTitle();
+  }
 
   @HostListener("document:visibilitychange", ["$event"])
   onKeyUp(): void {
@@ -19,5 +29,25 @@ export class QueueComponent implements OnInit {
 
   ngOnInit(): void {
     this.webSocketService.send(MpdCommands.GET_QUEUE);
+  }
+
+  /**
+   * Subscribe to both the state and title queue and set the title accordingly.
+   */
+  private buildTitle() {
+    combineLatest([
+      this.mpdService.getStateSubscription(),
+      this.mpdService.getTrackSubscription(),
+    ])
+      .pipe(map((results) => ({ state: results[0], track: results[1] })))
+      .subscribe((result) => {
+        if (result.state === "stop") {
+          this.titleService.setTitle("Stopped");
+        } else {
+          this.titleService.setTitle(
+            `${result.track.artistName} — ${result.track.title}`
+          );
+        }
+      });
   }
 }

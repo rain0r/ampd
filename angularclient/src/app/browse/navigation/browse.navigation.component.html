@@ -1,55 +1,40 @@
-<div fxLayout="row wrap" fxLayoutGap="0.75rem" fxLayoutGap.lt-md="1%">
-  <div *ngIf="getParamDir !== '/'" fxLayoutAlign="center center" fxLayoutGap="0.75rem">
-    <!--Return to top -->
-    <button
-        [routerLink]="['/browse']"
-        class="mat-small"
-        mat-raised-button
-    >
-      <mat-icon>expand_less</mat-icon>
-      <span fxHide.lt-md>
-        Return to top
-      </span>
-    </button>
+<div fxLayout="row wrap" fxLayoutAlign="center center" fxLayoutAlign.lt-md="space-between"
+     fxFlex.lt-md="100%" fxLayoutGap="0.75rem">
+  <!--Return to top -->
+  <button *ngIf="getParamDir !== '/'" class="mat-small" mat-raised-button
+          [routerLink]="['/browse']">
+    <mat-icon>expand_less</mat-icon>
+    <span fxHide.lt-md>Return to top</span>
+  </button>
 
-    <!--Return -->
-    <button class="mat-small" mat-raised-button (click)="onMoveDirUp()">
-      <mat-icon>
-        navigate_before
-      </mat-icon>
-      <span fxHide.lt-md>
-        Return
-      </span>
-    </button>
+  <!--Go one dir up -->
+  <button *ngIf="getParamDir !== '/'" class="mat-small" mat-raised-button
+          (click)="onMoveDirUp()">
+    <mat-icon> navigate_before</mat-icon>
+    <span fxHide.lt-md>Return</span>
+  </button>
 
-    <!--Add all-->
-    <button class="mat-small" mat-raised-button (click)="onAddDir(getParamDir)">
-      <mat-icon> add</mat-icon>
-      <span fxHide.lt-md>
-        Add all
-      </span>
-    </button>
+  <!--Add all-->
+  <button *ngIf="getParamDir !== '/'" class="mat-small" mat-raised-button
+          (click)="onAddDir(getParamDir)">
+    <mat-icon> add</mat-icon>
+    <span fxHide.lt-md>Add all</span>
+  </button>
 
-    <!--Play all-->
-    <button class="mat-small" mat-raised-button (click)="onPlayDir(getParamDir)">
-      <mat-icon> play_arrow</mat-icon>
-      <span fxHide.lt-md>
-        Play all
-      </span>
-    </button>
-  </div>
+  <!--Play all-->
+  <button *ngIf="getParamDir !== '/'" class="mat-small" mat-raised-button
+          (click)="onPlayDir(getParamDir)">
+    <mat-icon> play_arrow</mat-icon>
+    <span fxHide.lt-md>Play all</span>
+  </button>
 
   <!--Clear queue-->
-  <div fxLayoutAlign="center center">
-    <button class="mat-small" mat-raised-button (click)="onClearQueue()">
-      <mat-icon>delete</mat-icon>
-      <span fxHide.lt-md>
-        Clear queue
-      </span>
-    </button>
-  </div>
+  <button class="mat-small" mat-raised-button (click)="onClearQueue()">
+    <mat-icon>delete</mat-icon>
+    <span fxHide.lt-md>Clear queue</span>
+  </button>
 
-  <div fxFlex></div>
+  <div fxFlex fxFlex.lt-md="100%"></div>
 
   <!--Filter-->
   <div fxLayoutAlign="center center" fxFlex="30%" fxFlex.lt-md="100%">

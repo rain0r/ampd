@@ -29,12 +29,12 @@ export class BrowseNavigationComponent implements OnInit {
   filter = "";
 
   constructor(
-    private router: Router,
-    private notificationService: NotificationService,
-    private browseService: BrowseService,
     private activatedRoute: ActivatedRoute,
-    private webSocketService: WebSocketService,
-    private messageService: MessageService
+    private browseService: BrowseService,
+    private messageService: MessageService,
+    private notificationService: NotificationService,
+    private router: Router,
+    private webSocketService: WebSocketService
   ) {}
 
   @HostListener("document:keydown.f", ["$event"])

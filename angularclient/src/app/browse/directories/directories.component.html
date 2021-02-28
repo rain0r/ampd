@@ -1,11 +1,11 @@
-<div *ngIf="(dirQueue| directoryFilter: filterValue).length && getParamDir() | async as param">
+<div *ngIf="(dirQueue| directoryFilter: filterValue).length && getDirQueryParam() | async as dir">
   <div class="sub-menu">
   <span class="mat-h3">
-    <span *ngIf="param != '/' else getParamRoot">
+    <span *ngIf="dir != '/' else getParamRoot">
       <span class="dir-prefix" title="Directory">
         Directory
       </span>
-      {{ param }}
+      {{ dir }}
     </span>
     <ng-template #getParamRoot>
       Directories
@@ -45,7 +45,7 @@
       fxLayout.lt-md="column"
       fxLayoutAlign="space-between"
       fxLayoutGap="1rem grid"
-      *ngIf="param != '/' && dirQueue.length < maxCoversDisplayed"
+      *ngIf="dir != '/' && dirQueue.length < maxCoversDisplayed"
   >
     <div
         fxLayoutAlign="center center"

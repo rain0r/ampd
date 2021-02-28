@@ -47,6 +47,7 @@ public class MbCoverService {
     if (!settings.isMbCoverService()) {
       return Optional.empty();
     }
+    LOG.debug("Trying to load a cover from the MusicBrainz API");
     return (isEmpty(track.getAlbumName())) ? searchSingletonMusicBrainzCover(track)
         : searchAlbumMusicBrainzCover(track);
   }

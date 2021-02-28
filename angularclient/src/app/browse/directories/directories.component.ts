@@ -67,12 +67,6 @@ export class DirectoriesComponent extends Filterable {
     this.notificationService.popUp(`Added dir: "${dir}"`);
   }
 
-  onRowClick(dir: Directory): void {
-    this.router
-      .navigate(["browse"], { queryParams: { dir: dir.path } })
-      .catch(() => void 0);
-  }
-
   getAlbumCoverUrl(path: string): string {
     return `${this.settingsService.getFindDirCoverUrl()}?path=${encodeURIComponent(
       path

@@ -14,11 +14,12 @@
   </div>
 
   <div *ngFor="let dir of dirQueue | directoryFilter: filterValue">
-    <div (click)="onRowClick(dir)"
-         fxLayout="row nowrap"
+    <div fxLayout="row nowrap"
          fxLayoutGap="1%"
          fxLayoutAlign="center center"
-         class="list-item">
+         class="list-item"
+         [queryParams]="{ dir: dir.path }"
+         [routerLink]="['/browse']">
 
       <mat-icon>folder_open</mat-icon>
       <div fxFlex>

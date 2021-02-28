@@ -107,7 +107,6 @@ public class CoverFetcherService {
     }
     // Now check the musicbrainz cover api
     if (cover.isEmpty()) {
-      LOG.debug("Trying to load a cover from the MusicBrainz API");
       cover = mbCoverService.getMbCover(track);
       // Save the cover in the cache
       cover.ifPresent(bytes -> coverCacheService

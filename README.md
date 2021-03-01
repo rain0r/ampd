@@ -92,3 +92,6 @@ If you get the error: `start-stop-daemon: unrecognized option '--no-close'`, rem
  WantedBy=multi-user.target
  ```
  Afterwards, enable it with `systemctl enable ampd.service`.
+
+### Installation behind another webserver
+

@@ -2,15 +2,11 @@ package org.hihn.ampd.server.message.incoming;
 
 import java.util.Collection;
 import org.bff.javampd.server.ServerStatus;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Represents a MPD control panel.
  */
 public class ControlPanel {
-
-  private static final Logger LOG = LoggerFactory.getLogger(ControlPanel.class);
 
   boolean consume;
 

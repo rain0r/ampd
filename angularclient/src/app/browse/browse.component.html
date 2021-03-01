@@ -11,30 +11,28 @@
     </button>
   </div>
 
-  <div>
-    <mat-spinner class="centered" *ngIf="isLoading"></mat-spinner>
-    <div
-        fxLayout="row"
-        fxLayout.lt-md="column"
-        fxLayoutGap="1.5%"
-        fxLayoutAlign="center"
-    >
-      <!-- playlists -->
-      <div fxFlex *ngIf="browseInfo.playlistQueue.length > 0">
-        <app-playlists
-            [playlistQueue]="browseInfo.playlistQueue"
-        ></app-playlists>
-      </div>
+  <mat-spinner class="centered" *ngIf="isLoading"></mat-spinner>
+  <div
+      fxLayout="row"
+      fxLayout.lt-md="column"
+      fxLayoutGap="1.5%"
+      fxLayoutAlign="center"
+  >
+    <!-- playlists -->
+    <div fxFlex *ngIf="browseInfo.playlistQueue.length > 0">
+      <app-playlists
+          [playlistQueue]="browseInfo.playlistQueue"
+      ></app-playlists>
+    </div>
 
-      <!-- directories -->
-      <div fxFlex *ngIf="browseInfo.dirQueue.length > 0">
-        <app-directories [dirQueue]="browseInfo.dirQueue"></app-directories>
-      </div>
+    <!-- directories -->
+    <div fxFlex *ngIf="browseInfo.dirQueue.length > 0">
+      <app-directories [dirQueue]="browseInfo.dirQueue"></app-directories>
+    </div>
 
-      <!-- tracks -->
-      <div fxFlex *ngIf="browseInfo.trackQueue.length > 0">
-        <app-tracks [tracks]="browseInfo.trackQueue"></app-tracks>
-      </div>
+    <!-- tracks -->
+    <div fxFlex *ngIf="browseInfo.trackQueue.length > 0">
+      <app-tracks [tracks]="browseInfo.trackQueue"></app-tracks>
     </div>
   </div>
 </div>

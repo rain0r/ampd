@@ -7,8 +7,7 @@ export abstract class Filterable {
   filterValue = "";
 
   protected constructor(messageService: MessageService) {
-    messageService
-      .getMessage()
+    messageService.message
       .pipe(
         filter((msg) => msg.type === InternalMessageType.BrowseFilter),
         map((msg) => msg as FilterMessage)

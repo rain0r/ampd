@@ -28,7 +28,6 @@ export class TrackTableComponent {
    */
   checksum = 0;
   currentSong: QueueTrack = new QueueTrack();
-  currentSongObservable: Observable<QueueTrack>;
   currentState = "stop";
   dataSource = new MatTableDataSource<QueueTrack>();
   displaySaveCoverBtn: Observable<boolean>;
@@ -43,10 +42,9 @@ export class TrackTableComponent {
     private notificationService: NotificationService,
     private settingsService: SettingsService
   ) {
-    this.currentSongObservable = this.mpdService.getTrackSubscription();
     this.buildMessageReceiver();
     this.getStateSubscription();
-    this.displaySaveCoverBtn = settingsService.getDisplaySavePlaylist();
+    this.displaySaveCoverBtn = settingsService.isDisplaySavePlaylist;
   }
 
   @HostListener("document:keydown.f", ["$event"])
@@ -67,7 +65,7 @@ export class TrackTableComponent {
       this.webSocketService.sendData(MpdCommands.SAVE_PLAYLIST, {
         playlistName: playlistName,
       });
-      this.mpdService.getPlaylistSavedSubscription().subscribe((msg) => {
+      this.mpdService.playlistSaved.subscribe((msg) => {
         const text = msg.success
           ? `Saved queue as playlist '${msg.playlistName}'`
           : `Error saving queue as playlist '${msg.playlistName}'`;
@@ -125,7 +123,7 @@ export class TrackTableComponent {
   }
 
   private buildMessageReceiver(): void {
-    this.mpdService.getTrackSubscription().subscribe((song) => {
+    this.mpdService.currentSong.subscribe((song) => {
       this.currentSong = song;
       for (const track of this.dataSource.data) {
         track.playing = track.id === this.currentSong.id;
@@ -148,8 +146,8 @@ export class TrackTableComponent {
   }
 
   private getStateSubscription() {
-    this.mpdService
-      .getStateSubscription()
-      .subscribe((state) => (this.currentState = state));
+    this.mpdService.currentState.subscribe(
+      (state) => (this.currentState = state)
+    );
   }
 }

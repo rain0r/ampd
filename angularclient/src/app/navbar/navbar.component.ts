@@ -19,7 +19,7 @@ export class NavbarComponent {
     private settingsService: SettingsService,
     private router: Router
   ) {
-    this.isDarkTheme = this.settingsService.getDarkTheme();
+    this.isDarkTheme = this.settingsService.isDarkTheme;
     this.connState = rxStompService.connectionState$;
   }
 

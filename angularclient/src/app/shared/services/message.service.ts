@@ -5,7 +5,12 @@ import { InternalMessage } from "../messages/internal/internal-message";
 
 @Injectable()
 export class MessageService {
+  message: Observable<InternalMessage>;
   private subject = new Subject<InternalMessage>();
+
+  constructor() {
+    this.message = this.subject.asObservable();
+  }
 
   /**
    * For simple messages without payload
@@ -17,9 +22,5 @@ export class MessageService {
 
   sendMessage(message: InternalMessage): void {
     this.subject.next(message);
-  }
-
-  getMessage(): Observable<InternalMessage> {
-    return this.subject.asObservable();
   }
 }

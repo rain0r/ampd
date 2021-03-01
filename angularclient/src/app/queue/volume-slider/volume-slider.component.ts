@@ -16,9 +16,7 @@ export class VolumeSliderComponent {
     private webSocketService: WebSocketService,
     private mpdService: MpdService
   ) {
-    mpdService
-      .getVolumeSubscription()
-      .subscribe((volume) => (this.volume = volume));
+    mpdService.volume.subscribe((volume) => (this.volume = volume));
   }
 
   handleVolumeSlider(event: MatSliderChange): void {

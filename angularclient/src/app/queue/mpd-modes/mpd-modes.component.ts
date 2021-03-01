@@ -27,12 +27,12 @@ export class MpdModesComponent {
     private mpdService: MpdService,
     private notificationService: NotificationService
   ) {
-    this.mpdService
-      .getControlPanelSubscription()
-      .subscribe((panel) => (this.controlPanel = panel));
-    this.mpdService
-      .getStateSubscription()
-      .subscribe((state) => (this.currentState = state));
+    this.mpdService.controlPanel.subscribe(
+      (panel) => (this.controlPanel = panel)
+    );
+    this.mpdService.currentState.subscribe(
+      (state) => (this.currentState = state)
+    );
   }
 
   @HostListener("document:keydown", ["$event"])

@@ -43,58 +43,60 @@ To persist these options, create a config file. See chapter `Installation`.
  * `3`: Navigate to the search view
  * `4`: Navigate to the settings view
  
- ## Installation
+## Installation
  
- Download a release from [here](https://github.com/rain0r/ampd/releases) ([mirror](https://static.hihn.org/dl/ampd/)).
+Download a release from [here](https://github.com/rain0r/ampd/releases) ([mirror](https://static.hihn.org/dl/ampd/)).
+
+Since `ampd` is distributed as a single `jar`-file, it doesn't need a traditional installation. 
+Just copy it wherever you like. I would recommend `/opt/ampd/ampd.jar`. 
  
- Since `ampd` is distributed as a single `jar`-file, it doesn't need a traditional installation. 
- Just copy it wherever you like. I would recommend `/opt/ampd/ampd.jar`. 
-  
- To overwriter any property from `application.properties` you can place a config file under `/opt/ampd/ampd.conf` which contains additional parameters, for example:
- 
- ```
- # File: /opt/ampd/ampd.conf
- # See src/main/resources/application.properties for a full list
- JAVA_OPTS="-Dspring.profiles.active=prod"
- # If you have multiple JRE installed 
- JAVA_HOME="/opt/openjdk-bin-11.0.6_p10/" 
- ```
- 
- ### Caveats  
- The properties in `ampd.conf` are only applied if... 
- 
-  - ...`ampd` is startet via `./ampd.jar start`
-  - ... the `conf`-file has the same name as the `jar`-file (except the ending, of course) 
- 
- ### Installation as a service
- #### init.d
- The jar file can be used as a service out-of-the-box. Just create a symlink to `/etc/.init.d` and you're good to go:
- ```
- ln -sf /opt/ampd/ampd.jar /etc/init.d/ampd
- /etc/init.d/ampd start
- ```
+To overwriter any property from `application.properties` you can place a config file under `/opt/ampd/ampd.conf` which contains additional parameters, for example:
+
+```
+# File: /opt/ampd/ampd.conf
+# See src/main/resources/application.properties for a full list
+JAVA_OPTS="-Dspring.profiles.active=prod"
+# If you have multiple JRE installed 
+JAVA_HOME="/opt/openjdk-bin-11.0.6_p10/" 
+```
+
+### Caveats  
+The properties in `ampd.conf` are only applied if... 
+
+ - ...`ampd` is startet via `./ampd.jar start`
+ - ... the `conf`-file has the same name as the `jar`-file (except the ending, of course) 
+
+### Installation as a service
+#### init.d
+The jar file can be used as a service out-of-the-box. Just create a symlink to `/etc/.init.d` and you're good to go:
+```
+ln -sf /opt/ampd/ampd.jar /etc/init.d/ampd
+/etc/init.d/ampd start
+```
  
 If you get the error: `start-stop-daemon: unrecognized option '--no-close'`, remove that option from the jar-file with: `sed -i 's/--no-close//g' /opt/ampd/ampd.jar`
 
- #### systemd
- Create the file `/etc/systemd/system/ampd.service`
- ```
- [Unit]
- Description=ampd
- After=syslog.target
- 
- [Service]
- User=ampd # <<<--- Change to a user on your system 
- ExecStart=/opt/ampd/ampd.jar
- SuccessExitStatus=143
- 
- [Install]
- WantedBy=multi-user.target
- ```
- Afterwards, start it immediately with `systemctl start ampd.service`.
- If you wish, to start `ampd` at the next boot, enable it with `systemctl enable ampd.service`.
+#### systemd
+
+Create the file `/etc/systemd/system/ampd.service`
+
+```
+[Unit]
+Description=ampd
+After=syslog.target
+
+[Service]
+User=ampd # <<<--- Change to a user on your system 
+ExecStart=/opt/ampd/ampd.jar
+SuccessExitStatus=143
+
+[Install]
+WantedBy=multi-user.target
+```
+
+Afterwards, start it immediately with `systemctl start ampd.service`.
+If you wish, to start `ampd` at the next boot, enable it with `systemctl enable ampd.service`.
 
 ### Installation behind another webserver
 
 Please see [DEPLOYING.md](DEPLOYING.md)
-

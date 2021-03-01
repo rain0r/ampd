@@ -15,16 +15,16 @@ import { SettingsService } from "./settings.service";
 })
 export class MpdService {
   controlPanel: Observable<ControlPanel>;
-  currentSong: Observable<QueueTrack>;
+  currentTrack: Observable<QueueTrack>;
   currentState: Observable<string>;
   playlistSaved: Observable<PlaylistSaved>;
   volume: Observable<number>;
 
   private controlPanelSubject = new Subject<ControlPanel>();
-  private currentSongSubject = new Subject<QueueTrack>();
+  private currentTrackSubject = new Subject<QueueTrack>();
   private currentStateSubject = new Subject<string>();
   private playlistSavedSubject = new Subject<PlaylistSaved>();
-  private prevSong = new QueueTrack();
+  private prevTrack = new QueueTrack();
   private volumeSubject = new Subject<number>();
 
   constructor(
@@ -34,7 +34,7 @@ export class MpdService {
   ) {
     this.init();
     this.controlPanel = this.controlPanelSubject.asObservable();
-    this.currentSong = this.currentSongSubject.asObservable();
+    this.currentTrack = this.currentTrackSubject.asObservable();
     this.currentState = this.currentStateSubject.asObservable();
     this.playlistSaved = this.playlistSavedSubject.asObservable();
     this.volume = this.volumeSubject.asObservable();
@@ -47,33 +47,33 @@ export class MpdService {
   }
 
   /**
-   * Build the currentSong object - holds info about the song currently played
+   * Build the currentTrack object - holds info about the track currently played
    * @param payload IStateMsgPayload
    */
   private buildState(payload: StateMsgPayload) {
     this.controlPanelSubject.next(payload.controlPanel);
     this.currentStateSubject.next(payload.serverStatus.state);
     this.volumeSubject.next(payload.serverStatus.volume);
-    let songChanged = false;
-    if (payload.currentSong) {
-      if (this.prevSong && this.prevSong.id) {
-        if (payload.currentSong.id !== this.prevSong.id) {
-          songChanged = true;
+    let trackChanged = false;
+    if (payload.currentTrack) {
+      if (this.prevTrack && this.prevTrack.id) {
+        if (payload.currentTrack.id !== this.prevTrack.id) {
+          trackChanged = true;
         }
       }
-      const prevSong = this.buildQueueTrack(payload, songChanged);
-      this.prevSong = prevSong;
-      return prevSong;
+      const prevTrack = this.buildQueueTrack(payload, trackChanged);
+      this.prevTrack = prevTrack;
+      return prevTrack;
     }
   }
 
-  private buildQueueTrack(payload: StateMsgPayload, songChanged: boolean) {
-    const queueTrack = new QueueTrack(payload.currentSong);
-    queueTrack.coverUrl = this.buildCoverUrl(payload.currentSong.file);
+  private buildQueueTrack(payload: StateMsgPayload, trackChanged: boolean) {
+    const queueTrack = new QueueTrack(payload.currentTrack);
+    queueTrack.coverUrl = this.buildCoverUrl(payload.currentTrack.file);
     queueTrack.elapsed = payload.serverStatus.elapsedTime;
     queueTrack.progress = payload.serverStatus.elapsedTime;
-    queueTrack.changed = songChanged;
-    queueTrack.dir = this.buildDirForTrack(payload.currentSong.file);
+    queueTrack.changed = trackChanged;
+    queueTrack.dir = this.buildDirForTrack(payload.currentTrack.file);
     return queueTrack;
   }
 
@@ -95,7 +95,7 @@ export class MpdService {
         map((msg) => this.buildState(msg)),
         filter((queueTrack: QueueTrack) => !!queueTrack)
       )
-      .subscribe((queueTrack) => this.currentSongSubject.next(queueTrack));
+      .subscribe((queueTrack) => this.currentTrackSubject.next(queueTrack));
   }
 
   private buildPlaylistSavedSubscription() {

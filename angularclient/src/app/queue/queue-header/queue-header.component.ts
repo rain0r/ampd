@@ -20,7 +20,7 @@ import { BehaviorSubject, combineLatest, Observable } from "rxjs";
 export class QueueHeaderComponent implements OnInit {
   coverSizeClass: Observable<string>;
   currentState: Observable<string>;
-  currentSong = new QueueTrack();
+  currentTrack = new QueueTrack();
   isDisplayCover: Observable<boolean>;
   private displayCoverSubject = new BehaviorSubject<boolean>(false);
 
@@ -46,16 +46,16 @@ export class QueueHeaderComponent implements OnInit {
   openCoverModal(): void {
     this.dialog.open(CoverModalComponent, {
       autoFocus: false,
-      data: this.currentSong,
+      data: this.currentTrack,
     });
   }
 
   private updateCover(): void {
-    if (!this.currentSong.coverUrl) {
+    if (!this.currentTrack.coverUrl) {
       return;
     }
     this.http
-      .head(this.currentSong.coverUrl, { observe: "response" })
+      .head(this.currentTrack.coverUrl, { observe: "response" })
       .subscribe(
         () => void 0,
         () => this.displayCoverSubject.next(false),
@@ -81,8 +81,8 @@ export class QueueHeaderComponent implements OnInit {
    */
   private getTrackSubscription() {
     let first = true;
-    this.mpdService.currentSong.subscribe((queueTrack) => {
-      this.currentSong = queueTrack;
+    this.mpdService.currentTrack.subscribe((queueTrack) => {
+      this.currentTrack = queueTrack;
       if (first || queueTrack.changed) {
         first = false;
         this.updateCover();

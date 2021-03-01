@@ -38,7 +38,7 @@ export class CoverModalComponent {
     this.webSocketService.sendData(MpdCommands.BLACKLIST_COVER, {
       file: this.data.file,
     });
-    // Hide the cover: Trigger a cover update without a song change
+    // Hide the cover: Trigger a cover update without a track change
     this.messageService.sendMessageType(InternalMessageType.UpdateCover);
     this.notificationService.popUp(`Blacklisted cover: "${this.data.title}"`);
     this.dialogRef.close();

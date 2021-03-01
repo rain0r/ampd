@@ -18,14 +18,11 @@ java -jar ampd.jar
 
 Additional options can be passed via the `-D` arguments, for example:
 ```
-# ampd shoult listen on port 8082
-java -jar -Dserver.port=8082 ampd.jar
 # Music dir is located at /home/foo/music
 java -jar -Dmpd.music.directory=/home/foo/music ampd.jar
-# MPD runs on port 5500
-java -jar -Dmpd.port=5500 ampd.jar
-# Combine multiple properties, listen only on localhost and access MPD server on 'myhostname'
-java -jar -Dserver.address=localhost -Dmpd.server=myhostname ampd.jar
+
+# Combine multiple properties, MPD runs on port 5500 and access MPD server on 'myhostname'
+java -jar -Dmpd.port=5500 -Dmpd.server=myhostname ampd.jar
 ```
 To persist these options, create a config file. See chapter `Installation`.
 
@@ -50,7 +47,8 @@ Download a release from [here](https://github.com/rain0r/ampd/releases) ([mirror
 Since `ampd` is distributed as a single `jar`-file, it doesn't need a traditional installation. 
 Just copy it wherever you like. I would recommend `/opt/ampd/ampd.jar`. 
  
-To overwriter any property from `application.properties` you can place a config file under `/opt/ampd/ampd.conf` which contains additional parameters, for example:
+To overwriter any property from `application.properties` you can place a config file 
+under `/opt/ampd/ampd.conf` which contains additional parameters, for example:
 
 ```
 # File: /opt/ampd/ampd.conf
@@ -60,7 +58,7 @@ JAVA_OPTS="-Dspring.profiles.active=prod"
 JAVA_HOME="/opt/openjdk-bin-11.0.6_p10/" 
 ```
 
-### Caveats  
+**Caveats**  
 The properties in `ampd.conf` are only applied if... 
 
  - ...`ampd` is startet via `./ampd.jar start`
@@ -68,13 +66,16 @@ The properties in `ampd.conf` are only applied if...
 
 ### Installation as a service
 #### init.d
-The jar file can be used as a service out-of-the-box. Just create a symlink to `/etc/.init.d` and you're good to go:
+The jar file can be used as a service out-of-the-box. Just create a symlink to `/etc/.init.d` 
+and you're good to go:
+
 ```
 ln -sf /opt/ampd/ampd.jar /etc/init.d/ampd
 /etc/init.d/ampd start
 ```
  
-If you get the error: `start-stop-daemon: unrecognized option '--no-close'`, remove that option from the jar-file with: `sed -i 's/--no-close//g' /opt/ampd/ampd.jar`
+If you get the error: `start-stop-daemon: unrecognized option '--no-close'`, remove that 
+option from the jar-file with: `sed -i 's/--no-close//g' /opt/ampd/ampd.jar`
 
 #### systemd
 

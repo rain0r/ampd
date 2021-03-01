@@ -97,6 +97,6 @@ WantedBy=multi-user.target
 Afterwards, start it immediately with `systemctl start ampd.service`.
 If you wish, to start `ampd` at the next boot, enable it with `systemctl enable ampd.service`.
 
-### Installation behind another webserver
+### Installation behind another webserver (apache and nginx)
 
 Please see [DEPLOYING.md](DEPLOYING.md)

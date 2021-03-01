@@ -18,7 +18,7 @@ public class StateMessage extends OutgoingMessage {
     Map<String, Object> ret = new HashMap<>();
     ret.put("controlPanel", payload.getControlPanel());
     ret.put("cover", payload.getCover());
-    ret.put("currentSong", payload.getCurrentSong());
+    ret.put("currentTrack", payload.getCurrentTrack());
     ret.put("serverStatus", payload.getServerStatus());
     return ret;
   }

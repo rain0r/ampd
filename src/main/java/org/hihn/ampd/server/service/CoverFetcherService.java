@@ -72,10 +72,10 @@ public class CoverFetcherService {
     if (trackFilePath.isEmpty()) {
       return Optional.empty();
     }
-    final Collection<MPDSong> foundSongs = mpd.getMusicDatabase().getSongDatabase()
+    final Collection<MPDSong> foundTracks = mpd.getMusicDatabase().getSongDatabase()
         .searchFileName(trackFilePath.get());
-    if (foundSongs.size() == 1) {
-      return getAlbumCoverForTrack(foundSongs.iterator().next());
+    if (foundTracks.size() == 1) {
+      return getAlbumCoverForTrack(foundTracks.iterator().next());
     }
     return Optional.empty();
   }

@@ -16,9 +16,9 @@ public class SearchPayload {
 
   private final List<MPDSong> searchResults = new ArrayList<>();
 
-  public SearchPayload(Collection<MPDSong> songs, String query) {
-    searchResults.addAll(songs);
-    searchResultCount = songs.size();
+  public SearchPayload(Collection<MPDSong> tracks, String query) {
+    searchResults.addAll(tracks);
+    searchResultCount = tracks.size();
     this.query = query;
   }
 

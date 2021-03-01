@@ -12,16 +12,14 @@ import { MpdCommands } from "../../shared/mpd/mpd-commands.enum";
   styleUrls: ["./track-progress.component.scss"],
 })
 export class TrackProgressComponent {
-  currentTrack: QueueTrack = new QueueTrack();
+  currentTrack: Observable<QueueTrack>;
   state: Observable<string>;
 
   constructor(
     private webSocketService: WebSocketService,
     private mpdService: MpdService
   ) {
-    this.mpdService.currentTrack.subscribe(
-      (track) => (this.currentTrack = track)
-    );
+    this.currentTrack = this.mpdService.currentTrack;
     this.state = this.mpdService.currentState;
   }
 

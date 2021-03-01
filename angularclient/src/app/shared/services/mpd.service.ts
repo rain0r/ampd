@@ -63,6 +63,7 @@ export class MpdService {
       }
       const prevTrack = this.buildQueueTrack(payload, trackChanged);
       this.prevTrack = prevTrack;
+      console.log("buildState,", prevTrack);
       return prevTrack;
     }
   }
@@ -95,7 +96,10 @@ export class MpdService {
         map((msg) => this.buildState(msg)),
         filter((queueTrack: QueueTrack) => !!queueTrack)
       )
-      .subscribe((queueTrack) => this.currentTrack$.next(queueTrack));
+      .subscribe((queueTrack) => {
+        console.log("new current track");
+        this.currentTrack$.next(queueTrack);
+      });
   }
 
   private buildPlaylistSavedSubscription() {

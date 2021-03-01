@@ -13,14 +13,14 @@ public class StatePayload {
 
   private String cover;
 
-  private MPDSong currentSong;
+  private MPDSong currentTrack;
 
   private ServerStatus serverStatus;
 
-  public StatePayload(final ServerStatus serverStatus, final MPDSong currentSong,
+  public StatePayload(final ServerStatus serverStatus, final MPDSong currentTrack,
       final ControlPanel controlPanel) {
     this.serverStatus = serverStatus;
-    this.currentSong = currentSong;
+    this.currentTrack = currentTrack;
     this.controlPanel = controlPanel;
   }
 
@@ -40,12 +40,12 @@ public class StatePayload {
     this.cover = cover;
   }
 
-  public MPDSong getCurrentSong() {
-    return currentSong;
+  public MPDSong getCurrentTrack() {
+    return currentTrack;
   }
 
-  public void setCurrentSong(final MPDSong currentSong) {
-    this.currentSong = currentSong;
+  public void setCurrentTrack(final MPDSong currentTrack) {
+    this.currentTrack = currentTrack;
   }
 
   public ServerStatus getServerStatus() {

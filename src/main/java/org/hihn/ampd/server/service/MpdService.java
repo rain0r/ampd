@@ -78,8 +78,8 @@ public class MpdService implements MpdWebsocketService {
     String playlist = payload.get("playlist");
     Collection<MPDSong> mpdSongCollection =
         mpd.getMusicDatabase().getPlaylistDatabase().listPlaylistSongs(playlist);
-    ArrayList<MPDSong> mpdSongs = new ArrayList<>(mpdSongCollection);
-    mpd.getPlaylist().addSongs(mpdSongs);
+    ArrayList<MPDSong> mpdTracks = new ArrayList<>(mpdSongCollection);
+    mpd.getPlaylist().addSongs(mpdTracks);
     return Optional.empty();
   }
 

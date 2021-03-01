@@ -22,7 +22,7 @@ export class QueueHeaderComponent implements OnInit {
   currentState: Observable<string>;
   currentTrack = new QueueTrack();
   isDisplayCover: Observable<boolean>;
-  private displayCoverSubject = new BehaviorSubject<boolean>(false);
+  private displayCover$ = new BehaviorSubject<boolean>(false);
 
   constructor(
     private dialog: MatDialog,
@@ -32,7 +32,7 @@ export class QueueHeaderComponent implements OnInit {
     private settingsService: SettingsService,
     private messageService: MessageService
   ) {
-    this.isDisplayCover = this.displayCoverSubject.asObservable();
+    this.isDisplayCover = this.displayCover$.asObservable();
     this.coverSizeClass = responsiveCoverSizeService.getCoverCssClass();
     this.currentState = this.mpdService.currentState;
     this.getTrackSubscription();
@@ -58,7 +58,7 @@ export class QueueHeaderComponent implements OnInit {
       .head(this.currentTrack.coverUrl, { observe: "response" })
       .subscribe(
         () => void 0,
-        () => this.displayCoverSubject.next(false),
+        () => this.displayCover$.next(false),
         () => this.coverAvailable()
       );
   }
@@ -71,7 +71,7 @@ export class QueueHeaderComponent implements OnInit {
           result[0] !== "stop" && // Check state, we don't change the cover if the player has stopped
           result[1] === true // Check if cover-display is active in the frontend-settings
         ) {
-          this.displayCoverSubject.next(true);
+          this.displayCover$.next(true);
         }
       });
   }

@@ -6,10 +6,10 @@ import { InternalMessage } from "../messages/internal/internal-message";
 @Injectable()
 export class MessageService {
   message: Observable<InternalMessage>;
-  private subject = new Subject<InternalMessage>();
+  private message$ = new Subject<InternalMessage>();
 
   constructor() {
-    this.message = this.subject.asObservable();
+    this.message = this.message$.asObservable();
   }
 
   /**
@@ -17,10 +17,10 @@ export class MessageService {
    * @param {InternalMessageType} type
    */
   sendMessageType(type: InternalMessageType): void {
-    this.subject.next({ type: type } as InternalMessage);
+    this.message$.next({ type: type } as InternalMessage);
   }
 
   sendMessage(message: InternalMessage): void {
-    this.subject.next(message);
+    this.message$.next(message);
   }
 }

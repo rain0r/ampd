@@ -9,10 +9,10 @@ import { MpdCommands } from "../mpd/mpd-commands.enum";
 @Injectable()
 export class BrowseService {
   browseInfo: Observable<BrowseInfo>;
-  private browseInfoSubject: Subject<BrowseInfo> = new Subject<BrowseInfo>();
+  private browseInfo$ = new Subject<BrowseInfo>();
 
   constructor(private webSocketService: WebSocketService) {
-    this.browseInfo = this.browseInfoSubject.asObservable();
+    this.browseInfo = this.browseInfo$.asObservable();
     this.buildMsgReceiver();
   }
 
@@ -28,7 +28,7 @@ export class BrowseService {
   }
 
   private clearBrowseInfo() {
-    this.browseInfoSubject.next(new BrowseInfo());
+    this.browseInfo$.next(new BrowseInfo());
   }
 
   private onBrowseResponse(payload: BrowseMsgPayload): void {
@@ -47,7 +47,7 @@ export class BrowseService {
     payload.playlists.forEach((playlist) => {
       newBrowseInfo.playlistQueue.push(playlist);
     });
-    this.browseInfoSubject.next(newBrowseInfo);
+    this.browseInfo$.next(newBrowseInfo);
   }
 
   private buildMsgReceiver() {

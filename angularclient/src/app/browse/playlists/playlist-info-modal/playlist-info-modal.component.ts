@@ -23,7 +23,7 @@ import { MpdCommands } from "../../../shared/mpd/mpd-commands.enum";
 export class PlaylistInfoModalComponent implements OnInit {
   playlistInfo: Observable<PlaylistInfo>;
   trackTableData = new TrackTableData();
-  private playlistInfoSubject = new Subject<PlaylistInfo>();
+  private playlistInfo$ = new Subject<PlaylistInfo>();
 
   constructor(
     public dialogRef: MatDialogRef<PlaylistInfoModalComponent>,
@@ -34,7 +34,7 @@ export class PlaylistInfoModalComponent implements OnInit {
     private mpdService: MpdService,
     private deviceService: DeviceDetectorService
   ) {
-    this.playlistInfo = this.playlistInfoSubject.asObservable();
+    this.playlistInfo = this.playlistInfo$.asObservable();
   }
 
   ngOnInit(): void {
@@ -43,7 +43,7 @@ export class PlaylistInfoModalComponent implements OnInit {
       tableData.dataSource = this.buildDataSource(info.tracks);
       tableData.displayedColumns = this.getDisplayedColumns();
       this.trackTableData = tableData;
-      this.playlistInfoSubject.next(info);
+      this.playlistInfo$.next(info);
     });
   }
 

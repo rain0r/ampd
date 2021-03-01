@@ -48,7 +48,7 @@
           matInput
           placeholder="Filter"
           type="text"
-          [disabled]="!(displayFilter|async)"
+          [disabled]="!(displayFilter$|async)"
       />
       <button
           (click)="filter = ''; resetFilter()"

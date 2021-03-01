@@ -24,7 +24,7 @@ export class DirectoriesComponent extends Filterable {
   /**
    * The get parameter 'dir', holding the currently viewed directory.
    */
-  private dirQueryParamSubject = new BehaviorSubject<string>("/");
+  private dirQueryParam$ = new BehaviorSubject<string>("/");
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -36,13 +36,13 @@ export class DirectoriesComponent extends Filterable {
     private webSocketService: WebSocketService
   ) {
     super(messageService);
-    this.dirQueryParam = this.dirQueryParamSubject.asObservable();
+    this.dirQueryParam = this.dirQueryParam$.asObservable();
     this.coverSizeClass = responsiveCoverSizeService.getCoverCssClass();
     this.activatedRoute.queryParamMap.subscribe((params) => {
       if (params.has("dir")) {
-        this.dirQueryParamSubject.next(params.get("dir"));
+        this.dirQueryParam$.next(params.get("dir"));
       } else {
-        this.dirQueryParamSubject.next("/");
+        this.dirQueryParam$.next("/");
       }
     });
   }

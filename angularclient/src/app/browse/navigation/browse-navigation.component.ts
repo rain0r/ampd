@@ -24,7 +24,7 @@ import { BehaviorSubject } from "rxjs";
 export class BrowseNavigationComponent implements OnInit {
   @ViewChild("filterInputElem") myInputField: ElementRef;
 
-  displayFilter = new BehaviorSubject<boolean>(true);
+  displayFilter$ = new BehaviorSubject<boolean>(true);
   getParamDir = "";
   filter = "";
 
@@ -54,7 +54,7 @@ export class BrowseNavigationComponent implements OnInit {
     });
     this.browseService.browseInfo.subscribe((browseInfo) => {
       // We don't support filtering the tracks of a single album
-      this.displayFilter.next(!this.isTracksOnly(browseInfo));
+      this.displayFilter$.next(!this.isTracksOnly(browseInfo));
     });
   }
 

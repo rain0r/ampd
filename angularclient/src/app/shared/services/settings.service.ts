@@ -29,19 +29,19 @@ export class SettingsService {
    * Since we want this to be automatically applied, we store it in a subject.
    * Dark theme is default active.
    */
-  private isDarkThemeSubject = new BehaviorSubject(true);
+  private isDarkTheme$ = new BehaviorSubject(true);
 
-  private isDisplayCoversSubject = new BehaviorSubject(true);
+  private isDisplayCovers$ = new BehaviorSubject(true);
 
-  private isDisplaySavePlaylistSubject = new BehaviorSubject(true);
+  private isDisplaySavePlaylist$ = new BehaviorSubject(true);
 
-  private isSetTabTitleSubject = new BehaviorSubject(true);
+  private isSetTabTitle$ = new BehaviorSubject(true);
 
   constructor(private http: HttpClient, private location: Location) {
-    this.isDarkTheme = this.isDarkThemeSubject.asObservable();
-    this.isDisplayCovers = this.isDisplayCoversSubject.asObservable();
-    this.isDisplaySavePlaylist = this.isDisplaySavePlaylistSubject.asObservable();
-    this.isSetTabTitle = this.isSetTabTitleSubject.asObservable();
+    this.isDarkTheme = this.isDarkTheme$.asObservable();
+    this.isDisplayCovers = this.isDisplayCovers$.asObservable();
+    this.isDisplaySavePlaylist = this.isDisplaySavePlaylist$.asObservable();
+    this.isSetTabTitle = this.isSetTabTitle$.asObservable();
 
     this.setDarkTheme(this.getBoolValue(DARK_MODE_KEY, true));
     this.setDisplayCovers(this.getBoolValue(DISPLAY_COVERS_KEY, true));
@@ -53,7 +53,7 @@ export class SettingsService {
 
   setTabTitleOption(isTabTitle: boolean): void {
     localStorage.setItem(SET_TAB_TITLE, JSON.stringify(isTabTitle));
-    this.isSetTabTitleSubject.next(isTabTitle);
+    this.isSetTabTitle$.next(isTabTitle);
   }
 
   setDisplaySavePlaylist(isDisplaySavePlaylist: boolean): void {
@@ -61,17 +61,17 @@ export class SettingsService {
       DISPLAY_SAVE_PLAYLIST_KEY,
       JSON.stringify(isDisplaySavePlaylist)
     );
-    this.isDisplaySavePlaylistSubject.next(isDisplaySavePlaylist);
+    this.isDisplaySavePlaylist$.next(isDisplaySavePlaylist);
   }
 
   setDisplayCovers(isDisplayCovers: boolean): void {
     localStorage.setItem(DISPLAY_COVERS_KEY, JSON.stringify(isDisplayCovers));
-    this.isDisplayCoversSubject.next(isDisplayCovers);
+    this.isDisplayCovers$.next(isDisplayCovers);
   }
 
   setDarkTheme(isDarkTheme: boolean): void {
     localStorage.setItem(DARK_MODE_KEY, JSON.stringify(isDarkTheme));
-    this.isDarkThemeSubject.next(isDarkTheme);
+    this.isDarkTheme$.next(isDarkTheme);
     if (isDarkTheme) {
       this.changeTheme(DarkTheme);
     } else {

@@ -1,14 +1,15 @@
 # Deploying `ampd` behind a webserver
 
-Here are some example configurations if you like to run `ampd` behind another webserver via reverse proxy. 
+Here are some example configurations if you like to run `ampd` behind another webserver via reverse proxy.
 
 ## Apache
+
 ### Without SSL (`http://your-server/ampd`)
 
 Please make sure to use the releases named `ampd-with-context-<version>.jar` if you plan to access
 `ampd` via `/ampd` (instead of `/`).
 
-```
+```apache
 <VirtualHost *:80>
     ServerName localhost
     Include /etc/apache2/vhosts.d/default_vhost.include
@@ -24,11 +25,12 @@ Please make sure to use the releases named `ampd-with-context-<version>.jar` if 
 ```
 
 ### With SSL (`https://your-server/ampd`)
-```
+
+```apache
 <VirtualHost _default_:443>
-	ServerName localhost
-	Include /etc/apache2/vhosts.d/default_vhost.include
-	SSLEngine on
+ ServerName localhost
+ Include /etc/apache2/vhosts.d/default_vhost.include
+ SSLEngine on
 
     # Your other SSL Settings here
 
@@ -46,9 +48,10 @@ Please make sure to use the releases named `ampd-with-context-<version>.jar` if 
 ```
 
 ## Nginx
+
 ### Without SSL (`http://ampd.network.local`)
 
-```
+```nginx
 server {
     listen 80;
     server_name ampd.network.local;
@@ -66,7 +69,7 @@ server {
 
 ### With SSL (`https://ampd.network.local`)
 
-```
+```nginx
 server {
     listen 443 ssl;
     server_name ampd.network.local;

@@ -10,7 +10,7 @@ import { BrowseNavigationComponent } from "./browse/navigation/browse-navigation
 import { PlaylistsComponent } from "./browse/playlists/playlists.component";
 import { TracksComponent } from "./browse/tracks/tracks.component";
 import { ControlPanelComponent } from "./queue/control-panel/control-panel.component";
-import { MpdModesComponent } from "./queue/mpd-modes/mpd-modes.component";
+import { MpdModeComponent } from "./queue/mpd-modes/mpd-mode.component";
 import { QueueHeaderComponent } from "./queue/queue-header/queue-header.component";
 import { QueueComponent } from "./queue/queue.component";
 import { TrackProgressComponent } from "./queue/track-progress/track-progress.component";
@@ -76,7 +76,7 @@ import { TabTitleComponent } from "./settings/tab-title/tab-title.component";
     DirectoryFilterPipe,
     EncodeURIComponentPipe,
     ReplaceNullWithTextPipe,
-    MpdModesComponent,
+    MpdModeComponent,
     NavbarComponent,
     BrowseNavigationComponent,
     PlaylistFilterPipe,

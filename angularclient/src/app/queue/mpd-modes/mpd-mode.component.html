@@ -2,7 +2,7 @@
     fxLayoutAlign="space-between"
     multiple
     *ngIf="controlPanel"
-    (change)="toggleCtrl($event)"
+    (change)="toggleCtrl($event.value)"
 >
   <mat-button-toggle
       value="random"

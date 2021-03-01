@@ -91,7 +91,8 @@ If you get the error: `start-stop-daemon: unrecognized option '--no-close'`, rem
  [Install]
  WantedBy=multi-user.target
  ```
- Afterwards, enable it with `systemctl enable ampd.service`.
+ Afterwards, start it immediately with `systemctl start ampd.service`.
+ If you wish, to start `ampd` at the next boot, enable it with `systemctl enable ampd.service`.
 
 ### Installation behind another webserver
 

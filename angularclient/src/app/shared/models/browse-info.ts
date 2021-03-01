@@ -10,4 +10,12 @@ export class BrowseInfo {
   dirQueue: Directory[] = [];
   playlistQueue: PlaylistImpl[] = [];
   trackQueue: MpdTrack[] = [];
+
+  isEmpty(): boolean {
+    return (
+      this.playlistQueue.length === 0 &&
+      this.dirQueue.length === 0 &&
+      this.trackQueue.length === 0
+    );
+  }
 }

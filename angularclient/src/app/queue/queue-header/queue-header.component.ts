@@ -5,13 +5,12 @@ import { MatDialog } from "@angular/material/dialog";
 import { ResponsiveCoverSizeService } from "../../shared/services/responsive-cover-size.service";
 import { QueueTrack } from "../../shared/models/queue-track";
 import { MpdService } from "../../shared/services/mpd.service";
-import { catchError, filter, map } from "rxjs/operators";
+import { filter, take } from "rxjs/operators";
 import { CoverModalComponent } from "../cover-modal/cover-modal.component";
 import { SettingsService } from "../../shared/services/settings.service";
 import { MessageService } from "../../shared/services/message.service";
 import { InternalMessageType } from "../../shared/messages/internal/internal-message-type.enum";
-import { FilterMessage } from "../../shared/messages/internal/message-types/filter-message";
-import { BehaviorSubject, combineLatest, Observable, throwError } from "rxjs";
+import { BehaviorSubject, combineLatest, Observable } from "rxjs";
 
 @Component({
   selector: "app-queue-header",
@@ -35,8 +34,8 @@ export class QueueHeaderComponent implements OnInit {
   ) {
     this.isDisplayCover = this.displayCoverSubject.asObservable();
     this.coverSizeClass = responsiveCoverSizeService.getCoverCssClass();
-    this.getSongSubscription();
-    this.getStateSubscription();
+    this.currentState = this.mpdService.getStateSubscription();
+    this.getTrackSubscription();
     this.buildMessageReceiver();
   }
 
@@ -55,25 +54,32 @@ export class QueueHeaderComponent implements OnInit {
     if (!this.currentSong.coverUrl) {
       return;
     }
-
-    const httpObs = this.http
+    this.http
       .head(this.currentSong.coverUrl, { observe: "response" })
-      .pipe(
-        catchError(() => {
-          this.displayCoverSubject.next(false);
-          return throwError("Not found");
-        })
+      .subscribe(
+        () => void 0,
+        () => this.displayCoverSubject.next(false),
+        () => this.coverAvailable()
       );
-    combineLatest([
-      httpObs,
-      this.currentState,
-      this.settingsService.getDisplayCovers(),
-    ])
-      .pipe(filter((result) => result[1] !== "stop"))
-      .subscribe(() => this.displayCoverSubject.next(true));
   }
 
-  private getSongSubscription() {
+  private coverAvailable(): void {
+    combineLatest([this.currentState, this.settingsService.getDisplayCovers()])
+      .pipe(take(1))
+      .subscribe((result) => {
+        if (
+          result[0] !== "stop" && // Check state, we don't change the cover if the player has stopped
+          result[1] === true // Check if cover-display is active in the frontend-settings
+        ) {
+          this.displayCoverSubject.next(true);
+        }
+      });
+  }
+
+  /**
+   * Listens for track changes. If a new track is played, trigger the updateCover-method.
+   */
+  private getTrackSubscription() {
     let first = true;
     this.mpdService.getTrackSubscription().subscribe((queueTrack) => {
       this.currentSong = queueTrack;
@@ -84,17 +90,13 @@ export class QueueHeaderComponent implements OnInit {
     });
   }
 
-  private getStateSubscription() {
-    this.currentState = this.mpdService.getStateSubscription();
-  }
-
+  /**
+   * Listens for internal messages. If we get the message to update the cover, call the method.
+   */
   private buildMessageReceiver() {
     this.messageService
       .getMessage()
-      .pipe(
-        filter((msg) => msg.type === InternalMessageType.UpdateCover),
-        map((msg) => msg as FilterMessage)
-      )
+      .pipe(filter((msg) => msg.type === InternalMessageType.UpdateCover))
       .subscribe(() => this.updateCover());
   }
 }

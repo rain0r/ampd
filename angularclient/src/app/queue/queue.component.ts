@@ -28,7 +28,6 @@ export class QueueComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log("ngOnInit");
     this.webSocketService.send(MpdCommands.GET_QUEUE);
     this.buildTitle();
   }

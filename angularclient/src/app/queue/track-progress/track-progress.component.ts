@@ -12,18 +12,20 @@ import { MpdCommands } from "../../shared/mpd/mpd-commands.enum";
   styleUrls: ["./track-progress.component.scss"],
 })
 export class TrackProgressComponent {
-  currentSong: QueueTrack = new QueueTrack();
+  currentTrack: QueueTrack = new QueueTrack();
   state: Observable<string>;
 
   constructor(
     private webSocketService: WebSocketService,
     private mpdService: MpdService
   ) {
-    this.mpdService.currentSong.subscribe((song) => (this.currentSong = song));
+    this.mpdService.currentTrack.subscribe(
+      (track) => (this.currentTrack = track)
+    );
     this.state = this.mpdService.currentState;
   }
 
-  handleCurrentSongProgressSlider(event: MatSliderChange): void {
+  handleCurrentTrackProgressSlider(event: MatSliderChange): void {
     this.webSocketService.sendData(MpdCommands.SET_SEEK, {
       value: event.value,
     });

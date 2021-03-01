@@ -27,7 +27,7 @@ export class TrackTableComponent {
    * The checksum of the current queue.
    */
   checksum = 0;
-  currentSong: QueueTrack = new QueueTrack();
+  currentTrack: QueueTrack = new QueueTrack();
   currentState = "stop";
   dataSource = new MatTableDataSource<QueueTrack>();
   displaySaveCoverBtn: Observable<boolean>;
@@ -123,10 +123,10 @@ export class TrackTableComponent {
   }
 
   private buildMessageReceiver(): void {
-    this.mpdService.currentSong.subscribe((song) => {
-      this.currentSong = song;
+    this.mpdService.currentTrack.subscribe((track) => {
+      this.currentTrack = track;
       for (const track of this.dataSource.data) {
-        track.playing = track.id === this.currentSong.id;
+        track.playing = track.id === this.currentTrack.id;
       }
     });
     this.webSocketService

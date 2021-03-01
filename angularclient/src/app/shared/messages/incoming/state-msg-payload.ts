@@ -4,7 +4,7 @@ import { ServerStatus } from "./server-status";
 
 export interface StateMsgPayload {
   serverStatus: ServerStatus;
-  currentSong: MpdTrack;
+  currentTrack: MpdTrack;
   cover?: unknown;
   controlPanel: ControlPanel;
 }

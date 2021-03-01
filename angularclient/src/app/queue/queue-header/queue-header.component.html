@@ -1,5 +1,5 @@
 <div fxLayout="row wrap" fxLayoutAlign="center"
-     *ngIf="(currentState|async) === 'stop' || !currentSong else queueHeader">
+     *ngIf="(currentState|async) === 'stop' || !currentTrack else queueHeader">
   <span class="mat-display-1">
     Stopped.
   </span>
@@ -12,26 +12,27 @@
       *ngIf="(currentState|async) !== 'stop'"
   >
     <div fxFlex="1 0 55%" fxLayout="column">
-      <div class="mat-h2 queue-sub-title" fxFlex="100%" title="Title: {{currentSong.title}}">
+      <div class="mat-h2 queue-sub-title" fxFlex="100%" title="Title: {{currentTrack.title}}">
         <a class=" no-deco-links" [routerLink]="['browse']"
-           [queryParams]="{'dir': currentSong.dir}">
-          {{ currentSong.title }}
+           [queryParams]="{'dir': currentTrack.dir}">
+          {{ currentTrack.title }}
         </a>
       </div>
       <mat-divider></mat-divider>
       <div
           class="mat-h3 queue-sub-title"
-          *ngIf="currentSong.albumName"
-          title="Album: {{currentSong.albumName}}"
+          *ngIf="currentTrack.albumName"
+          title="Album: {{currentTrack.albumName}}"
       >
         <a class="no-deco-links text-muted" [routerLink]="['browse']"
-           [queryParams]="{'dir': currentSong.dir}">
-          {{ currentSong.albumName }}
+           [queryParams]="{'dir': currentTrack.dir}">
+          {{ currentTrack.albumName }}
         </a>
       </div>
-      <div class="mat-h3 queue-sub-title" title="Artist: {{currentSong.artistName}}">
-        <a class="no-deco-links" [routerLink]="['browse']" [queryParams]="{'dir': currentSong.dir}">
-          {{ currentSong.artistName }}
+      <div class="mat-h3 queue-sub-title" title="Artist: {{currentTrack.artistName}}">
+        <a class="no-deco-links" [routerLink]="['browse']"
+           [queryParams]="{'dir': currentTrack.dir}">
+          {{ currentTrack.artistName }}
         </a>
       </div>
     </div>
@@ -41,7 +42,7 @@
           fxShow="false"
       ></mat-divider>
       <img
-          [src]=" currentSong.coverUrl "
+          [src]=" currentTrack.coverUrl "
           class="album-art clickable"
           [ngClass]="[coverSizeClass|async]"
           (click)="openCoverModal()"

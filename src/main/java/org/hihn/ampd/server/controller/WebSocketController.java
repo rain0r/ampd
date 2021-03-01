@@ -4,7 +4,7 @@ import java.util.Optional;
 import org.hihn.ampd.server.message.Message;
 import org.hihn.ampd.server.message.incoming.IncomingMessage;
 import org.hihn.ampd.server.service.CoverBlacklistService;
-import org.hihn.ampd.server.service.MpdServiceMpd;
+import org.hihn.ampd.server.service.MpdService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,10 +20,10 @@ public class WebSocketController {
 
   private static final Logger LOG = LoggerFactory.getLogger(WebSocketController.class);
 
-  private final MpdServiceMpd mpdService;
+  private final MpdService mpdService;
 
   @Autowired
-  public WebSocketController(final MpdServiceMpd mpdService,
+  public WebSocketController(final MpdService mpdService,
       CoverBlacklistService coverBlacklistService) {
     this.mpdService = mpdService;
     coverBlacklistService.loadBlacklistFile();

@@ -33,9 +33,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 @Service
-public class MpdServiceMpd implements MpdWebsocketService {
+public class MpdService implements MpdWebsocketService {
 
-  private static final Logger LOG = LoggerFactory.getLogger(MpdServiceMpd.class);
+  private static final Logger LOG = LoggerFactory.getLogger(MpdService.class);
 
   /**
    * Maps all incoming websocket message types to a method.
@@ -48,7 +48,7 @@ public class MpdServiceMpd implements MpdWebsocketService {
 
   private final Settings settings;
 
-  public MpdServiceMpd(MpdConfiguration mpdConfiguration,
+  public MpdService(MpdConfiguration mpdConfiguration,
       CoverBlacklistService coverBlacklistService, Settings settings) {
     mpd = mpdConfiguration.mpd();
     this.coverBlacklistService = coverBlacklistService;

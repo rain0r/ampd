@@ -19,11 +19,12 @@ import { Directory } from "../../shared/messages/incoming/directory";
 export class DirectoriesComponent extends Filterable {
   @Input() dirQueue: Directory[] = [];
   coverSizeClass: Observable<string>;
+  dirQueryParam: Observable<string>;
+  maxCoversDisplayed = 50;
   /**
    * The get parameter 'dir', holding the currently viewed directory.
    */
-  dirQueryParam = new BehaviorSubject<string>("/");
-  maxCoversDisplayed = 50;
+  private dirQueryParamSubject = new BehaviorSubject<string>("/");
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -35,18 +36,15 @@ export class DirectoriesComponent extends Filterable {
     private webSocketService: WebSocketService
   ) {
     super(messageService);
+    this.dirQueryParam = this.dirQueryParamSubject.asObservable();
     this.coverSizeClass = responsiveCoverSizeService.getCoverCssClass();
     this.activatedRoute.queryParamMap.subscribe((params) => {
       if (params.has("dir")) {
-        this.dirQueryParam.next(params.get("dir"));
+        this.dirQueryParamSubject.next(params.get("dir"));
       } else {
-        this.dirQueryParam.next("/");
+        this.dirQueryParamSubject.next("/");
       }
     });
-  }
-
-  getDirQueryParam(): Observable<string> {
-    return this.dirQueryParam.asObservable();
   }
 
   onPlayDir($event: MouseEvent, dir: string): void {

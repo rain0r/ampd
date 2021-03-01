@@ -14,12 +14,18 @@ import { SettingsService } from "./settings.service";
   providedIn: "root",
 })
 export class MpdService {
-  private controlPanel = new Subject<ControlPanel>();
-  private currentSong = new Subject<QueueTrack>();
-  private currentState = new Subject<string>();
-  private playlistSaved = new Subject<PlaylistSaved>();
+  controlPanel: Observable<ControlPanel>;
+  currentSong: Observable<QueueTrack>;
+  currentState: Observable<string>;
+  playlistSaved: Observable<PlaylistSaved>;
+  volume: Observable<number>;
+
+  private controlPanelSubject = new Subject<ControlPanel>();
+  private currentSongSubject = new Subject<QueueTrack>();
+  private currentStateSubject = new Subject<string>();
+  private playlistSavedSubject = new Subject<PlaylistSaved>();
   private prevSong = new QueueTrack();
-  private volume = new Subject<number>();
+  private volumeSubject = new Subject<number>();
 
   constructor(
     private webSocketService: WebSocketService,
@@ -27,26 +33,11 @@ export class MpdService {
     private settingsService: SettingsService
   ) {
     this.init();
-  }
-
-  getTrackSubscription(): Observable<QueueTrack> {
-    return this.currentSong.asObservable();
-  }
-
-  getStateSubscription(): Observable<string> {
-    return this.currentState.asObservable();
-  }
-
-  getControlPanelSubscription(): Observable<ControlPanel> {
-    return this.controlPanel.asObservable();
-  }
-
-  getVolumeSubscription(): Observable<number> {
-    return this.volume.asObservable();
-  }
-
-  getPlaylistSavedSubscription(): Observable<PlaylistSaved> {
-    return this.playlistSaved.asObservable();
+    this.controlPanel = this.controlPanelSubject.asObservable();
+    this.currentSong = this.currentSongSubject.asObservable();
+    this.currentState = this.currentStateSubject.asObservable();
+    this.playlistSaved = this.playlistSavedSubject.asObservable();
+    this.volume = this.volumeSubject.asObservable();
   }
 
   getPlaylistInfo(playlistName: string): Observable<PlaylistInfo> {
@@ -60,9 +51,9 @@ export class MpdService {
    * @param payload IStateMsgPayload
    */
   private buildState(payload: StateMsgPayload) {
-    this.controlPanel.next(payload.controlPanel);
-    this.currentState.next(payload.serverStatus.state);
-    this.volume.next(payload.serverStatus.volume);
+    this.controlPanelSubject.next(payload.controlPanel);
+    this.currentStateSubject.next(payload.serverStatus.state);
+    this.volumeSubject.next(payload.serverStatus.volume);
     let songChanged = false;
     if (payload.currentSong) {
       if (this.prevSong && this.prevSong.id) {
@@ -104,13 +95,13 @@ export class MpdService {
         map((msg) => this.buildState(msg)),
         filter((queueTrack: QueueTrack) => !!queueTrack)
       )
-      .subscribe((queueTrack) => this.currentSong.next(queueTrack));
+      .subscribe((queueTrack) => this.currentSongSubject.next(queueTrack));
   }
 
   private buildPlaylistSavedSubscription() {
     this.webSocketService
       .getPlaylistSavedSubscription()
-      .subscribe((msg) => this.playlistSaved.next(msg));
+      .subscribe((msg) => this.playlistSavedSubject.next(msg));
   }
 
   private buildDirForTrack(file: string) {

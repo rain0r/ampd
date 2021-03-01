@@ -19,10 +19,8 @@ export class TrackProgressComponent {
     private webSocketService: WebSocketService,
     private mpdService: MpdService
   ) {
-    this.mpdService
-      .getTrackSubscription()
-      .subscribe((song) => (this.currentSong = song));
-    this.state = this.mpdService.getStateSubscription();
+    this.mpdService.currentSong.subscribe((song) => (this.currentSong = song));
+    this.state = this.mpdService.currentState;
   }
 
   handleCurrentSongProgressSlider(event: MatSliderChange): void {

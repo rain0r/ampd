@@ -34,7 +34,7 @@ export class QueueHeaderComponent implements OnInit {
   ) {
     this.isDisplayCover = this.displayCoverSubject.asObservable();
     this.coverSizeClass = responsiveCoverSizeService.getCoverCssClass();
-    this.currentState = this.mpdService.getStateSubscription();
+    this.currentState = this.mpdService.currentState;
     this.getTrackSubscription();
     this.buildMessageReceiver();
   }
@@ -64,7 +64,7 @@ export class QueueHeaderComponent implements OnInit {
   }
 
   private coverAvailable(): void {
-    combineLatest([this.currentState, this.settingsService.getDisplayCovers()])
+    combineLatest([this.currentState, this.settingsService.isDisplayCovers])
       .pipe(take(1))
       .subscribe((result) => {
         if (
@@ -81,7 +81,7 @@ export class QueueHeaderComponent implements OnInit {
    */
   private getTrackSubscription() {
     let first = true;
-    this.mpdService.getTrackSubscription().subscribe((queueTrack) => {
+    this.mpdService.currentSong.subscribe((queueTrack) => {
       this.currentSong = queueTrack;
       if (first || queueTrack.changed) {
         first = false;
@@ -94,8 +94,7 @@ export class QueueHeaderComponent implements OnInit {
    * Listens for internal messages. If we get the message to update the cover, call the method.
    */
   private buildMessageReceiver() {
-    this.messageService
-      .getMessage()
+    this.messageService.message
       .pipe(filter((msg) => msg.type === InternalMessageType.UpdateCover))
       .subscribe(() => this.updateCover());
   }

@@ -66,7 +66,7 @@ The properties in `ampd.conf` are only applied if...
 
 ### Installation as a service
 #### init.d
-The jar file can be used as a service out-of-the-box. Just create a symlink to `/etc/.init.d` 
+The jar file can be used as a service out-of-the-box. Just create a symlink to `/etc/init.d` 
 and you're good to go:
 
 ```

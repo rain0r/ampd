@@ -34,7 +34,7 @@
     "ngx-filesize": "^2.0.16",
     "replace-in-file": "^6.1.0",
     "roboto-fontface": "^0.10.0",
-    "rxjs": "^6.6.3",
+    "rxjs": "^6.6.6",
     "tslib": "^2.0.3",
     "zone.js": "~0.10.3"
   },

@@ -21,6 +21,8 @@ ampd is a web-based client for [MPD](https://www.musicpd.org/). It is build with
 * JavaScript needed
 * Only one mpd server supported
 
+---
+
 Developers go this way: [DEVELOPING.md](DEVELOPING.md)
 
 ## Screenshots

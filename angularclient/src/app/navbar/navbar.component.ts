@@ -8,6 +8,8 @@ import { MpdCommands } from "../shared/mpd/mpd-commands.enum";
 import { MpdService } from "../shared/services/mpd.service";
 import { WebSocketService } from "../shared/services/web-socket.service";
 import { MpdModeService } from "../shared/services/mpd-mode.service";
+import { MatDialog } from "@angular/material/dialog";
+import { HelpModalComponent } from "./help-dialog/help-modal.component";
 
 @Component({
   selector: "app-navbar",
@@ -20,6 +22,7 @@ export class NavbarComponent {
   private currentState = "stop";
 
   constructor(
+    private dialog: MatDialog,
     private mpdModeService: MpdModeService,
     private mpdService: MpdService,
     private router: Router,
@@ -32,50 +35,6 @@ export class NavbarComponent {
     this.mpdService.currentState.subscribe(
       (state) => (this.currentState = state)
     );
-  }
-
-  @HostListener("document:keydown.1", ["$event"])
-  on1KeydownHandler(event: KeyboardEvent): void {
-    // Ignore events that come from input elements
-    const isFromInput = (event.target as HTMLInputElement).tagName === "INPUT";
-    if (!isFromInput) {
-      event.preventDefault();
-      // Go to the queue view
-      void this.router.navigate(["/"]);
-    }
-  }
-
-  @HostListener("document:keydown.2", ["$event"])
-  on2KeydownHandler(event: KeyboardEvent): void {
-    // Ignore events that come from input elements
-    const isFromInput = (event.target as HTMLInputElement).tagName === "INPUT";
-    if (!isFromInput) {
-      event.preventDefault();
-      // Go to the browse view
-      void this.router.navigate(["/browse"]);
-    }
-  }
-
-  @HostListener("document:keydown.3", ["$event"])
-  on3KeydownHandler(event: KeyboardEvent): void {
-    // Ignore events that come from input elements
-    const isFromInput = (event.target as HTMLInputElement).tagName === "INPUT";
-    if (!isFromInput) {
-      event.preventDefault();
-      // Go to the search view
-      void this.router.navigate(["/search"]);
-    }
-  }
-
-  @HostListener("document:keydown.4", ["$event"])
-  on4KeydownHandler(event: KeyboardEvent): void {
-    // Ignore events that come from input elements
-    const isFromInput = (event.target as HTMLInputElement).tagName === "INPUT";
-    if (!isFromInput) {
-      event.preventDefault();
-      // Go to the settings view
-      void this.router.navigate(["/settings"]);
-    }
   }
 
   @HostListener("document:keydown", ["$event"])
@@ -91,33 +50,76 @@ export class NavbarComponent {
       return;
     }
 
-    let command;
     switch (event.key) {
+      // Player controls
       case "ArrowLeft": // Left: Previous track
-        command = MpdCommands.SET_PREV;
+        this.webSocketService.send(MpdCommands.SET_PREV);
         break;
       case "ArrowRight": // Right: Next track
-        command = MpdCommands.SET_NEXT;
+        this.webSocketService.send(MpdCommands.SET_NEXT);
         break;
       case "p":
       case " ": // Space or 'p': pause
-        if (this.currentState === "pause") {
-          command = MpdCommands.SET_PLAY;
-        } else if (this.currentState === "play") {
-          command = MpdCommands.SET_PAUSE;
-        }
+        this.togglePause();
+        break;
+      // Navigate to another view
+      case "1":
+        void this.router.navigate(["/"]);
+        break;
+      case "2":
+        void this.router.navigate(["/browse"]);
+        break;
+      case "3":
+        void this.router.navigate(["/search"]);
+        break;
+      case "4":
+        void this.router.navigate(["/settings"]);
+        break;
+      // MPD modes controls
+      case "r":
+        this.mpdModeService.toggleCtrlFromInput("repeat");
         break;
       case "z":
-        console.log("catched z");
         this.mpdModeService.toggleCtrlFromInput("random");
+        break;
+      case "y":
+        this.mpdModeService.toggleCtrlFromInput("single");
+        break;
+      case "R":
+        this.mpdModeService.toggleCtrlFromInput("consume");
+        break;
+      case "x":
+        this.mpdModeService.toggleCtrlFromInput("crossfade");
+        break;
+      // Display help modal
+      case "h":
+      case "?":
+        this.openHelpModal();
         break;
       default:
         // Ignore it
         return;
     }
+  }
+
+  private openHelpModal(): void {
+    this.dialog.open(HelpModalComponent, {
+      autoFocus: true,
+      height: "50%",
+      width: "80%",
+      panelClass: this.settingsService.isDarkTheme$.value ? "dark-theme" : "",
+    });
+  }
+
+  private togglePause(): void {
+    let command;
+    if (this.currentState === "pause") {
+      command = MpdCommands.SET_PLAY;
+    } else if (this.currentState === "play") {
+      command = MpdCommands.SET_PAUSE;
+    }
     if (command) {
       this.webSocketService.send(command);
-      event.preventDefault();
     }
   }
 }

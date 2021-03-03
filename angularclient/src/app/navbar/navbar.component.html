@@ -3,7 +3,7 @@
     [ngClass]="{ 'dark-theme': isDarkTheme | async }"
 >
   <mat-toolbar class="toolbar" color="primary">
-    <button mat-button [routerLink]="['/']" >
+    <button mat-button [routerLink]="['/']">
       <mat-icon>format_list_bulleted</mat-icon>
       <span fxHide.lt-md>
         Queue
@@ -29,7 +29,8 @@
     </button>
 
     <span class="fill-space"></span>
-    <span [routerLink]="['/']" fxHide.lt-md class="mono space-right clickable" style="color:white !important;">ampd</span>
+    <span [routerLink]="['/']" fxHide.lt-md class="mono space-right clickable"
+          style="color:white !important;">ampd</span>
     <div [ngSwitch]="connState|async" fxLayoutAlign="center center">
       <mat-spinner color="accent" diameter="30" *ngSwitchCase="0"></mat-spinner>
       <mat-icon *ngSwitchCase="1">cloud</mat-icon>

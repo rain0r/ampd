@@ -41,13 +41,9 @@ export class NavbarComponent {
   @HostListener("document:keydown", ["$event"])
   handleKeyDown(event: KeyboardEvent): void {
     const inputElement = event.target as HTMLInputElement;
-    if (inputElement.tagName === "MAT-SLIDER") {
-      /* We want to change the volume (with the keyboard) - not skip the track. */
-      return;
-    }
 
-    if (inputElement.tagName === "INPUT") {
-      /* We want to search for something - not skip the track. */
+    /* We ignore keys coming from input fields */
+    if (inputElement.tagName === "MAT-SLIDER" || inputElement.tagName === "INPUT") {
       return;
     }
 

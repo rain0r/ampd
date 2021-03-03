@@ -8,6 +8,7 @@
       value="random"
       [checked]="controlPanel.random"
       (change)="controlPanel.random = $event.source.checked"
+      title="Toggle with 'z'"
   >
     <mat-icon>
       shuffle
@@ -20,6 +21,7 @@
       value="consume"
       [checked]="controlPanel.consume"
       (change)="controlPanel.consume = $event.source.checked"
+      title="Toggle with 'R'"
   >
     <mat-icon>
       whatshot
@@ -32,6 +34,7 @@
       value="single"
       [checked]="controlPanel.single"
       (change)="controlPanel.single = $event.source.checked"
+      title="Toggle with 'y'"
   >
     <mat-icon>
       star_border
@@ -44,6 +47,7 @@
       value="crossfade"
       [checked]="controlPanel.crossfade"
       (change)="controlPanel.crossfade = $event.source.checked"
+      title="Toggle with 'x'"
   >
     <mat-icon>
       compare_arrows
@@ -56,6 +60,7 @@
       value="repeat"
       [checked]="controlPanel.repeat"
       (change)="controlPanel.repeat = $event.source.checked"
+      title="Toggle with 'r'"
   >
     <mat-icon>
       repeat

@@ -36,8 +36,8 @@ To persist these options, create a config file. See chapter `Installation`.
 `ampd` has some shortcuts built in:
 
 * `<space>` or `p`: Pauses the current running song. If the browser focus is on another button, that button may be triggered.
-* `<arrow right>` Next song.
 * `<arrow left>`: Previous song.
+* `<arrow right>` Next song.
 * `f`: Sets the focus to the filter. This is enabled on both the `Queue` and `Browse` view.
 * `1`: Navigate to the queue view
 * `2`: Navigate to the browse view

@@ -3,6 +3,26 @@
 ampd is a web-based client for [MPD](https://www.musicpd.org/). It is build with `Angular` and
 `Spring Boot`.
 
+**Features**
+* Modern and responsive UI
+* No installation needed: distributed as `jar`-file
+* Album Cover Art
+* Support for MusicBrainz Cover Art API
+* Storing & using playlists
+* Directory browser
+* Database search
+* Light and dark theme included
+* Customizable front- and backend
+* Support `ncmcpp`-like shortcuts
+* Internet radio support
+
+**Limitations**
+* JRE 11 or higher needed
+* JavaScript needed
+* Only one mpd server supported
+
+Developers go this way: [DEVELOPING.md](DEVELOPING.md)
+
 ## Screenshots
 
 Desktop (dark theme)             |  Mobile (light heme)

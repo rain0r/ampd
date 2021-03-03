@@ -29,7 +29,7 @@ export class SettingsService {
    * Since we want this to be automatically applied, we store it in a subject.
    * Dark theme is default active.
    */
-  private isDarkTheme$ = new BehaviorSubject(true);
+  isDarkTheme$ = new BehaviorSubject(true);
 
   private isDisplayCovers$ = new BehaviorSubject(true);
 

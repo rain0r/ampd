@@ -57,7 +57,9 @@ export class TrackTableComponent {
   }
 
   openCoverModal(): void {
-    const dialogRef = this.dialog.open(SavePlaylistModalComponent);
+    const dialogRef = this.dialog.open(SavePlaylistModalComponent, {
+      panelClass: this.settingsService.isDarkTheme$.value ? "dark-theme" : "",
+    });
     dialogRef.afterClosed().subscribe((playlistName: string) => {
       if (!playlistName) {
         return;

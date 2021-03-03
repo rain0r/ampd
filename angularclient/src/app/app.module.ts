@@ -65,6 +65,8 @@ import { ThemeComponent } from "./settings/theme/theme.component";
 import { DisplayCoverComponent } from "./settings/display-cover/display-cover.component";
 import { DisplaySavePlaylistComponent } from "./settings/display-save-playlist/display-save-playlist.component";
 import { TabTitleComponent } from "./settings/tab-title/tab-title.component";
+import { HelpModalComponent } from "./navbar/help-dialog/help-modal.component";
+import { MapEntriesPipe } from "./shared/pipes/map-entries.pipe";
 
 @NgModule({
   declarations: [
@@ -98,6 +100,8 @@ import { TabTitleComponent } from "./settings/tab-title/tab-title.component";
     DisplayCoverComponent,
     DisplaySavePlaylistComponent,
     TabTitleComponent,
+    HelpModalComponent,
+    MapEntriesPipe,
   ],
   imports: [
     AppRoutingModule,

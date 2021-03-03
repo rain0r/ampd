@@ -7,6 +7,7 @@ import { Filterable } from "../filterable";
 import { MatDialog } from "@angular/material/dialog";
 import { PlaylistInfoModalComponent } from "./playlist-info-modal/playlist-info-modal.component";
 import { MpdCommands } from "../../shared/mpd/mpd-commands.enum";
+import { SettingsService } from "../../shared/services/settings.service";
 
 @Component({
   selector: "app-playlists",
@@ -17,10 +18,11 @@ export class PlaylistsComponent extends Filterable {
   @Input() playlistQueue: Playlist[] = [];
 
   constructor(
-    private notificationService: NotificationService,
-    private webSocketService: WebSocketService,
+    private dialog: MatDialog,
     private messageService: MessageService,
-    private dialog: MatDialog
+    private notificationService: NotificationService,
+    private settingsService: SettingsService,
+    private webSocketService: WebSocketService
   ) {
     super(messageService);
   }
@@ -37,6 +39,7 @@ export class PlaylistsComponent extends Filterable {
     this.dialog.open(PlaylistInfoModalComponent, {
       width: "70%",
       data: playlist,
+      panelClass: this.settingsService.isDarkTheme$.value ? "dark-theme" : "",
     });
   }
 }

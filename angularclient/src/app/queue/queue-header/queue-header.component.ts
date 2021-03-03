@@ -47,6 +47,7 @@ export class QueueHeaderComponent implements OnInit {
     this.dialog.open(CoverModalComponent, {
       autoFocus: false,
       data: this.currentTrack,
+      panelClass: this.settingsService.isDarkTheme$.value ? "dark-theme" : "",
     });
   }
 

@@ -11,7 +11,7 @@ Please make sure to use the releases named `ampd-with-context-<version>.jar` if 
 
 ```apache
 <VirtualHost *:80>
-    ServerName localhost
+    ServerName your-server
     Include /etc/apache2/vhosts.d/default_vhost.include
 
     ProxyPass           "/ampd" "http://127.0.0.1:8080/"
@@ -21,14 +21,13 @@ Please make sure to use the releases named `ampd-with-context-<version>.jar` if 
     RewriteCond         %{HTTP:Connection} upgrade [NC]
     RewriteRule         ^/ampd?(.*) "ws://127.0.0.1:8080/$1" [P,L]
 </VirtualHost>
-</IfDefine>
 ```
 
 ### With SSL (`https://your-server/ampd`)
 
 ```apache
-<VirtualHost _default_:443>
- ServerName localhost
+<VirtualHost *:443>
+ ServerName your-server
  Include /etc/apache2/vhosts.d/default_vhost.include
  SSLEngine on
 
@@ -62,7 +61,10 @@ server {
         proxy_set_header X-Forwarded-Host $host;
         proxy_set_header X-Forwarded-Server $host;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        return 301 https://$server_name$request_uri;
+        proxy_pass http://localhost:8080;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "Upgrade";
     }
 }
 ```

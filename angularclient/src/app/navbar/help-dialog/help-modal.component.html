@@ -1,0 +1,26 @@
+<h2 mat-dialog-title>Shortcuts</h2>
+<mat-dialog-content fxLayout="column">
+
+  <div *ngFor="let shortcutSection of shortcuts"
+       fxFlex
+       fxLayoutGap="0.5rem grid"
+       fxLayout="row wrap">
+
+    <div *ngFor="let sc of shortcutSection|mapEntries"
+         fxFlex="30%"
+         fxLayout="row nowrap"
+         fxLayoutGap="0.5rem grid"
+    >
+
+      <div>
+        <span class="code mono">{{sc.key}}</span>
+      </div>
+      <div>{{sc.value}}</div>
+    </div>
+    <mat-divider fxFlex="100%"></mat-divider>
+  </div>
+
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Close</button>
+</mat-dialog-actions>

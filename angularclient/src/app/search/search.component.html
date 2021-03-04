@@ -14,7 +14,7 @@
           type="text"
           [(ngModel)]="search"
           (keydown.escape)="search = ''; resetSearch()"
-          (keyup)="applySearch($event.target.value)"
+          (keyup)="applySearch($event.target)"
       />
       <button
           mat-button
@@ -28,7 +28,8 @@
       </button>
     </mat-form-field>
   </div>
-  <div *ngIf="searchResultCount > 0" fxLayout="row nowrap" fxFlex="50%" fxFlex.lt-md="100%" fxLayoutAlign="end center" fxLayoutGap="0.5rem">
+  <div *ngIf="searchResultCount > 0" fxLayout="row nowrap" fxFlex="50%" fxFlex.lt-md="100%"
+       fxLayoutAlign="end center" fxLayoutGap="0.5rem">
     <div>
       <span fxFlex class="text-muted">{{ searchResultCount }} results </span>
     </div>

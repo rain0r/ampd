@@ -1,6 +1,6 @@
-import { MatTableDataSource } from "@angular/material/table";
-import { MpdTrack } from "../messages/incoming/mpd-track";
-import { ClickActions } from "./click-actions.enum";
+import {MatTableDataSource} from "@angular/material/table";
+import {ClickActions} from "./click-actions.enum";
+import {QueueTrack} from "../models/queue-track";
 
 /**
  * When including the track table in a view, some parameters are needed. Too much, to insert them
@@ -14,6 +14,7 @@ export class TrackTableData {
   set onPlayClick(value: ClickActions) {
     this._onPlayClick = value;
   }
+
   /**
    * If true, the table as an 'add title' colum.
    */
@@ -27,7 +28,7 @@ export class TrackTableData {
   /**
    * The tracks that will be displayed in the track table.
    */
-  private _dataSource = new MatTableDataSource<MpdTrack>();
+  private _dataSource = new MatTableDataSource<QueueTrack>();
 
   /**
    * Which columns this track table will have.
@@ -80,11 +81,11 @@ export class TrackTableData {
     this._clickable = value;
   }
 
-  get dataSource(): MatTableDataSource<MpdTrack> {
+  get dataSource(): MatTableDataSource<QueueTrack> {
     return this._dataSource;
   }
 
-  set dataSource(value: MatTableDataSource<MpdTrack>) {
+  set dataSource(value: MatTableDataSource<QueueTrack>) {
     this._dataSource = value;
   }
 

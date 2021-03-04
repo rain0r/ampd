@@ -24,6 +24,7 @@
     "@angular/router": "^11.2.3",
     "@stomp/ng2-stompjs": "^8.0.0",
     "@stomp/rx-stomp": "^0.3.5",
+    "@stomp/stompjs": "^6.1.0",
     "acorn": "^7.4.1",
     "dateformat": "^3.0.3",
     "kind-of": ">=6.0.3",

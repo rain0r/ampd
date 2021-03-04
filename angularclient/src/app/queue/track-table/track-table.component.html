@@ -4,7 +4,7 @@
       <input
           #filterInputElem
           (keydown.escape)="resetFilter()"
-          (keyup)="applyFilter($event.target.value)"
+          (keyup)="applyFilter($event.target)"
           [(ngModel)]="dataSource.filter"
           autocomplete="off"
           matInput

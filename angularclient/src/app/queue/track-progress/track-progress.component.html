@@ -1,6 +1,6 @@
 <div fxLayout="row nowrap" fxLayoutAlign="center center"
      fxLayoutGap.gt-md="0.4rem"
-     *ngIf="(state|async) !== 'stop' && currentTrack|async as track ">
+     *ngIf="(state|async) !== 'stop' && (currentTrack|async) as track ">
   <div>
     {{ track.elapsed | secondsToMmSs }}
   </div>

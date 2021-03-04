@@ -78,7 +78,11 @@ export class TrackTableComponent {
     });
   }
 
-  applyFilter(filterValue: string): void {
+  applyFilter(eventTarget: EventTarget | null): void {
+    if (!eventTarget) {
+      return;
+    }
+    const filterValue = (<HTMLInputElement>eventTarget).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 

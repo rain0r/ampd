@@ -53,7 +53,7 @@ export class MpdModeService {
     });
   }
 
-  private showMessage(tmpControlPanel: ControlPanel) {
+  private showMessage(tmpControlPanel: ControlPanel): void {
     for (const opt of this.controlPanelOpts) {
       if (tmpControlPanel[opt] !== this.controlPanel[opt]) {
         const on = this.controlPanel[opt] ? "on" : "off";

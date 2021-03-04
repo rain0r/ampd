@@ -114,7 +114,7 @@ export class TrackTableComponent {
     this.queueDuration = this.sumTrackDuration();
   }
 
-  private buildTableData() {
+  private buildTableData(): TrackTableData {
     const trackTable = new TrackTableData();
     trackTable.dataSource = this.dataSource;
     trackTable.clickable = true;
@@ -147,7 +147,7 @@ export class TrackTableComponent {
     return ret;
   }
 
-  private getStateSubscription() {
+  private getStateSubscription(): void {
     this.mpdService.currentState.subscribe(
       (state) => (this.currentState = state)
     );

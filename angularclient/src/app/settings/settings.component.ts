@@ -33,7 +33,6 @@ export class SettingsComponent {
     this.coverCacheUsage = this.settingsService.getCoverCacheDiskUsage();
     this.backendSettings = this.settingsService.getBackendSettings();
     this.coverBlacklist = this.settingsService.getCoverBlacklist();
-
     // Frontend stuff
     this.frontendSettings = this.settingsService.getFrontendSettings();
   }
@@ -49,12 +48,12 @@ export class SettingsComponent {
     this.notificationService.popUp("Saved settings.");
   }
 
-  private getBackendAddr() {
+  private getBackendAddr(): string {
     // Return the saved backend addr
     return this.settingsService.getBackendContextAddr();
   }
 
-  private buildSettingsForm() {
+  private buildSettingsForm(): FormGroup {
     return this.formBuilder.group({
       backendAddr: [this.getBackendAddr(), Validators.required],
     });

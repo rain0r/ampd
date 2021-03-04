@@ -80,7 +80,7 @@ export class QueueHeaderComponent implements OnInit {
   /**
    * Listens for track changes. If a new track is played, trigger the updateCover-method.
    */
-  private getTrackSubscription() {
+  private getTrackSubscription(): void {
     let first = true;
     this.mpdService.currentTrack.subscribe((queueTrack) => {
       this.currentTrack = queueTrack;
@@ -94,7 +94,7 @@ export class QueueHeaderComponent implements OnInit {
   /**
    * Listens for internal messages. If we get the message to update the cover, call the method.
    */
-  private buildMessageReceiver() {
+  private buildMessageReceiver(): void {
     this.messageService.message
       .pipe(filter((msg) => msg.type === InternalMessageType.UpdateCover))
       .subscribe(() => this.updateCover());

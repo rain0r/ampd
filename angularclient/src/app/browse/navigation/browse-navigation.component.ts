@@ -120,7 +120,7 @@ export class BrowseNavigationComponent implements OnInit {
     } as FilterMessage);
   }
 
-  private isTracksOnly(browseInfo: BrowseInfo) {
+  private isTracksOnly(browseInfo: BrowseInfo): boolean {
     return (
       browseInfo.dirQueue.length === 0 &&
       browseInfo.playlistQueue.length === 0 &&

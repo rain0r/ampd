@@ -27,7 +27,7 @@ export class BrowseService {
     });
   }
 
-  private clearBrowseInfo() {
+  private clearBrowseInfo(): void {
     this.browseInfo$.next(new BrowseInfo());
   }
 
@@ -50,7 +50,7 @@ export class BrowseService {
     this.browseInfo$.next(newBrowseInfo);
   }
 
-  private buildMsgReceiver() {
+  private buildMsgReceiver(): void {
     this.webSocketService
       .getBrowseSubscription()
       .subscribe((message: BrowseMsgPayload) => this.onBrowseResponse(message));

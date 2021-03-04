@@ -16,6 +16,7 @@ module.exports = {
     '@typescript-eslint/unbound-method': 0,
     'prettier/prettier': 'error',
     '@typescript-eslint/member-ordering': 1,
+    "@typescript-eslint/explicit-function-return-type": 1,
     '@typescript-eslint/explicit-member-accessibility': [
       'error',
       {

@@ -1,12 +1,12 @@
 import { Observable } from "rxjs";
 
 export class FrontendSettings {
-  private _ampdVersion: string;
-  private _gitCommitId: string;
-  private _isDarkTheme: Observable<boolean>;
-  private _isDisplayCovers: Observable<boolean>;
-  private _isDisplaySavePlaylist: Observable<boolean>;
-  private _isSetTabTitle: Observable<boolean>;
+  private _ampdVersion = "";
+  private _gitCommitId = "";
+  private _isDarkTheme: Observable<boolean> = new Observable();
+  private _isDisplayCovers: Observable<boolean> = new Observable();
+  private _isDisplaySavePlaylist: Observable<boolean> = new Observable();
+  private _isSetTabTitle: Observable<boolean> = new Observable();
 
   get ampdVersion(): string {
     return this._ampdVersion;

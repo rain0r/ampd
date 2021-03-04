@@ -1,15 +1,21 @@
-import {Injectable} from "@angular/core";
-import {MpdCommands} from "../mpd/mpd-commands.enum";
-import {ControlPanel} from "../messages/incoming/control-panel";
-import {NotificationService} from "./notification.service";
-import {MpdService} from "./mpd.service";
-import {WebSocketService} from "./web-socket.service";
+import { Injectable } from "@angular/core";
+import { MpdCommands } from "../mpd/mpd-commands.enum";
+import { ControlPanel } from "../messages/incoming/control-panel";
+import { NotificationService } from "./notification.service";
+import { MpdService } from "./mpd.service";
+import { WebSocketService } from "./web-socket.service";
 
 @Injectable({
   providedIn: "root",
 })
 export class MpdModeService {
-  controlPanel: ControlPanel;
+  private controlPanel: ControlPanel = {
+    random: false,
+    consume: false,
+    single: false,
+    crossfade: false,
+    repeat: false,
+  } as ControlPanel;
   private controlPanelOpts = [
     "random",
     "consume",
@@ -19,20 +25,20 @@ export class MpdModeService {
   ];
 
   constructor(
-      private notificationService: NotificationService,
-      private mpdService: MpdService,
-      private webSocketService: WebSocketService
+    private notificationService: NotificationService,
+    private mpdService: MpdService,
+    private webSocketService: WebSocketService
   ) {
     this.mpdService.controlPanel.subscribe(
-        (panel) => (this.controlPanel = panel)
+      (panel) => (this.controlPanel = panel)
     );
   }
 
   toggleCtrlFromInput(changedKey: string): void {
-    const tmpControlPanel = {...this.controlPanel};
+    const tmpControlPanel = { ...this.controlPanel };
     for (const [key, value] of Object.entries(this.controlPanel)) {
       if (key === changedKey) {
-        this.controlPanel[key] = !value;
+        this.controlPanel[key as keyof ControlPanel] = !value;
       }
     }
     this.showMessage(tmpControlPanel);
@@ -43,9 +49,9 @@ export class MpdModeService {
 
   toggleCtrl(changedKey: string): void {
     // pass all key:value pairs from an object
-    const tmpControlPanel = {...this.controlPanel};
+    const tmpControlPanel = { ...this.controlPanel };
     for (const key in this.controlPanel) {
-      this.controlPanel[key] = changedKey.includes(key);
+      this.controlPanel[key as keyof ControlPanel] = changedKey.includes(key);
     }
     this.showMessage(tmpControlPanel);
     this.webSocketService.sendData(MpdCommands.TOGGLE_CONTROL, {
@@ -54,22 +60,14 @@ export class MpdModeService {
   }
 
   private showMessage(tmpControlPanel: ControlPanel): void {
-
-    Object.keys(this.controlPanel)
-    .forEach(key => {
-      console.log(key, this.controlPanel[key as keyof ControlPanel]);
-      if (tmpControlPanel[key] !== this.controlPanel[key]) {
-        const on = this.controlPanel[key] ? "on" : "off";
-        this.notificationService.popUp(`Turned ${key} ${on}`);
+    for (const opt of this.controlPanelOpts) {
+      if (
+        tmpControlPanel[opt as keyof ControlPanel] !==
+        this.controlPanel[opt as keyof ControlPanel]
+      ) {
+        const on = this.controlPanel[opt as keyof ControlPanel] ? "on" : "off";
+        this.notificationService.popUp(`Turned ${opt} ${on}`);
       }
-    });
-
-    // for (const opt of this.controlPanelOpts) {
-    //   if (tmpControlPanel[opt] !== this.controlPanel[opt]) {
-    //     debugger
-    //     const on = this.controlPanel[opt] ? "on" : "off";
-    //     this.notificationService.popUp(`Turned ${opt} ${on}`);
-    //   }
-    // }
+    }
   }
 }

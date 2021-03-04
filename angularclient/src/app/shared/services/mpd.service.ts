@@ -1,14 +1,14 @@
-import {Injectable} from "@angular/core";
-import {WebSocketService} from "./web-socket.service";
-import {StateMsgPayload} from "../messages/incoming/state-msg-payload";
-import {ControlPanel} from "../messages/incoming/control-panel";
-import {QueueTrack} from "../models/queue-track";
-import {Observable, Subject} from "rxjs";
-import {filter, map} from "rxjs/operators";
-import {PlaylistSaved} from "../messages/incoming/playlist-saved";
-import {HttpClient} from "@angular/common/http";
-import {PlaylistInfo} from "../models/playlist-info";
-import {SettingsService} from "./settings.service";
+import { Injectable } from "@angular/core";
+import { WebSocketService } from "./web-socket.service";
+import { StateMsgPayload } from "../messages/incoming/state-msg-payload";
+import { ControlPanel } from "../messages/incoming/control-panel";
+import { QueueTrack } from "../models/queue-track";
+import { Observable, Subject } from "rxjs";
+import { filter, map } from "rxjs/operators";
+import { PlaylistSaved } from "../messages/incoming/playlist-saved";
+import { HttpClient } from "@angular/common/http";
+import { PlaylistInfo } from "../models/playlist-info";
+import { SettingsService } from "./settings.service";
 
 @Injectable({
   providedIn: "root",
@@ -28,9 +28,9 @@ export class MpdService {
   private volume$ = new Subject<number>();
 
   constructor(
-      private webSocketService: WebSocketService,
-      private http: HttpClient,
-      private settingsService: SettingsService
+    private webSocketService: WebSocketService,
+    private http: HttpClient,
+    private settingsService: SettingsService
   ) {
     this.init();
     this.controlPanel = this.controlPanel$.asObservable();
@@ -42,7 +42,7 @@ export class MpdService {
 
   getPlaylistInfo(playlistName: string): Observable<PlaylistInfo> {
     return this.http.get<PlaylistInfo>(
-        this.settingsService.getPlaylistInfoUrl(playlistName)
+      this.settingsService.getPlaylistInfoUrl(playlistName)
     );
   }
 
@@ -69,8 +69,8 @@ export class MpdService {
   }
 
   private buildQueueTrack(
-      payload: StateMsgPayload,
-      trackChanged: boolean
+    payload: StateMsgPayload,
+    trackChanged: boolean
   ): QueueTrack {
     const queueTrack = new QueueTrack(payload.currentTrack);
     queueTrack.coverUrl = this.buildCoverUrl(payload.currentTrack.file);
@@ -83,7 +83,7 @@ export class MpdService {
 
   private buildCoverUrl(file: string): string {
     return `${this.settingsService.getFindTrackCoverUrl()}?path=${encodeURIComponent(
-        file
+      file
     )}`;
   }
 
@@ -94,18 +94,21 @@ export class MpdService {
 
   private buildStateSubscription(): void {
     this.webSocketService
-    .getStateSubscription()
-    .pipe(
+      .getStateSubscription()
+      .pipe(
         map((msg) => this.buildState(msg)),
-        filter((queueTrack) => queueTrack.artistName === "" && queueTrack.title === "")
-    )
-    .subscribe((queueTrack) => this.currentTrack$.next(queueTrack));
+        filter(
+          (queueTrack) =>
+            queueTrack.artistName === "" && queueTrack.title === ""
+        )
+      )
+      .subscribe((queueTrack) => this.currentTrack$.next(queueTrack));
   }
 
   private buildPlaylistSavedSubscription(): void {
     this.webSocketService
-    .getPlaylistSavedSubscription()
-    .subscribe((msg) => this.playlistSaved$.next(msg));
+      .getPlaylistSavedSubscription()
+      .subscribe((msg) => this.playlistSaved$.next(msg));
   }
 
   private buildDirForTrack(file: string): string {

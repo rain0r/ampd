@@ -92,7 +92,7 @@
         </mat-card-footer>
       </mat-card>
       <!-- Cover blacklist -->
-      <mat-card *ngIf="settings.mbCoverService && coverBlacklist | async as blacklist">
+      <mat-card *ngIf="settings.mbCoverService && (coverBlacklist|async) as blacklist">
         <mat-card-header>
           <mat-card-title>Cover blacklist</mat-card-title>
         </mat-card-header>

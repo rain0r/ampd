@@ -39,7 +39,7 @@ export class DirectoriesComponent extends Filterable {
     this.dirQueryParam = this.dirQueryParam$.asObservable();
     this.coverSizeClass = responsiveCoverSizeService.getCoverCssClass();
     this.activatedRoute.queryParamMap.subscribe((params) => {
-      if (params.has("dir") && params.get("dir")) {
+      if (params.has("dir") && params.get("dir") !== null) {
         this.dirQueryParam$.next(params.get("dir"));
       } else {
         this.dirQueryParam$.next("/");

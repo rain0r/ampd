@@ -88,7 +88,6 @@ export class MpdService {
     queueTrack.progress = payload.serverStatus.elapsedTime;
     queueTrack.changed = trackChanged;
     queueTrack.dir = this.buildDirForTrack(payload.currentTrack.file);
-    console.log("buildQueueTrack, return:", queueTrack)
     return queueTrack;
   }
 
@@ -110,7 +109,7 @@ export class MpdService {
         map((msg) => this.buildState(msg)),
         filter(
             (queueTrack) =>
-                queueTrack.artistName === "" && queueTrack.title === ""
+                queueTrack.artistName !== "" && queueTrack.title !== ""
         )
     )
     .subscribe((queueTrack) => this.currentTrack$.next(queueTrack));

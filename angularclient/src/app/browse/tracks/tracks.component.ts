@@ -1,13 +1,13 @@
-import {Component, Input, OnInit} from "@angular/core";
-import {ActivatedRoute} from "@angular/router";
-import {ResponsiveCoverSizeService} from "../../shared/services/responsive-cover-size.service";
-import {Observable} from "rxjs";
-import {TrackTableData} from "../../shared/track-table/track-table-data";
-import {MatTableDataSource} from "@angular/material/table";
-import {ClickActions} from "../../shared/track-table/click-actions.enum";
-import {SettingsService} from "../../shared/services/settings.service";
-import {QueueTrack} from "../../shared/models/queue-track";
-import {MpdTrack} from "../../shared/messages/incoming/mpd-track";
+import { Component, Input, OnInit } from "@angular/core";
+import { ActivatedRoute } from "@angular/router";
+import { ResponsiveCoverSizeService } from "../../shared/services/responsive-cover-size.service";
+import { Observable } from "rxjs";
+import { TrackTableData } from "../../shared/track-table/track-table-data";
+import { MatTableDataSource } from "@angular/material/table";
+import { ClickActions } from "../../shared/track-table/click-actions.enum";
+import { SettingsService } from "../../shared/services/settings.service";
+import { QueueTrack } from "../../shared/models/queue-track";
+import { MpdTrack } from "../../shared/messages/incoming/mpd-track";
 
 @Component({
   selector: "app-tracks",
@@ -23,13 +23,13 @@ export class TracksComponent implements OnInit {
   queueDuration = 0;
 
   constructor(
-      private activatedRoute: ActivatedRoute,
-      private responsiveCoverSizeService: ResponsiveCoverSizeService,
-      private settingsService: SettingsService
+    private activatedRoute: ActivatedRoute,
+    private responsiveCoverSizeService: ResponsiveCoverSizeService,
+    private settingsService: SettingsService
   ) {
     this.coverSizeClass = responsiveCoverSizeService.getCoverCssClass();
     this.getParamDir =
-        this.activatedRoute.snapshot.queryParamMap.get("dir") || "/";
+      this.activatedRoute.snapshot.queryParamMap.get("dir") || "/";
   }
 
   ngOnInit(): void {
@@ -40,7 +40,7 @@ export class TracksComponent implements OnInit {
   coverUrl(): string {
     // Add a query param to trigger an image change in the browser
     return `${this.settingsService.getFindDirCoverUrl()}?path=${encodeURIComponent(
-        this.getParamDir
+      this.getParamDir
     )}`;
   }
 
@@ -56,7 +56,9 @@ export class TracksComponent implements OnInit {
     const trackTable = new TrackTableData();
     trackTable.addTitleColumn = true;
     trackTable.clickable = true;
-    trackTable.dataSource = new MatTableDataSource<QueueTrack>(this.mpdToQueueTrack(this.tracks));
+    trackTable.dataSource = new MatTableDataSource<QueueTrack>(
+      this.mpdToQueueTrack(this.tracks)
+    );
     trackTable.displayedColumns = this.getDisplayedColumns();
     trackTable.onPlayClick = ClickActions.AddPlayTrack;
     trackTable.notify = true;

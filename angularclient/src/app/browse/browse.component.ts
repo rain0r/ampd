@@ -1,7 +1,7 @@
-import {Component} from "@angular/core";
-import {BrowseInfo} from "../shared/models/browse-info";
-import {BrowseService} from "../shared/services/browse.service";
-import {map} from "rxjs/operators";
+import { Component } from "@angular/core";
+import { BrowseInfo } from "../shared/models/browse-info";
+import { BrowseService } from "../shared/services/browse.service";
+import { map } from "rxjs/operators";
 
 @Component({
   selector: "app-browse",
@@ -10,13 +10,13 @@ import {map} from "rxjs/operators";
 })
 export class BrowseComponent {
   browseInfo: BrowseInfo = new BrowseInfo();
-  isLoading: boolean = true;
+  isLoading = true;
 
   constructor(private browseService: BrowseService) {
     browseService.browseInfo.subscribe((info) => (this.browseInfo = info));
     browseService.browseInfo
-    .pipe(map((browseInfo) => browseInfo.isEmpty()))
-    .subscribe((empty) => (this.isLoading = empty));
+      .pipe(map((browseInfo) => browseInfo.isEmpty()))
+      .subscribe((empty) => (this.isLoading = empty));
   }
 
   onBackToTop(): void {

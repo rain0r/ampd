@@ -1,15 +1,15 @@
-import {Component, Input} from "@angular/core";
-import {ActivatedRoute, Router} from "@angular/router";
-import {MessageService} from "../../shared/services/message.service";
-import {NotificationService} from "../../shared/services/notification.service";
-import {WebSocketService} from "../../shared/services/web-socket.service";
-import {Filterable} from "../filterable";
-import {MpdCommands} from "../../shared/mpd/mpd-commands.enum";
+import { Component, Input } from "@angular/core";
+import { ActivatedRoute, Router } from "@angular/router";
+import { MessageService } from "../../shared/services/message.service";
+import { NotificationService } from "../../shared/services/notification.service";
+import { WebSocketService } from "../../shared/services/web-socket.service";
+import { Filterable } from "../filterable";
+import { MpdCommands } from "../../shared/mpd/mpd-commands.enum";
 
-import {ResponsiveCoverSizeService} from "../../shared/services/responsive-cover-size.service";
-import {BehaviorSubject, Observable} from "rxjs";
-import {SettingsService} from "../../shared/services/settings.service";
-import {Directory} from "../../shared/messages/incoming/directory";
+import { ResponsiveCoverSizeService } from "../../shared/services/responsive-cover-size.service";
+import { BehaviorSubject, Observable } from "rxjs";
+import { SettingsService } from "../../shared/services/settings.service";
+import { Directory } from "../../shared/messages/incoming/directory";
 
 @Component({
   selector: "app-directories",
@@ -27,13 +27,13 @@ export class DirectoriesComponent extends Filterable {
   private dirQueryParam$ = new BehaviorSubject<string>("/");
 
   constructor(
-      private activatedRoute: ActivatedRoute,
-      private messageService: MessageService,
-      private notificationService: NotificationService,
-      private responsiveCoverSizeService: ResponsiveCoverSizeService,
-      private router: Router,
-      private settingsService: SettingsService,
-      private webSocketService: WebSocketService
+    private activatedRoute: ActivatedRoute,
+    private messageService: MessageService,
+    private notificationService: NotificationService,
+    private responsiveCoverSizeService: ResponsiveCoverSizeService,
+    private router: Router,
+    private settingsService: SettingsService,
+    private webSocketService: WebSocketService
   ) {
     super(messageService);
     this.dirQueryParam = this.dirQueryParam$.asObservable();
@@ -68,7 +68,7 @@ export class DirectoriesComponent extends Filterable {
 
   getAlbumCoverUrl(path: string): string {
     return `${this.settingsService.getFindDirCoverUrl()}?path=${encodeURIComponent(
-        path
+      path
     )}`;
   }
 

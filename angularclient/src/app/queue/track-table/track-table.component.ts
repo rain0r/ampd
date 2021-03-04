@@ -1,19 +1,19 @@
-import {Component, ElementRef, HostListener, ViewChild} from "@angular/core";
-import {MatTableDataSource} from "@angular/material/table";
+import { Component, ElementRef, HostListener, ViewChild } from "@angular/core";
+import { MatTableDataSource } from "@angular/material/table";
 
-import {WebSocketService} from "../../shared/services/web-socket.service";
-import {DeviceDetectorService} from "ngx-device-detector";
-import {QueuePayload} from "../../shared/messages/incoming/queue-payload";
-import {QueueTrack} from "../../shared/models/queue-track";
-import {MpdService} from "../../shared/services/mpd.service";
-import {MatDialog} from "@angular/material/dialog";
-import {SavePlaylistModalComponent} from "../save-playlist-modal/save-playlist-modal.component";
-import {NotificationService} from "../../shared/services/notification.service";
-import {TrackTableData} from "../../shared/track-table/track-table-data";
-import {ClickActions} from "../../shared/track-table/click-actions.enum";
-import {MpdCommands} from "../../shared/mpd/mpd-commands.enum";
-import {SettingsService} from "../../shared/services/settings.service";
-import {Observable} from "rxjs";
+import { WebSocketService } from "../../shared/services/web-socket.service";
+import { DeviceDetectorService } from "ngx-device-detector";
+import { QueuePayload } from "../../shared/messages/incoming/queue-payload";
+import { QueueTrack } from "../../shared/models/queue-track";
+import { MpdService } from "../../shared/services/mpd.service";
+import { MatDialog } from "@angular/material/dialog";
+import { SavePlaylistModalComponent } from "../save-playlist-modal/save-playlist-modal.component";
+import { NotificationService } from "../../shared/services/notification.service";
+import { TrackTableData } from "../../shared/track-table/track-table-data";
+import { ClickActions } from "../../shared/track-table/click-actions.enum";
+import { MpdCommands } from "../../shared/mpd/mpd-commands.enum";
+import { SettingsService } from "../../shared/services/settings.service";
+import { Observable } from "rxjs";
 
 @Component({
   selector: "app-track-table",
@@ -35,12 +35,12 @@ export class TrackTableComponent {
   queueDuration = 0;
 
   constructor(
-      private dialog: MatDialog,
-      private deviceService: DeviceDetectorService,
-      private webSocketService: WebSocketService,
-      private mpdService: MpdService,
-      private notificationService: NotificationService,
-      private settingsService: SettingsService
+    private dialog: MatDialog,
+    private deviceService: DeviceDetectorService,
+    private webSocketService: WebSocketService,
+    private mpdService: MpdService,
+    private notificationService: NotificationService,
+    private settingsService: SettingsService
   ) {
     this.buildMessageReceiver();
     this.getStateSubscription();
@@ -71,8 +71,8 @@ export class TrackTableComponent {
       });
       this.mpdService.playlistSaved.subscribe((msg) => {
         const text = msg.success
-            ? `Saved queue as playlist '${msg.playlistName}'`
-            : `Error saving queue as playlist '${msg.playlistName}'`;
+          ? `Saved queue as playlist '${msg.playlistName}'`
+          : `Error saving queue as playlist '${msg.playlistName}'`;
         this.notificationService.popUp(text);
       });
     });
@@ -92,17 +92,17 @@ export class TrackTableComponent {
 
   private getDisplayedColumns(): string[] {
     const displayedColumns = [
-      {name: "position", showMobile: false},
-      {name: "artistName", showMobile: true},
-      {name: "albumName", showMobile: false},
-      {name: "title", showMobile: true},
-      {name: "length", showMobile: false},
-      {name: "remove", showMobile: true},
+      { name: "position", showMobile: false },
+      { name: "artistName", showMobile: true },
+      { name: "albumName", showMobile: false },
+      { name: "title", showMobile: true },
+      { name: "length", showMobile: false },
+      { name: "remove", showMobile: true },
     ];
     const isMobile = this.deviceService.isMobile();
     return displayedColumns
-    .filter((cd) => !isMobile || cd.showMobile)
-    .map((cd) => cd.name);
+      .filter((cd) => !isMobile || cd.showMobile)
+      .map((cd) => cd.name);
   }
 
   private buildQueue(message: QueuePayload): void {
@@ -138,8 +138,8 @@ export class TrackTableComponent {
       }
     });
     this.webSocketService
-    .getQueueSubscription()
-    .subscribe((message: QueuePayload) => this.buildQueue(message));
+      .getQueueSubscription()
+      .subscribe((message: QueuePayload) => this.buildQueue(message));
   }
 
   /**
@@ -155,7 +155,7 @@ export class TrackTableComponent {
 
   private getStateSubscription(): void {
     this.mpdService.currentState.subscribe(
-        (state) => (this.currentState = state)
+      (state) => (this.currentState = state)
     );
   }
 }

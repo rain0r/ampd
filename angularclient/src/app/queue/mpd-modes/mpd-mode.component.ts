@@ -1,7 +1,7 @@
-import {Component} from "@angular/core";
-import {ControlPanel} from "../../shared/messages/incoming/control-panel";
-import {MpdService} from "../../shared/services/mpd.service";
-import {MpdModeService} from "../../shared/services/mpd-mode.service";
+import { Component } from "@angular/core";
+import { ControlPanel } from "../../shared/messages/incoming/control-panel";
+import { MpdService } from "../../shared/services/mpd.service";
+import { MpdModeService } from "../../shared/services/mpd-mode.service";
 
 @Component({
   selector: "app-mpd-modes",
@@ -13,15 +13,15 @@ export class MpdModeComponent {
   private currentState = "stop";
 
   constructor(
-      private mpdModeService: MpdModeService,
-      private mpdService: MpdService
+    private mpdModeService: MpdModeService,
+    private mpdService: MpdService
   ) {
     this.controlPanel = mpdService.initEmptyControlPanel();
     this.mpdService.controlPanel.subscribe(
-        (panel) => (this.controlPanel = panel)
+      (panel) => (this.controlPanel = panel)
     );
     this.mpdService.currentState.subscribe(
-        (state) => (this.currentState = state)
+      (state) => (this.currentState = state)
     );
   }
 

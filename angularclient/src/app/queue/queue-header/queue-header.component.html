@@ -5,10 +5,11 @@
   </span>
 </div>
 <ng-template #queueHeader>
+  {{ currentState|async }}
+  {{ currentTrack.title }}
   <div
       fxLayout="row wrap"
       fxLayoutAlign="space-between start"
-      *ngIf="(currentState|async) !== 'stop'"
   >
     <div fxFlex="1 0 55%" fxLayout="column">
       <div class="mat-h2 queue-sub-title" fxFlex="100%" title="Title: {{currentTrack.title}}">
@@ -41,8 +42,9 @@
           fxShow="false"
       ></mat-divider>
       <img
-          [src]=" currentTrack.coverUrl "
+          [alt]="'Cover of ' + currentTrack.albumName"
           class="album-art clickable"
+          [src]=" currentTrack.coverUrl "
           [ngClass]="[coverSizeClass|async]"
           (click)="openCoverModal()"
       />

@@ -1,6 +1,6 @@
-import {MatTableDataSource} from "@angular/material/table";
-import {ClickActions} from "./click-actions.enum";
-import {QueueTrack} from "../models/queue-track";
+import { MatTableDataSource } from "@angular/material/table";
+import { ClickActions } from "./click-actions.enum";
+import { QueueTrack } from "../models/queue-track";
 
 /**
  * When including the track table in a view, some parameters are needed. Too much, to insert them

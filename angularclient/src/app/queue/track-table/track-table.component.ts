@@ -53,7 +53,9 @@ export class TrackTableComponent {
       return;
     }
     event.preventDefault();
-    (this.filterInputElem.nativeElement as HTMLElement).focus();
+    if (this.filterInputElem) {
+      (this.filterInputElem.nativeElement as HTMLElement).focus();
+    }
   }
 
   openCoverModal(): void {

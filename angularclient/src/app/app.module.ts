@@ -28,7 +28,6 @@ import { MessageService } from "./shared/services/message.service";
 import { NotificationService } from "./shared/services/notification.service";
 import { SecondsToHhMmSsPipe } from "./shared/pipes/SecondsToHhMmSs";
 import { NavbarComponent } from "./navbar/navbar.component";
-import { DeviceDetectorModule } from "ngx-device-detector";
 import { HttpClientModule } from "@angular/common/http";
 import { MatIconModule } from "@angular/material/icon";
 import { MatSlideToggleModule } from "@angular/material/slide-toggle";
@@ -107,7 +106,6 @@ import { MapEntriesPipe } from "./shared/pipes/map-entries.pipe";
     AppRoutingModule,
     BrowserAnimationsModule,
     BrowserModule,
-    DeviceDetectorModule,
     FlexLayoutModule,
     FormsModule,
     HttpClientModule,

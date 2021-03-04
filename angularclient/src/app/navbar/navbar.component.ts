@@ -1,15 +1,15 @@
-import { Component, HostListener } from "@angular/core";
+import {Component, HostListener} from "@angular/core";
 
-import { RxStompService } from "@stomp/ng2-stompjs";
-import { Router } from "@angular/router";
-import { SettingsService } from "../shared/services/settings.service";
-import { BehaviorSubject, Observable } from "rxjs";
-import { MpdCommands } from "../shared/mpd/mpd-commands.enum";
-import { MpdService } from "../shared/services/mpd.service";
-import { WebSocketService } from "../shared/services/web-socket.service";
-import { MpdModeService } from "../shared/services/mpd-mode.service";
-import { MatDialog } from "@angular/material/dialog";
-import { HelpModalComponent } from "./help-dialog/help-modal.component";
+import {RxStompService} from "@stomp/ng2-stompjs";
+import {Router} from "@angular/router";
+import {SettingsService} from "../shared/services/settings.service";
+import {BehaviorSubject, Observable} from "rxjs";
+import {MpdCommands} from "../shared/mpd/mpd-commands.enum";
+import {MpdService} from "../shared/services/mpd.service";
+import {WebSocketService} from "../shared/services/web-socket.service";
+import {MpdModeService} from "../shared/services/mpd-mode.service";
+import {MatDialog} from "@angular/material/dialog";
+import {HelpModalComponent} from "./help-dialog/help-modal.component";
 
 @Component({
   selector: "app-navbar",
@@ -17,24 +17,24 @@ import { HelpModalComponent } from "./help-dialog/help-modal.component";
   styleUrls: ["./navbar.component.scss"],
 })
 export class NavbarComponent {
-  isDarkTheme: Observable<boolean>;
-  connState: Observable<number>;
+  isDarkTheme: Observable<boolean> = new Observable<boolean>();
+  connState: Observable<number> = new Observable<number>();
   private currentState = "stop";
   private helpModalOpen = new BehaviorSubject(false);
 
   constructor(
-    private dialog: MatDialog,
-    private mpdModeService: MpdModeService,
-    private mpdService: MpdService,
-    private router: Router,
-    private rxStompService: RxStompService,
-    private settingsService: SettingsService,
-    private webSocketService: WebSocketService
+      private dialog: MatDialog,
+      private mpdModeService: MpdModeService,
+      private mpdService: MpdService,
+      private router: Router,
+      private rxStompService: RxStompService,
+      private settingsService: SettingsService,
+      private webSocketService: WebSocketService
   ) {
     this.isDarkTheme = this.settingsService.isDarkTheme;
     this.connState = rxStompService.connectionState$;
     this.mpdService.currentState.subscribe(
-      (state) => (this.currentState = state)
+        (state) => (this.currentState = state)
     );
   }
 
@@ -44,14 +44,14 @@ export class NavbarComponent {
 
     /* We ignore keys coming from input fields */
     if (
-      inputElement.tagName === "MAT-SLIDER" ||
-      inputElement.tagName === "INPUT"
+        inputElement.tagName === "MAT-SLIDER" ||
+        inputElement.tagName === "INPUT"
     ) {
       return;
     }
 
     switch (event.key) {
-      // Player controls
+        // Player controls
       case "ArrowLeft": // Left: Previous track
         this.webSocketService.send(MpdCommands.SET_PREV);
         break;
@@ -62,7 +62,7 @@ export class NavbarComponent {
       case " ": // Space or 'p': pause
         this.togglePause();
         break;
-      // Navigate to another view
+        // Navigate to another view
       case "1":
         void this.router.navigate(["/"]);
         break;
@@ -75,7 +75,7 @@ export class NavbarComponent {
       case "4":
         void this.router.navigate(["/settings"]);
         break;
-      // MPD modes controls
+        // MPD modes controls
       case "r":
         this.mpdModeService.toggleCtrlFromInput("repeat");
         break;
@@ -91,7 +91,7 @@ export class NavbarComponent {
       case "x":
         this.mpdModeService.toggleCtrlFromInput("crossfade");
         break;
-      // Display help modal
+        // Display help modal
       case "h":
       case "?":
         this.openHelpModal();

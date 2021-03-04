@@ -1,5 +1,5 @@
-import { Component } from "@angular/core";
-import { Observable } from "rxjs";
+import {Component} from "@angular/core";
+import {Observable} from "rxjs";
 
 @Component({
   selector: "app-help-dialog",
@@ -7,7 +7,7 @@ import { Observable } from "rxjs";
   styleUrls: ["./help-modal.component.scss"],
 })
 export class HelpModalComponent {
-  isDarkTheme: Observable<boolean>;
+  isDarkTheme: Observable<boolean> = new Observable<boolean>();
   shortcuts = [
     // General
     new Map([["f", "Jump to the filter input field"]]),

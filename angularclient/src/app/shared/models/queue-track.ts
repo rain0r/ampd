@@ -1,7 +1,7 @@
-import { MpdTrack } from "../messages/incoming/mpd-track";
+import {MpdTrack} from "../messages/incoming/mpd-track";
 
 /**
- * A queue track represents a track - who knew it? - a track in the track table of the queue.
+ * A queue track represents a track in the track table of the queue.
  * It's based on a MpdTrack as defined in the javampd library but has some attributes added.
  */
 export class QueueTrack implements MpdTrack {

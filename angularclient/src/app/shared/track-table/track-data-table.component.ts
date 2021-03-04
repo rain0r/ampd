@@ -6,14 +6,14 @@ import {
   SimpleChanges,
   ViewChild,
 } from "@angular/core";
-import { MatSort } from "@angular/material/sort";
-import { WebSocketService } from "../services/web-socket.service";
-import { TrackTableData } from "./track-table-data";
-import { MpdTrack } from "../messages/incoming/mpd-track";
-import { NotificationService } from "../services/notification.service";
-import { MatPaginator, MatPaginatorIntl } from "@angular/material/paginator";
-import { ClickActions } from "./click-actions.enum";
-import { MpdCommands } from "../mpd/mpd-commands.enum";
+import {MatSort} from "@angular/material/sort";
+import {WebSocketService} from "../services/web-socket.service";
+import {TrackTableData} from "./track-table-data";
+import {NotificationService} from "../services/notification.service";
+import {MatPaginator, MatPaginatorIntl} from "@angular/material/paginator";
+import {ClickActions} from "./click-actions.enum";
+import {MpdCommands} from "../mpd/mpd-commands.enum";
+import {QueueTrack} from "../models/queue-track";
 
 @Component({
   selector: "app-track-data-table",
@@ -22,23 +22,23 @@ import { MpdCommands } from "../mpd/mpd-commands.enum";
 })
 export class TrackDataTableComponent implements OnChanges {
   @Input() trackTableData: TrackTableData = new TrackTableData();
-  // TODO @ViewChild("filterInputElem") filterInputElem: ElementRef;
-  @ViewChild(MatPaginator, { static: true })
+  @ViewChild(MatPaginator, {static: true})
   paginator: MatPaginator = new MatPaginator(
-    new MatPaginatorIntl(),
-    ChangeDetectorRef.prototype
+      new MatPaginatorIntl(),
+      ChangeDetectorRef.prototype
   );
-  @ViewChild(MatSort, { static: true }) sort: MatSort = new MatSort();
+  @ViewChild(MatSort, {static: true}) sort: MatSort = new MatSort();
 
   constructor(
-    private webSocketService: WebSocketService,
-    private notificationService: NotificationService
-  ) {}
+      private webSocketService: WebSocketService,
+      private notificationService: NotificationService
+  ) {
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
     if ("trackTableData" in changes) {
       const tableData: TrackTableData = <TrackTableData>(
-        changes.trackTableData.currentValue
+          changes.trackTableData.currentValue
       );
       if (tableData.dataSource.data.length > 0) {
         if (tableData.sortable) {
@@ -51,7 +51,7 @@ export class TrackDataTableComponent implements OnChanges {
     }
   }
 
-  onRowClick(track: MpdTrack): void {
+  onRowClick(track: QueueTrack): void {
     if (!this.trackTableData.clickable) {
       return;
     }
@@ -66,7 +66,7 @@ export class TrackDataTableComponent implements OnChanges {
         this.addPlayTrack(track);
         break;
       default:
-      // Ignore it
+        // Ignore it
     }
   }
 
@@ -79,11 +79,11 @@ export class TrackDataTableComponent implements OnChanges {
     }
   }
 
-  onAddTrack(track: MpdTrack): void {
+  onAddTrack(track: QueueTrack): void {
     this.addTrack(track);
   }
 
-  onPlayTrack(track: MpdTrack): void {
+  onPlayTrack(track: QueueTrack): void {
     switch (this.trackTableData.onPlayClick) {
       case ClickActions.PlayTrack:
         this.playTrack(track);
@@ -92,11 +92,11 @@ export class TrackDataTableComponent implements OnChanges {
         this.addPlayTrack(track);
         break;
       default:
-      // Ignore it
+        // Ignore it
     }
   }
 
-  private addPlayTrack(track: MpdTrack): void {
+  private addPlayTrack(track: QueueTrack): void {
     this.webSocketService.sendData(MpdCommands.ADD_PLAY_TRACK, {
       path: track.file,
     });
@@ -105,7 +105,7 @@ export class TrackDataTableComponent implements OnChanges {
     }
   }
 
-  private addTrack(track: MpdTrack): void {
+  private addTrack(track: QueueTrack): void {
     this.webSocketService.sendData(MpdCommands.ADD_TRACK, {
       path: track.file,
     });
@@ -114,7 +114,7 @@ export class TrackDataTableComponent implements OnChanges {
     }
   }
 
-  private playTrack(track: MpdTrack): void {
+  private playTrack(track: QueueTrack): void {
     this.webSocketService.sendData(MpdCommands.PLAY_TRACK, {
       path: track.file,
     });

@@ -1,20 +1,14 @@
-import {
-  Component,
-  ElementRef,
-  HostListener,
-  OnInit,
-  ViewChild,
-} from "@angular/core";
-import { ActivatedRoute, Router } from "@angular/router";
-import { BrowseService } from "../../shared/services/browse.service";
-import { MessageService } from "../../shared/services/message.service";
-import { NotificationService } from "../../shared/services/notification.service";
-import { WebSocketService } from "../../shared/services/web-socket.service";
-import { InternalMessageType } from "../../shared/messages/internal/internal-message-type.enum";
-import { FilterMessage } from "../../shared/messages/internal/message-types/filter-message";
-import { MpdCommands } from "../../shared/mpd/mpd-commands.enum";
-import { BrowseInfo } from "../../shared/models/browse-info";
-import { BehaviorSubject } from "rxjs";
+import {Component, ElementRef, HostListener, OnInit, ViewChild,} from "@angular/core";
+import {ActivatedRoute, Router} from "@angular/router";
+import {BrowseService} from "../../shared/services/browse.service";
+import {MessageService} from "../../shared/services/message.service";
+import {NotificationService} from "../../shared/services/notification.service";
+import {WebSocketService} from "../../shared/services/web-socket.service";
+import {InternalMessageType} from "../../shared/messages/internal/internal-message-type.enum";
+import {FilterMessage} from "../../shared/messages/internal/message-types/filter-message";
+import {MpdCommands} from "../../shared/mpd/mpd-commands.enum";
+import {BrowseInfo} from "../../shared/models/browse-info";
+import {BehaviorSubject} from "rxjs";
 
 @Component({
   selector: "app-navigation",
@@ -29,13 +23,14 @@ export class BrowseNavigationComponent implements OnInit {
   filter = "";
 
   constructor(
-    private activatedRoute: ActivatedRoute,
-    private browseService: BrowseService,
-    private messageService: MessageService,
-    private notificationService: NotificationService,
-    private router: Router,
-    private webSocketService: WebSocketService
-  ) {}
+      private activatedRoute: ActivatedRoute,
+      private browseService: BrowseService,
+      private messageService: MessageService,
+      private notificationService: NotificationService,
+      private router: Router,
+      private webSocketService: WebSocketService
+  ) {
+  }
 
   @HostListener("document:keydown.f", ["$event"])
   onSearchKeydownHandler(event: KeyboardEvent): void {
@@ -85,13 +80,13 @@ export class BrowseNavigationComponent implements OnInit {
       targetDir = "/";
     }
     this.router
-      .navigate(["browse"], { queryParams: { dir: targetDir } })
-      .then((fulfilled) => {
-        if (fulfilled) {
-          this.getParamDir = targetDir;
-        }
-      })
-      .catch(() => void 0);
+    .navigate(["browse"], {queryParams: {dir: targetDir}})
+    .then((fulfilled) => {
+      if (fulfilled) {
+        this.getParamDir = targetDir;
+      }
+    })
+    .catch(() => void 0);
   }
 
   onClearQueue(): void {
@@ -100,7 +95,11 @@ export class BrowseNavigationComponent implements OnInit {
     this.notificationService.popUp("Cleared queue");
   }
 
-  applyFilter(term: string): void {
+  applyFilter(eventTarget: EventTarget | null): void {
+    if (!eventTarget) {
+      return;
+    }
+    const term = (<HTMLInputElement>eventTarget).value;
     this.filter = term;
     if (term) {
       this.messageService.sendMessage({
@@ -122,9 +121,9 @@ export class BrowseNavigationComponent implements OnInit {
 
   private isTracksOnly(browseInfo: BrowseInfo): boolean {
     return (
-      browseInfo.dirQueue.length === 0 &&
-      browseInfo.playlistQueue.length === 0 &&
-      browseInfo.trackQueue.length > 0
+        browseInfo.dirQueue.length === 0 &&
+        browseInfo.playlistQueue.length === 0 &&
+        browseInfo.trackQueue.length > 0
     );
   }
 }

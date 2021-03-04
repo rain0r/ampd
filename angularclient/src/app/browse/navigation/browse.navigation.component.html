@@ -1,6 +1,6 @@
 <div fxLayout="row wrap" fxLayoutAlign="center center" fxLayoutAlign.lt-md="space-between"
      fxFlex.lt-md="100%" fxLayoutGap="0.75rem" class="navbar">
-     
+
   <!--Return to top -->
   <button *ngIf="getParamDir !== '/'" class="mat-small" mat-raised-button
           [routerLink]="['/browse']">
@@ -43,7 +43,7 @@
       <input
           #filterInputElem
           (keydown.escape)="resetFilter()"
-          (keyup)="applyFilter($event.target.value)"
+          (keyup)="applyFilter($event.target)"
           [(ngModel)]="filter"
           autocomplete="off"
           matInput

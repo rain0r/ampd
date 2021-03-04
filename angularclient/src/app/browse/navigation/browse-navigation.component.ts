@@ -16,7 +16,7 @@ import {BehaviorSubject} from "rxjs";
   styleUrls: ["./browse.navigation.component.scss"],
 })
 export class BrowseNavigationComponent implements OnInit {
-  @ViewChild("filterInputElem") myInputField: ElementRef;
+  @ViewChild("filterInputElem") filterInputElem?: ElementRef;
 
   displayFilter$ = new BehaviorSubject<boolean>(true);
   getParamDir = "";
@@ -38,7 +38,9 @@ export class BrowseNavigationComponent implements OnInit {
       return;
     }
     event.preventDefault();
-    (this.myInputField.nativeElement as HTMLElement).focus();
+    if (this.filterInputElem) {
+      (this.filterInputElem.nativeElement as HTMLElement).focus();
+    }
   }
 
   ngOnInit(): void {

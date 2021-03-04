@@ -30,7 +30,10 @@ export class SearchComponent {
     this.buildMsgReceiver();
   }
 
-  applySearch(eventTarget: EventTarget): void {
+  applySearch(eventTarget: EventTarget | null): void {
+    if (!eventTarget) {
+      return;
+    }
     const searchValue = (<HTMLInputElement>eventTarget).value;
     if (searchValue) {
       // Only search when the term is at least 3 chars long

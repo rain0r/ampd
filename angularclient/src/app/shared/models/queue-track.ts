@@ -5,19 +5,19 @@ import { MpdTrack } from "../messages/incoming/mpd-track";
  * It's based on a MpdTrack as defined in the javampd library but has some attributes added.
  */
 export class QueueTrack implements MpdTrack {
-  albumName: string;
-  artistName: string;
-  comment: string;
-  discNumber: string;
-  file: string;
-  genre: string;
-  id: number;
+  albumName = "";
+  artistName = "";
+  comment = "";
+  discNumber = "";
+  file = "";
+  genre = "";
+  id = 0;
   length = 0;
-  name: string;
-  position: number;
-  title: string;
-  track: number;
-  year: string;
+  name = "";
+  position = 0;
+  title = "";
+  track = 0;
+  year = "";
 
   // QueueTrack properties
   coverUrl = "";

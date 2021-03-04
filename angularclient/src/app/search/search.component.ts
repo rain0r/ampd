@@ -23,7 +23,7 @@ export class SearchComponent {
   search = "";
   spinnerVisible = false;
   trackTableData = new TrackTableData();
-  private searchResultTracks = [];
+  private searchResultTracks: QueueTrack[] = [];
 
   constructor(
     private webSocketService: WebSocketService,
@@ -53,7 +53,7 @@ export class SearchComponent {
   }
 
   onAddAll(): void {
-    const filePaths = [];
+    const filePaths: string[] = [];
     this.searchResultTracks.forEach((file: QueueTrack) => {
       filePaths.push(file.file);
     });

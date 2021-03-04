@@ -26,7 +26,7 @@
     "strictTemplates": true
   },
   "exclude": [
-    "**/*.test.ts",
+    "**/*test.ts",
     "**/*.po.ts"
   ]
 }

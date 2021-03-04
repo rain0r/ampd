@@ -31,7 +31,7 @@
     "markdownlint-cli": "^0.26.0",
     "material-icons": "^0.3.1",
     "minimist": ">=1.2.5",
-    "ngx-device-detector": "^1.5.2",
+    "ngx-device-detector": "^2.0.6",
     "ngx-filesize": "^2.0.16",
     "replace-in-file": "^6.1.0",
     "roboto-fontface": "^0.10.0",

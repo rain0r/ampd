@@ -24,5 +24,9 @@
     "strictInjectionParameters": true,
     "strictInputAccessModifiers": true,
     "strictTemplates": true
-  }
+  },
+  "exclude": [
+    "**/*.test.ts",
+    "**/*.po.ts"
+  ]
 }

@@ -35,7 +35,7 @@ export class QueueComponent implements OnInit {
   /**
    * Subscribe to both the state and title queue and set the title accordingly.
    */
-  private buildTitle() {
+  private buildTitle(): void {
     combineLatest([
       this.mpdService.currentState,
       this.mpdService.currentTrack,

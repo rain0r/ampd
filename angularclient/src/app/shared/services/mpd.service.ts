@@ -50,24 +50,28 @@ export class MpdService {
    * Build the currentTrack object - holds info about the track currently played
    * @param payload IStateMsgPayload
    */
-  private buildState(payload: StateMsgPayload) {
+  private buildState(payload: StateMsgPayload): QueueTrack {
     this.controlPanel$.next(payload.controlPanel);
     this.currentState$.next(payload.serverStatus.state);
     this.volume$.next(payload.serverStatus.volume);
     let trackChanged = false;
+    let track = new QueueTrack();
     if (payload.currentTrack) {
       if (this.prevTrack && this.prevTrack.id) {
         if (payload.currentTrack.id !== this.prevTrack.id) {
           trackChanged = true;
         }
       }
-      const prevTrack = this.buildQueueTrack(payload, trackChanged);
-      this.prevTrack = prevTrack;
-      return prevTrack;
+      track = this.buildQueueTrack(payload, trackChanged);
+      this.prevTrack = track;
     }
+    return track;
   }
 
-  private buildQueueTrack(payload: StateMsgPayload, trackChanged: boolean) {
+  private buildQueueTrack(
+    payload: StateMsgPayload,
+    trackChanged: boolean
+  ): QueueTrack {
     const queueTrack = new QueueTrack(payload.currentTrack);
     queueTrack.coverUrl = this.buildCoverUrl(payload.currentTrack.file);
     queueTrack.elapsed = payload.serverStatus.elapsedTime;
@@ -77,18 +81,18 @@ export class MpdService {
     return queueTrack;
   }
 
-  private buildCoverUrl(file: string) {
+  private buildCoverUrl(file: string): string {
     return `${this.settingsService.getFindTrackCoverUrl()}?path=${encodeURIComponent(
       file
     )}`;
   }
 
-  private init() {
+  private init(): void {
     this.buildStateSubscription();
     this.buildPlaylistSavedSubscription();
   }
 
-  private buildStateSubscription() {
+  private buildStateSubscription(): void {
     this.webSocketService
       .getStateSubscription()
       .pipe(
@@ -98,13 +102,13 @@ export class MpdService {
       .subscribe((queueTrack) => this.currentTrack$.next(queueTrack));
   }
 
-  private buildPlaylistSavedSubscription() {
+  private buildPlaylistSavedSubscription(): void {
     this.webSocketService
       .getPlaylistSavedSubscription()
       .subscribe((msg) => this.playlistSaved$.next(msg));
   }
 
-  private buildDirForTrack(file: string) {
+  private buildDirForTrack(file: string): string {
     const splitted = file.split("/");
     const ret = splitted.slice(0, splitted.length - 1);
     return ret.join("/");

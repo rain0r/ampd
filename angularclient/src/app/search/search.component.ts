@@ -99,7 +99,7 @@ export class SearchComponent {
     this.spinnerVisible = false;
   }
 
-  private buildTableData() {
+  private buildTableData(): TrackTableData {
     const trackTable = new TrackTableData();
     trackTable.addTitleColumn = true;
     trackTable.clickable = true;

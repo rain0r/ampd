@@ -51,7 +51,7 @@ export class TracksComponent implements OnInit {
     this.validCoverUrl = true;
   }
 
-  private buildTableData() {
+  private buildTableData(): TrackTableData {
     const trackTable = new TrackTableData();
     trackTable.addTitleColumn = true;
     trackTable.clickable = true;

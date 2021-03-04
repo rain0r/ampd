@@ -86,7 +86,7 @@ export class PlaylistInfoModalComponent implements OnInit {
       .map((cd) => cd.name);
   }
 
-  private buildDataSource(tracks: MpdTrack[]) {
+  private buildDataSource(tracks: MpdTrack[]): MatTableDataSource<QueueTrack> {
     const dataSource = new MatTableDataSource<QueueTrack>();
     const tmp: QueueTrack[] = [];
     tracks.forEach((track, index) => {

@@ -1,6 +1,6 @@
 import {
+  ChangeDetectorRef,
   Component,
-  ElementRef,
   Input,
   OnChanges,
   SimpleChanges,
@@ -11,7 +11,7 @@ import { WebSocketService } from "../services/web-socket.service";
 import { TrackTableData } from "./track-table-data";
 import { MpdTrack } from "../messages/incoming/mpd-track";
 import { NotificationService } from "../services/notification.service";
-import { MatPaginator } from "@angular/material/paginator";
+import { MatPaginator, MatPaginatorIntl } from "@angular/material/paginator";
 import { ClickActions } from "./click-actions.enum";
 import { MpdCommands } from "../mpd/mpd-commands.enum";
 
@@ -21,10 +21,14 @@ import { MpdCommands } from "../mpd/mpd-commands.enum";
   styleUrls: ["./track-data-table.component.scss"],
 })
 export class TrackDataTableComponent implements OnChanges {
-  @Input() trackTableData: TrackTableData;
-  @ViewChild("filterInputElem") filterInputElem: ElementRef;
-  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
-  @ViewChild(MatSort, { static: true }) sort: MatSort;
+  @Input() trackTableData: TrackTableData = new TrackTableData();
+  // TODO @ViewChild("filterInputElem") filterInputElem: ElementRef;
+  @ViewChild(MatPaginator, { static: true })
+  paginator: MatPaginator = new MatPaginator(
+    new MatPaginatorIntl(),
+    ChangeDetectorRef.prototype
+  );
+  @ViewChild(MatSort, { static: true }) sort: MatSort = new MatSort();
 
   constructor(
     private webSocketService: WebSocketService,

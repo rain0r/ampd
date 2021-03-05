@@ -1,11 +1,11 @@
-import {Injectable} from "@angular/core";
-import {BrowseMsgPayload} from "../messages/incoming/browse";
-import {Directory} from "../messages/incoming/directory";
-import {BrowseInfo} from "../models/browse-info";
-import {WebSocketService} from "./web-socket.service";
-import {Observable, Subject} from "rxjs";
-import {MpdCommands} from "../mpd/mpd-commands.enum";
-import {QueueTrack} from "../models/queue-track";
+import { Injectable } from "@angular/core";
+import { BrowseMsgPayload } from "../messages/incoming/browse";
+import { Directory } from "../messages/incoming/directory";
+import { BrowseInfo } from "../models/browse-info";
+import { WebSocketService } from "./web-socket.service";
+import { Observable, Subject } from "rxjs";
+import { MpdCommands } from "../mpd/mpd-commands.enum";
+import { QueueTrack } from "../models/queue-track";
 
 @Injectable()
 export class BrowseService {
@@ -53,7 +53,7 @@ export class BrowseService {
 
   private buildMsgReceiver(): void {
     this.webSocketService
-    .getBrowseSubscription()
-    .subscribe((message: BrowseMsgPayload) => this.onBrowseResponse(message));
+      .getBrowseSubscription()
+      .subscribe((message: BrowseMsgPayload) => this.onBrowseResponse(message));
   }
 }

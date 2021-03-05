@@ -53,8 +53,7 @@ export class ControlPanelComponent {
   }
 
   onClearQueue(): void {
-    this.webSocketService.send(MpdCommands.RM_ALL);
-    this.webSocketService.send(MpdCommands.GET_QUEUE);
+    this.mpdService.clearQueue();
     this.notificationService.popUp("Cleared queue");
   }
 }

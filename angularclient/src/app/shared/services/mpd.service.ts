@@ -76,6 +76,11 @@ export class MpdService {
     } as VolumeSetter);
   }
 
+  clearQueue(): void {
+    this.webSocketService.send(MpdCommands.RM_ALL);
+    this.webSocketService.send(MpdCommands.GET_QUEUE);
+  }
+
   /**
    * Build the currentTrack object - holds info about the track currently played
    * @param payload IStateMsgPayload

@@ -1,19 +1,19 @@
-import {AfterViewInit, Component, Inject} from "@angular/core";
-import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
-import {Playlist} from "../../../shared/messages/incoming/playlist-impl";
+import { AfterViewInit, Component, Inject } from "@angular/core";
+import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
+import { Playlist } from "../../../shared/messages/incoming/playlist-impl";
 
-import {WebSocketService} from "../../../shared/services/web-socket.service";
-import {NotificationService} from "../../../shared/services/notification.service";
-import {ActivatedRoute} from "@angular/router";
-import {MpdService} from "../../../shared/services/mpd.service";
-import {PlaylistInfo} from "../../../shared/models/playlist-info";
-import {Observable, Subject} from "rxjs";
-import {DeviceDetectorService} from "ngx-device-detector";
-import {TrackTableData} from "../../../shared/track-table/track-table-data";
-import {MpdTrack} from "../../../shared/messages/incoming/mpd-track";
-import {QueueTrack} from "../../../shared/models/queue-track";
-import {MatTableDataSource} from "@angular/material/table";
-import {MpdCommands} from "../../../shared/mpd/mpd-commands.enum";
+import { WebSocketService } from "../../../shared/services/web-socket.service";
+import { NotificationService } from "../../../shared/services/notification.service";
+import { ActivatedRoute } from "@angular/router";
+import { MpdService } from "../../../shared/services/mpd.service";
+import { PlaylistInfo } from "../../../shared/models/playlist-info";
+import { Observable, Subject } from "rxjs";
+import { DeviceDetectorService } from "ngx-device-detector";
+import { TrackTableData } from "../../../shared/track-table/track-table-data";
+import { MpdTrack } from "../../../shared/messages/incoming/mpd-track";
+import { QueueTrack } from "../../../shared/models/queue-track";
+import { MatTableDataSource } from "@angular/material/table";
+import { MpdCommands } from "../../../shared/mpd/mpd-commands.enum";
 
 @Component({
   selector: "app-playlist-info-modal",
@@ -26,13 +26,13 @@ export class PlaylistInfoModalComponent implements AfterViewInit {
   private playlistInfo$ = new Subject<PlaylistInfo>();
 
   constructor(
-      public dialogRef: MatDialogRef<PlaylistInfoModalComponent>,
-      @Inject(MAT_DIALOG_DATA) public data: Playlist,
-      private webSocketService: WebSocketService,
-      private activatedRoute: ActivatedRoute,
-      private notificationService: NotificationService,
-      private mpdService: MpdService,
-      private deviceService: DeviceDetectorService
+    public dialogRef: MatDialogRef<PlaylistInfoModalComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: Playlist,
+    private webSocketService: WebSocketService,
+    private activatedRoute: ActivatedRoute,
+    private notificationService: NotificationService,
+    private mpdService: MpdService,
+    private deviceService: DeviceDetectorService
   ) {
     this.playlistInfo = this.playlistInfo$.asObservable();
   }
@@ -74,16 +74,16 @@ export class PlaylistInfoModalComponent implements AfterViewInit {
 
   private getDisplayedColumns(): string[] {
     const displayedColumns = [
-      {name: "position", showMobile: false},
-      {name: "artistName", showMobile: true},
-      {name: "albumName", showMobile: false},
-      {name: "title", showMobile: true},
-      {name: "length", showMobile: false},
+      { name: "position", showMobile: false },
+      { name: "artistName", showMobile: true },
+      { name: "albumName", showMobile: false },
+      { name: "title", showMobile: true },
+      { name: "length", showMobile: false },
     ];
     const isMobile = this.deviceService.isMobile();
     return displayedColumns
-    .filter((cd) => !isMobile || cd.showMobile)
-    .map((cd) => cd.name);
+      .filter((cd) => !isMobile || cd.showMobile)
+      .map((cd) => cd.name);
   }
 
   private buildDataSource(tracks: MpdTrack[]): MatTableDataSource<QueueTrack> {

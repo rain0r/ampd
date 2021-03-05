@@ -1,5 +1,6 @@
 <div fxLayout="row nowrap" fxLayoutAlign="center center"
      fxLayoutGap.gt-md="0.1rem"
+     id="base"
      *ngIf="volume >= 0 && volume <= 100">
   <div>
     <mat-icon>volume_down</mat-icon>
@@ -12,6 +13,7 @@
         step="1"
         [(ngModel)]="volume"
         (input)="handleVolumeSlider($event)"
+
     ></mat-slider>
   </div>
   <div> {{ volume }} &#37;</div>

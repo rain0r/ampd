@@ -41,10 +41,11 @@
       ></mat-divider>
       <img
           [alt]="'Cover of ' + currentTrack.albumName"
-          class="album-art clickable"
           [src]=" currentTrack.coverUrl "
           [ngClass]="[coverSizeClass|async]"
           (click)="openCoverModal()"
+          class="album-art clickable"
+          [title]="'Cover of ' + currentTrack.albumName + '. Click to view in full size.'"
       />
     </div>
   </div>

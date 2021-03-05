@@ -14,15 +14,20 @@ export class HelpModalComponent {
     // Player controls
     new Map([
       ["p", "Play / Pause"],
+      ["space", "Play / Pause"],
       ["←", "Previous song"],
+      ["<", "Previous song"],
       ["→", "Next song"],
+      [">", "Next song"],
+      ["+", "Increase volume"],
+      ["-", "Decrease volume"],
     ]),
     // Navigation
     new Map([
-      ["1", "Navigate to the queue view"],
-      ["2", "Navigate to the browse view"],
-      ["3", "Navigate to the search view"],
-      ["4", "Navigate to the settings view"],
+      ["1", "Navigate to queue view"],
+      ["2", "Navigate to browse view"],
+      ["3", "Navigate to search view"],
+      ["4", "Navigate to settings view"],
     ]),
     new Map([
       // MPD mode

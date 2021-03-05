@@ -11,6 +11,8 @@ import { TrackTableData } from "../shared/track-table/track-table-data";
 import { MpdCommands } from "../shared/mpd/mpd-commands.enum";
 import { ClickActions } from "../shared/track-table/click-actions.enum";
 import { NotificationService } from "../shared/services/notification.service";
+import { Subject } from "rxjs";
+import { bufferTime, filter, map } from "rxjs/operators";
 
 @Component({
   selector: "app-search",
@@ -24,6 +26,7 @@ export class SearchComponent {
   isLoading = false;
   trackTableData = new TrackTableData();
   private searchResultTracks: QueueTrack[] = [];
+  private inputSetter$ = new Subject<string>();
 
   constructor(
     private webSocketService: WebSocketService,
@@ -31,23 +34,13 @@ export class SearchComponent {
     private notificationService: NotificationService
   ) {
     this.buildMsgReceiver();
+    this.buildInputListener();
   }
 
   applySearch(eventTarget: EventTarget | null): void {
-    if (!eventTarget) {
-      return;
-    }
-    const searchValue = (<HTMLInputElement>eventTarget).value;
-    if (searchValue) {
-      // Only search when the term is at least 3 chars long
-      if (searchValue.length > 2) {
-        this.webSocketService.sendData(MpdCommands.SEARCH, {
-          query: searchValue,
-        });
-        this.isLoading = true;
-      }
-    } else {
-      this.resetSearch();
+    const inputValue = (<HTMLInputElement>eventTarget).value;
+    if (inputValue) {
+      this.inputSetter$.next(inputValue);
     }
   }
 
@@ -130,5 +123,26 @@ export class SearchComponent {
     return displayedColumns
       .filter((cd) => !isMobile || cd.showMobile)
       .map((cd) => cd.name);
+  }
+
+  /**
+   * Listens to the input field and buffers the keys. So that we don't send a request per character.
+   */
+  private buildInputListener(): void {
+    const volInput = this.inputSetter$.asObservable().pipe(
+      bufferTime(1000),
+      filter((times: string[]) => times.length > 0),
+      map((input: string[]) => input[input.length - 1])
+    );
+    volInput.subscribe((searchValue) => {
+      console.log("searchValue", searchValue);
+      // Only search when the term is at least 3 chars long
+      if (searchValue.length > 2) {
+        this.webSocketService.sendData(MpdCommands.SEARCH, {
+          query: searchValue,
+        });
+        this.isLoading = true;
+      }
+    });
   }
 }

@@ -1,4 +1,4 @@
-import {MpdTrack} from "../messages/incoming/mpd-track";
+import { MpdTrack } from "../messages/incoming/mpd-track";
 
 /**
  * A queue track represents a track in the track table of the queue.

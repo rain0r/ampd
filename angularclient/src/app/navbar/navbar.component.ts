@@ -123,7 +123,7 @@ export class NavbarComponent {
       this.helpModalOpen.next(true);
       const dialogRef = this.dialog.open(HelpModalComponent, {
         autoFocus: true,
-        height: "70%",
+        height: "75%",
         width: "80%",
         panelClass: this.settingsService.isDarkTheme$.value ? "dark-theme" : "",
       });

@@ -7,7 +7,6 @@ import { MatTableDataSource } from "@angular/material/table";
 import { ClickActions } from "../../shared/track-table/click-actions.enum";
 import { SettingsService } from "../../shared/services/settings.service";
 import { QueueTrack } from "../../shared/models/queue-track";
-import { MpdTrack } from "../../shared/messages/incoming/mpd-track";
 
 @Component({
   selector: "app-tracks",
@@ -15,7 +14,7 @@ import { MpdTrack } from "../../shared/messages/incoming/mpd-track";
   styleUrls: ["./tracks.component.scss"],
 })
 export class TracksComponent implements OnInit {
-  @Input() tracks: MpdTrack[] = [];
+  @Input() tracks: QueueTrack[] = [];
   coverSizeClass: Observable<string>;
   getParamDir = "";
   trackTableData = new TrackTableData();
@@ -56,22 +55,12 @@ export class TracksComponent implements OnInit {
     const trackTable = new TrackTableData();
     trackTable.addTitleColumn = true;
     trackTable.clickable = true;
-    trackTable.dataSource = new MatTableDataSource<QueueTrack>(
-      this.mpdToQueueTrack(this.tracks)
-    );
+    trackTable.dataSource = new MatTableDataSource<QueueTrack>(this.tracks);
     trackTable.displayedColumns = this.getDisplayedColumns();
     trackTable.onPlayClick = ClickActions.AddPlayTrack;
     trackTable.notify = true;
     trackTable.playTitleColumn = true;
     return trackTable;
-  }
-
-  private mpdToQueueTrack(tracks: MpdTrack[]): QueueTrack[] {
-    const queueTracks: QueueTrack[] = [];
-    tracks.forEach((mpdTrack) => {
-      queueTracks.push(new QueueTrack(mpdTrack));
-    });
-    return queueTracks;
   }
 
   private getDisplayedColumns(): string[] {

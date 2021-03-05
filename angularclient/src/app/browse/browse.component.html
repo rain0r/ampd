@@ -11,7 +11,9 @@
     </button>
   </div>
 
-  <mat-spinner class="centered" *ngIf="isLoading"></mat-spinner>
+  <div fxLayout="row" fxLayoutAlign="space-around">
+    <mat-spinner *ngIf="isLoading"></mat-spinner>
+  </div>
   <div
       fxLayout="row"
       fxLayout.lt-md="column"

@@ -3,12 +3,14 @@ import { WebSocketService } from "./web-socket.service";
 import { StateMsgPayload } from "../messages/incoming/state-msg-payload";
 import { ControlPanel } from "../messages/incoming/control-panel";
 import { QueueTrack } from "../models/queue-track";
-import { Observable, Subject } from "rxjs";
-import { filter, map } from "rxjs/operators";
+import { BehaviorSubject, Observable, Subject } from "rxjs";
+import { bufferTime, filter, map, withLatestFrom } from "rxjs/operators";
 import { PlaylistSaved } from "../messages/incoming/playlist-saved";
 import { HttpClient } from "@angular/common/http";
 import { PlaylistInfo } from "../models/playlist-info";
 import { SettingsService } from "./settings.service";
+import { MpdCommands } from "../mpd/mpd-commands.enum";
+import { VolumeSetter } from "../models/volume-setter";
 
 @Injectable({
   providedIn: "root",
@@ -19,13 +21,15 @@ export class MpdService {
   currentState: Observable<string>;
   playlistSaved: Observable<PlaylistSaved>;
   volume: Observable<number>;
+  volumeSetter: Observable<VolumeSetter>;
 
   private controlPanel$ = new Subject<ControlPanel>();
   private currentTrack$ = new Subject<QueueTrack>();
   private currentState$ = new Subject<string>();
   private playlistSaved$ = new Subject<PlaylistSaved>();
   private prevTrack = new QueueTrack();
-  private volume$ = new Subject<number>();
+  private volume$ = new BehaviorSubject<number>(0);
+  private volumeSetter$ = new Subject<VolumeSetter>();
 
   constructor(
     private webSocketService: WebSocketService,
@@ -38,6 +42,8 @@ export class MpdService {
     this.currentState = this.currentState$.asObservable();
     this.playlistSaved = this.playlistSaved$.asObservable();
     this.volume = this.volume$.asObservable();
+    this.volumeSetter = this.volumeSetter$.asObservable();
+    this.buildVolumeSetter();
   }
 
   getPlaylistInfo(playlistName: string): Observable<PlaylistInfo> {
@@ -54,6 +60,20 @@ export class MpdService {
       crossfade: false,
       repeat: false,
     } as ControlPanel;
+  }
+
+  decreaseVolume(): void {
+    this.volumeSetter$.next({
+      increase: false,
+      step: 1,
+    } as VolumeSetter);
+  }
+
+  increaseVolume(): void {
+    this.volumeSetter$.next({
+      increase: true,
+      step: 1,
+    } as VolumeSetter);
   }
 
   /**
@@ -125,5 +145,23 @@ export class MpdService {
     const splitted = file.split("/");
     const ret = splitted.slice(0, splitted.length - 1);
     return ret.join("/");
+  }
+
+  /**
+   * Listen 500ms and sums up the keystrokes. Add the sum to the current volume.
+   */
+  private buildVolumeSetter(): void {
+    const volInput = this.volumeSetter$.asObservable().pipe(
+      bufferTime(500),
+      filter((times) => times.length > 0)
+    );
+    volInput.pipe(withLatestFrom(this.volume)).subscribe(([times, volume]) => {
+      const newVol = times[0].increase
+        ? volume + times.length
+        : volume - times.length;
+      this.webSocketService.sendData(MpdCommands.SET_VOLUME, {
+        value: newVol,
+      });
+    });
   }
 }

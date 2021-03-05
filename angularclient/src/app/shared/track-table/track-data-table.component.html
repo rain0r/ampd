@@ -1,4 +1,6 @@
 <table mat-table [dataSource]="trackTableData.dataSource" matSort matSortDisableClear>
+
+  <!-- Track number on the queue or album / directory -->
   <ng-container matColumnDef="position">
     <th mat-header-cell mat-sort-header [disabled]=!trackTableData.sortable *matHeaderCellDef>
       #
@@ -8,47 +10,70 @@
     </td>
   </ng-container>
 
+  <!-- Artist column. Shows the file name if none of artist/album/title is present -->
   <ng-container matColumnDef="artistName">
-    <th mat-header-cell mat-sort-header [disabled]=!trackTableData.sortable *matHeaderCellDef>Artist</th>
+    <th mat-header-cell mat-sort-header [disabled]=!trackTableData.sortable *matHeaderCellDef>
+      Artist
+    </th>
     <td mat-cell *matCellDef="let row" (click)="onRowClick(row)">
       <span
-          *ngIf="!row.artistName && !row.albumName && !row.title; else elseBlock">{{row.file}}</span>
-      <ng-template #elseBlock>{{ row.artistName }}</ng-template>
+          *ngIf="!row.artistName && !row.albumName && !row.title; else elseBlock"
+          [title]="row.file"
+      >
+        {{row.file}}
+      </span>
+      <ng-template #elseBlock>
+        <span [title]="row.artistName">
+          {{ row.artistName }}
+        </span>
+      </ng-template>
     </td>
   </ng-container>
 
+  <!-- Album column -->
   <ng-container matColumnDef="albumName">
-    <th mat-header-cell mat-sort-header [disabled]=!trackTableData.sortable *matHeaderCellDef>Album</th>
-    <td mat-cell *matCellDef="let row" (click)="onRowClick(row)">
+    <th mat-header-cell mat-sort-header [disabled]=!trackTableData.sortable *matHeaderCellDef>
+      Album
+    </th>
+    <td mat-cell *matCellDef="let row" (click)="onRowClick(row)" [title]="row.albumName">
       {{ row.albumName }}
     </td>
   </ng-container>
 
+  <!-- Title column -->
   <ng-container matColumnDef="title">
-    <th mat-header-cell mat-sort-header [disabled]=!trackTableData.sortable *matHeaderCellDef>Title</th>
-    <td mat-cell *matCellDef="let row" (click)="onRowClick(row)">
+    <th mat-header-cell mat-sort-header [disabled]=!trackTableData.sortable *matHeaderCellDef>
+      Title
+    </th>
+    <td mat-cell *matCellDef="let row" (click)="onRowClick(row)" [title]="row.title">
       {{ row.title }}
     </td>
   </ng-container>
 
+  <!-- Length column -->
   <ng-container matColumnDef="length">
-    <th mat-header-cell mat-sort-header [disabled]=!trackTableData.sortable *matHeaderCellDef>Duration</th>
+    <th mat-header-cell mat-sort-header [disabled]=!trackTableData.sortable *matHeaderCellDef>
+      Duration
+    </th>
     <td mat-cell *matCellDef="let track" (click)="onRowClick(track.file)">
       {{ track.length | secondsToMmSs }}
     </td>
   </ng-container>
 
+  <!-- Button: Remove track from queue -->
   <ng-container matColumnDef="remove">
     <th mat-header-cell *matHeaderCellDef></th>
     <td mat-cell *matCellDef="let element">
-        <mat-icon
-            class="btn-remove-track"
-            title="Remove from queue"
-            (click)="onRemoveTrack(element.position)"
-        >backspace</mat-icon>
+      <mat-icon
+          class="btn-remove-track"
+          title="Remove from queue"
+          (click)="onRemoveTrack(element.position)"
+      >backspace
+      </mat-icon>
     </td>
   </ng-container>
 
+  <!-- Button: Add track to queue -->
   <ng-container matColumnDef="addTitle" *ngIf="trackTableData.addTitleColumn">
     <th mat-header-cell *matHeaderCellDef></th>
     <td mat-cell *matCellDef="let track">
@@ -58,10 +83,12 @@
     </td>
   </ng-container>
 
+  <!-- Button: Play track -->
   <ng-container matColumnDef="playTitle" *ngIf="trackTableData.playTitleColumn">
     <th mat-header-cell *matHeaderCellDef></th>
     <td mat-cell *matCellDef="let track">
-      <button class="mat-small" mat-button (click)="onAddTrack(track)" title="Add this track to the queue">
+      <button class="mat-small" mat-button (click)="onAddTrack(track)"
+              title="Add this track to the queue">
         <mat-icon> add</mat-icon>
       </button>
     </td>
@@ -77,6 +104,6 @@
   ></tr>
 </table>
 <div [hidden]="!trackTableData.pagination">
-<mat-paginator [pageSize]="25"
-               [pageSizeOptions]="[10, 20, 50, 100]" showFirstLastButtons></mat-paginator>
+  <mat-paginator [pageSize]="25"
+                 [pageSizeOptions]="[10, 20, 50, 100]" showFirstLastButtons></mat-paginator>
 </div>

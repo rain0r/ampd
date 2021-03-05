@@ -50,7 +50,6 @@ export class QueueComponent implements OnInit {
       )
       .subscribe((result) => {
         if (!result.tabTitle) {
-          this.titleService.setTitle("ampd — Queue");
           return;
         }
         if (result.state === "stop") {

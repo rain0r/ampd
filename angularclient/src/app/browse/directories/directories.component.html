@@ -18,6 +18,7 @@
          fxLayoutGap="1%"
          fxLayoutAlign="center center"
          class="list-item"
+         [title]="'Go to directory: ' + dir.path"
          [queryParams]="{ dir: dir.path }"
          [routerLink]="['/browse']">
 

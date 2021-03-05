@@ -1,5 +1,5 @@
-import { Component } from "@angular/core";
-import { Observable } from "rxjs";
+import {Component} from "@angular/core";
+import {Observable} from "rxjs";
 
 @Component({
   selector: "app-help-dialog",
@@ -36,6 +36,10 @@ export class HelpModalComponent {
       ["x", "Toggle crossfade"],
       ["y", "Toggle single"],
       ["z", "Toggle shuffle"],
+    ]),
+    new Map([
+      // Queue
+      ["C", "Clear queue"],
     ]),
   ];
 }

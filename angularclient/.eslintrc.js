@@ -17,6 +17,8 @@ module.exports = {
     'prettier/prettier': 'error',
     '@typescript-eslint/member-ordering': 1,
     "@typescript-eslint/explicit-function-return-type": 1,
+    "no-unused-vars": "off",
+    "@typescript-eslint/no-unused-vars": ["error"],
     '@typescript-eslint/explicit-member-accessibility': [
       'error',
       {

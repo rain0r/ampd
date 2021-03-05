@@ -98,6 +98,14 @@ export class NavbarComponent {
       case "?":
         this.openHelpModal();
         break;
+      // Decrease / increase volume
+      case "+":
+        // this.mpdService.volumeSetter.next(1);
+        this.mpdService.increaseVolume();
+        break;
+      case "-":
+        this.mpdService.decreaseVolume();
+        break;
       default:
         // Ignore it
         return;

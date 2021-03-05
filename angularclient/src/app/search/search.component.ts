@@ -21,7 +21,7 @@ export class SearchComponent {
   dataSource = new MatTableDataSource<QueueTrack>([]);
   searchResultCount = 0;
   search = "";
-  spinnerVisible = false;
+  isLoading = false;
   trackTableData = new TrackTableData();
   private searchResultTracks: QueueTrack[] = [];
 
@@ -44,7 +44,7 @@ export class SearchComponent {
         this.webSocketService.sendData(MpdCommands.SEARCH, {
           query: searchValue,
         });
-        this.spinnerVisible = true;
+        this.isLoading = true;
       }
     } else {
       this.resetSearch();
@@ -100,7 +100,7 @@ export class SearchComponent {
     );
     this.trackTableData = this.buildTableData();
     this.searchResultCount = searchResultCount;
-    this.spinnerVisible = false;
+    this.isLoading = false;
   }
 
   private buildTableData(): TrackTableData {

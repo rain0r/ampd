@@ -52,9 +52,11 @@ export class NavbarComponent {
 
     switch (event.key) {
       // Player controls
+      case "<":
       case "ArrowLeft": // Left: Previous track
         this.webSocketService.send(MpdCommands.SET_PREV);
         break;
+      case ">":
       case "ArrowRight": // Right: Next track
         this.webSocketService.send(MpdCommands.SET_NEXT);
         break;

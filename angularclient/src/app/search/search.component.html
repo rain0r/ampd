@@ -57,4 +57,6 @@
 <app-track-data-table [trackTableData]="trackTableData"></app-track-data-table>
 
 <!-- Loading animation -->
-<mat-spinner class="centered" *ngIf="spinnerVisible"></mat-spinner>
+<div fxLayout="row" fxLayoutAlign="space-around">
+  <mat-spinner *ngIf="isLoading"></mat-spinner>
+</div>

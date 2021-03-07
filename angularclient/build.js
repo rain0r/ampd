@@ -126,7 +126,7 @@ run_script("ng", spawnArgs, spawnOpt, function (exit_code) {
 // AS is runs, AND will return the full combined output
 // as well as exit code when it's done (using the callback).
 function run_script(command, args, opts, callback) {
-  console.log("Starting Process.");
+  console.log(`Starting Process: ${command} ${args.join(" ")}`);
   console.log("verbose:", argv["verbose"]);
   const child = child_process.spawn(command, args, opts);
   child.stdout.setEncoding("utf8");

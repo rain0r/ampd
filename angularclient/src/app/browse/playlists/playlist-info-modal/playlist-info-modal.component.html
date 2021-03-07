@@ -1,8 +1,8 @@
 <div *ngIf="playlistInfo | async as info else loading" fxLayout="column">
   <div mat-dialog-title fxLayout="row wrap" fxLayoutAlign="space-between baseline">
-    <span class="text-muted">Playlist</span>
-    <strong>{{info.name}}</strong>
-    <span class="text-muted">{{info.trackCount}} tracks</span>
+    <span class="text-muted" fxFlex.lt-md="100%">Playlist</span>
+    <strong fxFlex.lt-md="100%">{{info.name}}</strong>
+    <span class="text-muted" fxFlex.lt-md="100%">{{info.trackCount}} tracks</span>
   </div>
 
   <mat-dialog-content>

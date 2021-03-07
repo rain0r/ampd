@@ -1,4 +1,4 @@
-<div *ngIf="playlistInfo | async as info else loading">
+<div *ngIf="playlistInfo | async as info else loading" fxLayout="column">
   <div mat-dialog-title fxLayout="row wrap" fxLayoutAlign="space-between baseline">
     <span class="text-muted">Playlist</span>
     <strong>{{info.name}}</strong>
@@ -15,6 +15,7 @@
     <button mat-stroked-button (click)="closeModal()">Close</button>
   </mat-dialog-actions>
 </div>
+
 <ng-template #loading>
   <div fxLayout="row" fxLayoutAlign="space-around">
     <mat-spinner></mat-spinner>

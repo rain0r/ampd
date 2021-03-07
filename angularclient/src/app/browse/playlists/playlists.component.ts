@@ -1,14 +1,14 @@
-import { Component, Input } from "@angular/core";
-import { Playlist } from "../../shared/messages/incoming/playlist-impl";
-import { MessageService } from "../../shared/services/message.service";
-import { NotificationService } from "../../shared/services/notification.service";
-import { WebSocketService } from "../../shared/services/web-socket.service";
-import { Filterable } from "../filterable";
-import { MatDialog } from "@angular/material/dialog";
-import { PlaylistInfoModalComponent } from "./playlist-info-modal/playlist-info-modal.component";
-import { MpdCommands } from "../../shared/mpd/mpd-commands.enum";
-import { SettingsService } from "../../shared/services/settings.service";
-import { DeviceDetectorService } from "ngx-device-detector";
+import {Component, Input} from "@angular/core";
+import {Playlist} from "../../shared/messages/incoming/playlist-impl";
+import {MessageService} from "../../shared/services/message.service";
+import {NotificationService} from "../../shared/services/notification.service";
+import {WebSocketService} from "../../shared/services/web-socket.service";
+import {Filterable} from "../filterable";
+import {MatDialog} from "@angular/material/dialog";
+import {PlaylistInfoModalComponent} from "./playlist-info-modal/playlist-info-modal.component";
+import {MpdCommands} from "../../shared/mpd/mpd-commands.enum";
+import {SettingsService} from "../../shared/services/settings.service";
+import {DeviceDetectorService} from "ngx-device-detector";
 
 @Component({
   selector: "app-playlists",
@@ -19,12 +19,12 @@ export class PlaylistsComponent extends Filterable {
   @Input() playlistQueue: Playlist[] = [];
 
   constructor(
-    private deviceService: DeviceDetectorService,
-    private dialog: MatDialog,
-    private messageService: MessageService,
-    private notificationService: NotificationService,
-    private settingsService: SettingsService,
-    private webSocketService: WebSocketService
+      private deviceService: DeviceDetectorService,
+      private dialog: MatDialog,
+      private messageService: MessageService,
+      private notificationService: NotificationService,
+      private settingsService: SettingsService,
+      private webSocketService: WebSocketService
   ) {
     super(messageService);
   }
@@ -39,13 +39,15 @@ export class PlaylistsComponent extends Filterable {
   onPlaylistInfo($event: MouseEvent, playlist: Playlist): void {
     $event.stopPropagation();
     const height =
-      this.deviceService.isMobile() || this.deviceService.isTablet()
-        ? "100%"
-        : "70%";
+        this.deviceService.isMobile() || this.deviceService.isTablet()
+            ? "100%"
+            : "70%";
     const width =
-      this.deviceService.isMobile() || this.deviceService.isTablet()
-        ? "100%"
-        : "70%";
+        this.deviceService.isMobile() || this.deviceService.isTablet()
+            ? "100%"
+            : "70%";
+    console.log("height", height);
+    console.log("width", width);
     this.dialog.open(PlaylistInfoModalComponent, {
       data: playlist,
       height: height,

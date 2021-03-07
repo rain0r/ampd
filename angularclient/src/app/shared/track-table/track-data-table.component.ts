@@ -6,14 +6,14 @@ import {
   SimpleChanges,
   ViewChild,
 } from "@angular/core";
-import {MatSort} from "@angular/material/sort";
-import {WebSocketService} from "../services/web-socket.service";
-import {TrackTableData} from "./track-table-data";
-import {NotificationService} from "../services/notification.service";
-import {MatPaginator, MatPaginatorIntl} from "@angular/material/paginator";
-import {ClickActions} from "./click-actions.enum";
-import {MpdCommands} from "../mpd/mpd-commands.enum";
-import {QueueTrack} from "../models/queue-track";
+import { MatSort } from "@angular/material/sort";
+import { WebSocketService } from "../services/web-socket.service";
+import { TrackTableData } from "./track-table-data";
+import { NotificationService } from "../services/notification.service";
+import { MatPaginator, MatPaginatorIntl } from "@angular/material/paginator";
+import { ClickActions } from "./click-actions.enum";
+import { MpdCommands } from "../mpd/mpd-commands.enum";
+import { QueueTrack } from "../models/queue-track";
 
 @Component({
   selector: "app-track-data-table",
@@ -22,23 +22,22 @@ import {QueueTrack} from "../models/queue-track";
 })
 export class TrackDataTableComponent implements OnChanges {
   @Input() trackTableData: TrackTableData = new TrackTableData();
-  @ViewChild(MatPaginator, {static: true})
+  @ViewChild(MatPaginator, { static: true })
   paginator: MatPaginator = new MatPaginator(
-      new MatPaginatorIntl(),
-      ChangeDetectorRef.prototype
+    new MatPaginatorIntl(),
+    ChangeDetectorRef.prototype
   );
-  @ViewChild(MatSort, {static: true}) sort: MatSort = new MatSort();
+  @ViewChild(MatSort, { static: true }) sort: MatSort = new MatSort();
 
   constructor(
-      private notificationService: NotificationService,
-      private webSocketService: WebSocketService,
-  ) {
-  }
+    private notificationService: NotificationService,
+    private webSocketService: WebSocketService
+  ) {}
 
   ngOnChanges(changes: SimpleChanges): void {
     if ("trackTableData" in changes) {
       const tableData: TrackTableData = <TrackTableData>(
-          changes.trackTableData.currentValue
+        changes.trackTableData.currentValue
       );
       if (tableData.dataSource.data.length > 0) {
         if (tableData.sortable) {
@@ -66,7 +65,7 @@ export class TrackDataTableComponent implements OnChanges {
         this.addPlayTrack(track);
         break;
       default:
-        // Ignore it
+      // Ignore it
     }
   }
 
@@ -92,7 +91,7 @@ export class TrackDataTableComponent implements OnChanges {
         this.addPlayTrack(track);
         break;
       default:
-        // Ignore it
+      // Ignore it
     }
   }
 

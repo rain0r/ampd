@@ -8,6 +8,7 @@ import { MatDialog } from "@angular/material/dialog";
 import { PlaylistInfoModalComponent } from "./playlist-info-modal/playlist-info-modal.component";
 import { MpdCommands } from "../../shared/mpd/mpd-commands.enum";
 import { SettingsService } from "../../shared/services/settings.service";
+import { DeviceDetectorService } from "ngx-device-detector";
 
 @Component({
   selector: "app-playlists",
@@ -18,6 +19,7 @@ export class PlaylistsComponent extends Filterable {
   @Input() playlistQueue: Playlist[] = [];
 
   constructor(
+    private deviceService: DeviceDetectorService,
     private dialog: MatDialog,
     private messageService: MessageService,
     private notificationService: NotificationService,
@@ -36,10 +38,19 @@ export class PlaylistsComponent extends Filterable {
 
   onPlaylistInfo($event: MouseEvent, playlist: Playlist): void {
     $event.stopPropagation();
+    const height =
+      this.deviceService.isMobile() || this.deviceService.isTablet()
+        ? "100%"
+        : "70%";
+    const width =
+      this.deviceService.isMobile() || this.deviceService.isTablet()
+        ? "100%"
+        : "70%";
     this.dialog.open(PlaylistInfoModalComponent, {
-      width: "70%",
       data: playlist,
+      height: height,
       panelClass: this.settingsService.isDarkTheme$.value ? "dark-theme" : "",
+      width: width,
     });
   }
 }

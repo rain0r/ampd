@@ -26,13 +26,13 @@ export class PlaylistInfoModalComponent implements AfterViewInit {
   private playlistInfo$ = new Subject<PlaylistInfo>();
 
   constructor(
-    public dialogRef: MatDialogRef<PlaylistInfoModalComponent>,
     @Inject(MAT_DIALOG_DATA) public data: Playlist,
-    private webSocketService: WebSocketService,
     private activatedRoute: ActivatedRoute,
-    private notificationService: NotificationService,
+    private deviceService: DeviceDetectorService,
     private mpdService: MpdService,
-    private deviceService: DeviceDetectorService
+    private notificationService: NotificationService,
+    private webSocketService: WebSocketService,
+    public dialogRef: MatDialogRef<PlaylistInfoModalComponent>
   ) {
     this.playlistInfo = this.playlistInfo$.asObservable();
   }

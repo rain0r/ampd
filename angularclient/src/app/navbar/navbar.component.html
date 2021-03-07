@@ -3,25 +3,25 @@
     [ngClass]="{ 'dark-theme': isDarkTheme | async }"
 >
   <mat-toolbar class="toolbar" color="primary">
-    <button mat-button [routerLink]="['/']">
+    <button mat-button [routerLink]="['']" routerLinkActive="mat-accent" [routerLinkActiveOptions]="{exact:true}">
       <mat-icon>format_list_bulleted</mat-icon>
       <span fxHide.lt-md>
         Queue
       </span>
     </button>
-    <button mat-button [routerLink]="['/browse']">
+    <button mat-button [routerLink]="['/browse']" routerLinkActive="mat-accent">
       <mat-icon>folder_open</mat-icon>
       <span fxHide.lt-md>
           Browse
         </span>
     </button>
-    <button mat-button [routerLink]="['/search']">
+    <button mat-button [routerLink]="['/search']" routerLinkActive="mat-accent">
       <mat-icon>search</mat-icon>
       <span fxHide.lt-md>
           Search
         </span>
     </button>
-    <button mat-button [routerLink]="['/settings']">
+    <button mat-button [routerLink]="['/settings']" routerLinkActive="mat-accent">
       <mat-icon>settings</mat-icon>
       <span fxHide.lt-md>
           Settings

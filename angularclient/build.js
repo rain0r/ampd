@@ -38,7 +38,7 @@ const ampdVersion = versionParser
 let gitCommitId;
 try {
   gitCommitId = require("child_process")
-  .execSync("Xgit rev-parse --short HEAD")
+  .execSync("git rev-parse --short HEAD")
   .toString()
   .trim();
 } catch (e) {

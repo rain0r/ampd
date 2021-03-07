@@ -11,6 +11,7 @@ import { MpdModeService } from "../shared/services/mpd-mode.service";
 import { MatDialog } from "@angular/material/dialog";
 import { HelpModalComponent } from "./help-dialog/help-modal.component";
 import { NotificationService } from "../shared/services/notification.service";
+import { DeviceDetectorService } from "ngx-device-detector";
 
 @Component({
   selector: "app-navbar",
@@ -24,6 +25,7 @@ export class NavbarComponent {
   private helpModalOpen = new BehaviorSubject(false);
 
   constructor(
+    private deviceService: DeviceDetectorService,
     private dialog: MatDialog,
     private mpdModeService: MpdModeService,
     private mpdService: MpdService,
@@ -121,11 +123,19 @@ export class NavbarComponent {
   private openHelpModal(): void {
     if (!this.helpModalOpen.value) {
       this.helpModalOpen.next(true);
+      const height =
+        this.deviceService.isMobile() || this.deviceService.isTablet()
+          ? "100%"
+          : "75%";
+      const width =
+        this.deviceService.isMobile() || this.deviceService.isTablet()
+          ? "100%"
+          : "80%";
       const dialogRef = this.dialog.open(HelpModalComponent, {
         autoFocus: true,
-        height: "75%",
-        width: "80%",
+        height: height,
         panelClass: this.settingsService.isDarkTheme$.value ? "dark-theme" : "",
+        width: width,
       });
       dialogRef.afterClosed().subscribe(() => this.helpModalOpen.next(false));
     }

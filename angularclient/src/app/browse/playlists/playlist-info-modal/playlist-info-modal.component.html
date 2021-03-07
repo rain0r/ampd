@@ -9,7 +9,7 @@
     <app-track-data-table [trackTableData]="trackTableData"></app-track-data-table>
   </mat-dialog-content>
 
-  <mat-dialog-actions align="end">
+  <mat-dialog-actions fxLayout="row nowrap" fxLayoutAlign="end">
     <button mat-stroked-button (click)="onDeletePlaylist()" color="warn">Delete</button>
     <button mat-stroked-button (click)="onAddPlaylist()">Add</button>
     <button mat-stroked-button (click)="closeModal()">Close</button>

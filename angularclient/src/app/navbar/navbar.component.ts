@@ -123,19 +123,9 @@ export class NavbarComponent {
   private openHelpModal(): void {
     if (!this.helpModalOpen.value) {
       this.helpModalOpen.next(true);
-      const height =
-        this.deviceService.isMobile() || this.deviceService.isTablet()
-          ? "100%"
-          : "75%";
-      const width =
-        this.deviceService.isMobile() || this.deviceService.isTablet()
-          ? "100%"
-          : "80%";
       const dialogRef = this.dialog.open(HelpModalComponent, {
         autoFocus: true,
-        height: height,
         panelClass: this.settingsService.isDarkTheme$.value ? "dark-theme" : "",
-        width: width,
       });
       dialogRef.afterClosed().subscribe(() => this.helpModalOpen.next(false));
     }

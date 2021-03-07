@@ -133,7 +133,7 @@ export class NavbarComponent {
 
   private togglePause(): void {
     let command;
-    if (this.currentState === "pause") {
+    if (this.currentState === "pause" || this.currentState === "stop") {
       command = MpdCommands.SET_PLAY;
     } else if (this.currentState === "play") {
       command = MpdCommands.SET_PAUSE;

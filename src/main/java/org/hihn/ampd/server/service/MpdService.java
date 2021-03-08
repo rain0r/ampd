@@ -6,7 +6,6 @@ import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.TreeSet;
 import java.util.stream.Collectors;
 import org.bff.javampd.file.MPDFile;
 import org.bff.javampd.server.MPD;
@@ -16,10 +15,7 @@ import org.hihn.ampd.server.config.AmpdCommandRunner;
 import org.hihn.ampd.server.config.MpdConfiguration;
 import org.hihn.ampd.server.message.AmpdMessage.MessageType;
 import org.hihn.ampd.server.message.Message;
-import org.hihn.ampd.server.message.outgoing.browse.BrowseMessage;
-import org.hihn.ampd.server.message.outgoing.browse.BrowsePayload;
 import org.hihn.ampd.server.message.outgoing.browse.Directory;
-import org.hihn.ampd.server.message.outgoing.browse.Playlist;
 import org.hihn.ampd.server.message.outgoing.playlist.PlaylistSavedMessage;
 import org.hihn.ampd.server.message.outgoing.playlist.PlaylistSavedPayload;
 import org.hihn.ampd.server.message.outgoing.queue.QueueMessage;
@@ -28,6 +24,7 @@ import org.hihn.ampd.server.message.outgoing.search.SearchMessage;
 import org.hihn.ampd.server.message.outgoing.search.SearchPayload;
 import org.hihn.ampd.server.model.PlaylistInfo;
 import org.hihn.ampd.server.model.Settings;
+import org.hihn.ampd.server.model.http.BrowsePayload;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -113,21 +110,6 @@ public class MpdService implements MpdWebsocketService {
     return Optional.empty();
   }
 
-  @Override
-  public Optional<Message> browse(Map<String, Object> inputPayload) {
-    Map<String, String> payload = inputToStrMap(inputPayload);
-    String path = payload.get("path");
-    /* Remove leading slashes */
-    path = path.replaceAll("^/+", "");
-    /* Outgoing payload */
-    BrowsePayload browsePayload = browseDir(path);
-    if (path.trim().length() < 2) {
-      /* '/' or '' */
-      browsePayload.addPlaylists(getPlaylists());
-    }
-    BrowseMessage browseMessage = new BrowseMessage(browsePayload);
-    return Optional.of(browseMessage);
-  }
 
   @Override
   public Optional<Message> deletePlaylist(Map<String, Object> inputPayload) {
@@ -343,7 +325,6 @@ public class MpdService implements MpdWebsocketService {
     commands.put(MessageType.ADD_TRACKS, this::addTracks);
     commands.put(MessageType.BLACKLIST_COVER, this::blacklistCover);
     commands.put(MessageType.DELETE_PLAYLIST, this::deletePlaylist);
-    commands.put(MessageType.GET_BROWSE, this::browse);
     commands.put(MessageType.GET_QUEUE, this::getQueue);
     commands.put(MessageType.PLAY_TRACK, this::playTrack);
     commands.put(MessageType.RM_ALL, this::removeAll);
@@ -358,17 +339,6 @@ public class MpdService implements MpdWebsocketService {
     commands.put(MessageType.SET_STOP, this::stop);
     commands.put(MessageType.SET_VOLUME, this::setVolume);
     commands.put(MessageType.TOGGLE_CONTROL, this::toggleControlPanel);
-  }
-
-  private Collection<Playlist> getPlaylists() {
-    TreeSet<Playlist> ret = new TreeSet<>();
-    Collection<String> playlists = mpd.getMusicDatabase().getPlaylistDatabase()
-        .listPlaylists();
-    for (String playlist : playlists) {
-      int count = mpd.getMusicDatabase().getPlaylistDatabase().countPlaylistSongs(playlist);
-      ret.add(new Playlist(playlist, count));
-    }
-    return ret;
   }
 
   /**

@@ -1,4 +1,4 @@
-export interface MpdTrack {
+export interface Track {
   name: string;
   title: string;
   artistName: string;

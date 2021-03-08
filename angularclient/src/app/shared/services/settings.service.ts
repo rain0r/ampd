@@ -128,11 +128,8 @@ export class SettingsService {
     return `${this.getBackendContextAddr()}api/playlist/${playlistName}`;
   }
 
-  /**
-   * See the corresponding method in {@link ApiEndpoints}.
-   */
-  getBackendAddr(): string {
-    return ApiEndpoints.getBackendAddr();
+  getBrowseUrl(path = "/"): string {
+    return `${this.getBackendContextAddr()}api/browse?path=${path}`;
   }
 
   /**

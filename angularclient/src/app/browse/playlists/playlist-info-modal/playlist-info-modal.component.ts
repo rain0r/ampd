@@ -10,7 +10,7 @@ import { PlaylistInfo } from "../../../shared/models/playlist-info";
 import { Observable, Subject } from "rxjs";
 import { DeviceDetectorService } from "ngx-device-detector";
 import { TrackTableData } from "../../../shared/track-table/track-table-data";
-import { MpdTrack } from "../../../shared/messages/incoming/mpd-track";
+import { Track } from "../../../shared/messages/incoming/track";
 import { QueueTrack } from "../../../shared/models/queue-track";
 import { MatTableDataSource } from "@angular/material/table";
 import { MpdCommands } from "../../../shared/mpd/mpd-commands.enum";
@@ -82,7 +82,7 @@ export class PlaylistInfoModalComponent implements AfterViewInit {
       .map((cd) => cd.name);
   }
 
-  private buildDataSource(tracks: MpdTrack[]): MatTableDataSource<QueueTrack> {
+  private buildDataSource(tracks: Track[]): MatTableDataSource<QueueTrack> {
     const dataSource = new MatTableDataSource<QueueTrack>();
     const tmp: QueueTrack[] = [];
     tracks.forEach((track, index) => {

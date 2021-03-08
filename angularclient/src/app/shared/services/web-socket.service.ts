@@ -5,7 +5,6 @@ import { BaseResponse } from "../messages/incoming/base-response";
 import { MpdTypes } from "../mpd/mpd-types";
 import { Observable } from "rxjs";
 import { StateMsgPayload } from "../messages/incoming/state-msg-payload";
-import { BrowseMsgPayload } from "../messages/incoming/browse";
 import { SearchMsgPayload, SearchRoot } from "../messages/incoming/search";
 import { QueuePayload } from "../messages/incoming/queue-payload";
 import { PlaylistSaved } from "../messages/incoming/playlist-saved";
@@ -54,16 +53,6 @@ export class WebSocketService {
       filter((body: BaseResponse) => !!body),
       filter((body: BaseResponse) => body.type === MpdTypes.QUEUE),
       map((body: BaseResponse) => <QueuePayload>body.payload)
-    );
-  }
-
-  getBrowseSubscription(): Observable<BrowseMsgPayload> {
-    return this.rxStompService.watch("/topic/controller").pipe(
-      map((message) => message.body),
-      map((body: string) => <BaseResponse>JSON.parse(body)),
-      filter((body: BaseResponse) => !!body),
-      filter((body: BaseResponse) => body.type === MpdTypes.BROWSE),
-      map((body: BaseResponse) => <BrowseMsgPayload>body.payload)
     );
   }
 

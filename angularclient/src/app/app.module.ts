@@ -23,7 +23,6 @@ import { DirectoryFilterPipe } from "./shared/pipes/filter/DirectoryFilter";
 import { PlaylistFilterPipe } from "./shared/pipes/filter/PlaylistFilter";
 import { SecondsToMmSsPipe } from "./shared/pipes/SecondsToMmSs";
 import { AppRoutingModule } from "./app-routing.module";
-import { BrowseService } from "./shared/services/browse.service";
 import { MessageService } from "./shared/services/message.service";
 import { NotificationService } from "./shared/services/notification.service";
 import { SecondsToHhMmSsPipe } from "./shared/pipes/SecondsToHhMmSs";
@@ -66,6 +65,7 @@ import { DisplaySavePlaylistComponent } from "./settings/display-save-playlist/d
 import { TabTitleComponent } from "./settings/tab-title/tab-title.component";
 import { HelpModalComponent } from "./navbar/help-dialog/help-modal.component";
 import { MapEntriesPipe } from "./shared/pipes/map-entries.pipe";
+import { ErrorComponent } from "./shared/error/error.component";
 
 @NgModule({
   declarations: [
@@ -101,6 +101,7 @@ import { MapEntriesPipe } from "./shared/pipes/map-entries.pipe";
     TabTitleComponent,
     HelpModalComponent,
     MapEntriesPipe,
+    ErrorComponent,
   ],
   imports: [
     AppRoutingModule,
@@ -132,7 +133,6 @@ import { MapEntriesPipe } from "./shared/pipes/map-entries.pipe";
     MatPaginatorModule,
   ],
   providers: [
-    BrowseService,
     MessageService,
     NotificationService,
     WebSocketService,

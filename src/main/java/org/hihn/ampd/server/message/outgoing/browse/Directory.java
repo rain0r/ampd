@@ -10,5 +10,6 @@ public class Directory extends MPDFile {
 
   public Directory(final String path) {
     super(path);
+    setDirectory(true);
   }
 }

@@ -1,4 +1,4 @@
-package org.hihn.ampd.server.message.outgoing.browse;
+package org.hihn.ampd.server.model.http;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.List;
 import org.bff.javampd.file.MPDFile;
 import org.bff.javampd.song.MPDSong;
+import org.hihn.ampd.server.message.outgoing.browse.Playlist;
 
 
 /**
@@ -42,4 +43,5 @@ public class BrowsePayload {
   public List<MPDSong> getTracks() {
     return Collections.unmodifiableList(tracks);
   }
+
 }

@@ -75,4 +75,11 @@ $custom-typography: mat-typography-config(
   @include angular-material-theme($dark-theme);
 }
 
+// the default warn palette is red, so use that if the theme doesn't define one
+$warnPalette: mat-palette($mat-red);
+
+.warning-text {
+  color: mat-color($warnPalette);
+}
+
 @include mat-core($custom-typography);

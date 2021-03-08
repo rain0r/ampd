@@ -1,10 +1,10 @@
-import { MpdTrack } from "../messages/incoming/mpd-track";
+import { Track } from "../messages/incoming/track";
 
 /**
  * A queue track represents a track in the track table of the queue.
  * It's based on a MpdTrack as defined in the javampd library but has some attributes added.
  */
-export class QueueTrack implements MpdTrack {
+export class QueueTrack implements Track {
   albumName = "";
   artistName = "";
   comment = "";
@@ -27,7 +27,7 @@ export class QueueTrack implements MpdTrack {
   changed = false; // is this a new track
   dir = ""; // the directory of this track
 
-  constructor(currentTrack?: MpdTrack) {
+  constructor(currentTrack?: Track) {
     if (currentTrack) {
       this.albumName = currentTrack.albumName;
       this.artistName = currentTrack.artistName;

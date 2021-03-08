@@ -1,7 +1,8 @@
 import { Component } from "@angular/core";
-import { BrowseInfo } from "../shared/models/browse-info";
 import { BrowseService } from "../shared/services/browse.service";
-import { map } from "rxjs/operators";
+import { ActivatedRoute } from "@angular/router";
+import { AmpdBrowsePayload } from "../shared/models/ampd-browse-payload";
+import { HttpErrorResponse } from "@angular/common/http";
 
 @Component({
   selector: "app-browse",
@@ -9,14 +10,30 @@ import { map } from "rxjs/operators";
   styleUrls: ["./browse.component.scss"],
 })
 export class BrowseComponent {
-  browseInfo: BrowseInfo = new BrowseInfo();
+  browsePayload: AmpdBrowsePayload;
+  errorDetail = "";
+  errorTitle = "";
   isLoading = true;
 
-  constructor(private browseService: BrowseService) {
-    browseService.browseInfo.subscribe((info) => (this.browseInfo = info));
-    browseService.browseInfo
-      .pipe(map((browseInfo) => browseInfo.isEmpty()))
-      .subscribe((empty) => (this.isLoading = empty));
+  constructor(
+    private activatedRoute: ActivatedRoute,
+    private browseService: BrowseService
+  ) {
+    this.browsePayload = browseService.buildEmptyPayload();
+
+    // Read the query parameter identifying the current dir
+    this.activatedRoute.queryParams.subscribe((queryParams) => {
+      const dir = <string>queryParams.dir || "/";
+      this.browseService.sendBrowseReq(dir).subscribe(
+        (browsePayload) => (this.browsePayload = browsePayload),
+        (err: HttpErrorResponse) => {
+          this.errorTitle = `Got an error while browsing ${dir}`;
+          this.errorDetail = err.message;
+          this.isLoading = false;
+        },
+        () => (this.isLoading = false)
+      );
+    });
   }
 
   onBackToTop(): void {

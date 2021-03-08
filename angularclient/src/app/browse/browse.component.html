@@ -22,20 +22,31 @@
       fxLayoutGap.lt-md="0"
   >
     <!-- playlists -->
-    <div fxFlex *ngIf="browseInfo.playlistQueue.length > 0">
+    <div fxFlex *ngIf="browsePayload.playlists.length > 0">
       <app-playlists
-          [playlistQueue]="browseInfo.playlistQueue"
+          [playlistQueue]="browsePayload.playlists"
       ></app-playlists>
     </div>
 
     <!-- directories -->
-    <div fxFlex *ngIf="browseInfo.dirQueue.length > 0">
-      <app-directories [dirQueue]="browseInfo.dirQueue"></app-directories>
+    <div fxFlex *ngIf="browsePayload.directories.length > 0">
+      <app-directories [dirQueue]="browsePayload.directories"></app-directories>
     </div>
 
     <!-- tracks -->
-    <div fxFlex *ngIf="browseInfo.trackQueue.length > 0">
-      <app-tracks [tracks]="browseInfo.trackQueue"></app-tracks>
+    <div fxFlex *ngIf="browsePayload.tracks.length > 0">
+      <app-tracks [tracks]="browsePayload.tracks"></app-tracks>
+    </div>
+
+    <!-- Error handling -->
+    <div fxFlex *ngIf="errorTitle">
+      <app-error [errorDetail]="errorDetail" [errorTitle]="errorTitle"></app-error>
+    </div>
+
+    <!-- Empty MPD library -->
+    <div fxFlex
+         *ngIf="browsePayload.playlists.length===0 && browsePayload.directories.length===0 && browsePayload.tracks.length===0 && !isLoading ">
+      Nothing to see here. You seem to have an empty MPD library!
     </div>
   </div>
 </div>

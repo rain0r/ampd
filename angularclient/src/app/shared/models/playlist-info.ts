@@ -1,4 +1,4 @@
-import { MpdTrack } from "../messages/incoming/mpd-track";
+import { Track } from "../messages/incoming/track";
 
 /**
  * Info about a playlist as received by the backend.
@@ -6,5 +6,5 @@ import { MpdTrack } from "../messages/incoming/mpd-track";
 export interface PlaylistInfo {
   name: string;
   trackCount: number;
-  tracks: MpdTrack[];
+  tracks: Track[];
 }

@@ -7,7 +7,6 @@ import org.hihn.ampd.server.message.outgoing.queue.QueuePayload;
 import org.hihn.ampd.server.message.outgoing.state.StatePayload;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 /**
@@ -32,7 +31,6 @@ public class ScheduledQueuePublisher {
   /**
    * Publishes the queue every second.
    */
-  @Scheduled(fixedDelay = 1 * 1000L)
   public void publishUpdates() {
     if (!mpd.isConnected()) {
       return;

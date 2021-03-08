@@ -12,7 +12,7 @@ import { WebSocketService } from "../../shared/services/web-socket.service";
 import { InternalMessageType } from "../../shared/messages/internal/internal-message-type.enum";
 import { FilterMessage } from "../../shared/messages/internal/message-types/filter-message";
 import { MpdCommands } from "../../shared/mpd/mpd-commands.enum";
-import { BrowsePayload } from "../../shared/models/browse-payload";
+import { BrowseService } from "../../shared/services/browse.service";
 import { BehaviorSubject } from "rxjs";
 
 @Component({
@@ -23,17 +23,20 @@ import { BehaviorSubject } from "rxjs";
 export class BrowseNavigationComponent implements OnInit {
   @ViewChild("filterInputElem") filterInputElem?: ElementRef;
 
-  displayFilter$ = new BehaviorSubject<boolean>(true);
   getParamDir = "";
   filter = "";
+  dirUp$ = new BehaviorSubject<string>("/");
 
   constructor(
     private activatedRoute: ActivatedRoute,
+    private browseService: BrowseService,
     private messageService: MessageService,
     private notificationService: NotificationService,
     private router: Router,
     private webSocketService: WebSocketService
-  ) {}
+  ) {
+    this.buildDirUp();
+  }
 
   @HostListener("document:keydown.f", ["$event"])
   onSearchKeydownHandler(event: KeyboardEvent): void {
@@ -52,16 +55,9 @@ export class BrowseNavigationComponent implements OnInit {
     //   this.getParamDir = dir;
     //   this.browseService.sendBrowseReq(dir);
     // });
-    // this.browseService.browseInfo.subscribe((browseInfo) => {
-    //   // We don't support filtering the tracks of a single album
-    //   this.displayFilter$.next(!this.isTracksOnly(browseInfo));
-    // });
   }
 
   onAddDir(dir: string): void {
-    if (typeof dir !== "string") {
-      return;
-    }
     if (dir.startsWith("/")) {
       dir = dir.substr(1, dir.length);
     }
@@ -75,23 +71,6 @@ export class BrowseNavigationComponent implements OnInit {
     this.onAddDir(dir);
     this.webSocketService.send(MpdCommands.SET_PLAY);
     this.notificationService.popUp(`Playing directory: "${dir}"`);
-  }
-
-  onMoveDirUp(): void {
-    const splitted = this.getParamDir.split("/");
-    splitted.pop();
-    let targetDir = splitted.join("/");
-    if (targetDir.length === 0) {
-      targetDir = "/";
-    }
-    this.router
-      .navigate(["browse"], { queryParams: { dir: targetDir } })
-      .then((fulfilled) => {
-        if (fulfilled) {
-          this.getParamDir = targetDir;
-        }
-      })
-      .catch(() => void 0);
   }
 
   onClearQueue(): void {
@@ -124,11 +103,16 @@ export class BrowseNavigationComponent implements OnInit {
     } as FilterMessage);
   }
 
-  private isTracksOnly(browseInfo: BrowsePayload): boolean {
-    return (
-      browseInfo.directories.length === 0 &&
-      browseInfo.playlists.length === 0 &&
-      browseInfo.tracks.length > 0
-    );
+  private buildDirUp(): void {
+    this.activatedRoute.queryParams.subscribe((queryParams) => {
+      const dir = <string>queryParams.dir || "/";
+      const splitted = dir.split("/");
+      splitted.pop();
+      let targetDir = splitted.join("/");
+      if (targetDir.length === 0) {
+        targetDir = "/";
+      }
+      this.dirUp$.next(targetDir);
+    });
   }
 }

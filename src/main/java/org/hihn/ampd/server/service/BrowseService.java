@@ -40,8 +40,7 @@ public class BrowseService {
       /* Only look for playlists if path is '/' or '' */
       browsePayload.addPlaylists(getPlaylists());
     }
-    return new BrowsePayload();
-    // return browsePayload;
+    return browsePayload;
   }
 
   public BrowsePayload browseDir(String path) {

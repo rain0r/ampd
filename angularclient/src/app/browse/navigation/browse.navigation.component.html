@@ -10,7 +10,8 @@
 
   <!--Go one dir up -->
   <button *ngIf="getParamDir !== '/'" class="mat-small" mat-raised-button
-          (click)="onMoveDirUp()">
+          [routerLink]="['/browse']"
+          [queryParams]="{dir: dirUp$|async}">
     <mat-icon> navigate_before</mat-icon>
     <span fxHide.lt-md>Return</span>
   </button>
@@ -49,7 +50,6 @@
           matInput
           placeholder="Filter"
           type="text"
-          [disabled]="!(displayFilter$|async)"
       />
       <button
           (click)="filter = ''; resetFilter()"

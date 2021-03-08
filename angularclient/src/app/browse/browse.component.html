@@ -42,11 +42,5 @@
     <div fxFlex *ngIf="errorTitle">
       <app-error [errorDetail]="errorDetail" [errorTitle]="errorTitle"></app-error>
     </div>
-
-    <!-- Empty MPD library -->
-    <div fxFlex
-         *ngIf="browsePayload.playlists.length===0 && browsePayload.directories.length===0 && browsePayload.tracks.length===0 && !isLoading ">
-      Nothing to see here. You seem to have an empty MPD library!
-    </div>
   </div>
 </div>

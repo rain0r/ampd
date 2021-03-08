@@ -23,9 +23,17 @@ export class BrowseComponent {
 
     // Read the query parameter identifying the current dir
     this.activatedRoute.queryParams.subscribe((queryParams) => {
+      // Turn the loading animation on
+      this.isLoading = true;
+
+      // Empty the browse info so to prevent displaying the former objects when browsing
+      this.browsePayload = browseService.buildEmptyPayload();
+
       const dir = <string>queryParams.dir || "/";
       this.browseService.sendBrowseReq(dir).subscribe(
-        (browsePayload) => (this.browsePayload = browsePayload),
+        (browsePayload) => {
+          this.browsePayload = browsePayload;
+        },
         (err: HttpErrorResponse) => {
           this.errorTitle = `Got an error while browsing ${dir}`;
           this.errorDetail = err.message;

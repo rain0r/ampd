@@ -17,7 +17,6 @@ public abstract class AmpdMessage implements Message {
     ADD_TRACKS,
     BLACKLIST_COVER,
     DELETE_PLAYLIST,
-    GET_BROWSE,
     GET_QUEUE,
     PLAY_TRACK,
     RM_ALL,

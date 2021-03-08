@@ -173,9 +173,8 @@ public class CoverCacheService {
   @edu.umd.cs.findbugs.annotations.SuppressFBWarnings(
       value = "NP_NULL_ON_SOME_PATH_FROM_RETURN_VALUE")
   private Optional<Path> findCoverFileName(final String trackFilePath) {
-
     if (settings.getMusicDirectory().isEmpty()) {
-      LOG.info("No music directory set, aborting.");
+      LOG.info("No music directory set, not looking for local file.");
       return Optional.empty();
     }
 

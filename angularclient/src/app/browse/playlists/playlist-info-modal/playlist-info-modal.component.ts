@@ -53,12 +53,6 @@ export class PlaylistInfoModalComponent implements AfterViewInit {
     });
     this.dialogRef.close();
     this.notificationService.popUp(`Deleted playlist: "${this.data.name}"`);
-    this.activatedRoute.queryParams.subscribe((queryParams) => {
-      const dir = <string>queryParams.dir || "/";
-      this.webSocketService.sendData(MpdCommands.GET_BROWSE, {
-        path: dir,
-      });
-    });
   }
 
   onAddPlaylist(): void {

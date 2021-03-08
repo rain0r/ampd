@@ -27,7 +27,7 @@ export class QueueTrack implements Track {
   changed = false; // is this a new track
   dir = ""; // the directory of this track
 
-  constructor(currentTrack?: Track) {
+  constructor(currentTrack?: Track, position = 0) {
     if (currentTrack) {
       this.albumName = currentTrack.albumName;
       this.artistName = currentTrack.artistName;
@@ -38,7 +38,7 @@ export class QueueTrack implements Track {
       this.id = currentTrack.id;
       this.length = currentTrack.length;
       this.name = currentTrack.name;
-      this.position = currentTrack.position;
+      this.position = position;
       this.title = currentTrack.title;
       this.track = currentTrack.track;
       this.year = currentTrack.year;

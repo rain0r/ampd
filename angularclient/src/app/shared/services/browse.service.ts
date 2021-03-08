@@ -34,16 +34,12 @@ export class BrowseService {
   }
 
   private convertPayload(payload: BrowsePayload): AmpdBrowsePayload {
-    const ret = {
+    return {
       directories: payload.directories,
       playlists: payload.playlists,
-      tracks: [],
+      tracks: payload.tracks.map(
+        (track, index) => new QueueTrack(track, index)
+      ),
     } as AmpdBrowsePayload;
-
-    payload.tracks.forEach((track, index) => {
-      track.position = index;
-      return new QueueTrack(track);
-    });
-    return ret;
   }
 }

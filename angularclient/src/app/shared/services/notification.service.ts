@@ -5,9 +5,10 @@ import { MatSnackBar } from "@angular/material/snack-bar";
 export class NotificationService {
   constructor(private snackBar: MatSnackBar) {}
 
-  popUp(message: string): void {
+  popUp(message: string, isErrorMsg = false): void {
+    const duration = isErrorMsg ? 10000 : 2000;
     this.snackBar.open(message, "Close", {
-      duration: 2000,
+      duration: duration,
     });
   }
 }

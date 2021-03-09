@@ -11,6 +11,7 @@ import { PlaylistInfo } from "../models/playlist-info";
 import { SettingsService } from "./settings.service";
 import { MpdCommands } from "../mpd/mpd-commands.enum";
 import { VolumeSetter } from "../models/volume-setter";
+import { SavePlaylistResponse } from "../models/http/savePlaylistResponse";
 
 @Injectable({
   providedIn: "root",
@@ -53,6 +54,13 @@ export class MpdService {
   getPlaylistInfo(playlistName: string): Observable<PlaylistInfo> {
     return this.http.get<PlaylistInfo>(
       this.settingsService.getPlaylistInfoUrl(playlistName)
+    );
+  }
+
+  savePlaylist(playlistName: string): Observable<SavePlaylistResponse> {
+    return this.http.post<SavePlaylistResponse>(
+      this.settingsService.getPlaylistRootUrl(),
+      { playlistName: playlistName }
     );
   }
 

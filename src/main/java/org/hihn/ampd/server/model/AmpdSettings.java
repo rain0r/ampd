@@ -10,9 +10,9 @@ import org.springframework.stereotype.Component;
  * Represents all possible ampd settings. Can't be changed during runtime.
  */
 @Component
-public class Settings {
+public class AmpdSettings {
 
-  private static final Logger LOG = LoggerFactory.getLogger(Settings.class);
+  private static final Logger LOG = LoggerFactory.getLogger(AmpdSettings.class);
 
   /**
    * If true, covers that have been downloaded from MusicBrainz will be saved to disk and used the
@@ -53,15 +53,20 @@ public class Settings {
    */
   private final boolean resetModesOnClear;
 
+  /**
+   * When true, users will be allowed to save the queue as a new playlist on the MPD server.
+   */
+  private final boolean createNewPlaylists;
+
   @Autowired
-  public Settings(@Value("${mpd.server:localhost}") final String mpdServer,
+  public AmpdSettings(@Value("${mpd.server:localhost}") final String mpdServer,
       @Value("${mpd.music.directory:}") final String musicDirectory,
       @Value("${mpd.port:660}") final int mpdPort,
       @Value("${mpd.password:}") final String mpdPassword,
       @Value("${local.cover.cache:true}") final boolean localCoverCache,
       @Value("${mb.cover.service:true}") final boolean mbCoverService,
-      @Value("${reset.modes.on.clear:false}") final boolean resetModesOnClear
-  ) {
+      @Value("${reset.modes.on.clear:false}") final boolean resetModesOnClear,
+      @Value("${create.new.playlists:false}") final boolean createNewPlaylists) {
     this.mpdServer = mpdServer;
     this.musicDirectory = musicDirectory;
     this.mpdPort = mpdPort;
@@ -69,6 +74,7 @@ public class Settings {
     this.localCoverCache = localCoverCache;
     this.mbCoverService = mbCoverService;
     this.resetModesOnClear = resetModesOnClear;
+    this.createNewPlaylists = createNewPlaylists;
 
     LOG.debug("mpdServer: " + mpdServer);
     LOG.debug("musicDirectory: " + musicDirectory);
@@ -76,6 +82,7 @@ public class Settings {
     LOG.debug("localCoverCache: " + localCoverCache);
     LOG.debug("mbCoverService: " + mbCoverService);
     LOG.debug("resetModesOnClear: " + resetModesOnClear);
+    LOG.debug("createNewPlaylists: " + createNewPlaylists);
   }
 
   public String getMpdPassword() {
@@ -104,5 +111,9 @@ public class Settings {
 
   public boolean isResetModesOnClear() {
     return resetModesOnClear;
+  }
+
+  public boolean isCreateNewPlaylists() {
+    return createNewPlaylists;
   }
 }

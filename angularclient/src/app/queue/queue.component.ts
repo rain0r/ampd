@@ -1,9 +1,9 @@
-import {Component, HostListener} from "@angular/core";
-import {MpdService} from "../shared/services/mpd.service";
-import {Title} from "@angular/platform-browser";
-import {combineLatest} from "rxjs";
-import {map} from "rxjs/operators";
-import {SettingsService} from "../shared/services/settings.service";
+import { Component, HostListener } from "@angular/core";
+import { MpdService } from "../shared/services/mpd.service";
+import { Title } from "@angular/platform-browser";
+import { combineLatest } from "rxjs";
+import { map } from "rxjs/operators";
+import { SettingsService } from "../shared/services/settings.service";
 
 @Component({
   selector: "app-queue",

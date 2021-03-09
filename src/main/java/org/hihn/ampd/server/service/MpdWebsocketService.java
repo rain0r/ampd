@@ -20,7 +20,7 @@ public interface MpdWebsocketService {
   Optional<Message> addTracks(Map<String, Object> inputPayload);
 
   Optional<Message> blacklistCover(Map<String, Object> inputPayload);
-  
+
   Optional<Message> deletePlaylist(Map<String, Object> inputPayload);
 
   Optional<Message> getQueue(Map<String, Object> inputPayload);
@@ -38,8 +38,6 @@ public interface MpdWebsocketService {
   Optional<Message> removeAll(Map<String, Object> inputPayload);
 
   Optional<Message> removeTrack(Map<String, Object> inputPayload);
-
-  Optional<Message> savePlaylist(Map<String, Object> inputPayload);
 
   Optional<Message> search(Map<String, Object> inputPayload);
 

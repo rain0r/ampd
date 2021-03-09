@@ -8,8 +8,8 @@ import java.nio.file.Paths;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
+import org.hihn.ampd.server.model.AmpdSettings;
 import org.hihn.ampd.server.model.CoverBlacklist;
-import org.hihn.ampd.server.model.Settings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -23,12 +23,12 @@ public class CoverBlacklistService {
 
   private final Set<String> blacklistedFiles = new HashSet<>();
 
-  private final Settings settings;
+  private final AmpdSettings ampdSettings;
 
   public CoverBlacklistService(AmpdDirService ampdDirService,
-      Settings settings) {
+      AmpdSettings ampdSettings) {
     this.ampdDirService = ampdDirService;
-    this.settings = settings;
+    this.ampdSettings = ampdSettings;
     blacklistedFiles.addAll(loadBlacklistFile());
   }
 
@@ -40,7 +40,7 @@ public class CoverBlacklistService {
    */
   public void addFileToBlacklist(final String file) {
     // Check if the file exists
-    boolean exist = Paths.get(settings.getMusicDirectory(), file).toFile().exists();
+    boolean exist = Paths.get(ampdSettings.getMusicDirectory(), file).toFile().exists();
     if (exist) {
       blacklistedFiles.add(file);
       saveFile();

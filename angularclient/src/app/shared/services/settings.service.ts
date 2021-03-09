@@ -132,8 +132,8 @@ export class SettingsService {
     return `${this.getBackendContextAddr()}api/browse?path=${path}`;
   }
 
-  getSavedPlaylistsUrl(): string {
-    return `${this.getBackendContextAddr()}api/playlists`;
+  getPlaylistRootUrl(): string {
+    return `${this.getBackendContextAddr()}api/playlists/`;
   }
 
   /**

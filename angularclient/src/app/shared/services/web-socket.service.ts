@@ -66,13 +66,27 @@ export class WebSocketService {
     );
   }
 
-  getPlaylistSavedSubscription(): Observable<PlaylistSaved> {
+  _getPlaylistSavedSubscription(): Observable<PlaylistSaved> {
     return this.rxStompService.watch("/topic/controller").pipe(
       map((message) => message.body),
       map((body: string) => <BaseResponse>JSON.parse(body)),
       filter((body: BaseResponse) => !!body),
       filter((body: BaseResponse) => body.type === MpdTypes.PLAYLIST_SAVED),
       map((body: BaseResponse) => <PlaylistSaved>body.payload)
+    );
+  }
+
+  getPlaylistSavedSubscription(): Observable<PlaylistSaved> {
+    return this.filterAmpdMessages(MpdTypes.PLAYLIST_SAVED).pipe(
+      map((body: BaseResponse) => <PlaylistSaved>body.payload)
+    );
+  }
+
+  private filterAmpdMessages(mpdType: MpdTypes): Observable<BaseResponse> {
+    return this.rxStompService.watch("/topic/controller").pipe(
+      map((message) => message.body),
+      map((body: string) => <BaseResponse>JSON.parse(body)),
+      filter((body: BaseResponse) => body.type === mpdType)
     );
   }
 }

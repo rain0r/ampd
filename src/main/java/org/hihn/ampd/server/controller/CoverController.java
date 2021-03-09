@@ -1,6 +1,5 @@
 package org.hihn.ampd.server.controller;
 
-import java.util.Optional;
 import org.hihn.ampd.server.service.CoverFetcherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -38,7 +37,7 @@ public class CoverController {
       produces = MediaType.IMAGE_JPEG_VALUE
   )
   public @ResponseBody
-  byte[] findAlbumCoverForDir(@RequestParam("path") final Optional<String> dirPath) {
+  byte[] findAlbumCoverForDir(@RequestParam("path") final String dirPath) {
     return coverFetcherService.findAlbumCoverForDir(dirPath)
         .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
   }
@@ -54,7 +53,7 @@ public class CoverController {
       produces = MediaType.IMAGE_JPEG_VALUE
   )
   public @ResponseBody
-  byte[] findAlbumCoverForTrack(@RequestParam("path") final Optional<String> trackFilePath) {
+  byte[] findAlbumCoverForTrack(@RequestParam("path") final String trackFilePath) {
     return coverFetcherService.findAlbumCoverForTrack(trackFilePath)
         .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
   }

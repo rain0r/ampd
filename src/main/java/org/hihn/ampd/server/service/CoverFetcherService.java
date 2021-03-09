@@ -50,14 +50,12 @@ public class CoverFetcherService {
    * @param dir The directory that contains a cover.
    * @return The content of the found cover.
    */
-  public Optional<byte[]> findAlbumCoverForDir(final Optional<String> dir) {
-    if (dir.isPresent()) {
-      Path path = Paths.get(ampdSettings.getMusicDirectory(), dir.get());
-      List<Path> covers = coverCacheService.scanDir(path);
-      if (covers.size() > 0) {
-        Path coverPath = covers.get(0);
-        return coverCacheService.loadFile(coverPath);
-      }
+  public Optional<byte[]> findAlbumCoverForDir(final String dir) {
+    Path path = Paths.get(ampdSettings.getMusicDirectory(), dir);
+    List<Path> covers = coverCacheService.scanDir(path);
+    if (covers.size() > 0) {
+      Path coverPath = covers.get(0);
+      return coverCacheService.loadFile(coverPath);
     }
     return Optional.empty();
   }
@@ -68,12 +66,9 @@ public class CoverFetcherService {
    * @param trackFilePath The file path of a track.
    * @return The bytes of the found cover.
    */
-  public Optional<byte[]> findAlbumCoverForTrack(final Optional<String> trackFilePath) {
-    if (trackFilePath.isEmpty()) {
-      return Optional.empty();
-    }
+  public Optional<byte[]> findAlbumCoverForTrack(final String trackFilePath) {
     final Collection<MPDSong> foundTracks = mpd.getMusicDatabase().getSongDatabase()
-        .searchFileName(trackFilePath.get());
+        .searchFileName(trackFilePath);
     if (foundTracks.size() == 1) {
       return getAlbumCoverForTrack(foundTracks.iterator().next());
     }

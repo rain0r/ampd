@@ -40,7 +40,10 @@ public class AmpdDirService {
         .get(System.getProperty("user.home"), ".local", "share", "ampd", MB_BLACKLIST_FILE);
     if (!Files.exists(path)) {
       try {
-        path.toFile().createNewFile();
+        boolean created = path.toFile().createNewFile();
+        if (!created) {
+          LOG.debug("File already exists: {}", path);
+        }
       } catch (IOException e) {
         LOG.error("Could not create the MusicBrainz blacklist file: {}", path);
         return Optional.empty();

@@ -32,7 +32,7 @@ public class ScheduledQueuePublisher {
   /**
    * Publishes the queue every second.
    */
-  @Scheduled(fixedDelay = 1 * 1000L)
+  @Scheduled(fixedDelay = 1000L)
   public void publishUpdates() {
     if (!mpd.isConnected()) {
       return;

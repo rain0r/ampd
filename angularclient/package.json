@@ -44,7 +44,7 @@
     "@angular/cli": "~11.2.2",
     "@angular/compiler-cli": "~11.2.3",
     "@angular/language-service": "~11.2.3",
-    "@types/node": "~14.14.32",
+    "@types/node": "~14.14.33",
     "@typescript-eslint/eslint-plugin": "~4.16.1",
     "@typescript-eslint/parser": "~4.16.1",
     "codelyzer": "~6.0.0",

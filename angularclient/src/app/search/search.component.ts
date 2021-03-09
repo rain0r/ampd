@@ -13,6 +13,7 @@ import { ClickActions } from "../shared/track-table/click-actions.enum";
 import { NotificationService } from "../shared/services/notification.service";
 import { Subject } from "rxjs";
 import { bufferTime, filter, map } from "rxjs/operators";
+import { MpdService } from "../shared/services/mpd.service";
 
 @Component({
   selector: "app-search",
@@ -29,9 +30,10 @@ export class SearchComponent {
   private inputSetter$ = new Subject<string>();
 
   constructor(
-    private webSocketService: WebSocketService,
     private deviceService: DeviceDetectorService,
-    private notificationService: NotificationService
+    private mpdService: MpdService,
+    private notificationService: NotificationService,
+    private webSocketService: WebSocketService
   ) {
     this.buildMsgReceiver();
     this.buildInputListener();
@@ -60,8 +62,7 @@ export class SearchComponent {
   }
 
   onClearQueue(): void {
-    this.webSocketService.send(MpdCommands.RM_ALL);
-    this.webSocketService.send(MpdCommands.GET_QUEUE);
+    this.mpdService.clearQueue();
     this.notificationService.popUp("Cleared queue");
   }
 

@@ -15,6 +15,7 @@ import { FilterMessage } from "../../shared/messages/internal/message-types/filt
 import { MpdCommands } from "../../shared/mpd/mpd-commands.enum";
 import { BehaviorSubject, Observable } from "rxjs";
 import { AmpdBrowsePayload } from "../../shared/models/ampd-browse-payload";
+import { MpdService } from "../../shared/services/mpd.service";
 
 @Component({
   selector: "app-navigation",
@@ -34,6 +35,7 @@ export class BrowseNavigationComponent implements OnInit {
   constructor(
     private activatedRoute: ActivatedRoute,
     private messageService: MessageService,
+    private mpdService: MpdService,
     private notificationService: NotificationService,
     private webSocketService: WebSocketService
   ) {
@@ -76,8 +78,7 @@ export class BrowseNavigationComponent implements OnInit {
   }
 
   onClearQueue(): void {
-    this.webSocketService.send(MpdCommands.RM_ALL);
-    this.webSocketService.send(MpdCommands.GET_QUEUE);
+    this.mpdService.clearQueue();
     this.notificationService.popUp("Cleared queue");
   }
 

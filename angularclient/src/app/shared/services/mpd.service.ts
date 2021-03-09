@@ -46,6 +46,10 @@ export class MpdService {
     this.buildVolumeSetter();
   }
 
+  refreshQueue(): void {
+    this.webSocketService.send(MpdCommands.GET_QUEUE);
+  }
+
   getPlaylistInfo(playlistName: string): Observable<PlaylistInfo> {
     return this.http.get<PlaylistInfo>(
       this.settingsService.getPlaylistInfoUrl(playlistName)

@@ -1,26 +1,28 @@
-import { Component, OnInit } from "@angular/core";
-import { WebSocketService } from "../shared/services/web-socket.service";
-import { MpdService } from "../shared/services/mpd.service";
-import { Title } from "@angular/platform-browser";
-import { combineLatest } from "rxjs";
-import { map } from "rxjs/operators";
-import { SettingsService } from "../shared/services/settings.service";
+import {Component, HostListener} from "@angular/core";
+import {MpdService} from "../shared/services/mpd.service";
+import {Title} from "@angular/platform-browser";
+import {combineLatest} from "rxjs";
+import {map} from "rxjs/operators";
+import {SettingsService} from "../shared/services/settings.service";
 
 @Component({
   selector: "app-queue",
   templateUrl: "./queue.component.html",
   styleUrls: ["./queue.component.scss"],
 })
-export class QueueComponent implements OnInit {
+export class QueueComponent {
   constructor(
-    private webSocketService: WebSocketService,
-    private titleService: Title,
     private mpdService: MpdService,
-    private settingsService: SettingsService
+    private settingsService: SettingsService,
+    private titleService: Title
   ) {}
 
-  ngOnInit(): void {
-    this.buildTitle();
+  @HostListener("document:visibilitychange", ["$event"])
+  onKeyUp(): void {
+    if (document.visibilityState === "visible") {
+      this.buildTitle();
+      this.mpdService.refreshQueue();
+    }
   }
 
   /**

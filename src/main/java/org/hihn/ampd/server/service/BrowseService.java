@@ -29,13 +29,13 @@ public class BrowseService {
    * Generell browse request for a path. Includes directories, tracks and playlists.
    *
    * @param path The path to browse
-   * @return
+   * @return Object with the directories, tracks and playlist of the given path.
    */
   public BrowsePayload browse(String path) {
     /* Remove leading slashes */
     path = path.replaceAll("^/+", "");
     /* Outgoing payload */
-    BrowsePayload browsePayload = browseDir(path);
+    BrowsePayload browsePayload = findDirsAndTracks(path);
     if (path.trim().length() < 2) {
       /* Only look for playlists if path is '/' or '' */
       browsePayload.addPlaylists(getPlaylists());
@@ -43,7 +43,13 @@ public class BrowseService {
     return browsePayload;
   }
 
-  public BrowsePayload browseDir(String path) {
+  /**
+   * Lists the contents of the given directory in the MPD library.
+   *
+   * @param path Path relative to the MPD root library.
+   * @return Object with the directories and tracks of the given path.
+   */
+  public BrowsePayload findDirsAndTracks(String path) {
     BrowsePayload browsePayload = new BrowsePayload();
     // Build a MPDFile from the input path
     MPDFile startDir = new MPDFile(path);
@@ -70,6 +76,11 @@ public class BrowseService {
     return browsePayload;
   }
 
+  /**
+   * Returns all playlists saved on the MPD server.
+   *
+   * @return List of saved playlists.
+   */
   private Collection<Playlist> getPlaylists() {
     TreeSet<Playlist> ret = new TreeSet<>();
     Collection<String> playlists = mpd.getMusicDatabase().getPlaylistDatabase()

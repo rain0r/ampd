@@ -10,7 +10,6 @@ export enum MpdCommands {
   PLAY_TRACK = "PLAY_TRACK",
   RM_ALL = "RM_ALL",
   RM_TRACK = "RM_TRACK",
-  SAVE_PLAYLIST = "SAVE_PLAYLIST",
   SEARCH = "SEARCH",
   SET_NEXT = "SET_NEXT",
   SET_PAUSE = "SET_PAUSE",

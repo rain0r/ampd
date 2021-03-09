@@ -8,8 +8,8 @@ import java.util.Optional;
 import org.bff.javampd.server.MPD;
 import org.bff.javampd.song.MPDSong;
 import org.hihn.ampd.server.config.MpdConfiguration;
+import org.hihn.ampd.server.model.AmpdSettings;
 import org.hihn.ampd.server.model.CoverType;
-import org.hihn.ampd.server.model.Settings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -30,16 +30,16 @@ public class CoverFetcherService {
 
   private final MPD mpd;
 
-  private final Settings settings;
+  private final AmpdSettings ampdSettings;
 
   public CoverFetcherService(
       final CoverCacheService coverCacheService,
       final MbCoverService mbCoverService,
-      final MpdConfiguration mpdConfiguration, Settings settings,
+      final MpdConfiguration mpdConfiguration, AmpdSettings ampdSettings,
       CoverBlacklistService coverBlacklistService) {
     this.coverCacheService = coverCacheService;
     this.mbCoverService = mbCoverService;
-    this.settings = settings;
+    this.ampdSettings = ampdSettings;
     mpd = mpdConfiguration.mpd();
     this.coverBlacklistService = coverBlacklistService;
   }
@@ -52,7 +52,7 @@ public class CoverFetcherService {
    */
   public Optional<byte[]> findAlbumCoverForDir(final Optional<String> dir) {
     if (dir.isPresent()) {
-      Path path = Paths.get(settings.getMusicDirectory(), dir.get());
+      Path path = Paths.get(ampdSettings.getMusicDirectory(), dir.get());
       List<Path> covers = coverCacheService.scanDir(path);
       if (covers.size() > 0) {
         Path coverPath = covers.get(0);

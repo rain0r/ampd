@@ -15,14 +15,12 @@ import org.hihn.ampd.server.config.AmpdCommandRunner;
 import org.hihn.ampd.server.config.MpdConfiguration;
 import org.hihn.ampd.server.message.AmpdMessage.MessageType;
 import org.hihn.ampd.server.message.Message;
-import org.hihn.ampd.server.message.outgoing.playlist.PlaylistSavedMessage;
-import org.hihn.ampd.server.message.outgoing.playlist.PlaylistSavedPayload;
 import org.hihn.ampd.server.message.outgoing.queue.QueueMessage;
 import org.hihn.ampd.server.message.outgoing.queue.QueuePayload;
 import org.hihn.ampd.server.message.outgoing.search.SearchMessage;
 import org.hihn.ampd.server.message.outgoing.search.SearchPayload;
+import org.hihn.ampd.server.model.AmpdSettings;
 import org.hihn.ampd.server.model.PlaylistInfo;
-import org.hihn.ampd.server.model.Settings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -41,13 +39,13 @@ public class MpdService implements MpdWebsocketService {
 
   private final MPD mpd;
 
-  private final Settings settings;
+  private final AmpdSettings ampdSettings;
 
   public MpdService(MpdConfiguration mpdConfiguration,
-      CoverBlacklistService coverBlacklistService, Settings settings) {
+      CoverBlacklistService coverBlacklistService, AmpdSettings ampdSettings) {
     mpd = mpdConfiguration.mpd();
     this.coverBlacklistService = coverBlacklistService;
-    this.settings = settings;
+    this.ampdSettings = ampdSettings;
     buildCommandMap();
   }
 
@@ -204,7 +202,7 @@ public class MpdService implements MpdWebsocketService {
   @Override
   public Optional<Message> removeAll(Map<String, Object> inputPayload) {
     mpd.getPlaylist().clearPlaylist();
-    if (settings.isResetModesOnClear()) {
+    if (ampdSettings.isResetModesOnClear()) {
       mpd.getPlayer().setRandom(false);
       mpd.getPlayer().setRepeat(false);
       mpd.getPlayer().setXFade(0);
@@ -220,23 +218,6 @@ public class MpdService implements MpdWebsocketService {
     int position = payload.get("position");
     mpd.getPlaylist().removeSong(position);
     return Optional.empty();
-  }
-
-  @Override
-  public Optional<Message> savePlaylist(Map<String, Object> inputPayload) {
-    Map<String, String> payload = inputToStrMap(inputPayload);
-    String playlistName = payload.get("playlistName");
-    boolean success;
-    try {
-      success = mpd.getPlaylist().savePlaylist(playlistName);
-    } catch (Exception e) {
-      success = false;
-      LOG.error("Failed to create playlist: {}", playlistName);
-      LOG.error(e.getMessage(), e);
-    }
-    PlaylistSavedPayload playlistSavedPayload = new PlaylistSavedPayload(playlistName, success);
-    PlaylistSavedMessage playlistSavedMessage = new PlaylistSavedMessage(playlistSavedPayload);
-    return Optional.of(playlistSavedMessage);
   }
 
   @Override
@@ -301,7 +282,6 @@ public class MpdService implements MpdWebsocketService {
     commands.put(MessageType.RM_ALL, this::removeAll);
     commands.put(MessageType.RM_TRACK, this::removeTrack);
     commands.put(MessageType.SEARCH, this::search);
-    commands.put(MessageType.SAVE_PLAYLIST, this::savePlaylist);
     commands.put(MessageType.SET_NEXT, this::playNext);
     commands.put(MessageType.SET_PAUSE, this::pause);
     commands.put(MessageType.SET_PLAY, this::play);

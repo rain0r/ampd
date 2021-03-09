@@ -12,7 +12,7 @@ import java.util.Optional;
 import java.util.UUID;
 import org.apache.commons.io.IOUtils;
 import org.bff.javampd.song.MPDSong;
-import org.hihn.ampd.server.model.Settings;
+import org.hihn.ampd.server.model.AmpdSettings;
 import org.musicbrainz.controller.Recording;
 import org.musicbrainz.controller.Release;
 import org.musicbrainz.model.entity.ReleaseWs2;
@@ -31,10 +31,10 @@ public class MbCoverService {
 
   private static final Logger LOG = LoggerFactory.getLogger(MbCoverService.class);
 
-  private final Settings settings;
+  private final AmpdSettings ampdSettings;
 
-  public MbCoverService(final Settings settings) {
-    this.settings = settings;
+  public MbCoverService(final AmpdSettings ampdSettings) {
+    this.ampdSettings = ampdSettings;
   }
 
   /**
@@ -44,7 +44,7 @@ public class MbCoverService {
    * @return The cover.
    */
   public Optional<byte[]> getMbCover(final MPDSong track) {
-    if (!settings.isMbCoverService()) {
+    if (!ampdSettings.isMbCoverService()) {
       return Optional.empty();
     }
     LOG.debug("Trying to load a cover from the MusicBrainz API");

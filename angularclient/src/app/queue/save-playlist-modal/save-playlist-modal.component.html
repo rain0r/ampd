@@ -8,5 +8,5 @@
 </div>
 <div mat-dialog-actions align="end">
   <button mat-stroked-button mat-dialog-close>Cancel</button>
-  <button mat-stroked-button [mat-dialog-close]="data">Ok</button>
+  <button mat-stroked-button (click)="onEnterPressed()">Ok</button>
 </div>

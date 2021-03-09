@@ -8,10 +8,8 @@ import { QueueTrack } from "../../shared/models/queue-track";
 import { MpdService } from "../../shared/services/mpd.service";
 import { MatDialog } from "@angular/material/dialog";
 import { SavePlaylistModalComponent } from "../save-playlist-modal/save-playlist-modal.component";
-import { NotificationService } from "../../shared/services/notification.service";
 import { TrackTableData } from "../../shared/track-table/track-table-data";
 import { ClickActions } from "../../shared/track-table/click-actions.enum";
-import { MpdCommands } from "../../shared/mpd/mpd-commands.enum";
 import { SettingsService } from "../../shared/services/settings.service";
 import { Observable } from "rxjs";
 
@@ -39,7 +37,6 @@ export class TrackTableComponent {
     private deviceService: DeviceDetectorService,
     private webSocketService: WebSocketService,
     private mpdService: MpdService,
-    private notificationService: NotificationService,
     private settingsService: SettingsService
   ) {
     this.buildMessageReceiver();
@@ -59,22 +56,8 @@ export class TrackTableComponent {
   }
 
   openCoverModal(): void {
-    const dialogRef = this.dialog.open(SavePlaylistModalComponent, {
+    this.dialog.open(SavePlaylistModalComponent, {
       panelClass: this.settingsService.isDarkTheme$.value ? "dark-theme" : "",
-    });
-    dialogRef.afterClosed().subscribe((playlistName: string) => {
-      if (!playlistName) {
-        return;
-      }
-      this.webSocketService.sendData(MpdCommands.SAVE_PLAYLIST, {
-        playlistName: playlistName,
-      });
-      this.mpdService.playlistSaved.subscribe((msg) => {
-        const text = msg.success
-          ? `Saved queue as playlist '${msg.playlistName}'`
-          : `Error saving queue as playlist '${msg.playlistName}'`;
-        this.notificationService.popUp(text);
-      });
     });
   }
 

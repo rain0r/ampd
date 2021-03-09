@@ -10,8 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.regex.Pattern;
+import org.hihn.ampd.server.model.AmpdSettings;
 import org.hihn.ampd.server.model.CoverType;
-import org.hihn.ampd.server.model.Settings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -26,14 +26,14 @@ public class CoverCacheService {
 
   private final boolean cacheEnabled;
 
-  private final Settings settings;
+  private final AmpdSettings ampdSettings;
 
   private Path chacheDir;
 
-  public CoverCacheService(final Settings settings,
+  public CoverCacheService(final AmpdSettings ampdSettings,
       final AmpdDirService ampdDirService) {
-    this.settings = settings;
-    cacheEnabled = settings.isLocalCoverCache() && ampdDirService.getCacheDir().isPresent();
+    this.ampdSettings = ampdSettings;
+    cacheEnabled = ampdSettings.isLocalCoverCache() && ampdDirService.getCacheDir().isPresent();
     if (cacheEnabled) {
       chacheDir = ampdDirService.getCacheDir().get();
     }
@@ -173,13 +173,13 @@ public class CoverCacheService {
   @edu.umd.cs.findbugs.annotations.SuppressFBWarnings(
       value = "NP_NULL_ON_SOME_PATH_FROM_RETURN_VALUE")
   private Optional<Path> findCoverFileName(final String trackFilePath) {
-    if (settings.getMusicDirectory().isEmpty()) {
+    if (ampdSettings.getMusicDirectory().isEmpty()) {
       LOG.info("No music directory set, not looking for local file.");
       return Optional.empty();
     }
 
     Optional<Path> ret = Optional.empty();
-    final Path path = Paths.get(settings.getMusicDirectory(), trackFilePath);
+    final Path path = Paths.get(ampdSettings.getMusicDirectory(), trackFilePath);
 
     if (path.getParent() == null || !path.toFile().exists()) {
       LOG.error("No valid path: '{}'", path);

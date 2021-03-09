@@ -43,8 +43,8 @@ export class NavbarComponent {
   }
 
   @HostListener("document:keydown", ["$event"])
-  handleKeyDown(event: KeyboardEvent): void {
-    const inputElement = event.target as HTMLInputElement;
+  handleKeyDown($event: KeyboardEvent): void {
+    const inputElement = $event.target as HTMLInputElement;
 
     /* We ignore keys coming from input fields */
     if (
@@ -54,7 +54,12 @@ export class NavbarComponent {
       return;
     }
 
-    switch (event.key) {
+    /* We don't want to interfere with non-ampd-shortcuts like Alt+Tab or Ctrl+R */
+    if ($event.ctrlKey || $event.metaKey) {
+      return;
+    }
+
+    switch ($event.key) {
       // Player controls
       case "<":
       case "ArrowLeft": // Left: Previous track

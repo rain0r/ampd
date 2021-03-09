@@ -135,7 +135,6 @@ export class SearchComponent {
       map((input: string[]) => input[input.length - 1])
     );
     volInput.subscribe((searchValue) => {
-      console.log("searchValue", searchValue);
       // Only search when the term is at least 3 chars long
       if (searchValue.length > 2) {
         this.webSocketService.sendData(MpdCommands.SEARCH, {

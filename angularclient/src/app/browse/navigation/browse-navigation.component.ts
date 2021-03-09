@@ -2,18 +2,19 @@ import {
   Component,
   ElementRef,
   HostListener,
+  Input,
   OnInit,
   ViewChild,
 } from "@angular/core";
-import { ActivatedRoute, Router } from "@angular/router";
+import { ActivatedRoute, Params } from "@angular/router";
 import { MessageService } from "../../shared/services/message.service";
 import { NotificationService } from "../../shared/services/notification.service";
 import { WebSocketService } from "../../shared/services/web-socket.service";
 import { InternalMessageType } from "../../shared/messages/internal/internal-message-type.enum";
 import { FilterMessage } from "../../shared/messages/internal/message-types/filter-message";
 import { MpdCommands } from "../../shared/mpd/mpd-commands.enum";
-import { BrowseService } from "../../shared/services/browse.service";
-import { BehaviorSubject } from "rxjs";
+import { BehaviorSubject, Observable } from "rxjs";
+import { AmpdBrowsePayload } from "../../shared/models/ampd-browse-payload";
 
 @Component({
   selector: "app-navigation",
@@ -22,20 +23,23 @@ import { BehaviorSubject } from "rxjs";
 })
 export class BrowseNavigationComponent implements OnInit {
   @ViewChild("filterInputElem") filterInputElem?: ElementRef;
+  @Input()
+  browsePayload: Observable<AmpdBrowsePayload> = new Observable<AmpdBrowsePayload>();
 
-  getParamDir = "";
-  filter = "";
   dirUp$ = new BehaviorSubject<string>("/");
+  displayFilter$ = new BehaviorSubject<boolean>(true);
+  filter = "";
+  getParamDir = "";
 
   constructor(
     private activatedRoute: ActivatedRoute,
-    private browseService: BrowseService,
     private messageService: MessageService,
     private notificationService: NotificationService,
-    private router: Router,
     private webSocketService: WebSocketService
   ) {
-    this.buildDirUp();
+    this.activatedRoute.queryParams.subscribe((queryParams) => {
+      this.buildDirUp(queryParams);
+    });
   }
 
   @HostListener("document:keydown.f", ["$event"])
@@ -50,11 +54,9 @@ export class BrowseNavigationComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // this.activatedRoute.queryParams.subscribe((queryParams) => {
-    //   const dir = <string>queryParams.dir || "/";
-    //   this.getParamDir = dir;
-    //   this.browseService.sendBrowseReq(dir);
-    // });
+    this.browsePayload.subscribe((foo) =>
+      this.displayFilter$.next(!this.isTracksOnlyDir(foo))
+    );
   }
 
   onAddDir(dir: string): void {
@@ -103,16 +105,22 @@ export class BrowseNavigationComponent implements OnInit {
     } as FilterMessage);
   }
 
-  private buildDirUp(): void {
-    this.activatedRoute.queryParams.subscribe((queryParams) => {
-      const dir = <string>queryParams.dir || "/";
-      const splitted = dir.split("/");
-      splitted.pop();
-      let targetDir = splitted.join("/");
-      if (targetDir.length === 0) {
-        targetDir = "/";
-      }
-      this.dirUp$.next(targetDir);
-    });
+  private buildDirUp(queryParams: Params): void {
+    const dir = <string>queryParams.dir || "/";
+    const splitted = dir.split("/");
+    splitted.pop();
+    let targetDir = splitted.join("/");
+    if (targetDir.length === 0) {
+      targetDir = "/";
+    }
+    this.dirUp$.next(targetDir);
+  }
+
+  private isTracksOnlyDir(tmpPayload: AmpdBrowsePayload): boolean {
+    return (
+      tmpPayload.playlists.length === 0 &&
+      tmpPayload.directories.length === 0 &&
+      tmpPayload.tracks.length > 0
+    );
   }
 }

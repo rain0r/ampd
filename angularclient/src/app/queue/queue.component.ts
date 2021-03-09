@@ -1,6 +1,5 @@
-import { Component, HostListener, OnInit } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { WebSocketService } from "../shared/services/web-socket.service";
-import { MpdCommands } from "../shared/mpd/mpd-commands.enum";
 import { MpdService } from "../shared/services/mpd.service";
 import { Title } from "@angular/platform-browser";
 import { combineLatest } from "rxjs";
@@ -20,15 +19,7 @@ export class QueueComponent implements OnInit {
     private settingsService: SettingsService
   ) {}
 
-  @HostListener("document:visibilitychange", ["$event"])
-  onKeyUp(): void {
-    if (document.visibilityState === "visible") {
-      this.webSocketService.send(MpdCommands.GET_QUEUE);
-    }
-  }
-
   ngOnInit(): void {
-    this.webSocketService.send(MpdCommands.GET_QUEUE);
     this.buildTitle();
   }
 

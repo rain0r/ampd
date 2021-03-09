@@ -3,6 +3,7 @@ import { BrowseService } from "../shared/services/browse.service";
 import { ActivatedRoute } from "@angular/router";
 import { AmpdBrowsePayload } from "../shared/models/ampd-browse-payload";
 import { HttpErrorResponse } from "@angular/common/http";
+import { BehaviorSubject, Observable } from "rxjs";
 
 @Component({
   selector: "app-browse",
@@ -10,16 +11,20 @@ import { HttpErrorResponse } from "@angular/common/http";
   styleUrls: ["./browse.component.scss"],
 })
 export class BrowseComponent {
-  browsePayload: AmpdBrowsePayload;
+  browsePayload: Observable<AmpdBrowsePayload>;
   errorDetail = "";
   errorTitle = "";
   isLoading = true;
+  private browsePayload$: BehaviorSubject<AmpdBrowsePayload>;
 
   constructor(
     private activatedRoute: ActivatedRoute,
     private browseService: BrowseService
   ) {
-    this.browsePayload = browseService.buildEmptyPayload();
+    this.browsePayload$ = new BehaviorSubject<AmpdBrowsePayload>(
+      browseService.buildEmptyPayload()
+    );
+    this.browsePayload = this.browsePayload$.asObservable();
 
     // Read the query parameter identifying the current dir
     this.activatedRoute.queryParams.subscribe((queryParams) => {
@@ -27,12 +32,12 @@ export class BrowseComponent {
       this.isLoading = true;
 
       // Empty the browse info so to prevent displaying the former objects when browsing
-      this.browsePayload = browseService.buildEmptyPayload();
+      this.browsePayload$.next(browseService.buildEmptyPayload());
 
       const dir = <string>queryParams.dir || "/";
       this.browseService.sendBrowseReq(dir).subscribe(
         (browsePayload) => {
-          this.browsePayload = browsePayload;
+          this.browsePayload$.next(browsePayload);
         },
         (err: HttpErrorResponse) => {
           this.errorTitle = `Got an error while browsing ${dir}`;

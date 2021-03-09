@@ -1,9 +1,9 @@
-<div *ngIf="(playlistQueue| playlistFilter: filterValue).length">
+<div *ngIf="(playlists| playlistFilter: filterValue).length">
   <div class="sub-menu">
     <span class="mat-h3">Playlists</span>
   </div>
 
-  <div *ngFor="let playlist of playlistQueue | playlistFilter: filterValue">
+  <div *ngFor="let playlist of playlists | playlistFilter: filterValue">
     <div (click)="onRowClick(playlist.name)"
          fxLayout="row nowrap"
          fxLayoutGap="1%"

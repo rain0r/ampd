@@ -15,10 +15,6 @@ export class SavePlaylistModalComponent {
     @Inject(MAT_DIALOG_DATA) public data: string
   ) {}
 
-  closeModal(): void {
-    this.dialogRef.close();
-  }
-
   onEnterPressed(): void {
     this.dialogRef.close(this.data);
   }

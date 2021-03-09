@@ -1,5 +1,5 @@
 <div fxLayout="column">
-  <app-navigation></app-navigation>
+  <app-navigation [browsePayload]="browsePayload"></app-navigation>
   <mat-divider></mat-divider>
 
   <!-- "Back to top" icon -->
@@ -15,6 +15,7 @@
     <mat-spinner *ngIf="isLoading"></mat-spinner>
   </div>
   <div
+      *ngIf="(browsePayload|async) as msg"
       fxLayout="row"
       fxLayout.lt-md="column"
       fxLayoutAlign="center"
@@ -22,25 +23,24 @@
       fxLayoutGap.lt-md="0"
   >
     <!-- playlists -->
-    <div fxFlex *ngIf="browsePayload.playlists.length > 0">
+    <div fxFlex *ngIf="msg.playlists.length > 0">
       <app-playlists
-          [playlistQueue]="browsePayload.playlists"
+          [playlists]="msg.playlists"
       ></app-playlists>
     </div>
 
     <!-- directories -->
-    <div fxFlex *ngIf="browsePayload.directories.length > 0">
-      <app-directories [dirQueue]="browsePayload.directories"></app-directories>
+    <div fxFlex *ngIf="msg.directories.length > 0">
+      <app-directories [dirQueue]="msg.directories"></app-directories>
     </div>
 
     <!-- tracks -->
-    <div fxFlex *ngIf="browsePayload.tracks.length > 0">
-      <app-tracks [tracks]="browsePayload.tracks"></app-tracks>
+    <div fxFlex *ngIf="msg.tracks.length > 0">
+      <app-tracks [tracks]="msg.tracks"></app-tracks>
     </div>
-
-    <!-- Error handling -->
-    <div fxFlex *ngIf="errorTitle">
-      <app-error [errorDetail]="errorDetail" [errorTitle]="errorTitle"></app-error>
-    </div>
+  </div>
+  <!-- Error handling -->
+  <div fxFlex *ngIf="errorTitle">
+    <app-error [errorDetail]="errorDetail" [errorTitle]="errorTitle"></app-error>
   </div>
 </div>

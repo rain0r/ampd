@@ -125,11 +125,15 @@ export class SettingsService {
    * @param playlistName The playlist to get the info on.
    */
   getPlaylistInfoUrl(playlistName: string): string {
-    return `${this.getBackendContextAddr()}api/playlist/${playlistName}`;
+    return `${this.getBackendContextAddr()}api/playlists/${playlistName}`;
   }
 
   getBrowseUrl(path = "/"): string {
     return `${this.getBackendContextAddr()}api/browse?path=${path}`;
+  }
+
+  getSavedPlaylistsUrl(): string {
+    return `${this.getBackendContextAddr()}api/playlists`;
   }
 
   /**

@@ -106,16 +106,15 @@ export class TrackTableComponent {
   }
 
   private buildQueue(message: QueuePayload): void {
-    // Check if the queue has changed. Abort if not.
+    // Check if the queue has changed. Abort if it hasn't.
     if (message.checkSum === this.checksum) {
       return;
     }
     this.checksum = message.checkSum;
-    const tmp: QueueTrack[] = [];
-    for (const item of message.tracks) {
-      tmp.push(new QueueTrack(item));
-    }
-    this.dataSource.data = tmp; // add the new model object to the trackTableData
+    /* add the new model object to the trackTableData */
+    this.dataSource.data = message.tracks.map(
+      (track, index) => new QueueTrack(track, index)
+    );
     this.trackTableData = this.buildTableData();
     this.queueDuration = this.sumTrackDuration();
   }

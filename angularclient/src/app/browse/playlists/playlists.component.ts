@@ -17,7 +17,7 @@ import { MatDialogConfig } from "@angular/material/dialog/dialog-config";
   styleUrls: ["./playlists.component.scss"],
 })
 export class PlaylistsComponent extends Filterable {
-  @Input() playlistQueue: Playlist[] = [];
+  @Input() playlists: Playlist[] = [];
 
   constructor(
     private deviceService: DeviceDetectorService,

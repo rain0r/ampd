@@ -1,38 +1,39 @@
 <div fxLayout="row nowrap" fxLayoutAlign="center">
-  <div fxFlex="1 1 auto">
-    <mat-form-field class="full-width" *ngIf="dataSource.data.length > 0">
-      <input
-          #filterInputElem
-          (keydown.escape)="resetFilter()"
-          (keyup)="applyFilter($event.target)"
-          [(ngModel)]="dataSource.filter"
-          autocomplete="off"
-          matInput
-          placeholder="Filter queue"
-          type="text"
-      />
-      <mat-icon
-          (click)="resetFilter()"
-          *ngIf="dataSource.filter"
-          aria-label="Clear"
-          matSuffix
-      >
-        close
-      </mat-icon>
-    </mat-form-field>
-  </div>
-  <div fxLayoutAlign="center center" *ngIf="displaySaveCoverBtn|async">
-    <button mat-stroked-button (click)="openCoverModal()">
-      Save as playlist
-    </button>
-  </div>
+  <mat-form-field class="full-width" *ngIf="dataSource.data.length > 0">
+    <input
+        #filterInputElem
+        (keydown.escape)="resetFilter()"
+        (keyup)="applyFilter($event.target)"
+        [(ngModel)]="dataSource.filter"
+        autocomplete="off"
+        matInput
+        placeholder="Filter queue"
+        type="text"
+    />
+    <mat-icon
+        (click)="resetFilter()"
+        *ngIf="dataSource.filter"
+        aria-label="Clear"
+        matSuffix
+    >
+      close
+    </mat-icon>
+  </mat-form-field>
 </div>
 
 <app-track-data-table [trackTableData]="trackTableData"></app-track-data-table>
 
-<mat-divider class="bottom-divider"></mat-divider>
+<div fxLayout="row" fxLayoutAlign="space-between center" class="space-top">
+  <div>
+  <span *ngIf="dataSource.data.length > 0" class="bottom-divider">
+    {{ dataSource.data.length }} tracks in the queue. Duration:
+    {{ queueDuration | secondsToHhMmSs }}
+  </span>
+  </div>
+  <button mat-stroked-button (click)="openCoverModal()" *ngIf="displaySaveCoverBtn|async">
+    <mat-icon>save</mat-icon>
+    Save playlist
+  </button>
+</div>
 
-<span *ngIf="dataSource.data.length > 0" class="bottom-divider">
-  {{ dataSource.data.length }} tracks in the queue. Duration:
-  {{ queueDuration | secondsToHhMmSs }}
-</span>
+

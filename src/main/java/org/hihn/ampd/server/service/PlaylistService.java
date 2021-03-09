@@ -25,6 +25,12 @@ public class PlaylistService {
     this.ampdSettings = ampdSettings;
   }
 
+  /**
+   * Saves the current queue to a playlist on the MPD server.
+   *
+   * @param playlistName Name of the new playlist.
+   * @return A {@link SavePlaylistResponse} object.
+   */
   public SavePlaylistResponse savePlaylist(String playlistName) {
     SavePlaylistResponse response = new SavePlaylistResponse();
     response.setPlaylistName(playlistName);

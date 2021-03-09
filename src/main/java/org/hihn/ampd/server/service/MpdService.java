@@ -15,7 +15,6 @@ import org.hihn.ampd.server.config.AmpdCommandRunner;
 import org.hihn.ampd.server.config.MpdConfiguration;
 import org.hihn.ampd.server.message.AmpdMessage.MessageType;
 import org.hihn.ampd.server.message.Message;
-import org.hihn.ampd.server.message.outgoing.browse.Directory;
 import org.hihn.ampd.server.message.outgoing.playlist.PlaylistSavedMessage;
 import org.hihn.ampd.server.message.outgoing.playlist.PlaylistSavedPayload;
 import org.hihn.ampd.server.message.outgoing.queue.QueueMessage;
@@ -24,7 +23,6 @@ import org.hihn.ampd.server.message.outgoing.search.SearchMessage;
 import org.hihn.ampd.server.message.outgoing.search.SearchPayload;
 import org.hihn.ampd.server.model.PlaylistInfo;
 import org.hihn.ampd.server.model.Settings;
-import org.hihn.ampd.server.model.http.BrowsePayload;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -288,33 +286,6 @@ public class MpdService implements MpdWebsocketService {
     mpd.getPlayer().setConsume(controlPanel.get("consume"));
     mpd.getPlayer().setSingle(controlPanel.get("single"));
     return Optional.empty();
-  }
-
-  private BrowsePayload browseDir(String path) {
-    BrowsePayload browsePayload = new BrowsePayload();
-    // Build a MPDFile from path, this is a directory
-    MPDFile mpdFile = new MPDFile(path);
-    mpdFile.setDirectory(true);
-    Collection<MPDFile> tmpMpdFiles = new ArrayList<>();
-    try {
-      tmpMpdFiles = mpd.getMusicDatabase().getFileDatabase().listDirectory(mpdFile);
-    } catch (Exception e) {
-      LOG.error("Error listing directory '{}'", path);
-      LOG.error(e.getMessage(), e);
-    }
-    for (MPDFile file : tmpMpdFiles) {
-      if (file.isDirectory()) {
-        Directory d = new Directory(file.getPath());
-        browsePayload.addDirectory(d);
-      } else {
-        Collection<MPDSong> searchResults =
-            mpd.getMusicDatabase().getSongDatabase().searchFileName(file.getPath());
-        if (!searchResults.isEmpty()) {
-          browsePayload.addTrack(searchResults.iterator().next());
-        }
-      }
-    }
-    return browsePayload;
   }
 
   private void buildCommandMap() {

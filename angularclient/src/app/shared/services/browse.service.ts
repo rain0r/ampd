@@ -26,7 +26,9 @@ export class BrowseService {
 
   sendBrowseReq(path: string): Observable<AmpdBrowsePayload> {
     return this.http
-      .get<BrowsePayload>(this.settingsService.getBrowseUrl(encodeURIComponent(path)))
+      .get<BrowsePayload>(
+        this.settingsService.getBrowseUrl(encodeURIComponent(path))
+      )
       .pipe(
         catchError((err) => throwError(err)),
         map((payload) => this.convertPayload(payload))

@@ -85,9 +85,8 @@ export class SearchComponent {
     searchResultCount: number
   ): void {
     this.resetSearch();
-    this.searchResultTracks = [];
-    searchResults.forEach((track: SearchResult) =>
-      this.searchResultTracks.push(new QueueTrack(track))
+    this.searchResultTracks = searchResults.map(
+        (track, index) => new QueueTrack(track, index)
     );
     this.dataSource = new MatTableDataSource<QueueTrack>(
       this.searchResultTracks

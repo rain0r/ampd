@@ -9,10 +9,12 @@ import org.hihn.ampd.server.service.MpdService;
 import org.hihn.ampd.server.service.PlaylistService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -33,13 +35,19 @@ public class PlaylistController {
   }
 
   @RequestMapping(value = "/{name}", method = GET)
-  public PlaylistInfo getPlaylist(@PathVariable("name") final String name) {
-    return mpdService.getPlaylistInfo(name).orElseThrow(() -> new ResponseStatusException(
+  public PlaylistInfo getPlaylist(@PathVariable("name") final String playlistName) {
+    return mpdService.getPlaylistInfo(playlistName).orElseThrow(() -> new ResponseStatusException(
         HttpStatus.NOT_FOUND));
   }
 
   @PostMapping("/")
   public SavePlaylistResponse savePlaylist(@RequestBody SavePlaylist playlist) {
     return playlistService.savePlaylist(playlist.getPlaylistName());
+  }
+
+  @DeleteMapping(value = "/{name}")
+  @ResponseStatus(HttpStatus.OK)
+  public void delete(@PathVariable("name") String playlistName) {
+    playlistService.deleteByName(playlistName);
   }
 }

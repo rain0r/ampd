@@ -106,15 +106,6 @@ public class MpdService implements MpdWebsocketService {
     return Optional.empty();
   }
 
-
-  @Override
-  public Optional<Message> deletePlaylist(Map<String, Object> inputPayload) {
-    Map<String, String> payload = inputToStrMap(inputPayload);
-    String playlistName = payload.get("playlistName");
-    mpd.getPlaylist().deletePlaylist(playlistName);
-    return Optional.empty();
-  }
-
   public MPD getMpd() {
     return mpd;
   }
@@ -276,7 +267,6 @@ public class MpdService implements MpdWebsocketService {
     commands.put(MessageType.ADD_TRACK, this::addTrack);
     commands.put(MessageType.ADD_TRACKS, this::addTracks);
     commands.put(MessageType.BLACKLIST_COVER, this::blacklistCover);
-    commands.put(MessageType.DELETE_PLAYLIST, this::deletePlaylist);
     commands.put(MessageType.GET_QUEUE, this::getQueue);
     commands.put(MessageType.PLAY_TRACK, this::playTrack);
     commands.put(MessageType.RM_ALL, this::removeAll);

@@ -1,0 +1,20 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Cover cache</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <mat-slide-toggle
+        class="space-right"
+        [checked]="localCoverCache"
+        disabled
+    >
+      <mat-hint align="end"
+      >Saves covers locally.
+      </mat-hint
+      >
+    </mat-slide-toggle>
+  </mat-card-content>
+  <mat-card-footer class="card-footer">
+    Configure with <span class="mono code">-Dlocal.cover.cache=true</span> when starting ampd.
+  </mat-card-footer>
+</mat-card>

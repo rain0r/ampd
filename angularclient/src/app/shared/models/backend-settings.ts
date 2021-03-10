@@ -9,4 +9,6 @@ export interface BackendSettings {
   localCoverCache: boolean;
   mbCoverService: boolean;
   resetModesOnClear: boolean;
+  createNewPlaylists: boolean;
+  deleteExistingPlaylists: boolean;
 }

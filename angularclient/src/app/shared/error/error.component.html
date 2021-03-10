@@ -1,9 +1,9 @@
-<div class="warning-text">
+<div class="warning-text" *ngIf="error">
   <p class=".mat-body-strong">
-    {{errorTitle}}
+    {{error.title}}
   </p>
 
   <code>
-    {{ errorDetail }}
+    {{error.detail }}
   </code>
 </div>

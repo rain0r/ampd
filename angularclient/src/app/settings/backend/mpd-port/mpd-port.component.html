@@ -1,0 +1,17 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>MPD port</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>{{mpdPort}}</mat-label>
+      <input matInput disabled>
+      <mat-hint>
+        The port on which MPD runs.
+      </mat-hint>
+    </mat-form-field>
+  </mat-card-content>
+  <mat-card-footer class="card-footer">
+    Configure with <span class="mono code">-Dmpd.port=6600</span> when starting ampd.
+  </mat-card-footer>
+</mat-card>

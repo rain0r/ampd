@@ -59,13 +59,21 @@ import {
 import { WebSocketService } from "./shared/services/web-socket.service";
 import { AmpdRxStompConfig } from "./ampd-rx-stomp-config.service";
 import { ReplaceNullWithTextPipe } from "./shared/pipes/replace-null-with-text.pipe";
-import { ThemeComponent } from "./settings/theme/theme.component";
-import { DisplayCoverComponent } from "./settings/display-cover/display-cover.component";
-import { DisplaySavePlaylistComponent } from "./settings/display-save-playlist/display-save-playlist.component";
-import { TabTitleComponent } from "./settings/tab-title/tab-title.component";
+import { ThemeComponent } from "./settings/frontend/theme/theme.component";
+import { DisplayCoverComponent } from "./settings/frontend/display-cover/display-cover.component";
+import { DisplaySavePlaylistComponent } from "./settings/frontend/display-save-playlist/display-save-playlist.component";
+import { TabTitleComponent } from "./settings/frontend/tab-title/tab-title.component";
 import { HelpModalComponent } from "./navbar/help-dialog/help-modal.component";
 import { MapEntriesPipe } from "./shared/pipes/map-entries.pipe";
 import { ErrorComponent } from "./shared/error/error.component";
+import { CoverCacheComponent } from "./settings/backend/cover-cache/cover-cache.component";
+import { MbCoverServiceComponent } from "./settings/backend/music-brainz-cover-service/mb-cover-service.component";
+import { CoverBlacklistComponent } from "./settings/backend/cover-blacklist/cover-blacklist.component";
+import { ResetModesOnClearComponent } from "./settings/backend/reset-modes-on-clear/reset-modes-on-clear.component";
+import { MusicDirectoryComponent } from "./settings/backend/music-directory/music-directory.component";
+import { MpdServerComponent } from "./settings/backend/mpd-server/mpd-server.component";
+import { MpdPortComponent } from "./settings/backend/mpd-port/mpd-port.component";
+import { PlaylistPropertiesComponent } from "./settings/backend/playlist-properties/playlist-properties.component";
 
 @NgModule({
   declarations: [
@@ -102,6 +110,14 @@ import { ErrorComponent } from "./shared/error/error.component";
     HelpModalComponent,
     MapEntriesPipe,
     ErrorComponent,
+    CoverCacheComponent,
+    MbCoverServiceComponent,
+    CoverBlacklistComponent,
+    ResetModesOnClearComponent,
+    MusicDirectoryComponent,
+    MpdServerComponent,
+    MpdPortComponent,
+    PlaylistPropertiesComponent,
   ],
   imports: [
     AppRoutingModule,

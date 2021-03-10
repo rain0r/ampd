@@ -5,9 +5,9 @@ import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Observable } from "rxjs";
 import { BackendSettings } from "../shared/models/backend-settings";
 import { SettingsService } from "../shared/services/settings.service";
-import { CoverBlacklistFiles } from "../shared/models/cover-blacklist-files";
 import { FrontendSettings } from "../shared/models/frontend-settings";
 import { Title } from "@angular/platform-browser";
+import { ErrorMsg } from "../shared/error/error-msg";
 
 @Component({
   selector: "app-settings",
@@ -16,8 +16,7 @@ import { Title } from "@angular/platform-browser";
 })
 export class SettingsComponent {
   backendSettings: Observable<BackendSettings>;
-  coverBlacklist: Observable<CoverBlacklistFiles>;
-  coverCacheUsage = new Observable<number>();
+  error: ErrorMsg | null = null;
   frontendSettings: FrontendSettings;
   settingsForm: FormGroup;
 
@@ -30,9 +29,13 @@ export class SettingsComponent {
     this.titleService.setTitle("ampd — Settings");
     this.settingsForm = this.buildSettingsForm();
     // Backend stuff
-    this.coverCacheUsage = this.settingsService.getCoverCacheDiskUsage();
     this.backendSettings = this.settingsService.getBackendSettings();
-    this.coverBlacklist = this.settingsService.getCoverBlacklist();
+    this.backendSettings.subscribe({
+      error: (error: ErrorMsg) => {
+        this.error = error;
+      },
+    });
+
     // Frontend stuff
     this.frontendSettings = this.settingsService.getFrontendSettings();
   }

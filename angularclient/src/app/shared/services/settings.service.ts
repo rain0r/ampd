@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
-import { BehaviorSubject, Observable } from "rxjs";
+import { BehaviorSubject, Observable, throwError } from "rxjs";
 import { BackendSettings } from "../models/backend-settings";
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { ApiEndpoints } from "../api-endpoints";
 import {
   BACKEND_ADDRESS_KEY,
@@ -15,6 +15,8 @@ import { Location } from "@angular/common";
 import { DarkTheme, LightTheme } from "../themes/themes";
 import { FrontendSettings } from "../models/frontend-settings";
 import { environment } from "../../../environments/environment";
+import { catchError } from "rxjs/operators";
+import { ErrorMsg } from "../error/error-msg";
 
 @Injectable({
   providedIn: "root",
@@ -91,7 +93,14 @@ export class SettingsService {
 
   getBackendSettings(): Observable<BackendSettings> {
     const url = `${this.getBackendContextAddr()}api/settings`;
-    return this.http.get<BackendSettings>(url);
+    return this.http.get<BackendSettings>(url).pipe(
+      catchError((err: HttpErrorResponse) =>
+        throwError({
+          title: `Got an error retrieving the backend settings:`,
+          detail: err.message,
+        } as ErrorMsg)
+      )
+    );
   }
 
   getCoverCacheDiskUsage(): Observable<number> {

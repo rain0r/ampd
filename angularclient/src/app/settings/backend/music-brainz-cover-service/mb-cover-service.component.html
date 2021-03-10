@@ -1,0 +1,25 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>MusicBrainz cover service</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <mat-slide-toggle
+        class="space-right"
+        [checked]="mbCoverService"
+        disabled
+    >
+      <mat-hint align="end"
+      >Get covers from MusicBrainz.
+        <span *ngIf="coverCacheUsage | async as usage">
+                <span *ngIf="usage > 0">
+                Currently {{ usage | filesize }} used.
+                  </span>
+              </span>
+      </mat-hint
+      >
+    </mat-slide-toggle>
+  </mat-card-content>
+  <mat-card-footer class="card-footer">
+    Configure with <span class="mono code">-Dmb.cover.service=true</span> when starting ampd.
+  </mat-card-footer>
+</mat-card>

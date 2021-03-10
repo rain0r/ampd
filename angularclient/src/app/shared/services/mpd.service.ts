@@ -3,15 +3,16 @@ import { WebSocketService } from "./web-socket.service";
 import { StateMsgPayload } from "../messages/incoming/state-msg-payload";
 import { ControlPanel } from "../messages/incoming/control-panel";
 import { QueueTrack } from "../models/queue-track";
-import { BehaviorSubject, Observable, Subject } from "rxjs";
-import { bufferTime, filter, map, withLatestFrom } from "rxjs/operators";
+import {BehaviorSubject, Observable, Subject, throwError} from "rxjs";
+import {bufferTime, catchError, filter, map, withLatestFrom} from "rxjs/operators";
 import { PlaylistSaved } from "../messages/incoming/playlist-saved";
-import { HttpClient } from "@angular/common/http";
+import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 import { PlaylistInfo } from "../models/playlist-info";
 import { SettingsService } from "./settings.service";
 import { MpdCommands } from "../mpd/mpd-commands.enum";
 import { VolumeSetter } from "../models/volume-setter";
 import { SavePlaylistResponse } from "../models/http/savePlaylistResponse";
+import {ErrorMsg} from "../error/error-msg";
 
 @Injectable({
   providedIn: "root",
@@ -91,6 +92,17 @@ export class MpdService {
   clearQueue(): void {
     this.webSocketService.send(MpdCommands.RM_ALL);
     this.webSocketService.send(MpdCommands.GET_QUEUE);
+  }
+
+  deletePlaylist(name: string) :Observable<Object>{
+    const url = `${this.settingsService.getPlaylistRootUrl()}${name}`;
+    return this.http.delete(url).pipe(
+        catchError((err: HttpErrorResponse) =>
+            throwError({
+              title: `Got an error deleteting playlist: ${name}:`,
+              detail: err.message,
+            } as ErrorMsg)
+    ));
   }
 
   /**

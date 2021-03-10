@@ -100,7 +100,7 @@ export class MpdService {
     this.webSocketService.send(MpdCommands.GET_QUEUE);
   }
 
-  deletePlaylist(name: string): Observable<{}> {
+  deletePlaylist(name: string): Observable<unknown> {
     const url = `${this.settingsService.getPlaylistRootUrl()}${name}`;
     return this.http.delete(url).pipe(
       catchError((err: HttpErrorResponse) =>

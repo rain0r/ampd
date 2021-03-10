@@ -54,7 +54,8 @@
 </div>
 
 <!-- Search results table -->
-<app-track-data-table [trackTableData]="trackTableData"></app-track-data-table>
+<app-track-data-table *ngIf="searchResultCount > 0"
+                      [trackTableData]="trackTableData"></app-track-data-table>
 
 <!-- Loading animation -->
 <div fxLayout="row" fxLayoutAlign="space-around">

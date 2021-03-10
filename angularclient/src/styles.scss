@@ -163,6 +163,10 @@ $font-color: var(--font-color);
 .code {
   border: 1px solid var(--border-color);
   background: var(--background-color);
+  padding-left: 0.1rem;
+  padding-right: 0.1rem;
+  margin-left: 0.1rem;
+  margin-right: 0.1rem;
 }
 
 .smaller-font {

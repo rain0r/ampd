@@ -43,11 +43,15 @@ export class SearchComponent {
     const inputValue = (<HTMLInputElement>eventTarget).value;
     if (inputValue) {
       this.inputSetter$.next(inputValue);
+    } else {
+      this.resetSearch();
     }
   }
 
   resetSearch(): void {
-    this.dataSource.data = [];
+    console.log(new Date(), "resetSearch()");
+    this.dataSource = new MatTableDataSource<QueueTrack>([]);
+    this.trackTableData = this.buildTableData();
     this.searchResultCount = 0;
   }
 
@@ -84,9 +88,10 @@ export class SearchComponent {
     searchResults: SearchResult[],
     searchResultCount: number
   ): void {
-    this.resetSearch();
+    console.log(new Date(), "processSearchResults");
+    // this.resetSearch();
     this.searchResultTracks = searchResults.map(
-        (track, index) => new QueueTrack(track, index)
+      (track, index) => new QueueTrack(track, index)
     );
     this.dataSource = new MatTableDataSource<QueueTrack>(
       this.searchResultTracks

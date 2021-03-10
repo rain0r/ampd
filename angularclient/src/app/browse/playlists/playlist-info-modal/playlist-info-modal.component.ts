@@ -79,7 +79,7 @@ export class PlaylistInfoModalComponent implements AfterViewInit {
   private buildDataSource(tracks: Track[]): MatTableDataSource<QueueTrack> {
     const dataSource = new MatTableDataSource<QueueTrack>();
     dataSource.data = tracks.map(
-        (track, index) => new QueueTrack(track, index)
+      (track, index) => new QueueTrack(track, index)
     );
     return dataSource;
   }

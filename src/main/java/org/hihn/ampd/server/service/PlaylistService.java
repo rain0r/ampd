@@ -25,6 +25,12 @@ public class PlaylistService {
     this.ampdSettings = ampdSettings;
   }
 
+  public void deleteByName(String playlistName) {
+    if (ampdSettings.isDeleteExistingPlaylists()) {
+      mpd.getPlaylist().deletePlaylist(playlistName);
+    }
+  }
+
   /**
    * Saves the current queue to a playlist on the MPD server.
    *

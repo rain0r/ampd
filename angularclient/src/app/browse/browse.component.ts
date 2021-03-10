@@ -2,8 +2,8 @@ import { Component } from "@angular/core";
 import { BrowseService } from "../shared/services/browse.service";
 import { ActivatedRoute } from "@angular/router";
 import { AmpdBrowsePayload } from "../shared/models/ampd-browse-payload";
-import { HttpErrorResponse } from "@angular/common/http";
 import { BehaviorSubject, Observable } from "rxjs";
+import { ErrorMsg } from "../shared/error/error-msg";
 
 @Component({
   selector: "app-browse",
@@ -12,8 +12,7 @@ import { BehaviorSubject, Observable } from "rxjs";
 })
 export class BrowseComponent {
   browsePayload: Observable<AmpdBrowsePayload>;
-  errorDetail = "";
-  errorTitle = "";
+  error: ErrorMsg | null = null;
   isLoading = true;
   private browsePayload$: BehaviorSubject<AmpdBrowsePayload>;
 
@@ -39,9 +38,8 @@ export class BrowseComponent {
         (browsePayload) => {
           this.browsePayload$.next(browsePayload);
         },
-        (err: HttpErrorResponse) => {
-          this.errorTitle = `Got an error while browsing ${dir}`;
-          this.errorDetail = err.message;
+        (err: ErrorMsg) => {
+          this.error = err;
           this.isLoading = false;
         },
         () => (this.isLoading = false)

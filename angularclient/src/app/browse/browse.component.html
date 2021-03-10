@@ -40,7 +40,7 @@
     </div>
   </div>
   <!-- Error handling -->
-  <div fxFlex *ngIf="errorTitle">
-    <app-error [errorDetail]="errorDetail" [errorTitle]="errorTitle"></app-error>
+  <div fxFlex *ngIf="error">
+    <app-error [error]="error"></app-error>
   </div>
 </div>

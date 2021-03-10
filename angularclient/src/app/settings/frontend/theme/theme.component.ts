@@ -1,7 +1,7 @@
 import { Component } from "@angular/core";
-import { NotificationService } from "../../shared/services/notification.service";
-import { SettingsService } from "../../shared/services/settings.service";
-import { FrontendSettings } from "../../shared/models/frontend-settings";
+import { NotificationService } from "../../../shared/services/notification.service";
+import { SettingsService } from "../../../shared/services/settings.service";
+import { FrontendSettings } from "../../../shared/models/frontend-settings";
 
 @Component({
   selector: "app-theme",

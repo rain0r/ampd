@@ -1,0 +1,22 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Reset MPD modes on "Clear Queue"</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <mat-slide-toggle
+        class="space-right"
+        [checked]="resetModesOnClear"
+        disabled
+    >
+      <mat-hint align="end"
+      >When true, all active MPD modes (shuffle etc.) will be turned off when the playlist
+        is cleared.
+      </mat-hint
+      >
+    </mat-slide-toggle>
+  </mat-card-content>
+  <mat-card-footer class="card-footer">
+    Configure with <span class="mono code">-Dreset.modes.on.clear=true</span> when starting
+    ampd.
+  </mat-card-footer>
+</mat-card>

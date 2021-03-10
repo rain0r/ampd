@@ -1,11 +1,12 @@
 import { Injectable } from "@angular/core";
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { SettingsService } from "./settings.service";
 import { Observable, throwError } from "rxjs";
 import { BrowsePayload } from "../models/browse-payload";
 import { AmpdBrowsePayload } from "../models/ampd-browse-payload";
 import { catchError, map } from "rxjs/operators";
 import { QueueTrack } from "../models/queue-track";
+import { ErrorMsg } from "../error/error-msg";
 
 @Injectable({
   providedIn: "root",
@@ -30,7 +31,12 @@ export class BrowseService {
         this.settingsService.getBrowseUrl(encodeURIComponent(path))
       )
       .pipe(
-        catchError((err) => throwError(err)),
+        catchError((err: HttpErrorResponse) =>
+          throwError({
+            title: `Got an error while browsing ${path}:`,
+            detail: err.message,
+          } as ErrorMsg)
+        ),
         map((payload) => this.convertPayload(payload))
       );
   }

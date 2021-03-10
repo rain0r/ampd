@@ -3,6 +3,29 @@
     <div class="mat-display-1">
       <span class="mono">ampd</span> settings
     </div>
+    <!-- Error handling -->
+    <div fxFlex *ngIf="error">
+      <app-error [error]="error"></app-error>
+    </div>
+    <mat-divider></mat-divider>
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Connected to</mat-card-title>
+      </mat-card-header>
+      <mat-form-field class="full-width">
+        <input
+            matInput
+            required
+            formControlName="backendAddr"
+            placeholder="http://your-computer:8080"
+        />
+        <mat-hint align="end"
+        >This will be set automatically. Don't change it if ampd works.
+          The name or IP of the computer running ampd.
+        </mat-hint
+        >
+      </mat-form-field>
+    </mat-card>
     <mat-divider></mat-divider>
     <span class="mat-headline">Appearance</span>
 
@@ -25,168 +48,31 @@
       <span class="mono code">-D</span> when starting ampd. Alternatively, write them to
       an <span class="mono code">ampd.conf</span> file. See the
       <a class="no-deco-links mono code"
-         href="https://github.com/rain0r/ampd/blob/master/README.md">README</a> for more.
+         href="https://github.com/rain0r/ampd/blob/master/README.md">README</a> for more
+      information.
     </div>
-    <mat-card>
-      <mat-form-field class="full-width">
-        <input
-            matInput
-            required
-            formControlName="backendAddr"
-            placeholder="http://your-computer:8080"
-        />
-        <mat-hint align="end"
-        >This will be set automatically. Don't change it if ampd works.
-          The name or IP of the computer running ampd.
-        </mat-hint
-        >
-      </mat-form-field>
-    </mat-card>
-    <!-- Cover cache -->
+
     <div fxLayout="column" fxLayoutGap="1rem" fxFlex.gt-md="75%"
          *ngIf="backendSettings | async as settings">
-      <mat-card>
-        <mat-card-header>
-          <mat-card-title>Cover cache</mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-          <mat-slide-toggle
-              class="space-right"
-              [checked]="settings.localCoverCache"
-              disabled
-          >
-            <mat-hint align="end"
-            >Saves covers locally.
-            </mat-hint
-            >
-          </mat-slide-toggle>
-        </mat-card-content>
-        <mat-card-footer class="card-footer">
-          Configure with <span class="mono code">-Dlocal.cover.cache=true</span> when starting ampd.
-        </mat-card-footer>
-      </mat-card>
+      <!-- Cover cache -->
+      <app-cover-cache [localCoverCache]="settings.localCoverCache"></app-cover-cache>
       <!-- MusicBrainz cover service -->
-      <mat-card>
-        <mat-card-header>
-          <mat-card-title>MusicBrainz</mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-          <mat-slide-toggle
-              class="space-right"
-              [checked]="settings.mbCoverService"
-              disabled
-          >
-            <mat-hint align="end"
-            >Get covers from MusicBrainz.
-              <span *ngIf="coverCacheUsage | async as usage">
-                <span *ngIf="usage > 0">
-                Currently {{ usage | filesize }} used.
-                  </span>
-              </span>
-            </mat-hint
-            >
-          </mat-slide-toggle>
-        </mat-card-content>
-        <mat-card-footer class="card-footer">
-          Configure with <span class="mono code">-Dmb.cover.service=true</span> when starting ampd.
-        </mat-card-footer>
-      </mat-card>
+      <app-music-brainz-cover-service
+          [mbCoverService]="settings.mbCoverService"></app-music-brainz-cover-service>
       <!-- Cover blacklist -->
-      <mat-card *ngIf="settings.mbCoverService && (coverBlacklist|async) as blacklist">
-        <mat-card-header>
-          <mat-card-title>Cover blacklist</mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-          <mat-list role="list">
-            <mat-list-item *ngFor="let track of blacklist.blacklistedFiles" class="smaller-font">
-              {{track}}
-            </mat-list-item>
-          </mat-list>
-        </mat-card-content>
-        <mat-card-footer class="card-footer">
-          These files will not download a cover from MusicBrainz. The blacklist is located at
-          <span class="mono code">{{blacklist.filePath}}</span>
-        </mat-card-footer>
-      </mat-card>
-
+      <app-cover-blacklist [mbCoverService]="settings.mbCoverService"></app-cover-blacklist>
       <!-- Reset MPD modes on clear -->
-      <mat-card>
-        <mat-card-header>
-          <mat-card-title>Reset MPD modes on "Clear Queue"</mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-          <mat-slide-toggle
-              class="space-right"
-              [checked]="settings.resetModesOnClear"
-              disabled
-          >
-            <mat-hint align="end"
-            >When true, all active MPD modes (shuffle etc.) will be turned off when the playlist
-              is cleared.
-            </mat-hint
-            >
-          </mat-slide-toggle>
-        </mat-card-content>
-        <mat-card-footer class="card-footer">
-          Configure with <span class="mono code">-Dreset.modes.on.clear=true</span> when starting
-          ampd.
-        </mat-card-footer>
-      </mat-card>
-
+      <app-reset-modes-on-clear
+          [resetModesOnClear]="settings.resetModesOnClear"></app-reset-modes-on-clear>
       <!-- Music directory -->
-      <mat-card>
-        <mat-card-header>
-          <mat-card-title>Music directory</mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-          <mat-form-field appearance="fill" class="full-width">
-            <mat-label>{{settings.musicDirectory | replaceNullWithText}}</mat-label>
-            <input matInput disabled>
-            <mat-hint>
-              Corresponds to the value of <span class="mono">music_directory</span> in the mpd.conf.
-            </mat-hint>
-          </mat-form-field>
-        </mat-card-content>
-        <mat-card-footer class="card-footer">
-          Configure with <span class="mono code">-Dmpd.music.directory</span> when starting ampd.
-        </mat-card-footer>
-      </mat-card>
+      <app-music-directory [musicDirectory]="settings.musicDirectory"></app-music-directory>
       <!-- MPD Server -->
-      <mat-card>
-        <mat-card-header>
-          <mat-card-title>MPD server</mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-          <mat-form-field appearance="fill" class="full-width">
-            <mat-label>{{settings.mpdServer}}</mat-label>
-            <input matInput disabled>
-            <mat-hint>
-              The name or ip of the computer that runs MPD.
-            </mat-hint>
-          </mat-form-field>
-        </mat-card-content>
-        <mat-card-footer class="card-footer">
-          Configure with <span class="mono code">-Dmpd.server</span> when starting ampd.
-        </mat-card-footer>
-      </mat-card>
-      <!-- MPD Server -->
-      <mat-card>
-        <mat-card-header>
-          <mat-card-title>MPD port</mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-          <mat-form-field appearance="fill" class="full-width">
-            <mat-label>{{settings.mpdPort}}</mat-label>
-            <input matInput disabled>
-            <mat-hint>
-              The port on which MPD runs.
-            </mat-hint>
-          </mat-form-field>
-        </mat-card-content>
-        <mat-card-footer class="card-footer">
-          Configure with <span class="mono code">-Dmpd.port=6600</span> when starting ampd.
-        </mat-card-footer>
-      </mat-card>
+      <app-mpd-server [mpdServer]="settings.mpdServer"></app-mpd-server>
+      <!-- MPD Port -->
+      <app-mpd-port [mpdPort]="settings.mpdPort"></app-mpd-port>
+      <!-- Playlist properties -->
+      <app-playlist-properties [createNewPlaylists]="settings.createNewPlaylists"
+                               [deleteExistingPlaylists]="settings.deleteExistingPlaylists"></app-playlist-properties>
     </div>
     <!-- Submit Button -->
     <div>

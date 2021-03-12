@@ -59,9 +59,8 @@ export class MpdService {
   }
 
   getPlaylistInfo(playlistName: string): Observable<PlaylistInfo> {
-    return this.http.get<PlaylistInfo>(
-      this.settingsService.getPlaylistInfoUrl(playlistName)
-    );
+    const url = `${this.settingsService.getPlaylistRootUrl()}${playlistName}`;
+    return this.http.get<PlaylistInfo>(url);
   }
 
   savePlaylist(playlistName: string): Observable<SavePlaylistResponse> {

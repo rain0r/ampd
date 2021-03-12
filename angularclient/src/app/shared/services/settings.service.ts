@@ -128,14 +128,6 @@ export class SettingsService {
     return `${this.getBackendContextAddr()}api/find-track-cover`;
   }
 
-  /**
-   * Returns the api endpoint of the backend that returns info about a specific playlist.
-   * @param playlistName The playlist to get the info on.
-   */
-  getPlaylistInfoUrl(playlistName: string): string {
-    return `${this.getBackendContextAddr()}api/playlists/${playlistName}`;
-  }
-
   getBrowseUrl(path = "/"): string {
     return `${this.getBackendContextAddr()}api/browse?path=${path}`;
   }

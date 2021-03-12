@@ -10,6 +10,7 @@ import { ResponsiveCoverSizeService } from "../../shared/services/responsive-cov
 import { BehaviorSubject, Observable } from "rxjs";
 import { SettingsService } from "../../shared/services/settings.service";
 import { Directory } from "../../shared/messages/incoming/directory";
+import { MatDialog } from "@angular/material/dialog";
 
 @Component({
   selector: "app-directories",
@@ -28,6 +29,7 @@ export class DirectoriesComponent extends Filterable {
 
   constructor(
     private activatedRoute: ActivatedRoute,
+    private dialog: MatDialog,
     private messageService: MessageService,
     private notificationService: NotificationService,
     private responsiveCoverSizeService: ResponsiveCoverSizeService,

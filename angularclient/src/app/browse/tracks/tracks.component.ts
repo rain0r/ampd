@@ -7,6 +7,9 @@ import { MatTableDataSource } from "@angular/material/table";
 import { ClickActions } from "../../shared/track-table/click-actions.enum";
 import { SettingsService } from "../../shared/services/settings.service";
 import { QueueTrack } from "../../shared/models/queue-track";
+import { CoverModalComponent } from "../../queue/cover-modal/cover-modal.component";
+import { MatDialog } from "@angular/material/dialog";
+import { MpdService } from "../../shared/services/mpd.service";
 
 @Component({
   selector: "app-tracks",
@@ -23,6 +26,8 @@ export class TracksComponent implements OnInit {
 
   constructor(
     private activatedRoute: ActivatedRoute,
+    private dialog: MatDialog,
+    private mpdService: MpdService,
     private responsiveCoverSizeService: ResponsiveCoverSizeService,
     private settingsService: SettingsService
   ) {
@@ -34,6 +39,16 @@ export class TracksComponent implements OnInit {
   ngOnInit(): void {
     this.trackTableData = this.buildTableData();
     this.queueDuration = this.sumTrackDuration();
+  }
+
+  openCoverModal(): void {
+    const track = this.tracks[0];
+    track.coverUrl = this.mpdService.buildCoverUrl(track.file);
+    this.dialog.open(CoverModalComponent, {
+      autoFocus: false,
+      data: track,
+      panelClass: this.settingsService.isDarkTheme$.value ? "dark-theme" : "",
+    });
   }
 
   coverUrl(): string {

@@ -72,6 +72,9 @@ public class AmpdSettings {
   @Value("${delete.existing.playlists:false}")
   private boolean deleteExistingPlaylists;
 
+  /**
+   * Prints the applied properties to the console.
+   */
   @PostConstruct
   public void init() {
     LOG.debug("mpdServer: " + mpdServer);

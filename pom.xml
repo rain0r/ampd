@@ -22,7 +22,6 @@
     <frontend.context>/</frontend.context>
     <skip.npm>false</skip.npm>
     <skip.npm.warnings>true</skip.npm.warnings>
-    <npm.verbose>false</npm.verbose>
   </properties>
   <scm>
     <url>https://github.com/rain0r/ampd</url>

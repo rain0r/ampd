@@ -14,7 +14,6 @@ import { CoverBlacklistFiles } from "../models/cover-blacklist-files";
 import { Location } from "@angular/common";
 import { DarkTheme, LightTheme } from "../themes/themes";
 import { FrontendSettings } from "../models/frontend-settings";
-import { environment } from "../../../environments/environment";
 import { catchError } from "rxjs/operators";
 import { ErrorMsg } from "../error/error-msg";
 

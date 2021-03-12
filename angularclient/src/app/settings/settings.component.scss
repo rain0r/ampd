@@ -1,24 +1,15 @@
-.settings-form {
-  padding-top: 1rem;
-  margin-bottom: 1rem;
-}
-
-@media only screen and (min-width: 1280px) {
-  .settings-form {
-    padding: 1px 5% 0 5%;
-  }
-}
-
-.gap {
-  margin-left: 2em;
-  margin-right: 2em;
-}
-
-.space-top {
-  padding-top: 0.25rem;
-  margin-top: 0.25rem;
-}
-
 .card-footer {
   padding: 1.5rem;
+}
+
+.bg {
+  background: var(--second-background-color);
+}
+
+.flex-col {
+  padding-top: 0.75rem;
+}
+
+.bg, .card-footer {
+  line-height: 1.5;
 }

@@ -74,6 +74,8 @@ import { MusicDirectoryComponent } from "./settings/backend/music-directory/musi
 import { MpdServerComponent } from "./settings/backend/mpd-server/mpd-server.component";
 import { MpdPortComponent } from "./settings/backend/mpd-port/mpd-port.component";
 import { PlaylistPropertiesComponent } from "./settings/backend/playlist-properties/playlist-properties.component";
+import { MatTabsModule } from "@angular/material/tabs";
+import { BackendAddressComponent } from "./settings/frontend/backend-address/backend-address.component";
 
 @NgModule({
   declarations: [
@@ -118,6 +120,7 @@ import { PlaylistPropertiesComponent } from "./settings/backend/playlist-propert
     MpdServerComponent,
     MpdPortComponent,
     PlaylistPropertiesComponent,
+    BackendAddressComponent,
   ],
   imports: [
     AppRoutingModule,
@@ -129,24 +132,25 @@ import { PlaylistPropertiesComponent } from "./settings/backend/playlist-propert
     ReactiveFormsModule,
     NgxFilesizeModule,
     // Material
-    MatIconModule,
-    MatSlideToggleModule,
-    MatToolbarModule,
-    MatFormFieldModule,
-    MatGridListModule,
-    MatSliderModule,
     MatButtonModule,
     MatButtonToggleModule,
-    MatDividerModule,
-    MatTableModule,
     MatCardModule,
     MatDialogModule,
-    MatProgressSpinnerModule,
+    MatDividerModule,
+    MatFormFieldModule,
+    MatGridListModule,
+    MatIconModule,
     MatInputModule,
     MatListModule,
+    MatPaginatorModule,
+    MatProgressSpinnerModule,
+    MatSlideToggleModule,
+    MatSliderModule,
     MatSnackBarModule,
     MatSortModule,
-    MatPaginatorModule,
+    MatTableModule,
+    MatTabsModule,
+    MatToolbarModule,
   ],
   providers: [
     MessageService,

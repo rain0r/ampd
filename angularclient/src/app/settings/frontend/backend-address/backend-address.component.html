@@ -1,0 +1,23 @@
+<form [formGroup]="settingsForm" (ngSubmit)="onSubmit()" class="settings-form">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Connected to</mat-card-title>
+    </mat-card-header>
+    <mat-form-field class="full-width">
+      <input
+          matInput
+          required
+          formControlName="backendAddr"
+          placeholder="http://your-computer:8080"
+      />
+      <mat-hint align="end"
+      >This will be set automatically. Don't change it if ampd works.
+        The name or IP of the computer running ampd.
+      </mat-hint
+      >
+    </mat-form-field>
+    <mat-card-actions>
+      <button mat-button type="submit">Save</button>
+    </mat-card-actions>
+  </mat-card>
+</form>

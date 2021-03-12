@@ -26,7 +26,12 @@
 <div fxLayout="row" fxLayoutAlign="space-between center" class="space-top">
   <div>
   <span *ngIf="dataSource.data.length > 0" class="bottom-divider">
-    {{ dataSource.data.length }} tracks in the queue. Duration:
+
+    <span [ngPlural]="dataSource.data.length">
+      <ng-template ngPluralCase="=1">1 track </ng-template>
+      <ng-template ngPluralCase="other">{{ dataSource.data.length }}
+        tracks</ng-template>
+    </span> in the queue. Duration:
     {{ queueDuration | secondsToHhMmSs }}
   </span>
   </div>

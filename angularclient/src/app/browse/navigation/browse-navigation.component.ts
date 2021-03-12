@@ -6,7 +6,7 @@ import {
   OnInit,
   ViewChild,
 } from "@angular/core";
-import { ActivatedRoute, Params } from "@angular/router";
+import { ActivatedRoute } from "@angular/router";
 import { MessageService } from "../../shared/services/message.service";
 import { NotificationService } from "../../shared/services/notification.service";
 import { WebSocketService } from "../../shared/services/web-socket.service";
@@ -30,7 +30,7 @@ export class BrowseNavigationComponent implements OnInit {
   dirUp$ = new BehaviorSubject<string>("/");
   displayFilter$ = new BehaviorSubject<boolean>(true);
   filter = "";
-  getParamDir = "";
+  getParamDir = "/";
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -40,7 +40,9 @@ export class BrowseNavigationComponent implements OnInit {
     private webSocketService: WebSocketService
   ) {
     this.activatedRoute.queryParams.subscribe((queryParams) => {
-      this.buildDirUp(queryParams);
+      const dir = <string>queryParams.dir || "/";
+      this.buildDirUp(dir);
+      this.getParamDir = dir;
     });
   }
 
@@ -106,8 +108,7 @@ export class BrowseNavigationComponent implements OnInit {
     } as FilterMessage);
   }
 
-  private buildDirUp(queryParams: Params): void {
-    const dir = <string>queryParams.dir || "/";
+  private buildDirUp(dir: string): void {
     const splitted = dir.split("/");
     splitted.pop();
     let targetDir = splitted.join("/");

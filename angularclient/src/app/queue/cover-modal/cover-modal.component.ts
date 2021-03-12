@@ -29,10 +29,6 @@ export class CoverModalComponent {
     this.backendSettings = this.settingsService.getBackendSettings();
   }
 
-  onNoClick(): void {
-    this.dialogRef.close();
-  }
-
   onBlacklistCover(): void {
     // Save the file to the blacklist
     this.webSocketService.sendData(MpdCommands.BLACKLIST_COVER, {

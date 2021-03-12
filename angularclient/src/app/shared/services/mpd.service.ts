@@ -111,11 +111,13 @@ export class MpdService {
       )
     );
   }
+
   buildCoverUrl(file: string): string {
     return `${this.settingsService.getFindTrackCoverUrl()}?path=${encodeURIComponent(
       file
     )}`;
   }
+
   /**
    * Build the currentTrack object - holds info about the track currently played
    * @param payload StateMsgPayload

@@ -25,6 +25,11 @@ public class PlaylistService {
     this.ampdSettings = ampdSettings;
   }
 
+  /**
+   * Deletes a playlist.
+   *
+   * @param playlistName Name of the playlist to delete.
+   */
   public void deleteByName(String playlistName) {
     if (ampdSettings.isDeleteExistingPlaylists()) {
       mpd.getPlaylist().deletePlaylist(playlistName);

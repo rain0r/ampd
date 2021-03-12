@@ -5,7 +5,7 @@ import { BaseResponse } from "../messages/incoming/base-response";
 import { MpdTypes } from "../mpd/mpd-types";
 import { Observable } from "rxjs";
 import { StateMsgPayload } from "../messages/incoming/state-msg-payload";
-import { SearchMsgPayload, SearchRoot } from "../messages/incoming/search";
+import { SearchMsgPayload } from "../messages/incoming/search";
 import { QueuePayload } from "../messages/incoming/queue-payload";
 import { PlaylistSaved } from "../messages/incoming/playlist-saved";
 import { MpdCommands } from "../mpd/mpd-commands.enum";
@@ -37,55 +37,39 @@ export class WebSocketService {
   }
 
   getStateSubscription(): Observable<StateMsgPayload> {
-    return this.rxStompService.watch("/topic/state").pipe(
-      map((message) => message.body),
-      map((body: string) => <BaseResponse>JSON.parse(body)),
-      filter((body: BaseResponse) => !!body),
-      filter((body: BaseResponse) => body.type === MpdTypes.STATE),
+    return this.filterAmpdMessages(MpdTypes.STATE, "/topic/state").pipe(
       map((body: BaseResponse) => <StateMsgPayload>body.payload)
     );
   }
 
   getQueueSubscription(): Observable<QueuePayload> {
-    return this.rxStompService.watch("/topic/queue").pipe(
-      map((message) => message.body),
-      map((body: string) => <BaseResponse>JSON.parse(body)),
-      filter((body: BaseResponse) => !!body),
-      filter((body: BaseResponse) => body.type === MpdTypes.QUEUE),
+    return this.filterAmpdMessages(MpdTypes.QUEUE, "/topic/queue").pipe(
       map((body: BaseResponse) => <QueuePayload>body.payload)
     );
   }
 
   getSearchSubscription(): Observable<SearchMsgPayload> {
-    return this.rxStompService.watch("/topic/controller").pipe(
-      map((message) => message.body),
-      map((body: string) => <SearchRoot>JSON.parse(body)),
-      filter((body: BaseResponse) => !!body),
-      filter((body: BaseResponse) => body.type === MpdTypes.SEARCH_RESULTS),
-      map((body: BaseResponse) => <SearchMsgPayload>body.payload)
-    );
-  }
-
-  _getPlaylistSavedSubscription(): Observable<PlaylistSaved> {
-    return this.rxStompService.watch("/topic/controller").pipe(
-      map((message) => message.body),
-      map((body: string) => <BaseResponse>JSON.parse(body)),
-      filter((body: BaseResponse) => !!body),
-      filter((body: BaseResponse) => body.type === MpdTypes.PLAYLIST_SAVED),
-      map((body: BaseResponse) => <PlaylistSaved>body.payload)
-    );
+    return this.filterAmpdMessages(
+      MpdTypes.SEARCH_RESULTS,
+      "/topic/controller"
+    ).pipe(map((body: BaseResponse) => <SearchMsgPayload>body.payload));
   }
 
   getPlaylistSavedSubscription(): Observable<PlaylistSaved> {
-    return this.filterAmpdMessages(MpdTypes.PLAYLIST_SAVED).pipe(
-      map((body: BaseResponse) => <PlaylistSaved>body.payload)
-    );
+    return this.filterAmpdMessages(
+      MpdTypes.PLAYLIST_SAVED,
+      "/topic/controller"
+    ).pipe(map((body: BaseResponse) => <PlaylistSaved>body.payload));
   }
 
-  private filterAmpdMessages(mpdType: MpdTypes): Observable<BaseResponse> {
-    return this.rxStompService.watch("/topic/controller").pipe(
+  private filterAmpdMessages(
+    mpdType: MpdTypes,
+    destination: string
+  ): Observable<BaseResponse> {
+    return this.rxStompService.watch(destination).pipe(
       map((message) => message.body),
       map((body: string) => <BaseResponse>JSON.parse(body)),
+      filter((body: BaseResponse) => body !== null),
       filter((body: BaseResponse) => body.type === mpdType)
     );
   }

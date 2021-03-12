@@ -1,95 +1,71 @@
-<form [formGroup]="settingsForm" (ngSubmit)="onSubmit()" class="settings-form">
-  <div fxLayout="column" fxLayoutGap="1rem" fxFlex.gt-md="75%">
-    <div class="mat-display-1">
-      <span class="mono">ampd</span> settings
-    </div>
-    <!-- Error handling -->
-    <div fxFlex *ngIf="error">
-      <app-error [error]="error"></app-error>
-    </div>
-    <mat-divider></mat-divider>
-    <mat-card>
-      <mat-card-header>
-        <mat-card-title>Connected to</mat-card-title>
-      </mat-card-header>
-      <mat-form-field class="full-width">
-        <input
-            matInput
-            required
-            formControlName="backendAddr"
-            placeholder="http://your-computer:8080"
-        />
-        <mat-hint align="end"
-        >This will be set automatically. Don't change it if ampd works.
-          The name or IP of the computer running ampd.
-        </mat-hint
-        >
-      </mat-form-field>
-    </mat-card>
-    <mat-divider></mat-divider>
-    <span class="mat-headline">Appearance</span>
-
-    <!-- Toggle Dark/Light theme -->
-    <app-theme></app-theme>
-
-    <!-- Toggle cover display -->
-    <app-display-cover></app-display-cover>
-
-    <!-- Toggle display 'Save playlist' button -->
-    <app-display-save-playlist></app-display-save-playlist>
-
-    <!-- Toggle setting of tab titles -->
-    <app-tab-title></app-tab-title>
-
-    <mat-divider></mat-divider>
-    <!-- Backend  -->
-    <span class="mat-headline">Backend settings</span>
-    <div class="">These settings need to be changed via
-      <span class="mono code">-D</span> when starting ampd. Alternatively, write them to
-      an <span class="mono code">ampd.conf</span> file. See the
-      <a class="no-deco-links mono code"
-         href="https://github.com/rain0r/ampd/blob/master/README.md">README</a> for more
-      information.
-    </div>
-
-    <div fxLayout="column" fxLayoutGap="1rem" fxFlex.gt-md="75%"
-         *ngIf="backendSettings | async as settings">
-      <!-- Cover cache -->
-      <app-cover-cache [localCoverCache]="settings.localCoverCache"></app-cover-cache>
-      <!-- MusicBrainz cover service -->
-      <app-music-brainz-cover-service
-          [mbCoverService]="settings.mbCoverService"></app-music-brainz-cover-service>
-      <!-- Cover blacklist -->
-      <app-cover-blacklist [mbCoverService]="settings.mbCoverService"></app-cover-blacklist>
-      <!-- Reset MPD modes on clear -->
-      <app-reset-modes-on-clear
-          [resetModesOnClear]="settings.resetModesOnClear"></app-reset-modes-on-clear>
-      <!-- Music directory -->
-      <app-music-directory [musicDirectory]="settings.musicDirectory"></app-music-directory>
-      <!-- MPD Server -->
-      <app-mpd-server [mpdServer]="settings.mpdServer"></app-mpd-server>
-      <!-- MPD Port -->
-      <app-mpd-port [mpdPort]="settings.mpdPort"></app-mpd-port>
-      <!-- Playlist properties -->
-      <app-playlist-properties [createNewPlaylists]="settings.createNewPlaylists"
-                               [deleteExistingPlaylists]="settings.deleteExistingPlaylists"></app-playlist-properties>
-    </div>
-    <!-- Submit Button -->
-    <div>
-      <button
-          mat-raised-button
-          color="primary"
-          type="submit"
-          class="full-width themed-element"
-      >
-        Save
-      </button>
-    </div>
-    <div class="mono">
-      Source code at:
-      <a class="mat-app-background" href="https://github.com/rain0r/ampd"
-      >github.com/rain0r/ampd</a
-      >
-    </div>
+<div fxLayout="column" fxLayoutGap="1rem" fxFlex.gt-md="75%">
+  <div class="mat-display-1">
+    <span class="mono">ampd</span> settings
   </div>
-</form>
+  <!-- Error handling -->
+  <div fxFlex *ngIf="error">
+    <app-error [error]="error"></app-error>
+  </div>
+
+  <mat-tab-group animationDuration="0ms">
+    <mat-tab label="Frontend">
+      <div class="flex-col" fxLayout="column" fxLayoutGap="1rem" fxFlex.gt-md="75%">
+        <!-- Toggle Dark/Light theme -->
+        <app-theme></app-theme>
+
+        <!-- Toggle cover display -->
+        <app-display-cover></app-display-cover>
+
+        <!-- Toggle display 'Save playlist' button -->
+        <app-display-save-playlist></app-display-save-playlist>
+
+        <!-- Toggle setting of tab titles -->
+        <app-tab-title></app-tab-title>
+
+        <!-- Backend Addr -->
+        <app-backend-address></app-backend-address>
+      </div>
+    </mat-tab>
+
+    <mat-tab label="Backend">
+      <!-- Backend  -->
+      <div class="flex-col" fxLayout="column" fxLayoutGap="1rem" fxFlex.gt-md="75%"
+           *ngIf="backendSettings | async as settings">
+
+        <div class="bg">These settings need to be changed via
+          <span class="mono code">-D</span> when starting ampd. Alternatively, write them to
+          an <span class="mono code">ampd.conf</span> file. See the
+          <a class="no-deco-links mono code"
+             href="https://github.com/rain0r/ampd/blob/master/README.md">README</a> for more
+          information.
+        </div>
+
+        <!-- Cover cache -->
+        <app-cover-cache [localCoverCache]="settings.localCoverCache"></app-cover-cache>
+        <!-- MusicBrainz cover service -->
+        <app-music-brainz-cover-service
+            [mbCoverService]="settings.mbCoverService"></app-music-brainz-cover-service>
+        <!-- Reset MPD modes on clear -->
+        <app-reset-modes-on-clear
+            [resetModesOnClear]="settings.resetModesOnClear"></app-reset-modes-on-clear>
+        <!-- Music directory -->
+        <app-music-directory [musicDirectory]="settings.musicDirectory"></app-music-directory>
+        <!-- MPD Server -->
+        <app-mpd-server [mpdServer]="settings.mpdServer"></app-mpd-server>
+        <!-- MPD Port -->
+        <app-mpd-port [mpdPort]="settings.mpdPort"></app-mpd-port>
+        <!-- Playlist properties -->
+        <app-playlist-properties [createNewPlaylists]="settings.createNewPlaylists"
+                                 [deleteExistingPlaylists]="settings.deleteExistingPlaylists"></app-playlist-properties>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+
+
+  <div class="mono">
+    Source code at:
+    <a class="mat-app-background" href="https://github.com/rain0r/ampd"
+    >github.com/rain0r/ampd</a
+    >
+  </div>
+</div>

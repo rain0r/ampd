@@ -85,18 +85,6 @@
         Save
       </button>
     </div>
-
-    <div class="mono">
-      Version:
-      <span title="ampd version">{{ frontendSettings.ampdVersion }}</span> &nbsp;
-      <span
-          *ngIf="frontendSettings.gitCommitId !== 'live'"
-          class="text-muted"
-          title="git commit id"
-      >{{ frontendSettings.gitCommitId }}</span
-      >
-    </div>
-
     <div class="mono">
       Source code at:
       <a class="mat-app-background" href="https://github.com/rain0r/ampd"

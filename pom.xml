@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
     <version>2.4.3</version>
-    <relativePath />
+    <relativePath/>
   </parent>
   <groupId>org.hihn.ampd</groupId>
   <artifactId>ampd</artifactId>
@@ -16,9 +18,7 @@
     <mpir.skip>true</mpir.skip>
     <java.version>11</java.version>
     <project.scm.id>github</project.scm.id>
-    <frontend.prod>true</frontend.prod>
-    <frontend.url>localhost:8080</frontend.url>
-    <frontend.https>false</frontend.https>
+    <frontend.configuration>production</frontend.configuration>
     <frontend.context>/</frontend.context>
     <skip.npm>false</skip.npm>
     <skip.npm.warnings>true</skip.npm.warnings>
@@ -146,15 +146,12 @@
             </goals>
             <configuration>
               <skip>${skip.npm}</skip>
-              <executable>node</executable>
+              <executable>./node_modules/.bin/ng</executable>
               <workingDirectory>./angularclient</workingDirectory>
               <arguments>
-                <argument>build.js</argument>
-                <argument>--verbose=${npm.verbose}</argument>
-                <argument>--prod=${frontend.prod}</argument>
-                <argument>--url=${frontend.url}</argument>
-                <argument>--https=${frontend.https}</argument>
-                <argument>--context=${frontend.context}</argument>
+                <argument>build</argument>
+                <argument>--configuration=${frontend.configuration}</argument>
+                <argument>--base-href=${frontend.context}</argument>
               </arguments>
             </configuration>
           </execution>

@@ -161,9 +161,7 @@ export class SettingsService {
 
   getFrontendSettings(): FrontendSettings {
     const frontendSettings = new FrontendSettings();
-    frontendSettings.ampdVersion = environment.ampdVersion;
-    frontendSettings.gitCommitId = environment.gitCommitId;
-    frontendSettings.isDarkTheme = this.isDarkTheme;
+   frontendSettings.isDarkTheme = this.isDarkTheme;
     frontendSettings.isDisplayCovers = this.isDisplayCovers;
     frontendSettings.isDisplaySavePlaylist = this.isDisplaySavePlaylist;
     frontendSettings.isSetTabTitle = this.isSetTabTitle;

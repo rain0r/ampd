@@ -5,13 +5,11 @@
 // const AMPD_URL = "punica:8003";
 const AMPD_URL = "punica:8083";
 // const AMPD_URL = "192.168.178.50:8080";
+// const AMPD_URL = "punica";
 
 export const environment = {
   production: false,
   backendAddr: `http://${AMPD_URL}`,
-  webSocketAddr: `ws://${AMPD_URL}/mpd`,
-  ampdVersion: "live",
-  gitCommitId: "live",
 };
 
 /*

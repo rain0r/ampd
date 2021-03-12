@@ -190,7 +190,6 @@ yarn-debug.log*
 yarn-error.log*
 spotbugs.xml
 lint-results.xml
-environment.prod.ts
 application-dev.properties
 application-prod.properties
 ampd.log*

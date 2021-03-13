@@ -7,14 +7,6 @@ import { QueueTrack } from "../models/queue-track";
  * from the template.
  */
 export class TrackTableData {
-  get onPlayClick(): ClickActions {
-    return this._onPlayClick;
-  }
-
-  set onPlayClick(value: ClickActions) {
-    this._onPlayClick = value;
-  }
-
   /**
    * If true, the table as an 'add title' colum.
    */
@@ -135,5 +127,12 @@ export class TrackTableData {
 
   set sortable(value: boolean) {
     this._sortable = value;
+  }
+  get onPlayClick(): ClickActions {
+    return this._onPlayClick;
+  }
+
+  set onPlayClick(value: ClickActions) {
+    this._onPlayClick = value;
   }
 }

@@ -3,6 +3,7 @@ import {
   Component,
   Input,
   OnChanges,
+  OnInit,
   SimpleChanges,
   ViewChild,
 } from "@angular/core";
@@ -14,13 +15,20 @@ import { MatPaginator, MatPaginatorIntl } from "@angular/material/paginator";
 import { ClickActions } from "./click-actions.enum";
 import { MpdCommands } from "../mpd/mpd-commands.enum";
 import { QueueTrack } from "../models/queue-track";
+import { Observable } from "rxjs";
+import {
+  BreakpointObserver,
+  Breakpoints,
+  BreakpointState,
+} from "@angular/cdk/layout";
+import { map } from "rxjs/operators";
 
 @Component({
   selector: "app-track-data-table",
   templateUrl: "./track-data-table.component.html",
   styleUrls: ["./track-data-table.component.scss"],
 })
-export class TrackDataTableComponent implements OnChanges {
+export class TrackDataTableComponent implements OnInit, OnChanges {
   @Input() trackTableData: TrackTableData = new TrackTableData();
   @ViewChild(MatPaginator, { static: true })
   paginator: MatPaginator = new MatPaginator(
@@ -29,10 +37,19 @@ export class TrackDataTableComponent implements OnChanges {
   );
   @ViewChild(MatSort, { static: true }) sort: MatSort = new MatSort();
 
+  isMobile = new Observable<boolean>();
+
   constructor(
+    private breakpointObserver: BreakpointObserver,
     private notificationService: NotificationService,
     private webSocketService: WebSocketService
   ) {}
+
+  ngOnInit(): void {
+    this.isMobile = this.breakpointObserver
+      .observe([Breakpoints.Small, Breakpoints.HandsetPortrait])
+      .pipe(map((state: BreakpointState) => state.matches));
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
     if ("trackTableData" in changes) {

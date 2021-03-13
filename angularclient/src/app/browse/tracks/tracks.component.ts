@@ -10,6 +10,12 @@ import { QueueTrack } from "../../shared/models/queue-track";
 import { CoverModalComponent } from "../../queue/cover-modal/cover-modal.component";
 import { MatDialog } from "@angular/material/dialog";
 import { MpdService } from "../../shared/services/mpd.service";
+import {
+  BreakpointObserver,
+  Breakpoints,
+  BreakpointState,
+} from "@angular/cdk/layout";
+import { map } from "rxjs/operators";
 
 @Component({
   selector: "app-tracks",
@@ -20,12 +26,14 @@ export class TracksComponent implements OnInit {
   @Input() tracks: QueueTrack[] = [];
   coverSizeClass: Observable<string>;
   getParamDir = "";
+  isMobile = false;
+  queueDuration = 0;
   trackTableData = new TrackTableData();
   validCoverUrl = false;
-  queueDuration = 0;
 
   constructor(
     private activatedRoute: ActivatedRoute,
+    private breakpointObserver: BreakpointObserver,
     private dialog: MatDialog,
     private mpdService: MpdService,
     private responsiveCoverSizeService: ResponsiveCoverSizeService,
@@ -37,6 +45,11 @@ export class TracksComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.breakpointObserver
+      .observe([Breakpoints.Small, Breakpoints.HandsetPortrait])
+      .pipe(map((state: BreakpointState) => state.matches))
+      .subscribe((isMobile) => (this.isMobile = isMobile));
+
     this.trackTableData = this.buildTableData();
     this.queueDuration = this.sumTrackDuration();
   }
@@ -79,15 +92,18 @@ export class TracksComponent implements OnInit {
   }
 
   private getDisplayedColumns(): string[] {
-    return [
-      "position",
-      "artistName",
-      "albumName",
-      "title",
-      "length",
-      "addTitle",
-      "playTitle",
+    const displayedColumns = [
+      { name: "position", showMobile: false },
+      { name: "artistName", showMobile: true },
+      { name: "albumName", showMobile: false },
+      { name: "title", showMobile: true },
+      { name: "length", showMobile: false },
+      { name: "addTitle", showMobile: false },
+      { name: "playTitle", showMobile: false },
     ];
+    return displayedColumns
+      .filter((cd) => !this.isMobile || cd.showMobile)
+      .map((cd) => cd.name);
   }
 
   /**

@@ -8,37 +8,20 @@
   width: 1%;
 }
 
-@media only screen and (max-width: 1280px) {
-  // We don't have space for padding on mobile devices
-  .mat-column-action {
-    padding-right: 0 !important;
-  }
-  .mat-column-artistName {
-    padding-left: 0 !important;
-    margin-left: 0 !important;
-  }
-  td {
-    font-size: smaller;
-  }
-  .mat-column-remove {
-    padding-right: 0 !important;
-  }
-  .mat-column-artistName {
-    padding-left: 0 !important;
-  }
+.mobile {
+  font-size: smaller;
+  padding-right: 0 !important;
+  padding-left: 0 !important;
 }
 
-@media only screen and (min-width: 1280px) {
-  .mat-column-artistName,
-  .mat-column-title,
-  .mat-column-albumName {
-    max-width: 10rem;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-}
-
-.mat-column-playTitle, .mat-column-addTitle  {
+.mat-column-playTitle, .mat-column-addTitle {
   text-align: right;
+}
+
+table {
+  width: 100%;
+}
+
+table td, table td * {
+  vertical-align: top;
 }

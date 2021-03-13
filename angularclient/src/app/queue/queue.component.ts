@@ -1,4 +1,4 @@
-import { Component, HostListener } from "@angular/core";
+import { Component, HostListener, OnInit } from "@angular/core";
 import { MpdService } from "../shared/services/mpd.service";
 import { Title } from "@angular/platform-browser";
 import { combineLatest } from "rxjs";
@@ -10,7 +10,7 @@ import { SettingsService } from "../shared/services/settings.service";
   templateUrl: "./queue.component.html",
   styleUrls: ["./queue.component.scss"],
 })
-export class QueueComponent {
+export class QueueComponent implements OnInit {
   constructor(
     private mpdService: MpdService,
     private settingsService: SettingsService,
@@ -23,6 +23,11 @@ export class QueueComponent {
       this.buildTitle();
       this.mpdService.refreshQueue();
     }
+  }
+
+  ngOnInit(): void {
+    this.buildTitle();
+    this.mpdService.refreshQueue();
   }
 
   /**

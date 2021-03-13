@@ -23,10 +23,8 @@
 
 <app-track-data-table [trackTableData]="trackTableData"></app-track-data-table>
 
-<div fxLayout="row" fxLayoutAlign="space-between center" class="space-top">
-  <div>
-  <span *ngIf="dataSource.data.length > 0" class="bottom-divider">
-
+<div fxLayout="row wrap" fxLayoutAlign="space-between center" class="space-top">
+  <span *ngIf="dataSource.data.length > 0" class="bottom-divider" fxFlex.lt-md="100%">
     <span [ngPlural]="dataSource.data.length">
       <ng-template ngPluralCase="=1">1 track </ng-template>
       <ng-template ngPluralCase="other">{{ dataSource.data.length }}
@@ -34,8 +32,8 @@
     </span> in the queue. Duration:
     {{ queueDuration | secondsToHhMmSs }}
   </span>
-  </div>
-  <button mat-stroked-button (click)="openCoverModal()" *ngIf="displaySaveCoverBtn|async">
+  <button mat-stroked-button (click)="openCoverModal()" *ngIf="displaySaveCoverBtn|async"
+          fxFlex.lt-md="100%">
     <mat-icon>save</mat-icon>
     Save playlist
   </button>

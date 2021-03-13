@@ -1,4 +1,10 @@
-import { Component, ElementRef, HostListener, ViewChild } from "@angular/core";
+import {
+  Component,
+  ElementRef,
+  HostListener,
+  OnInit,
+  ViewChild,
+} from "@angular/core";
 import { MatTableDataSource } from "@angular/material/table";
 
 import { WebSocketService } from "../../shared/services/web-socket.service";
@@ -11,13 +17,19 @@ import { TrackTableData } from "../../shared/track-table/track-table-data";
 import { ClickActions } from "../../shared/track-table/click-actions.enum";
 import { SettingsService } from "../../shared/services/settings.service";
 import { Observable } from "rxjs";
+import {
+  BreakpointObserver,
+  Breakpoints,
+  BreakpointState,
+} from "@angular/cdk/layout";
+import { map } from "rxjs/operators";
 
 @Component({
   selector: "app-track-table",
   templateUrl: "./track-table.component.html",
   styleUrls: ["./track-table.component.scss"],
 })
-export class TrackTableComponent {
+export class TrackTableComponent implements OnInit {
   @ViewChild("filterInputElem") filterInputElem?: ElementRef;
 
   /**
@@ -33,6 +45,7 @@ export class TrackTableComponent {
   queueDuration = 0;
 
   constructor(
+    private breakpointObserver: BreakpointObserver,
     private dialog: MatDialog,
     private webSocketService: WebSocketService,
     private mpdService: MpdService,
@@ -52,6 +65,12 @@ export class TrackTableComponent {
     if (this.filterInputElem) {
       (this.filterInputElem.nativeElement as HTMLElement).focus();
     }
+  }
+  ngOnInit(): void {
+    this.breakpointObserver
+      .observe([Breakpoints.Small, Breakpoints.HandsetPortrait])
+      .pipe(map((state: BreakpointState) => state.matches))
+      .subscribe((isMobile) => (this.isMobile = isMobile));
   }
 
   openCoverModal(): void {

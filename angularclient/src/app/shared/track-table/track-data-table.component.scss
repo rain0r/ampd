@@ -26,10 +26,7 @@ table td, table td * {
   vertical-align: top;
 }
 
-/**
-For future development: clip long text in columns.
- */
-/*.ellipsis {
+.ellipsis {
   font-size: smaller;
   position: relative;
 }
@@ -46,4 +43,4 @@ For future development: clip long text in columns.
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-}*/
+}

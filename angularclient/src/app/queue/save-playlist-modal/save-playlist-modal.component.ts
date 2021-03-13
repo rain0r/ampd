@@ -21,7 +21,6 @@ export class SavePlaylistModalComponent {
 
   onEnterPressed(): void {
     this.mpdService.savePlaylist(this.data).subscribe((playlist) => {
-      console.log(playlist);
       if (playlist.success) {
         this.notificationService.popUp(
           `Saved queue as playlist '${playlist.playlistName}'`

@@ -11,7 +11,6 @@ import { MpdModeService } from "../shared/services/mpd-mode.service";
 import { MatDialog } from "@angular/material/dialog";
 import { HelpModalComponent } from "./help-dialog/help-modal.component";
 import { NotificationService } from "../shared/services/notification.service";
-import { DeviceDetectorService } from "ngx-device-detector";
 
 @Component({
   selector: "app-navbar",
@@ -25,7 +24,6 @@ export class NavbarComponent {
   private helpModalOpen = new BehaviorSubject(false);
 
   constructor(
-    private deviceService: DeviceDetectorService,
     private dialog: MatDialog,
     private mpdModeService: MpdModeService,
     private mpdService: MpdService,

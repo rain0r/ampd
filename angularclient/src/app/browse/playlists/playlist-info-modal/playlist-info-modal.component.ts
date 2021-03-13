@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Inject } from "@angular/core";
+import { AfterViewInit, Component, Inject, OnInit } from "@angular/core";
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import { Playlist } from "../../../shared/messages/incoming/playlist-impl";
 
@@ -8,20 +8,26 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { MpdService } from "../../../shared/services/mpd.service";
 import { PlaylistInfo } from "../../../shared/models/playlist-info";
 import { Observable, Subject } from "rxjs";
-import { DeviceDetectorService } from "ngx-device-detector";
 import { TrackTableData } from "../../../shared/track-table/track-table-data";
 import { Track } from "../../../shared/messages/incoming/track";
 import { QueueTrack } from "../../../shared/models/queue-track";
 import { MatTableDataSource } from "@angular/material/table";
 import { MpdCommands } from "../../../shared/mpd/mpd-commands.enum";
 import { ErrorMsg } from "../../../shared/error/error-msg";
+import {
+  BreakpointObserver,
+  Breakpoints,
+  BreakpointState,
+} from "@angular/cdk/layout";
+import { map } from "rxjs/operators";
 
 @Component({
   selector: "app-playlist-info-modal",
   templateUrl: "./playlist-info-modal.component.html",
   styleUrls: ["./playlist-info-modal.component.scss"],
 })
-export class PlaylistInfoModalComponent implements AfterViewInit {
+export class PlaylistInfoModalComponent implements OnInit, AfterViewInit {
+  isMobile = false;
   playlistInfo: Observable<PlaylistInfo>;
   trackTableData = new TrackTableData();
   private playlistInfo$ = new Subject<PlaylistInfo>();
@@ -29,7 +35,7 @@ export class PlaylistInfoModalComponent implements AfterViewInit {
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: Playlist,
     private activatedRoute: ActivatedRoute,
-    private deviceService: DeviceDetectorService,
+    private breakpointObserver: BreakpointObserver,
     private mpdService: MpdService,
     private notificationService: NotificationService,
     private router: Router,
@@ -37,6 +43,13 @@ export class PlaylistInfoModalComponent implements AfterViewInit {
     public dialogRef: MatDialogRef<PlaylistInfoModalComponent>
   ) {
     this.playlistInfo = this.playlistInfo$.asObservable();
+  }
+
+  ngOnInit(): void {
+    this.breakpointObserver
+      .observe([Breakpoints.Small, Breakpoints.HandsetPortrait])
+      .pipe(map((state: BreakpointState) => state.matches))
+      .subscribe((isMobile) => (this.isMobile = isMobile));
   }
 
   ngAfterViewInit(): void {
@@ -85,9 +98,8 @@ export class PlaylistInfoModalComponent implements AfterViewInit {
       { name: "title", showMobile: true },
       { name: "length", showMobile: false },
     ];
-    const isMobile = this.deviceService.isMobile();
     return displayedColumns
-      .filter((cd) => !isMobile || cd.showMobile)
+      .filter((cd) => !this.isMobile || cd.showMobile)
       .map((cd) => cd.name);
   }
 

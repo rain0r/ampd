@@ -1,11 +1,10 @@
-import { Component } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import {
   SearchMsgPayload,
   SearchResult,
 } from "../shared/messages/incoming/search";
 import { QueueTrack } from "../shared/models/queue-track";
 import { WebSocketService } from "../shared/services/web-socket.service";
-import { DeviceDetectorService } from "ngx-device-detector";
 import { MatTableDataSource } from "@angular/material/table";
 import { TrackTableData } from "../shared/track-table/track-table-data";
 import { MpdCommands } from "../shared/mpd/mpd-commands.enum";
@@ -14,29 +13,42 @@ import { NotificationService } from "../shared/services/notification.service";
 import { Subject } from "rxjs";
 import { bufferTime, filter, map } from "rxjs/operators";
 import { MpdService } from "../shared/services/mpd.service";
+import {
+  BreakpointObserver,
+  Breakpoints,
+  BreakpointState,
+} from "@angular/cdk/layout";
 
 @Component({
   selector: "app-search",
   templateUrl: "./search.component.html",
   styleUrls: ["./search.component.scss"],
 })
-export class SearchComponent {
+export class SearchComponent implements OnInit {
   dataSource = new MatTableDataSource<QueueTrack>([]);
-  searchResultCount = 0;
-  search = "";
   isLoading = false;
+  isMobile = false;
+  search = "";
+  searchResultCount = 0;
   trackTableData = new TrackTableData();
   private searchResultTracks: QueueTrack[] = [];
   private inputSetter$ = new Subject<string>();
 
   constructor(
-    private deviceService: DeviceDetectorService,
+    private breakpointObserver: BreakpointObserver,
     private mpdService: MpdService,
     private notificationService: NotificationService,
     private webSocketService: WebSocketService
   ) {
     this.buildMsgReceiver();
     this.buildInputListener();
+  }
+
+  ngOnInit(): void {
+    this.breakpointObserver
+      .observe([Breakpoints.Small, Breakpoints.HandsetPortrait])
+      .pipe(map((state: BreakpointState) => state.matches))
+      .subscribe((isMobile) => (this.isMobile = isMobile));
   }
 
   applySearch(eventTarget: EventTarget | null): void {
@@ -49,7 +61,6 @@ export class SearchComponent {
   }
 
   resetSearch(): void {
-    console.log(new Date(), "resetSearch()");
     this.dataSource = new MatTableDataSource<QueueTrack>([]);
     this.trackTableData = this.buildTableData();
     this.searchResultCount = 0;
@@ -88,7 +99,6 @@ export class SearchComponent {
     searchResults: SearchResult[],
     searchResultCount: number
   ): void {
-    console.log(new Date(), "processSearchResults");
     // this.resetSearch();
     this.searchResultTracks = searchResults.map(
       (track, index) => new QueueTrack(track, index)
@@ -116,7 +126,6 @@ export class SearchComponent {
   }
 
   private getDisplayedColumns(): string[] {
-    const isMobile = this.deviceService.isMobile();
     const displayedColumns = [
       { name: "artistName", showMobile: true },
       { name: "albumName", showMobile: false },
@@ -126,7 +135,7 @@ export class SearchComponent {
       { name: "playTitle", showMobile: true },
     ];
     return displayedColumns
-      .filter((cd) => !isMobile || cd.showMobile)
+      .filter((cd) => !this.isMobile || cd.showMobile)
       .map((cd) => cd.name);
   }
 

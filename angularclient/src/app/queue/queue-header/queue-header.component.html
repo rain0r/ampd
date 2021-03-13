@@ -27,6 +27,7 @@
            [queryParams]="{'dir': currentTrack.dir}">
           {{ currentTrack.albumName }}
         </a>
+        <mat-divider></mat-divider>
       </div>
       <div class="mat-h3 queue-sub-title" title="Artist: {{currentTrack.artistName}}">
         <a class="no-deco-links" [routerLink]="['browse']"

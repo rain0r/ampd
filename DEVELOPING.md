@@ -52,26 +52,13 @@ Run `ng serve` again and - provided there is a `ampd` instance running on that a
 
 ## Working on the backend
 
-Now let's take a look at the backend server, which is using Spring Boot.
 To get it all up and running, just hit `mvn spring-boot:run`. By default, this would also build the `Angular` frontend.
 If you want to skip that, pass the `-Dskip.npm=true` flag to Maven: `mvn -Dskip.npm=true spring-boot:run`
 
-The `Build fronted` part of the `pom.xml` is basically calling the file `angularclient/build.js`.  
-This means, you have two options to build the frontend:
-
- 1. Every time you the Maven `compile` goal is called
- 2. Manually via `node build.js`
-
-See `node angularclient/build.js --help` for more info. Every option can be set in the `<properties>` of the file `pom.xml`.
-So, for example, you want to build `ampd` for yourself with these options:
-
-- It should be a production build
-- `ampd` should be accessible via the url `https:punica:8003/my-music`
-
-This would be realized via:
-
 ```shell script
-mvn -Dfrontend.url=punica:8003 -Dfrontend.context=/my-music/ compile
+# Building ampd for use under the context /my-music/
+
+mvn  -Dfrontend.context=/my-music/ compile
 ```
 
 After that, you can start the resulting jar file:

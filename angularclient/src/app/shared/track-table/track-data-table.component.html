@@ -15,7 +15,9 @@
       Artist
     </th>
     <td mat-cell *matCellDef="let row" (click)="onRowClick(row)"
-        [class.mobile]="(isMobile|async)">
+        [class.mobile]="(isMobile|async)"
+        [class.ellipsis]="(isMobile|async)"
+    >
       <span
           *ngIf="!row.artistName && !row.albumName && !row.title; else hasArtistName"
           [title]="row.file"
@@ -36,18 +38,21 @@
       Album
     </th>
     <td mat-cell *matCellDef="let row" (click)="onRowClick(row)" [title]="row.albumName"
-        [class.mobile]="(isMobile|async)">
+        [class.mobile]="(isMobile|async)"
+        [class.ellipsis]="(isMobile|async)">
       {{ row.albumName }}
     </td>
   </ng-container>
 
   <!-- Title column -->
   <ng-container matColumnDef="title">
-    <th mat-header-cell mat-sort-header [disabled]=!trackTableData.sortable *matHeaderCellDef>
+    <th mat-header-cell mat-sort-header [disabled]=!trackTableData.sortable
+        *matHeaderCellDef>
       Title
     </th>
     <td mat-cell *matCellDef="let row" (click)="onRowClick(row)" [title]="row.title"
-        [class.mobile]="(isMobile|async)">
+        [class.mobile]="(isMobile|async)"
+        [class.ellipsis]="(isMobile|async)">
       {{ row.title }}
     </td>
   </ng-container>

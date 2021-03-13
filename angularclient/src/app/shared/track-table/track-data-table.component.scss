@@ -25,3 +25,25 @@ table {
 table td, table td * {
   vertical-align: top;
 }
+
+/**
+For future development: clip long text in columns.
+ */
+/*.ellipsis {
+  font-size: smaller;
+  position: relative;
+}
+
+.ellipsis:before {
+  content: '&nbsp;';
+  visibility: hidden;
+}
+
+.ellipsis span {
+  position: absolute;
+  left: 0;
+  right: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}*/

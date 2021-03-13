@@ -2,7 +2,6 @@ import { Component, ElementRef, HostListener, ViewChild } from "@angular/core";
 import { MatTableDataSource } from "@angular/material/table";
 
 import { WebSocketService } from "../../shared/services/web-socket.service";
-import { DeviceDetectorService } from "ngx-device-detector";
 import { QueuePayload } from "../../shared/messages/incoming/queue-payload";
 import { QueueTrack } from "../../shared/models/queue-track";
 import { MpdService } from "../../shared/services/mpd.service";
@@ -29,12 +28,12 @@ export class TrackTableComponent {
   currentState = "stop";
   dataSource = new MatTableDataSource<QueueTrack>();
   displaySaveCoverBtn: Observable<boolean>;
+  isMobile = false;
   trackTableData = new TrackTableData();
   queueDuration = 0;
 
   constructor(
     private dialog: MatDialog,
-    private deviceService: DeviceDetectorService,
     private webSocketService: WebSocketService,
     private mpdService: MpdService,
     private settingsService: SettingsService
@@ -82,9 +81,8 @@ export class TrackTableComponent {
       { name: "length", showMobile: false },
       { name: "remove", showMobile: true },
     ];
-    const isMobile = this.deviceService.isMobile();
     return displayedColumns
-      .filter((cd) => !isMobile || cd.showMobile)
+      .filter((cd) => !this.isMobile || cd.showMobile)
       .map((cd) => cd.name);
   }
 

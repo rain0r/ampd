@@ -8,7 +8,7 @@ import {
   bufferTime,
   catchError,
   filter,
-  map,
+  map, tap,
   withLatestFrom,
 } from "rxjs/operators";
 import { PlaylistSaved } from "../messages/incoming/playlist-saved";
@@ -121,10 +121,7 @@ export class MpdService {
    * Build the currentTrack object - holds info about the track currently played
    * @param payload StateMsgPayload
    */
-  private buildState(payload: StateMsgPayload): QueueTrack {
-    this.controlPanel$.next(payload.controlPanel);
-    this.currentState$.next(payload.serverStatus.state);
-    this.volume$.next(payload.serverStatus.volume);
+  private buildCurrentQueueTrack(payload: StateMsgPayload): QueueTrack {
     let trackChanged = false;
     let track = new QueueTrack();
     if (payload.currentTrack) {
@@ -139,9 +136,10 @@ export class MpdService {
     return track;
   }
 
+
   private buildQueueTrack(
-    payload: StateMsgPayload,
-    trackChanged: boolean
+      payload: StateMsgPayload,
+      trackChanged: boolean
   ): QueueTrack {
     const queueTrack = new QueueTrack(payload.currentTrack);
     queueTrack.coverUrl = this.buildCoverUrl(payload.currentTrack.file);
@@ -152,6 +150,7 @@ export class MpdService {
     return queueTrack;
   }
 
+
   private init(): void {
     this.buildStateSubscription();
     this.buildPlaylistSavedSubscription();
@@ -161,7 +160,12 @@ export class MpdService {
     this.webSocketService
       .getStateSubscription()
       .pipe(
-        map((msg) => this.buildState(msg)),
+          tap( (payload) => {
+            this.controlPanel$.next(payload.controlPanel);
+            this.currentState$.next(payload.serverStatus.state);
+            this.volume$.next(payload.serverStatus.volume);
+          } ),
+        map((payload) => this.buildCurrentQueueTrack(payload)),
         filter(
           (queueTrack: QueueTrack) =>
             (queueTrack.artistName !== "" && queueTrack.title !== "") ||

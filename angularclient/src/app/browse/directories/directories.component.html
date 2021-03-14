@@ -46,6 +46,7 @@
       fxLayout="row wrap"
       fxLayoutAlign="space-between"
       fxLayoutGap="1rem grid"
+      fxLayoutGap.lt-md="0.25rem grid"
       *ngIf="dir != '/' && dirQueue.length < maxCoversDisplayed"
   >
     <div

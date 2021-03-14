@@ -14,8 +14,8 @@
         (input)="handleCurrentTrackProgressSlider($event)"
     ></mat-slider>
   </div>
-  <div>
-    {{ track.length | secondsToMmSs }}
+  <div *ngIf="track.length > 0"> 
+    {{ track.length | secondsToMmSs }}    
   </div>
 </div>
 

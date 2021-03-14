@@ -12,10 +12,14 @@
     <div fxFlex="1 0 55%" fxLayout="column">
       <div class="mat-h2 queue-sub-title" fxFlex="100%" title="Title: {{currentTrack.title}}">
         <a class=" no-deco-links" [routerLink]="['browse']"
-           [queryParams]="{'dir': currentTrack.dir}"
+           [queryParams]="{'dir': currentTrack.dir}"           
+           *ngIf="currentTrack.title else trackFile"
            [class.text-muted]="(currentState|async) === 'pause'">
-          {{ currentTrack.title }}
+           {{ currentTrack.title }}
         </a>
+        <ng-template #trackFile>
+          {{ currentTrack.file }}
+        </ng-template>
       </div>
       <mat-divider></mat-divider>
       <div

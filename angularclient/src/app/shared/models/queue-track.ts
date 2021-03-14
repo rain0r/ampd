@@ -29,8 +29,8 @@ export class QueueTrack implements Track {
 
   constructor(currentTrack?: Track, position = 0) {
     if (currentTrack) {
-      this.albumName = currentTrack.albumName;
-      this.artistName = currentTrack.artistName;
+      this.albumName = currentTrack.albumName.trim();
+      this.artistName = currentTrack.artistName.trim();
       this.comment = currentTrack.comment;
       this.discNumber = currentTrack.discNumber;
       this.file = currentTrack.file;
@@ -39,7 +39,7 @@ export class QueueTrack implements Track {
       this.length = currentTrack.length;
       this.name = currentTrack.name;
       this.position = position;
-      this.title = currentTrack.title;
+      this.title = currentTrack.title.trim();
       this.track = currentTrack.track;
       this.year = currentTrack.year;
     }

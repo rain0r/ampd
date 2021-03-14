@@ -33,7 +33,7 @@ export class QueueHeaderComponent implements OnInit {
     private messageService: MessageService
   ) {
     this.isDisplayCover = this.displayCover$.asObservable();
-    this.coverSizeClass = responsiveCoverSizeService.getCoverCssClass();
+    this.coverSizeClass = this.responsiveCoverSizeService.getCoverCssClass();
     this.currentState = this.mpdService.currentState;
     this.buildTrackSubscription();
     this.buildMessageReceiver();

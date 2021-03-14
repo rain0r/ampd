@@ -164,7 +164,8 @@ export class MpdService {
         map((msg) => this.buildState(msg)),
         filter(
           (queueTrack: QueueTrack) =>
-            queueTrack.artistName !== "" && queueTrack.title !== ""
+            (queueTrack.artistName !== "" && queueTrack.title !== "") ||
+            queueTrack.file !== ""
         )
       )
       .subscribe((queueTrack) => this.currentTrack$.next(queueTrack));

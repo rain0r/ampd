@@ -47,7 +47,11 @@ export class QueueComponent implements OnInit {
         }))
       )
       .subscribe((result) => {
-        if (!result.tabTitle) {
+        if (
+          !result.tabTitle ||
+          /* Empty artist and title (maybe web radio stream?) */
+          (result.track.artistName === "" && result.track.title === "")
+        ) {
           return;
         }
         if (result.state === "stop") {

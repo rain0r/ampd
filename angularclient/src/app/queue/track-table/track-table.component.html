@@ -29,8 +29,11 @@
       <ng-template ngPluralCase="=1">1 track </ng-template>
       <ng-template ngPluralCase="other">{{ dataSource.data.length }}
         tracks</ng-template>
-    </span> in the queue. Duration:
-    {{ queueDuration | secondsToHhMmSs }}
+    </span> in the queue.
+    <span *ngIf="queueDuration > 0">
+      Duration:
+      {{ queueDuration | secondsToHhMmSs }}
+    </span>
   </span>
   <button mat-stroked-button (click)="openCoverModal()" *ngIf="displaySaveCoverBtn|async"
           fxFlex.lt-md="100%">

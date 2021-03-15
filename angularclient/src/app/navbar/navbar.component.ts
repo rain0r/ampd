@@ -1,16 +1,16 @@
-import { Component, HostListener } from "@angular/core";
+import {Component, HostListener} from "@angular/core";
 
-import { RxStompService } from "@stomp/ng2-stompjs";
-import { Router } from "@angular/router";
-import { SettingsService } from "../shared/services/settings.service";
-import { BehaviorSubject, Observable } from "rxjs";
-import { MpdCommands } from "../shared/mpd/mpd-commands.enum";
-import { MpdService } from "../shared/services/mpd.service";
-import { WebSocketService } from "../shared/services/web-socket.service";
-import { MpdModeService } from "../shared/services/mpd-mode.service";
-import { MatDialog } from "@angular/material/dialog";
-import { HelpModalComponent } from "./help-dialog/help-modal.component";
-import { NotificationService } from "../shared/services/notification.service";
+import {RxStompService} from "@stomp/ng2-stompjs";
+import {Router} from "@angular/router";
+import {SettingsService} from "../shared/services/settings.service";
+import {BehaviorSubject, Observable} from "rxjs";
+import {MpdService} from "../shared/services/mpd.service";
+import {WebSocketService} from "../shared/services/web-socket.service";
+import {MpdModeService} from "../shared/services/mpd-mode.service";
+import {MatDialog} from "@angular/material/dialog";
+import {HelpModalComponent} from "./help-dialog/help-modal.component";
+import {NotificationService} from "../shared/services/notification.service";
+import {ControlPanelService} from "../shared/services/control-panel.service";
 
 @Component({
   selector: "app-navbar",
@@ -24,19 +24,20 @@ export class NavbarComponent {
   private helpModalOpen = new BehaviorSubject(false);
 
   constructor(
-    private dialog: MatDialog,
-    private mpdModeService: MpdModeService,
-    private mpdService: MpdService,
-    private notificationService: NotificationService,
-    private router: Router,
-    private rxStompService: RxStompService,
-    private settingsService: SettingsService,
-    private webSocketService: WebSocketService
+      private controlPanelService: ControlPanelService,
+      private dialog: MatDialog,
+      private mpdModeService: MpdModeService,
+      private mpdService: MpdService,
+      private notificationService: NotificationService,
+      private router: Router,
+      private rxStompService: RxStompService,
+      private settingsService: SettingsService,
+      private webSocketService: WebSocketService
   ) {
     this.isDarkTheme = this.settingsService.isDarkTheme;
     this.connState = rxStompService.connectionState$;
     this.mpdService.currentState.subscribe(
-      (state) => (this.currentState = state)
+        (state) => (this.currentState = state)
     );
   }
 
@@ -46,8 +47,8 @@ export class NavbarComponent {
 
     /* We ignore keys coming from input fields */
     if (
-      inputElement.tagName === "MAT-SLIDER" ||
-      inputElement.tagName === "INPUT"
+        inputElement.tagName === "MAT-SLIDER" ||
+        inputElement.tagName === "INPUT"
     ) {
       return;
     }
@@ -58,20 +59,20 @@ export class NavbarComponent {
     }
 
     switch ($event.key) {
-      // Player controls
+        // Player controls
       case "<":
       case "ArrowLeft": // Left: Previous track
-        this.webSocketService.send(MpdCommands.SET_PREV);
+        this.controlPanelService.prev();
         break;
       case ">":
       case "ArrowRight": // Right: Next track
-        this.webSocketService.send(MpdCommands.SET_NEXT);
+        this.controlPanelService.next();
         break;
       case "p":
       case " ": // Space or 'p': pause
         this.togglePause();
         break;
-      // Navigate to another view
+        // Navigate to another view
       case "1":
         void this.router.navigate(["/"]);
         break;
@@ -84,7 +85,7 @@ export class NavbarComponent {
       case "4":
         void this.router.navigate(["/settings"]);
         break;
-      // MPD modes controls
+        // MPD modes controls
       case "r":
         this.mpdModeService.toggleCtrlFromInput("repeat");
         break;
@@ -100,19 +101,19 @@ export class NavbarComponent {
       case "x":
         this.mpdModeService.toggleCtrlFromInput("crossfade");
         break;
-      // Display help modal
+        // Display help modal
       case "h":
       case "?":
         this.openHelpModal();
         break;
-      // Decrease / increase volume
+        // Decrease / increase volume
       case "+":
         this.mpdService.increaseVolume();
         break;
       case "-":
         this.mpdService.decreaseVolume();
         break;
-      // Clear queue
+        // Clear queue
       case "C":
         this.mpdService.clearQueue();
         this.notificationService.popUp("Cleared queue");
@@ -135,14 +136,10 @@ export class NavbarComponent {
   }
 
   private togglePause(): void {
-    let command;
     if (this.currentState === "pause" || this.currentState === "stop") {
-      command = MpdCommands.SET_PLAY;
+      this.controlPanelService.play();
     } else if (this.currentState === "play") {
-      command = MpdCommands.SET_PAUSE;
-    }
-    if (command) {
-      this.webSocketService.send(command);
+      this.controlPanelService.pause();
     }
   }
 }

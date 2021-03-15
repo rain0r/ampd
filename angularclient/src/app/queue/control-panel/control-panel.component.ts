@@ -1,9 +1,7 @@
 import {Component} from "@angular/core";
-import {WebSocketService} from "../../shared/services/web-socket.service";
 import {NotificationService} from "../../shared/services/notification.service";
 import {MpdService} from "../../shared/services/mpd.service";
 import {Observable} from "rxjs";
-import {MpdCommands} from "../../shared/mpd/mpd-commands.enum";
 import {ControlPanelService} from "../../shared/services/control-panel.service";
 
 @Component({
@@ -15,7 +13,7 @@ export class ControlPanelComponent {
   currentState: Observable<string>;
 
   constructor(
-      private controlPanelService : ControlPanelService,
+      private controlPanelService: ControlPanelService,
       private mpdService: MpdService,
       private notificationService: NotificationService,
   ) {
@@ -27,25 +25,24 @@ export class ControlPanelComponent {
     const element = event.currentTarget as HTMLInputElement;
     switch (element.id) {
       case "btn-prev":
-        command = MpdCommands.SET_PREV;
+        this.controlPanelService.prev();
         break;
       case "btn-stop":
-        command = MpdCommands.SET_STOP;
+        this.controlPanelService.stop();
         break;
       case "btn-pause":
-        command = MpdCommands.SET_PAUSE;
+        this.controlPanelService.pause();
         break;
       case "btn-play":
-        command = MpdCommands.SET_PLAY;
+        this.controlPanelService.play();
         break;
       case "btn-next":
-        command = MpdCommands.SET_NEXT;
+        this.controlPanelService.next();
         break;
       default:
         // Ignore it
         return;
     }
-    this.controlPanelService.send(command);
   }
 
   onClearQueue(): void {

@@ -13,6 +13,7 @@ import {MpdCommands} from "../mpd/mpd-commands.enum";
 import {VolumeSetter} from "../models/volume-setter";
 import {SavePlaylistResponse} from "../models/http/savePlaylistResponse";
 import {ErrorMsg} from "../error/error-msg";
+import {QueueService} from "./queue.service";
 
 @Injectable({
   providedIn: "root",
@@ -34,9 +35,10 @@ export class MpdService {
   private volumeSetter$ = new Subject<VolumeSetter>();
 
   constructor(
-      private webSocketService: WebSocketService,
       private http: HttpClient,
-      private settingsService: SettingsService
+      private queueService: QueueService,
+      private settingsService: SettingsService,
+      private webSocketService: WebSocketService,
   ) {
     this.init();
     this.controlPanel = this.controlPanel$.asObservable();
@@ -49,7 +51,7 @@ export class MpdService {
   }
 
   refreshQueue(): void {
-    this.webSocketService.send(MpdCommands.GET_QUEUE);
+    this.queueService.getQueue();
   }
 
   getPlaylistInfo(playlistName: string): Observable<PlaylistInfo> {
@@ -89,8 +91,8 @@ export class MpdService {
   }
 
   clearQueue(): void {
-    this.webSocketService.send(MpdCommands.RM_ALL);
-    this.webSocketService.send(MpdCommands.GET_QUEUE);
+    this.queueService.removeAll();
+    this.refreshQueue();
   }
 
   deletePlaylist(name: string): Observable<unknown> {

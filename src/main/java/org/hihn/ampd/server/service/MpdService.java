@@ -14,8 +14,6 @@ import org.hihn.ampd.server.config.AmpdCommandRunner;
 import org.hihn.ampd.server.config.MpdConfiguration;
 import org.hihn.ampd.server.message.AmpdMessage.MessageType;
 import org.hihn.ampd.server.message.Message;
-import org.hihn.ampd.server.message.outgoing.queue.QueueMessage;
-import org.hihn.ampd.server.message.outgoing.queue.QueuePayload;
 import org.hihn.ampd.server.model.AmpdSettings;
 import org.hihn.ampd.server.model.PlaylistInfo;
 import org.slf4j.Logger;
@@ -36,13 +34,10 @@ public class MpdService implements MpdWebsocketService {
 
   private final MPD mpd;
 
-  private final AmpdSettings ampdSettings;
-
   public MpdService(MpdConfiguration mpdConfiguration,
       CoverBlacklistService coverBlacklistService, AmpdSettings ampdSettings) {
     mpd = mpdConfiguration.mpd();
     this.coverBlacklistService = coverBlacklistService;
-    this.ampdSettings = ampdSettings;
     buildCommandMap();
   }
 
@@ -57,7 +52,7 @@ public class MpdService implements MpdWebsocketService {
 
   @Override
   public Optional<Message> addPlayTrack(Map<String, Object> inputPayload) {
-    addTrack(inputPayload);
+    // addTrack(inputPayload); TODO
     playTrack(inputPayload);
     return Optional.empty();
   }
@@ -73,27 +68,6 @@ public class MpdService implements MpdWebsocketService {
     return Optional.empty();
   }
 
-  @Override
-  public Optional<Message> addTrack(Map<String, Object> inputPayload) {
-    Map<String, String> payload = inputToStrMap(inputPayload);
-    String path = payload.get("path");
-    MPDFile mpdFile = new MPDFile(path);
-    mpdFile.setDirectory(false);
-    mpd.getPlaylist().addFileOrDirectory(mpdFile);
-    return Optional.empty();
-  }
-
-  @SuppressWarnings(value = "unchecked")
-  @Override
-  public Optional<Message> addTracks(Map<String, Object> inputPayload) {
-    ArrayList<String> filePaths = (ArrayList<String>) inputPayload.get("tracks");
-    for (String file : filePaths) {
-      MPDFile mpdFile = new MPDFile(file);
-      mpdFile.setDirectory(false);
-      mpd.getPlaylist().addFileOrDirectory(mpdFile);
-    }
-    return Optional.empty();
-  }
 
   @Override
   public Optional<Message> blacklistCover(Map<String, Object> inputPayload) {
@@ -127,36 +101,6 @@ public class MpdService implements MpdWebsocketService {
     return ret;
   }
 
-  @Override
-  public Optional<Message> getQueue(Map<String, Object> inputPayload) {
-    QueuePayload queuePayload = new QueuePayload(mpd.getPlaylist().getSongList());
-    QueueMessage queue = new QueueMessage(queuePayload);
-    return Optional.of(queue);
-  }
-
-  @Override
-  public Optional<Message> pause(Map<String, Object> inputPayload) {
-    mpd.getPlayer().pause();
-    return Optional.empty();
-  }
-
-  @Override
-  public Optional<Message> play(Map<String, Object> inputPayload) {
-    mpd.getPlayer().play();
-    return Optional.empty();
-  }
-
-  @Override
-  public Optional<Message> playNext(Map<String, Object> inputPayload) {
-    mpd.getPlayer().playNext();
-    return Optional.empty();
-  }
-
-  @Override
-  public Optional<Message> playPrevious(Map<String, Object> inputPayload) {
-    mpd.getPlayer().playPrevious();
-    return Optional.empty();
-  }
 
   @Override
   public Optional<Message> playTrack(Map<String, Object> inputPayload) {
@@ -187,18 +131,6 @@ public class MpdService implements MpdWebsocketService {
     return commands.get(message.getType()).run(message.getPayload());
   }
 
-  @Override
-  public Optional<Message> removeAll(Map<String, Object> inputPayload) {
-    mpd.getPlaylist().clearPlaylist();
-    if (ampdSettings.isResetModesOnClear()) {
-      mpd.getPlayer().setRandom(false);
-      mpd.getPlayer().setRepeat(false);
-      mpd.getPlayer().setXFade(0);
-      mpd.getPlayer().setConsume(false);
-      mpd.getPlayer().setSingle(false);
-    }
-    return Optional.empty();
-  }
 
   @Override
   public Optional<Message> removeTrack(Map<String, Object> inputPayload) {
@@ -229,11 +161,6 @@ public class MpdService implements MpdWebsocketService {
     return Optional.empty();
   }
 
-  @Override
-  public Optional<Message> stop(Map<String, Object> inputPayload) {
-    mpd.getPlayer().stop();
-    return Optional.empty();
-  }
 
   @SuppressWarnings(value = "unchecked")
   @Override
@@ -255,19 +182,10 @@ public class MpdService implements MpdWebsocketService {
     commands.put(MessageType.ADD_DIR, this::addDir);
     commands.put(MessageType.ADD_PLAYLIST, this::addPlaylist);
     commands.put(MessageType.ADD_PLAY_TRACK, this::addPlayTrack);
-    commands.put(MessageType.ADD_TRACK, this::addTrack);
-    commands.put(MessageType.ADD_TRACKS, this::addTracks);
     commands.put(MessageType.BLACKLIST_COVER, this::blacklistCover);
-    commands.put(MessageType.GET_QUEUE, this::getQueue);
     commands.put(MessageType.PLAY_TRACK, this::playTrack);
-    commands.put(MessageType.RM_ALL, this::removeAll);
     commands.put(MessageType.RM_TRACK, this::removeTrack);
-    commands.put(MessageType.SET_NEXT, this::playNext);
-    commands.put(MessageType.SET_PAUSE, this::pause);
-    commands.put(MessageType.SET_PLAY, this::play);
-    commands.put(MessageType.SET_PREV, this::playPrevious);
     commands.put(MessageType.SET_SEEK, this::seek);
-    commands.put(MessageType.SET_STOP, this::stop);
     commands.put(MessageType.SET_VOLUME, this::setVolume);
     commands.put(MessageType.TOGGLE_CONTROL, this::toggleControlPanel);
   }

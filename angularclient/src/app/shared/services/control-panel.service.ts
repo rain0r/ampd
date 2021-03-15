@@ -1,5 +1,4 @@
 import {Injectable} from '@angular/core';
-import {MpdCommands} from "../mpd/mpd-commands.enum";
 import {RxStompService} from "@stomp/ng2-stompjs";
 
 @Injectable({
@@ -7,16 +6,39 @@ import {RxStompService} from "@stomp/ng2-stompjs";
 })
 export class ControlPanelService {
 
+  private path = "/control-panel/";
+
   constructor(private rxStompService: RxStompService) {
   }
 
-  send(command: MpdCommands | null) {
-    console.log("Sending command:", command);
-    if (command) {
-      this.rxStompService.publish({
-        destination: "/app/control-panel",
-        body: JSON.stringify(command)
-      });
-    }
+  prev() {
+    this.rxStompService.publish({
+      destination: `${this.path}prev`,
+    });
   }
+
+  stop() {
+    this.rxStompService.publish({
+      destination: `${this.path}stop`,
+    });
+  }
+
+  pause() {
+    this.rxStompService.publish({
+      destination: `${this.path}pause`,
+    });
+  }
+
+  play() {
+    this.rxStompService.publish({
+      destination: `${this.path}play`,
+    });
+  }
+
+  next() {
+    this.rxStompService.publish({
+      destination: `${this.path}next`,
+    });
+  }
+
 }

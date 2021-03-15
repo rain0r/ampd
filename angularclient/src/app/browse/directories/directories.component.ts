@@ -11,6 +11,7 @@ import { BehaviorSubject, Observable } from "rxjs";
 import { SettingsService } from "../../shared/services/settings.service";
 import { Directory } from "../../shared/messages/incoming/directory";
 import { MatDialog } from "@angular/material/dialog";
+import {ControlPanelService} from "../../shared/services/control-panel.service";
 
 @Component({
   selector: "app-directories",
@@ -29,6 +30,7 @@ export class DirectoriesComponent extends Filterable {
 
   constructor(
     private activatedRoute: ActivatedRoute,
+    private controlPanelService: ControlPanelService,
     private dialog: MatDialog,
     private messageService: MessageService,
     private notificationService: NotificationService,
@@ -53,7 +55,7 @@ export class DirectoriesComponent extends Filterable {
   onPlayDir($event: MouseEvent, dir: string): void {
     $event.stopPropagation();
     this.onAddDir($event, dir);
-    this.webSocketService.send(MpdCommands.SET_PLAY);
+    this.controlPanelService.play();
     this.notificationService.popUp(`Playing directory: "${dir}"`);
   }
 

@@ -15,33 +15,18 @@ public interface MpdWebsocketService {
 
   Optional<Message> addPlaylist(Map<String, Object> inputPayload);
 
-  Optional<Message> addTrack(Map<String, Object> inputPayload);
-
-  Optional<Message> addTracks(Map<String, Object> inputPayload);
-
   Optional<Message> blacklistCover(Map<String, Object> inputPayload);
 
-  Optional<Message> getQueue(Map<String, Object> inputPayload);
-
-  Optional<Message> pause(Map<String, Object> inputPayload);
-
-  Optional<Message> play(Map<String, Object> inputPayload);
-
-  Optional<Message> playNext(Map<String, Object> inputPayload);
-
-  Optional<Message> playPrevious(Map<String, Object> inputPayload);
 
   Optional<Message> playTrack(Map<String, Object> inputPayload);
 
-  Optional<Message> removeAll(Map<String, Object> inputPayload);
 
   Optional<Message> removeTrack(Map<String, Object> inputPayload);
-  
+
   Optional<Message> seek(Map<String, Object> inputPayload);
 
   Optional<Message> setVolume(Map<String, Object> inputPayload);
 
-  Optional<Message> stop(Map<String, Object> inputPayload);
 
   Optional<Message> toggleControlPanel(Map<String, Object> inputPayload);
 }

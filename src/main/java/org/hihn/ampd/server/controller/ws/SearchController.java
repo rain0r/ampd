@@ -17,17 +17,16 @@ public class SearchController {
 
   private static final Logger LOG = LoggerFactory.getLogger(SearchController.class);
 
-  public static final String SEARCH_PANEL_PATH = "/search";
+  private static final String PATH = "/search";
 
   private final MPD mpd;
 
   public SearchController(MpdConfiguration mpdConfiguration) {
     mpd = mpdConfiguration.mpd();
-
   }
 
-  @MessageMapping(SEARCH_PANEL_PATH)
-  @SendTo("/topic" + SEARCH_PANEL_PATH)
+  @MessageMapping(PATH)
+  @SendTo("/topic" + PATH)
   public SearchMessage search(@Payload String searchTerm) {
     LOG.debug("Got search term: {}", searchTerm);
     LOG.debug("Results: {}", searchDatabase(searchTerm));

@@ -10,12 +10,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.stereotype.Controller;
 
+@Controller
 public class SearchController {
 
   private static final Logger LOG = LoggerFactory.getLogger(SearchController.class);
 
-  public static final String CONTROL_PANEL_PATH = "/search";
+  public static final String SEARCH_PANEL_PATH = "/search";
 
   private final MPD mpd;
 
@@ -24,11 +26,12 @@ public class SearchController {
 
   }
 
-  @MessageMapping(CONTROL_PANEL_PATH)
-  @SendTo("/topic" + CONTROL_PANEL_PATH)
-  public void search(@Payload String searchTerm) {
-    LOG.debug("Got messageType: {}", searchTerm);
-    searchDatabase(searchTerm);
+  @MessageMapping(SEARCH_PANEL_PATH)
+  @SendTo("/topic" + SEARCH_PANEL_PATH)
+  public SearchMessage search(@Payload String searchTerm) {
+    LOG.debug("Got search term: {}", searchTerm);
+    LOG.debug("Results: {}", searchDatabase(searchTerm));
+    return searchDatabase(searchTerm);
   }
 
 

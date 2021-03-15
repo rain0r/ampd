@@ -18,6 +18,7 @@ import {
   Breakpoints,
   BreakpointState,
 } from "@angular/cdk/layout";
+import {SearchService} from "../shared/services/search.service";
 
 @Component({
   selector: "app-search",
@@ -38,6 +39,7 @@ export class SearchComponent implements OnInit {
     private breakpointObserver: BreakpointObserver,
     private mpdService: MpdService,
     private notificationService: NotificationService,
+    private searchService : SearchService,
     private webSocketService: WebSocketService
   ) {
     this.buildMsgReceiver();
@@ -151,9 +153,7 @@ export class SearchComponent implements OnInit {
     volInput.subscribe((searchValue) => {
       // Only search when the term is at least 3 chars long
       if (searchValue.length > 2) {
-        this.webSocketService.sendData(MpdCommands.SEARCH, {
-          query: searchValue,
-        });
+        this.searchService.search(searchValue);
         this.isLoading = true;
       }
     });

@@ -1,4 +1,4 @@
-export interface ControlPanel {
+export interface MpdModesPanel {
   random: boolean;
   consume: boolean;
   single: boolean;

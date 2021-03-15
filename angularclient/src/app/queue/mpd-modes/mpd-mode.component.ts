@@ -1,5 +1,5 @@
 import { Component } from "@angular/core";
-import { ControlPanel } from "../../shared/messages/incoming/control-panel";
+import { MpdModesPanel } from "../../shared/messages/incoming/mpd-modes-panel";
 import { MpdService } from "../../shared/services/mpd.service";
 import { MpdModeService } from "../../shared/services/mpd-mode.service";
 
@@ -9,7 +9,7 @@ import { MpdModeService } from "../../shared/services/mpd-mode.service";
   styleUrls: ["./mpd-mode.component.scss"],
 })
 export class MpdModeComponent {
-  controlPanel: ControlPanel;
+  controlPanel: MpdModesPanel;
   private currentState = "stop";
 
   constructor(

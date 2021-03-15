@@ -3,6 +3,7 @@ package org.hihn.ampd.server.controller;
 import java.util.Optional;
 import org.hihn.ampd.server.message.Message;
 import org.hihn.ampd.server.message.incoming.IncomingMessage;
+import org.hihn.ampd.server.sender.ControlPanelService;
 import org.hihn.ampd.server.service.MpdService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,7 +23,8 @@ public class WebSocketController {
   private final MpdService mpdService;
 
   @Autowired
-  public WebSocketController(final MpdService mpdService) {
+  public WebSocketController(final MpdService mpdService,
+      ControlPanelService controlPanelService) {
     this.mpdService = mpdService;
   }
 

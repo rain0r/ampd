@@ -2,14 +2,14 @@ package org.hihn.ampd.server.message.outgoing.state;
 
 import org.bff.javampd.server.ServerStatus;
 import org.bff.javampd.song.MPDSong;
-import org.hihn.ampd.server.message.incoming.ControlPanel;
+import org.hihn.ampd.server.message.incoming.MpdModesPanel;
 
 /**
  * Represents the structure of a state returned to the frontend.
  */
 public class StatePayload {
 
-  private ControlPanel controlPanel;
+  private MpdModesPanel mpdModesPanel;
 
   private String cover;
 
@@ -18,18 +18,18 @@ public class StatePayload {
   private ServerStatus serverStatus;
 
   public StatePayload(final ServerStatus serverStatus, final MPDSong currentTrack,
-      final ControlPanel controlPanel) {
+      final MpdModesPanel mpdModesPanel) {
     this.serverStatus = serverStatus;
     this.currentTrack = currentTrack;
-    this.controlPanel = controlPanel;
+    this.mpdModesPanel = mpdModesPanel;
   }
 
-  public ControlPanel getControlPanel() {
-    return controlPanel;
+  public MpdModesPanel getMpdModesPanel() {
+    return mpdModesPanel;
   }
 
-  public void setControlPanel(final ControlPanel controlPanel) {
-    this.controlPanel = controlPanel;
+  public void setMpdModesPanel(final MpdModesPanel mpdModesPanel) {
+    this.mpdModesPanel = mpdModesPanel;
   }
 
   public String getCover() {

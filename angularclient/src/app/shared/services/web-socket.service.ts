@@ -20,6 +20,7 @@ export class WebSocketService {
 
   constructor(private rxStompService: RxStompService) {}
 
+
   send(cmd: MpdCommands): void {
     const data = JSON.stringify({
       type: cmd,

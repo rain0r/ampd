@@ -36,9 +36,7 @@ public interface MpdWebsocketService {
   Optional<Message> removeAll(Map<String, Object> inputPayload);
 
   Optional<Message> removeTrack(Map<String, Object> inputPayload);
-
-  Optional<Message> search(Map<String, Object> inputPayload);
-
+  
   Optional<Message> seek(Map<String, Object> inputPayload);
 
   Optional<Message> setVolume(Map<String, Object> inputPayload);

@@ -1,10 +1,10 @@
-import { Component } from "@angular/core";
-import { ControlPanel } from "../../shared/messages/incoming/control-panel";
-import { WebSocketService } from "../../shared/services/web-socket.service";
-import { NotificationService } from "../../shared/services/notification.service";
-import { MpdService } from "../../shared/services/mpd.service";
-import { Observable } from "rxjs";
-import { MpdCommands } from "../../shared/mpd/mpd-commands.enum";
+import {Component} from "@angular/core";
+import {WebSocketService} from "../../shared/services/web-socket.service";
+import {NotificationService} from "../../shared/services/notification.service";
+import {MpdService} from "../../shared/services/mpd.service";
+import {Observable} from "rxjs";
+import {MpdCommands} from "../../shared/mpd/mpd-commands.enum";
+import {ControlPanelService} from "../../shared/services/control-panel.service";
 
 @Component({
   selector: "app-control-panel",
@@ -13,14 +13,12 @@ import { MpdCommands } from "../../shared/mpd/mpd-commands.enum";
 })
 export class ControlPanelComponent {
   currentState: Observable<string>;
-  controlPanel: Observable<ControlPanel>;
 
   constructor(
-    private mpdService: MpdService,
-    private notificationService: NotificationService,
-    private webSocketService: WebSocketService
+      private controlPanelService : ControlPanelService,
+      private mpdService: MpdService,
+      private notificationService: NotificationService,
   ) {
-    this.controlPanel = this.mpdService.controlPanel;
     this.currentState = this.mpdService.currentState;
   }
 
@@ -47,9 +45,7 @@ export class ControlPanelComponent {
         // Ignore it
         return;
     }
-    if (command) {
-      this.webSocketService.send(command);
-    }
+    this.controlPanelService.send(command);
   }
 
   onClearQueue(): void {

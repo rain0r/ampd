@@ -1,23 +1,21 @@
-import { Injectable } from '@angular/core';
-import {RxStompService} from "@stomp/ng2-stompjs";
+import { Injectable } from "@angular/core";
+import { RxStompService } from "@stomp/ng2-stompjs";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class QueueService {
+  constructor(private rxStompService: RxStompService) {}
 
-  constructor(private rxStompService: RxStompService) {
-  }
-
-  getQueue() {
+  getQueue(): void {
     this.rxStompService.publish({
-      destination: "/app/queue"
+      destination: "/app/queue",
     });
   }
 
-  removeAll() {
+  removeAll(): void {
     this.rxStompService.publish({
-      destination: "/app/queue/clear"
+      destination: "/app/queue/clear",
     });
   }
 }

@@ -16,7 +16,7 @@ import { MpdCommands } from "../../shared/mpd/mpd-commands.enum";
 import { BehaviorSubject, Observable } from "rxjs";
 import { AmpdBrowsePayload } from "../../shared/models/ampd-browse-payload";
 import { MpdService } from "../../shared/services/mpd.service";
-import {ControlPanelService} from "../../shared/services/control-panel.service";
+import { ControlPanelService } from "../../shared/services/control-panel.service";
 
 @Component({
   selector: "app-navigation",

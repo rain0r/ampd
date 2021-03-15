@@ -1,16 +1,23 @@
-import {Component, OnInit} from "@angular/core";
-import {SearchMsgPayload, SearchResult,} from "../shared/messages/incoming/search";
-import {QueueTrack} from "../shared/models/queue-track";
-import {MatTableDataSource} from "@angular/material/table";
-import {TrackTableData} from "../shared/track-table/track-table-data";
-import {ClickActions} from "../shared/track-table/click-actions.enum";
-import {NotificationService} from "../shared/services/notification.service";
-import {Subject} from "rxjs";
-import {bufferTime, filter, map} from "rxjs/operators";
-import {MpdService} from "../shared/services/mpd.service";
-import {BreakpointObserver, Breakpoints, BreakpointState,} from "@angular/cdk/layout";
-import {SearchService} from "../shared/services/search.service";
-import {AddTracksService} from "../shared/services/add-tracks.service";
+import { Component, OnInit } from "@angular/core";
+import {
+  SearchMsgPayload,
+  SearchResult,
+} from "../shared/messages/incoming/search";
+import { QueueTrack } from "../shared/models/queue-track";
+import { MatTableDataSource } from "@angular/material/table";
+import { TrackTableData } from "../shared/track-table/track-table-data";
+import { ClickActions } from "../shared/track-table/click-actions.enum";
+import { NotificationService } from "../shared/services/notification.service";
+import { Subject } from "rxjs";
+import { bufferTime, filter, map } from "rxjs/operators";
+import { MpdService } from "../shared/services/mpd.service";
+import {
+  BreakpointObserver,
+  Breakpoints,
+  BreakpointState,
+} from "@angular/cdk/layout";
+import { SearchService } from "../shared/services/search.service";
+import { AddTracksService } from "../shared/services/add-tracks.service";
 
 @Component({
   selector: "app-search",
@@ -31,8 +38,8 @@ export class SearchComponent implements OnInit {
     private breakpointObserver: BreakpointObserver,
     private mpdService: MpdService,
     private notificationService: NotificationService,
-    private queueService:AddTracksService,
-    private searchService : SearchService,
+    private queueService: AddTracksService,
+    private searchService: SearchService
   ) {
     this.buildMsgReceiver();
     this.buildInputListener();

@@ -11,7 +11,7 @@ import { BehaviorSubject, Observable } from "rxjs";
 import { SettingsService } from "../../shared/services/settings.service";
 import { Directory } from "../../shared/messages/incoming/directory";
 import { MatDialog } from "@angular/material/dialog";
-import {ControlPanelService} from "../../shared/services/control-panel.service";
+import { ControlPanelService } from "../../shared/services/control-panel.service";
 
 @Component({
   selector: "app-directories",

@@ -7,18 +7,22 @@ import {
   SimpleChanges,
   ViewChild,
 } from "@angular/core";
-import {MatSort} from "@angular/material/sort";
-import {WebSocketService} from "../services/web-socket.service";
-import {TrackTableData} from "./track-table-data";
-import {NotificationService} from "../services/notification.service";
-import {MatPaginator, MatPaginatorIntl} from "@angular/material/paginator";
-import {ClickActions} from "./click-actions.enum";
-import {MpdCommands} from "../mpd/mpd-commands.enum";
-import {QueueTrack} from "../models/queue-track";
-import {Observable} from "rxjs";
-import {BreakpointObserver, Breakpoints, BreakpointState,} from "@angular/cdk/layout";
-import {map} from "rxjs/operators";
-import {QueueService} from "../services/queue.service";
+import { MatSort } from "@angular/material/sort";
+import { WebSocketService } from "../services/web-socket.service";
+import { TrackTableData } from "./track-table-data";
+import { NotificationService } from "../services/notification.service";
+import { MatPaginator, MatPaginatorIntl } from "@angular/material/paginator";
+import { ClickActions } from "./click-actions.enum";
+import { MpdCommands } from "../mpd/mpd-commands.enum";
+import { QueueTrack } from "../models/queue-track";
+import { Observable } from "rxjs";
+import {
+  BreakpointObserver,
+  Breakpoints,
+  BreakpointState,
+} from "@angular/cdk/layout";
+import { map } from "rxjs/operators";
+import { QueueService } from "../services/queue.service";
 
 @Component({
   selector: "app-track-data-table",
@@ -27,33 +31,32 @@ import {QueueService} from "../services/queue.service";
 })
 export class TrackDataTableComponent implements OnInit, OnChanges {
   @Input() trackTableData: TrackTableData = new TrackTableData();
-  @ViewChild(MatPaginator, {static: true})
+  @ViewChild(MatPaginator, { static: true })
   paginator: MatPaginator = new MatPaginator(
-      new MatPaginatorIntl(),
-      ChangeDetectorRef.prototype
+    new MatPaginatorIntl(),
+    ChangeDetectorRef.prototype
   );
-  @ViewChild(MatSort, {static: true}) sort: MatSort = new MatSort();
+  @ViewChild(MatSort, { static: true }) sort: MatSort = new MatSort();
 
   isMobile = new Observable<boolean>();
 
   constructor(
-      private breakpointObserver: BreakpointObserver,
-      private notificationService: NotificationService,
-      private queueService: QueueService,
-      private webSocketService: WebSocketService
-  ) {
-  }
+    private breakpointObserver: BreakpointObserver,
+    private notificationService: NotificationService,
+    private queueService: QueueService,
+    private webSocketService: WebSocketService
+  ) {}
 
   ngOnInit(): void {
     this.isMobile = this.breakpointObserver
-    .observe([Breakpoints.Small, Breakpoints.HandsetPortrait])
-    .pipe(map((state: BreakpointState) => state.matches));
+      .observe([Breakpoints.Small, Breakpoints.HandsetPortrait])
+      .pipe(map((state: BreakpointState) => state.matches));
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if ("trackTableData" in changes) {
       const tableData: TrackTableData = <TrackTableData>(
-          changes.trackTableData.currentValue
+        changes.trackTableData.currentValue
       );
       if (tableData.dataSource.data.length > 0) {
         if (tableData.sortable) {
@@ -81,7 +84,7 @@ export class TrackDataTableComponent implements OnInit, OnChanges {
         this.addPlayTrack(track);
         break;
       default:
-        // Ignore it
+      // Ignore it
     }
   }
 
@@ -107,7 +110,7 @@ export class TrackDataTableComponent implements OnInit, OnChanges {
         this.addPlayTrack(track);
         break;
       default:
-        // Ignore it
+      // Ignore it
     }
   }
 

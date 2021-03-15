@@ -1,18 +1,16 @@
-import {Injectable} from '@angular/core';
-import {RxStompService} from "@stomp/ng2-stompjs";
+import { Injectable } from "@angular/core";
+import { RxStompService } from "@stomp/ng2-stompjs";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class AddTracksService {
+  constructor(private rxStompService: RxStompService) {}
 
-  constructor(private rxStompService: RxStompService) {
-  }
-
-  addTracks(filePaths: string[]) {
+  addTracks(filePaths: string[]): void {
     this.rxStompService.publish({
       destination: "/app/add-tracks",
-      body: JSON.stringify(filePaths)
+      body: JSON.stringify(filePaths),
     });
   }
 }

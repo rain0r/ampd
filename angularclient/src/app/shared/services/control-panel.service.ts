@@ -1,44 +1,41 @@
-import {Injectable} from '@angular/core';
-import {RxStompService} from "@stomp/ng2-stompjs";
+import { Injectable } from "@angular/core";
+import { RxStompService } from "@stomp/ng2-stompjs";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class ControlPanelService {
-
   private path = "/control-panel/";
 
-  constructor(private rxStompService: RxStompService) {
-  }
+  constructor(private rxStompService: RxStompService) {}
 
-  prev() {
+  prev(): void {
     this.rxStompService.publish({
       destination: `${this.path}prev`,
     });
   }
 
-  stop() {
+  stop(): void {
     this.rxStompService.publish({
       destination: `${this.path}stop`,
     });
   }
 
-  pause() {
+  pause(): void {
     this.rxStompService.publish({
       destination: `${this.path}pause`,
     });
   }
 
-  play() {
+  play(): void {
     this.rxStompService.publish({
       destination: `${this.path}play`,
     });
   }
 
-  next() {
+  next(): void {
     this.rxStompService.publish({
       destination: `${this.path}next`,
     });
   }
-
 }

@@ -1,8 +1,8 @@
-import {Component} from "@angular/core";
-import {NotificationService} from "../../shared/services/notification.service";
-import {MpdService} from "../../shared/services/mpd.service";
-import {Observable} from "rxjs";
-import {ControlPanelService} from "../../shared/services/control-panel.service";
+import { Component } from "@angular/core";
+import { NotificationService } from "../../shared/services/notification.service";
+import { MpdService } from "../../shared/services/mpd.service";
+import { Observable } from "rxjs";
+import { ControlPanelService } from "../../shared/services/control-panel.service";
 
 @Component({
   selector: "app-control-panel",
@@ -13,15 +13,14 @@ export class ControlPanelComponent {
   currentState: Observable<string>;
 
   constructor(
-      private controlPanelService: ControlPanelService,
-      private mpdService: MpdService,
-      private notificationService: NotificationService,
+    private controlPanelService: ControlPanelService,
+    private mpdService: MpdService,
+    private notificationService: NotificationService
   ) {
     this.currentState = this.mpdService.currentState;
   }
 
   handleControlButton(event: MouseEvent): void {
-    let command;
     const element = event.currentTarget as HTMLInputElement;
     switch (element.id) {
       case "btn-prev":

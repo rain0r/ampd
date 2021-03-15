@@ -1,32 +1,44 @@
 package org.hihn.ampd.server.controller.ws;
 
-import org.hihn.ampd.server.message.AmpdMessage.MessageType;
-import org.hihn.ampd.server.sender.ControlPanelService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.bff.javampd.server.MPD;
+import org.hihn.ampd.server.config.MpdConfiguration;
 import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.handler.annotation.Payload;
-import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
 
 @Controller
 public class ControlPanelController {
 
-  private static final Logger LOG = LoggerFactory.getLogger(ControlPanelController.class);
 
-  public static final String CONTROL_PANEL_PATH = "/control-panel";
+  private static final String PATH = "/control-panel/";
 
-  private final ControlPanelService controlPanelService;
+  private final MPD mpd;
 
-  public ControlPanelController(
-      ControlPanelService controlPanelService) {
-    this.controlPanelService = controlPanelService;
+  public ControlPanelController(MpdConfiguration mpdConfiguration) {
+    mpd = mpdConfiguration.mpd();
   }
 
-  @MessageMapping(CONTROL_PANEL_PATH)
-  @SendTo("/topic" + CONTROL_PANEL_PATH)
-  public void controlPanel(@Payload MessageType messageType) {
-    LOG.debug("Got messageType: {}", messageType);
-    controlPanelService.handle(messageType);
+  @MessageMapping(PATH + "prev")
+  public void prev() {
+    mpd.getPlayer().playPrevious();
+  }
+
+  @MessageMapping(PATH + "stop")
+  public void stop() {
+    mpd.getPlayer().stop();
+  }
+
+  @MessageMapping(PATH + "pause")
+  public void pause() {
+    mpd.getPlayer().pause();
+  }
+
+  @MessageMapping(PATH + "play")
+  public void play() {
+    mpd.getPlayer().play();
+  }
+
+  @MessageMapping(PATH + "next")
+  public void next() {
+    mpd.getPlayer().playNext();
   }
 }

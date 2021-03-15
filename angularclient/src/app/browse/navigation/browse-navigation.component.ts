@@ -16,6 +16,7 @@ import { MpdCommands } from "../../shared/mpd/mpd-commands.enum";
 import { BehaviorSubject, Observable } from "rxjs";
 import { AmpdBrowsePayload } from "../../shared/models/ampd-browse-payload";
 import { MpdService } from "../../shared/services/mpd.service";
+import {ControlPanelService} from "../../shared/services/control-panel.service";
 
 @Component({
   selector: "app-navigation",
@@ -34,6 +35,7 @@ export class BrowseNavigationComponent implements OnInit {
 
   constructor(
     private activatedRoute: ActivatedRoute,
+    private controlPanelService: ControlPanelService,
     private messageService: MessageService,
     private mpdService: MpdService,
     private notificationService: NotificationService,
@@ -75,7 +77,7 @@ export class BrowseNavigationComponent implements OnInit {
 
   onPlayDir(dir: string): void {
     this.onAddDir(dir);
-    this.webSocketService.send(MpdCommands.SET_PLAY);
+    this.controlPanelService.play();
     this.notificationService.popUp(`Playing directory: "${dir}"`);
   }
 

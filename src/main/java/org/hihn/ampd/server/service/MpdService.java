@@ -10,15 +10,12 @@ import java.util.stream.Collectors;
 import org.bff.javampd.file.MPDFile;
 import org.bff.javampd.server.MPD;
 import org.bff.javampd.song.MPDSong;
-import org.bff.javampd.song.SongSearcher.ScopeType;
 import org.hihn.ampd.server.config.AmpdCommandRunner;
 import org.hihn.ampd.server.config.MpdConfiguration;
 import org.hihn.ampd.server.message.AmpdMessage.MessageType;
 import org.hihn.ampd.server.message.Message;
 import org.hihn.ampd.server.message.outgoing.queue.QueueMessage;
 import org.hihn.ampd.server.message.outgoing.queue.QueuePayload;
-import org.hihn.ampd.server.message.outgoing.search.SearchMessage;
-import org.hihn.ampd.server.message.outgoing.search.SearchPayload;
 import org.hihn.ampd.server.model.AmpdSettings;
 import org.hihn.ampd.server.model.PlaylistInfo;
 import org.slf4j.Logger;
@@ -211,12 +208,6 @@ public class MpdService implements MpdWebsocketService {
     return Optional.empty();
   }
 
-  @Override
-  public Optional<Message> search(Map<String, Object> inputPayload) {
-    Map<String, String> payload = inputToStrMap(inputPayload);
-    String query = payload.get("query");
-    return Optional.of(searchDatabase(query));
-  }
 
   @Override
   public Optional<Message> seek(Map<String, Object> inputPayload) {
@@ -271,7 +262,6 @@ public class MpdService implements MpdWebsocketService {
     commands.put(MessageType.PLAY_TRACK, this::playTrack);
     commands.put(MessageType.RM_ALL, this::removeAll);
     commands.put(MessageType.RM_TRACK, this::removeTrack);
-    commands.put(MessageType.SEARCH, this::search);
     commands.put(MessageType.SET_NEXT, this::playNext);
     commands.put(MessageType.SET_PAUSE, this::pause);
     commands.put(MessageType.SET_PLAY, this::play);
@@ -306,14 +296,4 @@ public class MpdService implements MpdWebsocketService {
         .collect(Collectors.toMap(Map.Entry::getKey, e -> (String) e.getValue()));
   }
 
-  /**
-   * Takes a query and searches the MPD database for it.
-   *
-   * @param query What to search for.
-   * @return A message with the search results.
-   */
-  private SearchMessage searchDatabase(String query) {
-    return new SearchMessage(
-        new SearchPayload(mpd.getSongSearcher().search(ScopeType.ANY, query.trim()), query.trim()));
-  }
 }

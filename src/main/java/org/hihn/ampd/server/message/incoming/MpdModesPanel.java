@@ -6,7 +6,7 @@ import org.bff.javampd.server.ServerStatus;
 /**
  * Represents a MPD control panel.
  */
-public class ControlPanel {
+public class MpdModesPanel {
 
   boolean consume;
 
@@ -18,7 +18,7 @@ public class ControlPanel {
 
   boolean single;
 
-  public ControlPanel(final ServerStatus serverStatus) {
+  public MpdModesPanel(final ServerStatus serverStatus) {
     final Collection<String> statusList = serverStatus.getStatus();
     setCrossfade(serverStatus.getXFade());
 

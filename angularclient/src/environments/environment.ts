@@ -3,8 +3,8 @@
 // The list of file replacements can be found in `angular.json`.
 
 // const AMPD_URL = "punica:8003";
-const AMPD_URL = "punica:8083";
-// const AMPD_URL = "192.168.178.50:8080";
+// const AMPD_URL = "punica:8083";
+const AMPD_URL = "192.168.178.50:8080";
 // const AMPD_URL = "punica";
 
 export const environment = {

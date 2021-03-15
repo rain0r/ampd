@@ -38,13 +38,13 @@ public class WebSocketController {
   @SendTo("/topic/controller")
   public Optional<Message> send(final IncomingMessage incomingMessage) {
     Optional<Message> outgoingMessage = Optional.empty();
-    try {
-      outgoingMessage = mpdService.process(incomingMessage);
-      LOG.debug("Response message for {}: {}", incomingMessage.getType(), outgoingMessage);
-    } catch (final Exception e) {
-      LOG.error("Error processing message {}", incomingMessage);
-      LOG.error(e.getMessage(), e);
-    }
+//    try {
+//      outgoingMessage = mpdService.process(incomingMessage);
+//      LOG.debug("Response message for {}: {}", incomingMessage.getType(), outgoingMessage);
+//    } catch (final Exception e) {
+//      LOG.error("Error processing message {}", incomingMessage);
+//      LOG.error(e.getMessage(), e);
+//    }
     return outgoingMessage;
   }
 }

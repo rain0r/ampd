@@ -2,12 +2,9 @@ package org.hihn.ampd.server.sender;
 
 import org.bff.javampd.server.MPD;
 import org.hihn.ampd.server.config.MpdConfiguration;
-import org.hihn.ampd.server.message.incoming.MpdModesPanel;
-import org.hihn.ampd.server.message.outgoing.state.StateMessage;
 import org.hihn.ampd.server.message.outgoing.state.StatePayload;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 /**
@@ -32,18 +29,18 @@ public class ScheduledStatePublisher {
   /**
    * Publishes the Mpd server state every second.
    */
-  @Scheduled(fixedDelay = 1000L)
-  public void publishUpdates() {
-    if (!mpd.isConnected()) {
-      return;
-    }
-    // Tells javampd to get fresh data every second
-    mpd.getServerStatus().setExpiryInterval(1L);
-    final MpdModesPanel mpdModesPanel = new MpdModesPanel(mpd.getServerStatus());
-    final StatePayload statePayload =
-        new StatePayload(mpd.getServerStatus(), mpd.getPlayer().getCurrentSong(), mpdModesPanel);
-
-    final StateMessage message = new StateMessage(statePayload);
-    template.convertAndSend(PUBLISH_URL, message);
-  }
+//  @Scheduled(fixedDelay = 60000L)
+//  public void publishUpdates() {
+//    if (!mpd.isConnected()) {
+//      return;
+//    }
+//    // Tells javampd to get fresh data every second
+//    mpd.getServerStatus().setExpiryInterval(1L);
+//    final MpdModesPanel mpdModesPanel = new MpdModesPanel(mpd.getServerStatus());
+//    final StatePayload statePayload =
+//        new StatePayload(mpd.getServerStatus(), mpd.getPlayer().getCurrentSong(), mpdModesPanel);
+//
+//    final StateMessage message = new StateMessage(statePayload);
+//    template.convertAndSend(PUBLISH_URL, message);
+//  }
 }

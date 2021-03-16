@@ -56,7 +56,6 @@ import {
   RxStompService,
   rxStompServiceFactory,
 } from "@stomp/ng2-stompjs";
-import { WebSocketService } from "./shared/services/web-socket.service";
 import { AmpdRxStompConfig } from "./ampd-rx-stomp-config.service";
 import { ReplaceNullWithTextPipe } from "./shared/pipes/replace-null-with-text.pipe";
 import { ThemeComponent } from "./settings/frontend/theme/theme.component";
@@ -155,7 +154,6 @@ import { BackendAddressComponent } from "./settings/frontend/backend-address/bac
   providers: [
     MessageService,
     NotificationService,
-    WebSocketService,
     {
       provide: InjectableRxStompConfig,
       useClass: AmpdRxStompConfig,

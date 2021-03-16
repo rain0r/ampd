@@ -13,6 +13,7 @@ import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
 
 @Controller
+@MessageMapping("/search")
 public class SearchController {
 
   private static final Logger LOG = LoggerFactory.getLogger(SearchController.class);
@@ -25,8 +26,8 @@ public class SearchController {
     mpd = mpdConfiguration.mpd();
   }
 
-  @MessageMapping(PATH)
-  @SendTo("/topic" + PATH)
+  @MessageMapping("/")
+  @SendTo("/topic/search")
   public SearchMessage search(@Payload String searchTerm) {
     LOG.debug("Got search term: {}", searchTerm);
     LOG.debug("Results: {}", searchDatabase(searchTerm));

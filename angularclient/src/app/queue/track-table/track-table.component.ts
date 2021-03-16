@@ -6,8 +6,6 @@ import {
   ViewChild,
 } from "@angular/core";
 import { MatTableDataSource } from "@angular/material/table";
-
-import { WebSocketService } from "../../shared/services/web-socket.service";
 import { QueuePayload } from "../../shared/messages/incoming/queue-payload";
 import { QueueTrack } from "../../shared/models/queue-track";
 import { MpdService } from "../../shared/services/mpd.service";
@@ -22,7 +20,10 @@ import {
   Breakpoints,
   BreakpointState,
 } from "@angular/cdk/layout";
-import { map } from "rxjs/operators";
+import { filter, map } from "rxjs/operators";
+import { MpdTypes } from "../../shared/mpd/mpd-types";
+import { BaseResponse } from "../../shared/messages/incoming/base-response";
+import { RxStompService } from "@stomp/ng2-stompjs";
 
 @Component({
   selector: "app-track-table",
@@ -47,8 +48,8 @@ export class TrackTableComponent implements OnInit {
   constructor(
     private breakpointObserver: BreakpointObserver,
     private dialog: MatDialog,
-    private webSocketService: WebSocketService,
     private mpdService: MpdService,
+    private rxStompService: RxStompService,
     private settingsService: SettingsService
   ) {
     this.buildMessageReceiver();
@@ -66,6 +67,7 @@ export class TrackTableComponent implements OnInit {
       (this.filterInputElem.nativeElement as HTMLElement).focus();
     }
   }
+
   ngOnInit(): void {
     this.breakpointObserver
       .observe([Breakpoints.Small, Breakpoints.HandsetPortrait])
@@ -136,9 +138,9 @@ export class TrackTableComponent implements OnInit {
         track.playing = track.id === this.currentTrack.id;
       }
     });
-    this.webSocketService
-      .getQueueSubscription()
-      .subscribe((message: QueuePayload) => this.buildQueue(message));
+    this.getQueueSubscription().subscribe((message: QueuePayload) =>
+      this.buildQueue(message)
+    );
   }
 
   /**
@@ -155,6 +157,16 @@ export class TrackTableComponent implements OnInit {
   private getStateSubscription(): void {
     this.mpdService.currentState.subscribe(
       (state) => (this.currentState = state)
+    );
+  }
+
+  private getQueueSubscription(): Observable<QueuePayload> {
+    return this.rxStompService.watch("/topic/queue").pipe(
+      map((message) => message.body),
+      map((body: string) => <BaseResponse>JSON.parse(body)),
+      filter((body: BaseResponse) => body !== null),
+      filter((body: BaseResponse) => body.type === MpdTypes.QUEUE),
+      map((body: BaseResponse) => <QueuePayload>body.payload)
     );
   }
 }

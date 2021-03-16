@@ -1,9 +1,7 @@
 import { Component, Inject } from "@angular/core";
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import { QueueTrack } from "../../shared/models/queue-track";
-import { WebSocketService } from "../../shared/services/web-socket.service";
 import { NotificationService } from "../../shared/services/notification.service";
-import { MpdCommands } from "../../shared/mpd/mpd-commands.enum";
 import { MessageService } from "../../shared/services/message.service";
 import { InternalMessageType } from "../../shared/messages/internal/internal-message-type.enum";
 import { SettingsService } from "../../shared/services/settings.service";
@@ -22,7 +20,6 @@ export class CoverModalComponent {
     public dialogRef: MatDialogRef<CoverModalComponent>,
     @Inject(MAT_DIALOG_DATA) public data: QueueTrack,
     private notificationService: NotificationService,
-    private webSocketService: WebSocketService,
     private messageService: MessageService,
     private settingsService: SettingsService
   ) {
@@ -31,9 +28,7 @@ export class CoverModalComponent {
 
   onBlacklistCover(): void {
     // Save the file to the blacklist
-    this.webSocketService.sendData(MpdCommands.BLACKLIST_COVER, {
-      file: this.data.file,
-    });
+    this.settingsService.blacklistCover(this.data.file).subscribe();
     // Hide the cover: Trigger a cover update without a track change
     this.messageService.sendMessageType(InternalMessageType.UpdateCover);
     this.notificationService.popUp(`Blacklisted cover: "${this.data.title}"`);

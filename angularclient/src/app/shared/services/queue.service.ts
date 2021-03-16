@@ -41,7 +41,7 @@ export class QueueService {
 
   addPlaylist(playlistName: string): void {
     this.rxStompService.publish({
-      destination: `${this.path}add-playist`,
+      destination: `${this.path}add-playlist`,
       body: playlistName,
     });
   }

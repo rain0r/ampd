@@ -11,7 +11,6 @@ import org.hihn.ampd.server.message.outgoing.queue.QueuePayload;
 import org.hihn.ampd.server.model.AmpdSettings;
 import org.hihn.ampd.server.service.QueueService;
 import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
 
@@ -61,13 +60,13 @@ public class QueueController {
 
 
   @MessageMapping("/add-dir")
-  public void addDir(@Payload String dir) {
+  public void addDir(String dir) {
     MPDFile mpdFile = new MPDFile(dir);
     mpd.getPlaylist().addFileOrDirectory(mpdFile);
   }
 
   @MessageMapping("/add-playlist")
-  public void addPlaylist(@Payload String playlist) {
+  public void addPlaylist(String playlist) {
     Collection<MPDSong> mpdSongCollection =
         mpd.getMusicDatabase().getPlaylistDatabase().listPlaylistSongs(playlist);
     ArrayList<MPDSong> mpdTracks = new ArrayList<>(mpdSongCollection);
@@ -76,18 +75,18 @@ public class QueueController {
 
 
   @MessageMapping("/add-play-track")
-  public void addPlayTrack(@Payload String file) {
+  public void addPlayTrack(String file) {
     queueService.addTrack(file);
     queueService.playTrack(file);
   }
 
   @MessageMapping("/add-remove-track")
-  public void removeTrack(@Payload int position) {
+  public void removeTrack(int position) {
     mpd.getPlaylist().removeSong(position);
   }
 
   @MessageMapping("/play-track")
-  public void playTrack(@Payload String file) {
+  public void playTrack(String file) {
     queueService.playTrack(file);
   }
 

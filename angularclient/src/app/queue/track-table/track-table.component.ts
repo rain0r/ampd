@@ -19,7 +19,7 @@ import {
   Breakpoints,
   BreakpointState,
 } from "@angular/cdk/layout";
-import { map } from "rxjs/operators";
+import { distinctUntilChanged, map } from "rxjs/operators";
 import { RxStompService } from "@stomp/ng2-stompjs";
 import { Track } from "../../shared/messages/incoming/track";
 
@@ -31,10 +31,6 @@ import { Track } from "../../shared/messages/incoming/track";
 export class TrackTableComponent implements OnInit {
   @ViewChild("filterInputElem") filterInputElem?: ElementRef;
 
-  /**
-   * The checksum of the current queue.
-   */
-  checksum = 0;
   currentTrack: QueueTrack = new QueueTrack();
   currentState = "stop";
   dataSource = new MatTableDataSource<QueueTrack>();
@@ -157,7 +153,13 @@ export class TrackTableComponent implements OnInit {
   private getQueueSubscription(): Observable<Track[]> {
     return this.rxStompService.watch("/topic/queue").pipe(
       map((message) => message.body),
-      map((body) => <Track[]>JSON.parse(body))
+      map((body) => <Track[]>JSON.parse(body)),
+      distinctUntilChanged((prev, curr) => {
+        return (
+          prev.length == curr.length &&
+          JSON.stringify(curr) === JSON.stringify(prev)
+        );
+      })
     );
   }
 }

@@ -10,8 +10,6 @@ import { BaseResponse } from "../messages/incoming/base-response";
   providedIn: "root",
 })
 export class SearchService {
-  private path = "/app/search/";
-
   constructor(private rxStompService: RxStompService) {}
 
   search(term: string): void {

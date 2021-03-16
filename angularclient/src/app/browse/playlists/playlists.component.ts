@@ -2,11 +2,9 @@ import { Component, Input, OnInit } from "@angular/core";
 import { Playlist } from "../../shared/messages/incoming/playlist-impl";
 import { MessageService } from "../../shared/services/message.service";
 import { NotificationService } from "../../shared/services/notification.service";
-import { WebSocketService } from "../../shared/services/web-socket.service";
 import { Filterable } from "../filterable";
 import { MatDialog } from "@angular/material/dialog";
 import { PlaylistInfoModalComponent } from "./playlist-info-modal/playlist-info-modal.component";
-import { MpdCommands } from "../../shared/mpd/mpd-commands.enum";
 import { SettingsService } from "../../shared/services/settings.service";
 import { MatDialogConfig } from "@angular/material/dialog/dialog-config";
 import {
@@ -15,6 +13,7 @@ import {
   BreakpointState,
 } from "@angular/cdk/layout";
 import { map } from "rxjs/operators";
+import { QueueService } from "../../shared/services/queue.service";
 
 @Component({
   selector: "app-playlists",
@@ -30,8 +29,8 @@ export class PlaylistsComponent extends Filterable implements OnInit {
     private dialog: MatDialog,
     private messageService: MessageService,
     private notificationService: NotificationService,
-    private settingsService: SettingsService,
-    private webSocketService: WebSocketService
+    private queueService: QueueService,
+    private settingsService: SettingsService
   ) {
     super(messageService);
   }
@@ -44,9 +43,7 @@ export class PlaylistsComponent extends Filterable implements OnInit {
   }
 
   onRowClick(playlistName: string): void {
-    this.webSocketService.sendData(MpdCommands.ADD_PLAYLIST, {
-      playlist: playlistName,
-    });
+    this.queueService.addPlaylist(playlistName);
     this.notificationService.popUp(`Added playlist: "${playlistName}"`);
   }
 

@@ -1,47 +1,48 @@
 package org.hihn.ampd.server.controller.ws;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import org.bff.javampd.file.MPDFile;
 import org.bff.javampd.server.MPD;
+import org.bff.javampd.song.MPDSong;
 import org.hihn.ampd.server.config.MpdConfiguration;
-import org.hihn.ampd.server.message.AmpdMessage.MessageType;
 import org.hihn.ampd.server.message.outgoing.queue.QueueMessage;
 import org.hihn.ampd.server.message.outgoing.queue.QueuePayload;
 import org.hihn.ampd.server.model.AmpdSettings;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.hihn.ampd.server.service.QueueService;
 import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
 
 @Controller
+@MessageMapping("/queue")
 public class QueueController {
 
   private final MPD mpd;
 
-  private static final Logger LOG = LoggerFactory.getLogger(ControlPanelController.class);
-
-  private static final String PATH = "/queue";
-
-  private static final String QUEUE_CLEAR_PATH = "/queue/clear";
-
   private final AmpdSettings ampdSettings;
 
+  private final QueueService queueService;
+
+
   public QueueController(MpdConfiguration mpdConfiguration,
-      AmpdSettings ampdSettings) {
+      AmpdSettings ampdSettings, QueueService queueService) {
     mpd = mpdConfiguration.mpd();
     this.ampdSettings = ampdSettings;
+    this.queueService = queueService;
   }
 
-  @MessageMapping(PATH)
-  @SendTo("/topic" + PATH)
+  @MessageMapping("/")
+  @SendTo("/topic/queue")
   public QueueMessage getQueue() {
-    LOG.debug("Received: {}", MessageType.GET_QUEUE);
     QueuePayload queuePayload = new QueuePayload(mpd.getPlaylist().getSongList());
     QueueMessage queue = new QueueMessage(queuePayload);
     return queue;
   }
 
 
-  @MessageMapping(QUEUE_CLEAR_PATH)
+  @MessageMapping("/clear")
   public void clearQueue() {
     mpd.getPlaylist().clearPlaylist();
     if (ampdSettings.isResetModesOnClear()) {
@@ -52,4 +53,42 @@ public class QueueController {
       mpd.getPlayer().setSingle(false);
     }
   }
+
+  @MessageMapping("/add-tracks")
+  public void addTracks(ArrayList<String> tracks) {
+    queueService.addTracks(tracks);
+  }
+
+
+  @MessageMapping("/add-dir")
+  public void addDir(@Payload String dir) {
+    MPDFile mpdFile = new MPDFile(dir);
+    mpd.getPlaylist().addFileOrDirectory(mpdFile);
+  }
+
+  @MessageMapping("/add-playlist")
+  public void addPlaylist(@Payload String playlist) {
+    Collection<MPDSong> mpdSongCollection =
+        mpd.getMusicDatabase().getPlaylistDatabase().listPlaylistSongs(playlist);
+    ArrayList<MPDSong> mpdTracks = new ArrayList<>(mpdSongCollection);
+    mpd.getPlaylist().addSongs(mpdTracks);
+  }
+
+
+  @MessageMapping("/add-play-track")
+  public void addPlayTrack(@Payload String file) {
+    queueService.addTrack(file);
+    queueService.playTrack(file);
+  }
+
+  @MessageMapping("/add-remove-track")
+  public void removeTrack(@Payload int position) {
+    mpd.getPlaylist().removeSong(position);
+  }
+
+  @MessageMapping("/play-track")
+  public void playTrack(@Payload String file) {
+    queueService.playTrack(file);
+  }
+
 }

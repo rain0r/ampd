@@ -17,7 +17,7 @@ import {
   BreakpointState,
 } from "@angular/cdk/layout";
 import { SearchService } from "../shared/services/search.service";
-import { AddTracksService } from "../shared/services/add-tracks.service";
+import { QueueService } from "../shared/services/queue.service";
 
 @Component({
   selector: "app-search",
@@ -38,7 +38,7 @@ export class SearchComponent implements OnInit {
     private breakpointObserver: BreakpointObserver,
     private mpdService: MpdService,
     private notificationService: NotificationService,
-    private queueService: AddTracksService,
+    private queueService: QueueService,
     private searchService: SearchService
   ) {
     this.buildMsgReceiver();

@@ -1,8 +1,7 @@
-import { Component, Renderer2 } from "@angular/core";
+import { Component } from "@angular/core";
 import { MatSliderChange } from "@angular/material/slider";
-import { WebSocketService } from "../../shared/services/web-socket.service";
 import { MpdService } from "../../shared/services/mpd.service";
-import { MpdCommands } from "../../shared/mpd/mpd-commands.enum";
+import { ControlPanelService } from "../../shared/services/control-panel.service";
 
 @Component({
   selector: "app-volume-slider",
@@ -13,17 +12,14 @@ export class VolumeSliderComponent {
   volume = 0;
 
   constructor(
-    private mpdService: MpdService,
-    private renderer: Renderer2,
-    private webSocketService: WebSocketService
+    private controlPanelService: ControlPanelService,
+    private mpdService: MpdService
   ) {
     mpdService.volume.subscribe((volume) => (this.volume = volume));
   }
 
   handleVolumeSlider(event: MatSliderChange): void {
-    this.webSocketService.sendData(MpdCommands.SET_VOLUME, {
-      value: event.value,
-    });
+    this.controlPanelService.setVolume(event.value);
     event.source.blur();
   }
 }

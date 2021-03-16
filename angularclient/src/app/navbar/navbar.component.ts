@@ -5,7 +5,6 @@ import { Router } from "@angular/router";
 import { SettingsService } from "../shared/services/settings.service";
 import { BehaviorSubject, Observable } from "rxjs";
 import { MpdService } from "../shared/services/mpd.service";
-import { WebSocketService } from "../shared/services/web-socket.service";
 import { MpdModeService } from "../shared/services/mpd-mode.service";
 import { MatDialog } from "@angular/material/dialog";
 import { HelpModalComponent } from "./help-dialog/help-modal.component";
@@ -31,8 +30,7 @@ export class NavbarComponent {
     private notificationService: NotificationService,
     private router: Router,
     private rxStompService: RxStompService,
-    private settingsService: SettingsService,
-    private webSocketService: WebSocketService
+    private settingsService: SettingsService
   ) {
     this.isDarkTheme = this.settingsService.isDarkTheme;
     this.connState = rxStompService.connectionState$;

@@ -8,12 +8,10 @@ import {
   ViewChild,
 } from "@angular/core";
 import { MatSort } from "@angular/material/sort";
-import { WebSocketService } from "../services/web-socket.service";
 import { TrackTableData } from "./track-table-data";
 import { NotificationService } from "../services/notification.service";
 import { MatPaginator, MatPaginatorIntl } from "@angular/material/paginator";
 import { ClickActions } from "./click-actions.enum";
-import { MpdCommands } from "../mpd/mpd-commands.enum";
 import { QueueTrack } from "../models/queue-track";
 import { Observable } from "rxjs";
 import {
@@ -43,8 +41,7 @@ export class TrackDataTableComponent implements OnInit, OnChanges {
   constructor(
     private breakpointObserver: BreakpointObserver,
     private notificationService: NotificationService,
-    private queueService: QueueService,
-    private webSocketService: WebSocketService
+    private queueService: QueueService
   ) {}
 
   ngOnInit(): void {
@@ -90,9 +87,7 @@ export class TrackDataTableComponent implements OnInit, OnChanges {
 
   onRemoveTrack(position: number): void {
     if (this.trackTableData.clickable) {
-      this.webSocketService.sendData(MpdCommands.RM_TRACK, {
-        position,
-      });
+      this.queueService.removeTrack(position);
       this.queueService.getQueue();
     }
   }
@@ -115,27 +110,21 @@ export class TrackDataTableComponent implements OnInit, OnChanges {
   }
 
   private addPlayTrack(track: QueueTrack): void {
-    this.webSocketService.sendData(MpdCommands.ADD_PLAY_TRACK, {
-      path: track.file,
-    });
+    this.queueService.addPlayTrack(track.file);
     if (this.trackTableData.notify) {
       this.notificationService.popUp(`Playing: ${track.title}`);
     }
   }
 
   private addTrack(track: QueueTrack): void {
-    this.webSocketService.sendData(MpdCommands.ADD_TRACK, {
-      path: track.file,
-    });
+    this.queueService.addTrack(track.file);
     if (this.trackTableData.notify) {
       this.notificationService.popUp(`Added: ${track.title}`);
     }
   }
 
   private playTrack(track: QueueTrack): void {
-    this.webSocketService.sendData(MpdCommands.PLAY_TRACK, {
-      path: track.file,
-    });
+    this.queueService.playTrack(track.file);
     if (this.trackTableData.notify) {
       this.notificationService.popUp(`Playing: ${track.title}`);
     }

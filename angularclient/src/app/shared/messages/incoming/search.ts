@@ -19,8 +19,3 @@ export interface SearchMsgPayload {
   searchResultCount: number;
   query: string;
 }
-
-export interface SearchRoot {
-  payload: SearchMsgPayload;
-  type: string;
-}

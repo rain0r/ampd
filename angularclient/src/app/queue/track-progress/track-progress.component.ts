@@ -1,10 +1,9 @@
 import { Component } from "@angular/core";
 import { MatSliderChange } from "@angular/material/slider";
-import { WebSocketService } from "../../shared/services/web-socket.service";
 import { QueueTrack } from "../../shared/models/queue-track";
 import { MpdService } from "../../shared/services/mpd.service";
 import { Observable } from "rxjs";
-import { MpdCommands } from "../../shared/mpd/mpd-commands.enum";
+import { ControlPanelService } from "../../shared/services/control-panel.service";
 
 @Component({
   selector: "app-track-progress",
@@ -16,16 +15,14 @@ export class TrackProgressComponent {
   state: Observable<string>;
 
   constructor(
-    private webSocketService: WebSocketService,
-    private mpdService: MpdService
+    private mpdService: MpdService,
+    private controlPanelService: ControlPanelService
   ) {
     this.currentTrack = this.mpdService.currentTrack;
     this.state = this.mpdService.currentState;
   }
 
   handleCurrentTrackProgressSlider(event: MatSliderChange): void {
-    this.webSocketService.sendData(MpdCommands.SET_SEEK, {
-      value: event.value,
-    });
+    this.controlPanelService.seek(event.value);
   }
 }

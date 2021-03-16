@@ -9,16 +9,16 @@ import { MpdModeService } from "../../shared/services/mpd-mode.service";
   styleUrls: ["./mpd-mode.component.scss"],
 })
 export class MpdModeComponent {
-  controlPanel: MpdModesPanel;
+  mpdModesPanel: MpdModesPanel;
   private currentState = "stop";
 
   constructor(
     private mpdModeService: MpdModeService,
     private mpdService: MpdService
   ) {
-    this.controlPanel = mpdService.initEmptyControlPanel();
+    this.mpdModesPanel = mpdService.initEmptyControlPanel();
     this.mpdService.controlPanel.subscribe(
-      (panel) => (this.controlPanel = panel)
+      (panel) => (this.mpdModesPanel = panel)
     );
     this.mpdService.currentState.subscribe(
       (state) => (this.currentState = state)

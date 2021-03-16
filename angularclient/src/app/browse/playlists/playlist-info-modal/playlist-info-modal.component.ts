@@ -1,8 +1,6 @@
 import { AfterViewInit, Component, Inject, OnInit } from "@angular/core";
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import { Playlist } from "../../../shared/messages/incoming/playlist-impl";
-
-import { WebSocketService } from "../../../shared/services/web-socket.service";
 import { NotificationService } from "../../../shared/services/notification.service";
 import { ActivatedRoute, Router } from "@angular/router";
 import { MpdService } from "../../../shared/services/mpd.service";
@@ -12,7 +10,6 @@ import { TrackTableData } from "../../../shared/track-table/track-table-data";
 import { Track } from "../../../shared/messages/incoming/track";
 import { QueueTrack } from "../../../shared/models/queue-track";
 import { MatTableDataSource } from "@angular/material/table";
-import { MpdCommands } from "../../../shared/mpd/mpd-commands.enum";
 import { ErrorMsg } from "../../../shared/error/error-msg";
 import {
   BreakpointObserver,
@@ -20,6 +17,7 @@ import {
   BreakpointState,
 } from "@angular/cdk/layout";
 import { map } from "rxjs/operators";
+import { QueueService } from "../../../shared/services/queue.service";
 
 @Component({
   selector: "app-playlist-info-modal",
@@ -38,8 +36,8 @@ export class PlaylistInfoModalComponent implements OnInit, AfterViewInit {
     private breakpointObserver: BreakpointObserver,
     private mpdService: MpdService,
     private notificationService: NotificationService,
+    private queueService: QueueService,
     private router: Router,
-    private webSocketService: WebSocketService,
     public dialogRef: MatDialogRef<PlaylistInfoModalComponent>
   ) {
     this.playlistInfo = this.playlistInfo$.asObservable();
@@ -84,9 +82,7 @@ export class PlaylistInfoModalComponent implements OnInit, AfterViewInit {
   }
 
   onAddPlaylist(): void {
-    this.webSocketService.sendData(MpdCommands.ADD_PLAYLIST, {
-      playlist: this.data.name,
-    });
+    this.queueService.addPlaylist(this.data.name);
     this.notificationService.popUp(`Added playlist: "${this.data.name}"`);
   }
 

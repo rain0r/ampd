@@ -9,14 +9,13 @@ import {
 import { ActivatedRoute } from "@angular/router";
 import { MessageService } from "../../shared/services/message.service";
 import { NotificationService } from "../../shared/services/notification.service";
-import { WebSocketService } from "../../shared/services/web-socket.service";
 import { InternalMessageType } from "../../shared/messages/internal/internal-message-type.enum";
 import { FilterMessage } from "../../shared/messages/internal/message-types/filter-message";
-import { MpdCommands } from "../../shared/mpd/mpd-commands.enum";
 import { BehaviorSubject, Observable } from "rxjs";
 import { AmpdBrowsePayload } from "../../shared/models/ampd-browse-payload";
 import { MpdService } from "../../shared/services/mpd.service";
 import { ControlPanelService } from "../../shared/services/control-panel.service";
+import { QueueService } from "../../shared/services/queue.service";
 
 @Component({
   selector: "app-navigation",
@@ -39,7 +38,7 @@ export class BrowseNavigationComponent implements OnInit {
     private messageService: MessageService,
     private mpdService: MpdService,
     private notificationService: NotificationService,
-    private webSocketService: WebSocketService
+    private queueService: QueueService
   ) {
     this.activatedRoute.queryParams.subscribe((queryParams) => {
       const dir = <string>queryParams.dir || "/";
@@ -69,9 +68,7 @@ export class BrowseNavigationComponent implements OnInit {
     if (dir.startsWith("/")) {
       dir = dir.substr(1, dir.length);
     }
-    this.webSocketService.sendData(MpdCommands.ADD_DIR, {
-      dir,
-    });
+    this.queueService.addDir(dir);
     this.notificationService.popUp(`Added dir: "${dir}"`);
   }
 

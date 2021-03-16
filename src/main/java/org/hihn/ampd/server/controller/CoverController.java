@@ -72,4 +72,5 @@ public class CoverController {
     return coverFetcherService.getCoverForCurrentTrack()
         .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
   }
+
 }

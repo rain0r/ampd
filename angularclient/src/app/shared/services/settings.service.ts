@@ -112,6 +112,11 @@ export class SettingsService {
     return this.http.get<CoverBlacklistFiles>(url);
   }
 
+  blacklistCover(file: string): Observable<void> {
+    const url = `${this.getBackendContextAddr()}api/blacklist-cover`;
+    return this.http.post<void>(url, { file: file });
+  }
+
   /**
    * Returns the api endpoint of the backend that looks for covers in a directory specified by
    * a directory path.

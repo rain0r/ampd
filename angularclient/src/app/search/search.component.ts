@@ -14,8 +14,8 @@ import {
 } from "@angular/cdk/layout";
 import { SearchService } from "../shared/services/search.service";
 import { QueueService } from "../shared/services/queue.service";
-import {SearchResponse} from "../shared/messages/incoming/search-response";
-import {Track} from "../shared/messages/incoming/track";
+import { SearchResponse } from "../shared/messages/incoming/search-response";
+import { Track } from "../shared/messages/incoming/track";
 
 @Component({
   selector: "app-search",

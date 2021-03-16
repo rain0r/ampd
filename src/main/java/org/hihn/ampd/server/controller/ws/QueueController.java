@@ -2,12 +2,11 @@ package org.hihn.ampd.server.controller.ws;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import org.bff.javampd.file.MPDFile;
 import org.bff.javampd.server.MPD;
 import org.bff.javampd.song.MPDSong;
 import org.hihn.ampd.server.config.MpdConfiguration;
-import org.hihn.ampd.server.message.outgoing.queue.QueueMessage;
-import org.hihn.ampd.server.message.outgoing.queue.QueuePayload;
 import org.hihn.ampd.server.model.AmpdSettings;
 import org.hihn.ampd.server.service.QueueService;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -34,10 +33,8 @@ public class QueueController {
 
   @MessageMapping("/")
   @SendTo("/topic/queue")
-  public QueueMessage getQueue() {
-    QueuePayload queuePayload = new QueuePayload(mpd.getPlaylist().getSongList());
-    QueueMessage queue = new QueueMessage(queuePayload);
-    return queue;
+  public List<MPDSong> getQueue() {
+    return mpd.getPlaylist().getSongList();
   }
 
 

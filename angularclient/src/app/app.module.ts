@@ -49,7 +49,7 @@ import { MatSortModule } from "@angular/material/sort";
 import { MatPaginatorModule } from "@angular/material/paginator";
 import { SavePlaylistModalComponent } from "./queue/save-playlist-modal/save-playlist-modal.component";
 import { PlaylistInfoModalComponent } from "./browse/playlists/playlist-info-modal/playlist-info-modal.component";
-import { TrackDataTableComponent } from "./shared/track-table/track-data-table.component";
+import { TrackTableDataComponent } from "./shared/track-table/track-table-data.component";
 import { NgxFilesizeModule } from "ngx-filesize";
 import {
   InjectableRxStompConfig,
@@ -99,7 +99,7 @@ import { BackendAddressComponent } from "./settings/frontend/backend-address/bac
     SettingsComponent,
     TrackProgressComponent,
     TrackTableComponent,
-    TrackDataTableComponent,
+    TrackTableDataComponent,
     TracksComponent,
     VolumeSliderComponent,
     SavePlaylistModalComponent,

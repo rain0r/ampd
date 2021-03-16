@@ -3,7 +3,6 @@ package org.hihn.ampd.server.controller.ws;
 import org.bff.javampd.server.MPD;
 import org.bff.javampd.song.SongSearcher.ScopeType;
 import org.hihn.ampd.server.config.MpdConfiguration;
-import org.hihn.ampd.server.message.outgoing.search.SearchMessage;
 import org.hihn.ampd.server.message.outgoing.search.SearchPayload;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,7 +25,7 @@ public class SearchController {
 
   @MessageMapping("/")
   @SendTo("/topic/search")
-  public SearchMessage search(@Payload String searchTerm) {
+  public SearchPayload search(@Payload String searchTerm) {
     LOG.debug("Got search term: {}", searchTerm);
     LOG.debug("Results: {}", searchDatabase(searchTerm));
     return searchDatabase(searchTerm);
@@ -39,8 +38,8 @@ public class SearchController {
    * @param query What to search for.
    * @return A message with the search results.
    */
-  private SearchMessage searchDatabase(String query) {
-    return new SearchMessage(
-        new SearchPayload(mpd.getSongSearcher().search(ScopeType.ANY, query.trim()), query.trim()));
+  private SearchPayload searchDatabase(String query) {
+    return new SearchPayload(mpd.getSongSearcher().search(ScopeType.ANY, query.trim()),
+        query.trim());
   }
 }

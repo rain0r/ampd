@@ -3,8 +3,6 @@ package org.hihn.ampd.server.sender;
 import org.bff.javampd.server.MPD;
 import org.hihn.ampd.server.config.MpdConfiguration;
 import org.hihn.ampd.server.message.incoming.MpdModesPanel;
-import org.hihn.ampd.server.message.outgoing.queue.QueueMessage;
-import org.hihn.ampd.server.message.outgoing.queue.QueuePayload;
 import org.hihn.ampd.server.message.outgoing.state.StateMessage;
 import org.hihn.ampd.server.message.outgoing.state.StatePayload;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +24,7 @@ public class Publisher {
 
   private final SimpMessagingTemplate template;
 
-  private final long DELAY = 90000;
+  private final long DELAY = 1000;
 
   @Autowired
   public Publisher(final MpdConfiguration mpdConfiguration,
@@ -45,9 +43,7 @@ public class Publisher {
     }
     // Tells javampd to get fresh data every second
     mpd.getServerStatus().setExpiryInterval(1L);
-    final QueuePayload queuePayload = new QueuePayload(mpd.getPlaylist().getSongList());
-    final QueueMessage queue = new QueueMessage(queuePayload);
-    template.convertAndSend(QUEUE_URL, queue);
+    template.convertAndSend(QUEUE_URL, mpd.getPlaylist().getSongList());
   }
 
   /**

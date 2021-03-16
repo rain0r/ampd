@@ -1,8 +1,4 @@
 import { Component, OnInit } from "@angular/core";
-import {
-  SearchMsgPayload,
-  SearchResult,
-} from "../shared/messages/incoming/search";
 import { QueueTrack } from "../shared/models/queue-track";
 import { MatTableDataSource } from "@angular/material/table";
 import { TrackTableData } from "../shared/track-table/track-table-data";
@@ -18,6 +14,8 @@ import {
 } from "@angular/cdk/layout";
 import { SearchService } from "../shared/services/search.service";
 import { QueueService } from "../shared/services/queue.service";
+import {SearchResponse} from "../shared/messages/incoming/search-response";
+import {Track} from "../shared/messages/incoming/track";
 
 @Component({
   selector: "app-search",
@@ -86,7 +84,7 @@ export class SearchComponent implements OnInit {
   private buildMsgReceiver(): void {
     this.searchService
       .getSearchSubscription()
-      .subscribe((message: SearchMsgPayload) =>
+      .subscribe((message: SearchResponse) =>
         this.processSearchResults(
           message.searchResults,
           message.searchResultCount
@@ -95,7 +93,7 @@ export class SearchComponent implements OnInit {
   }
 
   private processSearchResults(
-    searchResults: SearchResult[],
+    searchResults: Track[],
     searchResultCount: number
   ): void {
     this.searchResultTracks = searchResults.map(

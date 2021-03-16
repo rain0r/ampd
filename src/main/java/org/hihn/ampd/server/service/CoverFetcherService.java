@@ -67,12 +67,16 @@ public class CoverFetcherService {
    * @return The bytes of the found cover.
    */
   public Optional<byte[]> findAlbumCoverForTrack(final String trackFilePath) {
-    final Collection<MPDSong> foundTracks = mpd.getMusicDatabase().getSongDatabase()
-        .searchFileName(trackFilePath);
-    if (foundTracks.size() == 1) {
-      return getAlbumCoverForTrack(foundTracks.iterator().next());
+    try {
+      final Collection<MPDSong> foundTracks = mpd.getMusicDatabase().getSongDatabase()
+          .searchFileName(trackFilePath);
+      if (foundTracks.size() == 1) {
+        return getAlbumCoverForTrack(foundTracks.iterator().next());
+      }
+    } catch (Exception e) {
+      LOG.error("Error in searchFileName(): {}", e.getMessage());
+      return Optional.empty();
     }
-    return Optional.empty();
   }
 
   /**

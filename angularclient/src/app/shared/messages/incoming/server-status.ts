@@ -5,7 +5,7 @@ export interface ServerStatus {
   volume: number;
   repeat: boolean;
   random: boolean;
-  xfade: number;
+  crossfade: boolean;
   elapsedTime: number;
   totalTime: number;
   databaseUpdating: boolean;

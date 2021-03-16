@@ -60,7 +60,7 @@ export class ControlPanelService {
 
   toggleMpdModes(mpdModesPanel: MpdModesPanel): void {
     this.rxStompService.publish({
-      destination: `${this.path}toggle-mpd-modes`,
+      destination: `${this.path}mpd-modes-panel`,
       body: JSON.stringify(mpdModesPanel),
     });
   }

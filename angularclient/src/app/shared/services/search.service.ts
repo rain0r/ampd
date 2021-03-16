@@ -14,7 +14,7 @@ export class SearchService {
 
   search(term: string): void {
     this.rxStompService.publish({
-      destination: "/app/search",
+      destination: "/app/search/",
       body: term,
     });
   }

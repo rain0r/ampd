@@ -18,8 +18,6 @@ public class SearchController {
 
   private static final Logger LOG = LoggerFactory.getLogger(SearchController.class);
 
-  private static final String PATH = "/search";
-
   private final MPD mpd;
 
   public SearchController(MpdConfiguration mpdConfiguration) {

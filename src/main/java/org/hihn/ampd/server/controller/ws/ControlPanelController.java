@@ -11,8 +11,6 @@ import org.springframework.stereotype.Controller;
 @MessageMapping("/control-panel/")
 public class ControlPanelController {
 
-  private static final String PATH = "/control-panel/";
-
   private final MPD mpd;
 
   public ControlPanelController(MpdConfiguration mpdConfiguration) {
@@ -49,7 +47,7 @@ public class ControlPanelController {
     mpd.getPlayer().seek(value);
   }
 
-  @MessageMapping("/control-panel/volume")
+  @MessageMapping("/volume")
   public void setVolume() {
     mpd.getPlayer().setVolume(1);
   }

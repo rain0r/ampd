@@ -1,6 +1,6 @@
 package org.hihn.ampd.server.controller;
 
-import org.hihn.ampd.server.model.http.BrowsePayload;
+import org.hihn.ampd.server.message.outgoing.browse.BrowsePayload;
 import org.hihn.ampd.server.service.BrowseService;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;

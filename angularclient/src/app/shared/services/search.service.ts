@@ -1,15 +1,14 @@
-import {Injectable} from "@angular/core";
-import {RxStompService} from "@stomp/ng2-stompjs";
-import {Observable} from "rxjs";
-import {filter, map, tap} from "rxjs/operators";
-import {SearchResponse} from "../messages/incoming/search-response";
+import { Injectable } from "@angular/core";
+import { RxStompService } from "@stomp/ng2-stompjs";
+import { Observable } from "rxjs";
+import { map } from "rxjs/operators";
+import { SearchResponse } from "../messages/incoming/search-response";
 
 @Injectable({
   providedIn: "root",
 })
 export class SearchService {
-  constructor(private rxStompService: RxStompService) {
-  }
+  constructor(private rxStompService: RxStompService) {}
 
   search(term: string): void {
     this.rxStompService.publish({
@@ -20,8 +19,8 @@ export class SearchService {
 
   getSearchSubscription(): Observable<SearchResponse> {
     return this.rxStompService.watch("/topic/search").pipe(
-        map((message) => message.body),
-        map((body: string) => <SearchResponse>JSON.parse(body)),
+      map((message) => message.body),
+      map((body: string) => <SearchResponse>JSON.parse(body))
     );
   }
 }

@@ -1,17 +1,27 @@
-import {Component, ElementRef, HostListener, OnInit, ViewChild,} from "@angular/core";
-import {MatTableDataSource} from "@angular/material/table";
-import {QueueTrack} from "../../shared/models/queue-track";
-import {MpdService} from "../../shared/services/mpd.service";
-import {MatDialog} from "@angular/material/dialog";
-import {SavePlaylistModalComponent} from "../save-playlist-modal/save-playlist-modal.component";
-import {TrackTableData} from "../../shared/track-table/track-table-data";
-import {ClickActions} from "../../shared/track-table/click-actions.enum";
-import {SettingsService} from "../../shared/services/settings.service";
-import {Observable} from "rxjs";
-import {BreakpointObserver, Breakpoints, BreakpointState,} from "@angular/cdk/layout";
-import {map} from "rxjs/operators";
-import {RxStompService} from "@stomp/ng2-stompjs";
-import {Track} from "../../shared/messages/incoming/track";
+import {
+  Component,
+  ElementRef,
+  HostListener,
+  OnInit,
+  ViewChild,
+} from "@angular/core";
+import { MatTableDataSource } from "@angular/material/table";
+import { QueueTrack } from "../../shared/models/queue-track";
+import { MpdService } from "../../shared/services/mpd.service";
+import { MatDialog } from "@angular/material/dialog";
+import { SavePlaylistModalComponent } from "../save-playlist-modal/save-playlist-modal.component";
+import { TrackTableData } from "../../shared/track-table/track-table-data";
+import { ClickActions } from "../../shared/track-table/click-actions.enum";
+import { SettingsService } from "../../shared/services/settings.service";
+import { Observable } from "rxjs";
+import {
+  BreakpointObserver,
+  Breakpoints,
+  BreakpointState,
+} from "@angular/cdk/layout";
+import { map } from "rxjs/operators";
+import { RxStompService } from "@stomp/ng2-stompjs";
+import { Track } from "../../shared/messages/incoming/track";
 
 @Component({
   selector: "app-track-table",
@@ -34,14 +44,13 @@ export class TrackTableComponent implements OnInit {
   queueDuration = 0;
 
   constructor(
-      private breakpointObserver: BreakpointObserver,
-      private dialog: MatDialog,
-      private mpdService: MpdService,
-      private rxStompService: RxStompService,
-      private settingsService: SettingsService
+    private breakpointObserver: BreakpointObserver,
+    private dialog: MatDialog,
+    private mpdService: MpdService,
+    private rxStompService: RxStompService,
+    private settingsService: SettingsService
   ) {
     this.buildReceiver();
-    this.getStateSubscription();
     this.displaySaveCoverBtn = settingsService.isDisplaySavePlaylist;
   }
 
@@ -58,9 +67,9 @@ export class TrackTableComponent implements OnInit {
 
   ngOnInit(): void {
     this.breakpointObserver
-    .observe([Breakpoints.Small, Breakpoints.HandsetPortrait])
-    .pipe(map((state: BreakpointState) => state.matches))
-    .subscribe((isMobile) => (this.isMobile = isMobile));
+      .observe([Breakpoints.Small, Breakpoints.HandsetPortrait])
+      .pipe(map((state: BreakpointState) => state.matches))
+      .subscribe((isMobile) => (this.isMobile = isMobile));
   }
 
   openCoverModal(): void {
@@ -83,22 +92,24 @@ export class TrackTableComponent implements OnInit {
 
   private getDisplayedColumns(): string[] {
     const displayedColumns = [
-      {name: "position", showMobile: false},
-      {name: "artistName", showMobile: true},
-      {name: "albumName", showMobile: false},
-      {name: "title", showMobile: true},
-      {name: "length", showMobile: false},
-      {name: "remove", showMobile: true},
+      { name: "position", showMobile: false },
+      { name: "artistName", showMobile: true },
+      { name: "albumName", showMobile: false },
+      { name: "title", showMobile: true },
+      { name: "length", showMobile: false },
+      { name: "remove", showMobile: true },
     ];
     return displayedColumns
-    .filter((cd) => !this.isMobile || cd.showMobile)
-    .map((cd) => cd.name);
+      .filter((cd) => !this.isMobile || cd.showMobile)
+      .map((cd) => cd.name);
   }
 
   private buildQueue(tracks: Track[]): void {
+    console.log(new Date(), "buildQueue");
+
     /* add the new model object to the trackTableData */
     this.dataSource.data = tracks.map(
-        (track, index) => new QueueTrack(track, index)
+      (track, index) => new QueueTrack(track, index)
     );
     this.trackTableData = this.buildTableData();
     this.queueDuration = this.sumTrackDuration();
@@ -123,10 +134,12 @@ export class TrackTableComponent implements OnInit {
       }
     });
     // Queue
-    this.getQueueSubscription().subscribe((message: Track[]) => this.buildQueue(message));
+    this.getQueueSubscription().subscribe((message: Track[]) =>
+      this.buildQueue(message)
+    );
     // State
     this.mpdService.currentState.subscribe(
-        (state) => (this.currentState = state)
+      (state) => (this.currentState = state)
     );
   }
 
@@ -141,14 +154,10 @@ export class TrackTableComponent implements OnInit {
     return ret;
   }
 
-  private getStateSubscription(): void {
-
-  }
-
   private getQueueSubscription(): Observable<Track[]> {
     return this.rxStompService.watch("/topic/queue").pipe(
-        map((message) => message.body),
-        map((body) => <Track[]>JSON.parse(body)),
+      map((message) => message.body),
+      map((body) => <Track[]>JSON.parse(body))
     );
   }
 }

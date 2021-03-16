@@ -75,8 +75,8 @@ public class CoverFetcherService {
       }
     } catch (Exception e) {
       LOG.error("Error in searchFileName(): {}", e.getMessage());
-      return Optional.empty();
     }
+    return Optional.empty();
   }
 
   /**

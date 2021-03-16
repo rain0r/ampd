@@ -1,4 +1,4 @@
-package org.hihn.ampd.server.model.http;
+package org.hihn.ampd.server.message.incoming;
 
 public class SavePlaylist {
 

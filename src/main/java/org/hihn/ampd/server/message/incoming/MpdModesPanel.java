@@ -7,9 +7,7 @@ import org.bff.javampd.server.ServerStatus;
  * Represents a MPD control panel.
  */
 public class MpdModesPanel {
-
-  // {"consume":false,"crossfade":false,"random":true,"repeat":false,"single":false}
-
+  
   private boolean consume;
 
   private boolean crossfade;

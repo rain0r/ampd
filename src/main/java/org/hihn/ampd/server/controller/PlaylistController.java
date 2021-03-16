@@ -2,9 +2,9 @@ package org.hihn.ampd.server.controller;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
+import org.hihn.ampd.server.message.incoming.SavePlaylist;
+import org.hihn.ampd.server.message.outgoing.playlist.SavePlaylistResponse;
 import org.hihn.ampd.server.model.PlaylistInfo;
-import org.hihn.ampd.server.model.http.SavePlaylist;
-import org.hihn.ampd.server.model.http.SavePlaylistResponse;
 import org.hihn.ampd.server.service.PlaylistService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;

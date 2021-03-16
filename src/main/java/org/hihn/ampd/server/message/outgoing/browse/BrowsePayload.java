@@ -1,4 +1,4 @@
-package org.hihn.ampd.server.model.http;
+package org.hihn.ampd.server.message.outgoing.browse;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -6,7 +6,6 @@ import java.util.Collections;
 import java.util.List;
 import org.bff.javampd.file.MPDFile;
 import org.bff.javampd.song.MPDSong;
-import org.hihn.ampd.server.message.outgoing.browse.Playlist;
 
 
 /**

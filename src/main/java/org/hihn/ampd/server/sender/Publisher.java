@@ -26,7 +26,7 @@ public class Publisher {
 
   private final SimpMessagingTemplate template;
 
-  private final long DELAY = 900;
+  private final long DELAY = 90000;
 
   @Autowired
   public Publisher(final MpdConfiguration mpdConfiguration,

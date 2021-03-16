@@ -48,8 +48,8 @@ public class ControlPanelController {
   }
 
   @MessageMapping("/volume")
-  public void setVolume() {
-    mpd.getPlayer().setVolume(1);
+  public void setVolume(@Payload int volume) {
+    mpd.getPlayer().setVolume(volume);
   }
 
   @MessageMapping("mpd-modes-panel")

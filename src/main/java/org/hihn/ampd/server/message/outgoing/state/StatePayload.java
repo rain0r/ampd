@@ -11,7 +11,6 @@ public class StatePayload {
 
   private MpdModesPanel mpdModesPanel;
 
-  private String cover;
 
   private MPDSong currentTrack;
 
@@ -30,14 +29,6 @@ public class StatePayload {
 
   public void setMpdModesPanel(final MpdModesPanel mpdModesPanel) {
     this.mpdModesPanel = mpdModesPanel;
-  }
-
-  public String getCover() {
-    return cover;
-  }
-
-  public void setCover(final String cover) {
-    this.cover = cover;
   }
 
   public MPDSong getCurrentTrack() {

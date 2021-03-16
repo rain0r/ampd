@@ -8,19 +8,26 @@ import org.bff.javampd.server.ServerStatus;
  */
 public class MpdModesPanel {
 
-  boolean consume;
+  // {"consume":false,"crossfade":false,"random":true,"repeat":false,"single":false}
 
-  boolean crossfade;
+  private boolean consume;
 
-  boolean random;
+  private boolean crossfade;
 
-  boolean repeat;
+  private boolean random;
 
-  boolean single;
+  private boolean repeat;
+
+  private boolean single;
+
+  public MpdModesPanel() {
+  }
 
   public MpdModesPanel(final ServerStatus serverStatus) {
     final Collection<String> statusList = serverStatus.getStatus();
-    setCrossfade(serverStatus.getXFade());
+
+    // crossfade is not part of the statusList so can't assign in it the for loop
+    setCrossfade(serverStatus.getXFade() == 1);
 
     for (final String status : statusList) {
       final String[] splitted = status.split(":");
@@ -45,23 +52,11 @@ public class MpdModesPanel {
     }
   }
 
-  /**
-   * Returns if xfade is active.
-   *
-   * @return 1 for active, 0 for inactive.
-   */
-  public int getXFade() {
-    if (isCrossfade()) {
-      return 1;
-    }
-    return 0;
-  }
-
   public boolean isConsume() {
     return consume;
   }
 
-  public void setConsume(final boolean consume) {
+  public void setConsume(boolean consume) {
     this.consume = consume;
   }
 
@@ -69,19 +64,15 @@ public class MpdModesPanel {
     return crossfade;
   }
 
-  public void setCrossfade(final boolean crossfade) {
+  public void setCrossfade(boolean crossfade) {
     this.crossfade = crossfade;
-  }
-
-  public void setCrossfade(final int xfade) {
-    setCrossfade(1 == xfade);
   }
 
   public boolean isRandom() {
     return random;
   }
 
-  public void setRandom(final boolean random) {
+  public void setRandom(boolean random) {
     this.random = random;
   }
 
@@ -89,7 +80,7 @@ public class MpdModesPanel {
     return repeat;
   }
 
-  public void setRepeat(final boolean repeat) {
+  public void setRepeat(boolean repeat) {
     this.repeat = repeat;
   }
 
@@ -97,9 +88,7 @@ public class MpdModesPanel {
     return single;
   }
 
-  public void setSingle(final boolean single) {
+  public void setSingle(boolean single) {
     this.single = single;
   }
-
-
 }

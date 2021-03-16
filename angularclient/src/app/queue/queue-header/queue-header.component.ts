@@ -35,7 +35,7 @@ export class QueueHeaderComponent implements OnInit {
     this.isDisplayCover = this.displayCover$.asObservable();
     this.coverSizeClass = this.responsiveCoverSizeService.getCoverCssClass();
     this.currentState = this.mpdService.currentState;
-    this.buildTrackSubscription();
+    this.buildTrackChangeSubscription();
     this.buildMessageReceiver();
   }
 
@@ -80,7 +80,7 @@ export class QueueHeaderComponent implements OnInit {
   /**
    * Listens for track changes. If a new track is played, trigger the updateCover-method.
    */
-  private buildTrackSubscription(): void {
+  private buildTrackChangeSubscription(): void {
     let first = true;
     this.mpdService.currentTrack.subscribe((queueTrack) => {
       this.currentTrack = queueTrack;

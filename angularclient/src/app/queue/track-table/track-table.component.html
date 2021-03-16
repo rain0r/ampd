@@ -23,8 +23,9 @@
 
 <app-track-data-table [trackTableData]="trackTableData"></app-track-data-table>
 
-<div fxLayout="row wrap" fxLayoutAlign="space-between center" class="space-top">
-  <span *ngIf="dataSource.data.length > 0" class="bottom-divider" fxFlex.lt-md="100%">
+<div fxLayout="row wrap" fxLayoutAlign="space-between center" class="space-top"
+     *ngIf="dataSource.data.length > 0">
+  <span class="bottom-divider" fxFlex.lt-md="100%">
     <span [ngPlural]="dataSource.data.length">
       <ng-template ngPluralCase="=1">1 track </ng-template>
       <ng-template ngPluralCase="other">{{ dataSource.data.length }}

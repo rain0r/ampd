@@ -1,29 +1,17 @@
-import {
-  Component,
-  ElementRef,
-  HostListener,
-  OnInit,
-  ViewChild,
-} from "@angular/core";
-import { MatTableDataSource } from "@angular/material/table";
-import { QueuePayload } from "../../shared/messages/incoming/queue-payload";
-import { QueueTrack } from "../../shared/models/queue-track";
-import { MpdService } from "../../shared/services/mpd.service";
-import { MatDialog } from "@angular/material/dialog";
-import { SavePlaylistModalComponent } from "../save-playlist-modal/save-playlist-modal.component";
-import { TrackTableData } from "../../shared/track-table/track-table-data";
-import { ClickActions } from "../../shared/track-table/click-actions.enum";
-import { SettingsService } from "../../shared/services/settings.service";
-import { Observable } from "rxjs";
-import {
-  BreakpointObserver,
-  Breakpoints,
-  BreakpointState,
-} from "@angular/cdk/layout";
-import { filter, map } from "rxjs/operators";
-import { MpdTypes } from "../../shared/mpd/mpd-types";
-import { BaseResponse } from "../../shared/messages/incoming/base-response";
-import { RxStompService } from "@stomp/ng2-stompjs";
+import {Component, ElementRef, HostListener, OnInit, ViewChild,} from "@angular/core";
+import {MatTableDataSource} from "@angular/material/table";
+import {QueueTrack} from "../../shared/models/queue-track";
+import {MpdService} from "../../shared/services/mpd.service";
+import {MatDialog} from "@angular/material/dialog";
+import {SavePlaylistModalComponent} from "../save-playlist-modal/save-playlist-modal.component";
+import {TrackTableData} from "../../shared/track-table/track-table-data";
+import {ClickActions} from "../../shared/track-table/click-actions.enum";
+import {SettingsService} from "../../shared/services/settings.service";
+import {Observable} from "rxjs";
+import {BreakpointObserver, Breakpoints, BreakpointState,} from "@angular/cdk/layout";
+import {map} from "rxjs/operators";
+import {RxStompService} from "@stomp/ng2-stompjs";
+import {Track} from "../../shared/messages/incoming/track";
 
 @Component({
   selector: "app-track-table",
@@ -46,13 +34,13 @@ export class TrackTableComponent implements OnInit {
   queueDuration = 0;
 
   constructor(
-    private breakpointObserver: BreakpointObserver,
-    private dialog: MatDialog,
-    private mpdService: MpdService,
-    private rxStompService: RxStompService,
-    private settingsService: SettingsService
+      private breakpointObserver: BreakpointObserver,
+      private dialog: MatDialog,
+      private mpdService: MpdService,
+      private rxStompService: RxStompService,
+      private settingsService: SettingsService
   ) {
-    this.buildMessageReceiver();
+    this.buildReceiver();
     this.getStateSubscription();
     this.displaySaveCoverBtn = settingsService.isDisplaySavePlaylist;
   }
@@ -70,9 +58,9 @@ export class TrackTableComponent implements OnInit {
 
   ngOnInit(): void {
     this.breakpointObserver
-      .observe([Breakpoints.Small, Breakpoints.HandsetPortrait])
-      .pipe(map((state: BreakpointState) => state.matches))
-      .subscribe((isMobile) => (this.isMobile = isMobile));
+    .observe([Breakpoints.Small, Breakpoints.HandsetPortrait])
+    .pipe(map((state: BreakpointState) => state.matches))
+    .subscribe((isMobile) => (this.isMobile = isMobile));
   }
 
   openCoverModal(): void {
@@ -95,27 +83,22 @@ export class TrackTableComponent implements OnInit {
 
   private getDisplayedColumns(): string[] {
     const displayedColumns = [
-      { name: "position", showMobile: false },
-      { name: "artistName", showMobile: true },
-      { name: "albumName", showMobile: false },
-      { name: "title", showMobile: true },
-      { name: "length", showMobile: false },
-      { name: "remove", showMobile: true },
+      {name: "position", showMobile: false},
+      {name: "artistName", showMobile: true},
+      {name: "albumName", showMobile: false},
+      {name: "title", showMobile: true},
+      {name: "length", showMobile: false},
+      {name: "remove", showMobile: true},
     ];
     return displayedColumns
-      .filter((cd) => !this.isMobile || cd.showMobile)
-      .map((cd) => cd.name);
+    .filter((cd) => !this.isMobile || cd.showMobile)
+    .map((cd) => cd.name);
   }
 
-  private buildQueue(message: QueuePayload): void {
-    // Check if the queue has changed. Abort if it hasn't.
-    if (message.checkSum === this.checksum) {
-      return;
-    }
-    this.checksum = message.checkSum;
+  private buildQueue(tracks: Track[]): void {
     /* add the new model object to the trackTableData */
-    this.dataSource.data = message.tracks.map(
-      (track, index) => new QueueTrack(track, index)
+    this.dataSource.data = tracks.map(
+        (track, index) => new QueueTrack(track, index)
     );
     this.trackTableData = this.buildTableData();
     this.queueDuration = this.sumTrackDuration();
@@ -131,15 +114,19 @@ export class TrackTableComponent implements OnInit {
     return trackTable;
   }
 
-  private buildMessageReceiver(): void {
+  private buildReceiver(): void {
+    // Current track
     this.mpdService.currentTrack.subscribe((track) => {
       this.currentTrack = track;
       for (const track of this.dataSource.data) {
         track.playing = track.id === this.currentTrack.id;
       }
     });
-    this.getQueueSubscription().subscribe((message: QueuePayload) =>
-      this.buildQueue(message)
+    // Queue
+    this.getQueueSubscription().subscribe((message: Track[]) => this.buildQueue(message));
+    // State
+    this.mpdService.currentState.subscribe(
+        (state) => (this.currentState = state)
     );
   }
 
@@ -155,18 +142,13 @@ export class TrackTableComponent implements OnInit {
   }
 
   private getStateSubscription(): void {
-    this.mpdService.currentState.subscribe(
-      (state) => (this.currentState = state)
-    );
+
   }
 
-  private getQueueSubscription(): Observable<QueuePayload> {
+  private getQueueSubscription(): Observable<Track[]> {
     return this.rxStompService.watch("/topic/queue").pipe(
-      map((message) => message.body),
-      map((body: string) => <BaseResponse>JSON.parse(body)),
-      filter((body: BaseResponse) => body !== null),
-      filter((body: BaseResponse) => body.type === MpdTypes.QUEUE),
-      map((body: BaseResponse) => <QueuePayload>body.payload)
+        map((message) => message.body),
+        map((body) => <Track[]>JSON.parse(body)),
     );
   }
 }

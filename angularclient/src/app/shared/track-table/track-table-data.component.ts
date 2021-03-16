@@ -24,10 +24,10 @@ import { QueueService } from "../services/queue.service";
 
 @Component({
   selector: "app-track-data-table",
-  templateUrl: "./track-data-table.component.html",
-  styleUrls: ["./track-data-table.component.scss"],
+  templateUrl: "./track-table-data.component.html",
+  styleUrls: ["./track-table-data.component.scss"],
 })
-export class TrackDataTableComponent implements OnInit, OnChanges {
+export class TrackTableDataComponent implements OnInit, OnChanges {
   @Input() trackTableData: TrackTableData = new TrackTableData();
   @ViewChild(MatPaginator, { static: true })
   paginator: MatPaginator = new MatPaginator(

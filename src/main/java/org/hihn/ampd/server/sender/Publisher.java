@@ -19,11 +19,11 @@ public class Publisher {
 
   private static final String STATE_URL = "/topic/state";
 
+  private static final long DELAY = 1000;
+
   private final MPD mpd;
 
   private final SimpMessagingTemplate template;
-
-  private final long DELAY = 1000;
 
   @Autowired
   public Publisher(final MpdConfiguration mpdConfiguration,

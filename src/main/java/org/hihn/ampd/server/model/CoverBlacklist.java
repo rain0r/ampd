@@ -2,6 +2,9 @@ package org.hihn.ampd.server.model;
 
 import java.util.Set;
 
+/**
+ * Holds information about all tracks which are on the cover-blacklist.
+ */
 public class CoverBlacklist {
 
   private final Set<String> blacklistedFiles;

@@ -2,8 +2,7 @@ package org.hihn.ampd.server.controller;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
-import org.hihn.ampd.server.message.incoming.SavePlaylist;
-import org.hihn.ampd.server.message.outgoing.playlist.SavePlaylistResponse;
+import org.hihn.ampd.server.message.outgoing.SavePlaylistResponse;
 import org.hihn.ampd.server.model.PlaylistInfo;
 import org.hihn.ampd.server.service.PlaylistService;
 import org.springframework.http.HttpStatus;
@@ -17,7 +16,9 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
-
+/**
+ * Endpoint for everything playlist-related.
+ */
 @RestController
 @RequestMapping("/api/playlists")
 @CrossOrigin
@@ -37,8 +38,8 @@ public class PlaylistController {
   }
 
   @PostMapping("/")
-  public SavePlaylistResponse savePlaylist(@RequestBody SavePlaylist playlist) {
-    return playlistService.savePlaylist(playlist.getPlaylistName());
+  public SavePlaylistResponse savePlaylist(@RequestBody final String playlist) {
+    return playlistService.savePlaylist(playlist);
   }
 
   @DeleteMapping(value = "/{name}")

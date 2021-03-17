@@ -1,4 +1,4 @@
-package org.hihn.ampd.server.message.outgoing.state;
+package org.hihn.ampd.server.message.outgoing;
 
 import org.bff.javampd.server.ServerStatus;
 import org.bff.javampd.song.MPDSong;

@@ -9,7 +9,8 @@ import org.bff.javampd.song.MPDSong;
 
 
 /**
- * Represents the structure of the browse payload returned to the frontend.
+ * Represents the structure of the browse payload returned to the frontend, containing directories,
+ * tracks and playlists.
  */
 public class BrowsePayload {
 

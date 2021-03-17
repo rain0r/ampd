@@ -1,5 +1,8 @@
 package org.hihn.ampd.server.model;
 
+/**
+ * Model to distinguish between an album cover and track cover.
+ */
 public enum CoverType {
   ALBUM("a_"),
   SINGLETON("s_");

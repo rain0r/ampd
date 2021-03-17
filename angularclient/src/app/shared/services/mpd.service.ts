@@ -20,8 +20,6 @@ import { SavePlaylistResponse } from "../models/http/savePlaylistResponse";
 import { ErrorMsg } from "../error/error-msg";
 import { QueueService } from "./queue.service";
 import { ControlPanelService } from "./control-panel.service";
-import { BaseResponse } from "../messages/incoming/base-response";
-import { MpdTypes } from "../mpd/mpd-types";
 import { RxStompService } from "@stomp/ng2-stompjs";
 
 @Injectable({
@@ -50,7 +48,7 @@ export class MpdService {
     private rxStompService: RxStompService,
     private settingsService: SettingsService
   ) {
-    this.init();
+    this.buildStateSubscription();
     this.controlPanel = this.controlPanel$.asObservable();
     this.currentTrack = this.currentTrack$.asObservable();
     this.currentState = this.currentState$.asObservable();
@@ -72,7 +70,7 @@ export class MpdService {
   savePlaylist(playlistName: string): Observable<SavePlaylistResponse> {
     return this.http.post<SavePlaylistResponse>(
       this.settingsService.getPlaylistRootUrl(),
-      { playlistName: playlistName }
+      playlistName
     );
   }
 
@@ -155,10 +153,6 @@ export class MpdService {
     return queueTrack;
   }
 
-  private init(): void {
-    this.buildStateSubscription();
-  }
-
   private buildStateSubscription(): void {
     this.getStateSubscription()
       .pipe(
@@ -202,10 +196,7 @@ export class MpdService {
   private getStateSubscription(): Observable<StateMsgPayload> {
     return this.rxStompService.watch("/topic/state").pipe(
       map((message) => message.body),
-      map((body: string) => <BaseResponse>JSON.parse(body)),
-      filter((body: BaseResponse) => body !== null),
-      filter((body: BaseResponse) => body.type === MpdTypes.STATE),
-      map((body: BaseResponse) => <StateMsgPayload>body.payload)
+      map((body: string) => <StateMsgPayload>JSON.parse(body))
     );
   }
 }

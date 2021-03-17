@@ -6,13 +6,16 @@ import org.bff.javampd.server.MPD;
 import org.bff.javampd.server.MPDConnectionException;
 import org.bff.javampd.song.MPDSong;
 import org.hihn.ampd.server.config.MpdConfiguration;
-import org.hihn.ampd.server.message.outgoing.playlist.SavePlaylistResponse;
+import org.hihn.ampd.server.message.outgoing.SavePlaylistResponse;
 import org.hihn.ampd.server.model.AmpdSettings;
 import org.hihn.ampd.server.model.PlaylistInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+/**
+ * Provides methods to manage playlists.
+ */
 @Service
 public class PlaylistService {
 

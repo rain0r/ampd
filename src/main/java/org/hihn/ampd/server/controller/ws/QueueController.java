@@ -13,6 +13,10 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
 
+/**
+ * Websocket endpoint to control the queue. Besides getting the current queue, it also provides
+ * endpoints to add directories, tracks and playlists.
+ */
 @Controller
 @MessageMapping("/queue")
 public class QueueController {
@@ -86,5 +90,4 @@ public class QueueController {
   public void playTrack(String file) {
     queueService.playTrack(file);
   }
-
 }

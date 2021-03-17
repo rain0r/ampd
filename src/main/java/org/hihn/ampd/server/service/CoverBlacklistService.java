@@ -7,12 +7,14 @@ import java.nio.file.Path;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
-import org.hihn.ampd.server.model.AmpdSettings;
 import org.hihn.ampd.server.model.CoverBlacklist;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+/**
+ * Handles the tracks that should not download a cover.
+ */
 @Service
 public class CoverBlacklistService {
 
@@ -22,12 +24,8 @@ public class CoverBlacklistService {
 
   private final Set<String> blacklistedFiles = new HashSet<>();
 
-  private final AmpdSettings ampdSettings;
-
-  public CoverBlacklistService(AmpdDirService ampdDirService,
-      AmpdSettings ampdSettings) {
+  public CoverBlacklistService(AmpdDirService ampdDirService) {
     this.ampdDirService = ampdDirService;
-    this.ampdSettings = ampdSettings;
     blacklistedFiles.addAll(loadBlacklistFile());
   }
 

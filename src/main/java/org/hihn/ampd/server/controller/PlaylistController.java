@@ -30,6 +30,12 @@ public class PlaylistController {
     this.playlistService = playlistService;
   }
 
+  /**
+   * Returns information about a playlist.
+   *
+   * @param playlistName Name of the playlist.
+   * @return An {@link PlaylistInfo} object.
+   */
   @RequestMapping(value = "/{name}", method = GET)
   public PlaylistInfo getPlaylist(@PathVariable("name") final String playlistName) {
     return playlistService.getPlaylistInfo(playlistName)

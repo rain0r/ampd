@@ -55,6 +55,11 @@ public class ControlPanelController {
     mpd.getPlayer().setVolume(volume);
   }
 
+  /**
+   * Takes an {@link MpdModesPanel} and applies it on the MPD server.
+   *
+   * @param mpdModesPanel The new modes that should be applied.
+   */
   @MessageMapping("mpd-modes-panel")
   public void toggleMpdModes(MpdModesPanel mpdModesPanel) {
     mpd.getPlayer().setRandom(mpdModesPanel.isRandom());

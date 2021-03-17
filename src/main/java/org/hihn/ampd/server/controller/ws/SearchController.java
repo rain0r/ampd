@@ -26,11 +26,15 @@ public class SearchController {
     mpd = mpdConfiguration.mpd();
   }
 
+  /**
+   * Receives a search term and processes it.
+   *
+   * @param searchTerm The term to search for.
+   * @return A {@link SearchPayload}-object contain
+   */
   @MessageMapping("/")
   @SendTo("/topic/search")
   public SearchPayload search(@Payload String searchTerm) {
-    LOG.debug("Got search term: {}", searchTerm);
-    LOG.debug("Results: {}", searchDatabase(searchTerm));
     return searchDatabase(searchTerm);
   }
 

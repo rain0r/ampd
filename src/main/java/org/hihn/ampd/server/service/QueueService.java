@@ -27,6 +27,11 @@ public class QueueService {
     mpd = mpdConfiguration.mpd();
   }
 
+  /**
+   * Adds a track to the queue.
+   *
+   * @param file The path of the track.
+   */
   public void addTrack(String file) {
     MPDFile mpdFile = new MPDFile(file);
     mpdFile.setDirectory(false);

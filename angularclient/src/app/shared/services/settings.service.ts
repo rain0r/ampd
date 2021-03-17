@@ -114,7 +114,7 @@ export class SettingsService {
 
   blacklistCover(file: string): Observable<void> {
     const url = `${this.getBackendContextAddr()}api/blacklist-cover`;
-    return this.http.post<void>(url, { file: file });
+    return this.http.post<void>(url, file);
   }
 
   /**

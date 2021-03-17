@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
@@ -39,12 +38,8 @@ public class CoverBlacklistService {
    * @param file The file to add to the blacklist.
    */
   public void addFileToBlacklist(final String file) {
-    // Check if the file exists
-    boolean exist = Paths.get(ampdSettings.getMusicDirectory(), file).toFile().exists();
-    if (exist) {
-      blacklistedFiles.add(file);
-      saveFile();
-    }
+    blacklistedFiles.add(file);
+    saveFile();
   }
 
   public Set<String> getBlacklistedFiles() {

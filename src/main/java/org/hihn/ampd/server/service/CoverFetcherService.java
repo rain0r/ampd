@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Optional;
 import org.bff.javampd.server.MPD;
 import org.bff.javampd.song.MPDSong;
-import org.hihn.ampd.server.config.MpdConfiguration;
 import org.hihn.ampd.server.model.AmpdSettings;
 import org.hihn.ampd.server.model.CoverType;
 import org.slf4j.Logger;
@@ -35,13 +34,14 @@ public class CoverFetcherService {
   public CoverFetcherService(
       final CoverCacheService coverCacheService,
       final MbCoverService mbCoverService,
-      final MpdConfiguration mpdConfiguration, AmpdSettings ampdSettings,
-      CoverBlacklistService coverBlacklistService) {
+      final AmpdSettings ampdSettings,
+      final CoverBlacklistService coverBlacklistService,
+      final MPD mpd) {
     this.coverCacheService = coverCacheService;
     this.mbCoverService = mbCoverService;
     this.ampdSettings = ampdSettings;
-    mpd = mpdConfiguration.mpd();
     this.coverBlacklistService = coverBlacklistService;
+    this.mpd = mpd;
   }
 
   /**

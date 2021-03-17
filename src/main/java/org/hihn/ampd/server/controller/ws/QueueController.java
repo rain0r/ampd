@@ -6,7 +6,6 @@ import java.util.List;
 import org.bff.javampd.file.MPDFile;
 import org.bff.javampd.server.MPD;
 import org.bff.javampd.song.MPDSong;
-import org.hihn.ampd.server.config.MpdConfiguration;
 import org.hihn.ampd.server.model.AmpdSettings;
 import org.hihn.ampd.server.service.QueueService;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -28,9 +27,11 @@ public class QueueController {
   private final QueueService queueService;
 
 
-  public QueueController(MpdConfiguration mpdConfiguration,
-      AmpdSettings ampdSettings, QueueService queueService) {
-    mpd = mpdConfiguration.mpd();
+  public QueueController(
+      final MPD mpd,
+      final AmpdSettings ampdSettings,
+      final QueueService queueService) {
+    this.mpd = mpd;
     this.ampdSettings = ampdSettings;
     this.queueService = queueService;
   }

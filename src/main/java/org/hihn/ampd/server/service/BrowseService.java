@@ -6,7 +6,6 @@ import java.util.TreeSet;
 import org.bff.javampd.file.MPDFile;
 import org.bff.javampd.server.MPD;
 import org.bff.javampd.song.MPDSong;
-import org.hihn.ampd.server.config.MpdConfiguration;
 import org.hihn.ampd.server.message.outgoing.browse.BrowsePayload;
 import org.hihn.ampd.server.message.outgoing.browse.Directory;
 import org.hihn.ampd.server.message.outgoing.browse.Playlist;
@@ -24,8 +23,8 @@ public class BrowseService {
 
   private final MPD mpd;
 
-  public BrowseService(MpdConfiguration mpdConfiguration) {
-    mpd = mpdConfiguration.mpd();
+  public BrowseService(final MPD mpd) {
+    this.mpd = mpd;
   }
 
   /**

@@ -5,7 +5,6 @@ import java.util.Optional;
 import org.bff.javampd.server.MPD;
 import org.bff.javampd.server.MPDConnectionException;
 import org.bff.javampd.song.MPDSong;
-import org.hihn.ampd.server.config.MpdConfiguration;
 import org.hihn.ampd.server.message.outgoing.SavePlaylistResponse;
 import org.hihn.ampd.server.model.AmpdSettings;
 import org.hihn.ampd.server.model.PlaylistInfo;
@@ -25,10 +24,9 @@ public class PlaylistService {
 
   private final AmpdSettings ampdSettings;
 
-
-  public PlaylistService(MpdConfiguration mpdConfiguration,
-      AmpdSettings ampdSettings) {
-    mpd = mpdConfiguration.mpd();
+  public PlaylistService(final MPD mpd,
+      final AmpdSettings ampdSettings) {
+    this.mpd = mpd;
     this.ampdSettings = ampdSettings;
   }
 

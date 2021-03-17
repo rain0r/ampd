@@ -3,6 +3,7 @@ package org.hihn.ampd.server.config;
 
 import org.bff.javampd.server.MPD;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
@@ -25,7 +26,8 @@ public class MpdConfiguration {
    *
    * @return A connection to the MPD server defined in the application.properties.
    */
-  public MPD mpd() {
+  @Bean
+  public MPD buildMpd() {
     if (mpdPassword.equals("")) {
       return new MPD.Builder().server(mpdServer).port(mpdPort).build();
     } else {

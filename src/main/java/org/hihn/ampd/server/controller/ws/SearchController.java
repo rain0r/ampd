@@ -2,10 +2,8 @@ package org.hihn.ampd.server.controller.ws;
 
 import org.bff.javampd.server.MPD;
 import org.bff.javampd.song.SongSearcher.ScopeType;
-import org.hihn.ampd.server.config.MpdConfiguration;
 import org.hihn.ampd.server.message.outgoing.SearchPayload;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
@@ -18,12 +16,11 @@ import org.springframework.stereotype.Controller;
 @MessageMapping("/search")
 public class SearchController {
 
-  private static final Logger LOG = LoggerFactory.getLogger(SearchController.class);
-
+  @Autowired
   private final MPD mpd;
 
-  public SearchController(MpdConfiguration mpdConfiguration) {
-    mpd = mpdConfiguration.mpd();
+  public SearchController(MPD mpd) {
+    this.mpd = mpd;
   }
 
   /**

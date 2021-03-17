@@ -24,7 +24,7 @@ public class CoverBlacklistService {
 
   private final Set<String> blacklistedFiles = new HashSet<>();
 
-  public CoverBlacklistService(AmpdDirService ampdDirService) {
+  public CoverBlacklistService(final AmpdDirService ampdDirService) {
     this.ampdDirService = ampdDirService;
     blacklistedFiles.addAll(loadBlacklistFile());
   }

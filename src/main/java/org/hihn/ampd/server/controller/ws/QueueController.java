@@ -89,7 +89,7 @@ public class QueueController {
     queueService.playTrack(file);
   }
 
-  @MessageMapping("/add-remove-track")
+  @MessageMapping("/remove-track")
   public void removeTrack(int position) {
     mpd.getPlaylist().removeSong(position);
   }

@@ -7,7 +7,6 @@ import java.util.stream.Collectors;
 import org.bff.javampd.file.MPDFile;
 import org.bff.javampd.server.MPD;
 import org.bff.javampd.song.MPDSong;
-import org.hihn.ampd.server.config.MpdConfiguration;
 import org.hihn.ampd.server.controller.ws.QueueController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,8 +22,8 @@ public class QueueService {
 
   private final MPD mpd;
 
-  public QueueService(MpdConfiguration mpdConfiguration) {
-    mpd = mpdConfiguration.mpd();
+  public QueueService(final MPD mpd) {
+    this.mpd = mpd;
   }
 
   /**

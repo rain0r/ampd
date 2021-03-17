@@ -1,7 +1,6 @@
 package org.hihn.ampd.server.sender;
 
 import org.bff.javampd.server.MPD;
-import org.hihn.ampd.server.config.MpdConfiguration;
 import org.hihn.ampd.server.message.incoming.MpdModesPanel;
 import org.hihn.ampd.server.message.outgoing.StatePayload;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,9 +25,10 @@ public class Publisher {
   private final SimpMessagingTemplate template;
 
   @Autowired
-  public Publisher(final MpdConfiguration mpdConfiguration,
-      SimpMessagingTemplate template) {
-    mpd = mpdConfiguration.mpd();
+  public Publisher(
+      final MPD mpd,
+      final SimpMessagingTemplate template) {
+    this.mpd = mpd;
     this.template = template;
   }
 

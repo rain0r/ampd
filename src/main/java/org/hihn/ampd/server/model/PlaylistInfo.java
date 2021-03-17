@@ -14,7 +14,8 @@ public class PlaylistInfo {
 
   private Collection<MPDSong> tracks;
 
-  public PlaylistInfo(final String name, final int trackCount,
+  public PlaylistInfo(final String name,
+      final int trackCount,
       final Collection<MPDSong> tracks) {
     this.name = name;
     this.trackCount = trackCount;

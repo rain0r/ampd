@@ -1,8 +1,8 @@
 package org.hihn.ampd.server.controller.ws;
 
 import org.bff.javampd.server.MPD;
-import org.hihn.ampd.server.config.MpdConfiguration;
 import org.hihn.ampd.server.message.incoming.MpdModesPanel;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.stereotype.Controller;
 
@@ -14,10 +14,11 @@ import org.springframework.stereotype.Controller;
 @MessageMapping("/control-panel/")
 public class ControlPanelController {
 
+  @Autowired
   private final MPD mpd;
 
-  public ControlPanelController(MpdConfiguration mpdConfiguration) {
-    mpd = mpdConfiguration.mpd();
+  public ControlPanelController(MPD mpd) {
+    this.mpd = mpd;
   }
 
   @MessageMapping("prev")

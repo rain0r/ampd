@@ -2,6 +2,7 @@ import { Component } from "@angular/core";
 import { MpdModesPanel } from "../../shared/messages/incoming/mpd-modes-panel";
 import { MpdService } from "../../shared/services/mpd.service";
 import { MpdModeService } from "../../shared/services/mpd-mode.service";
+import { Observable } from "rxjs";
 
 @Component({
   selector: "app-mpd-modes",
@@ -9,20 +10,15 @@ import { MpdModeService } from "../../shared/services/mpd-mode.service";
   styleUrls: ["./mpd-mode.component.scss"],
 })
 export class MpdModeComponent {
-  mpdModesPanel: MpdModesPanel;
-  private currentState = "stop";
+  mpdModesPanel: Observable<MpdModesPanel>;
 
   constructor(
     private mpdModeService: MpdModeService,
     private mpdService: MpdService
   ) {
-    this.mpdModesPanel = mpdService.initEmptyControlPanel();
-    this.mpdService.controlPanel.subscribe(
-      (panel) => (this.mpdModesPanel = panel)
-    );
-    this.mpdService.currentState.subscribe(
-      (state) => (this.currentState = state)
-    );
+    // this.mpdModesPanel = mpdService.initEmptyControlPanel();
+    // this.buildSubscriptions();
+    this.mpdModesPanel = this.mpdService.mpdModesPanel;
   }
 
   toggleCtrl(key: string): void {

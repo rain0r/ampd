@@ -1,13 +1,13 @@
 <mat-button-toggle-group
     fxLayoutAlign="space-between"
     multiple
-    *ngIf="mpdModesPanel"
+    *ngIf="(mpdModesPanel|async) as modesPanel"
     (change)="toggleCtrl($event.value)"
 >
   <mat-button-toggle
       value="random"
-      [checked]="mpdModesPanel.random"
-      (change)="mpdModesPanel.random = $event.source.checked"
+      [checked]="modesPanel.random"
+      (change)="modesPanel.random = $event.source.checked"
       title="Toggle with 'z'"
   >
     <mat-icon>
@@ -19,8 +19,8 @@
   </mat-button-toggle>
   <mat-button-toggle
       value="consume"
-      [checked]="mpdModesPanel.consume"
-      (change)="mpdModesPanel.consume = $event.source.checked"
+      [checked]="modesPanel.consume"
+      (change)="modesPanel.consume = $event.source.checked"
       title="Toggle with 'R'"
   >
     <mat-icon>
@@ -32,8 +32,8 @@
   </mat-button-toggle>
   <mat-button-toggle
       value="single"
-      [checked]="mpdModesPanel.single"
-      (change)="mpdModesPanel.single = $event.source.checked"
+      [checked]="modesPanel.single"
+      (change)="modesPanel.single = $event.source.checked"
       title="Toggle with 'y'"
   >
     <mat-icon>
@@ -45,8 +45,8 @@
   </mat-button-toggle>
   <mat-button-toggle
       value="crossfade"
-      [checked]="mpdModesPanel.crossfade"
-      (change)="mpdModesPanel.crossfade = $event.source.checked"
+      [checked]="modesPanel.crossfade"
+      (change)="modesPanel.crossfade = $event.source.checked"
       title="Toggle with 'x'"
   >
     <mat-icon>
@@ -58,8 +58,8 @@
   </mat-button-toggle>
   <mat-button-toggle
       value="repeat"
-      [checked]="mpdModesPanel.repeat"
-      (change)="mpdModesPanel.repeat = $event.source.checked"
+      [checked]="modesPanel.repeat"
+      (change)="modesPanel.repeat = $event.source.checked"
       title="Toggle with 'r'"
   >
     <mat-icon>

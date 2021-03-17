@@ -41,7 +41,9 @@ public class QueueController {
     return mpd.getPlaylist().getSongList();
   }
 
-
+  /**
+   * Removes all tracks from the queue.
+   */
   @MessageMapping("/clear")
   public void clearQueue() {
     mpd.getPlaylist().clearPlaylist();
@@ -66,6 +68,11 @@ public class QueueController {
     mpd.getPlaylist().addFileOrDirectory(mpdFile);
   }
 
+  /**
+   * Adds all tracks from a playlist to the queue.
+   *
+   * @param playlist The name of the playlist.
+   */
   @MessageMapping("/add-playlist")
   public void addPlaylist(String playlist) {
     Collection<MPDSong> mpdSongCollection =

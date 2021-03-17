@@ -26,14 +26,14 @@ import { RxStompService } from "@stomp/ng2-stompjs";
   providedIn: "root",
 })
 export class MpdService {
-  controlPanel: Observable<MpdModesPanel>;
   currentTrack: Observable<QueueTrack>;
   currentState: Observable<string>;
+  mpdModesPanel: Observable<MpdModesPanel>;
   playlistSaved: Observable<PlaylistSaved>;
   volume: Observable<number>;
   volumeSetter: Observable<VolumeSetter>;
 
-  private controlPanel$ = new Subject<MpdModesPanel>();
+  private mpdModesPanel$ = new Subject<MpdModesPanel>();
   private currentTrack$ = new Subject<QueueTrack>();
   private currentState$ = new Subject<string>();
   private playlistSaved$ = new Subject<PlaylistSaved>();
@@ -49,7 +49,7 @@ export class MpdService {
     private settingsService: SettingsService
   ) {
     this.buildStateSubscription();
-    this.controlPanel = this.controlPanel$.asObservable();
+    this.mpdModesPanel = this.mpdModesPanel$.asObservable();
     this.currentTrack = this.currentTrack$.asObservable();
     this.currentState = this.currentState$.asObservable();
     this.playlistSaved = this.playlistSaved$.asObservable();
@@ -157,7 +157,7 @@ export class MpdService {
     this.getStateSubscription()
       .pipe(
         tap((payload) => {
-          this.controlPanel$.next(payload.controlPanel);
+          this.mpdModesPanel$.next(payload.mpdModesPanel);
           this.currentState$.next(payload.serverStatus.state);
           this.volume$.next(payload.serverStatus.volume);
         }),

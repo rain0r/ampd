@@ -38,12 +38,22 @@ public class QueueService {
     mpd.getPlaylist().addFileOrDirectory(mpdFile);
   }
 
+  /**
+   * Adds  tracks to the queue.
+   *
+   * @param tracks The path of the tracks.
+   */
   public void addTracks(ArrayList<String> tracks) {
     for (String file : tracks) {
       addTrack(file);
     }
   }
 
+  /**
+   * Plays a track.
+   *
+   * @param path The path of the track.
+   */
   public void playTrack(String path) {
     List<MPDSong> trackList = mpd.getPlaylist().getSongList();
     Collection<MPDSong> mpdSongCollection =
@@ -56,5 +66,4 @@ public class QueueService {
       LOG.warn("Track not found: " + path);
     }
   }
-
 }

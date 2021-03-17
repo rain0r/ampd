@@ -57,20 +57,4 @@ public class CoverController {
     return coverFetcherService.findAlbumCoverForTrack(trackFilePath)
         .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
   }
-
-  /**
-   * Returns the cover of the currently running track.
-   *
-   * @return The bytes of the cover of the currently played track.
-   */
-  @RequestMapping(
-      value = {"/current-cover"},
-      produces = MediaType.IMAGE_JPEG_VALUE
-  )
-  public @ResponseBody
-  byte[] getCoverForCurrentTrack() {
-    return coverFetcherService.getCoverForCurrentTrack()
-        .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
-  }
-
 }

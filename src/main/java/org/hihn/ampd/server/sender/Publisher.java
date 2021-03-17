@@ -3,15 +3,14 @@ package org.hihn.ampd.server.sender;
 import org.bff.javampd.server.MPD;
 import org.hihn.ampd.server.config.MpdConfiguration;
 import org.hihn.ampd.server.message.incoming.MpdModesPanel;
-import org.hihn.ampd.server.message.outgoing.state.StateMessage;
-import org.hihn.ampd.server.message.outgoing.state.StatePayload;
+import org.hihn.ampd.server.message.outgoing.StatePayload;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 /**
- * Repeatedly sends {@link StatePayload} via {@link #QUEUE_URL}.
+ * Repeatedly sends information via websocket. Keeps all conntected clients up to date.
  */
 @Component
 public class Publisher {
@@ -59,8 +58,6 @@ public class Publisher {
     final MpdModesPanel mpdModesPanel = new MpdModesPanel(mpd.getServerStatus());
     final StatePayload statePayload =
         new StatePayload(mpd.getServerStatus(), mpd.getPlayer().getCurrentSong(), mpdModesPanel);
-
-    final StateMessage message = new StateMessage(statePayload);
-    template.convertAndSend(STATE_URL, message);
+    template.convertAndSend(STATE_URL, statePayload);
   }
 }

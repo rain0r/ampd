@@ -1,5 +1,8 @@
-package org.hihn.ampd.server.message.outgoing.playlist;
+package org.hihn.ampd.server.message.outgoing;
 
+/**
+ * Response after a playlist was saved.
+ */
 public class SavePlaylistResponse {
 
   private String playlistName;

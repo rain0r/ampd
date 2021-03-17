@@ -1,4 +1,4 @@
-package org.hihn.ampd.server.message.outgoing.search;
+package org.hihn.ampd.server.message.outgoing;
 
 import java.util.ArrayList;
 import java.util.Collection;

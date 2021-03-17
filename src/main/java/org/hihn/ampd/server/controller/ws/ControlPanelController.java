@@ -6,6 +6,10 @@ import org.hihn.ampd.server.message.incoming.MpdModesPanel;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.stereotype.Controller;
 
+/**
+ * Websocket endpoint to control the actual player. Provides endpoints for basic functions like play
+ * next or toggle shuffle.
+ */
 @Controller
 @MessageMapping("/control-panel/")
 public class ControlPanelController {

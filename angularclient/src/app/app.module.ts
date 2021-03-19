@@ -75,6 +75,7 @@ import { MpdPortComponent } from "./settings/backend/mpd-port/mpd-port.component
 import { PlaylistPropertiesComponent } from "./settings/backend/playlist-properties/playlist-properties.component";
 import { MatTabsModule } from "@angular/material/tabs";
 import { BackendAddressComponent } from "./settings/frontend/backend-address/backend-address.component";
+import { ServerStatisticsComponent } from "./settings/server-statistics/server-statistics.component";
 
 @NgModule({
   declarations: [
@@ -120,6 +121,7 @@ import { BackendAddressComponent } from "./settings/frontend/backend-address/bac
     MpdPortComponent,
     PlaylistPropertiesComponent,
     BackendAddressComponent,
+    ServerStatisticsComponent,
   ],
   imports: [
     AppRoutingModule,

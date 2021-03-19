@@ -3,6 +3,7 @@ import { NotificationService } from "../../shared/services/notification.service"
 import { MpdService } from "../../shared/services/mpd.service";
 import { Observable } from "rxjs";
 import { ControlPanelService } from "../../shared/services/control-panel.service";
+import { QueueService } from "../../shared/services/queue.service";
 
 @Component({
   selector: "app-control-panel",
@@ -15,7 +16,8 @@ export class ControlPanelComponent {
   constructor(
     private controlPanelService: ControlPanelService,
     private mpdService: MpdService,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    private queueService: QueueService
   ) {
     this.currentState = this.mpdService.currentState;
   }
@@ -45,7 +47,7 @@ export class ControlPanelComponent {
   }
 
   onClearQueue(): void {
-    this.mpdService.clearQueue();
+    this.queueService.clearQueue();
     this.notificationService.popUp("Cleared queue");
   }
 }

@@ -4,6 +4,7 @@ import { Title } from "@angular/platform-browser";
 import { combineLatest } from "rxjs";
 import { map } from "rxjs/operators";
 import { SettingsService } from "../shared/services/settings.service";
+import { QueueService } from "../shared/services/queue.service";
 
 @Component({
   selector: "app-queue",
@@ -13,6 +14,7 @@ import { SettingsService } from "../shared/services/settings.service";
 export class QueueComponent implements OnInit {
   constructor(
     private mpdService: MpdService,
+    private queueService: QueueService,
     private settingsService: SettingsService,
     private titleService: Title
   ) {}
@@ -21,13 +23,13 @@ export class QueueComponent implements OnInit {
   onKeyUp(): void {
     if (document.visibilityState === "visible") {
       this.buildTitle();
-      this.mpdService.refreshQueue();
+      this.queueService.getQueue();
     }
   }
 
   ngOnInit(): void {
     this.buildTitle();
-    this.mpdService.refreshQueue();
+    this.queueService.getQueue();
   }
 
   /**

@@ -15,10 +15,9 @@ export class QueueService {
     });
   }
 
-  removeAll(): void {
-    this.rxStompService.publish({
-      destination: `${this.path}clear`,
-    });
+  clearQueue(): void {
+    this.removeAll();
+    this.getQueue();
   }
 
   addDir(dir: string): void {
@@ -64,6 +63,12 @@ export class QueueService {
     this.rxStompService.publish({
       destination: `${this.path}play-track`,
       body: file,
+    });
+  }
+
+  private removeAll(): void {
+    this.rxStompService.publish({
+      destination: `${this.path}clear`,
     });
   }
 }

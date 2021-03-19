@@ -74,7 +74,7 @@ export class SearchComponent implements OnInit {
   }
 
   onClearQueue(): void {
-    this.mpdService.clearQueue();
+    this.queueService.clearQueue();
     this.notificationService.popUp("Cleared queue");
   }
 

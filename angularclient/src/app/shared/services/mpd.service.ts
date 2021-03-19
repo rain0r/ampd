@@ -36,10 +36,6 @@ export class MpdService {
     this.currentState = this.currentState$.asObservable();
   }
 
-  refreshQueue(): void {
-    this.queueService.getQueue();
-  }
-
   initEmptyControlPanel(): MpdModesPanel {
     return {
       random: false,
@@ -48,11 +44,6 @@ export class MpdService {
       crossfade: false,
       repeat: false,
     } as MpdModesPanel;
-  }
-
-  clearQueue(): void {
-    this.queueService.removeAll();
-    this.refreshQueue();
   }
 
   buildCoverUrl(file: string): string {
@@ -110,6 +101,10 @@ export class MpdService {
       .subscribe((queueTrack) => this.currentTrack$.next(queueTrack));
   }
 
+  /**
+   * Strips the file name from the file path. This returns the directory that holds the tracks.
+   * @param file
+   */
   private buildDirForTrack(file: string): string {
     const splitted = file.split("/");
     const ret = splitted.slice(0, splitted.length - 1);

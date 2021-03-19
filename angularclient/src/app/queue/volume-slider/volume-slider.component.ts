@@ -1,7 +1,6 @@
 import { Component } from "@angular/core";
 import { MatSliderChange } from "@angular/material/slider";
-import { MpdService } from "../../shared/services/mpd.service";
-import { ControlPanelService } from "../../shared/services/control-panel.service";
+import { VolumeService } from "../../shared/services/volume.service";
 
 @Component({
   selector: "app-volume-slider",
@@ -11,15 +10,12 @@ import { ControlPanelService } from "../../shared/services/control-panel.service
 export class VolumeSliderComponent {
   volume = 0;
 
-  constructor(
-    private controlPanelService: ControlPanelService,
-    private mpdService: MpdService
-  ) {
-    mpdService.volume.subscribe((volume) => (this.volume = volume));
+  constructor(private volumeService: VolumeService) {
+    volumeService.volume.subscribe((volume) => (this.volume = volume));
   }
 
   handleVolumeSlider(event: MatSliderChange): void {
-    this.controlPanelService.setVolume(event.value);
+    this.volumeService.setVolume(event.value);
     event.source.blur();
   }
 }

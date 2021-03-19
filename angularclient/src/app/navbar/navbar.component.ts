@@ -10,6 +10,7 @@ import { MatDialog } from "@angular/material/dialog";
 import { HelpModalComponent } from "./help-dialog/help-modal.component";
 import { NotificationService } from "../shared/services/notification.service";
 import { ControlPanelService } from "../shared/services/control-panel.service";
+import { VolumeService } from "../shared/services/volume.service";
 
 @Component({
   selector: "app-navbar",
@@ -30,7 +31,8 @@ export class NavbarComponent {
     private notificationService: NotificationService,
     private router: Router,
     private rxStompService: RxStompService,
-    private settingsService: SettingsService
+    private settingsService: SettingsService,
+    private volumeService: VolumeService
   ) {
     this.isDarkTheme = this.settingsService.isDarkTheme;
     this.connState = rxStompService.connectionState$;
@@ -106,10 +108,10 @@ export class NavbarComponent {
         break;
       // Decrease / increase volume
       case "+":
-        this.mpdService.increaseVolume();
+        this.volumeService.increaseVolume();
         break;
       case "-":
-        this.mpdService.decreaseVolume();
+        this.volumeService.decreaseVolume();
         break;
       // Clear queue
       case "C":

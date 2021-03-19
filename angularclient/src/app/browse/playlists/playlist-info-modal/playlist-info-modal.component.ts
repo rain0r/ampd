@@ -3,7 +3,6 @@ import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import { Playlist } from "../../../shared/messages/incoming/playlist-impl";
 import { NotificationService } from "../../../shared/services/notification.service";
 import { ActivatedRoute, Router } from "@angular/router";
-import { MpdService } from "../../../shared/services/mpd.service";
 import { PlaylistInfo } from "../../../shared/models/playlist-info";
 import { Observable, Subject } from "rxjs";
 import { TrackTableData } from "../../../shared/track-table/track-table-data";
@@ -18,6 +17,7 @@ import {
 } from "@angular/cdk/layout";
 import { map } from "rxjs/operators";
 import { QueueService } from "../../../shared/services/queue.service";
+import { PlaylistService } from "../../../shared/services/playlist.service";
 
 @Component({
   selector: "app-playlist-info-modal",
@@ -34,8 +34,8 @@ export class PlaylistInfoModalComponent implements OnInit, AfterViewInit {
     @Inject(MAT_DIALOG_DATA) public data: Playlist,
     private activatedRoute: ActivatedRoute,
     private breakpointObserver: BreakpointObserver,
-    private mpdService: MpdService,
     private notificationService: NotificationService,
+    private playlistService: PlaylistService,
     private queueService: QueueService,
     private router: Router,
     public dialogRef: MatDialogRef<PlaylistInfoModalComponent>
@@ -51,7 +51,7 @@ export class PlaylistInfoModalComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.mpdService.getPlaylistInfo(this.data.name).subscribe((info) => {
+    this.playlistService.getPlaylistInfo(this.data.name).subscribe((info) => {
       const tableData = new TrackTableData();
       tableData.dataSource = this.buildDataSource(info.tracks);
       tableData.displayedColumns = this.getDisplayedColumns();
@@ -61,7 +61,7 @@ export class PlaylistInfoModalComponent implements OnInit, AfterViewInit {
   }
 
   onDeletePlaylist(): void {
-    this.mpdService.deletePlaylist(this.data.name).subscribe(
+    this.playlistService.deletePlaylist(this.data.name).subscribe(
       () => {
         this.notificationService.popUp(`Deleted playlist: ${this.data.name}`);
       },

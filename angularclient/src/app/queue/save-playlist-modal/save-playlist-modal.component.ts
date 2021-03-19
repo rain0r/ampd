@@ -2,7 +2,7 @@ import { Component, Inject } from "@angular/core";
 import { Observable } from "rxjs";
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import { NotificationService } from "../../shared/services/notification.service";
-import { MpdService } from "../../shared/services/mpd.service";
+import { PlaylistService } from "../../shared/services/playlist.service";
 
 @Component({
   selector: "app-save-playlist-modal",
@@ -14,13 +14,13 @@ export class SavePlaylistModalComponent {
 
   constructor(
     public dialogRef: MatDialogRef<SavePlaylistModalComponent>,
-    private mpdService: MpdService,
+    private playlistService: PlaylistService,
     private notificationService: NotificationService,
     @Inject(MAT_DIALOG_DATA) public data: string
   ) {}
 
   onEnterPressed(): void {
-    this.mpdService.savePlaylist(this.data).subscribe((playlist) => {
+    this.playlistService.savePlaylist(this.data).subscribe((playlist) => {
       if (playlist.success) {
         this.notificationService.popUp(
           `Saved queue as playlist '${playlist.playlistName}'`

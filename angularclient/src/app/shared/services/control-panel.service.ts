@@ -49,15 +49,6 @@ export class ControlPanelService {
     }
   }
 
-  setVolume(volume: number | null): void {
-    if (volume) {
-      this.rxStompService.publish({
-        destination: `${this.path}volume`,
-        body: JSON.stringify(volume),
-      });
-    }
-  }
-
   toggleMpdModes(mpdModesPanel: MpdModesPanel): void {
     this.rxStompService.publish({
       destination: `${this.path}mpd-modes-panel`,

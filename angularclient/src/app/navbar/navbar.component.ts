@@ -11,6 +11,7 @@ import { HelpModalComponent } from "./help-dialog/help-modal.component";
 import { NotificationService } from "../shared/services/notification.service";
 import { ControlPanelService } from "../shared/services/control-panel.service";
 import { VolumeService } from "../shared/services/volume.service";
+import { QueueService } from "../shared/services/queue.service";
 
 @Component({
   selector: "app-navbar",
@@ -29,6 +30,7 @@ export class NavbarComponent {
     private mpdModeService: MpdModeService,
     private mpdService: MpdService,
     private notificationService: NotificationService,
+    private queueService: QueueService,
     private router: Router,
     private rxStompService: RxStompService,
     private settingsService: SettingsService,
@@ -115,7 +117,7 @@ export class NavbarComponent {
         break;
       // Clear queue
       case "C":
-        this.mpdService.clearQueue();
+        this.queueService.clearQueue();
         this.notificationService.popUp("Cleared queue");
         break;
       default:

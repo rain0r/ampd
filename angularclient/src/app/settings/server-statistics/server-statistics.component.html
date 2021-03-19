@@ -1,0 +1,33 @@
+<div *ngIf="(serverStatistics|async) as statistics" fxLayout="column">
+
+  <div fxLayout="row">
+    <span fxFlex="50%">Playtime</span>
+    <span fxFlex="50%">{{statistics.playtime|secondsToHhMmSs}}</span>
+  </div>
+
+  <div fxLayout="row">
+    <span fxFlex="50%">Artist count</span>
+    <span fxFlex="50%">{{statistics.artistCount}}</span>
+  </div>
+  <div fxLayout="row">
+    <span fxFlex="50%">Album count</span>
+    <span fxFlex="50%">{{statistics.albumCount}}</span>
+  </div>
+  <div fxLayout="row">
+    <span fxFlex="50%">Song count</span>
+    <span fxFlex="50%">{{statistics.songCount}}</span>
+  </div>
+  <div fxLayout="row">
+    <span fxFlex="50%">Last update time</span>
+    <span fxFlex="50%">{{statistics.lastUpdateTime}}</span>
+  </div>
+  <div fxLayout="row">
+    <span fxFlex="50%">Database playtime</span>
+    <span fxFlex="50%">{{statistics.databasePlaytime|secondsToHhMmSs}}</span>
+  </div>
+  <div fxLayout="row">
+    <span fxFlex="50%">Uptime</span>
+    <span fxFlex="50%">{{statistics.uptime|secondsToHhMmSs}}</span>
+  </div>
+
+</div>

@@ -16,6 +16,7 @@ import { DarkTheme, LightTheme } from "../themes/themes";
 import { FrontendSettings } from "../models/frontend-settings";
 import { catchError } from "rxjs/operators";
 import { ErrorMsg } from "../error/error-msg";
+import { ServerStatistics } from "../models/server-statistics";
 
 @Injectable({
   providedIn: "root",
@@ -162,6 +163,18 @@ export class SettingsService {
     frontendSettings.isDisplaySavePlaylist = this.isDisplaySavePlaylist;
     frontendSettings.isSetTabTitle = this.isSetTabTitle;
     return frontendSettings;
+  }
+
+  getServerStatistics(): Observable<ServerStatistics> {
+    const url = `${this.getBackendContextAddr()}api/server-statistics`;
+    return this.http.get<ServerStatistics>(url).pipe(
+      catchError((err: HttpErrorResponse) =>
+        throwError({
+          title: `Got an error retrieving the server statistics:`,
+          detail: err.message,
+        } as ErrorMsg)
+      )
+    );
   }
 
   private changeTheme(theme: Map<string, string>): void {

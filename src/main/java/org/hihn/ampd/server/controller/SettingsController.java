@@ -2,6 +2,8 @@ package org.hihn.ampd.server.controller;
 
 import java.util.Collections;
 import java.util.Map;
+import org.bff.javampd.server.MPD;
+import org.bff.javampd.statistics.ServerStatistics;
 import org.hihn.ampd.server.model.AmpdSettings;
 import org.hihn.ampd.server.model.CoverBlacklist;
 import org.hihn.ampd.server.service.CoverBlacklistService;
@@ -27,12 +29,15 @@ public class SettingsController {
 
   private final AmpdSettings ampdSettingsBean;
 
+  private final MPD mpd;
+
   public SettingsController(final AmpdSettings ampdSettingsBean,
       final CoverCacheService coverCacheService,
-      final CoverBlacklistService coverBlacklistService) {
+      final CoverBlacklistService coverBlacklistService, final MPD mpd) {
     this.ampdSettingsBean = ampdSettingsBean;
     this.coverCacheService = coverCacheService;
     this.coverBlacklistService = coverBlacklistService;
+    this.mpd = mpd;
   }
 
   @GetMapping("/settings")
@@ -53,5 +58,11 @@ public class SettingsController {
   @PostMapping("/blacklist-cover")
   public void blacklistCover(@RequestBody final String file) {
     coverBlacklistService.addFileToBlacklist(file);
+  }
+
+
+  @GetMapping("/server-statistics")
+  public ServerStatistics getServerStatistics() {
+    return mpd.getServerStatistics();
   }
 }

@@ -1,29 +1,28 @@
-<div *ngIf="(serverStatistics|async) as statistics" fxLayout="column">
+<div *ngIf="(serverStatistics|async) as statistics" fxLayout="column" fxLayoutGap="0.25rem">
 
+  <div fxLayout="row">
+    <span fxFlex="50%">Artist count</span>
+    <span fxFlex="50%">{{statistics.artistCount| number:'':'en-GB'}}</span>
+  </div>
+  <div fxLayout="row">
+    <span fxFlex="50%">Album count</span>
+    <span fxFlex="50%">{{statistics.albumCount| number:'':'en-GB'}}</span>
+  </div>  
+  <div fxLayout="row">
+    <span fxFlex="50%">Database playtime</span>
+    <span fxFlex="50%">{{statistics.databasePlaytime|secondsToHhMmSs}}</span>
+  </div>  
+  <div fxLayout="row">
+    <span fxFlex="50%">Last update time</span>
+    <span fxFlex="50%">{{statistics.lastUpdateTime * 1000| date: 'dd-LLL-yyyy'}}</span>
+  </div>  
   <div fxLayout="row">
     <span fxFlex="50%">Playtime</span>
     <span fxFlex="50%">{{statistics.playtime|secondsToHhMmSs}}</span>
   </div>
-
-  <div fxLayout="row">
-    <span fxFlex="50%">Artist count</span>
-    <span fxFlex="50%">{{statistics.artistCount}}</span>
-  </div>
-  <div fxLayout="row">
-    <span fxFlex="50%">Album count</span>
-    <span fxFlex="50%">{{statistics.albumCount}}</span>
-  </div>
   <div fxLayout="row">
     <span fxFlex="50%">Song count</span>
-    <span fxFlex="50%">{{statistics.songCount}}</span>
-  </div>
-  <div fxLayout="row">
-    <span fxFlex="50%">Last update time</span>
-    <span fxFlex="50%">{{statistics.lastUpdateTime}}</span>
-  </div>
-  <div fxLayout="row">
-    <span fxFlex="50%">Database playtime</span>
-    <span fxFlex="50%">{{statistics.databasePlaytime|secondsToHhMmSs}}</span>
+    <span fxFlex="50%">{{statistics.songCount| number:'':'en-GB'}}</span>
   </div>
   <div fxLayout="row">
     <span fxFlex="50%">Uptime</span>

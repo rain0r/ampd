@@ -85,8 +85,9 @@
   <ng-container matColumnDef="addTitle" *ngIf="trackTableData.addTitleColumn">
     <th mat-header-cell *matHeaderCellDef></th>
     <td mat-cell *matCellDef="let track" [class.mobile]="(isMobile|async)">
-      <button class="mat-small" mat-button (click)="onPlayTrack(track)" title="Play this track">
-        <mat-icon> play_arrow</mat-icon>
+      <button class="mat-small" mat-button (click)="onAddTrack(track)"
+              title="Add this track to the queue">
+        <mat-icon>add </mat-icon>
       </button>
     </td>
   </ng-container>
@@ -95,13 +96,12 @@
   <ng-container matColumnDef="playTitle" *ngIf="trackTableData.playTitleColumn">
     <th mat-header-cell *matHeaderCellDef></th>
     <td mat-cell *matCellDef="let track" [class.mobile]="(isMobile|async)">
-      <button class="mat-small" mat-button (click)="onAddTrack(track)"
-              title="Add this track to the queue">
-        <mat-icon> add</mat-icon>
+      <button class="mat-small" mat-button (click)="onPlayTrack(track)" title="Play this track">
+        <mat-icon> play_arrow</mat-icon>
       </button>
     </td>
   </ng-container>
-
+  
   <tr mat-header-row *matHeaderRowDef="trackTableData.displayedColumns"></tr>
 
   <tr

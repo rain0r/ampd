@@ -67,6 +67,8 @@ To persist these options, create a config file. See chapter `Installation`.
 * `3`: Navigate to the search view
 * `4`: Navigate to the settings view
 
+Press `h` to see a list of all shortcuts.
+
 ## Installation
 
 Download a release from [here](https://github.com/rain0r/ampd/releases) ([mirror](https://static.hihn.org/dl/ampd/)).

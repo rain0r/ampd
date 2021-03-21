@@ -12,6 +12,7 @@ import { NotificationService } from "../shared/services/notification.service";
 import { ControlPanelService } from "../shared/services/control-panel.service";
 import { VolumeService } from "../shared/services/volume.service";
 import { QueueService } from "../shared/services/queue.service";
+import { AddStreamModalComponent } from "../queue/add-stream-modal/add-stream-modal.component";
 
 @Component({
   selector: "app-navbar",
@@ -108,6 +109,10 @@ export class NavbarComponent {
       case "?":
         this.openHelpModal();
         break;
+      // Display add stream modal
+      case "a":
+        this.openAddStreamModal();
+        break;
       // Decrease / increase volume
       case "+":
         this.volumeService.increaseVolume();
@@ -143,5 +148,11 @@ export class NavbarComponent {
     } else if (this.currentState === "play") {
       this.controlPanelService.pause();
     }
+  }
+
+  private openAddStreamModal(): void {
+    this.dialog.open(AddStreamModalComponent, {
+      panelClass: this.settingsService.isDarkTheme$.value ? "dark-theme" : "",
+    });
   }
 }

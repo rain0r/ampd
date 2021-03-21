@@ -1,5 +1,8 @@
 import { Injectable } from "@angular/core";
 import { RxStompService } from "@stomp/ng2-stompjs";
+import { Observable } from "rxjs";
+import { Track } from "../messages/incoming/track";
+import { distinctUntilChanged, map } from "rxjs/operators";
 
 @Injectable({
   providedIn: "root",
@@ -64,6 +67,19 @@ export class QueueService {
       destination: `${this.path}play-track`,
       body: file,
     });
+  }
+
+  getQueueSubscription(): Observable<Track[]> {
+    return this.rxStompService.watch("/topic/queue").pipe(
+      map((message) => message.body),
+      map((body) => <Track[]>JSON.parse(body)),
+      distinctUntilChanged((prev, curr) => {
+        return (
+          prev.length == curr.length &&
+          JSON.stringify(curr) === JSON.stringify(prev)
+        );
+      })
+    );
   }
 
   private removeAll(): void {

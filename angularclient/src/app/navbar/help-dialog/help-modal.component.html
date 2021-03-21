@@ -1,5 +1,5 @@
 <h2 mat-dialog-title>Shortcuts</h2>
-<mat-dialog-content fxLayout="column">
+<div fxLayout="column">
 
   <div *ngFor="let shortcutSection of shortcuts"
        fxFlex
@@ -20,7 +20,7 @@
     <mat-divider fxFlex="100%"></mat-divider>
   </div>
 
-</mat-dialog-content>
+</div>
 <mat-dialog-actions align="end">
   <button mat-button mat-dialog-close>Close</button>
 </mat-dialog-actions>

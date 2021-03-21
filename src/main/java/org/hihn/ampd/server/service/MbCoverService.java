@@ -33,8 +33,12 @@ public class MbCoverService {
 
   private final AmpdSettings ampdSettings;
 
-  public MbCoverService(final AmpdSettings ampdSettings) {
+  private final CoverBlacklistService coverBlacklistService;
+
+  public MbCoverService(final AmpdSettings ampdSettings,
+      CoverBlacklistService coverBlacklistService) {
     this.ampdSettings = ampdSettings;
+    this.coverBlacklistService = coverBlacklistService;
   }
 
   /**
@@ -44,7 +48,7 @@ public class MbCoverService {
    * @return The cover.
    */
   public Optional<byte[]> getMbCover(final MPDSong track) {
-    if (!ampdSettings.isMbCoverService()) {
+    if (!ampdSettings.isMbCoverService() || coverBlacklistService.isBlacklisted(track.getFile())) {
       return Optional.empty();
     }
     LOG.debug("Trying to load a cover from the MusicBrainz API");

@@ -72,7 +72,7 @@ public class CoverCacheService {
     if (!cacheEnabled) {
       return Optional.empty();
     }
-
+    LOG.debug("Trying to load a cover of type {} from local cache", coverType);
     final String fileName = buildFileName(coverType, artist, titleOrAlbum);
     final Path fullPath = Paths.get(chacheDir.toString(), fileName)
         .toAbsolutePath();

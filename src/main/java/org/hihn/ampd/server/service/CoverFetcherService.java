@@ -21,8 +21,6 @@ public class CoverFetcherService {
 
   private static final Logger LOG = LoggerFactory.getLogger(CoverFetcherService.class);
 
-  private final CoverBlacklistService coverBlacklistService;
-
   private final CoverCacheService coverCacheService;
 
   private final MbCoverService mbCoverService;
@@ -35,12 +33,10 @@ public class CoverFetcherService {
       final CoverCacheService coverCacheService,
       final MbCoverService mbCoverService,
       final AmpdSettings ampdSettings,
-      final CoverBlacklistService coverBlacklistService,
       final MPD mpd) {
     this.coverCacheService = coverCacheService;
     this.mbCoverService = mbCoverService;
     this.ampdSettings = ampdSettings;
-    this.coverBlacklistService = coverBlacklistService;
     this.mpd = mpd;
   }
 
@@ -79,33 +75,24 @@ public class CoverFetcherService {
     return Optional.empty();
   }
 
-  /**
-   * Searches multiple sources for the cover of the currently played track.
-   *
-   * @return The bytes of the found cover.
-   */
-  public Optional<byte[]> getCoverForCurrentTrack() {
-    return getAlbumCoverForTrack(mpd.getPlayer().getCurrentSong());
-  }
-
   private Optional<byte[]> getAlbumCoverForTrack(final MPDSong track) {
-    if (track == null || coverBlacklistService.isBlacklisted(track.getFile())) {
+    if (track == null) {
       return Optional.empty();
     }
+    // Try to load the cover from the Mpd music directory
+    LOG.debug("Trying to load a cover from the track directory");
+    final String trackFilePath = track.getFile();
+    Optional<byte[]> cover = coverCacheService.loadFileAsResource(trackFilePath);
+
     final CoverType coverType =
         (track.getAlbumName().isEmpty()) ? CoverType.SINGLETON : CoverType.ALBUM;
-    LOG.debug("Trying to load a cover of type {} from local cache", coverType);
-    // Try to load the cover from cache
-    Optional<byte[]> cover = coverCacheService
-        .loadCover(coverType, track.getArtistName(), track.getTitle());
-    // If the cover is not in the cache, try to load it from the Mpd music directory
     if (cover.isEmpty()) {
-      LOG.debug("Trying to load a cover from the track directory");
-      final String trackFilePath = track.getFile();
-      cover = coverCacheService.loadFileAsResource(trackFilePath);
+      // Try to load the cover from cache
+      cover = coverCacheService.loadCover(coverType, track.getArtistName(), track.getTitle());
     }
-    // Now check the musicbrainz cover api
+
     if (cover.isEmpty()) {
+      // Load the cover from MusicBrainz
       cover = mbCoverService.getMbCover(track);
       // Save the cover in the cache
       cover.ifPresent(bytes -> coverCacheService

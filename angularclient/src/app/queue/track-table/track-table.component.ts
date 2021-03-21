@@ -13,15 +13,15 @@ import { SavePlaylistModalComponent } from "../save-playlist-modal/save-playlist
 import { TrackTableData } from "../../shared/track-table/track-table-data";
 import { ClickActions } from "../../shared/track-table/click-actions.enum";
 import { SettingsService } from "../../shared/services/settings.service";
-import { Observable } from "rxjs";
 import {
   BreakpointObserver,
   Breakpoints,
   BreakpointState,
 } from "@angular/cdk/layout";
-import { distinctUntilChanged, map } from "rxjs/operators";
-import { RxStompService } from "@stomp/ng2-stompjs";
+import { map } from "rxjs/operators";
 import { Track } from "../../shared/messages/incoming/track";
+import { AddStreamModalComponent } from "../add-stream-modal/add-stream-modal.component";
+import { QueueService } from "../../shared/services/queue.service";
 
 @Component({
   selector: "app-track-table",
@@ -34,7 +34,6 @@ export class TrackTableComponent implements OnInit {
   currentTrack: QueueTrack = new QueueTrack();
   currentState = "stop";
   dataSource = new MatTableDataSource<QueueTrack>();
-  displaySaveCoverBtn: Observable<boolean>;
   isMobile = false;
   trackTableData = new TrackTableData();
   queueDuration = 0;
@@ -43,11 +42,10 @@ export class TrackTableComponent implements OnInit {
     private breakpointObserver: BreakpointObserver,
     private dialog: MatDialog,
     private mpdService: MpdService,
-    private rxStompService: RxStompService,
+    private queueService: QueueService,
     private settingsService: SettingsService
   ) {
     this.buildReceiver();
-    this.displaySaveCoverBtn = settingsService.isDisplaySavePlaylist;
   }
 
   @HostListener("document:keydown.f", ["$event"])
@@ -68,7 +66,7 @@ export class TrackTableComponent implements OnInit {
       .subscribe((isMobile) => (this.isMobile = isMobile));
   }
 
-  openCoverModal(): void {
+  openSavePlaylistModal(): void {
     this.dialog.open(SavePlaylistModalComponent, {
       panelClass: this.settingsService.isDarkTheme$.value ? "dark-theme" : "",
     });
@@ -84,6 +82,12 @@ export class TrackTableComponent implements OnInit {
 
   resetFilter(): void {
     this.dataSource.filter = "";
+  }
+
+  openAddStreamModal(): void {
+    this.dialog.open(AddStreamModalComponent, {
+      panelClass: this.settingsService.isDarkTheme$.value ? "dark-theme" : "",
+    });
   }
 
   private getDisplayedColumns(): string[] {
@@ -130,9 +134,9 @@ export class TrackTableComponent implements OnInit {
       }
     });
     // Queue
-    this.getQueueSubscription().subscribe((message: Track[]) =>
-      this.buildQueue(message)
-    );
+    this.queueService
+      .getQueueSubscription()
+      .subscribe((message: Track[]) => this.buildQueue(message));
     // State
     this.mpdService.currentState.subscribe(
       (state) => (this.currentState = state)
@@ -148,18 +152,5 @@ export class TrackTableComponent implements OnInit {
       ret += item.length;
     }
     return ret;
-  }
-
-  private getQueueSubscription(): Observable<Track[]> {
-    return this.rxStompService.watch("/topic/queue").pipe(
-      map((message) => message.body),
-      map((body) => <Track[]>JSON.parse(body)),
-      distinctUntilChanged((prev, curr) => {
-        return (
-          prev.length == curr.length &&
-          JSON.stringify(curr) === JSON.stringify(prev)
-        );
-      })
-    );
   }
 }

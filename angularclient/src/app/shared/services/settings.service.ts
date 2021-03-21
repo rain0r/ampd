@@ -7,7 +7,6 @@ import {
   BACKEND_ADDRESS_KEY,
   DARK_MODE_KEY,
   DISPLAY_COVERS_KEY,
-  DISPLAY_SAVE_PLAYLIST_KEY,
   SET_TAB_TITLE,
 } from "../local-storage-keys";
 import { CoverBlacklistFiles } from "../models/cover-blacklist-files";
@@ -47,23 +46,12 @@ export class SettingsService {
 
     this.setDarkTheme(this.getBoolValue(DARK_MODE_KEY, true));
     this.setDisplayCovers(this.getBoolValue(DISPLAY_COVERS_KEY, true));
-    this.setDisplaySavePlaylist(
-      this.getBoolValue(DISPLAY_SAVE_PLAYLIST_KEY, true)
-    );
     this.setTabTitleOption(this.getBoolValue(SET_TAB_TITLE, true));
   }
 
   setTabTitleOption(isTabTitle: boolean): void {
     localStorage.setItem(SET_TAB_TITLE, JSON.stringify(isTabTitle));
     this.isSetTabTitle$.next(isTabTitle);
-  }
-
-  setDisplaySavePlaylist(isDisplaySavePlaylist: boolean): void {
-    localStorage.setItem(
-      DISPLAY_SAVE_PLAYLIST_KEY,
-      JSON.stringify(isDisplaySavePlaylist)
-    );
-    this.isDisplaySavePlaylist$.next(isDisplaySavePlaylist);
   }
 
   setDisplayCovers(isDisplayCovers: boolean): void {
@@ -160,7 +148,6 @@ export class SettingsService {
     const frontendSettings = new FrontendSettings();
     frontendSettings.isDarkTheme = this.isDarkTheme;
     frontendSettings.isDisplayCovers = this.isDisplayCovers;
-    frontendSettings.isDisplaySavePlaylist = this.isDisplaySavePlaylist;
     frontendSettings.isSetTabTitle = this.isSetTabTitle;
     return frontendSettings;
   }

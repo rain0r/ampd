@@ -60,7 +60,6 @@ import { AmpdRxStompConfig } from "./ampd-rx-stomp-config.service";
 import { ReplaceNullWithTextPipe } from "./shared/pipes/replace-null-with-text.pipe";
 import { ThemeComponent } from "./settings/frontend/theme/theme.component";
 import { DisplayCoverComponent } from "./settings/frontend/display-cover/display-cover.component";
-import { DisplaySavePlaylistComponent } from "./settings/frontend/display-save-playlist/display-save-playlist.component";
 import { TabTitleComponent } from "./settings/frontend/tab-title/tab-title.component";
 import { HelpModalComponent } from "./navbar/help-dialog/help-modal.component";
 import { MapEntriesPipe } from "./shared/pipes/map-entries.pipe";
@@ -76,6 +75,7 @@ import { PlaylistPropertiesComponent } from "./settings/backend/playlist-propert
 import { MatTabsModule } from "@angular/material/tabs";
 import { BackendAddressComponent } from "./settings/frontend/backend-address/backend-address.component";
 import { ServerStatisticsComponent } from "./settings/server-statistics/server-statistics.component";
+import { AddStreamModalComponent } from "./queue/add-stream-modal/add-stream-modal.component";
 
 @NgModule({
   declarations: [
@@ -107,7 +107,6 @@ import { ServerStatisticsComponent } from "./settings/server-statistics/server-s
     PlaylistInfoModalComponent,
     ThemeComponent,
     DisplayCoverComponent,
-    DisplaySavePlaylistComponent,
     TabTitleComponent,
     HelpModalComponent,
     MapEntriesPipe,
@@ -122,6 +121,7 @@ import { ServerStatisticsComponent } from "./settings/server-statistics/server-s
     PlaylistPropertiesComponent,
     BackendAddressComponent,
     ServerStatisticsComponent,
+    AddStreamModalComponent,
   ],
   imports: [
     AppRoutingModule,

@@ -106,9 +106,13 @@ public class AlbumArtworkService {
       // Get an album for this MPDSong
       MPDAlbum mpdAlbum = mpd.getMusicDatabase().getAlbumDatabase()
           .findAlbum(track.getAlbumName()).iterator().next();
+      // Make sure we have a trailing slash
+      String musicDirectory =
+          (ampdSettings.getMusicDirectory().endsWith("/")) ? ampdSettings.getMusicDirectory()
+              : ampdSettings.getMusicDirectory() + "/";
       // Load Artwork for this MPDAlbum
       MPDArtwork artwork = mpd.getArtworkFinder()
-          .find(mpdAlbum, ampdSettings.getMusicDirectory()).iterator().next();
+          .find(mpdAlbum, musicDirectory).iterator().next();
       return Optional.of(artwork.getBytes());
     } catch (Exception e) {
       LOG.error("Could not load filename for Track: {}", track);

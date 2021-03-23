@@ -43,11 +43,25 @@ export class BrowseService {
 
   private convertPayload(payload: BrowsePayload): AmpdBrowsePayload {
     return {
-      directories: payload.directories,
+      directories: payload.directories.map((dir) => {
+        dir.albumCoverUrl = this.getAlbumCoverUrl(dir.path);
+        dir.displayedPath = this.getDisplayedPath(dir.path);
+        return dir;
+      }),
       playlists: payload.playlists,
       tracks: payload.tracks.map(
         (track, index) => new QueueTrack(track, index)
       ),
     } as AmpdBrowsePayload;
+  }
+
+  private getAlbumCoverUrl(path: string): string {
+    return `${this.settingsService.getFindDirCoverUrl()}?path=${encodeURIComponent(
+      path
+    )}`;
+  }
+
+  private getDisplayedPath(path: string): string {
+    return path.trim().split("/").pop() || "";
   }
 }

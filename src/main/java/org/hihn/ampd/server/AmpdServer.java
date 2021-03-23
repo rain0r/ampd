@@ -9,7 +9,7 @@ import org.springframework.context.event.EventListener;
 
 @PropertySource(value = "classpath:application.properties")
 @SpringBootApplication
-public class ServerApplication {
+public class AmpdServer {
 
   @Value("${server.address}")
   private String address;
@@ -18,7 +18,7 @@ public class ServerApplication {
   private int port;
 
   public static void main(final String[] args) {
-    SpringApplication.run(ServerApplication.class, args);
+    SpringApplication.run(AmpdServer.class, args);
   }
 
   /**

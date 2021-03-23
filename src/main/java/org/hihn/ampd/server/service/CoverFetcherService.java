@@ -5,6 +5,7 @@ import java.nio.file.Paths;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import org.bff.javampd.album.MPDAlbum;
 import org.bff.javampd.server.MPD;
 import org.bff.javampd.song.MPDSong;
 import org.hihn.ampd.server.model.AmpdSettings;
@@ -67,7 +68,10 @@ public class CoverFetcherService {
       final Collection<MPDSong> foundTracks = mpd.getMusicDatabase().getSongDatabase()
           .searchFileName(trackFilePath);
       if (foundTracks.size() == 1) {
-        return getAlbumCoverForTrack(foundTracks.iterator().next());
+        MPDSong next = foundTracks.iterator().next();
+        Collection<MPDAlbum> foo = mpd.getMusicDatabase().getAlbumDatabase()
+            .findAlbum(next.getAlbumName());
+        return getAlbumCoverForTrack(next);
       }
     } catch (Exception e) {
       LOG.error("Error in searchFileName(): {}", e.getMessage());

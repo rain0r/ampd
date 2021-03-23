@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.regex.Pattern;
+import org.bff.javampd.song.MPDSong;
 import org.hihn.ampd.server.model.AmpdSettings;
 import org.hihn.ampd.server.model.CoverType;
 import org.slf4j.Logger;
@@ -60,30 +61,6 @@ public class CoverCacheService {
   }
 
   /**
-   * Loads a cover from the local cache.
-   *
-   * @param coverType    The type of the cover.
-   * @param artist       Artist to which the cover is associated.
-   * @param titleOrAlbum Are we looking for the cover of an album or single track.
-   * @return An optional with the bytes of the found cover in a successful case.
-   */
-  public Optional<byte[]> loadCover(final CoverType coverType, final String artist,
-      final String titleOrAlbum) {
-    if (!cacheEnabled) {
-      return Optional.empty();
-    }
-    LOG.debug("Trying to load a cover of type {} from local cache", coverType);
-    final String fileName = buildFileName(coverType, artist, titleOrAlbum);
-    final Path fullPath = Paths.get(chacheDir.toString(), fileName)
-        .toAbsolutePath();
-    try {
-      return loadFile(fullPath);
-    } catch (final Exception e) {
-      return Optional.empty();
-    }
-  }
-
-  /**
    * Reads a file from disk.
    *
    * @param path The path of a file.
@@ -98,42 +75,58 @@ public class CoverCacheService {
   }
 
   /**
-   * Reads a track from disk.
+   * Loads a cover from the local cache.
    *
-   * @param trackFilePath The path of the file to read.
+   * @param track The track to load the cover for.
    * @return An optional with the bytes of the found cover in a successful case.
    */
-  public Optional<byte[]> loadFileAsResource(final String trackFilePath) {
-    final Optional<Path> coverFile = findCoverFileName(trackFilePath);
-    Optional<byte[]> ret = Optional.empty();
-    if (coverFile.isPresent()) {
-      ret = loadFile(coverFile.get());
+  public Optional<byte[]> loadCover(MPDSong track) {
+    if (!cacheEnabled) {
+      return Optional.empty();
     }
-    return ret;
+
+    final CoverType coverType =
+        (track.getAlbumName().isEmpty()) ? CoverType.SINGLETON : CoverType.ALBUM;
+    final String titleOrAlbum =
+        (coverType == CoverType.ALBUM) ? track.getAlbumName() : track.getTitle();
+    final String fileName = buildFileName(coverType, track.getArtistName(), titleOrAlbum);
+    final Path fullPath = Paths.get(chacheDir.toString(), fileName)
+        .toAbsolutePath();
+
+    if (!fullPath.toFile().exists()) {
+      LOG.debug("File does not exists, aborting: {}", fullPath.toString());
+      return Optional.empty();
+    }
+    try {
+      LOG.debug("Loading cover: {}", fullPath.toString());
+      return loadFile(fullPath);
+    } catch (final Exception e) {
+      return Optional.empty();
+    }
   }
 
   /**
    * Saves a given cover to the local cache.
    *
-   * @param coverType    The type of the cover.
-   * @param artist       Artist to which the cover is associated.
-   * @param titleOrAlbum Is this the cover of an album or a single track.
-   * @param file         The cover itself.
+   * @param track The track to save the cover for.
+   * @param file  The cover itself.
    */
-  public void saveCover(final CoverType coverType, final String artist, final String titleOrAlbum,
-      final byte[] file) {
+  public void saveCover(final MPDSong track, final byte[] file) {
     if (!cacheEnabled) {
       return;
     }
 
-    try {
-      final String fileName = buildFileName(coverType, artist, titleOrAlbum);
-      final Path fullPath = Paths.get(chacheDir.toString(), fileName).toAbsolutePath();
+    final CoverType coverType =
+        (track.getAlbumName().isEmpty()) ? CoverType.SINGLETON : CoverType.ALBUM;
+    final String titleOrAlbum =
+        (coverType == CoverType.ALBUM) ? track.getAlbumName() : track.getTitle();
+    final String fileName = buildFileName(coverType, track.getArtistName(), titleOrAlbum);
+    final Path fullPath = Paths.get(chacheDir.toString(), fileName).toAbsolutePath();
 
+    try {
       // Don't write the file if it already exists
       if (!fullPath.toFile().exists()) {
-        LOG.debug("Saving cover. coverType: {}, artist: {}, title: {}", coverType, artist,
-            titleOrAlbum);
+        LOG.debug("Saving cover: {}", fullPath);
         Files.write(fullPath, file);
       }
     } catch (final IOException e) {

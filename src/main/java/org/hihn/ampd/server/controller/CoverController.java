@@ -1,6 +1,6 @@
 package org.hihn.ampd.server.controller;
 
-import org.hihn.ampd.server.service.CoverFetcherService;
+import org.hihn.ampd.server.service.AlbumArtworkService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -19,11 +19,11 @@ import org.springframework.web.server.ResponseStatusException;
 @CrossOrigin
 public class CoverController {
 
-  private final CoverFetcherService coverFetcherService;
+  private final AlbumArtworkService albumArtworkService;
 
   @Autowired
-  public CoverController(final CoverFetcherService coverFetcherService) {
-    this.coverFetcherService = coverFetcherService;
+  public CoverController(final AlbumArtworkService albumArtworkService) {
+    this.albumArtworkService = albumArtworkService;
   }
 
   /**
@@ -38,7 +38,7 @@ public class CoverController {
   )
   public @ResponseBody
   byte[] findAlbumCoverForDir(@RequestParam("path") final String dirPath) {
-    return coverFetcherService.findAlbumCoverForDir(dirPath)
+    return albumArtworkService.loadArtworkFordir(dirPath)
         .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
   }
 
@@ -54,7 +54,7 @@ public class CoverController {
   )
   public @ResponseBody
   byte[] findAlbumCoverForTrack(@RequestParam("path") final String trackFilePath) {
-    return coverFetcherService.findAlbumCoverForTrack(trackFilePath)
+    return albumArtworkService.findAlbumCoverForTrack(trackFilePath)
         .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
   }
 }

@@ -35,10 +35,14 @@ public class MbCoverService {
 
   private final CoverBlacklistService coverBlacklistService;
 
+  private final CoverCacheService coverCacheService;
+
   public MbCoverService(final AmpdSettings ampdSettings,
-      CoverBlacklistService coverBlacklistService) {
+      CoverBlacklistService coverBlacklistService,
+      CoverCacheService coverCacheService) {
     this.ampdSettings = ampdSettings;
     this.coverBlacklistService = coverBlacklistService;
+    this.coverCacheService = coverCacheService;
   }
 
   /**
@@ -52,8 +56,12 @@ public class MbCoverService {
       return Optional.empty();
     }
     LOG.debug("Trying to load a cover from the MusicBrainz API");
-    return (isEmpty(track.getAlbumName())) ? searchSingletonMusicBrainzCover(track)
-        : searchAlbumMusicBrainzCover(track);
+    Optional<byte[]> cover =
+        (isEmpty(track.getAlbumName())) ? searchSingletonMusicBrainzCover(track)
+            : searchAlbumMusicBrainzCover(track);
+    // Save the cover in the cache
+    cover.ifPresent(bytes -> coverCacheService.saveCover(track, bytes));
+    return cover;
   }
 
   private Optional<byte[]> downloadCover(final String uuid) {
@@ -73,9 +81,6 @@ public class MbCoverService {
     return ret;
   }
 
-  private boolean isEmpty(@Nullable Object str) {
-    return str == null || "".equals(str);
-  }
 
   private Optional<byte[]> searchAlbumMusicBrainzCover(final MPDSong track) {
     final Release releaseController = new Release();
@@ -141,5 +146,9 @@ public class MbCoverService {
       }
     }
     return cover;
+  }
+
+  private boolean isEmpty(@Nullable Object str) {
+    return str == null || "".equals(str);
   }
 }

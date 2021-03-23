@@ -1,19 +1,18 @@
 <div *ngIf="(playlists| playlistFilter: filterValue).length">
   <div class="sub-menu">
-    <span class="mat-h3">Playlists</span>
+    <span class="mat-h3 text-muted">Playlists</span>
   </div>
 
   <div *ngFor="let playlist of playlists | playlistFilter: filterValue">
     <div (click)="onRowClick(playlist.name)"
          fxLayout="row nowrap"
-         fxLayoutGap="1%"
          fxLayoutAlign="center center"
          class="list-item"
          title="Click to add this playlist"
     >
 
       <mat-icon>list</mat-icon> &nbsp;
-      <div fxFlex class="dont-break-out">
+      <div fxFlex class="dont-break-out playlist-name">
         {{ playlist.name }}
       </div>
       <div class="text-muted space-right" title="{{ playlist.count }} tracks in this playlist">

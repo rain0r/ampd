@@ -59,8 +59,8 @@ export class BrowseNavigationComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.browsePayload.subscribe((foo) =>
-      this.displayFilter$.next(!this.isTracksOnlyDir(foo))
+    this.browsePayload.subscribe((payload) =>
+      this.displayFilter$.next(!this.isTracksOnlyDir(payload))
     );
   }
 

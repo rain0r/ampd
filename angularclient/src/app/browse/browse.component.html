@@ -23,21 +23,21 @@
       fxLayoutGap.lt-md="0"
   >
     <!-- playlists -->
-    <div fxFlex *ngIf="msg.playlists.length > 0">
-      <app-playlists
-          [playlists]="msg.playlists"
-      ></app-playlists>
-    </div>
+    <app-playlists
+        fxFlex *ngIf="msg.playlists.length > 0"
+        [playlists]="msg.playlists"
+    ></app-playlists>
+
 
     <!-- directories -->
-    <div fxFlex *ngIf="msg.directories.length > 0">
-      <app-directories [dirQueue]="msg.directories"></app-directories>
-    </div>
+    <app-directories
+        fxFlex *ngIf="msg.directories.length > 0"
+        [dirQueue]="msg.directories"
+        [dirQp]="dirQp"
+    ></app-directories>
 
     <!-- tracks -->
-    <div fxFlex *ngIf="msg.tracks.length > 0">
-      <app-tracks [tracks]="msg.tracks"></app-tracks>
-    </div>
+    <app-tracks fxFlex *ngIf="msg.tracks.length > 0" [tracks]="msg.tracks"></app-tracks>
   </div>
   <!-- Error handling -->
   <div fxFlex *ngIf="error">

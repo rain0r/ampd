@@ -127,8 +127,8 @@ export class SearchComponent implements OnInit {
       { name: "albumName", showMobile: false },
       { name: "title", showMobile: true },
       { name: "length", showMobile: false },
-      { name: "addTitle", showMobile: true },
       { name: "playTitle", showMobile: true },
+      { name: "addTitle", showMobile: true },
     ];
     return displayedColumns
       .filter((cd) => !this.isMobile || cd.showMobile)

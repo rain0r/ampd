@@ -29,13 +29,16 @@
       <div class="flex-col" fxLayout="column" fxLayoutGap="1rem" fxFlex.gt-md="75%"
            *ngIf="backendSettings | async as settings">
 
-        <div class="bg">These settings need to be changed via
-          <span class="mono code">-D</span> when starting ampd. Alternatively, write them to
-          an <span class="mono code">ampd.conf</span> file. See the
-          <a class="no-deco-links mono code"
-             href="https://github.com/rain0r/ampd/blob/master/README.md">README</a> for more
-          information.
-        </div>
+        <mat-card>
+          <mat-card-content>
+            These settings need to be changed via
+            <span class="mono code">-D</span> when starting ampd. Alternatively, write them to
+            an <span class="mono code">ampd.conf</span> file. See the
+            <a class="no-deco-links mono code"
+               href="https://github.com/rain0r/ampd/blob/master/README.md">README</a> for more
+            information.
+          </mat-card-content>
+        </mat-card>
 
         <!-- Cover cache -->
         <app-cover-cache [localCoverCache]="settings.localCoverCache"></app-cover-cache>
@@ -56,8 +59,13 @@
                                  [deleteExistingPlaylists]="settings.deleteExistingPlaylists"></app-playlist-properties>
       </div>
     </mat-tab>
-    <mat-tab label="Server statistics">
-      <app-server-statistics></app-server-statistics>
+    <mat-tab label="Admin">
+      <div class="flex-col" fxLayout="column" fxLayoutGap="1rem" fxFlex.gt-md="75%">
+        <!-- Trigger database update -->
+        <app-update-database></app-update-database>
+        <!-- Server statistics -->
+        <app-server-statistics></app-server-statistics>
+      </div>
     </mat-tab>
   </mat-tab-group>
 

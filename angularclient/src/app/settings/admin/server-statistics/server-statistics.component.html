@@ -1,5 +1,5 @@
-<div *ngIf="(serverStatistics|async) as statistics" fxLayout="column" fxLayoutGap="0.25rem">
-
+<mat-card *ngIf="(serverStatistics|async) as statistics" fxLayout="column" fxLayoutGap="0.25rem">
+<mat-card-content>
   <div fxLayout="row">
     <span fxFlex="50%">Artist count</span>
     <span fxFlex="50%">{{statistics.artistCount| number:'':'en-GB'}}</span>
@@ -28,5 +28,5 @@
     <span fxFlex="50%">Uptime</span>
     <span fxFlex="50%">{{statistics.uptime|secondsToHhMmSs}}</span>
   </div>
-
-</div>
+</mat-card-content>
+</mat-card>

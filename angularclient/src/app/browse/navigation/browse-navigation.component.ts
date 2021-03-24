@@ -16,6 +16,7 @@ import { AmpdBrowsePayload } from "../../shared/models/ampd-browse-payload";
 import { MpdService } from "../../shared/services/mpd.service";
 import { ControlPanelService } from "../../shared/services/control-panel.service";
 import { QueueService } from "../../shared/services/queue.service";
+import { distinctUntilChanged, map } from "rxjs/operators";
 
 @Component({
   selector: "app-navigation",
@@ -40,11 +41,15 @@ export class BrowseNavigationComponent implements OnInit {
     private notificationService: NotificationService,
     private queueService: QueueService
   ) {
-    this.activatedRoute.queryParams.subscribe((queryParams) => {
-      const dir = <string>queryParams.dir || "/";
-      this.buildDirUp(dir);
-      this.getParamDir = dir;
-    });
+    this.activatedRoute.queryParamMap
+      .pipe(
+        map((qp) => <string>qp.get("dir") || "/"),
+        distinctUntilChanged()
+      )
+      .subscribe((dir) => {
+        this.buildDirUp(dir);
+        this.getParamDir = dir;
+      });
   }
 
   @HostListener("document:keydown.f", ["$event"])

@@ -15,7 +15,7 @@ import {
   Breakpoints,
   BreakpointState,
 } from "@angular/cdk/layout";
-import { map } from "rxjs/operators";
+import { distinctUntilChanged, map } from "rxjs/operators";
 
 @Component({
   selector: "app-tracks",
@@ -25,7 +25,7 @@ import { map } from "rxjs/operators";
 export class TracksComponent implements OnInit {
   @Input() tracks: QueueTrack[] = [];
   coverSizeClass: Observable<string>;
-  getParamDir = "";
+  getParamDir = "/";
   isMobile = false;
   queueDuration = 0;
   trackTableData = new TrackTableData();
@@ -40,8 +40,12 @@ export class TracksComponent implements OnInit {
     private settingsService: SettingsService
   ) {
     this.coverSizeClass = responsiveCoverSizeService.getCoverCssClass();
-    this.getParamDir =
-      this.activatedRoute.snapshot.queryParamMap.get("dir") || "/";
+    this.activatedRoute.queryParamMap
+      .pipe(
+        map((qp) => <string>qp.get("dir") || "/"),
+        distinctUntilChanged()
+      )
+      .subscribe((dir) => (this.getParamDir = dir));
   }
 
   ngOnInit(): void {

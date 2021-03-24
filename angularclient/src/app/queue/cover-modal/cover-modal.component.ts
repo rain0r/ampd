@@ -19,8 +19,8 @@ export class CoverModalComponent {
   constructor(
     public dialogRef: MatDialogRef<CoverModalComponent>,
     @Inject(MAT_DIALOG_DATA) public data: QueueTrack,
-    private notificationService: NotificationService,
     private messageService: MessageService,
+    private notificationService: NotificationService,
     private settingsService: SettingsService
   ) {
     this.backendSettings = this.settingsService.getBackendSettings();
@@ -28,10 +28,20 @@ export class CoverModalComponent {
 
   onBlacklistCover(): void {
     // Save the file to the blacklist
-    this.settingsService.blacklistCover(this.data.file).subscribe();
-    // Hide the cover: Trigger a cover update without a track change
-    this.messageService.sendMessageType(InternalMessageType.UpdateCover);
-    this.notificationService.popUp(`Blacklisted cover: "${this.data.title}"`);
-    this.dialogRef.close();
+    this.settingsService.blacklistCover(this.data.file).subscribe(
+      () => {
+        // Hide the cover: Trigger a cover update without a track change
+        this.messageService.sendMessageType(InternalMessageType.UpdateCover);
+        this.notificationService.popUp(
+          `Blacklisted cover: "${this.data.title}"`
+        );
+      },
+      () => {
+        this.dialogRef.close();
+      },
+      () => {
+        this.dialogRef.close();
+      }
+    );
   }
 }

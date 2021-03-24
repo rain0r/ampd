@@ -164,6 +164,11 @@ export class SettingsService {
     );
   }
 
+  updateDatabase(): Observable<void> {
+    const url = `${this.getBackendContextAddr()}api/update-database`;
+    return this.http.post<void>(url, {});
+  }
+
   private changeTheme(theme: Map<string, string>): void {
     theme.forEach((value, prop) => {
       document.documentElement.style.setProperty(prop, value);

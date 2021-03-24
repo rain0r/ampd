@@ -60,9 +60,13 @@ public class SettingsController {
     coverBlacklistService.addFileToBlacklist(file);
   }
 
-
   @GetMapping("/server-statistics")
   public ServerStatistics getServerStatistics() {
     return mpd.getServerStatistics();
+  }
+
+  @PostMapping("/update-database")
+  public void updateDatabase() {
+    mpd.getAdmin().updateDatabase();
   }
 }

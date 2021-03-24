@@ -1,6 +1,6 @@
 import { Component } from "@angular/core";
-import { SettingsService } from "../../shared/services/settings.service";
-import { ServerStatistics } from "../../shared/models/server-statistics";
+import { SettingsService } from "../../../shared/services/settings.service";
+import { ServerStatistics } from "../../../shared/models/server-statistics";
 import { Observable } from "rxjs";
 
 @Component({

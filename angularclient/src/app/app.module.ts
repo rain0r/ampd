@@ -74,8 +74,9 @@ import { MpdPortComponent } from "./settings/backend/mpd-port/mpd-port.component
 import { PlaylistPropertiesComponent } from "./settings/backend/playlist-properties/playlist-properties.component";
 import { MatTabsModule } from "@angular/material/tabs";
 import { BackendAddressComponent } from "./settings/frontend/backend-address/backend-address.component";
-import { ServerStatisticsComponent } from "./settings/server-statistics/server-statistics.component";
+import { ServerStatisticsComponent } from "./settings/admin/server-statistics/server-statistics.component";
 import { AddStreamModalComponent } from "./queue/add-stream-modal/add-stream-modal.component";
+import { UpdateDatabaseComponent } from "./settings/admin/update-database/update-database.component";
 
 @NgModule({
   declarations: [
@@ -122,6 +123,7 @@ import { AddStreamModalComponent } from "./queue/add-stream-modal/add-stream-mod
     BackendAddressComponent,
     ServerStatisticsComponent,
     AddStreamModalComponent,
+    UpdateDatabaseComponent,
   ],
   imports: [
     AppRoutingModule,

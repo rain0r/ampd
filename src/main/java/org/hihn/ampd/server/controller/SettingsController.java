@@ -69,4 +69,9 @@ public class SettingsController {
   public void updateDatabase() {
     mpd.getAdmin().updateDatabase();
   }
+
+  @PostMapping("/update-database")
+  public void rescanDatabase() {
+    mpd.getAdmin().rescanDatabase();
+  }
 }

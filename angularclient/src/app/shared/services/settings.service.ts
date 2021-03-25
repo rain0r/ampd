@@ -169,6 +169,11 @@ export class SettingsService {
     return this.http.post<void>(url, {});
   }
 
+  rescanDatabase() : Observable<void> {
+    const url = `${this.getBackendContextAddr()}api/rescan-database`;
+    return this.http.post<void>(url, {});
+  }
+
   private changeTheme(theme: Map<string, string>): void {
     theme.forEach((value, prop) => {
       document.documentElement.style.setProperty(prop, value);

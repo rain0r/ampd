@@ -16,9 +16,9 @@ import org.springframework.stereotype.Service;
  * Methods to load album artworks from the music directory.
  */
 @Service
-public class AlbumArtworkService {
+public class CoverService {
 
-  private static final Logger LOG = LoggerFactory.getLogger(AlbumArtworkService.class);
+  private static final Logger LOG = LoggerFactory.getLogger(CoverService.class);
 
   private final MPD mpd;
 
@@ -28,7 +28,7 @@ public class AlbumArtworkService {
 
   private final MbCoverService mbCoverService;
 
-  public AlbumArtworkService(
+  public CoverService(
       final AmpdSettings ampdSettings,
       final MPD mpd, CoverCacheService coverCacheService,
       MbCoverService mbCoverService) {

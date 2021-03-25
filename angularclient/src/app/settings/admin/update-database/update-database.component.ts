@@ -13,6 +13,12 @@ export class UpdateDatabaseComponent {
     private settingsService: SettingsService
   ) {}
 
+  rescanDatabase(): void {
+    this.settingsService.rescanDatabase().subscribe(() => {
+      this.notificationService.popUp("Triggered database rescan");
+    });
+  }
+
   updateDatabase(): void {
     this.settingsService.updateDatabase().subscribe(() => {
       this.notificationService.popUp("Triggered database update");

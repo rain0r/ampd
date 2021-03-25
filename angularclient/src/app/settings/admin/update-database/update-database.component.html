@@ -1,8 +1,21 @@
-<mat-card>
-  <mat-card-header>
-    <mat-card-title>Update database</mat-card-title>
-  </mat-card-header>
-  <mat-card-content>
-    <button mat-stroked-button (click)="updateDatabase()">Update</button>
-  </mat-card-content>
-</mat-card>
+<div fxLayout="row" fxLayoutGap="0.25rem">
+
+  <mat-card fxFlex="50%" fxFlex.lt-md="100%">
+    <mat-card-header>
+      <mat-card-title>Update database</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <button mat-stroked-button (click)="updateDatabase()">Update</button>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card fxFlex="50%" fxFlex.lt-md="100%">
+    <mat-card-header>
+      <mat-card-title>Rescan database</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <button mat-stroked-button (click)="rescanDatabase()">Rescan</button>
+    </mat-card-content>
+  </mat-card>
+
+</div>

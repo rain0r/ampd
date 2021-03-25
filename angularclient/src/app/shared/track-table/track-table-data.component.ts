@@ -1,5 +1,4 @@
 import {
-  ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   Input,
@@ -27,7 +26,6 @@ import { QueueService } from "../services/queue.service";
   selector: "app-track-data-table",
   templateUrl: "./track-table-data.component.html",
   styleUrls: ["./track-table-data.component.scss"],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TrackTableDataComponent implements OnInit, OnChanges {
   @Input() trackTableData: TrackTableData = new TrackTableData();

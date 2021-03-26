@@ -23,7 +23,7 @@
     "@angular/platform-browser-dynamic": "~11.2.3",
     "@angular/router": "~11.2.7",
     "@stomp/ng2-stompjs": "~8.0.0",
-    "@stomp/rx-stomp": "~1.0.2",
+    "@stomp/rx-stomp": "~1.1.0",
     "@stomp/stompjs": "~6.1.0",
     "acorn": "~8.0.5",
     "dateformat": "~4.5.1",

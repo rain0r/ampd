@@ -19,8 +19,8 @@ import { VolumeSliderComponent } from "./queue/volume-slider/volume-slider.compo
 import { SearchComponent } from "./search/search.component";
 import { SettingsComponent } from "./settings/settings.component";
 import { EncodeURIComponentPipe } from "./shared/pipes/encode-uri.pipe";
-import { DirectoryFilterPipe } from "./shared/pipes/filter/DirectoryFilter";
-import { PlaylistFilterPipe } from "./shared/pipes/filter/PlaylistFilter";
+import { DirectoryFilterPipe } from "./shared/pipes/filter/directory-filter.pipe";
+import { PlaylistFilterPipe } from "./shared/pipes/filter/playlist-filter.pipe";
 import { SecondsToMmSsPipe } from "./shared/pipes/seconds-to-mm-ss.pipe";
 import { AppRoutingModule } from "./app-routing.module";
 import { MessageService } from "./shared/services/message.service";

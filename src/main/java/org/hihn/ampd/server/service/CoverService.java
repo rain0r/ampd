@@ -99,6 +99,7 @@ public class CoverService {
 
     // Only look for local covers if a music directory is set
     if (ampdSettings.getMusicDirectory().equals("")) {
+      LOG.debug("musicDirectory is empty - not looking for a cover in the track directory.");
       return Optional.empty();
     }
 
@@ -113,10 +114,11 @@ public class CoverService {
       // Load Artwork for this MPDAlbum
       MPDArtwork artwork = mpd.getArtworkFinder()
           .find(mpdAlbum, musicDirectory).iterator().next();
+      LOG.debug("Returning contents of {}", artwork.getName());
       return Optional.of(artwork.getBytes());
     } catch (Exception e) {
       LOG.error("Could not load filename for Track: {}", track);
+      return Optional.empty();
     }
-    return Optional.empty();
   }
 }

@@ -169,7 +169,7 @@ export class SettingsService {
     return this.http.post<void>(url, {});
   }
 
-  rescanDatabase() : Observable<void> {
+  rescanDatabase(): Observable<void> {
     const url = `${this.getBackendContextAddr()}api/rescan-database`;
     return this.http.post<void>(url, {});
   }

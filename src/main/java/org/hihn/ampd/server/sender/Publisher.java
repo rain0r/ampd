@@ -18,7 +18,7 @@ public class Publisher {
 
   private static final String STATE_URL = "/topic/state";
 
-  private static final long DELAY = 1000;
+  private static final long DELAY = 900;
 
   private final MPD mpd;
 

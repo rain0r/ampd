@@ -85,14 +85,7 @@ public class CoverCacheService {
       return Optional.empty();
     }
 
-    final CoverType coverType =
-        (track.getAlbumName().isEmpty()) ? CoverType.SINGLETON : CoverType.ALBUM;
-    final String titleOrAlbum =
-        (coverType == CoverType.ALBUM) ? track.getAlbumName() : track.getTitle();
-    final String fileName = buildFileName(coverType, track.getArtistName(), titleOrAlbum);
-    final Path fullPath = Paths.get(chacheDir.toString(), fileName)
-        .toAbsolutePath();
-
+    final Path fullPath = buildCacheFullPath(track);
     if (!fullPath.toFile().exists()) {
       LOG.debug("File does not exists, aborting: {}", fullPath.toString());
       return Optional.empty();
@@ -116,13 +109,7 @@ public class CoverCacheService {
       return;
     }
 
-    final CoverType coverType =
-        (track.getAlbumName().isEmpty()) ? CoverType.SINGLETON : CoverType.ALBUM;
-    final String titleOrAlbum =
-        (coverType == CoverType.ALBUM) ? track.getAlbumName() : track.getTitle();
-    final String fileName = buildFileName(coverType, track.getArtistName(), titleOrAlbum);
-    final Path fullPath = Paths.get(chacheDir.toString(), fileName).toAbsolutePath();
-
+    final Path fullPath = buildCacheFullPath(track);
     try {
       // Don't write the file if it already exists
       if (!fullPath.toFile().exists()) {
@@ -205,5 +192,14 @@ public class CoverCacheService {
     StringBuilder decomposed =
         new StringBuilder(Normalizer.normalize(input, Normalizer.Form.NFD));
     return pattern.matcher(decomposed).replaceAll("");
+  }
+
+  private Path buildCacheFullPath(MPDSong track) {
+    final CoverType coverType =
+        (track.getAlbumName().isEmpty()) ? CoverType.SINGLETON : CoverType.ALBUM;
+    final String titleOrAlbum =
+        (coverType == CoverType.ALBUM) ? track.getAlbumName() : track.getTitle();
+    final String fileName = buildFileName(coverType, track.getArtistName(), titleOrAlbum);
+    return Paths.get(chacheDir.toString(), fileName).toAbsolutePath();
   }
 }

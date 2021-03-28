@@ -85,14 +85,13 @@ public class CoverCacheService {
       LOG.debug("Cache is disabled, not looking for a locally saved cover.");
       return Optional.empty();
     }
-
     final Path fullPath = buildCacheFullPath(track);
     if (!fullPath.toFile().exists()) {
-      LOG.debug("File does not exists, aborting: {}", fullPath.toString());
+      LOG.debug("File does not exist in cache, aborting: {}", fullPath.toString());
       return Optional.empty();
     }
     try {
-      LOG.debug("Loading cover: {}", fullPath.toString());
+      LOG.debug("Loading cached cover: {}", fullPath.toString());
       return loadFile(fullPath);
     } catch (final Exception e) {
       return Optional.empty();

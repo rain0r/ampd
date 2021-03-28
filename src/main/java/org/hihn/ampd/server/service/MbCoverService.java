@@ -52,10 +52,16 @@ public class MbCoverService {
    * @return The cover.
    */
   public Optional<byte[]> getMbCover(final MPDSong track) {
-    if (!ampdSettings.isMbCoverService() || coverBlacklistService.isBlacklisted(track.getFile())) {
+    if (!ampdSettings.isMbCoverService()) {
+      LOG.debug("MusicBrainz is disabled, not downloading a cover");
       return Optional.empty();
     }
-    LOG.debug("Trying to load a cover from the MusicBrainz API");
+    if (coverBlacklistService.isBlacklisted(track.getFile())) {
+      LOG.debug("File is on the cover blacklist, not getting a cover for file: {}",
+          track.getFile());
+      return Optional.empty();
+    }
+    LOG.debug("Trying to load a cover from the MusicBrainz API for file: {}", track.getFile());
     Optional<byte[]> cover =
         (isEmpty(track.getAlbumName())) ? searchSingletonMusicBrainzCover(track)
             : searchAlbumMusicBrainzCover(track);

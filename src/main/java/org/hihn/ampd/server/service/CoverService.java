@@ -114,7 +114,7 @@ public class CoverService {
       // Load Artwork for this MPDAlbum
       MPDArtwork artwork = mpd.getArtworkFinder()
           .find(mpdAlbum, musicDirectory).iterator().next();
-      LOG.debug("Returning contents of {}", artwork.getName());
+      LOG.debug("Returning contents of {}", artwork.getPath());
       return Optional.of(artwork.getBytes());
     } catch (Exception e) {
       LOG.error("Could not load filename for Track: {}", track);

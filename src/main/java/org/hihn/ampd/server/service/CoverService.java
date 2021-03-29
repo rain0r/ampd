@@ -125,7 +125,7 @@ public class CoverService {
     final Path path = Paths.get(getMusicDir(), trackFilePath);
     final List<Path> covers = new ArrayList<>();
     try (final DirectoryStream<Path> stream = Files
-        .newDirectoryStream(path, "cover.{jpg,jpeg,png,bmp}")) {
+        .newDirectoryStream(path.getParent(), "cover.{jpg,jpeg,png,bmp}")) {
       stream.forEach(covers::add);
     } catch (final IOException e) {
       LOG.debug("No covers found in: {}", path);

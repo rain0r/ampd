@@ -1,9 +1,13 @@
 package org.hihn.ampd.server.service;
 
+import java.io.IOException;
+import java.nio.file.DirectoryStream;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
-import org.bff.javampd.album.MPDAlbum;
 import org.bff.javampd.art.MPDArtwork;
 import org.bff.javampd.server.MPD;
 import org.bff.javampd.song.MPDSong;
@@ -28,9 +32,8 @@ public class CoverService {
 
   private final MbCoverService mbCoverService;
 
-  public CoverService(
-      final AmpdSettings ampdSettings,
-      final MPD mpd, CoverCacheService coverCacheService,
+  public CoverService(final AmpdSettings ampdSettings, final MPD mpd,
+      CoverCacheService coverCacheService,
       MbCoverService mbCoverService) {
     this.ampdSettings = ampdSettings;
     this.mpd = mpd;
@@ -48,10 +51,11 @@ public class CoverService {
     MPDSong track;
     try {
       // Map the track file path to a MPDSong
-      track = mpd.getMusicDatabase().getSongDatabase()
-          .searchFileName(trackFilePath).iterator().next();
+      track = mpd.getMusicDatabase().getSongDatabase().searchFileName(trackFilePath).iterator()
+          .next();
     } catch (Exception e) {
-      LOG.error("Could not find MPDTrack for file: {}", trackFilePath);
+      LOG.error("Could not find MPDSong for file: {}", trackFilePath);
+      LOG.error(e.getMessage(), e);
       return Optional.empty();
     }
 
@@ -78,7 +82,8 @@ public class CoverService {
    */
   public Optional<byte[]> loadArtworkFordir(final String dirPath) {
     try {
-      // Build the full path to search for the artwork, that is the MPD music_directory + dirPath
+      // Build the full path to search for the artwork, that is the MPD
+      // music_directory + dirPath
       final Path path = Paths.get(ampdSettings.getMusicDirectory(), dirPath);
       MPDArtwork artwork = mpd.getArtworkFinder().find(path.toString()).iterator().next();
       return Optional.of(artwork.getBytes());
@@ -95,28 +100,50 @@ public class CoverService {
    * @param track The track to find the artwork for.
    * @return The bytes of the found cover.
    */
-  public Optional<byte[]> loadArtworkForTrack(final MPDSong track) {
+  private Optional<byte[]> loadArtworkForTrack(final MPDSong track) {
     // Only look for local covers if a music directory is set
     if (ampdSettings.getMusicDirectory().equals("")) {
       LOG.debug("musicDirectory is empty - not looking for a cover in the track directory.");
       return Optional.empty();
     }
     try {
-      // Get an album for this MPDSong
-      MPDAlbum mpdAlbum = mpd.getMusicDatabase().getAlbumDatabase()
-          .findAlbum(track.getAlbumName()).iterator().next();
-      // Make sure we have a trailing slash
-      String musicDirectory =
-          (ampdSettings.getMusicDirectory().endsWith("/")) ? ampdSettings.getMusicDirectory()
-              : ampdSettings.getMusicDirectory() + "/";
-      // Load Artwork for this MPDAlbum
-      MPDArtwork artwork = mpd.getArtworkFinder()
-          .find(mpdAlbum, musicDirectory).iterator().next();
-      LOG.debug("Returning contents of cover file: {}", artwork.getPath());
-      return Optional.of(artwork.getBytes());
+      return loadMusicDirCover(track.getFile());
     } catch (Exception e) {
-      LOG.error("Could not load filename for track: {}", track);
+      LOG.error("Could not load artwork for track: {}", track);
+      LOG.error(e.getMessage(), e);
       return Optional.empty();
     }
+  }
+
+  /***
+   * Try to find a cover file in the directory of the track.
+   * @param trackFilePath The file path of a track.
+   * @return Cover as bytes or an empty optional if no cover was found.
+   */
+  private Optional<byte[]> loadMusicDirCover(final String trackFilePath) {
+    LOG.debug("Using fallback: trying to load cover for {}", trackFilePath);
+    final Path path = Paths.get(getMusicDir(), trackFilePath);
+    final List<Path> covers = new ArrayList<>();
+    try (final DirectoryStream<Path> stream = Files
+        .newDirectoryStream(path, "cover.{jpg,jpeg,png,bmp}")) {
+      stream.forEach(covers::add);
+    } catch (final IOException e) {
+      LOG.debug("No covers found in: {}", path);
+      return Optional.empty();
+    }
+    try {
+      return Optional.of(Files.readAllBytes(covers.get(0)));
+    } catch (final Exception e) {
+      return Optional.empty();
+    }
+  }
+
+  private String getMusicDir() {
+    // Make sure we have a trailing slash
+    String musicDirectory =
+        (ampdSettings.getMusicDirectory().endsWith("/")) ? ampdSettings.getMusicDirectory()
+            : ampdSettings.getMusicDirectory() + "/";
+    LOG.debug("Using musicDirectory: {}", musicDirectory);
+    return musicDirectory;
   }
 }

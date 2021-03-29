@@ -82,8 +82,7 @@ public class CoverService {
    */
   public Optional<byte[]> loadArtworkForDir(final String dirPath) {
     try {
-      // Build the full path to search for the artwork, that is the MPD
-      // music_directory + dirPath
+      // Build the full path to search for the artwork that is the MPD music_directory + dirPath
       final Path path = Paths.get(ampdSettings.getMusicDirectory(), dirPath);
       MPDArtwork artwork = mpd.getArtworkFinder().find(path.toString()).iterator().next();
       return Optional.of(artwork.getBytes());

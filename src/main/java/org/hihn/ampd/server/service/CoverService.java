@@ -115,8 +115,9 @@ public class CoverService {
     }
   }
 
-  /***
+  /**
    * Try to find a cover file in the directory of the track.
+   *
    * @param trackFilePath The file path of a track.
    * @return Cover as bytes or an empty optional if no cover was found.
    */

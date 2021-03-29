@@ -55,7 +55,7 @@ public class CoverService {
           .next();
     } catch (Exception e) {
       LOG.error("Could not find MPDSong for file: {}", trackFilePath);
-      LOG.error(e.getMessage(), e);
+      LOG.debug(e.getMessage(), e);
       return Optional.empty();
     }
 
@@ -89,7 +89,7 @@ public class CoverService {
       return Optional.of(artwork.getBytes());
     } catch (Exception e) {
       LOG.error("Could not load filename for Track: {}", dirPath);
-      LOG.error(e.getMessage(), e);
+      LOG.debug(e.getMessage(), e);
     }
     return Optional.empty();
   }
@@ -101,11 +101,6 @@ public class CoverService {
    * @return The bytes of the found cover.
    */
   private Optional<byte[]> loadArtworkForTrack(final MPDSong track) {
-    // Only look for local covers if a music directory is set
-    if (ampdSettings.getMusicDirectory().equals("")) {
-      LOG.debug("musicDirectory is empty - not looking for a cover in the track directory.");
-      return Optional.empty();
-    }
     try {
       return loadMusicDirCover(track.getFile());
     } catch (Exception e) {
@@ -122,8 +117,13 @@ public class CoverService {
    * @return Cover as bytes or an empty optional if no cover was found.
    */
   private Optional<byte[]> loadMusicDirCover(final String trackFilePath) {
-    LOG.debug("Using fallback: trying to load cover for {}", trackFilePath);
-    final Path path = Paths.get(getMusicDir(), trackFilePath);
+    // Only look for local covers if a music directory is set
+    if (ampdSettings.getMusicDirectory().equals("")) {
+      LOG.debug("musicDirectory is empty - not looking for a cover in the track directory.");
+      return Optional.empty();
+    }
+    LOG.debug("Looking for a cover in the directory of file: {}", trackFilePath);
+    final Path path = Paths.get(ampdSettings.getMusicDirectory(), trackFilePath);
     final List<Path> covers = new ArrayList<>();
     try (final DirectoryStream<Path> stream = Files
         .newDirectoryStream(path.getParent(), "cover.{jpg,jpeg,png,bmp}")) {
@@ -137,14 +137,5 @@ public class CoverService {
     } catch (final Exception e) {
       return Optional.empty();
     }
-  }
-
-  private String getMusicDir() {
-    // Make sure we have a trailing slash
-    String musicDirectory =
-        (ampdSettings.getMusicDirectory().endsWith("/")) ? ampdSettings.getMusicDirectory()
-            : ampdSettings.getMusicDirectory() + "/";
-    LOG.debug("Using musicDirectory: {}", musicDirectory);
-    return musicDirectory;
   }
 }

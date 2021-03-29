@@ -80,7 +80,7 @@ public class CoverService {
    * @param dirPath The directory that contains a cover.
    * @return The content of the found cover.
    */
-  public Optional<byte[]> loadArtworkFordir(final String dirPath) {
+  public Optional<byte[]> loadArtworkForDir(final String dirPath) {
     try {
       // Build the full path to search for the artwork, that is the MPD
       // music_directory + dirPath

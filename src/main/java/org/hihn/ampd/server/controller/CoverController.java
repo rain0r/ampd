@@ -38,7 +38,7 @@ public class CoverController {
   )
   public @ResponseBody
   byte[] findAlbumCoverForDir(@RequestParam("path") final String dirPath) {
-    return coverService.loadArtworkFordir(dirPath)
+    return coverService.loadArtworkForDir(dirPath)
         .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
   }
 

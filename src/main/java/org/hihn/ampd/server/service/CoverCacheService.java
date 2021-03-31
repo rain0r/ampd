@@ -29,14 +29,18 @@ public class CoverCacheService {
 
   private final AmpdSettings ampdSettings;
 
-  private Path chacheDir;
+  private Path cacheDir;
 
+  /**
+   * @param ampdSettings   Settings of this ampd instance.
+   * @param ampdDirService Handles access to the ampd dir in the home directory.
+   */
   public CoverCacheService(final AmpdSettings ampdSettings,
       final AmpdDirService ampdDirService) {
     this.ampdSettings = ampdSettings;
     cacheEnabled = ampdSettings.isLocalCoverCache() && ampdDirService.getCacheDir().isPresent();
     if (cacheEnabled) {
-      chacheDir = ampdDirService.getCacheDir().get();
+      cacheDir = ampdDirService.getCacheDir().get();
     }
   }
 
@@ -49,7 +53,7 @@ public class CoverCacheService {
     long size = 0;
     try {
       if (cacheEnabled) {
-        size = Files.walk(chacheDir)
+        size = Files.walk(cacheDir)
             .filter(p -> p.toFile().isFile())
             .mapToLong(p -> p.toFile().length())
             .sum();
@@ -200,6 +204,6 @@ public class CoverCacheService {
     final String titleOrAlbum =
         (coverType == CoverType.ALBUM) ? track.getAlbumName() : track.getTitle();
     final String fileName = buildFileName(coverType, track.getArtistName(), titleOrAlbum);
-    return Paths.get(chacheDir.toString(), fileName).toAbsolutePath();
+    return Paths.get(cacheDir.toString(), fileName).toAbsolutePath();
   }
 }

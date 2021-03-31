@@ -32,6 +32,12 @@ public class CoverService {
 
   private final MbCoverService mbCoverService;
 
+  /**
+   * @param ampdSettings      Settings of this ampd instance.
+   * @param mpd               Represents a connection to a MPD server.
+   * @param coverCacheService Handles locally saved albumart / covers.
+   * @param mbCoverService    Service to download cover from MusicBrainz.
+   */
   public CoverService(final AmpdSettings ampdSettings, final MPD mpd,
       CoverCacheService coverCacheService,
       MbCoverService mbCoverService) {

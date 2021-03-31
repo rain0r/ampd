@@ -21,6 +21,11 @@ public class QueueService {
 
   private final MPD mpd;
 
+  /**
+   * Service to manage the queue.
+   *
+   * @param mpd Represents a connection to a MPD server.
+   */
   public QueueService(final MPD mpd) {
     this.mpd = mpd;
   }

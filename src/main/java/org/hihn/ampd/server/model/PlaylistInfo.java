@@ -14,6 +14,13 @@ public class PlaylistInfo {
 
   private Collection<MPDSong> tracks;
 
+  /**
+   * Holds information about a saved playlist.
+   *
+   * @param name       The name of the saved playlist.
+   * @param trackCount Number of tracks in this playlist.
+   * @param tracks     The tracks in this playlist.
+   */
   public PlaylistInfo(final String name,
       final int trackCount,
       final Collection<MPDSong> tracks) {

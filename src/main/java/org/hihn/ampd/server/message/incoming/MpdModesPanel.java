@@ -18,9 +18,11 @@ public class MpdModesPanel {
 
   private boolean single;
 
-  public MpdModesPanel() {
-  }
-
+  /**
+   * Represents a MPD control panel.
+   *
+   * @param serverStatus ServerStatus provided by MPD.
+   */
   public MpdModesPanel(final ServerStatus serverStatus) {
     final Collection<String> statusList = serverStatus.getStatus();
 

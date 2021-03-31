@@ -11,11 +11,17 @@ public class StatePayload {
 
   private MpdModesPanel mpdModesPanel;
 
-
   private MPDSong currentTrack;
 
   private ServerStatus serverStatus;
 
+  /**
+   * Message to the frontend that contains information about the current MPD state.
+   *
+   * @param serverStatus  ServerStatus provided by MPD.
+   * @param currentTrack  The currently played track.
+   * @param mpdModesPanel Representation of the current state of the MPD modes.
+   */
   public StatePayload(final ServerStatus serverStatus, final MPDSong currentTrack,
       final MpdModesPanel mpdModesPanel) {
     this.serverStatus = serverStatus;

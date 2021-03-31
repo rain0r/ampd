@@ -4,7 +4,6 @@ import org.bff.javampd.server.MPD;
 import org.hihn.ampd.server.message.incoming.MpdModesPanel;
 import org.hihn.ampd.server.message.outgoing.StatePayload;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;

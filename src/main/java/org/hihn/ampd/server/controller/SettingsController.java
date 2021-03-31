@@ -32,11 +32,12 @@ public class SettingsController {
   private final MPD mpd;
 
   /**
+   * Endpoint that provides a connection to the settings of this ampd instance.
    *
-   * @param ampdSettings Settings of this ampd instance.
-   * @param coverCacheService Handles albumart / covers.
+   * @param ampdSettings          Settings of this ampd instance.
+   * @param coverCacheService     Handles locally saved albumart / covers.
    * @param coverBlacklistService Handles files for which no cover should be downloaded.
-   * @param mpd Represents a connection to a MPD server.
+   * @param mpd                   Represents a connection to a MPD server.
    */
   public SettingsController(final AmpdSettings ampdSettings,
       final CoverCacheService coverCacheService,

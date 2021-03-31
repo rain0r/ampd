@@ -1,7 +1,6 @@
 package org.hihn.ampd.server.controller.ws;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import org.bff.javampd.file.MPDFile;
 import org.bff.javampd.server.MPD;
@@ -26,7 +25,13 @@ public class QueueController {
 
   private final QueueService queueService;
 
-
+  /**
+   * Endpoint that provides access to the MPD queue.
+   *
+   * @param mpd          Represents a connection to a MPD server.
+   * @param ampdSettings Settings of this ampd instance.
+   * @param queueService Service to manage the queue.
+   */
   public QueueController(
       final MPD mpd,
       final AmpdSettings ampdSettings,

@@ -31,10 +31,17 @@ public class SettingsController {
 
   private final MPD mpd;
 
-  public SettingsController(final AmpdSettings ampdSettingsBean,
+  /**
+   *
+   * @param ampdSettings Settings of this ampd instance.
+   * @param coverCacheService Handles albumart / covers.
+   * @param coverBlacklistService Handles files for which no cover should be downloaded.
+   * @param mpd Represents a connection to a MPD server.
+   */
+  public SettingsController(final AmpdSettings ampdSettings,
       final CoverCacheService coverCacheService,
       final CoverBlacklistService coverBlacklistService, final MPD mpd) {
-    this.ampdSettingsBean = ampdSettingsBean;
+    this.ampdSettingsBean = ampdSettings;
     this.coverCacheService = coverCacheService;
     this.coverBlacklistService = coverBlacklistService;
     this.mpd = mpd;

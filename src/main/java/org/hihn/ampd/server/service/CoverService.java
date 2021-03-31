@@ -119,7 +119,8 @@ public class CoverService {
     // Only look for local covers if a music directory is set
     if (ampdSettings.getMusicDirectory().equals("")) {
       LOG.debug("musicDirectory is empty - not looking for a cover in the track directory.");
-      return Optional.empty();
+      MPDArtwork artwork = mpd.getArtworkFinder().findArtwork(trackFilePath);
+      return Optional.of(artwork.getBytes());
     }
     LOG.debug("Looking for a cover in the directory of file: {}", trackFilePath);
     final Path path = Paths.get(ampdSettings.getMusicDirectory(), trackFilePath);

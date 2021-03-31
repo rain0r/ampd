@@ -7,6 +7,9 @@ import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.event.EventListener;
 
+/**
+ * ampd starts here.
+ */
 @PropertySource(value = "classpath:application.properties")
 @SpringBootApplication
 public class AmpdServer {

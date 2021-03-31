@@ -32,6 +32,8 @@ public class CoverCacheService {
   private Path cacheDir;
 
   /**
+   * Handles the caching of album art.
+   *
    * @param ampdSettings   Settings of this ampd instance.
    * @param ampdDirService Handles access to the ampd dir in the home directory.
    */

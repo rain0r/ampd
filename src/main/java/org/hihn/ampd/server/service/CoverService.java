@@ -33,6 +33,8 @@ public class CoverService {
   private final MbCoverService mbCoverService;
 
   /**
+   * Methods to load album artworks from the music directory.
+   *
    * @param ampdSettings      Settings of this ampd instance.
    * @param mpd               Represents a connection to a MPD server.
    * @param coverCacheService Handles locally saved albumart / covers.

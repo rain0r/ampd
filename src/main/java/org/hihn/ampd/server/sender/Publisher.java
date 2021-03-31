@@ -4,6 +4,7 @@ import org.bff.javampd.server.MPD;
 import org.hihn.ampd.server.message.incoming.MpdModesPanel;
 import org.hihn.ampd.server.message.outgoing.StatePayload;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -17,8 +18,6 @@ public class Publisher {
   private static final String QUEUE_URL = "/topic/queue";
 
   private static final String STATE_URL = "/topic/state";
-
-  private static final long DELAY = 900;
 
   private final MPD mpd;
 
@@ -35,7 +34,7 @@ public class Publisher {
   /**
    * Publishes the queue every second.
    */
-  @Scheduled(fixedDelay = DELAY)
+  @Scheduled(fixedRateString = "${publisher.delay}")
   public void publishQueue() {
     if (!mpd.isConnected()) {
       return;
@@ -48,7 +47,7 @@ public class Publisher {
   /**
    * Publishes the Mpd server state every second.
    */
-  @Scheduled(fixedDelay = DELAY)
+  @Scheduled(fixedRateString = "${publisher.delay}")
   public void publishState() {
     if (!mpd.isConnected()) {
       return;

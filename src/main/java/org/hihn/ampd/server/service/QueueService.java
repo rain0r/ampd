@@ -24,7 +24,7 @@ public class QueueService {
   public QueueService(final MPD mpd) {
     this.mpd = mpd;
   }
-  
+
   /**
    * Adds a track to the queue.
    *

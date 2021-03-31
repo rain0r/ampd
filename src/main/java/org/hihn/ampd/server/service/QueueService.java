@@ -68,6 +68,11 @@ public class QueueService {
     }
   }
 
+  /**
+   * Adds a saved playlist to the queue.
+   *
+   * @param playlist Name of the playlist to add.
+   */
   public void addPlaylist(String playlist) {
     Collection<MPDSong> mpdSongCollection =
         mpd.getMusicDatabase().getPlaylistDatabase().listPlaylistSongs(playlist);

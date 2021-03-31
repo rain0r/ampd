@@ -38,6 +38,8 @@ public class MbCoverService {
   private final CoverCacheService coverCacheService;
 
   /**
+   * Downloads albumart from MusicBrainz.
+   *
    * @param ampdSettings          Settings of this ampd instance.
    * @param coverBlacklistService Handles files for which no cover should be downloaded.
    * @param coverCacheService     Handles locally saved albumart / covers.

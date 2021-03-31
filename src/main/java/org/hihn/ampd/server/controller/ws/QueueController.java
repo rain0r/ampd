@@ -76,12 +76,8 @@ public class QueueController {
    */
   @MessageMapping("/add-playlist")
   public void addPlaylist(String playlist) {
-    Collection<MPDSong> mpdSongCollection =
-        mpd.getMusicDatabase().getPlaylistDatabase().listPlaylistSongs(playlist);
-    ArrayList<MPDSong> mpdTracks = new ArrayList<>(mpdSongCollection);
-    mpd.getPlaylist().addSongs(mpdTracks);
+    queueService.addPlaylist(playlist);
   }
-
 
   @MessageMapping("/add-play-track")
   public void addPlayTrack(String file) {

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
-import org.bff.javampd.file.MPDFile;
 import org.bff.javampd.server.MPD;
 import org.bff.javampd.song.MPDSong;
 import org.hihn.ampd.server.controller.ws.QueueController;
@@ -25,16 +24,14 @@ public class QueueService {
   public QueueService(final MPD mpd) {
     this.mpd = mpd;
   }
-
+  
   /**
    * Adds a track to the queue.
    *
    * @param file The path of the track.
    */
   public void addTrack(String file) {
-    MPDFile mpdFile = new MPDFile(file);
-    mpdFile.setDirectory(false);
-    mpd.getPlaylist().addFileOrDirectory(mpdFile);
+    mpd.getPlaylist().addSong(file);
   }
 
   /**
@@ -43,9 +40,9 @@ public class QueueService {
    * @param tracks The path of the tracks.
    */
   public void addTracks(ArrayList<String> tracks) {
-    for (String file : tracks) {
-      addTrack(file);
-    }
+    mpd.getPlaylist()
+        .addSongs(
+            tracks.stream().map(track -> new MPDSong(track, "")).collect(Collectors.toList()));
   }
 
   /**
@@ -64,5 +61,12 @@ public class QueueService {
     } else {
       LOG.warn("Track not found: " + path);
     }
+  }
+
+  public void addPlaylist(String playlist) {
+    Collection<MPDSong> mpdSongCollection =
+        mpd.getMusicDatabase().getPlaylistDatabase().listPlaylistSongs(playlist);
+    ArrayList<MPDSong> mpdTracks = new ArrayList<>(mpdSongCollection);
+    mpd.getPlaylist().addSongs(mpdTracks);
   }
 }

@@ -1,17 +1,16 @@
-import { Pipe, PipeTransform } from '@angular/core';
-import {Directory} from "../../messages/incoming/directory";
+import { Pipe, PipeTransform } from "@angular/core";
+import { Directory } from "../../messages/incoming/directory";
 
 @Pipe({
-  name: 'directoryFilterStartLetterPipe'
+  name: "directoryFilterStartLetterPipe",
 })
 export class DirectoryFilterStartLetterPipePipe implements PipeTransform {
   transform(value: Directory[], filterBy: string): Directory[] {
     filterBy = filterBy ? filterBy.substr(0, 1).toUpperCase() : "";
     return filterBy
-        ? value.filter(
-            (dir: Directory) =>
-                dir.path.toUpperCase().startsWith(filterBy)
+      ? value.filter((dir: Directory) =>
+          dir.path.toUpperCase().startsWith(filterBy)
         )
-        : value;
+      : value;
   }
 }

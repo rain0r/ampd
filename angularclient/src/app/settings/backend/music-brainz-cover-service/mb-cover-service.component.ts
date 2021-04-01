@@ -1,7 +1,7 @@
-import {Component, Input} from "@angular/core";
-import {Observable} from "rxjs";
-import {SettingsService} from "../../../shared/services/settings.service";
-import {map} from "rxjs/operators";
+import { Component, Input } from "@angular/core";
+import { Observable } from "rxjs";
+import { SettingsService } from "../../../shared/services/settings.service";
+import { map } from "rxjs/operators";
 
 @Component({
   selector: "app-music-brainz-cover-service",
@@ -15,8 +15,8 @@ export class MbCoverServiceComponent {
 
   constructor(private settingsService: SettingsService) {
     this.coverCacheUsage = this.settingsService.getCoverCacheDiskUsage();
-    this.blacklistedCovers = this.settingsService.getCoverBlacklist().pipe(
-        map((foo) => foo.blacklistedFiles.length)
-    );
+    this.blacklistedCovers = this.settingsService
+      .getCoverBlacklist()
+      .pipe(map((foo) => foo.blacklistedFiles.length));
   }
 }

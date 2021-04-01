@@ -77,7 +77,7 @@ import { BackendAddressComponent } from "./settings/frontend/backend-address/bac
 import { ServerStatisticsComponent } from "./settings/admin/server-statistics/server-statistics.component";
 import { AddStreamModalComponent } from "./queue/add-stream-modal/add-stream-modal.component";
 import { UpdateDatabaseComponent } from "./settings/admin/update-database/update-database.component";
-import { DirectoryFilterStartLetterPipePipe } from './shared/pipes/filter/directory-filter-start-letter-pipe.pipe';
+import { DirectoryFilterStartLetterPipePipe } from "./shared/pipes/filter/directory-filter-start-letter-pipe.pipe";
 
 @NgModule({
   declarations: [

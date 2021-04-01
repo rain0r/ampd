@@ -1,20 +1,27 @@
-<div class="sub-menu">
-  <span class="mat-h3 text-muted">
-    <span *ngIf="dirQp != '/' else getParamRoot">
-      <span class="dir-prefix" title="Directory">
-        Directory
-      </span>
-      {{ dirQp }}
-    </span>
-    <ng-template #getParamRoot>
-      Directories
-    </ng-template>
-  </span>
+<div class="sub-menu mat-h3 text-muted">
+  <!-- Root directory -->
+  <div fxLayout="row" fxLayoutGap="0.5rem" fxLayoutAlign="baseline center">
+    <mat-icon>folder_open</mat-icon>
+    <div>Directories</div>
+    <div fxFlex></div>
+    <mat-icon class="clickable" (click)="toggleFilter()">filter_list</mat-icon>
+  </div>
+    <div *ngIf="filterVisible">
+      <mat-divider></mat-divider>
+      <div fxLayout="row wrap" fxLayoutAlign="space-between center">
+        <mat-icon class="clickable accent-text-hover" (click)="setStartLetterFilter('')">clear</mat-icon>
+        <span class="clickable accent-text-hover"
+              [class.accent-text]="filterByStartCharValue == letter"
+              *ngFor="let letter of letters"
+              (click)="setStartLetterFilter(letter)">{{letter}}</span>
+      </div>
+    </div>
 </div>
 
-<div *ngFor="let dir of (dirQueue|directoryFilter: filterValue)">
+<div *ngFor="let dir of (dirQueue|directoryFilter: filterValue|directoryFilterStartLetterPipe: filterByStartCharValue)">
   <div fxLayout="row nowrap"
-       fxLayoutAlign="baseline center"
+       fxLayoutAlign="space-between center"
+       fxLayoutGap="0.25rem"
        class="list-item"
        [title]="'Go to directory: ' + dir.path"
        [queryParams]="{ dir: dir.path }"

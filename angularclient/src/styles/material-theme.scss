@@ -78,8 +78,19 @@ $custom-typography: mat-typography-config(
 // the default warn palette is red, so use that if the theme doesn't define one
 $warnPalette: mat-palette($mat-red);
 
+// second font color
+$accentPalette: mat-palette($mat-orange);
+
 .warning-text {
   color: mat-color($warnPalette);
+}
+
+.accent-text {
+  color: mat-color($accentPalette);
+}
+
+.accent-text-hover:hover {
+  color: mat-color($accentPalette);
 }
 
 @include mat-core($custom-typography);

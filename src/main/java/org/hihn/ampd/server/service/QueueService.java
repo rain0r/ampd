@@ -64,7 +64,7 @@ public class QueueService {
     if (result.size() > 0) {
       mpd.getPlayer().playSong(result.iterator().next());
     } else {
-      LOG.warn("Track not found: " + path);
+      LOG.warn("Track not found: {}", path);
     }
   }
 

@@ -4,7 +4,7 @@
   "scripts": {
     "e2e": "ng e2e",
     "format": "eslint src/app/ --fix --ext .ts",
-    "warnings": "eslint src/app/ --fix --ext .ts --format=checkstyle -o checkstyle-ts-result.xml",
+    "warnings": "eslint src/app/ --ext .ts --format=checkstyle",
     "lint": "ng lint",
     "ng": "ng",
     "start": "ng serve",

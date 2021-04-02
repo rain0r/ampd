@@ -77,14 +77,14 @@ public class AmpdSettings {
    */
   @PostConstruct
   public void init() {
-    LOG.debug("mpdServer: " + mpdServer);
-    LOG.debug("musicDirectory: " + musicDirectory);
-    LOG.debug("mpdPort: " + mpdPort);
-    LOG.debug("localCoverCache: " + localCoverCache);
-    LOG.debug("mbCoverService: " + mbCoverService);
-    LOG.debug("resetModesOnClear: " + resetModesOnClear);
-    LOG.debug("createNewPlaylists: " + createNewPlaylists);
-    LOG.debug("deleteExistingPlaylists: " + deleteExistingPlaylists);
+    LOG.debug("mpdServer: {}", mpdServer);
+    LOG.debug("musicDirectory: {}", musicDirectory);
+    LOG.debug("mpdPort: {}", mpdPort);
+    LOG.debug("localCoverCache: {}", localCoverCache);
+    LOG.debug("mbCoverService: {}", mbCoverService);
+    LOG.debug("resetModesOnClear: {}", resetModesOnClear);
+    LOG.debug("createNewPlaylists: {}", createNewPlaylists);
+    LOG.debug("deleteExistingPlaylists: {}", deleteExistingPlaylists);
   }
 
   public String getMpdPassword() {

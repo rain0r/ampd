@@ -88,7 +88,7 @@ public class MbCoverService {
         inputStream = coverArt.getFrontImage().getImage();
         ret = Optional.of(IOUtils.toByteArray(inputStream));
       } catch (final Exception e) {
-        LOG.error(e.getMessage(), e);
+        LOG.error("Error downloading cover", e);
       }
     }
     return ret;
@@ -109,7 +109,7 @@ public class MbCoverService {
       releaseController.search(query);
       releaseResults = releaseController.getFirstSearchResultPage();
     } catch (final Exception e) {
-      LOG.error(e.getMessage(), e);
+      LOG.error("Error searching albums", e);
     }
     if (releaseResults == null) {
       return Optional.empty();
@@ -140,7 +140,7 @@ public class MbCoverService {
       recordingController.search(query);
       recordingResults = recordingController.getFirstSearchResultPage();
     } catch (final Exception e) {
-      LOG.error(e.getMessage(), e);
+      LOG.error("Error searching singleton", e);
     }
     if (recordingResults == null) {
       return Optional.empty();

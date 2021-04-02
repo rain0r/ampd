@@ -85,7 +85,7 @@ public class CoverBlacklistService {
         ret.add(line);
       }
     } catch (IOException e) {
-      LOG.error(e.getMessage(), e);
+      LOG.error("Error reading blacklist", e);
     }
     return ret;
   }
@@ -97,7 +97,7 @@ public class CoverBlacklistService {
     try {
       Files.write(ampdDirService.getBlacklistFile().get(), blacklistedFiles);
     } catch (IOException e) {
-      LOG.error(e.getMessage(), e);
+      LOG.error("Error saving blacklist", e);
     }
   }
 }

@@ -60,7 +60,7 @@ public class BrowseService {
     try {
       foundFiles = mpd.getMusicDatabase().getFileDatabase().listDirectory(startDir);
     } catch (Exception e) {
-      LOG.error("Error listing directory '{}': {}", path, e.getMessage(), e);
+      LOG.error("Error listing directory '{}'", path, e);
     }
     for (MPDFile file : foundFiles) {
       if (file.isDirectory()) {

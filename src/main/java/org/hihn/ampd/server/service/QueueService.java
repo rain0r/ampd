@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class QueueService {
 
-  private static final Logger LOG = LoggerFactory.getLogger(QueueController.class);
+  private static final Logger LOG = LoggerFactory.getLogger(QueueService.class);
 
   private final MPD mpd;
 

@@ -21,7 +21,7 @@ public class AmpdDirService {
    */
   private static final String CACHE_DIR_NAME = "covers";
 
-  private static final Logger LOG = LoggerFactory.getLogger(CoverCacheService.class);
+  private static final Logger LOG = LoggerFactory.getLogger(AmpdDirService.class);
 
   /**
    * Name of the text file that contains all tracks that are banned from getting a MusicBrainz

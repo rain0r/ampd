@@ -62,8 +62,7 @@ public class CoverService {
       track = mpd.getMusicDatabase().getSongDatabase().searchFileName(trackFilePath).iterator()
           .next();
     } catch (Exception e) {
-      LOG.error("Could not find MPDSong for file: {}", trackFilePath);
-      LOG.debug(e.getMessage(), e);
+      LOG.error("Could not find MPDSong for file: {}", trackFilePath, e);
       return Optional.empty();
     }
 
@@ -95,8 +94,7 @@ public class CoverService {
       MPDArtwork artwork = mpd.getArtworkFinder().find(path.toString()).iterator().next();
       return Optional.of(artwork.getBytes());
     } catch (Exception e) {
-      LOG.error("Could not load filename for Track: {}", dirPath);
-      LOG.debug(e.getMessage(), e);
+      LOG.error("Could not load filename for Track: {}", dirPath, e);
     }
     return Optional.empty();
   }
@@ -111,8 +109,7 @@ public class CoverService {
     try {
       return loadMusicDirCover(track.getFile());
     } catch (Exception e) {
-      LOG.error("Could not load artwork for track: {}", track);
-      LOG.error(e.getMessage(), e);
+      LOG.error("Could not load artwork for track: {}", track, e);
       return Optional.empty();
     }
   }
@@ -131,9 +128,13 @@ public class CoverService {
     }
     LOG.debug("Looking for a cover in the directory of file: {}", trackFilePath);
     final Path path = Paths.get(ampdSettings.getMusicDirectory(), trackFilePath);
+    Path parent = path.getParent();
+    if (parent == null) {
+      return Optional.empty();
+    }
     final List<Path> covers = new ArrayList<>();
     try (final DirectoryStream<Path> stream = Files
-        .newDirectoryStream(path.getParent(), "cover.{jpg,jpeg,png,bmp}")) {
+        .newDirectoryStream(parent, "cover.{jpg,jpeg,png,bmp}")) {
       stream.forEach(covers::add);
     } catch (final IOException e) {
       LOG.debug("No covers found in: {}", path);

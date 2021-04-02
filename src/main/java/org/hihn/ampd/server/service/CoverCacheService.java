@@ -61,7 +61,7 @@ public class CoverCacheService {
             .sum();
       }
     } catch (final IOException e) {
-      LOG.warn("Could not get the size of the cover cache dir: {}", e.getMessage());
+      LOG.warn("Could not get the size of the cover cache dir", e);
     }
     return size;
   }
@@ -123,7 +123,7 @@ public class CoverCacheService {
         Files.write(fullPath, file);
       }
     } catch (final IOException e) {
-      LOG.warn("Failed to save cover to local cache: {}", e.getMessage());
+      LOG.warn("Failed to save cover to local cache", e);
     }
   }
 

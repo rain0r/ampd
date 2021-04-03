@@ -19,6 +19,11 @@ public class MpdModesPanel {
   private boolean single;
 
   /**
+   * Used for incoming message deserialization.
+   */
+  public MpdModesPanel(){}
+
+  /**
    * Represents a MPD control panel.
    *
    * @param serverStatus ServerStatus provided by MPD.

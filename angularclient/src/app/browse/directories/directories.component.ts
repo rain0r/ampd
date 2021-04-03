@@ -68,11 +68,10 @@ export class DirectoriesComponent extends Filterable implements OnInit {
   }
 
   private buildLetters(): void {
-    console.log("buildLetters");
-    const mySet1 = new Set<string>();
+    const letters = new Set<string>();
     this.dirQueue.forEach((val) => {
-      mySet1.add(val.path.substr(0, 1).toUpperCase());
+      letters.add(val.path.substr(0, 1).toUpperCase());
     });
-    this.letters = mySet1;
+    this.letters = letters;
   }
 }

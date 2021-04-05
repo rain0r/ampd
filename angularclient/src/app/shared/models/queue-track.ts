@@ -29,8 +29,8 @@ export class QueueTrack implements Track {
 
   constructor(currentTrack?: Track, position = 0) {
     if (currentTrack) {
-      this.albumName = currentTrack.albumName.trim();
-      this.artistName = currentTrack.artistName.trim();
+      this.albumName = currentTrack.albumName?.trim(); // Optional because of radio streams
+      this.artistName = currentTrack.artistName?.trim(); // Optional because of radio streams
       this.comment = currentTrack.comment;
       this.discNumber = currentTrack.discNumber;
       this.file = currentTrack.file;

@@ -79,6 +79,7 @@ import { AddStreamModalComponent } from "./queue/add-stream-modal/add-stream-mod
 import { UpdateDatabaseComponent } from "./settings/admin/update-database/update-database.component";
 import { DirectoryFilterStartLetterPipePipe } from "./shared/pipes/filter/directory-filter-start-letter-pipe.pipe";
 import {ScrollingModule} from "@angular/cdk/scrolling";
+import {UiScrollModule} from "ngx-ui-scroll";
 
 @NgModule({
   declarations: [
@@ -138,6 +139,8 @@ import {ScrollingModule} from "@angular/cdk/scrolling";
     ReactiveFormsModule,
     NgxFilesizeModule,
     ScrollingModule,
+    BrowserModule,
+    UiScrollModule,
     // Material
     MatButtonModule,
     MatButtonToggleModule,

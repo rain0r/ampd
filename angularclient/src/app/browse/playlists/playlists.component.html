@@ -5,26 +5,28 @@
   </div>
 </div>
 
-<div *ngFor="let playlist of playlists | playlistFilter: filterValue">
-  <div (click)="onRowClick(playlist.name)"
-       fxLayout="row nowrap"
-       fxLayoutAlign="space-between center"
-       fxLayoutGap="0.25rem"
-       class="list-item"
-       title="Click to add this playlist"
-  >
-    <mat-icon>list</mat-icon>
-    <div fxFlex class="dont-break-out playlist-name">
-      {{ playlist.name }}
-    </div>
-    <div class="text-muted space-right" title="{{ playlist.count }} tracks in this playlist">
-      {{ playlist.count }}
-    </div>
-    <button class="mat-small" mat-button
-            title="Click to show playlist: {{playlist.name}}"
-            (click)="onPlaylistInfo($event, playlist)"
+<cdk-virtual-scroll-viewport itemSize="50" class="virtual-scroll-viewport">
+  <div *ngFor="let playlist of playlists | playlistFilter: filterValue">
+    <div (click)="onRowClick(playlist.name)"
+         fxLayout="row nowrap"
+         fxLayoutAlign="space-between center"
+         fxLayoutGap="0.25rem"
+         class="list-item"
+         title="Click to add this playlist"
     >
-      <mat-icon>info</mat-icon>
-    </button>
+      <mat-icon>list</mat-icon>
+      <div fxFlex class="dont-break-out playlist-name">
+        {{ playlist.name }}
+      </div>
+      <div class="text-muted space-right" title="{{ playlist.count }} tracks in this playlist">
+        {{ playlist.count }}
+      </div>
+      <button class="mat-small" mat-button
+              title="Click to show playlist: {{playlist.name}}"
+              (click)="onPlaylistInfo($event, playlist)"
+      >
+        <mat-icon>info</mat-icon>
+      </button>
+    </div>
   </div>
-</div>
+</cdk-virtual-scroll-viewport>

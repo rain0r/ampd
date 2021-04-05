@@ -31,6 +31,7 @@
     "material-icons": "0.3.1",
     "minimist": "~1.2.5",
     "ngx-filesize": "~2.0.16",
+    "ngx-ui-scroll": "^2.0.0-rc.10",
     "roboto-fontface": "~0.10.0",
     "rxjs": "~6.6.7",
     "ssri": "^8.0.1",

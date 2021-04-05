@@ -1,8 +1,8 @@
-<div class="sub-menu mat-h3 text-muted">
+<div class="mat-h3 text-muted">
   <!-- Root directory -->
   <div fxLayout="row" fxLayoutGap="0.5rem" fxLayoutAlign="baseline center">
     <mat-icon>folder_open</mat-icon>
-    <div>Directories</div>
+    <div class="clickable" (click)="toggleFilter()">Directories</div>
     <div fxFlex></div>
     <mat-icon class="clickable" (click)="toggleFilter()">filter_list</mat-icon>
   </div>
@@ -19,17 +19,13 @@
   </div>
 </div>
 
-<cdk-virtual-scroll-viewport itemSize="50" class="virtual-scroll-viewport"
-                             style="min-height: 100% !important; height: 100vh;"
-                             fxLayout="column" fxLayoutGap="0.25rem">
+<cdk-virtual-scroll-viewport itemSize="20" class="virtual-scroll-viewport">
   <div
-      *ngFor="let dir of (dirQueue|directoryFilter: filterValue|directoryFilterStartLetterPipe: filterByStartCharValue)">
+      *cdkVirtualFor="let dir of (dirQueue|directoryFilter: filterValue|directoryFilterStartLetterPipe: filterByStartCharValue)">
     <div fxLayout="row nowrap"
          fxLayoutAlign="space-between center"
          fxLayoutGap="0.25rem"
-         fxFlex
          class="list-item"
-         style="height: 1.5rem"
          [title]="'Go to directory: ' + dir.path"
          [queryParams]="{ dir: dir.path }"
          [routerLink]="['/browse']">
@@ -53,7 +49,6 @@
     </div>
   </div>
 </cdk-virtual-scroll-viewport>
-
 
 <!-- Cover grid -->
 <div

@@ -1,12 +1,12 @@
-<div class="sub-menu mat-h3 text-muted">
+<div class="mat-h3 text-muted">
   <div fxLayout="row" fxLayoutGap="0.5rem" fxLayoutAlign="baseline center">
     <mat-icon>folder_open</mat-icon>
     <div>Playlists</div>
   </div>
 </div>
 
-<cdk-virtual-scroll-viewport itemSize="50" class="virtual-scroll-viewport">
-  <div *ngFor="let playlist of playlists | playlistFilter: filterValue">
+<cdk-virtual-scroll-viewport itemSize="30" class="virtual-scroll-viewport">
+  <div *cdkVirtualFor="let playlist of (playlists|playlistFilter: filterValue)">
     <div (click)="onRowClick(playlist.name)"
          fxLayout="row nowrap"
          fxLayoutAlign="space-between center"

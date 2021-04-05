@@ -78,6 +78,7 @@ import { ServerStatisticsComponent } from "./settings/admin/server-statistics/se
 import { AddStreamModalComponent } from "./queue/add-stream-modal/add-stream-modal.component";
 import { UpdateDatabaseComponent } from "./settings/admin/update-database/update-database.component";
 import { DirectoryFilterStartLetterPipePipe } from "./shared/pipes/filter/directory-filter-start-letter-pipe.pipe";
+import {ScrollingModule} from "@angular/cdk/scrolling";
 
 @NgModule({
   declarations: [
@@ -136,6 +137,7 @@ import { DirectoryFilterStartLetterPipePipe } from "./shared/pipes/filter/direct
     HttpClientModule,
     ReactiveFormsModule,
     NgxFilesizeModule,
+    ScrollingModule,
     // Material
     MatButtonModule,
     MatButtonToggleModule,

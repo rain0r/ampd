@@ -6,45 +6,54 @@
     <div fxFlex></div>
     <mat-icon class="clickable" (click)="toggleFilter()">filter_list</mat-icon>
   </div>
-    <div *ngIf="filterVisible">
-      <mat-divider></mat-divider>
-      <div fxLayout="row wrap" fxLayoutAlign="space-between center">
-        <mat-icon class="clickable accent-text-hover" (click)="setStartLetterFilter('')">clear</mat-icon>
-        <span class="clickable accent-text-hover"
-              [class.accent-text]="filterByStartCharValue == letter"
-              *ngFor="let letter of letters"
-              (click)="setStartLetterFilter(letter)">{{letter}}</span>
-      </div>
+  <div *ngIf="filterVisible">
+    <mat-divider></mat-divider>
+    <div fxLayout="row wrap" fxLayoutAlign="space-between center">
+      <mat-icon class="clickable accent-text-hover" (click)="setStartLetterFilter('')">clear
+      </mat-icon>
+      <span class="clickable accent-text-hover"
+            [class.accent-text]="filterByStartCharValue == letter"
+            *ngFor="let letter of letters"
+            (click)="setStartLetterFilter(letter)">{{letter}}</span>
     </div>
-</div>
-
-<div *ngFor="let dir of (dirQueue|directoryFilter: filterValue|directoryFilterStartLetterPipe: filterByStartCharValue)">
-  <div fxLayout="row nowrap"
-       fxLayoutAlign="space-between center"
-       fxLayoutGap="0.25rem"
-       class="list-item"
-       [title]="'Go to directory: ' + dir.path"
-       [queryParams]="{ dir: dir.path }"
-       [routerLink]="['/browse']">
-
-    <mat-icon>folder_open</mat-icon>
-    <div fxFlex class="dir-name">
-      {{ dir.displayedPath }}
-    </div>
-    <button class="mat-small" mat-button
-            title="Play directory"
-            (click)="onPlayDir($event, dir.path)"
-    >
-      <mat-icon> play_arrow</mat-icon>
-    </button>
-    <button class="mat-small" mat-button
-            title="Add directory to queue"
-            (click)="onAddDir($event, dir.path)"
-    >
-      <mat-icon> add</mat-icon>
-    </button>
   </div>
 </div>
+
+<cdk-virtual-scroll-viewport itemSize="50" class="virtual-scroll-viewport"
+                             style="min-height: 100% !important; height: 100vh;"
+                             fxLayout="column" fxLayoutGap="0.25rem">
+  <div
+      *ngFor="let dir of (dirQueue|directoryFilter: filterValue|directoryFilterStartLetterPipe: filterByStartCharValue)">
+    <div fxLayout="row nowrap"
+         fxLayoutAlign="space-between center"
+         fxLayoutGap="0.25rem"
+         fxFlex
+         class="list-item"
+         style="height: 1.5rem"
+         [title]="'Go to directory: ' + dir.path"
+         [queryParams]="{ dir: dir.path }"
+         [routerLink]="['/browse']">
+
+      <mat-icon>folder_open</mat-icon>
+      <div fxFlex class="dir-name">
+        {{ dir.displayedPath }}
+      </div>
+      <button class="mat-small" mat-button
+              title="Play directory"
+              (click)="onPlayDir($event, dir.path)"
+      >
+        <mat-icon> play_arrow</mat-icon>
+      </button>
+      <button class="mat-small" mat-button
+              title="Add directory to queue"
+              (click)="onAddDir($event, dir.path)"
+      >
+        <mat-icon> add</mat-icon>
+      </button>
+    </div>
+  </div>
+</cdk-virtual-scroll-viewport>
+
 
 <!-- Cover grid -->
 <div

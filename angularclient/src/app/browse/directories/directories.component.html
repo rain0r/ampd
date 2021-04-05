@@ -2,7 +2,7 @@
   <!-- Root directory -->
   <div fxLayout="row" fxLayoutGap="0.5rem" fxLayoutAlign="baseline center">
     <mat-icon>folder_open</mat-icon>
-    <div>Directories</div>
+    <div class="clickable" (click)="toggleFilter()">Directories</div>
     <div fxFlex></div>
     <mat-icon class="clickable" (click)="toggleFilter()">filter_list</mat-icon>
   </div>

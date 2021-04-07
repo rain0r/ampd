@@ -38,7 +38,7 @@ public class BrowseService {
     path = path.replaceAll("^/+", "");
     /* Outgoing payload */
     BrowsePayload browsePayload = findDirsAndTracks(path);
-    if (path.trim().equals("/") || path.trim().equals("")) {
+    if (path.trim().equals("/")) {
       /* Only look for playlists if we're on the root */
       browsePayload.addPlaylists(getPlaylists());
     }

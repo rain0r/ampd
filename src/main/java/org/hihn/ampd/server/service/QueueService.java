@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 import org.bff.javampd.server.MPD;
 import org.bff.javampd.song.MPDSong;
-import org.hihn.ampd.server.controller.ws.QueueController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;

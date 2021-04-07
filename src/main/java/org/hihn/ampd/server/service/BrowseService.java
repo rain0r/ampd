@@ -35,10 +35,10 @@ public class BrowseService {
    */
   public BrowsePayload browse(String path) {
     /* Remove leading slashes */
-    path = path.replaceAll("^/+", "");
+    path = path.replaceAll("^/+", "").trim();
     /* Outgoing payload */
     BrowsePayload browsePayload = findDirsAndTracks(path);
-    if (path.trim().equals("/")) {
+    if (path.equals("/") || path.equals("")) {
       /* Only look for playlists if we're on the root */
       browsePayload.addPlaylists(getPlaylists());
     }

@@ -74,9 +74,6 @@ public class QueueService {
    * @param playlist Name of the playlist to add.
    */
   public void addPlaylist(String playlist) {
-    Collection<MPDSong> mpdSongCollection =
-        mpd.getMusicDatabase().getPlaylistDatabase().listPlaylistSongs(playlist);
-    ArrayList<MPDSong> mpdTracks = new ArrayList<>(mpdSongCollection);
-    mpd.getPlaylist().addSongs(mpdTracks);
+    mpd.getPlaylist().loadPlaylist(playlist);
   }
 }

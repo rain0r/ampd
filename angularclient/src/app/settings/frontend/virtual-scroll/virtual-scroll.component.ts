@@ -1,14 +1,14 @@
 import { Component } from "@angular/core";
+import { FrontendSettings } from "../../../shared/models/frontend-settings";
 import { NotificationService } from "../../../shared/services/notification.service";
 import { SettingsService } from "../../../shared/services/settings.service";
-import { FrontendSettings } from "../../../shared/models/frontend-settings";
 
 @Component({
-  selector: "app-theme",
-  templateUrl: "./theme.component.html",
-  styleUrls: ["./theme.component.scss"],
+  selector: "app-virtual-scroll",
+  templateUrl: "./virtual-scroll.component.html",
+  styleUrls: ["./virtual-scroll.component.scss"],
 })
-export class ThemeComponent {
+export class VirtualScrollComponent {
   frontendSettings: FrontendSettings;
 
   constructor(
@@ -19,9 +19,9 @@ export class ThemeComponent {
   }
 
   toggle(checked: boolean): void {
-    this.settingsService.setDarkTheme(checked);
+    this.settingsService.setVirtualScroll(checked);
     this.notificationService.popUp(
-      `${checked ? "Enabled" : "Disabled"} dark theme.`
+      `${checked ? "Enabled" : "Disabled"} virtual scrolling`
     );
   }
 }

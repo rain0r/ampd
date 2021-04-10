@@ -20,6 +20,10 @@ export class TabTitleComponent {
 
   toggle(checked: boolean): void {
     this.settingsService.setTabTitleOption(checked);
-    this.notificationService.popUp("Saved settings.");
+    this.notificationService.popUp(
+      `${
+        checked ? "Setting" : "Not setting"
+      } current playing track as tab title.`
+    );
   }
 }

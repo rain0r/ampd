@@ -26,19 +26,16 @@ export class BrowseService {
   }
 
   sendBrowseReq(path: string): Observable<AmpdBrowsePayload> {
-    return this.http
-      .get<BrowsePayload>(
-        this.settingsService.getBrowseUrl(encodeURIComponent(path))
-      )
-      .pipe(
-        catchError((err: HttpErrorResponse) =>
-          throwError({
-            title: `Got an error while browsing ${path}:`,
-            detail: err.message,
-          } as ErrorMsg)
-        ),
-        map((payload) => this.convertPayload(payload))
-      );
+    const url = `${this.settingsService.getBackendContextAddr()}api/browse?path=${path}`;
+    return this.http.get<BrowsePayload>(url).pipe(
+      catchError((err: HttpErrorResponse) =>
+        throwError({
+          title: `Got an error while browsing ${path}:`,
+          detail: err.message,
+        } as ErrorMsg)
+      ),
+      map((payload) => this.convertPayload(payload))
+    );
   }
 
   private convertPayload(payload: BrowsePayload): AmpdBrowsePayload {

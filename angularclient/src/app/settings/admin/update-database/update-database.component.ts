@@ -1,6 +1,6 @@
 import { Component } from "@angular/core";
-import { SettingsService } from "../../../shared/services/settings.service";
 import { NotificationService } from "../../../shared/services/notification.service";
+import { MpdService } from "../../../shared/services/mpd.service";
 
 @Component({
   selector: "app-update-database",
@@ -10,17 +10,17 @@ import { NotificationService } from "../../../shared/services/notification.servi
 export class UpdateDatabaseComponent {
   constructor(
     private notificationService: NotificationService,
-    private settingsService: SettingsService
+    private mpdService: MpdService
   ) {}
 
   rescanDatabase(): void {
-    this.settingsService.rescanDatabase().subscribe(() => {
+    this.mpdService.rescanDatabase().subscribe(() => {
       this.notificationService.popUp("Triggered database rescan");
     });
   }
 
   updateDatabase(): void {
-    this.settingsService.updateDatabase().subscribe(() => {
+    this.mpdService.updateDatabase().subscribe(() => {
       this.notificationService.popUp("Triggered database update");
     });
   }

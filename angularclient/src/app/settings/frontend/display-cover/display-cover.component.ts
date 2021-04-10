@@ -20,6 +20,8 @@ export class DisplayCoverComponent {
 
   toggle(checked: boolean): void {
     this.settingsService.setDisplayCovers(checked);
-    this.notificationService.popUp("Saved settings.");
+    this.notificationService.popUp(
+      `${checked ? "Showing" : "Not showing"} album covers.`
+    );
   }
 }

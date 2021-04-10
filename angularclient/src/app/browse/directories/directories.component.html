@@ -19,64 +19,16 @@
   </div>
 </div>
 
-<cdk-virtual-scroll-viewport itemSize="20" class="virtual-scroll-viewport">
-  <div
-      *cdkVirtualFor="let dir of (dirQueue|directoryFilter: filterValue|directoryFilterStartLetterPipe: filterByStartCharValue)">
-    <div fxLayout="row nowrap"
-         fxLayoutAlign="space-between center"
-         fxLayoutGap="0.25rem"
-         class="list-item"
-         [title]="'Go to directory: ' + dir.path"
-         [queryParams]="{ dir: dir.path }"
-         [routerLink]="['/browse']">
+<app-virtual-scroll-directories [directories]="directories"
+    *ngIf="(virtualScroll|async) else conventionalScroll">
+</app-virtual-scroll-directories>
 
-      <mat-icon>folder_open</mat-icon>
-      <div fxFlex class="dir-name">
-        {{ dir.displayedPath }}
-      </div>
-      <button class="mat-small" mat-button
-              title="Play directory"
-              (click)="onPlayDir($event, dir.path)"
-      >
-        <mat-icon> play_arrow</mat-icon>
-      </button>
-      <button class="mat-small" mat-button
-              title="Add directory to queue"
-              (click)="onAddDir($event, dir.path)"
-      >
-        <mat-icon> add</mat-icon>
-      </button>
-    </div>
+<ng-template #conventionalScroll>
+  <div
+      *ngFor="let directory of (directories|directoryFilter: filterValue|directoryFilterStartLetterPipe: filterByStartCharValue)">
+    <app-directory-entry [directory]="directory"></app-directory-entry>
   </div>
-</cdk-virtual-scroll-viewport>
+</ng-template>
 
 <!-- Cover grid -->
-<div
-    fxLayout="row wrap"
-    fxLayoutAlign="space-between"
-    fxLayoutGap="1rem grid"
-    fxLayoutGap.lt-md="0.25rem grid"
-    *ngIf="dirQp != '/' && dirQueue.length < maxCoversDisplayed"
->
-  <div
-      fxLayoutAlign="center center"
-      *ngFor="let dir of (dirQueue|directoryFilter: filterValue)"
-  >
-    <mat-card fxLayout="column">
-      <img
-          mat-card-image
-          class="clickable"
-          [ngClass]="[coverSizeClass|async]"
-          [queryParams]="{ dir: dir.path }"
-          [routerLink]="['/browse']"
-          [title]="dir.displayedPath"
-          alt="Cover of {{dir.displayedPath}}"
-          src="{{ dir.albumCoverUrl }}"
-      />
-      <mat-card-actions fxLayout="row wrap" fxLayoutAlign="space-between baseline">
-        <button mat-stroked-button (click)="onPlayDir($event, dir.path)">Play</button>
-        <button mat-stroked-button (click)="onAddDir($event, dir.path)">Add</button>
-      </mat-card-actions>
-    </mat-card>
-  </div>
-</div>
+<app-cover-grid [directories]="directories" [dirQp]="dirQp"></app-cover-grid>

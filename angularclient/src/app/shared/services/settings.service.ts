@@ -4,10 +4,11 @@ import { BackendSettings } from "../models/backend-settings";
 import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { ApiEndpoints } from "../api-endpoints";
 import {
-  BACKEND_ADDRESS_KEY,
-  DARK_MODE_KEY,
-  DISPLAY_COVERS_KEY,
+  BACKEND_ADDRESS,
+  DARK_MODE,
+  DISPLAY_COVERS,
   SET_TAB_TITLE,
+  VIRTUAL_SCROLL,
 } from "../local-storage-keys";
 import { CoverBlacklistFiles } from "../models/cover-blacklist-files";
 import { Location } from "@angular/common";
@@ -15,69 +16,74 @@ import { DarkTheme, LightTheme } from "../themes/themes";
 import { FrontendSettings } from "../models/frontend-settings";
 import { catchError } from "rxjs/operators";
 import { ErrorMsg } from "../error/error-msg";
-import { ServerStatistics } from "../models/server-statistics";
 
 @Injectable({
   providedIn: "root",
 })
 export class SettingsService {
-  isDarkTheme: Observable<boolean>;
-  isDisplayCovers: Observable<boolean>;
-  isDisplaySavePlaylist: Observable<boolean>;
-  isSetTabTitle: Observable<boolean>;
+  darkTheme: Observable<boolean>;
+  displayCovers: Observable<boolean>;
+  setTabTitle: Observable<boolean>;
+  virtualScroll: Observable<boolean>;
 
   /**
    * Since we want this to be automatically applied, we store it in a subject.
    * Dark theme is default active.
    */
-  isDarkTheme$ = new BehaviorSubject(true);
+  darkTheme$ = new BehaviorSubject(true);
 
   private isDisplayCovers$ = new BehaviorSubject(true);
-
-  private isDisplaySavePlaylist$ = new BehaviorSubject(true);
-
-  private isSetTabTitle$ = new BehaviorSubject(true);
+  private setTabTitle$ = new BehaviorSubject(true);
+  private virtualScroll$ = new BehaviorSubject(false);
 
   constructor(private http: HttpClient, private location: Location) {
-    this.isDarkTheme = this.isDarkTheme$.asObservable();
-    this.isDisplayCovers = this.isDisplayCovers$.asObservable();
-    this.isDisplaySavePlaylist = this.isDisplaySavePlaylist$.asObservable();
-    this.isSetTabTitle = this.isSetTabTitle$.asObservable();
+    this.darkTheme = this.darkTheme$.asObservable();
+    this.displayCovers = this.isDisplayCovers$.asObservable();
+    this.setTabTitle = this.setTabTitle$.asObservable();
+    this.virtualScroll = this.virtualScroll$.asObservable();
 
-    this.setDarkTheme(this.getBoolValue(DARK_MODE_KEY, true));
-    this.setDisplayCovers(this.getBoolValue(DISPLAY_COVERS_KEY, true));
-    this.setTabTitleOption(this.getBoolValue(SET_TAB_TITLE, true));
+    this.initFrontendSettings();
   }
 
-  setTabTitleOption(isTabTitle: boolean): void {
-    localStorage.setItem(SET_TAB_TITLE, JSON.stringify(isTabTitle));
-    this.isSetTabTitle$.next(isTabTitle);
+  /*
+   * Setters
+   */
+  setDarkTheme(darkTheme: boolean): void {
+    localStorage.setItem(DARK_MODE, JSON.stringify(darkTheme));
+    this.darkTheme$.next(darkTheme);
+    const theme = darkTheme ? DarkTheme : LightTheme;
+    theme.forEach((value, prop) => {
+      document.documentElement.style.setProperty(prop, value);
+    });
   }
 
-  setDisplayCovers(isDisplayCovers: boolean): void {
-    localStorage.setItem(DISPLAY_COVERS_KEY, JSON.stringify(isDisplayCovers));
-    this.isDisplayCovers$.next(isDisplayCovers);
+  setDisplayCovers(displayCovers: boolean): void {
+    localStorage.setItem(DISPLAY_COVERS, JSON.stringify(displayCovers));
+    this.isDisplayCovers$.next(displayCovers);
   }
 
-  setDarkTheme(isDarkTheme: boolean): void {
-    localStorage.setItem(DARK_MODE_KEY, JSON.stringify(isDarkTheme));
-    this.isDarkTheme$.next(isDarkTheme);
-    if (isDarkTheme) {
-      this.changeTheme(DarkTheme);
-    } else {
-      this.changeTheme(LightTheme);
-    }
+  setTabTitleOption(tabTitle: boolean): void {
+    localStorage.setItem(SET_TAB_TITLE, JSON.stringify(tabTitle));
+    this.setTabTitle$.next(tabTitle);
   }
 
-  getBoolValue(key: string, defaultValue = false): boolean {
-    try {
-      const saved: string =
-        localStorage.getItem(key) || defaultValue.toString();
-      return <boolean>JSON.parse(saved);
-    } catch (err) {
-      return defaultValue;
-    }
+  setVirtualScroll(virtualScroll: boolean): void {
+    localStorage.setItem(VIRTUAL_SCROLL, JSON.stringify(virtualScroll));
+    this.virtualScroll$.next(virtualScroll);
   }
+
+  blacklistCover(file: string): Observable<void> {
+    const url = `${this.getBackendContextAddr()}api/blacklist-cover`;
+    return this.http.post<void>(url, file);
+  }
+
+  setBackendAddr(backendAddr: string): void {
+    localStorage.setItem(BACKEND_ADDRESS, backendAddr);
+  }
+
+  /*
+   * Getter
+   */
 
   getBackendSettings(): Observable<BackendSettings> {
     const url = `${this.getBackendContextAddr()}api/settings`;
@@ -101,33 +107,12 @@ export class SettingsService {
     return this.http.get<CoverBlacklistFiles>(url);
   }
 
-  blacklistCover(file: string): Observable<void> {
-    const url = `${this.getBackendContextAddr()}api/blacklist-cover`;
-    return this.http.post<void>(url, file);
-  }
-
   /**
    * Returns the api endpoint of the backend that looks for covers in a directory specified by
    * a directory path.
    */
   getFindDirCoverUrl(): string {
     return `${this.getBackendContextAddr()}api/find-dir-cover`;
-  }
-
-  /**
-   * Returns the api endpoint of the backend that looks for covers in a directory specified by
-   * a track path.
-   */
-  getFindTrackCoverUrl(): string {
-    return `${this.getBackendContextAddr()}api/find-track-cover`;
-  }
-
-  getBrowseUrl(path = "/"): string {
-    return `${this.getBackendContextAddr()}api/browse?path=${path}`;
-  }
-
-  getPlaylistRootUrl(): string {
-    return `${this.getBackendContextAddr()}api/playlists/`;
   }
 
   /**
@@ -140,43 +125,40 @@ export class SettingsService {
     )}`;
   }
 
-  setBackendAddr(backendAddr: string): void {
-    localStorage.setItem(BACKEND_ADDRESS_KEY, backendAddr);
+  getPlaylistRootUrl(): string {
+    return `${this.getBackendContextAddr()}api/playlists/`;
   }
 
   getFrontendSettings(): FrontendSettings {
     const frontendSettings = new FrontendSettings();
-    frontendSettings.isDarkTheme = this.isDarkTheme;
-    frontendSettings.isDisplayCovers = this.isDisplayCovers;
-    frontendSettings.isSetTabTitle = this.isSetTabTitle;
+    frontendSettings.darkTheme = this.darkTheme;
+    frontendSettings.displayCovers = this.displayCovers;
+    frontendSettings.setTabTitle = this.setTabTitle;
+    frontendSettings.virtualScroll = this.virtualScroll;
     return frontendSettings;
   }
 
-  getServerStatistics(): Observable<ServerStatistics> {
-    const url = `${this.getBackendContextAddr()}api/server-statistics`;
-    return this.http.get<ServerStatistics>(url).pipe(
-      catchError((err: HttpErrorResponse) =>
-        throwError({
-          title: `Got an error retrieving the server statistics:`,
-          detail: err.message,
-        } as ErrorMsg)
-      )
-    );
+  /**
+   * Load a specific key from localStorage.
+   *
+   * @param key The localStorage-key.
+   * @param defaultValue Return value if no localStorage-entry was found.
+   */
+  private getBoolValue(key: string, defaultValue = false): boolean {
+    try {
+      const value: string =
+        localStorage.getItem(key) || defaultValue.toString();
+      return value === "true";
+    } catch (err) {
+      return defaultValue;
+    }
   }
 
-  updateDatabase(): Observable<void> {
-    const url = `${this.getBackendContextAddr()}api/update-database`;
-    return this.http.post<void>(url, {});
-  }
-
-  rescanDatabase(): Observable<void> {
-    const url = `${this.getBackendContextAddr()}api/rescan-database`;
-    return this.http.post<void>(url, {});
-  }
-
-  private changeTheme(theme: Map<string, string>): void {
-    theme.forEach((value, prop) => {
-      document.documentElement.style.setProperty(prop, value);
-    });
+  private initFrontendSettings(): void {
+    // Initialize frontend settings
+    this.setDarkTheme(this.getBoolValue(DARK_MODE, true));
+    this.setDisplayCovers(this.getBoolValue(DISPLAY_COVERS, true));
+    this.setTabTitleOption(this.getBoolValue(SET_TAB_TITLE, true));
+    this.setVirtualScroll(this.getBoolValue(VIRTUAL_SCROLL, false));
   }
 }

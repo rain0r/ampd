@@ -64,7 +64,7 @@ export class TracksComponent implements OnInit {
     this.dialog.open(CoverModalComponent, {
       autoFocus: false,
       data: track,
-      panelClass: this.settingsService.isDarkTheme$.value ? "dark-theme" : "",
+      panelClass: this.settingsService.darkTheme$.value ? "dark-theme" : "",
     });
   }
 

@@ -39,7 +39,7 @@ export class QueueComponent implements OnInit {
     combineLatest([
       this.mpdService.currentState,
       this.mpdService.currentTrack,
-      this.settingsService.isSetTabTitle,
+      this.settingsService.setTabTitle,
     ])
       .pipe(
         map((results) => ({

@@ -68,7 +68,7 @@ export class TrackTableComponent implements OnInit {
 
   openSavePlaylistModal(): void {
     this.dialog.open(SavePlaylistModalComponent, {
-      panelClass: this.settingsService.isDarkTheme$.value ? "dark-theme" : "",
+      panelClass: this.settingsService.darkTheme$.value ? "dark-theme" : "",
     });
   }
 
@@ -86,7 +86,7 @@ export class TrackTableComponent implements OnInit {
 
   openAddStreamModal(): void {
     this.dialog.open(AddStreamModalComponent, {
-      panelClass: this.settingsService.isDarkTheme$.value ? "dark-theme" : "",
+      panelClass: this.settingsService.darkTheme$.value ? "dark-theme" : "",
     });
   }
 

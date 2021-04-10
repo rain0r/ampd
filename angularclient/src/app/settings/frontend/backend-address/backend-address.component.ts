@@ -27,7 +27,7 @@ export class BackendAddressComponent {
     this.settingsService.setBackendAddr(
       this.settingsForm.controls.backendAddr.value
     );
-    this.notificationService.popUp("Saved settings.");
+    this.notificationService.popUp("Saved backend address.");
   }
 
   private getBackendAddr(): string {

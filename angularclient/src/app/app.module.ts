@@ -78,6 +78,14 @@ import { ServerStatisticsComponent } from "./settings/admin/server-statistics/se
 import { AddStreamModalComponent } from "./queue/add-stream-modal/add-stream-modal.component";
 import { UpdateDatabaseComponent } from "./settings/admin/update-database/update-database.component";
 import { DirectoryFilterStartLetterPipePipe } from "./shared/pipes/filter/directory-filter-start-letter-pipe.pipe";
+import { ScrollingModule } from "@angular/cdk/scrolling";
+import { UiScrollModule } from "ngx-ui-scroll";
+import { VirtualScrollComponent } from "./settings/frontend/virtual-scroll/virtual-scroll.component";
+import { VirtualScrollDirectoriesComponent } from "./browse/directories/virtual-scroll-directories/virtual-scroll-directories.component";
+import { VirtualScrollPlaylistsComponent } from "./browse/playlists/virtual-scroll-playlists/virtual-scroll-playlists.component";
+import { PlaylistEntryComponent } from "./browse/playlists/playlist-entry/playlist-entry.component";
+import { DirectoryEntryComponent } from "./browse/directories/directory-entry/directory-entry.component";
+import { CoverGridComponent } from "./browse/directories/cover-grid/cover-grid.component";
 
 @NgModule({
   declarations: [
@@ -126,6 +134,12 @@ import { DirectoryFilterStartLetterPipePipe } from "./shared/pipes/filter/direct
     AddStreamModalComponent,
     UpdateDatabaseComponent,
     DirectoryFilterStartLetterPipePipe,
+    VirtualScrollComponent,
+    VirtualScrollDirectoriesComponent,
+    VirtualScrollPlaylistsComponent,
+    PlaylistEntryComponent,
+    DirectoryEntryComponent,
+    CoverGridComponent,
   ],
   imports: [
     AppRoutingModule,
@@ -136,6 +150,9 @@ import { DirectoryFilterStartLetterPipePipe } from "./shared/pipes/filter/direct
     HttpClientModule,
     ReactiveFormsModule,
     NgxFilesizeModule,
+    ScrollingModule,
+    BrowserModule,
+    UiScrollModule,
     // Material
     MatButtonModule,
     MatButtonToggleModule,

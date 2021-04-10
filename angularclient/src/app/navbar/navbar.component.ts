@@ -37,7 +37,7 @@ export class NavbarComponent {
     private settingsService: SettingsService,
     private volumeService: VolumeService
   ) {
-    this.isDarkTheme = this.settingsService.isDarkTheme;
+    this.isDarkTheme = this.settingsService.darkTheme;
     this.connState = rxStompService.connectionState$;
     this.mpdService.currentState.subscribe(
       (state) => (this.currentState = state)
@@ -136,7 +136,7 @@ export class NavbarComponent {
       this.helpModalOpen.next(true);
       const dialogRef = this.dialog.open(HelpModalComponent, {
         autoFocus: true,
-        panelClass: this.settingsService.isDarkTheme$.value ? "dark-theme" : "",
+        panelClass: this.settingsService.darkTheme$.value ? "dark-theme" : "",
       });
       dialogRef.afterClosed().subscribe(() => this.helpModalOpen.next(false));
     }
@@ -152,7 +152,7 @@ export class NavbarComponent {
 
   private openAddStreamModal(): void {
     this.dialog.open(AddStreamModalComponent, {
-      panelClass: this.settingsService.isDarkTheme$.value ? "dark-theme" : "",
+      panelClass: this.settingsService.darkTheme$.value ? "dark-theme" : "",
     });
   }
 }

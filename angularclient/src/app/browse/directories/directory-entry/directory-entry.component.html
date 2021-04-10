@@ -1,0 +1,26 @@
+<div *ngIf="directory!=null"
+     fxLayout="row nowrap"
+     fxLayoutAlign="space-between center"
+     fxLayoutGap="0.25rem"
+     class="list-item"
+     [title]="'Go to directory: ' + directory.path"
+     [queryParams]="{ dir: directory.path }"
+     [routerLink]="['/browse']">
+
+  <mat-icon>folder_open</mat-icon>
+  <div fxFlex class="dir-name">
+    {{ directory.displayedPath }}
+  </div>
+  <button class="mat-small" mat-button
+          title="Play directory"
+          (click)="onPlayDir($event, directory.path)"
+  >
+    <mat-icon> play_arrow</mat-icon>
+  </button>
+  <button class="mat-small" mat-button
+          title="Add directory to queue"
+          (click)="onAddDir($event, directory.path)"
+  >
+    <mat-icon> add</mat-icon>
+  </button>
+</div>

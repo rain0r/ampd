@@ -105,8 +105,6 @@ export class TrackTableComponent implements OnInit {
   }
 
   private buildQueue(tracks: Track[]): void {
-    console.log(new Date(), "buildQueue");
-
     /* add the new model object to the trackTableData */
     this.dataSource.data = tracks.map(
       (track, index) => new QueueTrack(track, index)

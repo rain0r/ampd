@@ -1,31 +1,55 @@
 import { Observable } from "rxjs";
 
 export class FrontendSettings {
-  private _isDarkTheme: Observable<boolean> = new Observable();
-  private _isDisplayCovers: Observable<boolean> = new Observable();
-  private _isSetTabTitle: Observable<boolean> = new Observable();
+  /**
+   * True, if the dark theme is enabled.
+   */
+  private _darkTheme: Observable<boolean> = new Observable();
 
-  get isDarkTheme(): Observable<boolean> {
-    return this._isDarkTheme;
+  /**
+   * True, if album covers will be displayed in the queue.
+   */
+  private _displayCovers: Observable<boolean> = new Observable();
+
+  /**
+   * True, if the current playing track will be set as browser tab title.
+   */
+  private _setTabTitle: Observable<boolean> = new Observable();
+
+  /**
+   * True, if the VirtualScrollStrategy will be used to display playlists and directories.
+   */
+  private _virtualScroll: Observable<boolean> = new Observable();
+
+  get darkTheme(): Observable<boolean> {
+    return this._darkTheme;
   }
 
-  set isDarkTheme(value: Observable<boolean>) {
-    this._isDarkTheme = value;
+  set darkTheme(value: Observable<boolean>) {
+    this._darkTheme = value;
   }
 
-  get isDisplayCovers(): Observable<boolean> {
-    return this._isDisplayCovers;
+  get displayCovers(): Observable<boolean> {
+    return this._displayCovers;
   }
 
-  set isDisplayCovers(value: Observable<boolean>) {
-    this._isDisplayCovers = value;
+  set displayCovers(value: Observable<boolean>) {
+    this._displayCovers = value;
   }
 
-  get isSetTabTitle(): Observable<boolean> {
-    return this._isSetTabTitle;
+  get setTabTitle(): Observable<boolean> {
+    return this._setTabTitle;
   }
 
-  set isSetTabTitle(value: Observable<boolean>) {
-    this._isSetTabTitle = value;
+  set setTabTitle(value: Observable<boolean>) {
+    this._setTabTitle = value;
+  }
+
+  get virtualScroll(): Observable<boolean> {
+    return this._virtualScroll;
+  }
+
+  set virtualScroll(value: Observable<boolean>) {
+    this._virtualScroll = value;
   }
 }

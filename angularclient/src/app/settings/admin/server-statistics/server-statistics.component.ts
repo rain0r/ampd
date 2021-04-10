@@ -1,7 +1,7 @@
 import { Component } from "@angular/core";
-import { SettingsService } from "../../../shared/services/settings.service";
 import { ServerStatistics } from "../../../shared/models/server-statistics";
 import { Observable } from "rxjs";
+import { MpdService } from "../../../shared/services/mpd.service";
 
 @Component({
   selector: "app-server-statistics",
@@ -11,7 +11,7 @@ import { Observable } from "rxjs";
 export class ServerStatisticsComponent {
   serverStatistics: Observable<ServerStatistics>;
 
-  constructor(private settingsService: SettingsService) {
-    this.serverStatistics = this.settingsService.getServerStatistics();
+  constructor(private mpdService: MpdService) {
+    this.serverStatistics = this.mpdService.getServerStatistics();
   }
 }

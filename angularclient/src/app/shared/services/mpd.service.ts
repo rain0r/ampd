@@ -2,13 +2,15 @@ import { Injectable } from "@angular/core";
 import { StateMsgPayload } from "../messages/incoming/state-msg-payload";
 import { MpdModesPanel } from "../messages/incoming/mpd-modes-panel";
 import { QueueTrack } from "../models/queue-track";
-import { Observable, Subject } from "rxjs";
-import { filter, map, tap } from "rxjs/operators";
-import { HttpClient } from "@angular/common/http";
+import { Observable, Subject, throwError } from "rxjs";
+import { catchError, filter, map, tap } from "rxjs/operators";
+import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { SettingsService } from "./settings.service";
 import { QueueService } from "./queue.service";
 import { ControlPanelService } from "./control-panel.service";
 import { RxStompService } from "@stomp/ng2-stompjs";
+import { ServerStatistics } from "../models/server-statistics";
+import { ErrorMsg } from "../error/error-msg";
 
 @Injectable({
   providedIn: "root",
@@ -47,9 +49,30 @@ export class MpdService {
   }
 
   buildCoverUrl(file: string): string {
-    return `${this.settingsService.getFindTrackCoverUrl()}?path=${encodeURIComponent(
-      file
-    )}`;
+    const url = `${this.settingsService.getBackendContextAddr()}api/find-track-cover`;
+    return `${url}?path=${encodeURIComponent(file)}`;
+  }
+
+  updateDatabase(): Observable<void> {
+    const url = `${this.settingsService.getBackendContextAddr()}api/update-database`;
+    return this.http.post<void>(url, {});
+  }
+
+  rescanDatabase(): Observable<void> {
+    const url = `${this.settingsService.getBackendContextAddr()}api/rescan-database`;
+    return this.http.post<void>(url, {});
+  }
+
+  getServerStatistics(): Observable<ServerStatistics> {
+    const url = `${this.settingsService.getBackendContextAddr()}api/server-statistics`;
+    return this.http.get<ServerStatistics>(url).pipe(
+      catchError((err: HttpErrorResponse) =>
+        throwError({
+          title: `Got an error retrieving the server statistics:`,
+          detail: err.message,
+        } as ErrorMsg)
+      )
+    );
   }
 
   /**

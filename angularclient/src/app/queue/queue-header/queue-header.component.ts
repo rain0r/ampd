@@ -47,7 +47,7 @@ export class QueueHeaderComponent implements OnInit {
     this.dialog.open(CoverModalComponent, {
       autoFocus: false,
       data: this.currentTrack,
-      panelClass: this.settingsService.isDarkTheme$.value ? "dark-theme" : "",
+      panelClass: this.settingsService.darkTheme$.value ? "dark-theme" : "",
     });
   }
 
@@ -65,7 +65,7 @@ export class QueueHeaderComponent implements OnInit {
   }
 
   private coverAvailable(): void {
-    combineLatest([this.currentState, this.settingsService.isDisplayCovers])
+    combineLatest([this.currentState, this.settingsService.displayCovers])
       .pipe(take(1))
       .subscribe((result) => {
         if (

@@ -1,5 +1,5 @@
 import { InjectableRxStompConfig } from "@stomp/ng2-stompjs";
-import { ApiEndpoints } from "./shared/api-endpoints";
+import { ApiEndpoints } from "../api-endpoints";
 import { Injectable } from "@angular/core";
 import { Location } from "@angular/common";
 

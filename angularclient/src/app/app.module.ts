@@ -56,7 +56,7 @@ import {
   RxStompService,
   rxStompServiceFactory,
 } from "@stomp/ng2-stompjs";
-import { AmpdRxStompConfig } from "./ampd-rx-stomp-config.service";
+import { AmpdRxStompConfig } from "./shared/services/ampd-rx-stomp-config.service";
 import { ReplaceNullWithTextPipe } from "./shared/pipes/replace-null-with-text.pipe";
 import { ThemeComponent } from "./settings/frontend/theme/theme.component";
 import { DisplayCoverComponent } from "./settings/frontend/display-cover/display-cover.component";

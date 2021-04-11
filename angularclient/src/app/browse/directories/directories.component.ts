@@ -28,6 +28,7 @@ export class DirectoriesComponent extends Filterable implements OnInit {
 
   ngOnInit(): void {
     this.buildLetters();
+    console.log(this.dirQp)
   }
 
   toggleFilter(): void {

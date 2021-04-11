@@ -139,6 +139,22 @@
             </configuration>
           </execution>
           <execution>
+            <id>npm report</id>
+            <phase>compile</phase>
+            <goals>
+              <goal>exec</goal>
+            </goals>
+            <configuration>
+              <skip>${skip.npm.warnings}</skip>
+              <executable>npm</executable>
+              <workingDirectory>./angularclient</workingDirectory>
+              <arguments>
+                <argument>run</argument>
+                <argument>warnings</argument>
+              </arguments>
+            </configuration>
+          </execution>
+          <execution>
             <id>Build fronted</id>
             <phase>validate</phase>
             <goals>
@@ -152,22 +168,6 @@
                 <argument>build</argument>
                 <argument>--configuration=${frontend.configuration}</argument>
                 <argument>--base-href=${frontend.context}</argument>
-              </arguments>
-            </configuration>
-          </execution>
-          <execution>
-            <id>npm report</id>
-            <phase>compile</phase>
-            <goals>
-              <goal>exec</goal>
-            </goals>
-            <configuration>
-              <skip>${skip.npm.warnings}</skip>
-              <executable>npm</executable>
-              <workingDirectory>./angularclient</workingDirectory>
-              <arguments>
-                <argument>run</argument>
-                <argument>warnings</argument>
               </arguments>
             </configuration>
           </execution>

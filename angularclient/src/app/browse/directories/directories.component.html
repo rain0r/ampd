@@ -4,7 +4,7 @@
     <mat-icon>folder_open</mat-icon>
     <div class="clickable" (click)="toggleFilter()">Directories</div>
     <div fxFlex></div>
-    <mat-icon class="clickable" (click)="toggleFilter()">filter_list</mat-icon>
+    <mat-icon class="clickable" (click)="toggleFilter()" *ngIf="dirQp != '/'">filter_list</mat-icon>
   </div>
   <div *ngIf="filterVisible">
     <mat-divider></mat-divider>

@@ -4,7 +4,9 @@
     <mat-icon>folder_open</mat-icon>
     <div>Directories</div>
     <div fxFlex></div>
-    <mat-icon class="clickable" (click)="toggleFilter()" *ngIf="dirQp == '/'">filter_list</mat-icon>
+    <mat-icon class="clickable" (click)="toggleFilter()" *ngIf="dirQp == '/'"
+              title="Filter directories by their starting letter">filter_list
+    </mat-icon>
   </div>
   <div *ngIf="filterVisible">
     <mat-divider></mat-divider>
@@ -21,7 +23,7 @@
 
 <!-- Use virtual scroll if it's enabled or we're on the root directory -->
 <app-virtual-scroll-directories [directories]="directories"
-    *ngIf="(virtualScroll|async) && dirQp == '/' else conventionalScroll">
+                                *ngIf="(virtualScroll|async) && dirQp == '/' else conventionalScroll">
 </app-virtual-scroll-directories>
 
 <ng-template #conventionalScroll>

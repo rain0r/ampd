@@ -2,9 +2,9 @@
   <!-- Root directory -->
   <div fxLayout="row" fxLayoutGap="0.5rem" fxLayoutAlign="baseline center">
     <mat-icon>folder_open</mat-icon>
-    <div class="clickable" (click)="toggleFilter()">Directories</div>
+    <div class="clickable">Directories</div>
     <div fxFlex></div>
-    <mat-icon class="clickable" (click)="toggleFilter()" *ngIf="dirQp != '/'">filter_list</mat-icon>
+    <mat-icon class="clickable" (click)="toggleFilter()" *ngIf="dirQp == '/'">filter_list</mat-icon>
   </div>
   <div *ngIf="filterVisible">
     <mat-divider></mat-divider>
@@ -19,8 +19,9 @@
   </div>
 </div>
 
+<!-- Use virtual scroll if it's enabled or we're on the root directory -->
 <app-virtual-scroll-directories [directories]="directories"
-    *ngIf="(virtualScroll|async) else conventionalScroll">
+    *ngIf="(virtualScroll|async) && dirQp == '/' else conventionalScroll">
 </app-virtual-scroll-directories>
 
 <ng-template #conventionalScroll>

@@ -14,6 +14,7 @@ export class HelpModalComponent {
     // Player controls
     new Map([
       ["p", "Play / Pause"],
+      ["s", "Stop"],
       ["space", "Play / Pause"],
       ["←", "Previous song"],
       ["<", "Previous song"],

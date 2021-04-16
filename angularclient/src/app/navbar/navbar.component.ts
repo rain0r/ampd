@@ -75,6 +75,9 @@ export class NavbarComponent {
       case " ": // Space or 'p': pause
         this.togglePause();
         break;
+      case "s": // Stop the player
+        this.stop();
+        break;
       // Navigate to another view
       case "1":
         void this.router.navigate(["/"]);
@@ -154,5 +157,9 @@ export class NavbarComponent {
     this.dialog.open(AddStreamModalComponent, {
       panelClass: this.settingsService.darkTheme$.value ? "dark-theme" : "",
     });
+  }
+
+  private stop(): void {
+    this.controlPanelService.stop();
   }
 }

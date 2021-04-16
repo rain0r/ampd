@@ -4,11 +4,12 @@
      fxLayoutGap="0.25rem"
      class="list-item"
      [title]="'Go to directory: ' + directory.path"
-     [queryParams]="{ dir: directory.path }"
+     [queryParams]="{ dir: pathLink }"
      [routerLink]="['/browse']">
 
   <mat-icon>folder_open</mat-icon>
   <div fxFlex class="dir-name">
+<!--    {{ pathLink }}-->
     {{ directory.displayedPath }}
   </div>
   <button class="mat-small" mat-button

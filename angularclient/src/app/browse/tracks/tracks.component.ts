@@ -45,7 +45,7 @@ export class TracksComponent implements OnInit {
         map((qp) => <string>qp.get("dir") || "/"),
         distinctUntilChanged()
       )
-      .subscribe((dir) => (this.getParamDir = dir));
+      .subscribe((dir) => (this.getParamDir = decodeURIComponent(dir)));
   }
 
   ngOnInit(): void {

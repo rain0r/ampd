@@ -26,7 +26,7 @@ export class QueueService {
   addDir(dir: string): void {
     this.rxStompService.publish({
       destination: `${this.path}add-dir`,
-      body: dir,
+      body: decodeURIComponent(dir),
     });
   }
 

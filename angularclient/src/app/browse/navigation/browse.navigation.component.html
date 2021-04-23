@@ -4,7 +4,6 @@
   <!--Return to top -->
   <button *ngIf="getParamDir !== '/'" class="mat-small" mat-raised-button
           [routerLink]="['/browse']">
-    <mat-icon>expand_less</mat-icon>
     <span fxHide.lt-md>Home</span>
   </button>
 
@@ -12,7 +11,7 @@
   <button *ngIf="getParamDir !== '/'" class="mat-small" mat-raised-button
           [routerLink]="['/browse']"
           [queryParams]="{dir: dirUp$|async}">
-    <mat-icon> navigate_before</mat-icon>
+    <mat-icon>expand_less</mat-icon>
     <span fxHide.lt-md>Up</span>
   </button>
 

@@ -13,6 +13,7 @@ import { SettingsService } from "../../shared/services/settings.service";
 export class DirectoriesComponent extends Filterable implements OnInit {
   @Input() directories: Directory[] = [];
   @Input() dirQp = "/";
+  dirQpLabel = "/";
   filterVisible = false;
   filterByStartCharValue = "";
   letters: Set<string> = new Set<string>();
@@ -27,6 +28,7 @@ export class DirectoriesComponent extends Filterable implements OnInit {
   }
 
   ngOnInit(): void {
+    this.dirQpLabel = decodeURIComponent(this.dirQp);
     this.buildLetters();
   }
 

@@ -2,7 +2,15 @@
   <!-- Root directory -->
   <div fxLayout="row" fxLayoutGap="0.5rem" fxLayoutAlign="baseline center">
     <mat-icon>folder_open</mat-icon>
-    <div>Directories</div>
+    <div>
+      <span *ngIf="dirQp == '/'; else dirName">
+      Directories
+      </span>
+      <ng-template #dirName>
+          <span class="dir-prefix">Directory</span>
+        <span class="dir-qp">{{ dirQpLabel }}</span>
+      </ng-template>
+    </div>
     <div fxFlex></div>
     <mat-icon class="clickable" (click)="toggleFilter()" *ngIf="dirQp == '/'"
               title="Filter directories by their starting letter">filter_list

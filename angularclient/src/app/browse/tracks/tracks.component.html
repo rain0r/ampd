@@ -1,11 +1,11 @@
 <div fxLayout="row" fxLayout.lt-md="column" fxLayoutAlign="space-around">
   <div fxFlex fxLayoutAlign="start center">
-    <span class="list-header mat-h3">
-      <span class="dir-prefix" title="Directory">Directory</span>{{ getParamDir }}
+    <span class="mat-h3">
+      <span class="dir-prefix">Directory</span>{{ dirQp }}
     </span>
   </div>
   <div fxLayoutAlign="end end" fxFlex.lt-md="100%" fxLayoutAlign.lt-md="center center">
-    <img [alt]="'Cover of ' + getParamDir" *ngIf="coverUrl()" [hidden]="!validCoverUrl"
+    <img [alt]="'Cover of ' + dirQp" *ngIf="coverUrl()" [hidden]="!validCoverUrl"
          [src]="coverUrl()"
          class="album-art clickable"
          (click)="openCoverModal()"

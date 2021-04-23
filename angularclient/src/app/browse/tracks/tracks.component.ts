@@ -25,7 +25,7 @@ import { distinctUntilChanged, map } from "rxjs/operators";
 export class TracksComponent implements OnInit {
   @Input() tracks: QueueTrack[] = [];
   coverSizeClass: Observable<string>;
-  getParamDir = "/";
+  dirQp = "/";
   isMobile = false;
   queueDuration = 0;
   trackTableData = new TrackTableData();
@@ -45,7 +45,7 @@ export class TracksComponent implements OnInit {
         map((qp) => <string>qp.get("dir") || "/"),
         distinctUntilChanged()
       )
-      .subscribe((dir) => (this.getParamDir = decodeURIComponent(dir)));
+      .subscribe((dir) => (this.dirQp = decodeURIComponent(dir)));
   }
 
   ngOnInit(): void {
@@ -71,7 +71,7 @@ export class TracksComponent implements OnInit {
   coverUrl(): string {
     // Add a query param to trigger an image change in the browser
     return `${this.settingsService.getFindDirCoverUrl()}?path=${encodeURIComponent(
-      this.getParamDir
+      this.dirQp
     )}`;
   }
 

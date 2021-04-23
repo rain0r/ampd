@@ -12,7 +12,7 @@
     <div fxFlex="1 0 55%" fxLayout="column">
       <div class="mat-h2 queue-sub-title" fxFlex="100%" title="Title: {{currentTrack.title}}">
         <a class=" no-deco-links" [routerLink]="['browse']"
-           [queryParams]="{'dir': currentTrack.dir}"
+           [queryParams]="{'dir': currentPathLink}"
            *ngIf="currentTrack.title else trackFile"
            [class.text-muted]="(currentState|async) === 'pause'">
           {{ currentTrack.title }}
@@ -28,14 +28,14 @@
           title="Album: {{currentTrack.albumName}}"
       >
         <a class="no-deco-links text-muted" [routerLink]="['browse']"
-           [queryParams]="{'dir': currentTrack.dir}">
+           [queryParams]="{'dir': currentPathLink}">
           {{ currentTrack.albumName }}
         </a>
         <mat-divider></mat-divider>
       </div>
       <div class="mat-h3 queue-sub-title" title="Artist: {{currentTrack.artistName}}">
         <a class="no-deco-links" [routerLink]="['browse']"
-           [queryParams]="{'dir': currentTrack.dir}"
+           [queryParams]="{'dir': currentPathLink}"
            [class.text-muted]="(currentState|async) === 'pause'">
           {{ currentTrack.artistName }}
         </a>

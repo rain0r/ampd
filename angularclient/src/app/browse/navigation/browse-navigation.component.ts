@@ -113,7 +113,7 @@ export class BrowseNavigationComponent implements OnInit {
   }
 
   private buildDirUp(dir: string): void {
-    const splitted = dir.split("/");
+    const splitted = decodeURIComponent(dir).split("/");
     splitted.pop();
     let targetDir = splitted.join("/");
     if (targetDir.length === 0) {

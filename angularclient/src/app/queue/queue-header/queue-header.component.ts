@@ -21,6 +21,7 @@ export class QueueHeaderComponent implements OnInit {
   coverSizeClass: Observable<string>;
   currentState: Observable<string>;
   currentTrack = new QueueTrack();
+  currentPathLink = ""; // encoded dir of the current playing track
   isDisplayCover: Observable<boolean>;
   private displayCover$ = new BehaviorSubject<boolean>(false);
 
@@ -84,6 +85,7 @@ export class QueueHeaderComponent implements OnInit {
     let first = true;
     this.mpdService.currentTrack.subscribe((queueTrack) => {
       this.currentTrack = queueTrack;
+      this.currentPathLink = encodeURIComponent(queueTrack.dir);
       if (first || queueTrack.changed) {
         first = false;
         this.updateCover();

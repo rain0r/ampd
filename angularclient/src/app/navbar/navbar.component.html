@@ -32,11 +32,11 @@
     <span [routerLink]="['/']" fxHide.lt-md class="mono space-right clickable"
           style="color:white !important;">ampd</span>
     <div [ngSwitch]="connState|async" fxLayoutAlign="center center">
-      <mat-spinner color="accent" diameter="30" *ngSwitchCase="0"></mat-spinner>
-      <mat-icon *ngSwitchCase="1">cloud</mat-icon>
-      <mat-spinner color="accent" diameter="30" *ngSwitchCase="2"></mat-spinner>
-      <mat-icon *ngSwitchCase="3">cloud_off</mat-icon>
-      <mat-icon *ngSwitchDefault>cloud_off</mat-icon>
+      <mat-spinner color="accent" diameter="30" *ngSwitchCase="0" title="Connecting..."></mat-spinner>
+      <mat-icon *ngSwitchCase="1" title="Connected">cloud</mat-icon>
+      <mat-spinner color="accent" diameter="30" *ngSwitchCase="2" title="Closing..."></mat-spinner>
+      <mat-icon *ngSwitchCase="3" title="Disconnected">cloud_off</mat-icon>
+      <mat-icon *ngSwitchDefault title="Disconnected">cloud_off</mat-icon>
     </div>
   </mat-toolbar>
   <div class="app-content" [ngClass]="{ 'dark-theme': isDarkTheme | async }">

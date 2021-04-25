@@ -3,7 +3,7 @@ import { Track } from "./track";
 import { ServerStatus } from "./server-status";
 
 export interface StateMsgPayload {
-  mpdModesPanel: MpdModesPanel;
+  mpdModesPanelMsg: MpdModesPanel;
   currentTrack: Track;
   serverStatus: ServerStatus;
 }

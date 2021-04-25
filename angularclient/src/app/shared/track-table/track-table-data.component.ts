@@ -112,11 +112,6 @@ export class TrackTableDataComponent implements OnInit, OnChanges {
 
   onListDrop(event: CdkDragDrop<QueueTrack[]>): void {
     // Swap the elements around
-    // moveItemInArray(this.items, event.previousIndex, event.currentIndex);
-    // this.dataSource.next(this.items);
-    console.log(
-      `Moving item "${event.previousIndex}" to index ${event.currentIndex}`
-    );
     this.queueService.moveTrack(event.previousIndex, event.currentIndex);
   }
 

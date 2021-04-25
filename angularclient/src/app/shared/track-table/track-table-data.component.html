@@ -1,4 +1,6 @@
-<table mat-table [dataSource]="trackTableData.dataSource" matSort matSortDisableClear>
+<table mat-table [dataSource]="trackTableData.dataSource" matSort matSortDisableClear cdkDropList
+       [cdkDropListData]="trackTableData.dataSource.data"
+       (cdkDropListDropped)="onListDrop($event)" >
   <!-- Track number on the queue or album / directory -->
   <ng-container matColumnDef="position">
     <th mat-header-cell mat-sort-header [disabled]=!trackTableData.sortable *matHeaderCellDef>
@@ -109,6 +111,7 @@
       *matRowDef="let row; columns: trackTableData.displayedColumns"
       class="table-row"
       [ngClass]="{ themedbg: row.playing === true, playing: row.playing === true }"
+      cdkDrag
   ></tr>
 </table>
 <div [hidden]="!trackTableData.pagination">

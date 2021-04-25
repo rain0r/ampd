@@ -85,6 +85,7 @@ import { VirtualScrollPlaylistsComponent } from "./browse/playlists/virtual-scro
 import { PlaylistEntryComponent } from "./browse/playlists/playlist-entry/playlist-entry.component";
 import { DirectoryEntryComponent } from "./browse/directories/directory-entry/directory-entry.component";
 import { CoverGridComponent } from "./browse/directories/cover-grid/cover-grid.component";
+import { DragDropModule } from "@angular/cdk/drag-drop";
 
 @NgModule({
   declarations: [
@@ -157,6 +158,7 @@ import { CoverGridComponent } from "./browse/directories/cover-grid/cover-grid.c
     MatCardModule,
     MatDialogModule,
     MatDividerModule,
+    DragDropModule,
     MatFormFieldModule,
     MatGridListModule,
     MatIconModule,

@@ -69,6 +69,16 @@ export class QueueService {
     });
   }
 
+  moveTrack(oldPos: number, newPos: number): void {
+    this.rxStompService.publish({
+      destination: `${this.path}move-track`,
+      body: JSON.stringify({
+        oldPos: oldPos,
+        newPos: newPos,
+      }),
+    });
+  }
+
   getQueueSubscription(): Observable<Track[]> {
     return this.rxStompService.watch("/topic/queue").pipe(
       map((message) => message.body),

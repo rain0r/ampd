@@ -21,6 +21,7 @@ import {
 } from "@angular/cdk/layout";
 import { map } from "rxjs/operators";
 import { QueueService } from "../services/queue.service";
+import { CdkDragDrop } from "@angular/cdk/drag-drop";
 
 @Component({
   selector: "app-track-data-table",
@@ -107,6 +108,16 @@ export class TrackTableDataComponent implements OnInit, OnChanges {
       default:
       // Ignore it
     }
+  }
+
+  onListDrop(event: CdkDragDrop<QueueTrack[]>): void {
+    // Swap the elements around
+    // moveItemInArray(this.items, event.previousIndex, event.currentIndex);
+    // this.dataSource.next(this.items);
+    console.log(
+      `Moving item "${event.previousIndex}" to index ${event.currentIndex}`
+    );
+    this.queueService.moveTrack(event.previousIndex, event.currentIndex);
   }
 
   private addPlayTrack(track: QueueTrack): void {

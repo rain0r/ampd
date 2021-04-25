@@ -111,7 +111,7 @@ export class MpdService {
     this.getStateSubscription()
       .pipe(
         tap((payload) => {
-          this.mpdModesPanel$.next(payload.mpdModesPanel);
+          this.mpdModesPanel$.next(payload.mpdModesPanelMsg);
           this.currentState$.next(payload.serverStatus.state);
         }),
         map((payload) => this.buildCurrentQueueTrack(payload)),

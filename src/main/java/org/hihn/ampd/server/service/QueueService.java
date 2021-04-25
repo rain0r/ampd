@@ -3,6 +3,7 @@ package org.hihn.ampd.server.service;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import org.bff.javampd.server.MPD;
 import org.bff.javampd.song.MPDSong;
@@ -58,13 +59,10 @@ public class QueueService {
     List<MPDSong> trackList = mpd.getPlaylist().getSongList();
     Collection<MPDSong> mpdSongCollection =
         mpd.getMusicDatabase().getSongDatabase().searchFileName(path);
-    List<MPDSong> result =
-        trackList.stream().filter(mpdSongCollection::contains).collect(Collectors.toList());
-    if (result.size() > 0) {
-      mpd.getPlayer().playSong(result.iterator().next());
-    } else {
-      LOG.warn("Track not found: {}", path);
-    }
+    trackList.stream().filter(mpdSongCollection::contains).findFirst().ifPresentOrElse(
+        track -> mpd.getPlayer().playSong(track),
+        () -> LOG.warn("Can't play track: not found: {}", path)
+    );
   }
 
   /**
@@ -74,5 +72,10 @@ public class QueueService {
    */
   public void addPlaylist(String playlist) {
     mpd.getPlaylist().loadPlaylist(playlist);
+  }
+
+  public void moveTrack(int oldPos, int newPos) {
+    MPDSong track = mpd.getPlaylist().getSongList().get(oldPos);
+    mpd.getPlaylist().move(track, newPos);
   }
 }

@@ -2,14 +2,14 @@ package org.hihn.ampd.server.message.outgoing;
 
 import org.bff.javampd.server.ServerStatus;
 import org.bff.javampd.song.MPDSong;
-import org.hihn.ampd.server.message.incoming.MpdModesPanel;
+import org.hihn.ampd.server.message.incoming.MpdModesPanelMsg;
 
 /**
  * Represents the structure of a state returned to the frontend.
  */
 public class StatePayload {
 
-  private MpdModesPanel mpdModesPanel;
+  private MpdModesPanelMsg mpdModesPanelMsg;
 
   private MPDSong currentTrack;
 
@@ -20,21 +20,21 @@ public class StatePayload {
    *
    * @param serverStatus  ServerStatus provided by MPD.
    * @param currentTrack  The currently played track.
-   * @param mpdModesPanel Representation of the current state of the MPD modes.
+   * @param mpdModesPanelMsg Representation of the current state of the MPD modes.
    */
   public StatePayload(final ServerStatus serverStatus, final MPDSong currentTrack,
-      final MpdModesPanel mpdModesPanel) {
+      final MpdModesPanelMsg mpdModesPanelMsg) {
     this.serverStatus = serverStatus;
     this.currentTrack = currentTrack;
-    this.mpdModesPanel = mpdModesPanel;
+    this.mpdModesPanelMsg = mpdModesPanelMsg;
   }
 
-  public MpdModesPanel getMpdModesPanel() {
-    return mpdModesPanel;
+  public MpdModesPanelMsg getMpdModesPanelMsg() {
+    return mpdModesPanelMsg;
   }
 
-  public void setMpdModesPanel(final MpdModesPanel mpdModesPanel) {
-    this.mpdModesPanel = mpdModesPanel;
+  public void setMpdModesPanelMsg(final MpdModesPanelMsg mpdModesPanelMsg) {
+    this.mpdModesPanelMsg = mpdModesPanelMsg;
   }
 
   public MPDSong getCurrentTrack() {

@@ -6,7 +6,7 @@ import org.bff.javampd.server.ServerStatus;
 /**
  * Represents a MPD control panel.
  */
-public class MpdModesPanel {
+public class MpdModesPanelMsg {
 
   private boolean consume;
 
@@ -21,14 +21,14 @@ public class MpdModesPanel {
   /**
    * Used for incoming message deserialization.
    */
-  public MpdModesPanel(){}
+  public MpdModesPanelMsg(){}
 
   /**
    * Represents a MPD control panel.
    *
    * @param serverStatus ServerStatus provided by MPD.
    */
-  public MpdModesPanel(final ServerStatus serverStatus) {
+  public MpdModesPanelMsg(final ServerStatus serverStatus) {
     final Collection<String> statusList = serverStatus.getStatus();
 
     // crossfade is not part of the statusList so can't assign in it the for loop

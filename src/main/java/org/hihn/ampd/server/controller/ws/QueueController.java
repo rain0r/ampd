@@ -5,11 +5,13 @@ import java.util.List;
 import org.bff.javampd.file.MPDFile;
 import org.bff.javampd.server.MPD;
 import org.bff.javampd.song.MPDSong;
+import org.hihn.ampd.server.message.incoming.MoveTrackMsg;
 import org.hihn.ampd.server.model.AmpdSettings;
 import org.hihn.ampd.server.service.QueueService;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 
 /**
  * Websocket endpoint to control the queue. Besides getting the current queue, it also provides
@@ -98,5 +100,10 @@ public class QueueController {
   @MessageMapping("/play-track")
   public void playTrack(String file) {
     queueService.playTrack(file);
+  }
+
+  @MessageMapping("/move-track")
+  public void moveTrack(MoveTrackMsg moveTrackMsg) {
+    queueService.moveTrack(moveTrackMsg.getOldPos(), moveTrackMsg.getNewPos());
   }
 }

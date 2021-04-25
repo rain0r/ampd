@@ -1,7 +1,7 @@
 package org.hihn.ampd.server.controller.ws;
 
 import org.bff.javampd.server.MPD;
-import org.hihn.ampd.server.message.incoming.MpdModesPanel;
+import org.hihn.ampd.server.message.incoming.MpdModesPanelMsg;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.stereotype.Controller;
@@ -57,16 +57,16 @@ public class ControlPanelController {
   }
 
   /**
-   * Takes an {@link MpdModesPanel} and applies it on the MPD server.
+   * Takes an {@link MpdModesPanelMsg} and applies it on the MPD server.
    *
-   * @param mpdModesPanel The new modes that should be applied.
+   * @param mpdModesPanelMsg The new modes that should be applied.
    */
   @MessageMapping("mpd-modes-panel")
-  public void toggleMpdModes(MpdModesPanel mpdModesPanel) {
-    mpd.getPlayer().setRandom(mpdModesPanel.isRandom());
-    mpd.getPlayer().setRepeat(mpdModesPanel.isRepeat());
-    mpd.getPlayer().setXFade((mpdModesPanel.isCrossfade() ? 1 : 0));
-    mpd.getPlayer().setConsume(mpdModesPanel.isConsume());
-    mpd.getPlayer().setSingle(mpdModesPanel.isSingle());
+  public void toggleMpdModes(MpdModesPanelMsg mpdModesPanelMsg) {
+    mpd.getPlayer().setRandom(mpdModesPanelMsg.isRandom());
+    mpd.getPlayer().setRepeat(mpdModesPanelMsg.isRepeat());
+    mpd.getPlayer().setXFade((mpdModesPanelMsg.isCrossfade() ? 1 : 0));
+    mpd.getPlayer().setConsume(mpdModesPanelMsg.isConsume());
+    mpd.getPlayer().setSingle(mpdModesPanelMsg.isSingle());
   }
 }

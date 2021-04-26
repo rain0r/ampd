@@ -28,7 +28,7 @@
     "acorn": "^8.0.5",
     "dateformat": "^4.5.1",
     "kind-of": "^6.0.3",
-    "material-icons": "0.3.1",
+    "material-icons": "0.6.1",
     "minimist": "~1.2.5",
     "ngx-filesize": "~2.0.16",
     "roboto-fontface": "~0.10.0",

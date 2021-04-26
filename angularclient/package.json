@@ -53,12 +53,13 @@
     "ini": "~2.0.0",
     "markdownlint-cli": "^0.27.1",
     "node-forge": "~0.10.0",
+    "package-lock-sanitizer": "^1.0.1",
     "prettier": "2.2.1",
     "protractor": "~7.0.0",
     "serialize-javascript": "~5.0.1",
     "socket.io": "~4.0.1",
     "ts-node": "~9.1.1",
-    "typescript": "4.2.4",
+    "typescript": ">=4.0.0 <4.2.0",
     "websocket-extensions": "~0.1.4"
   },
   "sideEffects": [

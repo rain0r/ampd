@@ -55,6 +55,8 @@ export class PlaylistInfoModalComponent implements OnInit, AfterViewInit {
       const tableData = new TrackTableData();
       tableData.dataSource = this.buildDataSource(info.tracks);
       tableData.displayedColumns = this.getDisplayedColumns();
+      tableData.playTitleColumn = true;
+      tableData.addTitleColumn = true;
       this.trackTableData = tableData;
       this.playlistInfo$.next(info);
     });
@@ -93,6 +95,8 @@ export class PlaylistInfoModalComponent implements OnInit, AfterViewInit {
       { name: "albumName", showMobile: false },
       { name: "title", showMobile: true },
       { name: "length", showMobile: false },
+      { name: "addTitle", showMobile: false },
+      { name: "playTitle", showMobile: false },
     ];
     return displayedColumns
       .filter((cd) => !this.isMobile || cd.showMobile)

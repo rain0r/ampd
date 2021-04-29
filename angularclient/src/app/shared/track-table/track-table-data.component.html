@@ -1,4 +1,5 @@
 <table mat-table [dataSource]="trackTableData.dataSource" matSort matSortDisableClear cdkDropList
+       [cdkDropListDisabled]="!trackTableData.dragEnabled"
        [cdkDropListData]="trackTableData.dataSource.data"
        (cdkDropListDropped)="onListDrop($event)" >
   <!-- Track number on the queue or album / directory -->

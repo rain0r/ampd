@@ -18,6 +18,7 @@ import {
 import { map } from "rxjs/operators";
 import { QueueService } from "../../../shared/services/queue.service";
 import { PlaylistService } from "../../../shared/services/playlist.service";
+import { ClickActions } from "../../../shared/track-table/click-actions.enum";
 
 @Component({
   selector: "app-playlist-info-modal",
@@ -57,6 +58,7 @@ export class PlaylistInfoModalComponent implements OnInit, AfterViewInit {
       tableData.displayedColumns = this.getDisplayedColumns();
       tableData.playTitleColumn = true;
       tableData.addTitleColumn = true;
+      tableData.onPlayClick = ClickActions.AddPlayTrack;
       this.trackTableData = tableData;
       this.playlistInfo$.next(info);
     });

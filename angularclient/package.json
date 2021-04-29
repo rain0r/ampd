@@ -3,7 +3,7 @@
   "private": true,
   "scripts": {
     "e2e": "ng e2e",
-    "format": "eslint src/app/ --fix --ext .ts",
+    "format": "eslint src/app/ --fix --ext .ts && package-lock-sanitizer",
     "warnings": "eslint src/app/ --ext .ts -f checkstyle > checkstyle-ts-result.xml",
     "lint": "ng lint",
     "ng": "ng",
@@ -54,6 +54,7 @@
     "markdownlint-cli": "^0.27.1",
     "node-forge": "~0.10.0",
     "package-lock-sanitizer": "^1.0.1",
+    "postcss": "^8.2.4",
     "prettier": "2.2.1",
     "protractor": "~7.0.0",
     "serialize-javascript": "~5.0.1",

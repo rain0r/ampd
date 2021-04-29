@@ -8,7 +8,7 @@ import { QueueTrack } from "../models/queue-track";
  */
 export class TrackTableData {
   /**
-   * If true, the table as an 'add title' colum.
+   * If true, the table as an 'add title' column.
    */
   private _addTitleColumn = false;
 
@@ -21,6 +21,11 @@ export class TrackTableData {
    * The tracks that will be displayed in the track table.
    */
   private _dataSource = new MatTableDataSource<QueueTrack>();
+
+  /**
+   *  Reordering tracks via drag & drop
+   * */
+  private _dragEnabled = false;
 
   /**
    * Which columns this track table will have.
@@ -89,6 +94,14 @@ export class TrackTableData {
     this._displayedColumns = value;
   }
 
+  get dragEnabled(): boolean {
+    return this._dragEnabled;
+  }
+
+  set dragEnabled(value: boolean) {
+    this._dragEnabled = value;
+  }
+
   get notify(): boolean {
     return this._notify;
   }
@@ -128,6 +141,7 @@ export class TrackTableData {
   set sortable(value: boolean) {
     this._sortable = value;
   }
+
   get onPlayClick(): ClickActions {
     return this._onPlayClick;
   }

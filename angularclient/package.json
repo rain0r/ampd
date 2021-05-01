@@ -54,7 +54,7 @@
     "markdownlint-cli": "^0.27.1",
     "node-forge": "~0.10.0",
     "package-lock-sanitizer": "^1.0.1",
-    "postcss": "^8.2.4",
+    "postcss": "^8.2.13",
     "prettier": "2.2.1",
     "protractor": "~7.0.0",
     "serialize-javascript": "~5.0.1",

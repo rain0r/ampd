@@ -1,4 +1,4 @@
-<div fxLayout="row nowrap" fxLayoutAlign="center">
+<div fxLayout="row nowrap" fxLayoutAlign="center" *ngIf="trackTableData.dataSource.data.length > 0">
   <mat-form-field class="full-width" *ngIf="dataSource.data.length > 0">
     <input
         #filterInputElem
@@ -21,7 +21,7 @@
   </mat-form-field>
 </div>
 
-<app-track-data-table [trackTableData]="trackTableData"></app-track-data-table>
+<app-track-data-table [trackTableData]="trackTableData" *ngIf="trackTableData.dataSource.data.length > 0"></app-track-data-table>
 
 <div fxLayout="row wrap" fxLayoutAlign="space-between center" class="space-top">
   <span class="bottom-divider" fxFlex.lt-md="100%" *ngIf="dataSource.data.length > 0">

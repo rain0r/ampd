@@ -54,11 +54,12 @@ export class PlaylistInfoModalComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {
     this.playlistService.getPlaylistInfo(this.data.name).subscribe((info) => {
       const tableData = new TrackTableData();
+      tableData.addTitleColumn = true;
       tableData.dataSource = this.buildDataSource(info.tracks);
       tableData.displayedColumns = this.getDisplayedColumns();
-      tableData.playTitleColumn = true;
-      tableData.addTitleColumn = true;
+      tableData.notify = true;
       tableData.onPlayClick = ClickActions.AddPlayTrack;
+      tableData.playTitleColumn = true;
       this.trackTableData = tableData;
       this.playlistInfo$.next(info);
     });

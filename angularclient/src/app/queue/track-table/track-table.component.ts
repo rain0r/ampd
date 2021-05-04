@@ -118,7 +118,7 @@ export class TrackTableComponent implements OnInit {
     trackTable.dataSource = this.dataSource;
     trackTable.clickable = true;
     trackTable.displayedColumns = this.getDisplayedColumns();
-    trackTable.dragEnabled = true;
+    trackTable.dragEnabled = !this.isMobile;
     trackTable.onRowClick = ClickActions.PlayTrack;
     trackTable.sortable = true;
     return trackTable;

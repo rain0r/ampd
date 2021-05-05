@@ -77,7 +77,7 @@ export class TrackTableComponent implements OnInit {
       return;
     }
     const filterValue = (<HTMLInputElement>eventTarget).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
+    this.dataSource.filter = filterValue.toLowerCase();
   }
 
   resetFilter(): void {

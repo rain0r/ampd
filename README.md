@@ -93,6 +93,33 @@ The properties in `ampd.conf` are only applied if...
 * ...`ampd` is startet via `./ampd.jar start`
 * ... the `conf`-file has the same name as the `jar`-file (except the ending, of course)
 
+## Settings
+These are the available settings (with the defaults) that can be provided when starting `ampd` 
+(either via `-D` or in the `ampd.conf` file).  
+
+```  
+    # The root of your music directory. Used to display album covers.
+    # mpd.music.directory=/home/foo/Music
+    # The ip or name of the server that runs MPD
+    mpd.server=localhost
+    # The port on which MPD runs
+    mpd.port=6600
+    # If MPD uses a password, set it here
+    # mpd.password=
+    # Covers can be cached locally in  ~/.local/share/ampd/
+    local.cover.cache=true
+    # Covers can be fetched from Musicbrainz
+    mb.cover.service=true
+    # Reset MPD modes on "Clear queue" (turn off shuffle/consume/etc)
+    reset.modes.on.clear=false
+    # If users are allowed to create new playlists
+    create.new.playlists=true
+    # If users are allowed to delete existing playlists
+    delete.existing.playlists=true
+    # The interval (in ms) in which ampd sends updates
+    publisher.delay=900
+```
+
 ### Installation as a service
 
 #### init.d

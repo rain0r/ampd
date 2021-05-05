@@ -76,7 +76,7 @@ Download a release from [here](https://github.com/rain0r/ampd/releases) ([mirror
 Since `ampd` is distributed as a single `jar`-file, it doesn't need a traditional installation.
 Just copy it wherever you like. I would recommend `/opt/ampd/ampd.jar`.
 
-To overwriter any property from `application.properties` you can place a config file
+To overwrite any property from `application.properties` you can place a config file
 under `/opt/ampd/ampd.conf` which contains additional parameters, for example:
 
 ```shell script

@@ -92,7 +92,7 @@ export class BrowseNavigationComponent implements OnInit {
     if (!eventTarget) {
       return;
     }
-    const term = (<HTMLInputElement>eventTarget).value.trim();
+    const term = (<HTMLInputElement>eventTarget).value;
     this.filter = term;
     if (term) {
       this.messageService.sendMessage({

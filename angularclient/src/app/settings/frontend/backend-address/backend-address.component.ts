@@ -30,14 +30,13 @@ export class BackendAddressComponent {
     this.notificationService.popUp("Saved backend address.");
   }
 
-  private getBackendAddr(): string {
-    // Return the saved backend addr
-    return this.settingsService.getBackendContextAddr();
-  }
-
   private buildSettingsForm(): FormGroup {
     return this.formBuilder.group({
-      backendAddr: [this.getBackendAddr(), Validators.required],
+      backendAddr: [
+        this.settingsService.getBackendContextAddr(),
+        // eslint-disable-next-line @typescript-eslint/unbound-method
+        Validators.required,
+      ],
     });
   }
 }

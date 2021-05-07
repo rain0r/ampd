@@ -1,31 +1,51 @@
-<div fxLayout="row wrap" fxLayoutAlign="center center" fxLayoutAlign.lt-md="space-between"
-     fxFlex.lt-md="100%" fxLayoutGap="0.75rem">
-
+<div
+  fxLayout="row wrap"
+  fxLayoutAlign="center center"
+  fxLayoutAlign.lt-md="space-between"
+  fxFlex.lt-md="100%"
+  fxLayoutGap="0.75rem"
+>
   <!--Return to top -->
-  <button *ngIf="getParamDir !== '/'" class="mat-small" mat-raised-button
-          [routerLink]="['/browse']">
+  <button
+    *ngIf="getParamDir !== '/'"
+    class="mat-small"
+    mat-raised-button
+    [routerLink]="['/browse']"
+  >
     <mat-icon>home</mat-icon>
     <span fxHide.lt-md>Home</span>
   </button>
 
   <!--Go one dir up -->
-  <button *ngIf="getParamDir !== '/'" class="mat-small" mat-raised-button
-          [routerLink]="['/browse']"
-          [queryParams]="{dir: dirUp$|async}">
+  <button
+    *ngIf="getParamDir !== '/'"
+    class="mat-small"
+    mat-raised-button
+    [routerLink]="['/browse']"
+    [queryParams]="{ dir: dirUp$ | async }"
+  >
     <mat-icon>expand_less</mat-icon>
     <span fxHide.lt-md>Return</span>
   </button>
 
   <!--Add all-->
-  <button *ngIf="getParamDir !== '/'" class="mat-small" mat-raised-button
-          (click)="onAddDir(getParamDir)">
+  <button
+    *ngIf="getParamDir !== '/'"
+    class="mat-small"
+    mat-raised-button
+    (click)="onAddDir(getParamDir)"
+  >
     <mat-icon> add</mat-icon>
     <span fxHide.lt-md>Add all</span>
   </button>
 
   <!--Play all-->
-  <button *ngIf="getParamDir !== '/'" class="mat-small" mat-raised-button
-          (click)="onPlayDir(getParamDir)">
+  <button
+    *ngIf="getParamDir !== '/'"
+    class="mat-small"
+    mat-raised-button
+    (click)="onPlayDir(getParamDir)"
+  >
     <mat-icon> play_arrow</mat-icon>
     <span fxHide.lt-md>Play all</span>
   </button>
@@ -42,23 +62,23 @@
   <div fxLayoutAlign="center center" fxFlex="30%" fxFlex.lt-md="100%">
     <mat-form-field>
       <input
-          #filterInputElem
-          (keydown.escape)="resetFilter()"
-          (keyup)="applyFilter($event.target)"
-          [(ngModel)]="filter"
-          autocomplete="off"
-          matInput
-          placeholder="Filter"
-          type="text"
-          [disabled]="!(displayFilter$|async)"
+        #filterInputElem
+        (keydown.escape)="resetFilter()"
+        (keyup)="applyFilter($event.target)"
+        [(ngModel)]="filter"
+        autocomplete="off"
+        matInput
+        placeholder="Filter"
+        type="text"
+        [disabled]="(displayFilter$ | async) === false"
       />
       <button
-          (click)="filter = ''; resetFilter()"
-          *ngIf="filter"
-          aria-label="Clear"
-          mat-button
-          mat-icon-button
-          matSuffix
+        (click)="filter = ''; resetFilter()"
+        *ngIf="filter"
+        aria-label="Clear"
+        mat-button
+        mat-icon-button
+        matSuffix
       >
         <mat-icon>close</mat-icon>
       </button>

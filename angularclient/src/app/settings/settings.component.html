@@ -1,7 +1,5 @@
 <div fxLayout="column" fxLayoutGap="1rem" fxFlex.gt-md="75%">
-  <div class="mat-display-1">
-    <span class="mono">ampd</span> settings
-  </div>
+  <div class="mat-display-1"><span class="mono">ampd</span> settings</div>
   <!-- Error handling -->
   <div fxFlex *ngIf="error">
     <app-error [error]="error"></app-error>
@@ -9,7 +7,12 @@
 
   <mat-tab-group animationDuration="0ms">
     <mat-tab label="Frontend">
-      <div class="flex-col" fxLayout="column" fxLayoutGap="1rem" fxFlex.gt-md="75%">
+      <div
+        class="flex-col"
+        fxLayout="column"
+        fxLayoutGap="1rem"
+        fxFlex.gt-md="75%"
+      >
         <!-- Toggle Dark/Light theme -->
         <app-theme></app-theme>
 
@@ -29,41 +32,62 @@
 
     <mat-tab label="Backend">
       <!-- Backend  -->
-      <div class="flex-col" fxLayout="column" fxLayoutGap="1rem" fxFlex.gt-md="75%"
-           *ngIf="backendSettings | async as settings">
-
+      <div
+        class="flex-col"
+        fxLayout="column"
+        fxLayoutGap="1rem"
+        fxFlex.gt-md="75%"
+        *ngIf="backendSettings | async as settings"
+      >
         <mat-card>
           <mat-card-content>
             These settings need to be changed via
-            <span class="mono code">-D</span> when starting ampd. Alternatively, write them to
-            an <span class="mono code">ampd.conf</span> file. See the
-            <a class="no-deco-links mono code"
-               href="https://github.com/rain0r/ampd/blob/master/README.md">README</a> for more
-            information.
+            <span class="mono code">-D</span> when starting ampd. Alternatively,
+            write them to an <span class="mono code">ampd.conf</span> file. See
+            the
+            <a
+              class="no-deco-links mono code"
+              href="https://github.com/rain0r/ampd/blob/master/README.md"
+              >README</a
+            >
+            for more information.
           </mat-card-content>
         </mat-card>
 
         <!-- Cover cache -->
-        <app-cover-cache [localCoverCache]="settings.localCoverCache"></app-cover-cache>
+        <app-cover-cache
+          [localCoverCache]="settings.localCoverCache"
+        ></app-cover-cache>
         <!-- MusicBrainz cover service -->
         <app-music-brainz-cover-service
-            [mbCoverService]="settings.mbCoverService"></app-music-brainz-cover-service>
+          [mbCoverService]="settings.mbCoverService"
+        ></app-music-brainz-cover-service>
         <!-- Reset MPD modes on clear -->
         <app-reset-modes-on-clear
-            [resetModesOnClear]="settings.resetModesOnClear"></app-reset-modes-on-clear>
+          [resetModesOnClear]="settings.resetModesOnClear"
+        ></app-reset-modes-on-clear>
         <!-- Music directory -->
-        <app-music-directory [musicDirectory]="settings.musicDirectory"></app-music-directory>
+        <app-music-directory
+          [musicDirectory]="settings.musicDirectory"
+        ></app-music-directory>
         <!-- MPD Server -->
         <app-mpd-server [mpdServer]="settings.mpdServer"></app-mpd-server>
         <!-- MPD Port -->
         <app-mpd-port [mpdPort]="settings.mpdPort"></app-mpd-port>
         <!-- Playlist properties -->
-        <app-playlist-properties [createNewPlaylists]="settings.createNewPlaylists"
-                                 [deleteExistingPlaylists]="settings.deleteExistingPlaylists"></app-playlist-properties>
+        <app-playlist-properties
+          [createNewPlaylists]="settings.createNewPlaylists"
+          [deleteExistingPlaylists]="settings.deleteExistingPlaylists"
+        ></app-playlist-properties>
       </div>
     </mat-tab>
     <mat-tab label="Admin">
-      <div class="flex-col" fxLayout="column" fxLayoutGap="1rem" fxFlex.gt-md="75%">
+      <div
+        class="flex-col"
+        fxLayout="column"
+        fxLayoutGap="1rem"
+        fxFlex.gt-md="75%"
+      >
         <!-- Trigger database update -->
         <app-update-database></app-update-database>
         <!-- Server statistics -->
@@ -77,7 +101,7 @@
   <div class="mono">
     Source code at:
     <a class="mat-app-background" href="https://github.com/rain0r/ampd"
-    >github.com/rain0r/ampd</a
+      >github.com/rain0r/ampd</a
     >
   </div>
 </div>

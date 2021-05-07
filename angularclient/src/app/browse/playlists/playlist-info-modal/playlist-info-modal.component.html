@@ -1,16 +1,26 @@
-<div *ngIf="playlistInfo | async as info else loading" fxLayout="column">
-  <div mat-dialog-title fxLayout="row wrap" fxLayoutAlign="space-between baseline">
+<div *ngIf="playlistInfo | async as info; else loading" fxLayout="column">
+  <div
+    mat-dialog-title
+    fxLayout="row wrap"
+    fxLayoutAlign="space-between baseline"
+  >
     <span class="text-muted" fxFlex.lt-md="100%">Playlist</span>
-    <strong fxFlex.lt-md="100%">{{info.name}}</strong>
-    <span class="text-muted" fxFlex.lt-md="100%">{{info.trackCount}} tracks</span>
+    <strong fxFlex.lt-md="100%">{{ info.name }}</strong>
+    <span class="text-muted" fxFlex.lt-md="100%"
+      >{{ info.trackCount }} tracks</span
+    >
   </div>
 
   <mat-dialog-content>
-    <app-track-data-table [trackTableData]="trackTableData"></app-track-data-table>
+    <app-track-data-table
+      [trackTableData]="trackTableData"
+    ></app-track-data-table>
   </mat-dialog-content>
 
   <mat-dialog-actions fxLayout="row nowrap" fxLayoutAlign="end">
-    <button mat-stroked-button (click)="onDeletePlaylist()" color="warn">Delete</button>
+    <button mat-stroked-button (click)="onDeletePlaylist()" color="warn">
+      Delete
+    </button>
     <button mat-stroked-button (click)="onAddPlaylist()">Add</button>
     <button mat-stroked-button matDialogClose>Close</button>
   </mat-dialog-actions>

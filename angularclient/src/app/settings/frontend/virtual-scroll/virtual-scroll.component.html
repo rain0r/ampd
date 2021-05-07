@@ -5,15 +5,15 @@
   </mat-card-header>
   <mat-card-content>
     <mat-slide-toggle
-        class="space-right"
-        [checked]="(frontendSettings.virtualScroll|async)"
-        (change)="toggle($event.checked)"
-        title="Enable Virtual Scrolling"
+      class="space-right"
+      [checked]="frontendSettings.virtualScroll | async"
+      (change)="toggle($event.checked)"
+      title="Enable Virtual Scrolling"
     >
       <mat-hint align="end"
-      ><span class="mono code">beta</span> - More performant than the traditional scroll mode.
-      </mat-hint
-      >
+        ><span class="mono code">beta</span> - More performant than the
+        traditional scroll mode.
+      </mat-hint>
     </mat-slide-toggle>
   </mat-card-content>
 </mat-card>

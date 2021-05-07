@@ -5,8 +5,10 @@
   </div>
 </div>
 
-<app-virtual-scroll-playlists [playlists]="playlists"
-    *ngIf="(virtualScroll|async) else conventionalScroll"></app-virtual-scroll-playlists>
+<app-virtual-scroll-playlists
+  [playlists]="playlists"
+  *ngIf="virtualScroll | async; else conventionalScroll"
+></app-virtual-scroll-playlists>
 
 <ng-template #conventionalScroll>
   <div *ngFor="let playlist of playlists | playlistFilter: filterValue">

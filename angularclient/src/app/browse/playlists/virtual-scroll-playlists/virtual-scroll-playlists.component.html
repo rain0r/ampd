@@ -1,5 +1,5 @@
 <cdk-virtual-scroll-viewport itemSize="30" class="virtual-scroll-viewport">
-  <div *cdkVirtualFor="let playlist of (playlists|playlistFilter: filterValue)">
+  <div *cdkVirtualFor="let playlist of playlists | playlistFilter: filterValue">
     <app-playlist-entry [playlist]="playlist"></app-playlist-entry>
   </div>
 </cdk-virtual-scroll-viewport>

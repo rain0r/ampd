@@ -1,31 +1,33 @@
-<div fxLayout="column" fxLayoutGap="0.75rem" *ngIf="(blacklistedCovers|async) as bc">
-<mat-card>
-  <mat-card-header>
-    <mat-card-title>MusicBrainz cover service</mat-card-title>
-  </mat-card-header>
-  <mat-card-content>
-    <mat-slide-toggle
-        class="space-right"
-        [checked]="mbCoverService"
-        disabled
-    >
-      <mat-hint align="end"
-      >Get covers from MusicBrainz.
-        <span *ngIf="coverCacheUsage | async as usage">
-                <span *ngIf="usage > 0">
-                Currently {{ usage | filesize }} used.
-                  </span>
-              </span>
-      </mat-hint
-      >
-    </mat-slide-toggle>
-  </mat-card-content>
-  <mat-card-footer class="card-footer">
-    Configure with <span class="mono code">-Dmb.cover.service=true</span> when starting ampd.
-  </mat-card-footer>
-</mat-card>
+<div
+  fxLayout="column"
+  fxLayoutGap="0.75rem"
+  *ngIf="blacklistedCovers | async as bc"
+>
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>MusicBrainz cover service</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <mat-slide-toggle class="space-right" [checked]="mbCoverService" disabled>
+        <mat-hint align="end"
+          >Get covers from MusicBrainz.
+          <span *ngIf="coverCacheUsage | async as usage">
+            <span *ngIf="usage > 0">
+              Currently {{ usage | filesize }} used.
+            </span>
+          </span>
+        </mat-hint>
+      </mat-slide-toggle>
+    </mat-card-content>
+    <mat-card-footer class="card-footer">
+      Configure with <span class="mono code">-Dmb.cover.service=true</span> when
+      starting ampd.
+    </mat-card-footer>
+  </mat-card>
 
-<!-- Cover blacklist -->
-<app-cover-blacklist *ngIf="mbCoverService && bc > 0"
-    [mbCoverService]="mbCoverService"></app-cover-blacklist>
+  <!-- Cover blacklist -->
+  <app-cover-blacklist
+    *ngIf="mbCoverService && bc > 0"
+    [mbCoverService]="mbCoverService"
+  ></app-cover-blacklist>
 </div>

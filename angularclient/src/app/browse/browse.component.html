@@ -5,9 +5,7 @@
   <!-- "Back to top" icon -->
   <div class="back-to-top" fxHide fxShow.lt-md="true">
     <button mat-icon-button (click)="onBackToTop()">
-      <mat-icon>
-        arrow_upward
-      </mat-icon>
+      <mat-icon> arrow_upward </mat-icon>
     </button>
   </div>
 
@@ -15,29 +13,34 @@
     <mat-spinner *ngIf="isLoading"></mat-spinner>
   </div>
   <div
-      *ngIf="(browsePayload|async) as msg"
-      fxLayout="row"
-      fxLayout.lt-md="column"
-      fxLayoutAlign="center"
-      fxLayoutGap="1rem"
-      fxLayoutGap.lt-md="0"
+    *ngIf="browsePayload | async as msg"
+    fxLayout="row"
+    fxLayout.lt-md="column"
+    fxLayoutAlign="center"
+    fxLayoutGap="1rem"
+    fxLayoutGap.lt-md="0"
   >
     <!-- playlists -->
     <app-playlists
-        fxFlex *ngIf="msg.playlists.length > 0"
-        [playlists]="msg.playlists"
+      fxFlex
+      *ngIf="msg.playlists.length > 0"
+      [playlists]="msg.playlists"
     ></app-playlists>
-
 
     <!-- directories -->
     <app-directories
-        fxFlex *ngIf="msg.directories.length > 0"
-        [directories]="msg.directories"
-        [dirQp]="dirQp"
+      fxFlex
+      *ngIf="msg.directories.length > 0"
+      [directories]="msg.directories"
+      [dirQp]="dirQp"
     ></app-directories>
 
     <!-- tracks -->
-    <app-tracks fxFlex *ngIf="msg.tracks.length > 0" [tracks]="msg.tracks"></app-tracks>
+    <app-tracks
+      fxFlex
+      *ngIf="msg.tracks.length > 0"
+      [tracks]="msg.tracks"
+    ></app-tracks>
   </div>
   <!-- Error handling -->
   <div fxFlex *ngIf="error">

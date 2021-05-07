@@ -3,7 +3,12 @@
   <p>URL of the stream</p>
   <mat-form-field>
     <mat-label>URL</mat-label>
-    <input matInput [(ngModel)]="streamUrl" (keyup.enter)="onEnterPressed()" focus>
+    <input
+      matInput
+      [(ngModel)]="streamUrl"
+      (keyup.enter)="onEnterPressed()"
+      focus
+    />
   </mat-form-field>
 </div>
 <div mat-dialog-actions align="end">

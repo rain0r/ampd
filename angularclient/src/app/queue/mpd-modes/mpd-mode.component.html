@@ -1,72 +1,52 @@
 <mat-button-toggle-group
-    fxLayoutAlign="space-between"
-    multiple
-    *ngIf="(mpdModesPanel|async) as modesPanel"
-    (change)="toggleCtrl($event.value)"
+  fxLayoutAlign="space-between"
+  multiple
+  *ngIf="mpdModesPanel | async as modesPanel"
+  (change)="toggleCtrl($event.value)"
 >
   <mat-button-toggle
-      value="random"
-      [checked]="modesPanel.random"
-      (change)="modesPanel.random = $event.source.checked"
-      title="Toggle with 'z'"
+    value="random"
+    [checked]="modesPanel.random"
+    (change)="modesPanel.random = $event.source.checked"
+    title="Toggle with 'z'"
   >
-    <mat-icon>
-      shuffle
-    </mat-icon>
-    <span fxHide.lt-md>
-      random
-    </span>
+    <mat-icon> shuffle </mat-icon>
+    <span fxHide.lt-md> random </span>
   </mat-button-toggle>
   <mat-button-toggle
-      value="consume"
-      [checked]="modesPanel.consume"
-      (change)="modesPanel.consume = $event.source.checked"
-      title="Toggle with 'R'"
+    value="consume"
+    [checked]="modesPanel.consume"
+    (change)="modesPanel.consume = $event.source.checked"
+    title="Toggle with 'R'"
   >
-    <mat-icon>
-      whatshot
-    </mat-icon>
-    <span fxHide.lt-md>
-      consume
-    </span>
+    <mat-icon> whatshot </mat-icon>
+    <span fxHide.lt-md> consume </span>
   </mat-button-toggle>
   <mat-button-toggle
-      value="single"
-      [checked]="modesPanel.single"
-      (change)="modesPanel.single = $event.source.checked"
-      title="Toggle with 'y'"
+    value="single"
+    [checked]="modesPanel.single"
+    (change)="modesPanel.single = $event.source.checked"
+    title="Toggle with 'y'"
   >
-    <mat-icon>
-      star_border
-    </mat-icon>
-    <span fxHide.lt-md>
-      single
-    </span>
+    <mat-icon> star_border </mat-icon>
+    <span fxHide.lt-md> single </span>
   </mat-button-toggle>
   <mat-button-toggle
-      value="crossfade"
-      [checked]="modesPanel.crossfade"
-      (change)="modesPanel.crossfade = $event.source.checked"
-      title="Toggle with 'x'"
+    value="crossfade"
+    [checked]="modesPanel.crossfade"
+    (change)="modesPanel.crossfade = $event.source.checked"
+    title="Toggle with 'x'"
   >
-    <mat-icon>
-      compare_arrows
-    </mat-icon>
-    <span fxHide.lt-md>
-      crossfade
-    </span>
+    <mat-icon> compare_arrows </mat-icon>
+    <span fxHide.lt-md> crossfade </span>
   </mat-button-toggle>
   <mat-button-toggle
-      value="repeat"
-      [checked]="modesPanel.repeat"
-      (change)="modesPanel.repeat = $event.source.checked"
-      title="Toggle with 'r'"
+    value="repeat"
+    [checked]="modesPanel.repeat"
+    (change)="modesPanel.repeat = $event.source.checked"
+    title="Toggle with 'r'"
   >
-    <mat-icon>
-      repeat
-    </mat-icon>
-    <span fxHide.lt-md>
-      repeat
-    </span>
+    <mat-icon> repeat </mat-icon>
+    <span fxHide.lt-md> repeat </span>
   </mat-button-toggle>
 </mat-button-toggle-group>

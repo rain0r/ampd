@@ -1,40 +1,56 @@
 <div
-    class="app-main mat-app-background"
-    [ngClass]="{ 'dark-theme': isDarkTheme | async }"
+  class="app-main mat-app-background"
+  [ngClass]="{ 'dark-theme': isDarkTheme | async }"
 >
   <mat-toolbar class="toolbar" color="primary">
-    <button mat-button [routerLink]="['']" routerLinkActive="mat-accent" [routerLinkActiveOptions]="{exact:true}">
+    <button
+      mat-button
+      [routerLink]="['']"
+      routerLinkActive="mat-accent"
+      [routerLinkActiveOptions]="{ exact: true }"
+    >
       <mat-icon>format_list_bulleted</mat-icon>
-      <span fxHide.lt-md>
-        Queue
-      </span>
+      <span fxHide.lt-md> Queue </span>
     </button>
     <button mat-button [routerLink]="['/browse']" routerLinkActive="mat-accent">
       <mat-icon>folder_open</mat-icon>
-      <span fxHide.lt-md>
-          Browse
-        </span>
+      <span fxHide.lt-md> Browse </span>
     </button>
     <button mat-button [routerLink]="['/search']" routerLinkActive="mat-accent">
       <mat-icon>search</mat-icon>
-      <span fxHide.lt-md>
-          Search
-        </span>
+      <span fxHide.lt-md> Search </span>
     </button>
-    <button mat-button [routerLink]="['/settings']" routerLinkActive="mat-accent">
+    <button
+      mat-button
+      [routerLink]="['/settings']"
+      routerLinkActive="mat-accent"
+    >
       <mat-icon>settings</mat-icon>
-      <span fxHide.lt-md>
-          Settings
-        </span>
+      <span fxHide.lt-md> Settings </span>
     </button>
 
     <span class="fill-space"></span>
-    <span [routerLink]="['/']" fxHide.lt-md class="mono space-right clickable"
-          style="color:white !important;">ampd</span>
-    <div [ngSwitch]="connState|async" fxLayoutAlign="center center">
-      <mat-spinner color="accent" diameter="30" *ngSwitchCase="0" title="Connecting..."></mat-spinner>
+    <span
+      [routerLink]="['/']"
+      fxHide.lt-md
+      class="mono space-right clickable"
+      style="color: white !important"
+      >ampd</span
+    >
+    <div [ngSwitch]="connState | async" fxLayoutAlign="center center">
+      <mat-spinner
+        color="accent"
+        diameter="30"
+        *ngSwitchCase="0"
+        title="Connecting..."
+      ></mat-spinner>
       <mat-icon *ngSwitchCase="1" title="Connected">cloud</mat-icon>
-      <mat-spinner color="accent" diameter="30" *ngSwitchCase="2" title="Closing..."></mat-spinner>
+      <mat-spinner
+        color="accent"
+        diameter="30"
+        *ngSwitchCase="2"
+        title="Closing..."
+      ></mat-spinner>
       <mat-icon *ngSwitchCase="3" title="Disconnected">cloud_off</mat-icon>
       <mat-icon *ngSwitchDefault title="Disconnected">cloud_off</mat-icon>
     </div>
@@ -43,5 +59,3 @@
     <router-outlet></router-outlet>
   </div>
 </div>
-
-

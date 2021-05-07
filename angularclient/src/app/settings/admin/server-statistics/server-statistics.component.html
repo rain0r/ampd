@@ -1,32 +1,42 @@
-<mat-card *ngIf="(serverStatistics|async) as statistics" fxLayout="column" fxLayoutGap="0.25rem">
-<mat-card-content>
-  <div fxLayout="row">
-    <span fxFlex="50%">Artist count</span>
-    <span fxFlex="50%">{{statistics.artistCount| number:'':'en-GB'}}</span>
-  </div>
-  <div fxLayout="row">
-    <span fxFlex="50%">Album count</span>
-    <span fxFlex="50%">{{statistics.albumCount| number:'':'en-GB'}}</span>
-  </div>  
-  <div fxLayout="row">
-    <span fxFlex="50%">Database playtime</span>
-    <span fxFlex="50%">{{statistics.databasePlaytime|secondsToHhMmSs}}</span>
-  </div>  
-  <div fxLayout="row">
-    <span fxFlex="50%">Last update time</span>
-    <span fxFlex="50%">{{statistics.lastUpdateTime * 1000| date: 'full'}}</span>
-  </div>  
-  <div fxLayout="row">
-    <span fxFlex="50%">Playtime</span>
-    <span fxFlex="50%">{{statistics.playtime|secondsToHhMmSs}}</span>
-  </div>
-  <div fxLayout="row">
-    <span fxFlex="50%">Song count</span>
-    <span fxFlex="50%">{{statistics.songCount| number:'':'en-GB'}}</span>
-  </div>
-  <div fxLayout="row">
-    <span fxFlex="50%">Uptime</span>
-    <span fxFlex="50%">{{statistics.uptime|secondsToHhMmSs}}</span>
-  </div>
-</mat-card-content>
+<mat-card
+  *ngIf="serverStatistics | async as statistics"
+  fxLayout="column"
+  fxLayoutGap="0.25rem"
+>
+  <mat-card-content>
+    <div fxLayout="row">
+      <span fxFlex="50%">Artist count</span>
+      <span fxFlex="50%">{{
+        statistics.artistCount | number: "":"en-GB"
+      }}</span>
+    </div>
+    <div fxLayout="row">
+      <span fxFlex="50%">Album count</span>
+      <span fxFlex="50%">{{ statistics.albumCount | number: "":"en-GB" }}</span>
+    </div>
+    <div fxLayout="row">
+      <span fxFlex="50%">Database playtime</span>
+      <span fxFlex="50%">{{
+        statistics.databasePlaytime | secondsToHhMmSs
+      }}</span>
+    </div>
+    <div fxLayout="row">
+      <span fxFlex="50%">Last update time</span>
+      <span fxFlex="50%">{{
+        statistics.lastUpdateTime * 1000 | date: "full"
+      }}</span>
+    </div>
+    <div fxLayout="row">
+      <span fxFlex="50%">Playtime</span>
+      <span fxFlex="50%">{{ statistics.playtime | secondsToHhMmSs }}</span>
+    </div>
+    <div fxLayout="row">
+      <span fxFlex="50%">Song count</span>
+      <span fxFlex="50%">{{ statistics.songCount | number: "":"en-GB" }}</span>
+    </div>
+    <div fxLayout="row">
+      <span fxFlex="50%">Uptime</span>
+      <span fxFlex="50%">{{ statistics.uptime | secondsToHhMmSs }}</span>
+    </div>
+  </mat-card-content>
 </mat-card>

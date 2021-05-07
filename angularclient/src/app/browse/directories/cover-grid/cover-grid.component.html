@@ -1,28 +1,35 @@
 <div
-    fxLayout="row wrap"
-    fxLayoutAlign="space-between"
-    fxLayoutGap="1rem grid"
-    fxLayoutGap.lt-md="0.25rem grid"
-    *ngIf="dirQp != '/' && directories.length < maxCoversDisplayed"
+  fxLayout="row wrap"
+  fxLayoutAlign="space-between"
+  fxLayoutGap="1rem grid"
+  fxLayoutGap.lt-md="0.25rem grid"
+  *ngIf="dirQp != '/' && directories.length < maxCoversDisplayed"
 >
   <div
-      fxLayoutAlign="center center"
-      *ngFor="let dir of (directories|directoryFilter: filterValue)"
+    fxLayoutAlign="center center"
+    *ngFor="let dir of directories | directoryFilter: filterValue"
   >
     <mat-card fxLayout="column">
       <img
-          mat-card-image
-          class="clickable"
-          [ngClass]="[coverSizeClass|async]"
-          [queryParams]="{ dir: dir.path }"
-          [routerLink]="['/browse']"
-          [title]="dir.displayedPath"
-          alt="Cover of {{dir.displayedPath}}"
-          src="{{ dir.albumCoverUrl }}"
+        mat-card-image
+        class="clickable"
+        [ngClass]="[coverSizeClass | async]"
+        [queryParams]="{ dir: dir.path }"
+        [routerLink]="['/browse']"
+        [title]="dir.displayedPath"
+        alt="Cover of {{ dir.displayedPath }}"
+        src="{{ dir.albumCoverUrl }}"
       />
-      <mat-card-actions fxLayout="row wrap" fxLayoutAlign="space-between baseline">
-        <button mat-stroked-button (click)="onPlayDir($event, dir.path)">Play</button>
-        <button mat-stroked-button (click)="onAddDir($event, dir.path)">Add</button>
+      <mat-card-actions
+        fxLayout="row wrap"
+        fxLayoutAlign="space-between baseline"
+      >
+        <button mat-stroked-button (click)="onPlayDir($event, dir.path)">
+          Play
+        </button>
+        <button mat-stroked-button (click)="onAddDir($event, dir.path)">
+          Add
+        </button>
       </mat-card-actions>
     </mat-card>
   </div>

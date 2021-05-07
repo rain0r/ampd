@@ -4,12 +4,22 @@
       <span class="dir-prefix">Directory</span>{{ dirQp }}
     </span>
   </div>
-  <div fxLayoutAlign="end end" fxFlex.lt-md="100%" fxLayoutAlign.lt-md="center center">
-    <img [alt]="'Cover of ' + dirQp" *ngIf="coverUrl()" [hidden]="!validCoverUrl"
-         [src]="coverUrl()"
-         class="album-art clickable"
-         (click)="openCoverModal()"
-         [ngClass]="[coverSizeClass|async]" (error)="onError()" (load)="onLoad()"/>
+  <div
+    fxLayoutAlign="end end"
+    fxFlex.lt-md="100%"
+    fxLayoutAlign.lt-md="center center"
+  >
+    <img
+      [alt]="'Cover of ' + dirQp"
+      *ngIf="coverUrl()"
+      [hidden]="!validCoverUrl"
+      [src]="coverUrl()"
+      class="album-art clickable"
+      (click)="openCoverModal()"
+      [ngClass]="[coverSizeClass | async]"
+      (error)="onError()"
+      (load)="onLoad()"
+    />
   </div>
 </div>
 
@@ -21,10 +31,11 @@
 <mat-divider class="bottom-divider"></mat-divider>
 
 <div *ngIf="trackTableData.dataSource.data.length > 0" class="bottom-divider">
-    <span [ngPlural]="trackTableData.dataSource.data.length">
-      <ng-template ngPluralCase="=1">1 track </ng-template>
-      <ng-template ngPluralCase="other">{{ trackTableData.dataSource.data.length }}
-        tracks</ng-template>
-    </span> in this directory.
-  Total playtime:     {{ queueDuration | secondsToHhMmSs }}
+  <span [ngPlural]="trackTableData.dataSource.data.length">
+    <ng-template ngPluralCase="=1">1 track </ng-template>
+    <ng-template ngPluralCase="other"
+      >{{ trackTableData.dataSource.data.length }} tracks</ng-template
+    >
+  </span>
+  in this directory. Total playtime: {{ queueDuration | secondsToHhMmSs }}
 </div>

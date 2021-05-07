@@ -1,13 +1,17 @@
 <div mat-dialog-content>
-  {{ data.artistName }} <span *ngIf="data.albumName">— {{ data.albumName }}</span>
-  — {{ data.title }}
+  {{ data.artistName }}
+  <span *ngIf="data.albumName">— {{ data.albumName }}</span> — {{ data.title }}
   <mat-divider></mat-divider>
-  <img src="{{ data.coverUrl }}" alt="Cover"/>
+  <img src="{{ data.coverUrl }}" alt="Cover" />
 </div>
 <div mat-dialog-actions align="end" fxLayout="row nowrap">
-  <button *ngIf="(backendSettings | async)?.mbCoverService" mat-stroked-button
-          (click)="onBlacklistCover()">Blacklist
+  <button
+    *ngIf="(backendSettings | async)?.mbCoverService"
+    mat-stroked-button
+    (click)="onBlacklistCover()"
+  >
+    Blacklist
   </button>
-  <a mat-stroked-button href="{{data.coverUrl}}" target="_blank">Open</a>
+  <a mat-stroked-button href="{{ data.coverUrl }}" target="_blank">Open</a>
   <button mat-stroked-button mat-dialog-close="">Close</button>
 </div>

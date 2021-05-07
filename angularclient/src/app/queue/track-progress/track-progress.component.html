@@ -1,22 +1,25 @@
-<div fxLayout="row nowrap" fxLayoutAlign="center center"
-     fxLayoutGap.gt-md="0.4rem"
-     *ngIf="(state|async) !== 'stop' && (currentTrack|async) as track ">
+<div
+  fxLayout="row nowrap"
+  fxLayoutAlign="center center"
+  fxLayoutGap.gt-md="0.4rem"
+  *ngIf="(state | async) !== 'stop' && (currentTrack | async) as track"
+>
   <div>
     {{ track.elapsed | secondsToMmSs }}
   </div>
   <div fxFlex="1 1 auto">
     <mat-slider
-        class="full-width"
-        min="0"
-        max="{{ track.length }}"
-        step="1"
-        [(ngModel)]="track.progress"
-        (input)="handleCurrentTrackProgressSlider($event)"
+      class="full-width"
+      min="0"
+      max="{{ track.length }}"
+      step="1"
+      [(ngModel)]="track.progress"
+      (input)="handleCurrentTrackProgressSlider($event)"
     ></mat-slider>
   </div>
-  <div *ngIf="track.length > 0"> 
-    {{ track.length | secondsToMmSs }}    
+  <div *ngIf="track.length > 0">
+    {{ track.length | secondsToMmSs }}
   </div>
 </div>
 
-<mat-divider *ngIf="(state|async) !== 'stop'"></mat-divider>
+<mat-divider *ngIf="(state | async) !== 'stop'"></mat-divider>

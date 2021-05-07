@@ -1,16 +1,20 @@
-<mat-card *ngIf="mbCoverService && (coverBlacklist|async) as blacklist">
+<mat-card *ngIf="mbCoverService && (coverBlacklist | async) as blacklist">
   <mat-card-header>
     <mat-card-title>Cover blacklist</mat-card-title>
   </mat-card-header>
   <mat-card-content>
     <mat-list role="list">
-      <mat-list-item *ngFor="let track of blacklist.blacklistedFiles" class="smaller-font">
-        {{track}}
+      <mat-list-item
+        *ngFor="let track of blacklist.blacklistedFiles"
+        class="smaller-font"
+      >
+        {{ track }}
       </mat-list-item>
     </mat-list>
   </mat-card-content>
   <mat-card-footer class="card-footer">
-    These files will not download a cover from MusicBrainz. The blacklist is located at
-    <span class="mono code">{{blacklist.filePath}}</span>
+    These files will not download a cover from MusicBrainz. The blacklist is
+    located at
+    <span class="mono code">{{ blacklist.filePath }}</span>
   </mat-card-footer>
 </mat-card>

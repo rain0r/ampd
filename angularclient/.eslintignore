@@ -9,3 +9,5 @@ e2e
 
 **/*.spec.ts
 **/*test.ts
+
+src/polyfills.ts

@@ -86,6 +86,7 @@ import { PlaylistEntryComponent } from "./browse/playlists/playlist-entry/playli
 import { DirectoryEntryComponent } from "./browse/directories/directory-entry/directory-entry.component";
 import { CoverGridComponent } from "./browse/directories/cover-grid/cover-grid.component";
 import { DragDropModule } from "@angular/cdk/drag-drop";
+import { CoverGridEntryComponent } from "./browse/directories/cover-grid/cover-grid-entry/cover-grid-entry.component";
 
 @NgModule({
   declarations: [
@@ -140,6 +141,7 @@ import { DragDropModule } from "@angular/cdk/drag-drop";
     PlaylistEntryComponent,
     DirectoryEntryComponent,
     CoverGridComponent,
+    CoverGridEntryComponent,
   ],
   imports: [
     AppRoutingModule,

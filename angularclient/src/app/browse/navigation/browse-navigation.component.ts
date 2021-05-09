@@ -119,7 +119,7 @@ export class BrowseNavigationComponent implements OnInit {
     if (targetDir.length === 0) {
       targetDir = "/";
     }
-    this.dirUp$.next(targetDir);
+    this.dirUp$.next(encodeURIComponent(targetDir));
   }
 
   private isTracksOnlyDir(tmpPayload: AmpdBrowsePayload): boolean {

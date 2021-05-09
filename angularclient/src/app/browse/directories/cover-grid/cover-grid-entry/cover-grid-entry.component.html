@@ -1,0 +1,20 @@
+<mat-card fxLayout="column" *ngIf="directory != null">
+  <img
+    mat-card-image
+    class="clickable"
+    [ngClass]="[coverSizeClass | async]"
+    [queryParams]="{ dir: pathLink }"
+    [routerLink]="['/browse']"
+    [title]="directory.displayedPath"
+    alt="Cover of {{ directory.displayedPath }}"
+    src="{{ directory.albumCoverUrl }}"
+  />
+  <mat-card-actions fxLayout="row wrap" fxLayoutAlign="space-between baseline">
+    <button mat-stroked-button (click)="onPlayDir($event, directory.path)">
+      Play
+    </button>
+    <button mat-stroked-button (click)="onAddDir($event, directory.path)">
+      Add
+    </button>
+  </mat-card-actions>
+</mat-card>

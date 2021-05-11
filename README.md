@@ -5,7 +5,7 @@ ampd is a web-based client for [MPD](https://www.musicpd.org/). It is build with
 
 **Features**
 * Modern and responsive UI
-* No installation needed: distributed as `jar`-file
+* Bundles as single `jar`-file
 * Album Cover Art
 * Support for MusicBrainz Cover Art API
 * Storing and using playlists

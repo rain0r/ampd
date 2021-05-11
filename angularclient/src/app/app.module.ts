@@ -87,6 +87,7 @@ import { DirectoryEntryComponent } from "./browse/directories/directory-entry/di
 import { CoverGridComponent } from "./browse/directories/cover-grid/cover-grid.component";
 import { DragDropModule } from "@angular/cdk/drag-drop";
 import { CoverGridEntryComponent } from "./browse/directories/cover-grid/cover-grid-entry/cover-grid-entry.component";
+import { PaginationComponent } from "./settings/frontend/pagination/pagination.component";
 
 @NgModule({
   declarations: [
@@ -142,6 +143,7 @@ import { CoverGridEntryComponent } from "./browse/directories/cover-grid/cover-g
     DirectoryEntryComponent,
     CoverGridComponent,
     CoverGridEntryComponent,
+    PaginationComponent,
   ],
   imports: [
     AppRoutingModule,

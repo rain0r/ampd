@@ -16,6 +16,7 @@ import {
   BreakpointState,
 } from "@angular/cdk/layout";
 import { distinctUntilChanged, map } from "rxjs/operators";
+import { FrontendSettingsService } from "../../shared/services/frontend-settings.service";
 
 @Component({
   selector: "app-tracks",
@@ -35,6 +36,7 @@ export class TracksComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private breakpointObserver: BreakpointObserver,
     private dialog: MatDialog,
+    private frontendSettingsService: FrontendSettingsService,
     private mpdService: MpdService,
     private responsiveCoverSizeService: ResponsiveCoverSizeService,
     private settingsService: SettingsService
@@ -64,7 +66,9 @@ export class TracksComponent implements OnInit {
     this.dialog.open(CoverModalComponent, {
       autoFocus: false,
       data: track,
-      panelClass: this.settingsService.darkTheme$.value ? "dark-theme" : "",
+      panelClass: this.frontendSettingsService.darkTheme$.value
+        ? "dark-theme"
+        : "",
     });
   }
 

@@ -3,7 +3,8 @@ import { MessageService } from "../../shared/services/message.service";
 import { Filterable } from "../filterable";
 import { Observable } from "rxjs";
 import { Directory } from "../../shared/messages/incoming/directory";
-import { SettingsService } from "../../shared/services/settings.service";
+import { PageEvent } from "@angular/material/paginator";
+import { FrontendSettingsService } from "../../shared/services/frontend-settings.service";
 
 @Component({
   selector: "app-directories",
@@ -13,23 +14,35 @@ import { SettingsService } from "../../shared/services/settings.service";
 export class DirectoriesComponent extends Filterable implements OnInit {
   @Input() directories: Directory[] = [];
   @Input() dirQp = "/";
+
   dirQpLabel = "/";
-  filterVisible = false;
   filterByStartCharValue = "";
+  filterVisible = false;
+  highValue: number = 20;
   letters: Set<string> = new Set<string>();
+  lowValue: number = 0;
+  pagination: Observable<boolean>;
   virtualScroll: Observable<boolean>;
 
   constructor(
-    private messageService: MessageService,
-    private settingsService: SettingsService
+    private frontendSettingsService: FrontendSettingsService,
+    private messageService: MessageService
   ) {
     super(messageService);
-    this.virtualScroll = this.settingsService.getFrontendSettings().virtualScroll;
+    this.pagination = this.frontendSettingsService.pagination;
+    this.virtualScroll = this.frontendSettingsService.virtualScroll;
   }
 
   ngOnInit(): void {
     this.dirQpLabel = decodeURIComponent(this.dirQp);
     this.buildLetters();
+  }
+
+  // used to build an array of papers relevant at any given time
+  public getPaginatorData(event: PageEvent): PageEvent {
+    this.lowValue = event.pageIndex * event.pageSize;
+    this.highValue = this.lowValue + event.pageSize;
+    return event;
   }
 
   toggleFilter(): void {

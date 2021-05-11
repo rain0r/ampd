@@ -2,7 +2,6 @@ import { Component } from "@angular/core";
 import { Observable } from "rxjs";
 import { BackendSettings } from "../shared/models/backend-settings";
 import { SettingsService } from "../shared/services/settings.service";
-import { FrontendSettings } from "../shared/models/frontend-settings";
 import { Title } from "@angular/platform-browser";
 import { ErrorMsg } from "../shared/error/error-msg";
 
@@ -14,7 +13,6 @@ import { ErrorMsg } from "../shared/error/error-msg";
 export class SettingsComponent {
   backendSettings: Observable<BackendSettings>;
   error: ErrorMsg | null = null;
-  frontendSettings: FrontendSettings;
 
   constructor(
     private settingsService: SettingsService,
@@ -28,8 +26,5 @@ export class SettingsComponent {
         this.error = error;
       },
     });
-
-    // Frontend stuff
-    this.frontendSettings = this.settingsService.getFrontendSettings();
   }
 }

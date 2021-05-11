@@ -45,15 +45,38 @@
 </app-virtual-scroll-directories>
 
 <ng-template #conventionalScroll>
-  <div
-    *ngFor="
-      let directory of directories
-        | directoryFilter: filterValue
-        | directoryFilterStartLetterPipe: filterByStartCharValue
-    "
-  >
-    <app-directory-entry [directory]="directory"></app-directory-entry>
+  <!-- Directives cant be applied conditionally (as of now) --->
+  <!-- So we have to to write directory twice  -->
+  <div *ngIf="pagination | async; else nonPaginated">
+    <app-directory-entry
+      *ngFor="
+        let directory of directories
+          | directoryFilter: filterValue
+          | directoryFilterStartLetterPipe: filterByStartCharValue
+          | slice: lowValue:highValue
+      "
+      [directory]="directory"
+    ></app-directory-entry>
+
+    <mat-paginator
+      [length]="directories.length"
+      pageSize="20"
+      (page)="getPaginatorData($event)"
+      [pageSizeOptions]="[2, 10, 20, 30]"
+      showFirstLastButtons="false"
+    >
+    </mat-paginator>
   </div>
+  <ng-template #nonPaginated>
+    <app-directory-entry
+      *ngFor="
+        let directory of directories
+          | directoryFilter: filterValue
+          | directoryFilterStartLetterPipe: filterByStartCharValue
+      "
+      [directory]="directory"
+    ></app-directory-entry>
+  </ng-template>
 </ng-template>
 
 <!-- Cover grid -->

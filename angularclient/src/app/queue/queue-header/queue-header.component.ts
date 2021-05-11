@@ -7,10 +7,10 @@ import { QueueTrack } from "../../shared/models/queue-track";
 import { MpdService } from "../../shared/services/mpd.service";
 import { filter, take } from "rxjs/operators";
 import { CoverModalComponent } from "../cover-modal/cover-modal.component";
-import { SettingsService } from "../../shared/services/settings.service";
 import { MessageService } from "../../shared/services/message.service";
 import { InternalMessageType } from "../../shared/messages/internal/internal-message-type.enum";
 import { BehaviorSubject, combineLatest, Observable } from "rxjs";
+import { FrontendSettingsService } from "../../shared/services/frontend-settings.service";
 
 @Component({
   selector: "app-queue-header",
@@ -27,10 +27,10 @@ export class QueueHeaderComponent implements OnInit {
 
   constructor(
     private dialog: MatDialog,
+    private frontendSettingsService: FrontendSettingsService,
     private http: HttpClient,
     private responsiveCoverSizeService: ResponsiveCoverSizeService,
     private mpdService: MpdService,
-    private settingsService: SettingsService,
     private messageService: MessageService
   ) {
     this.isDisplayCover = this.displayCover$.asObservable();
@@ -48,7 +48,9 @@ export class QueueHeaderComponent implements OnInit {
     this.dialog.open(CoverModalComponent, {
       autoFocus: false,
       data: this.currentTrack,
-      panelClass: this.settingsService.darkTheme$.value ? "dark-theme" : "",
+      panelClass: this.frontendSettingsService.darkTheme$.value
+        ? "dark-theme"
+        : "",
     });
   }
 
@@ -66,7 +68,10 @@ export class QueueHeaderComponent implements OnInit {
   }
 
   private coverAvailable(): void {
-    combineLatest([this.currentState, this.settingsService.displayCovers])
+    combineLatest([
+      this.currentState,
+      this.frontendSettingsService.displayCovers,
+    ])
       .pipe(take(1))
       .subscribe((result) => {
         if (

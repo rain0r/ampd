@@ -5,7 +5,7 @@
   <mat-card-content>
     <mat-slide-toggle
       class="space-right"
-      [checked]="frontendSettings.displayCovers | async"
+      [checked]="displayCovers | async"
       (change)="toggle($event.checked)"
     >
       <mat-hint align="end"

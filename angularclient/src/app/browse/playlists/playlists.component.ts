@@ -4,6 +4,7 @@ import { Observable } from "rxjs";
 import { Filterable } from "../filterable";
 import { MessageService } from "../../shared/services/message.service";
 import { FrontendSettingsService } from "../../shared/services/frontend-settings.service";
+import { PageEvent } from "@angular/material/paginator";
 
 @Component({
   selector: "app-playlists",
@@ -12,13 +13,23 @@ import { FrontendSettingsService } from "../../shared/services/frontend-settings
 })
 export class PlaylistsComponent extends Filterable {
   @Input() playlists: Playlist[] = [];
+  pagination: Observable<boolean>;
   virtualScroll: Observable<boolean>;
+  lowValue: number = 0;
+  highValue: number = 20;
 
   constructor(
     private frontendSettingsService: FrontendSettingsService,
     private messageService: MessageService
   ) {
     super(messageService);
+    this.pagination = this.frontendSettingsService.pagination;
     this.virtualScroll = this.frontendSettingsService.virtualScroll;
+  }
+  // used to build an array of papers relevant at any given time
+  public getPaginatorData(event: PageEvent): PageEvent {
+    this.lowValue = event.pageIndex * event.pageSize;
+    this.highValue = this.lowValue + event.pageSize;
+    return event;
   }
 }

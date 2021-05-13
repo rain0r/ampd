@@ -11,7 +11,31 @@
 ></app-virtual-scroll-playlists>
 
 <ng-template #conventionalScroll>
-  <div *ngFor="let playlist of playlists | playlistFilter: filterValue">
-    <app-playlist-entry [playlist]="playlist"></app-playlist-entry>
+  <!-- Directives cant be applied conditionally (as of now) --->
+  <!-- So we have to to write directory twice  -->
+  <div *ngIf="pagination | async; else nonPaginated">
+    <app-playlist-entry
+      *ngFor="
+        let playlist of playlists
+          | playlistFilter: filterValue
+          | slice: lowValue:highValue
+      "
+      [playlist]="playlist"
+    ></app-playlist-entry>
+
+    <mat-paginator
+      [length]="playlists.length"
+      pageSize="20"
+      (page)="getPaginatorData($event)"
+      [pageSizeOptions]="[2, 10, 20, 30]"
+      showFirstLastButtons="false"
+    >
+    </mat-paginator>
   </div>
+  <ng-template #nonPaginated>
+    <app-playlist-entry
+      *ngFor="let playlist of playlists | playlistFilter: filterValue"
+      [playlist]="playlist"
+    ></app-playlist-entry>
+  </ng-template>
 </ng-template>

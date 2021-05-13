@@ -1,7 +1,7 @@
 import { Component } from "@angular/core";
 import { NotificationService } from "../../../shared/services/notification.service";
-import { SettingsService } from "../../../shared/services/settings.service";
-import { FrontendSettings } from "../../../shared/models/frontend-settings";
+import { FrontendSettingsService } from "../../../shared/services/frontend-settings.service";
+import { Observable } from "rxjs";
 
 @Component({
   selector: "app-display-cover",
@@ -9,17 +9,17 @@ import { FrontendSettings } from "../../../shared/models/frontend-settings";
   styleUrls: ["./display-cover.component.scss"],
 })
 export class DisplayCoverComponent {
-  frontendSettings: FrontendSettings;
+  displayCovers: Observable<boolean>;
 
   constructor(
-    private notificationService: NotificationService,
-    private settingsService: SettingsService
+    private frontendSettingsService: FrontendSettingsService,
+    private notificationService: NotificationService
   ) {
-    this.frontendSettings = settingsService.getFrontendSettings();
+    this.displayCovers = frontendSettingsService.displayCovers;
   }
 
   toggle(checked: boolean): void {
-    this.settingsService.setDisplayCovers(checked);
+    this.frontendSettingsService.setDisplayCovers(checked);
     this.notificationService.popUp(
       `${checked ? "Showing" : "Not showing"} album covers.`
     );

@@ -3,8 +3,8 @@ import { MpdService } from "../shared/services/mpd.service";
 import { Title } from "@angular/platform-browser";
 import { combineLatest } from "rxjs";
 import { map } from "rxjs/operators";
-import { SettingsService } from "../shared/services/settings.service";
 import { QueueService } from "../shared/services/queue.service";
+import { FrontendSettingsService } from "../shared/services/frontend-settings.service";
 
 @Component({
   selector: "app-queue",
@@ -13,9 +13,9 @@ import { QueueService } from "../shared/services/queue.service";
 })
 export class QueueComponent implements OnInit {
   constructor(
+    private frontendSettingsService: FrontendSettingsService,
     private mpdService: MpdService,
     private queueService: QueueService,
-    private settingsService: SettingsService,
     private titleService: Title
   ) {}
 
@@ -39,7 +39,7 @@ export class QueueComponent implements OnInit {
     combineLatest([
       this.mpdService.currentState,
       this.mpdService.currentTrack,
-      this.settingsService.setTabTitle,
+      this.frontendSettingsService.setTabTitle,
     ])
       .pipe(
         map((results) => ({

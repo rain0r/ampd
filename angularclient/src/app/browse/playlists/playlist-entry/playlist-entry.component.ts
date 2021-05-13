@@ -10,8 +10,8 @@ import {
   BreakpointState,
 } from "@angular/cdk/layout";
 import { map } from "rxjs/operators";
-import { SettingsService } from "../../../shared/services/settings.service";
 import { MatDialog } from "@angular/material/dialog";
+import { FrontendSettingsService } from "../../../shared/services/frontend-settings.service";
 
 @Component({
   selector: "app-playlist-entry",
@@ -25,9 +25,9 @@ export class PlaylistEntryComponent implements OnInit {
   constructor(
     private breakpointObserver: BreakpointObserver,
     private dialog: MatDialog,
+    private frontendSettingsService: FrontendSettingsService,
     private notificationService: NotificationService,
-    private queueService: QueueService,
-    private settingsService: SettingsService
+    private queueService: QueueService
   ) {}
 
   ngOnInit(): void {
@@ -47,7 +47,9 @@ export class PlaylistEntryComponent implements OnInit {
     const width = this.isMobile ? "100%" : "70%";
     const options: MatDialogConfig = {
       maxWidth: "100vw",
-      panelClass: this.settingsService.darkTheme$.value ? "dark-theme" : "",
+      panelClass: this.frontendSettingsService.darkTheme$.value
+        ? "dark-theme"
+        : "",
       width: width,
       data: playlist,
     };

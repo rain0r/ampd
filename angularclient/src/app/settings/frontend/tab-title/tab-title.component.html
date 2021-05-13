@@ -5,7 +5,7 @@
   <mat-card-content>
     <mat-slide-toggle
       class="space-right"
-      [checked]="frontendSettings.setTabTitle | async"
+      [checked]="setTabTitle | async"
       (change)="toggle($event.checked)"
     >
       <mat-hint align="end">Sets the current track as a tab title. </mat-hint>

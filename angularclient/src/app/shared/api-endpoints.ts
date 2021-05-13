@@ -1,5 +1,5 @@
 import { environment } from "../../environments/environment";
-import { BACKEND_ADDRESS } from "./local-storage-keys";
+import { KEY_BACKEND_ADDRESS } from "./local-storage-keys";
 
 export class ApiEndpoints {
   /**
@@ -12,7 +12,7 @@ export class ApiEndpoints {
     let backendAddr: string;
     if (environment.production) {
       backendAddr =
-        localStorage.getItem(BACKEND_ADDRESS) || window.location.origin;
+        localStorage.getItem(KEY_BACKEND_ADDRESS) || window.location.origin;
     } else {
       backendAddr = environment.backendAddr;
     }

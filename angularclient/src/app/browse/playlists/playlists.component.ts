@@ -1,9 +1,9 @@
 import { Component, Input } from "@angular/core";
 import { Playlist } from "../../shared/messages/incoming/playlist-impl";
-import { SettingsService } from "../../shared/services/settings.service";
 import { Observable } from "rxjs";
 import { Filterable } from "../filterable";
 import { MessageService } from "../../shared/services/message.service";
+import { FrontendSettingsService } from "../../shared/services/frontend-settings.service";
 
 @Component({
   selector: "app-playlists",
@@ -15,10 +15,10 @@ export class PlaylistsComponent extends Filterable {
   virtualScroll: Observable<boolean>;
 
   constructor(
-    private messageService: MessageService,
-    private settingsService: SettingsService
+    private frontendSettingsService: FrontendSettingsService,
+    private messageService: MessageService
   ) {
     super(messageService);
-    this.virtualScroll = this.settingsService.getFrontendSettings().virtualScroll;
+    this.virtualScroll = this.frontendSettingsService.virtualScroll;
   }
 }

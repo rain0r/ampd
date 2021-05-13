@@ -1,25 +1,24 @@
 import { Component } from "@angular/core";
+import { FrontendSettingsService } from "../../../shared/services/frontend-settings.service";
 import { NotificationService } from "../../../shared/services/notification.service";
 import { Observable } from "rxjs";
-import { FrontendSettingsService } from "../../../shared/services/frontend-settings.service";
 
 @Component({
-  selector: "app-tab-title",
-  templateUrl: "./tab-title.component.html",
-  styleUrls: ["./tab-title.component.scss"],
+  selector: "app-pagination",
+  templateUrl: "./pagination.component.html",
+  styleUrls: ["./pagination.component.scss"],
 })
-export class TabTitleComponent {
-  setTabTitle: Observable<boolean>;
-
+export class PaginationComponent {
+  pagination: Observable<boolean>;
   constructor(
     private frontendSettingsService: FrontendSettingsService,
     private notificationService: NotificationService
   ) {
-    this.setTabTitle = frontendSettingsService.setTabTitle;
+    this.pagination = frontendSettingsService.pagination;
   }
 
   toggle(checked: boolean): void {
-    this.frontendSettingsService.setTabTitleOption(checked);
+    this.frontendSettingsService.setPagination(checked);
     this.notificationService.popUp(
       `${
         checked ? "Setting" : "Not setting"

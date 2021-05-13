@@ -2,7 +2,6 @@ import { Component, HostListener } from "@angular/core";
 
 import { RxStompService } from "@stomp/ng2-stompjs";
 import { Router } from "@angular/router";
-import { SettingsService } from "../shared/services/settings.service";
 import { BehaviorSubject, Observable } from "rxjs";
 import { MpdService } from "../shared/services/mpd.service";
 import { MpdModeService } from "../shared/services/mpd-mode.service";
@@ -13,6 +12,7 @@ import { ControlPanelService } from "../shared/services/control-panel.service";
 import { VolumeService } from "../shared/services/volume.service";
 import { QueueService } from "../shared/services/queue.service";
 import { AddStreamModalComponent } from "../queue/add-stream-modal/add-stream-modal.component";
+import { FrontendSettingsService } from "../shared/services/frontend-settings.service";
 
 @Component({
   selector: "app-navbar",
@@ -28,16 +28,16 @@ export class NavbarComponent {
   constructor(
     private controlPanelService: ControlPanelService,
     private dialog: MatDialog,
+    private frontendSettingsService: FrontendSettingsService,
     private mpdModeService: MpdModeService,
     private mpdService: MpdService,
     private notificationService: NotificationService,
     private queueService: QueueService,
     private router: Router,
     private rxStompService: RxStompService,
-    private settingsService: SettingsService,
     private volumeService: VolumeService
   ) {
-    this.isDarkTheme = this.settingsService.darkTheme;
+    this.isDarkTheme = this.frontendSettingsService.darkTheme;
     this.connState = rxStompService.connectionState$;
     this.mpdService.currentState.subscribe(
       (state) => (this.currentState = state)
@@ -139,7 +139,9 @@ export class NavbarComponent {
       this.helpModalOpen.next(true);
       const dialogRef = this.dialog.open(HelpModalComponent, {
         autoFocus: true,
-        panelClass: this.settingsService.darkTheme$.value ? "dark-theme" : "",
+        panelClass: this.frontendSettingsService.darkTheme$.value
+          ? "dark-theme"
+          : "",
       });
       dialogRef.afterClosed().subscribe(() => this.helpModalOpen.next(false));
     }
@@ -155,7 +157,9 @@ export class NavbarComponent {
 
   private openAddStreamModal(): void {
     this.dialog.open(AddStreamModalComponent, {
-      panelClass: this.settingsService.darkTheme$.value ? "dark-theme" : "",
+      panelClass: this.frontendSettingsService.darkTheme$.value
+        ? "dark-theme"
+        : "",
     });
   }
 

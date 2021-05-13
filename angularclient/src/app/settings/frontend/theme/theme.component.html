@@ -6,7 +6,7 @@
   <mat-card-content>
     <mat-slide-toggle
       class="space-right"
-      [checked]="frontendSettings.darkTheme | async"
+      [checked]="darkTheme | async"
       (change)="toggle($event.checked)"
       title="Turn the lights off / on"
     >

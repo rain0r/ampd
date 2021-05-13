@@ -12,7 +12,6 @@ import { MatDialog } from "@angular/material/dialog";
 import { SavePlaylistModalComponent } from "../save-playlist-modal/save-playlist-modal.component";
 import { TrackTableData } from "../../shared/track-table/track-table-data";
 import { ClickActions } from "../../shared/track-table/click-actions.enum";
-import { SettingsService } from "../../shared/services/settings.service";
 import {
   BreakpointObserver,
   Breakpoints,
@@ -22,6 +21,7 @@ import { map } from "rxjs/operators";
 import { Track } from "../../shared/messages/incoming/track";
 import { AddStreamModalComponent } from "../add-stream-modal/add-stream-modal.component";
 import { QueueService } from "../../shared/services/queue.service";
+import { FrontendSettingsService } from "../../shared/services/frontend-settings.service";
 
 @Component({
   selector: "app-track-table",
@@ -41,9 +41,9 @@ export class TrackTableComponent implements OnInit {
   constructor(
     private breakpointObserver: BreakpointObserver,
     private dialog: MatDialog,
+    private frontendSettingsService: FrontendSettingsService,
     private mpdService: MpdService,
-    private queueService: QueueService,
-    private settingsService: SettingsService
+    private queueService: QueueService
   ) {
     this.buildReceiver();
   }
@@ -68,7 +68,9 @@ export class TrackTableComponent implements OnInit {
 
   openSavePlaylistModal(): void {
     this.dialog.open(SavePlaylistModalComponent, {
-      panelClass: this.settingsService.darkTheme$.value ? "dark-theme" : "",
+      panelClass: this.frontendSettingsService.darkTheme$.value
+        ? "dark-theme"
+        : "",
     });
   }
 
@@ -86,7 +88,9 @@ export class TrackTableComponent implements OnInit {
 
   openAddStreamModal(): void {
     this.dialog.open(AddStreamModalComponent, {
-      panelClass: this.settingsService.darkTheme$.value ? "dark-theme" : "",
+      panelClass: this.frontendSettingsService.darkTheme$.value
+        ? "dark-theme"
+        : "",
     });
   }
 

@@ -53,12 +53,13 @@
         let directory of directories
           | directoryFilter: filterValue
           | directoryFilterStartLetterPipe: filterByStartCharValue
-          | slice: lowValue:highValue
+          | slice: paginationFrom:paginationTo
       "
       [directory]="directory"
     ></app-directory-entry>
 
     <mat-paginator
+      *ngIf="(directories | directoryFilter: filterValue).length > 0"
       [length]="directories.length"
       pageSize="20"
       (page)="getPaginatorData($event)"

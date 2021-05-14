@@ -13,10 +13,10 @@ import { PageEvent } from "@angular/material/paginator";
 })
 export class PlaylistsComponent extends Filterable {
   @Input() playlists: Playlist[] = [];
+  paginationFrom: number = 0;
+  paginationTo: number = 20;
   pagination: Observable<boolean>;
   virtualScroll: Observable<boolean>;
-  lowValue: number = 0;
-  highValue: number = 20;
 
   constructor(
     private frontendSettingsService: FrontendSettingsService,
@@ -28,8 +28,8 @@ export class PlaylistsComponent extends Filterable {
   }
   // used to build an array of papers relevant at any given time
   public getPaginatorData(event: PageEvent): PageEvent {
-    this.lowValue = event.pageIndex * event.pageSize;
-    this.highValue = this.lowValue + event.pageSize;
+    this.paginationFrom = event.pageIndex * event.pageSize;
+    this.paginationTo = this.paginationFrom + event.pageSize;
     return event;
   }
 }

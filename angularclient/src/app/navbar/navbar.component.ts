@@ -61,6 +61,8 @@ export class NavbarComponent {
       return;
     }
 
+    $event.preventDefault();
+
     switch ($event.key) {
       // Player controls
       case "<":

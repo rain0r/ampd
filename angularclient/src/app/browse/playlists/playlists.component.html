@@ -18,12 +18,13 @@
       *ngFor="
         let playlist of playlists
           | playlistFilter: filterValue
-          | slice: lowValue:highValue
+          | slice: paginationFrom:paginationTo
       "
       [playlist]="playlist"
     ></app-playlist-entry>
 
     <mat-paginator
+      *ngIf="(playlists | playlistFilter: filterValue).length > 0"
       [length]="playlists.length"
       pageSize="20"
       (page)="getPaginatorData($event)"

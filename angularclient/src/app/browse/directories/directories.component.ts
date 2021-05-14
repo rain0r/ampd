@@ -18,10 +18,10 @@ export class DirectoriesComponent extends Filterable implements OnInit {
   dirQpLabel = "/";
   filterByStartCharValue = "";
   filterVisible = false;
-  highValue: number = 20;
   letters: Set<string> = new Set<string>();
-  lowValue: number = 0;
   pagination: Observable<boolean>;
+  paginationFrom: number = 0;
+  paginationTo: number = 20;
   virtualScroll: Observable<boolean>;
 
   constructor(
@@ -40,8 +40,8 @@ export class DirectoriesComponent extends Filterable implements OnInit {
 
   // used to build an array of papers relevant at any given time
   public getPaginatorData(event: PageEvent): PageEvent {
-    this.lowValue = event.pageIndex * event.pageSize;
-    this.highValue = this.lowValue + event.pageSize;
+    this.paginationFrom = event.pageIndex * event.pageSize;
+    this.paginationTo = this.paginationFrom + event.pageSize;
     return event;
   }
 

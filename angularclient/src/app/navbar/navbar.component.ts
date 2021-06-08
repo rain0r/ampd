@@ -61,7 +61,15 @@ export class NavbarComponent {
       return;
     }
 
-    $event.preventDefault();
+    /* We only handle event keys with the string length 1 */
+    if ($event.key.toString().length > 1) {
+      return;
+    }
+
+    /* We don't want to interfere with tab changes */
+    if ($event.altKey) {
+      return;
+    }
 
     switch ($event.key) {
       // Player controls
@@ -134,6 +142,8 @@ export class NavbarComponent {
         // Ignore it
         return;
     }
+
+    $event.preventDefault();
   }
 
   private openHelpModal(): void {

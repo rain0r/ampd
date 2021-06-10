@@ -27,7 +27,7 @@ ampd is a web-based client for [MPD](https://www.musicpd.org/). It is build with
 
 Developers go this way: [DEVELOPING.md](DEVELOPING.md)
 
-## Screenshots
+## [Screenshots](https://github.com/rain0r/ampd/wiki/Screenshots)
 
 Desktop (dark theme)             |  Mobile (light heme)
 :-------------------------:|:-------------------------:

@@ -61,11 +61,6 @@ export class NavbarComponent {
       return;
     }
 
-    /* We only handle event keys with the string length 1 */
-    if ($event.key.toString().length > 1) {
-      return;
-    }
-
     /* We don't want to interfere with tab changes */
     if ($event.altKey) {
       return;

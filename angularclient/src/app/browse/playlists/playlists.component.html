@@ -24,7 +24,11 @@
     ></app-playlist-entry>
 
     <mat-paginator
-      *ngIf="(playlists | playlistFilter: filterValue).length > 0"
+      *ngIf="
+        (playlists | playlistFilter: filterValue).length > 0 &&
+        paginationTo - paginationFrom <
+          (playlists | playlistFilter: filterValue).length
+      "
       [length]="playlists.length"
       (page)="getPaginatorData($event)"
       [pageSizeOptions]="pageSizeOptions"

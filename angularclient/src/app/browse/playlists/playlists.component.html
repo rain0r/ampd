@@ -26,9 +26,8 @@
     <mat-paginator
       *ngIf="(playlists | playlistFilter: filterValue).length > 0"
       [length]="playlists.length"
-      pageSize="20"
       (page)="getPaginatorData($event)"
-      [pageSizeOptions]="[2, 10, 20, 30]"
+      [pageSizeOptions]="pageSizeOptions"
       showFirstLastButtons="false"
     >
     </mat-paginator>

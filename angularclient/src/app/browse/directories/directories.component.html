@@ -61,9 +61,8 @@
     <mat-paginator
       *ngIf="(directories | directoryFilter: filterValue).length > 0"
       [length]="directories.length"
-      pageSize="20"
       (page)="getPaginatorData($event)"
-      [pageSizeOptions]="[2, 10, 20, 30]"
+      [pageSizeOptions]="pageSizeOptions"
       showFirstLastButtons="false"
     >
     </mat-paginator>

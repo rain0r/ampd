@@ -18,10 +18,11 @@ export class DirectoriesComponent extends Filterable implements OnInit {
   dirQpLabel = "/";
   filterByStartCharValue = "";
   filterVisible = false;
-  letters: Set<string> = new Set<string>();
+  letters = new Set<string>();
+  pageSizeOptions: number[];
   pagination: Observable<boolean>;
-  paginationFrom: number = 0;
-  paginationTo: number = 20;
+  paginationFrom = 0;
+  paginationTo: number;
   virtualScroll: Observable<boolean>;
 
   constructor(
@@ -29,6 +30,8 @@ export class DirectoriesComponent extends Filterable implements OnInit {
     private messageService: MessageService
   ) {
     super(messageService);
+    this.pageSizeOptions = this.frontendSettingsService.pageSizeOptions;
+    this.paginationTo = this.frontendSettingsService.paginationTo;
     this.pagination = this.frontendSettingsService.pagination;
     this.virtualScroll = this.frontendSettingsService.virtualScroll;
   }

@@ -59,7 +59,11 @@
     ></app-directory-entry>
 
     <mat-paginator
-      *ngIf="(directories | directoryFilter: filterValue).length > 0"
+      *ngIf="
+        (directories | directoryFilter: filterValue).length > 0 &&
+        paginationTo - paginationFrom <
+          (directories | directoryFilter: filterValue).length
+      "
       [length]="directories.length"
       (page)="getPaginatorData($event)"
       [pageSizeOptions]="pageSizeOptions"

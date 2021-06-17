@@ -1,3 +1,17 @@
+.mat-column-artistName {
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  width: 28% !important;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+  /* top | right | bottom | left */
+  padding: 0.25rem 0.25rem 0.25rem 0;
+}
+
 .mat-column-action {
   text-align: right;
   width: 1%;
@@ -8,8 +22,7 @@
   width: 1%;
 }
 
-
-.mat-column-playTitle{
+.mat-column-playTitle {
   text-align: right;
   width: 1% !important;
 }

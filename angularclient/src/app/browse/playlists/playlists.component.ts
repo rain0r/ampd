@@ -13,9 +13,11 @@ import { PageEvent } from "@angular/material/paginator";
 })
 export class PlaylistsComponent extends Filterable {
   @Input() playlists: Playlist[] = [];
-  paginationFrom: number = 0;
-  paginationTo: number = 20;
+
+  pageSizeOptions: number[];
   pagination: Observable<boolean>;
+  paginationFrom = 0;
+  paginationTo: number;
   virtualScroll: Observable<boolean>;
 
   constructor(
@@ -23,6 +25,8 @@ export class PlaylistsComponent extends Filterable {
     private messageService: MessageService
   ) {
     super(messageService);
+    this.pageSizeOptions = this.frontendSettingsService.pageSizeOptions;
+    this.paginationTo = this.frontendSettingsService.paginationTo;
     this.pagination = this.frontendSettingsService.pagination;
     this.virtualScroll = this.frontendSettingsService.virtualScroll;
   }

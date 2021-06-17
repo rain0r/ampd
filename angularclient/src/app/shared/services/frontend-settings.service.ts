@@ -32,6 +32,9 @@ export class FrontendSettingsService {
    */
   darkTheme$ = new BehaviorSubject(true);
 
+  pageSizeOptions = [20, 50, 100];
+  paginationTo = 20;
+
   private isDisplayCovers$ = new BehaviorSubject(DEFAULT_DISPLAY_COVERS);
   private pagination$ = new BehaviorSubject(DEFAULT_PAGINATION);
   private setTabTitle$ = new BehaviorSubject(DEFAULT_TAB_TITLE);

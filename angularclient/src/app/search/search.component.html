@@ -6,6 +6,8 @@
   <div fxLayout="row nowrap" fxFlex="50%" fxFlex.lt-md="100%">
     <mat-form-field class="full-width">
       <input
+        #searchInput
+        [autofocus]="!isMobile"
         matInput
         placeholder="Type to search"
         autocomplete="off"

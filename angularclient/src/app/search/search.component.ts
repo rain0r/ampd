@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import { QueueTrack } from "../shared/models/queue-track";
 import { MatTableDataSource } from "@angular/material/table";
 import { TrackTableData } from "../shared/track-table/track-table-data";
@@ -23,6 +23,12 @@ import { Track } from "../shared/messages/incoming/track";
   styleUrls: ["./search.component.scss"],
 })
 export class SearchComponent implements OnInit {
+  @ViewChild("searchInput", { static: false })
+  set input(element: ElementRef<HTMLInputElement>) {
+    if (element && !this.isMobile) {
+      element.nativeElement.focus();
+    }
+  }
   dataSource = new MatTableDataSource<QueueTrack>([]);
   isLoading = false;
   isMobile = false;

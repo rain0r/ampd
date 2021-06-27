@@ -23,13 +23,13 @@ ampd is a web-based client for [MPD](https://www.musicpd.org/). It is build with
 * JavaScript needed
 * Only one mpd server supported
 
----
-
-## [Screenshots](https://github.com/rain0r/ampd/wiki/Screenshots)
+## Screenshots
 
 Desktop (dark theme)             |  Mobile (light heme)
 :-------------------------:|:-------------------------:
 ![Screenshot of ampd on a desktop](.github/desktop.png)  | ![Screenshot of ampd on a mobile device](.github/mobile.png)
+
+More screenshots can be found in the [**wiki**](https://github.com/rain0r/ampd/wiki/Screenshots).
 
 ## Running
 
@@ -159,6 +159,6 @@ If you wish, to start `ampd` at the next boot, enable it with `systemctl enable 
 
 Please see [DEPLOYING.md](DEPLOYING.md)
 
----
+## Contributing / hacking / developing
 
-Developers go this way: [DEVELOPING.md](DEVELOPING.md)
+Please see: [DEVELOPING.md](DEVELOPING.md)

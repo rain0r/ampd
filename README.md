@@ -25,8 +25,6 @@ ampd is a web-based client for [MPD](https://www.musicpd.org/). It is build with
 
 ---
 
-Developers go this way: [DEVELOPING.md](DEVELOPING.md)
-
 ## [Screenshots](https://github.com/rain0r/ampd/wiki/Screenshots)
 
 Desktop (dark theme)             |  Mobile (light heme)
@@ -160,3 +158,7 @@ If you wish, to start `ampd` at the next boot, enable it with `systemctl enable 
 ### Installation behind another webserver (apache and nginx)
 
 Please see [DEPLOYING.md](DEPLOYING.md)
+
+---
+
+Developers go this way: [DEVELOPING.md](DEVELOPING.md)

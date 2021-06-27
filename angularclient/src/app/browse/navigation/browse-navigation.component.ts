@@ -117,7 +117,7 @@ export class BrowseNavigationComponent implements OnInit {
     splitted.pop();
     let targetDir = splitted.join("/");
     if (targetDir.length === 0) {
-      targetDir = "/";
+      targetDir = "";
     }
     this.dirUp$.next(encodeURIComponent(targetDir));
   }

@@ -3,7 +3,7 @@
   <div fxLayout="row" fxLayoutGap="0.5rem" fxLayoutAlign="baseline center">
     <mat-icon>folder_open</mat-icon>
     <div>
-      <span *ngIf="dirQp == '/'; else dirName"> Directories </span>
+      <span *ngIf="dirQp === '/'; else dirName"> Directories </span>
       <ng-template #dirName>
         <span class="dir-prefix">Directory</span>
         <span class="dir-qp">{{ dirQpLabel }}</span>
@@ -13,7 +13,7 @@
     <mat-icon
       class="clickable"
       (click)="toggleFilter()"
-      *ngIf="dirQp == '/'"
+      *ngIf="dirQp === '/'"
       title="Filter directories by their starting letter"
       >filter_list
     </mat-icon>
@@ -28,7 +28,7 @@
       </mat-icon>
       <span
         class="clickable accent-text-hover"
-        [class.accent-text]="filterByStartCharValue == letter"
+        [class.accent-text]="filterByStartCharValue === letter"
         *ngFor="let letter of letters"
         (click)="setStartLetterFilter(letter)"
         >{{ letter }}</span
@@ -40,7 +40,7 @@
 <!-- Use virtual scroll if it's enabled or we're on the root directory -->
 <app-virtual-scroll-directories
   [directories]="directories"
-  *ngIf="(virtualScroll | async) && dirQp == '/'; else conventionalScroll"
+  *ngIf="(virtualScroll | async) && dirQp === '/'; else conventionalScroll"
 >
 </app-virtual-scroll-directories>
 

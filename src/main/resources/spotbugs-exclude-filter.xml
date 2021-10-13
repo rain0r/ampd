@@ -10,4 +10,10 @@
     <Bug pattern="EI_EXPOSE_REP2" />
   </Match>
 
+  <Match>
+    <Class name="org.hihn.ampd.server.service.CoverService" />
+    <Method name="loadMusicDirCover" />
+    <Bug pattern="RCN_REDUNDANT_NULLCHECK_WOULD_HAVE_BEEN_A_NPE" />
+  </Match>
+
 </FindBugsFilter>

@@ -1,13 +1,10 @@
 package org.hihn.ampd.server.service;
 
 import java.io.IOException;
-import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.Normalizer;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 import java.util.regex.Pattern;
 import org.bff.javampd.song.MPDSong;
@@ -127,26 +124,6 @@ public class CoverCacheService {
     }
   }
 
-  /**
-   * Scans given dir for covers.
-   *
-   * @param path The dir to search for covers.
-   * @return A list of found covers.
-   */
-  @edu.umd.cs.findbugs.annotations.SuppressFBWarnings(
-      value = "RCN_REDUNDANT_NULLCHECK_WOULD_HAVE_BEEN_A_NPE",
-      justification = "It's a java 11 compiler bug")
-  public List<Path> scanDir(final Path path) {
-    final List<Path> covers = new ArrayList<>();
-    try (final DirectoryStream<Path> stream = Files
-        .newDirectoryStream(path, "cover.{jpg,jpeg,png}")) {
-      stream.forEach(covers::add);
-    } catch (final IOException e) {
-      LOG.debug("No covers found in: {}", path);
-    }
-    return covers;
-  }
-
   private String buildFileName(final CoverType coverType, final String artist,
       final String titleOrAlbum) {
     return coverType.getPrefix()
@@ -154,34 +131,6 @@ public class CoverCacheService {
         + "_"
         + stripAccents(titleOrAlbum)
         + ".jpg";
-  }
-
-  @edu.umd.cs.findbugs.annotations.SuppressFBWarnings(
-      value = "NP_NULL_ON_SOME_PATH_FROM_RETURN_VALUE")
-  private Optional<Path> findCoverFileName(final String trackFilePath) {
-    if (ampdSettings.getMusicDirectory().isEmpty()) {
-      LOG.info("No music directory set, not looking for local file.");
-      return Optional.empty();
-    }
-
-    Optional<Path> ret = Optional.empty();
-    final Path path = Paths.get(ampdSettings.getMusicDirectory(), trackFilePath);
-
-    if (path.getParent() == null || !path.toFile().exists()) {
-      LOG.error("No valid path: '{}'", path);
-      return Optional.empty();
-    }
-
-    if (path.getParent() == null) {
-      return Optional.empty();
-    }
-    final List<Path> covers = scanDir(path.getParent());
-
-    if (covers.size() > 0) {
-      ret = Optional.of(covers.get(0));
-    }
-
-    return ret;
   }
 
   /**

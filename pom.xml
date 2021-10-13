@@ -57,12 +57,6 @@
       <optional>true</optional>
     </dependency>
     <dependency>
-      <groupId>com.github.spotbugs</groupId>
-      <artifactId>spotbugs-annotations</artifactId>
-      <version>4.4.1</version>
-      <optional>true</optional>
-    </dependency>
-    <dependency>
       <groupId>org.hihn</groupId>
       <artifactId>musicbrainzws2-java</artifactId>
       <version>3.0.15</version>
@@ -219,21 +213,11 @@
         <version>4.4.1</version>
         <configuration>
           <effort>Max</effort>
-          <threshold>Default</threshold>
-          <spotbugsXmlOutput>true</spotbugsXmlOutput>
           <spotbugsXmlOutputDirectory>target/site</spotbugsXmlOutputDirectory>
-          <skipEmptyReport>false</skipEmptyReport>
           <encoding>${project.build.sourceEncoding}</encoding>
-          <includeTests>true</includeTests>
           <classFilesDirectory>${project.build.outputDirectory}</classFilesDirectory>
           <xmlOutput>true</xmlOutput>
-          <plugins>
-            <plugin>
-              <groupId>jp.skypencil.findbugs.slf4j</groupId>
-              <artifactId>bug-pattern</artifactId>
-              <version>1.5.0</version>
-            </plugin>
-          </plugins>
+          <excludeFilterFile>${project.build.resources[0].directory}/spotbugs-exclude-filter.xml</excludeFilterFile>
         </configuration>
         <reportSets>
           <reportSet>

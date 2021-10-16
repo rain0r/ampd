@@ -17,7 +17,7 @@ export class VolumeSliderComponent {
 
   handleVolumeSlider(event: MatSliderChange): void {
     this.volumeService.setVolume(event.value);
-    this.volumeService.volume.pipe(delay(700));
+    this.volumeService.volume.pipe(delay(1200));
     event.source.blur();
   }
 }

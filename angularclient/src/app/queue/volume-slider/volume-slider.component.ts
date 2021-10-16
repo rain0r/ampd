@@ -1,6 +1,7 @@
 import { Component } from "@angular/core";
 import { MatSliderChange } from "@angular/material/slider";
 import { VolumeService } from "../../shared/services/volume.service";
+import {delay} from "rxjs/operators";
 
 @Component({
   selector: "app-volume-slider",
@@ -16,6 +17,7 @@ export class VolumeSliderComponent {
 
   handleVolumeSlider(event: MatSliderChange): void {
     this.volumeService.setVolume(event.value);
+    this.volumeService.volume.pipe(delay(700));
     event.source.blur();
   }
 }

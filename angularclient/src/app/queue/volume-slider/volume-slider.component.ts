@@ -1,7 +1,7 @@
 import { Component } from "@angular/core";
 import { MatSliderChange } from "@angular/material/slider";
 import { VolumeService } from "../../shared/services/volume.service";
-import {delay} from "rxjs/operators";
+import { delay } from "rxjs/operators";
 
 @Component({
   selector: "app-volume-slider",

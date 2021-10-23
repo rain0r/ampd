@@ -12,7 +12,8 @@
     "lint": "ng lint",
     "ng": "ng",
     "start": "ng serve",
-    "test": "ng test"
+    "test": "ng test",
+    "upaudit": "npm update && npm audit fix --registry=https://registry.npmjs.org/"
   },
   "dependencies": {
     "@angular/animations": "~12.2.0",

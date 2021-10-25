@@ -73,6 +73,12 @@ public class AmpdSettings {
   private boolean deleteExistingPlaylists;
 
   /**
+   * Strictness of the cover-search. A low will propably load wrong cover.
+   */
+  @Value("${min.score:75}")
+  private int minScore;
+
+  /**
    * Prints the applied properties to the console.
    */
   @PostConstruct
@@ -85,6 +91,7 @@ public class AmpdSettings {
     LOG.debug("resetModesOnClear: {}", resetModesOnClear);
     LOG.debug("createNewPlaylists: {}", createNewPlaylists);
     LOG.debug("deleteExistingPlaylists: {}", deleteExistingPlaylists);
+    LOG.debug("minScore: {}", minScore);
   }
 
   public String getMpdPassword() {
@@ -121,5 +128,9 @@ public class AmpdSettings {
 
   public boolean isDeleteExistingPlaylists() {
     return deleteExistingPlaylists;
+  }
+
+  public int getMinScore() {
+    return minScore;
   }
 }

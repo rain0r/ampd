@@ -2,6 +2,7 @@ package org.hihn.ampd.server.service;
 
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.Normalizer;
@@ -24,8 +25,6 @@ public class CoverCacheService {
 
   private final boolean cacheEnabled;
 
-  private final AmpdSettings ampdSettings;
-
   private Path cacheDir;
 
   /**
@@ -36,7 +35,6 @@ public class CoverCacheService {
    */
   public CoverCacheService(final AmpdSettings ampdSettings,
       final AmpdDirService ampdDirService) {
-    this.ampdSettings = ampdSettings;
     cacheEnabled = ampdSettings.isLocalCoverCache() && ampdDirService.getCacheDir().isPresent();
     if (cacheEnabled) {
       cacheDir = ampdDirService.getCacheDir().get();
@@ -89,8 +87,8 @@ public class CoverCacheService {
       return Optional.empty();
     }
     final Path fullPath = buildCacheFullPath(track);
-    if (!fullPath.toFile().exists()) {
-      LOG.debug("File does not exist in cache, aborting: {}", fullPath.toString());
+    if (fullPath == null || !fullPath.toFile().exists()) {
+      LOG.debug("File does not exist in cache, aborting: {}", track);
       return Optional.empty();
     }
     try {
@@ -115,7 +113,7 @@ public class CoverCacheService {
     final Path fullPath = buildCacheFullPath(track);
     try {
       // Don't write the file if it already exists
-      if (!fullPath.toFile().exists()) {
+      if (fullPath != null && !fullPath.toFile().exists()) {
         LOG.debug("Saving cover: {}", fullPath);
         Files.write(fullPath, file);
       }
@@ -155,6 +153,11 @@ public class CoverCacheService {
     final String titleOrAlbum =
         (coverType == CoverType.ALBUM) ? track.getAlbumName() : track.getTitle();
     final String fileName = buildFileName(coverType, track.getArtistName(), titleOrAlbum);
-    return Paths.get(cacheDir.toString(), fileName).toAbsolutePath();
+    try {
+      return Paths.get(cacheDir.toString(), fileName).toAbsolutePath();
+    } catch (InvalidPathException e) {
+      LOG.error("Error getting Path for: {}", fileName, e);
+      return null;
+    }
   }
 }

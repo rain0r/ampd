@@ -98,7 +98,7 @@ public class MbCoverService {
   private Optional<byte[]> searchAlbumMusicBrainzCover(final MPDSong track) {
     final Release releaseController = new Release();
     releaseController.getSearchFilter().setLimit((long) 10);
-    releaseController.getSearchFilter().setMinScore((long) 60);
+    releaseController.getSearchFilter().setMinScore((long) ampdSettings.getMinScore());
     final String query;
     List<ReleaseResultWs2> releaseResults = new ArrayList<>();
     try {
@@ -129,7 +129,7 @@ public class MbCoverService {
     Optional<byte[]> cover = Optional.empty();
     final Recording recordingController = new Recording();
     recordingController.getSearchFilter().setLimit((long) 10);
-    recordingController.getSearchFilter().setMinScore((long) 60);
+    recordingController.getSearchFilter().setMinScore((long) ampdSettings.getMinScore());
     final String query;
     List<RecordingResultWs2> recordingResults = null;
     try {

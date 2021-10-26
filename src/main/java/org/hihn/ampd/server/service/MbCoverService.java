@@ -104,7 +104,7 @@ public class MbCoverService {
     try {
       query = String
           .format("artist:%s%%20AND%%title:%s", URLEncoder.encode(track.getArtistName(),
-              StandardCharsets.UTF_8),
+                  StandardCharsets.UTF_8),
               URLEncoder.encode(track.getAlbumName(), StandardCharsets.UTF_8));
       releaseController.search(query);
       releaseResults = releaseController.getFirstSearchResultPage();
@@ -135,7 +135,7 @@ public class MbCoverService {
     try {
       query = String
           .format("artist:%s%%20AND%%20title:%s", URLEncoder.encode(track.getArtistName(),
-              StandardCharsets.UTF_8),
+                  StandardCharsets.UTF_8),
               URLEncoder.encode(track.getTitle(), StandardCharsets.UTF_8));
       recordingController.search(query);
       recordingResults = recordingController.getFirstSearchResultPage();

@@ -5,9 +5,8 @@ import java.nio.file.Files;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.text.Normalizer;
 import java.util.Optional;
-import java.util.regex.Pattern;
+
 import org.bff.javampd.song.MPDSong;
 import org.hihn.ampd.server.model.AmpdSettings;
 import org.hihn.ampd.server.model.CoverType;
@@ -125,26 +124,10 @@ public class CoverCacheService {
   private String buildFileName(final CoverType coverType, final String artist,
       final String titleOrAlbum) {
     return coverType.getPrefix()
-        + stripAccents(artist)
+        + artist.trim().hashCode()
         + "_"
-        + stripAccents(titleOrAlbum)
+        + titleOrAlbum.trim().hashCode()
         + ".jpg";
-  }
-
-  /**
-   * Strips all unpleasant characters from a string.
-   *
-   * @param input Input string to strip.
-   * @return The stripped string.
-   */
-  private String stripAccents(String input) {
-    if (input == null) {
-      return null;
-    }
-    Pattern pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+"); // $NON-NLS-1$
-    StringBuilder decomposed =
-        new StringBuilder(Normalizer.normalize(input, Normalizer.Form.NFD));
-    return pattern.matcher(decomposed).replaceAll("");
   }
 
   private Path buildCacheFullPath(MPDSong track) {

@@ -79,6 +79,12 @@ public class AmpdSettings {
   private int minScore;
 
   /**
+   * Artwork finder: filename pattern for glob.
+   */
+  @Value("${artwork.filename.pattern}")
+  private String artworkFilenamePattern;
+
+  /**
    * Prints the applied properties to the console.
    */
   @PostConstruct
@@ -92,6 +98,7 @@ public class AmpdSettings {
     LOG.debug("createNewPlaylists: {}", createNewPlaylists);
     LOG.debug("deleteExistingPlaylists: {}", deleteExistingPlaylists);
     LOG.debug("minScore: {}", minScore);
+    LOG.debug("artworkFilenamePattern: {}", artworkFilenamePattern);
   }
 
   public String getMpdPassword() {
@@ -132,5 +139,9 @@ public class AmpdSettings {
 
   public int getMinScore() {
     return minScore;
+  }
+
+  public String getArtworkFilenamePattern() {
+    return artworkFilenamePattern;
   }
 }

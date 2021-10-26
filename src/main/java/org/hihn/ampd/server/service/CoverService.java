@@ -134,7 +134,7 @@ public class CoverService {
     }
     final List<Path> covers = new ArrayList<>();
     try (final DirectoryStream<Path> stream = Files
-        .newDirectoryStream(parent, "**.{jpg,jpeg,png}")) {
+        .newDirectoryStream(parent, ampdSettings.getArtworkFilenamePattern())) {
       stream.forEach(covers::add);
     } catch (final IOException e) {
       LOG.debug("No covers found in: {}", path);

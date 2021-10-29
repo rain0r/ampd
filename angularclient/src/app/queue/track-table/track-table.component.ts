@@ -131,19 +131,26 @@ export class TrackTableComponent implements OnInit {
   private buildReceiver(): void {
     // Current track
     this.mpdService.currentTrack.subscribe((track) => {
-      this.currentTrack = track;
+      if (this.currentState !== "stop") {
+        this.currentTrack = track;
+      }
       for (const track of this.dataSource.data) {
         track.playing = track.id === this.currentTrack.id;
       }
     });
+
     // Queue
     this.queueService
       .getQueueSubscription()
       .subscribe((message: Track[]) => this.buildQueue(message));
     // State
-    this.mpdService.currentState.subscribe(
-      (state) => (this.currentState = state)
-    );
+    this.mpdService.currentState.subscribe((state) => {
+      this.currentState = state;
+      if (state === "stop") {
+        console.log("Resetting current track");
+        this.currentTrack = new QueueTrack();
+      }
+    });
   }
 
   /**

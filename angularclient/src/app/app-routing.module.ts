@@ -1,6 +1,7 @@
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
-import { AlbumsComponent } from "./albums/albums.component";
+import { AlbumModalComponent } from "./browse/albums/album-modal/album-modal.component";
+import { AlbumsComponent } from "./browse/albums/albums.component";
 import { BrowseComponent } from "./browse/browse.component";
 import { QueueComponent } from "./queue/queue.component";
 import { SearchComponent } from "./search/search.component";
@@ -9,9 +10,10 @@ import { SettingsComponent } from "./settings/settings.component";
 const routes: Routes = [
   { path: "", component: QueueComponent },
   { path: "browse", component: BrowseComponent },
+  { path: "browse/albums", component: AlbumsComponent },
+  { path: "browse/album-detail", component: AlbumModalComponent },
   { path: "search", component: SearchComponent },
   { path: "settings", component: SettingsComponent },
-  { path: "albums", component: AlbumsComponent },
   { path: "**", redirectTo: "" },
 ];
 

@@ -1,0 +1,19 @@
+<mat-card (click)="openModal()" *ngIf="album">
+  <mat-card-content fxFlex fxLayout="column" fxLayoutAlign="center center">
+    <img
+      *ngIf="isDisplayCover | async"
+      mat-card-image
+      class="clickable"
+      [ngClass]="[coverSizeClass | async]"
+      [title]="album.name"
+      [src]="album.albumCoverUrl"
+      alt="Cover of {{ album.name }}"
+    />
+    <p>
+      {{ album.name }}
+    </p>
+    <p class="text-muted">
+      {{ album.artistName }}
+    </p>
+  </mat-card-content>
+</mat-card>

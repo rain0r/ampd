@@ -2,6 +2,7 @@ package org.hihn.ampd.server.controller.ws;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.bff.javampd.album.MPDAlbum;
 import org.bff.javampd.file.MPDFile;
 import org.bff.javampd.server.MPD;
 import org.bff.javampd.song.MPDSong;
@@ -11,7 +12,6 @@ import org.hihn.ampd.server.service.QueueService;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
 
 /**
  * Websocket endpoint to control the queue. Besides getting the current queue, it also provides
@@ -74,6 +74,13 @@ public class QueueController {
   public void addDir(String dir) {
     MPDFile mpdFile = new MPDFile(dir);
     mpd.getPlaylist().addFileOrDirectory(mpdFile);
+  }
+
+  @MessageMapping("/add-album")
+  public void addAlbum(MPDAlbum mpdAlbum) {
+    // MPDFile mpdFile = new MPDFile(dir);
+    // mpd.getPlaylist().addFileOrDirectory(mpdFile);
+    mpd.getPlaylist().insertAlbum(mpdAlbum);
   }
 
   /**

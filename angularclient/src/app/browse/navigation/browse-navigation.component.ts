@@ -7,16 +7,16 @@ import {
   ViewChild,
 } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
-import { MessageService } from "../../shared/services/message.service";
-import { NotificationService } from "../../shared/services/notification.service";
+import { BehaviorSubject, Observable } from "rxjs";
+import { distinctUntilChanged, map } from "rxjs/operators";
 import { InternalMessageType } from "../../shared/messages/internal/internal-message-type.enum";
 import { FilterMessage } from "../../shared/messages/internal/message-types/filter-message";
-import { BehaviorSubject, Observable } from "rxjs";
 import { AmpdBrowsePayload } from "../../shared/models/ampd-browse-payload";
-import { MpdService } from "../../shared/services/mpd.service";
 import { ControlPanelService } from "../../shared/services/control-panel.service";
+import { MessageService } from "../../shared/services/message.service";
+import { MpdService } from "../../shared/services/mpd.service";
+import { NotificationService } from "../../shared/services/notification.service";
 import { QueueService } from "../../shared/services/queue.service";
-import { distinctUntilChanged, map } from "rxjs/operators";
 
 @Component({
   selector: "app-navigation",
@@ -71,7 +71,7 @@ export class BrowseNavigationComponent implements OnInit {
 
   onAddDir(dir: string): void {
     if (dir.startsWith("/")) {
-      dir = dir.substr(1, dir.length);
+      dir = dir.substring(1, dir.length);
     }
     this.queueService.addDir(dir);
     this.notificationService.popUp(`Added dir: "${dir}"`);

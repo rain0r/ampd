@@ -54,7 +54,12 @@
       <mat-icon *ngSwitchCase="3" title="Disconnected">cloud_off</mat-icon>
       <mat-icon *ngSwitchDefault title="Disconnected">cloud_off</mat-icon>
     </div>
-    <mat-icon class="help-icon" (click)="openHelpModal()" title="Show shortcut help">help</mat-icon>
+    <mat-icon
+      class="help-icon"
+      (click)="openHelpModal()"
+      title="Show shortcut help"
+      >help</mat-icon
+    >
   </mat-toolbar>
   <div class="app-content" [ngClass]="{ 'dark-theme': isDarkTheme | async }">
     <router-outlet></router-outlet>

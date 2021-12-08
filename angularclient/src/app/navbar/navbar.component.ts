@@ -13,6 +13,7 @@ import { VolumeService } from "../shared/services/volume.service";
 import { QueueService } from "../shared/services/queue.service";
 import { AddStreamModalComponent } from "../queue/add-stream-modal/add-stream-modal.component";
 import { FrontendSettingsService } from "../shared/services/frontend-settings.service";
+import { SearchComponent } from "../search/search.component";
 
 @Component({
   selector: "app-navbar",
@@ -24,6 +25,7 @@ export class NavbarComponent {
   connState: Observable<number> = new Observable<number>();
   private currentState = "stop";
   private helpModalOpen = new BehaviorSubject(false);
+  private searchModalOpen = new BehaviorSubject(false);
 
   constructor(
     private controlPanelService: ControlPanelService,
@@ -117,6 +119,10 @@ export class NavbarComponent {
       case "?":
         this.openHelpModal();
         break;
+      // Display the search tracks modal
+      case "S":
+        this.openSearchModal();
+        break;
       // Display add stream modal
       case "a":
         this.openAddStreamModal();
@@ -141,7 +147,25 @@ export class NavbarComponent {
     $event.preventDefault();
   }
 
-  private openHelpModal(): void {
+  openSearchModal(): void {
+    if (!this.searchModalOpen.value) {
+      this.searchModalOpen.next(true);
+      const dialogRef = this.dialog.open(SearchComponent, {
+        autoFocus: true,
+        panelClass: this.frontendSettingsService.darkTheme$.value
+          ? "dark-theme"
+          : "",
+        maxWidth: "100vw",
+        maxHeight: "100vh",
+        height: "100%",
+        width: "100%",
+      });
+      dialogRef.afterClosed().subscribe(() => this.searchModalOpen.next(false));
+      dialogRef.updateSize("90%", "75%");
+    }
+  }
+
+  openHelpModal(): void {
     if (!this.helpModalOpen.value) {
       this.helpModalOpen.next(true);
       const dialogRef = this.dialog.open(HelpModalComponent, {

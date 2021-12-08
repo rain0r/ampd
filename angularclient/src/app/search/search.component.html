@@ -1,7 +1,3 @@
-<span class="mat-display-1"> Search </span>
-
-<mat-divider></mat-divider>
-
 <div fxLayout="row wrap" fxLayoutAlign="start baseline">
   <div fxLayout="row nowrap" fxFlex="50%" fxFlex.lt-md="100%">
     <mat-form-field class="full-width">
@@ -9,7 +5,7 @@
         #searchInput
         [autofocus]="!isMobile"
         matInput
-        placeholder="Type to search"
+        placeholder="Search for tracks"
         autocomplete="off"
         type="text"
         [(ngModel)]="search"
@@ -55,10 +51,7 @@
 </div>
 
 <!-- Search results table -->
-<app-track-data-table
-  *ngIf="searchResultCount > 0"
-  [trackTableData]="trackTableData"
-></app-track-data-table>
+<app-track-data-table [trackTableData]="trackTableData"></app-track-data-table>
 
 <!-- Loading animation -->
 <div fxLayout="row" fxLayoutAlign="space-around">

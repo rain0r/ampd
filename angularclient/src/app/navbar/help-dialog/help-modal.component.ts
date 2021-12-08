@@ -43,5 +43,10 @@ export class HelpModalComponent {
       // Queue
       ["C", "Clear queue"],
     ]),
+    new Map([
+      // General
+      ["h", "Open help dialog"],
+      ["S", "Open search dialog"],
+    ]),
   ];
 }

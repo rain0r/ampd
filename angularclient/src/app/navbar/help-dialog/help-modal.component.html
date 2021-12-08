@@ -11,11 +11,14 @@
       fxFlex="30%"
       fxLayout="row nowrap"
       fxLayoutGap="0.5rem grid"
+      fxLayoutAlign="start center"
     >
       <div>
-        <span class="code mono">{{ sc.key }}</span>
+        <span class="mono shortcut shortcut-key">{{ sc.key }}</span>
       </div>
-      <div>{{ sc.value }}</div>
+      <div>
+        <span class="shortcut">{{ sc.value }}</span>
+      </div>
     </div>
     <mat-divider fxFlex="100%"></mat-divider>
   </div>

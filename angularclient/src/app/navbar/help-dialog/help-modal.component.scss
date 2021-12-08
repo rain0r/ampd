@@ -1,6 +1,11 @@
-.code {
-  padding: 0.1rem;
-  margin: 0.1rem;
+.shortcut {
+  /* top | right | bottom | left */
+  padding: 0 0.1rem 0 0.1rem;
+  margin: 0 0.1rem 0 0.1rem;
+}
+
+.shortcut-key {
+  font-weight: bold;
 }
 
 .mat-divider {

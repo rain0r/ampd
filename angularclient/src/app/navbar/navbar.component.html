@@ -16,7 +16,7 @@
       <mat-icon>folder_open</mat-icon>
       <span fxHide.lt-md> Browse </span>
     </button>
-    <button mat-button [routerLink]="['/search']" routerLinkActive="mat-accent">
+    <button mat-button (click)="openSearchModal()">
       <mat-icon>search</mat-icon>
       <span fxHide.lt-md> Search </span>
     </button>
@@ -54,6 +54,7 @@
       <mat-icon *ngSwitchCase="3" title="Disconnected">cloud_off</mat-icon>
       <mat-icon *ngSwitchDefault title="Disconnected">cloud_off</mat-icon>
     </div>
+    <mat-icon class="help-icon" (click)="openHelpModal()">help</mat-icon>
   </mat-toolbar>
   <div class="app-content" [ngClass]="{ 'dark-theme': isDarkTheme | async }">
     <router-outlet></router-outlet>

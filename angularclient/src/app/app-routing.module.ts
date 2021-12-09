@@ -8,6 +8,7 @@ import { SettingsComponent } from "./settings/settings.component";
 const routes: Routes = [
   { path: "", component: QueueComponent },
   { path: "browse", component: BrowseComponent },
+  { path: "search", component: SearchComponent },
   { path: "settings", component: SettingsComponent },
   { path: "**", redirectTo: "" },
 ];

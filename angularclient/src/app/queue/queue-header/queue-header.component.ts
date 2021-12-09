@@ -45,13 +45,18 @@ export class QueueHeaderComponent implements OnInit {
   }
 
   openCoverModal(): void {
-    this.dialog.open(CoverModalComponent, {
+    const dialogRef = this.dialog.open(CoverModalComponent, {
       autoFocus: false,
       data: this.currentTrack,
       panelClass: this.frontendSettingsService.darkTheme$.value
         ? "dark-theme"
         : "",
+      maxWidth: "100vw",
+      maxHeight: "100vh",
+      height: "100%",
+      width: "100%",
     });
+    dialogRef.updateSize("50%", "75%");
   }
 
   private updateCover(): void {

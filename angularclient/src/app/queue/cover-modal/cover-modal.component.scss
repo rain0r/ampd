@@ -1,9 +1,8 @@
 img {
-  display: block;
-  max-width: 100%;
-  height: auto;
-  //display: block;
-  //height: auto;
-  //max-height: 480px;
-  //max-width: 480px;
-}
+    width: auto;
+    height: 75%;
+    /* Magic! */
+    // max-width: 50vw;
+    object-fit: scale-down;
+    max-height: 60vh;
+  }

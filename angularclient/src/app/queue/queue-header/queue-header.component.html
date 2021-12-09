@@ -63,6 +63,7 @@
         [ngClass]="[coverSizeClass | async]"
         (click)="openCoverModal()"
         class="album-art clickable"
+        loading="lazy"
         [title]="
           'Cover of ' + currentTrack.albumName + '. Click to view in full size.'
         "

@@ -2,7 +2,7 @@
   {{ data.artistName }}
   <span *ngIf="data.albumName">— {{ data.albumName }}</span> — {{ data.title }}
   <mat-divider></mat-divider>
-  <img src="{{ data.coverUrl }}" alt="Cover" />
+  <img loading="lazy" src="{{ data.coverUrl }}" alt="Cover" />
 </div>
 <div mat-dialog-actions align="end" fxLayout="row nowrap">
   <button

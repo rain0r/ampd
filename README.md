@@ -70,6 +70,8 @@ Press `h` to see a list of all shortcuts.
 
 ## Installation
 
+Gentoo users can use an [ebuild](https://github.com/rain0r/hihn-overlay/tree/master/media-sound/ampd) from my overlay.
+
 Download a release from [here](https://github.com/rain0r/ampd/releases) ([mirror](https://static.hihn.org/dl/ampd/)).
 
 Since `ampd` is distributed as a single `jar`-file, it doesn't need a traditional installation.

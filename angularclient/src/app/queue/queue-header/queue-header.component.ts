@@ -5,12 +5,17 @@ import { MatDialog } from "@angular/material/dialog";
 import { ResponsiveCoverSizeService } from "../../shared/services/responsive-cover-size.service";
 import { QueueTrack } from "../../shared/models/queue-track";
 import { MpdService } from "../../shared/services/mpd.service";
-import { filter, take } from "rxjs/operators";
+import { filter, map, take } from "rxjs/operators";
 import { CoverModalComponent } from "../cover-modal/cover-modal.component";
 import { MessageService } from "../../shared/services/message.service";
 import { InternalMessageType } from "../../shared/messages/internal/internal-message-type.enum";
 import { BehaviorSubject, combineLatest, Observable } from "rxjs";
 import { FrontendSettingsService } from "../../shared/services/frontend-settings.service";
+import {
+  BreakpointObserver,
+  Breakpoints,
+  BreakpointState,
+} from "@angular/cdk/layout";
 
 @Component({
   selector: "app-queue-header",
@@ -23,6 +28,7 @@ export class QueueHeaderComponent implements OnInit {
   currentTrack = new QueueTrack();
   currentPathLink = ""; // encoded dir of the current playing track
   isDisplayCover: Observable<boolean>;
+  isMobile = false;
   private displayCover$ = new BehaviorSubject<boolean>(false);
 
   constructor(
@@ -31,13 +37,19 @@ export class QueueHeaderComponent implements OnInit {
     private http: HttpClient,
     private responsiveCoverSizeService: ResponsiveCoverSizeService,
     private mpdService: MpdService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private breakpointObserver: BreakpointObserver
   ) {
     this.isDisplayCover = this.displayCover$.asObservable();
     this.coverSizeClass = this.responsiveCoverSizeService.getCoverCssClass();
     this.currentState = this.mpdService.currentState;
     this.buildTrackChangeSubscription();
     this.buildMessageReceiver();
+
+    this.breakpointObserver
+      .observe([Breakpoints.Small, Breakpoints.HandsetPortrait])
+      .pipe(map((state: BreakpointState) => state.matches))
+      .subscribe((isMobile) => (this.isMobile = isMobile));
   }
 
   ngOnInit(): void {
@@ -45,6 +57,14 @@ export class QueueHeaderComponent implements OnInit {
   }
 
   openCoverModal(): void {
+    let width = 50;
+    let height = 75;
+
+    if (this.isMobile) {
+      width = 100;
+      height = 75;
+    }
+
     const dialogRef = this.dialog.open(CoverModalComponent, {
       autoFocus: false,
       data: this.currentTrack,
@@ -56,7 +76,7 @@ export class QueueHeaderComponent implements OnInit {
       height: "100%",
       width: "100%",
     });
-    dialogRef.updateSize("50%", "75%");
+    dialogRef.updateSize(`${width}%`, `${height}%`);
   }
 
   private updateCover(): void {

@@ -11,7 +11,7 @@ export const DEFAULT_DISPLAY_COVERS = true;
 /**
  * Set the current track as tab title.
  */
-export const DEFAULT_TAB_TITLE = true;
+export const DEFAULT_TAB_TITLE = false;
 
 /**
  * Virtual scrolling in browse.
@@ -21,4 +21,4 @@ export const DEFAULT_VIRTUAL_SCROLL = false;
 /**
  * Pagination in browse.
  */
-export const DEFAULT_PAGINATION = false;
+export const DEFAULT_PAGINATION = true;

@@ -9,17 +9,21 @@
     fxFlex.lt-md="100%"
     fxLayoutAlign.lt-md="center center"
   >
-    <img
-      [alt]="'Cover of ' + dirQp"
-      *ngIf="coverUrl()"
-      [hidden]="!validCoverUrl"
-      [src]="coverUrl()"
-      class="album-art clickable"
-      (click)="openCoverModal()"
-      [ngClass]="[coverSizeClass | async]"
-      (error)="onError()"
-      (load)="onLoad()"
-    />
+    <lightgallery *ngIf="coverUrl()">
+      <a [href]="coverUrl()">
+        <img
+          (click)="openCoverModal()"
+          (error)="onError()"
+          (load)="onLoad()"
+          [alt]="'Cover of ' + dirQp"
+          [hidden]="!validCoverUrl"
+          [ngClass]="[coverSizeClass | async]"
+          [src]="coverUrl()"
+          [title]="'Cover of ' + dirQp"
+          class="album-art clickable"
+        />
+      </a>
+    </lightgallery>
   </div>
 </div>
 

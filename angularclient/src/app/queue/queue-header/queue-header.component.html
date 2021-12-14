@@ -67,10 +67,10 @@
               ' — ' +
               currentTrack.albumName
             "
-            [src]="currentTrack.coverUrl"
             [ngClass]="[coverSizeClass | async]"
-            class="album-art clickable"
+            [src]="currentTrack.coverUrl"
             [title]="currentTrack.artistName + ' — ' + currentTrack.albumName"
+            class="album-art clickable"
           />
         </a>
       </lightgallery>

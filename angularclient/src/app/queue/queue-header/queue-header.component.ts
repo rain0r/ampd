@@ -6,7 +6,6 @@ import { ResponsiveCoverSizeService } from "../../shared/services/responsive-cov
 import { QueueTrack } from "../../shared/models/queue-track";
 import { MpdService } from "../../shared/services/mpd.service";
 import { filter, map, take } from "rxjs/operators";
-import { CoverModalComponent } from "../cover-modal/cover-modal.component";
 import { MessageService } from "../../shared/services/message.service";
 import { InternalMessageType } from "../../shared/messages/internal/internal-message-type.enum";
 import { BehaviorSubject, combineLatest, Observable } from "rxjs";
@@ -62,29 +61,6 @@ export class QueueHeaderComponent implements OnInit {
 
   ngOnInit(): void {
     this.updateCover();
-  }
-
-  openCoverModal(): void {
-    let width = 50;
-    let height = 75;
-
-    if (this.isMobile) {
-      width = 100;
-      height = 75;
-    }
-
-    const dialogRef = this.dialog.open(CoverModalComponent, {
-      autoFocus: false,
-      data: this.currentTrack,
-      panelClass: this.frontendSettingsService.darkTheme$.value
-        ? "dark-theme"
-        : "",
-      maxWidth: "100vw",
-      maxHeight: "100vh",
-      height: "100%",
-      width: "100%",
-    });
-    dialogRef.updateSize(`${width}%`, `${height}%`);
   }
 
   private updateCover(): void {

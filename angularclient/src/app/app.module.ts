@@ -2,7 +2,6 @@ import { NgModule } from "@angular/core";
 import { FlexLayoutModule } from "@angular/flex-layout";
 import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
-import { CoverModalComponent } from "src/app/queue/cover-modal/cover-modal.component";
 import { AppComponent } from "./app.component";
 import { BrowseComponent } from "./browse/browse.component";
 import { DirectoriesComponent } from "./browse/directories/directories.component";
@@ -94,7 +93,6 @@ import { LightgalleryModule } from "lightgallery/angular";
     AppComponent,
     BrowseComponent,
     ControlPanelComponent,
-    CoverModalComponent,
     DirectoriesComponent,
     DirectoryFilterPipe,
     EncodeURIComponentPipe,
@@ -192,7 +190,7 @@ import { LightgalleryModule } from "lightgallery/angular";
       deps: [InjectableRxStompConfig],
     },
   ],
-  entryComponents: [CoverModalComponent],
+  entryComponents: [],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

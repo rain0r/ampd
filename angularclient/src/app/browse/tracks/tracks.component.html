@@ -9,10 +9,9 @@
     fxFlex.lt-md="100%"
     fxLayoutAlign.lt-md="center center"
   >
-    <lightgallery *ngIf="coverUrl()">
+    <lightgallery *ngIf="coverUrl()" [settings]="lightboxSettings">
       <a [href]="coverUrl()">
         <img
-          (click)="openCoverModal()"
           (error)="onError()"
           (load)="onLoad()"
           [alt]="'Cover of ' + dirQp"

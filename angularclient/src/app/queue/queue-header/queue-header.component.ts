@@ -15,6 +15,7 @@ import {
   Breakpoints,
   BreakpointState,
 } from "@angular/cdk/layout";
+import { LIGHTBOX_SETTINGS } from "src/app/shared/lightbox";
 
 @Component({
   selector: "app-queue-header",
@@ -28,14 +29,7 @@ export class QueueHeaderComponent implements OnInit {
   currentPathLink = ""; // encoded dir of the current playing track
   isDisplayCover: Observable<boolean>;
   isMobile = false;
-  lightboxSettings = {
-    controls: false,
-    counter: false,
-    enableDrag: false,
-    enableSwipe: false,
-    keyPress: false,
-    loop: false,
-  };
+  lightboxSettings = LIGHTBOX_SETTINGS;
   private displayCover$ = new BehaviorSubject<boolean>(false);
 
   constructor(

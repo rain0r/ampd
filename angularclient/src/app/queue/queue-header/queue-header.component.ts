@@ -29,6 +29,14 @@ export class QueueHeaderComponent implements OnInit {
   currentPathLink = ""; // encoded dir of the current playing track
   isDisplayCover: Observable<boolean>;
   isMobile = false;
+  lightboxSettings = {
+    controls: false,
+    counter: false,
+    enableDrag: false,
+    enableSwipe: false,
+    keyPress: false,
+    loop: false,
+  };
   private displayCover$ = new BehaviorSubject<boolean>(false);
 
   constructor(

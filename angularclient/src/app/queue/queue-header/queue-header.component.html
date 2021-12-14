@@ -57,17 +57,23 @@
     </div>
     <div fxLayoutAlign="end center" *ngIf="isDisplayCover | async">
       <mat-divider fxShow.lt-md="true" fxShow="false"></mat-divider>
-      <img
-        [alt]="'Cover of ' + currentTrack.albumName"
-        [src]="currentTrack.coverUrl"
-        [ngClass]="[coverSizeClass | async]"
-        (click)="openCoverModal()"
-        class="album-art clickable"
-        loading="lazy"
-        [title]="
-          'Cover of ' + currentTrack.albumName + '. Click to view in full size.'
-        "
-      />
+
+      <lightgallery>
+        <a [href]="currentTrack.coverUrl">
+          <img
+            [alt]="
+              'Cover of ' +
+              currentTrack.artistName +
+              ' — ' +
+              currentTrack.albumName
+            "
+            [src]="currentTrack.coverUrl"
+            [ngClass]="[coverSizeClass | async]"
+            class="album-art clickable"
+            [title]="currentTrack.artistName + ' — ' + currentTrack.albumName"
+          />
+        </a>
+      </lightgallery>
     </div>
   </div>
 </ng-template>

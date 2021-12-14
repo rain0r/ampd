@@ -15,6 +15,7 @@ import {
 } from "@angular/cdk/layout";
 import { distinctUntilChanged, map } from "rxjs/operators";
 import { FrontendSettingsService } from "../../shared/services/frontend-settings.service";
+import { LIGHTBOX_SETTINGS } from "src/app/shared/lightbox";
 
 @Component({
   selector: "app-tracks",
@@ -27,6 +28,7 @@ export class TracksComponent implements OnInit {
   dirQp = "/";
   isMobile = false;
   queueDuration = 0;
+  lightboxSettings = LIGHTBOX_SETTINGS;
   trackTableData = new TrackTableData();
   validCoverUrl = false;
 

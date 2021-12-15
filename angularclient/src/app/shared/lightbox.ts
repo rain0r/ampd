@@ -8,7 +8,12 @@ export const LIGHTBOX_SETTINGS = {
   showCloseIcon: true,
   mobileSettings: {
     controls: false,
-    showCloseIcon: true,
+    counter: false,
     download: false,
+    enableDrag: false,
+    enableSwipe: false,
+    keyPress: true,
+    loop: false,
+    showCloseIcon: true,
   },
 };

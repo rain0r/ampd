@@ -5,4 +5,10 @@ export const LIGHTBOX_SETTINGS = {
   enableSwipe: false,
   keyPress: true,
   loop: false,
+  showCloseIcon: true,
+  mobileSettings: {
+    controls: false,
+    showCloseIcon: true,
+    download: false,
+  },
 };

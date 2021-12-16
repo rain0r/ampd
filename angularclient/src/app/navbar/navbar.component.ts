@@ -105,7 +105,8 @@ export class NavbarComponent {
         void this.router.navigate(["/browse"]);
         break;
       case "3":
-        void this.router.navigate(["/search"]);
+      case "S":
+        this.openSearchModal();
         break;
       case "4":
         void this.router.navigate(["/settings"]);
@@ -130,10 +131,6 @@ export class NavbarComponent {
       case "h":
       case "?":
         this.openHelpModal();
-        break;
-      // Display the search tracks modal
-      case "S":
-        this.openSearchModal();
         break;
       // Display add stream modal
       case "a":

@@ -118,11 +118,11 @@
     </th>
     <td
       mat-cell
-      *matCellDef="let track"
-      (click)="onRowClick(track.file)"
+      *matCellDef="let row"
+      (click)="onRowClick(row)"
       [class.mobile]="isMobile | async"
     >
-      {{ track.length | secondsToMmSs }}
+      {{ row.length | secondsToMmSs }}
     </td>
   </ng-container>
 

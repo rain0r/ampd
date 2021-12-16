@@ -54,7 +54,7 @@ export class TrackTableDataComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if ("trackTableData" in changes) {
       const tableData: TrackTableData = <TrackTableData>(
-        changes['trackTableData'].currentValue
+        changes["trackTableData"].currentValue
       );
       if (tableData.dataSource.data.length > 0) {
         if (tableData.sortable) {

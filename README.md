@@ -35,25 +35,15 @@ More screenshots can be found in the [**wiki**](https://github.com/rain0r/ampd/w
 
 ## Running
 
-Requires Java 11. To run ampd, just run the `jar`-file:
+To run `ampd`, just run the `jar`-file:
 
 ```shell script
 java -jar ampd.jar
 ```
 
-Additional options can be passed via the `-D` arguments, for example:
-
-```shell script
-# Music dir is located at /home/foo/music
-java -jar -Dmpd.music.directory=/home/foo/music ampd.jar
-```
-
-To persist these options, create a config file. See [INSTALL.md](INSTALL.md).
+For more options, please see: [USAGE.md](USAGE.md)
 
 ## Settings
-
-These are the available settings (with the defaults) that can be provided when starting `ampd`
-(either via `-D` or in the `application.properties` file).  
 
 Please see the
 [default](https://github.com/rain0r/ampd/blob/master/src/main/resources/application.properties)

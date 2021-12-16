@@ -1,5 +1,22 @@
 # Usage
 
+## Starting `ampd`
+
+To run `ampd`, just run the `jar`-file:
+
+```shell script
+java -jar ampd.jar
+```
+
+Additional options can be passed via the `-D` arguments, for example:
+
+```shell script
+# Music dir is located at /home/foo/music
+java -jar -Dmpd.music.directory=/home/foo/music ampd.jar
+```
+
+To persist these options, create a config file. See [INSTALL.md](INSTALL.md).
+
 ## General
 
 `ampd` is pretty straightforward and has just four views:

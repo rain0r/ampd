@@ -47,7 +47,7 @@ For more options, please see: [USAGE.md](USAGE.md)
 
 Please see the
 [default](https://github.com/rain0r/ampd/blob/master/src/main/resources/application.properties)
-for settings that can be changed. It's pretty self-explanatory and commented.
+`application.properties` file for settings that can be changed. It's pretty self-explanatory and commented.
 
 ## Contributing / hacking / developing
 

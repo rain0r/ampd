@@ -25,7 +25,7 @@ export class BackendAddressComponent {
       return;
     }
     this.settingsService.setBackendAddr(
-      this.settingsForm.controls['backendAddr'].value
+      this.settingsForm.controls["backendAddr"].value as string
     );
     this.notificationService.popUp("Saved backend address.");
   }

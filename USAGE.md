@@ -40,4 +40,4 @@ To learn how to persist these options (or change settings generally), please see
 * `3`: Navigate to the search view
 * `4`: Navigate to the settings view
 
-Press `h` to see a list of all shortcuts. Alternatively, click on the questionmark-icon in the top right corner.
+Press `h` to see a list of all shortcuts. Alternatively, click on the question mark-icon in the top right corner.

@@ -33,22 +33,17 @@ public class MbCoverService {
 
   private final AmpdSettings ampdSettings;
 
-  private final CoverBlacklistService coverBlacklistService;
-
   private final CoverCacheService coverCacheService;
 
   /**
-   * Downloads albumart from MusicBrainz.
+   * Downloads album art from MusicBrainz.
    *
-   * @param ampdSettings          Settings of this ampd instance.
-   * @param coverBlacklistService Handles files for which no cover should be downloaded.
-   * @param coverCacheService     Handles locally saved albumart / covers.
+   * @param ampdSettings      Settings of this ampd instance.
+   * @param coverCacheService Handles locally saved album art / covers.
    */
   public MbCoverService(final AmpdSettings ampdSettings,
-      CoverBlacklistService coverBlacklistService,
       CoverCacheService coverCacheService) {
     this.ampdSettings = ampdSettings;
-    this.coverBlacklistService = coverBlacklistService;
     this.coverCacheService = coverCacheService;
   }
 
@@ -61,11 +56,6 @@ public class MbCoverService {
   public Optional<byte[]> getMbCover(final MPDSong track) {
     if (!ampdSettings.isMbCoverService()) {
       LOG.debug("MusicBrainz is disabled, not downloading a cover");
-      return Optional.empty();
-    }
-    if (coverBlacklistService.isBlacklisted(track.getFile())) {
-      LOG.debug("File is on the cover blacklist, not getting a cover for file: {}",
-          track.getFile());
       return Optional.empty();
     }
     LOG.debug("Trying to load a cover from the MusicBrainz API for file: {}", track.getFile());

@@ -4,7 +4,7 @@ export enum InternalMessageType {
    */
   BrowseFilter,
   /**
-   * For manually blacklisting a cover. Usually, cover updates are triggered by the backend.
+   * Cover updates are triggered by the backend.
    */
   UpdateCover,
 }

@@ -10,13 +10,9 @@ import { map } from "rxjs/operators";
 })
 export class MbCoverServiceComponent {
   @Input() mbCoverService = false;
-  blacklistedCovers: Observable<number> = new Observable<number>();
   coverCacheUsage = new Observable<number>();
 
   constructor(private settingsService: SettingsService) {
     this.coverCacheUsage = this.settingsService.getCoverCacheDiskUsage();
-    this.blacklistedCovers = this.settingsService
-      .getCoverBlacklist()
-      .pipe(map((foo) => foo.blacklistedFiles.length));
   }
 }

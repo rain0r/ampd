@@ -4,7 +4,6 @@ import { BackendSettings } from "../models/backend-settings";
 import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { ApiEndpoints } from "../api-endpoints";
 import { KEY_BACKEND_ADDRESS } from "../local-storage-keys";
-import { CoverBlacklistFiles } from "../models/cover-blacklist-files";
 import { Location } from "@angular/common";
 import { catchError } from "rxjs/operators";
 import { ErrorMsg } from "../error/error-msg";
@@ -14,11 +13,6 @@ import { ErrorMsg } from "../error/error-msg";
 })
 export class SettingsService {
   constructor(private http: HttpClient, private location: Location) {}
-
-  blacklistCover(file: string): Observable<void> {
-    const url = `${this.getBackendContextAddr()}api/blacklist-cover`;
-    return this.http.post<void>(url, file);
-  }
 
   setBackendAddr(backendAddr: string): void {
     localStorage.setItem(KEY_BACKEND_ADDRESS, backendAddr);
@@ -43,11 +37,6 @@ export class SettingsService {
   getCoverCacheDiskUsage(): Observable<number> {
     const url = `${this.getBackendContextAddr()}api/cover-disk-usage`;
     return this.http.get<number>(url);
-  }
-
-  getCoverBlacklist(): Observable<CoverBlacklistFiles> {
-    const url = `${this.getBackendContextAddr()}api/cover-blacklist`;
-    return this.http.get<CoverBlacklistFiles>(url);
   }
 
   /**

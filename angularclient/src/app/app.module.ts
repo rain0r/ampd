@@ -65,7 +65,6 @@ import { MapEntriesPipe } from "./shared/pipes/map-entries.pipe";
 import { ErrorComponent } from "./shared/error/error.component";
 import { CoverCacheComponent } from "./settings/backend/cover-cache/cover-cache.component";
 import { MbCoverServiceComponent } from "./settings/backend/music-brainz-cover-service/mb-cover-service.component";
-import { CoverBlacklistComponent } from "./settings/backend/cover-blacklist/cover-blacklist.component";
 import { ResetModesOnClearComponent } from "./settings/backend/reset-modes-on-clear/reset-modes-on-clear.component";
 import { MusicDirectoryComponent } from "./settings/backend/music-directory/music-directory.component";
 import { MpdServerComponent } from "./settings/backend/mpd-server/mpd-server.component";
@@ -123,7 +122,6 @@ import { LightgalleryModule } from "lightgallery/angular";
     ErrorComponent,
     CoverCacheComponent,
     MbCoverServiceComponent,
-    CoverBlacklistComponent,
     ResetModesOnClearComponent,
     MusicDirectoryComponent,
     MpdServerComponent,

@@ -1,8 +1,4 @@
-<div
-  fxLayout="column"
-  fxLayoutGap="0.75rem"
-  *ngIf="blacklistedCovers | async as bc"
->
+<div fxLayout="column" fxLayoutGap="0.75rem">
   <mat-card>
     <mat-card-header>
       <mat-card-title>MusicBrainz cover service</mat-card-title>
@@ -24,10 +20,4 @@
       starting ampd.
     </mat-card-footer>
   </mat-card>
-
-  <!-- Cover blacklist -->
-  <app-cover-blacklist
-    *ngIf="mbCoverService && bc > 0"
-    [mbCoverService]="mbCoverService"
-  ></app-cover-blacklist>
 </div>

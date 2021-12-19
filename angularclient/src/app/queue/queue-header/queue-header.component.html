@@ -57,8 +57,7 @@
     </div>
     <div fxLayoutAlign="end center" *ngIf="isDisplayCover | async">
       <mat-divider fxShow.lt-md="true" fxShow="false"></mat-divider>
-
-      <lightgallery [settings]="lightboxSettings">
+      <lightgallery [settings]="lightboxSettings" [onInit]="onInit">
         <a [href]="currentTrack.coverUrl">
           <img
             [alt]="

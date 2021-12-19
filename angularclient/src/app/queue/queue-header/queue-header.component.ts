@@ -1,6 +1,5 @@
 import { HttpClient } from "@angular/common/http";
-import { Component, OnInit } from "@angular/core";
-import { MatDialog } from "@angular/material/dialog";
+import { AfterViewChecked, Component, OnInit } from "@angular/core";
 
 import { ResponsiveCoverSizeService } from "../../shared/services/responsive-cover-size.service";
 import { QueueTrack } from "../../shared/models/queue-track";
@@ -8,7 +7,7 @@ import { MpdService } from "../../shared/services/mpd.service";
 import { filter, map, take } from "rxjs/operators";
 import { MessageService } from "../../shared/services/message.service";
 import { InternalMessageType } from "../../shared/messages/internal/internal-message-type.enum";
-import { BehaviorSubject, combineLatest, Observable } from "rxjs";
+import { BehaviorSubject, combineLatest, Observable, Subject } from "rxjs";
 import { FrontendSettingsService } from "../../shared/services/frontend-settings.service";
 import {
   BreakpointObserver,
@@ -16,13 +15,15 @@ import {
   BreakpointState,
 } from "@angular/cdk/layout";
 import { LIGHTBOX_SETTINGS } from "src/app/shared/lightbox";
+import { LightGallery } from "lightgallery/lightgallery";
+import { InitDetail } from "lightgallery/lg-events";
 
 @Component({
   selector: "app-queue-header",
   templateUrl: "./queue-header.component.html",
   styleUrls: ["./queue-header.component.scss"],
 })
-export class QueueHeaderComponent implements OnInit {
+export class QueueHeaderComponent implements OnInit, AfterViewChecked {
   coverSizeClass: Observable<string>;
   currentState: Observable<string>;
   currentTrack = new QueueTrack();
@@ -30,10 +31,11 @@ export class QueueHeaderComponent implements OnInit {
   isDisplayCover: Observable<boolean>;
   isMobile = false;
   lightboxSettings = LIGHTBOX_SETTINGS;
+
   private displayCover$ = new BehaviorSubject<boolean>(false);
+  private lightGallery!: LightGallery;
 
   constructor(
-    private dialog: MatDialog,
     private frontendSettingsService: FrontendSettingsService,
     private http: HttpClient,
     private responsiveCoverSizeService: ResponsiveCoverSizeService,
@@ -56,6 +58,16 @@ export class QueueHeaderComponent implements OnInit {
   ngOnInit(): void {
     this.updateCover();
   }
+
+  ngAfterViewChecked(): void {
+    if (this.lightGallery) {
+      this.lightGallery.refresh();
+    }
+  }
+
+  onInit = (detail: InitDetail): void => {
+    this.lightGallery = detail.instance;
+  };
 
   private updateCover(): void {
     if (!this.currentTrack.coverUrl) {

@@ -48,7 +48,7 @@ export class NavbarComponent {
     private volumeService: VolumeService
   ) {
     this.isDarkTheme = this.frontendSettingsService.darkTheme;
-    this.connState = rxStompService.connectionState$;
+    this.connState = this.rxStompService.connectionState$;
     this.mpdService.currentState.subscribe(
       (state) => (this.currentState = state)
     );

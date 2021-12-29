@@ -101,8 +101,8 @@
 
   <mat-divider></mat-divider>
 
-  <div class="mono">
-    Source code at:
+  <div class="mono" *ngIf="backendSettings | async as settings">
+    ampd version {{ settings.applicationVersion }}. Source code at:
     <a class="mat-app-background" href="https://github.com/rain0r/ampd"
       >github.com/rain0r/ampd</a
     >

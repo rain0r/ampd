@@ -11,4 +11,5 @@ export interface BackendSettings {
   resetModesOnClear: boolean;
   createNewPlaylists: boolean;
   deleteExistingPlaylists: boolean;
+  applicationVersion: string;
 }

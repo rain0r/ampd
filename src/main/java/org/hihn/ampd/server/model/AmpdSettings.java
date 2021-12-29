@@ -85,6 +85,12 @@ public class AmpdSettings {
   private String artworkFilenamePattern;
 
   /**
+   * Version of ampd as specified in pom.xml.
+   */
+  @Value("${application.version}")
+  private String applicationVersion;
+
+  /**
    * Prints the applied properties to the console.
    */
   @PostConstruct
@@ -99,6 +105,7 @@ public class AmpdSettings {
     LOG.debug("deleteExistingPlaylists: {}", deleteExistingPlaylists);
     LOG.debug("minScore: {}", minScore);
     LOG.debug("artworkFilenamePattern: {}", artworkFilenamePattern);
+    LOG.debug("applicationVersion: {}", applicationVersion);
   }
 
   public String getMpdPassword() {
@@ -143,5 +150,9 @@ public class AmpdSettings {
 
   public String getArtworkFilenamePattern() {
     return artworkFilenamePattern;
+  }
+
+  public String getApplicationVersion() {
+    return applicationVersion;
   }
 }

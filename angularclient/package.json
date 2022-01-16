@@ -70,7 +70,6 @@
     "karma-coverage": "~2.0.3",
     "karma-jasmine": "~4.0.0",
     "karma-jasmine-html-reporter": "~1.7.0",
-    "markdownlint-cli": "^0.27.1",
     "node-forge": "~1.0.0",
     "package-lock-sanitizer": "^1.0.1",
     "postcss": "^8.2.13",

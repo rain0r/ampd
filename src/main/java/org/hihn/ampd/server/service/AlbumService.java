@@ -1,6 +1,7 @@
 package org.hihn.ampd.server.service;
 
 import java.util.Collection;
+import java.util.stream.Collectors;
 import org.bff.javampd.album.MPDAlbum;
 import org.bff.javampd.server.MPD;
 import org.springframework.stereotype.Service;
@@ -15,7 +16,9 @@ public class AlbumService {
   }
 
   public Collection<MPDAlbum> listAllAlbums(int start, int end) {
-    Collection<MPDAlbum> foo = mpd.getMusicDatabase().getAlbumDatabase().listAllAlbums();
+    Collection<MPDAlbum> foo = mpd.getMusicDatabase().getAlbumDatabase().listAllAlbums().stream()
+        .filter(album -> !album.getName().isEmpty())
+        .filter(album -> !album.getArtistName().isEmpty()).collect(Collectors.toList());
     return foo;
   }
 }

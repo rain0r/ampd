@@ -196,3 +196,4 @@ ampd.log*
 javampd
 checkstyle-result.xml
 checkstyle-ts-result.xml
+angularclient/.angular/cache/

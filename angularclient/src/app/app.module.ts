@@ -88,6 +88,7 @@ import { CoverGridEntryComponent } from "./browse/directories/cover-grid/cover-g
 import { PaginationComponent } from "./settings/frontend/pagination/pagination.component";
 import { AlbumsComponent } from "./albums/albums.component";
 import { LightgalleryModule } from "lightgallery/angular";
+
 @NgModule({
   declarations: [
     AppComponent,

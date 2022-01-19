@@ -6,7 +6,6 @@ import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Optional;
-
 import org.bff.javampd.song.MPDSong;
 import org.hihn.ampd.server.model.AmpdSettings;
 import org.hihn.ampd.server.model.CoverType;
@@ -91,7 +90,7 @@ public class CoverCacheService {
       return Optional.empty();
     }
     try {
-      LOG.debug("Loading cached cover: {}", fullPath.toString());
+      LOG.debug("Loading cached cover: {}", fullPath);
       return loadFile(fullPath);
     } catch (final Exception e) {
       return Optional.empty();

@@ -3,6 +3,7 @@
   [ngClass]="{ 'dark-theme': isDarkTheme | async }"
 >
   <mat-toolbar class="toolbar" color="primary">
+    <!-- Queue -->
     <button
       mat-button
       [routerLink]="['']"
@@ -12,14 +13,20 @@
       <mat-icon>format_list_bulleted</mat-icon>
       <span fxHide.lt-md> Queue </span>
     </button>
+
+    <!-- Browse -->
     <button mat-button [routerLink]="['/browse']" routerLinkActive="mat-accent">
       <mat-icon>folder_open</mat-icon>
       <span fxHide.lt-md> Browse </span>
     </button>
+
+    <!-- Search -->
     <button mat-button (click)="openSearchModal()">
       <mat-icon>search</mat-icon>
       <span fxHide.lt-md> Search </span>
     </button>
+
+    <!-- Settings -->
     <button
       mat-button
       [routerLink]="['/settings']"

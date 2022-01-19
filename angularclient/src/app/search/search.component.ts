@@ -1,21 +1,20 @@
-import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
-import { QueueTrack } from "../shared/models/queue-track";
-import { MatTableDataSource } from "@angular/material/table";
-import { TrackTableData } from "../shared/track-table/track-table-data";
-import { ClickActions } from "../shared/track-table/click-actions.enum";
-import { NotificationService } from "../shared/services/notification.service";
-import { Subject } from "rxjs";
-import { bufferTime, filter, map } from "rxjs/operators";
-import { MpdService } from "../shared/services/mpd.service";
 import {
   BreakpointObserver,
   Breakpoints,
   BreakpointState,
 } from "@angular/cdk/layout";
-import { SearchService } from "../shared/services/search.service";
-import { QueueService } from "../shared/services/queue.service";
+import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
+import { MatTableDataSource } from "@angular/material/table";
+import { Subject } from "rxjs";
+import { bufferTime, filter, map } from "rxjs/operators";
 import { SearchResponse } from "../shared/messages/incoming/search-response";
 import { Track } from "../shared/messages/incoming/track";
+import { QueueTrack } from "../shared/models/queue-track";
+import { NotificationService } from "../shared/services/notification.service";
+import { QueueService } from "../shared/services/queue.service";
+import { SearchService } from "../shared/services/search.service";
+import { ClickActions } from "../shared/track-table/click-actions.enum";
+import { TrackTableData } from "../shared/track-table/track-table-data";
 
 @Component({
   selector: "app-search",
@@ -40,7 +39,6 @@ export class SearchComponent implements OnInit {
 
   constructor(
     private breakpointObserver: BreakpointObserver,
-    private mpdService: MpdService,
     private notificationService: NotificationService,
     private queueService: QueueService,
     private searchService: SearchService

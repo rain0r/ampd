@@ -1,8 +1,9 @@
 import { Injectable } from "@angular/core";
 import { RxStompService } from "@stomp/ng2-stompjs";
 import { Observable } from "rxjs";
-import { Track } from "../messages/incoming/track";
 import { distinctUntilChanged, map } from "rxjs/operators";
+import { Track } from "../messages/incoming/track";
+import { MpdAlbum } from "../models/http/album";
 
 @Injectable({
   providedIn: "root",
@@ -27,6 +28,20 @@ export class QueueService {
     this.rxStompService.publish({
       destination: `${this.path}add-dir`,
       body: decodeURIComponent(dir),
+    });
+  }
+
+  addAlbum(album: MpdAlbum): void {
+    this.rxStompService.publish({
+      destination: `${this.path}add-album`,
+      body: JSON.stringify(album),
+    });
+  }
+
+  playAlbum(album: MpdAlbum): void {
+    this.rxStompService.publish({
+      destination: `${this.path}play-album`,
+      body: JSON.stringify(album),
     });
   }
 

@@ -1,25 +1,24 @@
-import { Component, HostListener } from "@angular/core";
-
-import { RxStompService } from "@stomp/ng2-stompjs";
-import { Router } from "@angular/router";
-import { BehaviorSubject, Observable } from "rxjs";
-import { MpdService } from "../shared/services/mpd.service";
-import { MpdModeService } from "../shared/services/mpd-mode.service";
-import { MatDialog } from "@angular/material/dialog";
-import { HelpModalComponent } from "./help-dialog/help-modal.component";
-import { NotificationService } from "../shared/services/notification.service";
-import { ControlPanelService } from "../shared/services/control-panel.service";
-import { VolumeService } from "../shared/services/volume.service";
-import { QueueService } from "../shared/services/queue.service";
-import { AddStreamModalComponent } from "../queue/add-stream-modal/add-stream-modal.component";
-import { FrontendSettingsService } from "../shared/services/frontend-settings.service";
-import { SearchComponent } from "../search/search.component";
 import {
   BreakpointObserver,
   Breakpoints,
   BreakpointState,
 } from "@angular/cdk/layout";
+import { Component, HostListener } from "@angular/core";
+import { MatDialog } from "@angular/material/dialog";
+import { Router } from "@angular/router";
+import { RxStompService } from "@stomp/ng2-stompjs";
+import { BehaviorSubject, Observable } from "rxjs";
 import { map } from "rxjs/operators";
+import { AddStreamModalComponent } from "../queue/add-stream-modal/add-stream-modal.component";
+import { SearchComponent } from "../search/search.component";
+import { ControlPanelService } from "../shared/services/control-panel.service";
+import { FrontendSettingsService } from "../shared/services/frontend-settings.service";
+import { MpdModeService } from "../shared/services/mpd-mode.service";
+import { MpdService } from "../shared/services/mpd.service";
+import { NotificationService } from "../shared/services/notification.service";
+import { QueueService } from "../shared/services/queue.service";
+import { VolumeService } from "../shared/services/volume.service";
+import { HelpModalComponent } from "./help-modal/help-modal.component";
 
 @Component({
   selector: "app-navbar",
@@ -28,8 +27,8 @@ import { map } from "rxjs/operators";
 })
 export class NavbarComponent {
   isDarkTheme: Observable<boolean> = new Observable<boolean>();
-  isMobile = false;
   connState: Observable<number> = new Observable<number>();
+  private isMobile = false;
   private currentState = "stop";
   private helpModalOpen = new BehaviorSubject(false);
   private searchModalOpen = new BehaviorSubject(false);

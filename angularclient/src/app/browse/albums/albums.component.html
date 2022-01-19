@@ -1,0 +1,37 @@
+<div
+  fxLayout="row wrap"
+  fxLayoutAlign="space-between"
+  fxLayoutGap="1rem grid"
+  fxLayoutGap.lt-md="0.25rem grid"
+  *ngIf="page | async as pageNo"
+>
+  <div class="mat-h2">Albums</div>
+
+  <app-albums-pagination [pageNo]="pageNo"></app-albums-pagination>
+</div>
+
+<mat-divider></mat-divider>
+
+<div
+  fxLayout="row wrap"
+  fxLayout.lt-md="column"
+  fxLayoutAlign="space-between"
+  fxLayoutAlign.lt-md="center center"
+  fxLayoutGap="1rem grid"
+  fxLayoutGap.lt-md="1rem"
+>
+  <div
+    fxFlex
+    fxFlex.lt-md="100%"
+    fxLayoutAlign="center center"
+    *ngFor="let album of albums | async"
+  >
+    <app-album-item fxFlex.lt-md="100%" [album]="album"></app-album-item>
+  </div>
+</div>
+
+<mat-divider></mat-divider>
+
+<div *ngIf="page | async as pageNo">
+  <app-albums-pagination [pageNo]="pageNo"></app-albums-pagination>
+</div>

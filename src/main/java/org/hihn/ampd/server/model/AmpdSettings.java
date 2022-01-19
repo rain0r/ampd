@@ -90,6 +90,9 @@ public class AmpdSettings {
   @Value("${application.version}")
   private String applicationVersion;
 
+  @Value("${albums.page.size:30}")
+  private int albumsPageSize;
+
   /**
    * Prints the applied properties to the console.
    */
@@ -106,6 +109,7 @@ public class AmpdSettings {
     LOG.debug("minScore: {}", minScore);
     LOG.debug("artworkFilenamePattern: {}", artworkFilenamePattern);
     LOG.debug("applicationVersion: {}", applicationVersion);
+    LOG.debug("albumsPageSize: {}", albumsPageSize);
   }
 
   public String getMpdPassword() {
@@ -154,5 +158,9 @@ public class AmpdSettings {
 
   public String getApplicationVersion() {
     return applicationVersion;
+  }
+
+  public int getAlbumsPageSize() {
+    return albumsPageSize;
   }
 }

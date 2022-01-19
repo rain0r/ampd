@@ -1,21 +1,20 @@
-import { Component, Input, OnInit } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
-import { ResponsiveCoverSizeService } from "../../shared/services/responsive-cover-size.service";
-import { Observable } from "rxjs";
-import { TrackTableData } from "../../shared/track-table/track-table-data";
-import { MatTableDataSource } from "@angular/material/table";
-import { ClickActions } from "../../shared/track-table/click-actions.enum";
-import { SettingsService } from "../../shared/services/settings.service";
-import { QueueTrack } from "../../shared/models/queue-track";
-import { MpdService } from "../../shared/services/mpd.service";
 import {
   BreakpointObserver,
   Breakpoints,
   BreakpointState,
 } from "@angular/cdk/layout";
+import { Component, Input, OnInit } from "@angular/core";
+import { MatTableDataSource } from "@angular/material/table";
+import { ActivatedRoute } from "@angular/router";
+import { Observable } from "rxjs";
 import { distinctUntilChanged, map } from "rxjs/operators";
-import { FrontendSettingsService } from "../../shared/services/frontend-settings.service";
 import { LIGHTBOX_SETTINGS } from "src/app/shared/lightbox";
+import { QueueTrack } from "../../shared/models/queue-track";
+import { MpdService } from "../../shared/services/mpd.service";
+import { ResponsiveCoverSizeService } from "../../shared/services/responsive-cover-size.service";
+import { SettingsService } from "../../shared/services/settings.service";
+import { ClickActions } from "../../shared/track-table/click-actions.enum";
+import { TrackTableData } from "../../shared/track-table/track-table-data";
 
 @Component({
   selector: "app-tracks",
@@ -36,7 +35,7 @@ export class TracksComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private breakpointObserver: BreakpointObserver,
     private mpdService: MpdService,
-    private responsiveCoverSizeService: ResponsiveCoverSizeService,
+    responsiveCoverSizeService: ResponsiveCoverSizeService,
     private settingsService: SettingsService
   ) {
     this.coverSizeClass = responsiveCoverSizeService.getCoverCssClass();
@@ -53,7 +52,6 @@ export class TracksComponent implements OnInit {
       .observe([Breakpoints.Small, Breakpoints.HandsetPortrait])
       .pipe(map((state: BreakpointState) => state.matches))
       .subscribe((isMobile) => (this.isMobile = isMobile));
-
     this.trackTableData = this.buildTableData();
     this.queueDuration = this.sumTrackDuration();
   }

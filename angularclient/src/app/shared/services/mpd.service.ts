@@ -1,16 +1,14 @@
+import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { StateMsgPayload } from "../messages/incoming/state-msg-payload";
-import { MpdModesPanel } from "../messages/incoming/mpd-modes-panel";
-import { QueueTrack } from "../models/queue-track";
+import { RxStompService } from "@stomp/ng2-stompjs";
 import { Observable, Subject, throwError } from "rxjs";
 import { catchError, filter, map, tap } from "rxjs/operators";
-import { HttpClient, HttpErrorResponse } from "@angular/common/http";
-import { SettingsService } from "./settings.service";
-import { QueueService } from "./queue.service";
-import { ControlPanelService } from "./control-panel.service";
-import { RxStompService } from "@stomp/ng2-stompjs";
-import { ServerStatistics } from "../models/server-statistics";
 import { ErrorMsg } from "../error/error-msg";
+import { MpdModesPanel } from "../messages/incoming/mpd-modes-panel";
+import { StateMsgPayload } from "../messages/incoming/state-msg-payload";
+import { QueueTrack } from "../models/queue-track";
+import { ServerStatistics } from "../models/server-statistics";
+import { SettingsService } from "./settings.service";
 
 @Injectable({
   providedIn: "root",
@@ -26,9 +24,7 @@ export class MpdService {
   private prevTrack = new QueueTrack();
 
   constructor(
-    private controlPanelService: ControlPanelService,
     private http: HttpClient,
-    private queueService: QueueService,
     private rxStompService: RxStompService,
     private settingsService: SettingsService
   ) {

@@ -87,7 +87,11 @@ import { DragDropModule } from "@angular/cdk/drag-drop";
 import { CoverGridEntryComponent } from "./browse/directories/cover-grid/cover-grid-entry/cover-grid-entry.component";
 import { PaginationComponent } from "./settings/frontend/pagination/pagination.component";
 import { AlbumsComponent } from "./albums/albums.component";
+<<<<<<< HEAD
 import { LightgalleryModule } from "lightgallery/angular";
+=======
+
+>>>>>>> 2a00a841919ee3f3c5d084020a71c1a3187981bd
 @NgModule({
   declarations: [
     AppComponent,

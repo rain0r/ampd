@@ -11,7 +11,7 @@ import { SettingsService } from "./settings.service";
 })
 export class AlbumsService {
   private encoder = new HttpUrlEncodingCodec();
-  
+
   constructor(
     private http: HttpClient,
     private settingsService: SettingsService

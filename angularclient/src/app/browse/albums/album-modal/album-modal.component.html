@@ -1,10 +1,9 @@
-<div fxLayout="column" fxLayoutAlign="space-between" *ngIf="tracks | async; else loading">
-
-  <div
-    mat-dialog-title
-    fxLayout="row wrap"
-    fxLayoutAlign="space-between"
-  >
+<div
+  fxLayout="column"
+  fxLayoutAlign="space-between"
+  *ngIf="tracks | async; else loading"
+>
+  <div mat-dialog-title fxLayout="row wrap" fxLayoutAlign="space-between">
     <div fxLayoutAlign="start center" fxFlex fxFlex.lt-md="100%">
       <img
         mat-card-image
@@ -14,7 +13,12 @@
         [src]="album.albumCoverUrl"
       />
     </div>
-    <div fxLayout="column" fxLayoutAlign="start center" fxFlex fxFlex.lt-md="100%">
+    <div
+      fxLayout="column"
+      fxLayoutAlign="start center"
+      fxFlex
+      fxFlex.lt-md="100%"
+    >
       <div class="mat-h2">
         {{ album.name }}
       </div>
@@ -45,8 +49,8 @@
   </mat-dialog-content>
 
   <mat-dialog-actions fxLayout="row nowrap" fxLayoutAlign="end">
-  <button mat-stroked-button matDialogClose>Close</button>
-</mat-dialog-actions>
+    <button mat-stroked-button matDialogClose>Close</button>
+  </mat-dialog-actions>
 </div>
 
 <ng-template #loading>

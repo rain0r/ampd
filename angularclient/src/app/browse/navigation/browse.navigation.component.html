@@ -57,7 +57,12 @@
   </button>
 
   <!-- Albums -->
-  <button class="mat-small" mat-raised-button [routerLink]="['/browse/albums']">
+  <button
+    *ngIf="getParamDir !== '/'"
+    class="mat-small"
+    mat-raised-button
+    [routerLink]="['/browse/albums']"
+  >
     <mat-icon>album</mat-icon>
     <span fxHide.lt-md> Albums </span>
   </button>

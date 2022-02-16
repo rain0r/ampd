@@ -8,6 +8,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import org.bff.javampd.album.MPDAlbum;
 import org.bff.javampd.art.MPDArtwork;
 import org.bff.javampd.server.MPD;
 import org.bff.javampd.song.MPDSong;
@@ -81,8 +82,21 @@ public class CoverService {
     return cover;
   }
 
+  public Optional<byte[]> findAlbumCoverForAlbum(String albumName, String artistName) {
+    MPDAlbum mpdAlbum = new MPDAlbum(albumName, artistName);
+    String prefix =
+        ampdSettings.getMusicDirectory().endsWith("/") ? ampdSettings.getMusicDirectory()
+            : ampdSettings.getMusicDirectory() + "/";
+    List<MPDArtwork> ret = mpd.getArtworkFinder()
+        .find(mpdAlbum, prefix);
+    if (ret.isEmpty()) {
+      return Optional.empty();
+    }
+    return Optional.of(ret.get(0).getBytes());
+  }
+
   /**
-   * Looks in a specific dirctory for a cover.
+   * Looks in a specific directory for a cover.
    *
    * @param dirPath The directory that contains a cover.
    * @return The content of the found cover.

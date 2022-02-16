@@ -1,10 +1,10 @@
 import { Component, Input } from "@angular/core";
-import { Playlist } from "../../shared/messages/incoming/playlist-impl";
-import { Observable } from "rxjs";
-import { Filterable } from "../filterable";
-import { MessageService } from "../../shared/services/message.service";
-import { FrontendSettingsService } from "../../shared/services/frontend-settings.service";
 import { PageEvent } from "@angular/material/paginator";
+import { Observable } from "rxjs";
+import { Playlist } from "../../shared/messages/incoming/playlist-impl";
+import { FrontendSettingsService } from "../../shared/services/frontend-settings.service";
+import { MessageService } from "../../shared/services/message.service";
+import { Filterable } from "../filterable";
 
 @Component({
   selector: "app-playlists",

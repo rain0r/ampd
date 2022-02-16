@@ -1,7 +1,6 @@
 package org.hihn.ampd.server.controller;
 
 import java.util.Collection;
-import javax.annotation.Nullable;
 import org.bff.javampd.album.MPDAlbum;
 import org.bff.javampd.song.MPDSong;
 import org.hihn.ampd.server.service.AlbumService;
@@ -24,7 +23,7 @@ public class AlbumController {
 
   @GetMapping("/albums")
   public Collection<MPDAlbum> listAllAlbums(
-      @Nullable @RequestParam(value = "page", defaultValue = "1") Integer page) {
+      @RequestParam(value = "page", defaultValue = "1") Integer page) {
     return this.albumService.listAllAlbums(page);
   }
 

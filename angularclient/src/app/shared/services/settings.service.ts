@@ -1,12 +1,12 @@
+import { Location } from "@angular/common";
+import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable, throwError } from "rxjs";
-import { BackendSettings } from "../models/backend-settings";
-import { HttpClient, HttpErrorResponse } from "@angular/common/http";
-import { ApiEndpoints } from "../api-endpoints";
-import { KEY_BACKEND_ADDRESS } from "../local-storage-keys";
-import { Location } from "@angular/common";
 import { catchError } from "rxjs/operators";
+import { ApiEndpoints } from "../api-endpoints";
 import { ErrorMsg } from "../error/error-msg";
+import { KEY_BACKEND_ADDRESS } from "../local-storage-keys";
+import { BackendSettings } from "../models/backend-settings";
 
 @Injectable({
   providedIn: "root",

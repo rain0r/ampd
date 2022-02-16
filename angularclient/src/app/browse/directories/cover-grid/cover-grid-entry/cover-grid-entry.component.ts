@@ -22,7 +22,7 @@ export class CoverGridEntryComponent implements OnInit {
     private queueService: QueueService,
     private responsiveCoverSizeService: ResponsiveCoverSizeService
   ) {
-    this.coverSizeClass = responsiveCoverSizeService.getCoverCssClass();
+    this.coverSizeClass = this.responsiveCoverSizeService.getCoverCssClass();
   }
 
   ngOnInit(): void {

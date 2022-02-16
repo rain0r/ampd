@@ -57,4 +57,15 @@ public class CoverController {
     return coverService.findAlbumCoverForTrack(trackFilePath)
         .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
   }
+
+  @RequestMapping(
+      value = {"/find-album-cover"},
+      produces = MediaType.IMAGE_JPEG_VALUE
+  )
+  public @ResponseBody
+  byte[] findAlbumCoverForArtistAndName(@RequestParam("albumName") final String albumName,
+      @RequestParam("artistName") final String artistName) {
+    return coverService.findAlbumCoverForAlbum(albumName, artistName)
+        .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+  }
 }

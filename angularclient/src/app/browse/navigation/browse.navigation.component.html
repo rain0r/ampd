@@ -58,7 +58,7 @@
 
   <!-- Albums -->
   <button
-    *ngIf="getParamDir !== '/'"
+    *ngIf="getParamDir === '/'"
     class="mat-small"
     mat-raised-button
     [routerLink]="['/browse/albums']"

@@ -26,7 +26,7 @@ public class AlbumService {
     this.ampdSettings = ampdSettings;
   }
 
-  @Cacheable("books")
+  @Cacheable("albums")
   public Collection<MPDAlbum> listAllAlbums(int page) {
     if (page < 1) {
       return new ArrayList<>();

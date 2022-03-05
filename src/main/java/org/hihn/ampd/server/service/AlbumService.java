@@ -40,15 +40,16 @@ public class AlbumService {
 
     Collection<MPDArtist> artists = mpd.getMusicDatabase().getArtistDatabase().listAllArtists();
     for (MPDArtist artist : artists) {
+      if (artist.getName() == null || artist.getName().trim().isEmpty()) {
+        continue;
+      }
+
       List<MPDAlbum> albums = mpd.getMusicDatabase().getAlbumDatabase().listAlbumsByArtist(artist)
           .stream()
           .filter(album -> !album.getName().isEmpty())
           .filter(album -> !album.getArtistName().isEmpty()).collect(Collectors.toList());
 
       for (MPDAlbum album : albums) {
-        if (album.getName().contains("Black Tape")) {
-          System.out.println(1);
-        }
         ret.add(album);
         if (counter >= start) {
           counter += 1;

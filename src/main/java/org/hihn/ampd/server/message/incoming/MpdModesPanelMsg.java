@@ -2,11 +2,15 @@ package org.hihn.ampd.server.message.incoming;
 
 import java.util.Collection;
 import org.bff.javampd.server.ServerStatus;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Represents a MPD control panel.
  */
 public class MpdModesPanelMsg {
+
+  private static final Logger LOG = LoggerFactory.getLogger(MpdModesPanelMsg.class);
 
   private boolean consume;
 
@@ -21,7 +25,8 @@ public class MpdModesPanelMsg {
   /**
    * Used for incoming message deserialization.
    */
-  public MpdModesPanelMsg(){}
+  public MpdModesPanelMsg() {
+  }
 
   /**
    * Represents a MPD control panel.
@@ -29,7 +34,13 @@ public class MpdModesPanelMsg {
    * @param serverStatus ServerStatus provided by MPD.
    */
   public MpdModesPanelMsg(final ServerStatus serverStatus) {
-    final Collection<String> statusList = serverStatus.getStatus();
+    Collection<String> statusList;
+    try {
+      statusList = serverStatus.getStatus();
+    } catch (NullPointerException e) {
+      LOG.error("Error getting MPD server status");
+      return;
+    }
 
     // crossfade is not part of the statusList so can't assign in it the for loop
     setCrossfade(serverStatus.getXFade() == 1);

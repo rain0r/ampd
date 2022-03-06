@@ -7,6 +7,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import org.bff.javampd.album.MPDAlbum;
 import org.bff.javampd.art.MPDArtwork;
@@ -62,8 +63,8 @@ public class CoverService {
       // Map the track file path to a MPDSong
       track = mpd.getMusicDatabase().getSongDatabase().searchFileName(trackFilePath).iterator()
           .next();
-    } catch (Exception e) {
-      LOG.error("Could not find MPDSong for file: {}", trackFilePath, e);
+    } catch (NoSuchElementException e) {
+      LOG.warn("Could not find MPDSong for file: {}", trackFilePath);
       return Optional.empty();
     }
 

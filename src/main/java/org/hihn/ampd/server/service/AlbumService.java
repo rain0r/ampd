@@ -64,7 +64,12 @@ public class AlbumService {
         break;
       }
     }
-    return ret.subList(start, end);
+    try {
+      return ret.subList(start, end);
+    }
+    catch (IndexOutOfBoundsException e) {
+      return new ArrayList<>();
+    }
   }
 
   public Collection<MPDSong> listAlbum(String album, String artist) {

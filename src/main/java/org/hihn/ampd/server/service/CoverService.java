@@ -109,7 +109,7 @@ public class CoverService {
       MPDArtwork artwork = mpd.getArtworkFinder().find(path.toString()).iterator().next();
       return Optional.of(artwork.getBytes());
     } catch (Exception e) {
-      LOG.error("Could not load filename for Track: {}", dirPath, e);
+      LOG.error("Could not load filename for Track: {}", dirPath);
     }
     return Optional.empty();
   }

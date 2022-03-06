@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 import org.bff.javampd.album.MPDAlbum;
 import org.bff.javampd.artist.MPDArtist;
 import org.bff.javampd.server.MPD;
+import org.bff.javampd.server.MPDConnectionException;
 import org.bff.javampd.song.MPDSong;
 import org.hihn.ampd.server.model.AmpdSettings;
 import org.springframework.cache.annotation.Cacheable;
@@ -37,17 +38,18 @@ public class AlbumService {
     int end = start + ampdSettings.getAlbumsPageSize() - 1;
 
     ArrayList<MPDAlbum> ret = new ArrayList<>();
-
     Collection<MPDArtist> artists = mpd.getMusicDatabase().getArtistDatabase().listAllArtists();
+
     for (MPDArtist artist : artists) {
-      if (artist.getName() == null || artist.getName().trim().isEmpty()) {
+      List<MPDAlbum> albums;
+      try {
+        albums = mpd.getMusicDatabase().getAlbumDatabase().listAlbumsByArtist(artist)
+            .stream()
+            .filter(album -> !album.getName().isEmpty())
+            .filter(album -> !album.getArtistName().isEmpty()).collect(Collectors.toList());
+      } catch (MPDConnectionException e) {
         continue;
       }
-
-      List<MPDAlbum> albums = mpd.getMusicDatabase().getAlbumDatabase().listAlbumsByArtist(artist)
-          .stream()
-          .filter(album -> !album.getName().isEmpty())
-          .filter(album -> !album.getArtistName().isEmpty()).collect(Collectors.toList());
 
       for (MPDAlbum album : albums) {
         ret.add(album);

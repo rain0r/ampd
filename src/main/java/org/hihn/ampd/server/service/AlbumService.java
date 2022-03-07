@@ -38,7 +38,13 @@ public class AlbumService {
     int end = start + ampdSettings.getAlbumsPageSize() - 1;
 
     ArrayList<MPDAlbum> ret = new ArrayList<>();
-    Collection<MPDArtist> artists = mpd.getMusicDatabase().getArtistDatabase().listAllArtists();
+    Collection<MPDArtist> artists;
+    try {
+      artists = mpd.getMusicDatabase().getArtistDatabase().listAllArtists();
+    }
+    catch (Exception e) {
+      return new ArrayList<>();
+    }
 
     for (MPDArtist artist : artists) {
       List<MPDAlbum> albums;
@@ -47,7 +53,7 @@ public class AlbumService {
             .stream()
             .filter(album -> !album.getName().isEmpty())
             .filter(album -> !album.getArtistName().isEmpty()).collect(Collectors.toList());
-      } catch (MPDConnectionException e) {
+      } catch (Exception e) {
         continue;
       }
 

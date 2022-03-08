@@ -34,14 +34,12 @@ public class MpdModesPanelMsg {
    * @param serverStatus ServerStatus provided by MPD.
    */
   public MpdModesPanelMsg(final ServerStatus serverStatus) {
-    Collection<String> statusList;
-    try {
-      statusList = serverStatus.getStatus();
-    } catch (NullPointerException e) {
+    if (serverStatus == null) {
       LOG.error("Error getting MPD server status");
       return;
     }
-
+    final Collection<String> statusList = serverStatus.getStatus();
+    
     // crossfade is not part of the statusList so can't assign in it the for loop
     setCrossfade(serverStatus.getXFade() == 1);
 

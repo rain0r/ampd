@@ -9,14 +9,17 @@ import java.util.stream.Collectors;
 import org.bff.javampd.album.MPDAlbum;
 import org.bff.javampd.artist.MPDArtist;
 import org.bff.javampd.server.MPD;
-import org.bff.javampd.server.MPDConnectionException;
 import org.bff.javampd.song.MPDSong;
 import org.hihn.ampd.server.model.AmpdSettings;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 @Service
 public class AlbumService {
+
+  private static final Logger LOG = LoggerFactory.getLogger(AlbumService.class);
 
   private final MPD mpd;
 
@@ -29,6 +32,7 @@ public class AlbumService {
 
   @Cacheable("albums")
   public Collection<MPDAlbum> listAllAlbums(int page) {
+    LOG.debug("listAllAlbums page: " + page);
     if (page < 1) {
       return new ArrayList<>();
     }
@@ -41,19 +45,22 @@ public class AlbumService {
     Collection<MPDArtist> artists;
     try {
       artists = mpd.getMusicDatabase().getArtistDatabase().listAllArtists();
-    }
-    catch (Exception e) {
+    } catch (Exception e) {
+      LOG.error("Could not load all artists");
       return new ArrayList<>();
     }
 
     for (MPDArtist artist : artists) {
+      LOG.debug("Finding albums for artist: " + artist.getName());
       List<MPDAlbum> albums;
       try {
         albums = mpd.getMusicDatabase().getAlbumDatabase().listAlbumsByArtist(artist)
             .stream()
             .filter(album -> !album.getName().isEmpty())
             .filter(album -> !album.getArtistName().isEmpty()).collect(Collectors.toList());
+        LOG.debug("Found " + albums.size() + " albums");
       } catch (Exception e) {
+        LOG.error("Could not find any albums: {}", e.getMessage());
         continue;
       }
 
@@ -72,8 +79,8 @@ public class AlbumService {
     }
     try {
       return ret.subList(start, end);
-    }
-    catch (IndexOutOfBoundsException e) {
+    } catch (IndexOutOfBoundsException e) {
+      LOG.error("Could not return a subList. start: " + start + " end: " + end);
       return new ArrayList<>();
     }
   }

@@ -16,6 +16,7 @@
     "upaudit": "npm update && npm audit fix --registry=https://registry.npmjs.org/"
   },
   "dependencies": {
+    "@angular-devkit/architect": "^0.1302.6",
     "@angular/animations": "~13.2.6",
     "@angular/cdk": "^13.1.0",
     "@angular/common": "~13.2.6",

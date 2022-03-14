@@ -78,7 +78,7 @@
     "protractor": "~7.0.0",
     "serialize-javascript": "~5.0.1",
     "socket.io": "~4.0.1",
-    "ts-node": "~9.1.1",
+    "ts-node": "~10.7.0",
     "typescript": "4.5.5",
     "websocket-extensions": "~0.1.4"
   }

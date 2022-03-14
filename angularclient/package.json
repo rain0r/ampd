@@ -31,7 +31,7 @@
     "@stomp/rx-stomp": "^1.1.0",
     "@stomp/stompjs": "^6.1.0",
     "acorn": "^8.2.2",
-    "dateformat": "^4.5.1",
+    "dateformat": "^5.0.3",
     "kind-of": "^6.0.3",
     "lightgallery": "^2.3.0",
     "material-icons": "0.3.1",

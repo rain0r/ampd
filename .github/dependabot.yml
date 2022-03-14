@@ -13,3 +13,6 @@ updates:
     directory: "angularclient/"
     schedule:
       interval: "monthly"
+    ignore:
+      # Ignore updates to material-icons as it grows massively in size
+      - dependency-name: 'material-icons'

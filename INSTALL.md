@@ -1,6 +1,4 @@
-# Usage
-
-## Installation
+# Installation
 
 Download a release from [here](https://github.com/rain0r/ampd/releases) ([mirror](https://static.hihn.org/dl/ampd/)).
 

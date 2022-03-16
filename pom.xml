@@ -63,7 +63,6 @@
     </dependency>
   </dependencies>
   <build>
-
     <plugins>
       <plugin>
         <groupId>org.springframework.boot</groupId>
@@ -179,6 +178,26 @@
             </goals>
           </execution>
         </executions>
+      </plugin>
+      <plugin>
+        <artifactId>maven-clean-plugin</artifactId>
+        <version>3.1.0</version>
+        <configuration>
+          <filesets>
+            <fileset>
+              <directory>angularclient/node_modules</directory>
+              <includes>
+                <include>**</include>
+              </includes>
+            </fileset>
+            <fileset>
+              <directory>angularclient/.angular</directory>
+              <includes>
+                <include>**</include>
+              </includes>
+            </fileset>
+          </filesets>
+        </configuration>
       </plugin>
     </plugins>
     <pluginManagement>

@@ -143,12 +143,12 @@ export class SearchComponent implements OnInit {
    * Listens to the input field and buffers the keys. So that we don't send a request per character.
    */
   private buildInputListener(): void {
-    const volInput = this.inputSetter$.asObservable().pipe(
+    const searchInput = this.inputSetter$.asObservable().pipe(
       bufferTime(1000),
       filter((times: string[]) => times.length > 0),
       map((input: string[]) => input[input.length - 1])
     );
-    volInput.subscribe((searchValue) => {
+    searchInput.subscribe((searchValue) => {
       // Only search when the term is at least 3 chars long
       if (searchValue.length > 2) {
         this.searchService.search(searchValue);

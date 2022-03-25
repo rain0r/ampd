@@ -31,12 +31,13 @@ public class AlbumService {
   }
 
   @Cacheable("albums")
-  public Collection<MPDAlbum> listAllAlbums(int page) {
+  public Collection<MPDAlbum> listAllAlbums(int page, String searchTerm) {
     LOG.debug("listAllAlbums page: " + page);
     if (page < 1) {
       return new ArrayList<>();
     }
 
+    searchTerm = searchTerm.toLowerCase().trim();
     int counter = 1;
     int start = (page - 1) * ampdSettings.getAlbumsPageSize();
     int end = start + ampdSettings.getAlbumsPageSize() - 1;
@@ -51,21 +52,31 @@ public class AlbumService {
     }
 
     for (MPDArtist artist : artists) {
-      LOG.debug("Finding albums for artist: " + artist.getName());
+      LOG.trace("Finding albums for artist: " + artist.getName());
       List<MPDAlbum> albums;
       try {
         albums = mpd.getMusicDatabase().getAlbumDatabase().listAlbumsByArtist(artist)
             .stream()
             .filter(album -> !album.getName().isEmpty())
             .filter(album -> !album.getArtistName().isEmpty()).collect(Collectors.toList());
-        LOG.debug("Found " + albums.size() + " albums");
+        LOG.trace("Found " + albums.size() + " albums");
       } catch (Exception e) {
         LOG.error("Could not find any albums: {}", e.getMessage());
         continue;
       }
 
       for (MPDAlbum album : albums) {
-        ret.add(album);
+        if (searchTerm.isEmpty()) {
+          ret.add(album);
+        }
+        else {
+          if (album.getName().toLowerCase()
+              .contains(searchTerm.toLowerCase())
+              || album.getArtistName().toLowerCase().contains(searchTerm.toLowerCase())) {
+            ret.add(album);
+          }
+        }
+
         if (counter >= start) {
           counter += 1;
         }
@@ -78,6 +89,7 @@ public class AlbumService {
       }
     }
     try {
+      end = Math.min(ret.size(), end);
       return ret.subList(start, end);
     } catch (IndexOutOfBoundsException e) {
       LOG.error("Could not return a subList. start: " + start + " end: " + end);

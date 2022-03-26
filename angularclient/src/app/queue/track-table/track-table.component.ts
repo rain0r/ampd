@@ -17,7 +17,7 @@ import {
   Breakpoints,
   BreakpointState,
 } from "@angular/cdk/layout";
-import { map } from "rxjs/operators";
+import { distinctUntilChanged, map } from "rxjs/operators";
 import { Track } from "../../shared/messages/incoming/track";
 import { AddStreamModalComponent } from "../add-stream-modal/add-stream-modal.component";
 import { QueueService } from "../../shared/services/queue.service";
@@ -144,13 +144,15 @@ export class TrackTableComponent implements OnInit {
       .getQueueSubscription()
       .subscribe((message: Track[]) => this.buildQueue(message));
     // State
-    this.mpdService.currentState.subscribe((state) => {
-      this.currentState = state;
-      if (state === "stop") {
-        console.log("Resetting current track");
-        this.currentTrack = new QueueTrack();
-      }
-    });
+    this.mpdService.currentState
+      .pipe(distinctUntilChanged())
+      .subscribe((state) => {
+        this.currentState = state;
+        if (state === "stop") {
+          console.log("Resetting current track");
+          this.currentTrack = new QueueTrack();
+        }
+      });
   }
 
   /**

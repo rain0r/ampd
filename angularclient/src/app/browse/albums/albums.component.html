@@ -7,6 +7,32 @@
 >
   <div class="mat-h2">Albums</div>
 
+  <!--Filter-->
+  <div fxLayoutAlign="center center" fxFlex="30%" fxFlex.lt-md="100%">
+    <mat-form-field class="full-width">
+      <input
+        #searchInput
+        matInput
+        placeholder="Filter albums"
+        autocomplete="off"
+        type="text"
+        [(ngModel)]="filter"
+        (keydown.escape)="filter = ''"
+        (keyup)="applyFilter($event.target)"
+      />
+      <button
+        mat-button
+        *ngIf="filter"
+        matSuffix
+        mat-icon-button
+        aria-label="Clear"
+        (click)="filter = ''"
+      >
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>
+  </div>
+
   <app-albums-pagination [pageNo]="pageNo"></app-albums-pagination>
 </div>
 
@@ -28,6 +54,11 @@
   >
     <app-album-item fxFlex.lt-md="100%" [album]="album"></app-album-item>
   </div>
+</div>
+
+<!-- Loading animation -->
+<div fxLayout="row" fxLayoutAlign="space-around" *ngIf="isLoading | async">
+  <mat-spinner></mat-spinner>
 </div>
 
 <mat-divider></mat-divider>

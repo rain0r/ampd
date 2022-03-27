@@ -1,7 +1,6 @@
 import { Component, Input } from "@angular/core";
 import { Observable } from "rxjs";
 import { SettingsService } from "../../../shared/services/settings.service";
-import { map } from "rxjs/operators";
 
 @Component({
   selector: "app-music-brainz-cover-service",

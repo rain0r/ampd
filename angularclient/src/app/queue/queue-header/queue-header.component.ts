@@ -1,22 +1,22 @@
-import { HttpClient } from "@angular/common/http";
-import { AfterViewChecked, Component, OnInit } from "@angular/core";
-
-import { ResponsiveCoverSizeService } from "../../shared/services/responsive-cover-size.service";
-import { QueueTrack } from "../../shared/models/queue-track";
-import { MpdService } from "../../shared/services/mpd.service";
-import { filter, map, take } from "rxjs/operators";
-import { MessageService } from "../../shared/services/message.service";
-import { InternalMessageType } from "../../shared/messages/internal/internal-message-type.enum";
-import { BehaviorSubject, combineLatest, Observable, Subject } from "rxjs";
-import { FrontendSettingsService } from "../../shared/services/frontend-settings.service";
 import {
   BreakpointObserver,
   Breakpoints,
-  BreakpointState,
+  BreakpointState
 } from "@angular/cdk/layout";
-import { LIGHTBOX_SETTINGS } from "src/app/shared/lightbox";
-import { LightGallery } from "lightgallery/lightgallery";
+import { HttpClient } from "@angular/common/http";
+import { AfterViewChecked, Component, OnInit } from "@angular/core";
 import { InitDetail } from "lightgallery/lg-events";
+import { LightGallery } from "lightgallery/lightgallery";
+import { BehaviorSubject, combineLatest, Observable } from "rxjs";
+import { filter, map, take } from "rxjs/operators";
+import { LIGHTBOX_SETTINGS } from "src/app/shared/lightbox";
+import { InternalMessageType } from "../../shared/messages/internal/internal-message-type.enum";
+import { QueueTrack } from "../../shared/models/queue-track";
+import { FrontendSettingsService } from "../../shared/services/frontend-settings.service";
+import { MessageService } from "../../shared/services/message.service";
+import { MpdService } from "../../shared/services/mpd.service";
+import { ResponsiveCoverSizeService } from "../../shared/services/responsive-cover-size.service";
+
 
 @Component({
   selector: "app-queue-header",
@@ -75,11 +75,13 @@ export class QueueHeaderComponent implements OnInit, AfterViewChecked {
     }
     this.http
       .head(this.currentTrack.coverUrl, { observe: "response" })
-      .subscribe(
-        () => void 0,
-        () => this.displayCover$.next(false),
-        () => this.coverAvailable()
-      );
+      .subscribe({
+        error: () => this.displayCover$.next(false), 
+        complete: () => this.coverAvailable(),
+        // () => void 0, // next
+        // () => this.displayCover$.next(false), // error
+        // () => this.coverAvailable() // complete
+      });
   }
 
   private coverAvailable(): void {

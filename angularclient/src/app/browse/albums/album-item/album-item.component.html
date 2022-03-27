@@ -1,7 +1,6 @@
 <mat-card (click)="openModal()" *ngIf="album">
   <mat-card-content fxFlex fxLayout="column" fxLayoutAlign="center center">
     <img
-      *ngIf="isDisplayCover | async"
       mat-card-image
       class="clickable"
       [ngClass]="[coverSizeClass | async]"

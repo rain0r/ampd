@@ -4,5 +4,5 @@ export interface MpdAlbum {
   date: string;
   genre: string;
   // Only used in frontend
-  albumCoverUrl?: string;
+  albumCoverUrl: string;
 }

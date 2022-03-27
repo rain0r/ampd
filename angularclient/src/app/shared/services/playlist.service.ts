@@ -38,10 +38,12 @@ export class PlaylistService {
     const url = `${this.settingsService.getPlaylistRootUrl()}${name}`;
     return this.http.delete(url).pipe(
       catchError((err: HttpErrorResponse) =>
-        throwError({
+      throwError(() => {
+        return {
           title: `Got an error deleteting playlist: ${name}:`,
           detail: err.message,
-        } as ErrorMsg)
+        } as ErrorMsg
+      })        
       )
     );
   }

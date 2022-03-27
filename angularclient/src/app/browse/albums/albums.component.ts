@@ -19,9 +19,9 @@ import { AlbumsService } from "src/app/shared/services/albums.service";
 })
 export class AlbumsComponent implements OnInit {
   @ViewChild("filterInputElem") filterInputElem?: ElementRef;
-  albums: Observable<MpdAlbum[]> | null = null;
+  albums = new Observable<MpdAlbum[]>();
   filter = "";
-  page: Observable<number> = new Observable<number>();
+  page = new Observable<number>();
   isLoading = new BehaviorSubject(true);
   private inputSetter$ = new Subject<string>();
 
@@ -58,22 +58,22 @@ export class AlbumsComponent implements OnInit {
         switchMap(([page, searchInput]) => {
           console.log("page:", page);
           console.log("searchInput:", searchInput);
-          this.albums = null;
+          this.albums = new Observable<MpdAlbum[]>();
           this.isLoading.next(true);
           return this.albumService.getAlbums(page, searchInput);
         }),
         tap((albums) => (this.albums = of(albums)))
       )
-      .subscribe((result) => {
-        this.isLoading.next(false);
-      });
+      .subscribe(() => this.isLoading.next(false));
   }
 
   private loadData() {
-    this.isLoading.next(true);
-    this.page.subscribe(
-      (page) => (this.albums = this.albumService.getAlbums(page))
-    );
+    this.page.subscribe((page) => {
+      this.isLoading.next(true);
+      this.albums = this.albumService
+        .getAlbums(page)
+        .pipe(tap(() => this.isLoading.next(false)));
+    });
   }
 
   private buildPageListener() {

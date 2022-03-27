@@ -3,6 +3,7 @@
   "ignorePatterns": ["projects/**/*"],
   "overrides": [
     {
+      "plugins": ["deprecation"],
       "files": ["*.ts"],
       "parserOptions": {
         "project": ["tsconfig.json", "e2e/tsconfig.json"],
@@ -13,6 +14,7 @@
         "plugin:@angular-eslint/template/process-inline-templates"
       ],
       "rules": {
+        "deprecation/deprecation": "warn",
         "no-unused-vars": "off",
         "@typescript-eslint/no-unused-vars": ["error", { "args": "all" }],
         "@angular-eslint/directive-selector": [
@@ -37,13 +39,6 @@
       "files": ["*.html"],
       "extends": ["plugin:@angular-eslint/template/recommended"],
       "rules": {}
-    },
-    {
-      "plugins": ["deprecation"],
-      "files": ["*.ts"],
-      "rules": {
-        "deprecation/deprecation": "warn"
-      }
     }
   ]
 }

@@ -1,10 +1,10 @@
 import { Component, Input, OnInit } from "@angular/core";
-import { MessageService } from "../../shared/services/message.service";
-import { Filterable } from "../filterable";
+import { PageEvent } from "@angular/material/paginator";
 import { Observable } from "rxjs";
 import { Directory } from "../../shared/messages/incoming/directory";
-import { PageEvent } from "@angular/material/paginator";
 import { FrontendSettingsService } from "../../shared/services/frontend-settings.service";
+import { MessageService } from "../../shared/services/message.service";
+import { Filterable } from "../filterable";
 
 @Component({
   selector: "app-directories",

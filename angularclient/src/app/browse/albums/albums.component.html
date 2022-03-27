@@ -3,7 +3,6 @@
   fxLayoutAlign="space-between"
   fxLayoutGap="1rem grid"
   fxLayoutGap.lt-md="0.25rem grid"
-  *ngIf="page | async as pageNo"
 >
   <div class="mat-h2">Albums</div>
 
@@ -32,8 +31,6 @@
       </button>
     </mat-form-field>
   </div>
-
-  <app-albums-pagination [pageNo]="pageNo"></app-albums-pagination>
 </div>
 
 <mat-divider></mat-divider>
@@ -61,8 +58,13 @@
   <mat-spinner></mat-spinner>
 </div>
 
-<mat-divider></mat-divider>
+<ng-container *ngIf="albums | async as albumList">
+  <ng-container *ngIf="albumList.length > 0; else noResults">
+    <div *ngIf="page | async as pageNo">
+      <mat-divider></mat-divider>
+      <app-albums-pagination [pageNo]="pageNo"></app-albums-pagination>
+    </div>
+  </ng-container>
+</ng-container>
 
-<div *ngIf="page | async as pageNo">
-  <app-albums-pagination [pageNo]="pageNo"></app-albums-pagination>
-</div>
+<ng-template #noResults>No albums found.</ng-template>

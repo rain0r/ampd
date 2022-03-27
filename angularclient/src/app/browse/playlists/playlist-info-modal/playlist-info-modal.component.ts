@@ -67,23 +67,23 @@ export class PlaylistInfoModalComponent implements OnInit, AfterViewInit {
   }
 
   onDeletePlaylist(): void {
-    this.playlistService.deletePlaylist(this.data.name).subscribe(
-      () => {
+    this.playlistService.deletePlaylist(this.data.name).subscribe({
+      next : () => {
         this.notificationService.popUp(`Deleted playlist: ${this.data.name}`);
       },
-      (errorMsg: ErrorMsg) => {
+      error:(errorMsg: ErrorMsg) => {
         this.notificationService.popUp(
           `${errorMsg.title}: ${errorMsg.detail}`,
           true
         );
       },
-      () =>
+      complete:() =>
         void this.router.navigate([], {
           relativeTo: this.activatedRoute,
           queryParams: { action: "playlist-deleted" },
           queryParamsHandling: "merge",
         })
-    );
+      });
     this.dialogRef.close();
   }
 

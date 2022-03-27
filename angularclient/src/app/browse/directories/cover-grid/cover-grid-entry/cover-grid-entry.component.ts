@@ -41,7 +41,7 @@ export class CoverGridEntryComponent implements OnInit {
   onAddDir($event: MouseEvent, dir: string): void {
     $event.stopPropagation();
     if (dir.startsWith("/")) {
-      dir = dir.substr(1, dir.length);
+      dir = dir.substring(1, dir.length);
     }
     this.queueService.addDir(dir);
     this.notificationService.popUp(`Added dir: "${dir}"`);

@@ -56,13 +56,13 @@ export class DirectoriesComponent extends Filterable implements OnInit {
     if (letter === "") {
       this.filterVisible = false;
     }
-    this.filterByStartCharValue = letter.substr(0, 1).toUpperCase();
+    this.filterByStartCharValue = letter.substring(0, 1).toUpperCase();
   }
 
   private buildLetters(): void {
     const letters = new Set<string>();
     this.directories.forEach((val) => {
-      letters.add(val.path.substr(0, 1).toUpperCase());
+      letters.add(val.path.substring(0, 1).toUpperCase());
     });
     this.letters = letters;
   }

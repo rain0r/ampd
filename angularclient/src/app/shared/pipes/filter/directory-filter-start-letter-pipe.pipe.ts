@@ -6,7 +6,7 @@ import { Directory } from "../../messages/incoming/directory";
 })
 export class DirectoryFilterStartLetterPipePipe implements PipeTransform {
   transform(value: Directory[], filterBy: string): Directory[] {
-    filterBy = filterBy ? filterBy.substr(0, 1).toUpperCase() : "";
+    filterBy = filterBy ? filterBy.substring(0, 1).toUpperCase() : "";
     return filterBy
       ? value.filter((dir: Directory) =>
           dir.path.toUpperCase().startsWith(filterBy)

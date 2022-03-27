@@ -21,10 +21,8 @@ import { AlbumModalComponent } from "../album-modal/album-modal.component";
 export class AlbumItemComponent implements OnInit {
   @Input() album: MpdAlbum | null = null;
   coverSizeClass: Observable<string>;
-  isDisplayCover: Observable<boolean>;
   isMobile = false;
   private albumModalOpen = new BehaviorSubject(false);
-  private displayCover$ = new BehaviorSubject<boolean>(false);
 
   constructor(
     private breakpointObserver: BreakpointObserver,
@@ -34,7 +32,6 @@ export class AlbumItemComponent implements OnInit {
     private frontendSettingsService: FrontendSettingsService
   ) {
     this.coverSizeClass = this.responsiveCoverSizeService.getCoverCssClass();
-    this.isDisplayCover = this.displayCover$.asObservable();
   }
 
   ngOnInit(): void {
@@ -67,13 +64,17 @@ export class AlbumItemComponent implements OnInit {
   }
 
   private updateCover(): void {
-    if (!this.album?.albumCoverUrl) {
+    if (!this.album) {
       return;
     }
-    this.http.head(this.album.albumCoverUrl, { observe: "response" }).subscribe(
-      () => void 0,
-      () => this.displayCover$.next(false),
-      () => this.displayCover$.next(true)
-    );
+    this.http
+      .head(this.album.albumCoverUrl, { observe: "response" })
+      .subscribe({
+        error: () => {
+          if (this.album) {
+            this.album.albumCoverUrl = "assets/transparent.png";
+          }
+        },
+      });
   }
 }

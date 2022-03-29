@@ -1,7 +1,7 @@
 import {
   BreakpointObserver,
   Breakpoints,
-  BreakpointState
+  BreakpointState,
 } from "@angular/cdk/layout";
 import { HttpClient } from "@angular/common/http";
 import { AfterViewChecked, Component, OnInit } from "@angular/core";
@@ -16,7 +16,6 @@ import { FrontendSettingsService } from "../../shared/services/frontend-settings
 import { MessageService } from "../../shared/services/message.service";
 import { MpdService } from "../../shared/services/mpd.service";
 import { ResponsiveCoverSizeService } from "../../shared/services/responsive-cover-size.service";
-
 
 @Component({
   selector: "app-queue-header",
@@ -76,7 +75,7 @@ export class QueueHeaderComponent implements OnInit, AfterViewChecked {
     this.http
       .head(this.currentTrack.coverUrl, { observe: "response" })
       .subscribe({
-        error: () => this.displayCover$.next(false), 
+        error: () => this.displayCover$.next(false),
         complete: () => this.coverAvailable(),
         // () => void 0, // next
         // () => this.displayCover$.next(false), // error

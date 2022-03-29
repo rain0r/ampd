@@ -43,14 +43,14 @@ export class BrowseComponent {
         this.dirQp = dir;
 
         this.browseService.sendBrowseReq(dir).subscribe({
-          next:(browsePayload) => {
+          next: (browsePayload) => {
             this.browsePayload$.next(browsePayload);
           },
-          error:(err: ErrorMsg) => {
+          error: (err: ErrorMsg) => {
             this.error = err;
             this.isLoading = false;
           },
-          complete:() => (this.isLoading = false)
+          complete: () => (this.isLoading = false),
         });
       });
   }

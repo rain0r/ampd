@@ -63,12 +63,12 @@ export class MpdService {
     const url = `${this.settingsService.getBackendContextAddr()}api/server-statistics`;
     return this.http.get<ServerStatistics>(url).pipe(
       catchError((err: HttpErrorResponse) =>
-      throwError(() => {
-        return {
-          title: `Got an error retrieving the server statistics:`,
-          detail: err.message,
-        } as ErrorMsg
-      })
+        throwError(() => {
+          return {
+            title: `Got an error retrieving the server statistics:`,
+            detail: err.message,
+          } as ErrorMsg;
+        })
       )
     );
   }

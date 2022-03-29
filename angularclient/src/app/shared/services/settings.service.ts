@@ -26,12 +26,12 @@ export class SettingsService {
     const url = `${this.getBackendContextAddr()}api/settings`;
     return this.http.get<BackendSettings>(url).pipe(
       catchError((err: HttpErrorResponse) =>
-      throwError(() => {
-        return {
-          title: `Got an error retrieving the backend settings:`,
-          detail: err.message,
-        } as ErrorMsg
-      })      
+        throwError(() => {
+          return {
+            title: `Got an error retrieving the backend settings:`,
+            detail: err.message,
+          } as ErrorMsg;
+        })
       )
     );
   }

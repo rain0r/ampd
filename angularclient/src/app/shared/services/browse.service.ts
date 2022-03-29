@@ -29,12 +29,12 @@ export class BrowseService {
     const url = `${this.settingsService.getBackendContextAddr()}api/browse?path=${path}`;
     return this.http.get<BrowsePayload>(url).pipe(
       catchError((err: HttpErrorResponse) =>
-      throwError(() => {
-        return {
-          title: `Got an error while browsing ${path}:`,
-          detail: err.message,
-        } as ErrorMsg
-      })
+        throwError(() => {
+          return {
+            title: `Got an error while browsing ${path}:`,
+            detail: err.message,
+          } as ErrorMsg;
+        })
       ),
       map((payload) => this.convertPayload(payload))
     );

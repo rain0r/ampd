@@ -5,8 +5,13 @@ import {
 } from "@angular/cdk/layout";
 import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import { MatTableDataSource } from "@angular/material/table";
-import { Subject } from "rxjs";
-import { bufferTime, filter, map } from "rxjs/operators";
+import { of, Subject } from "rxjs";
+import {
+  debounceTime,
+  distinctUntilChanged,
+  map,
+  switchMap,
+} from "rxjs/operators";
 import { SearchResponse } from "../shared/messages/incoming/search-response";
 import { Track } from "../shared/messages/incoming/track";
 import { QueueTrack } from "../shared/models/queue-track";
@@ -29,7 +34,6 @@ export class SearchComponent implements OnInit {
     }
   }
   dataSource = new MatTableDataSource<QueueTrack>([]);
-  isLoading = false;
   isMobile = false;
   search = "";
   searchResultCount = 0;
@@ -108,7 +112,6 @@ export class SearchComponent implements OnInit {
     );
     this.trackTableData = this.buildTableData();
     this.searchResultCount = searchResultCount;
-    this.isLoading = false;
   }
 
   private buildTableData(): TrackTableData {
@@ -143,17 +146,15 @@ export class SearchComponent implements OnInit {
    * Listens to the input field and buffers the keys. So that we don't send a request per character.
    */
   private buildInputListener(): void {
-    const searchInput = this.inputSetter$.asObservable().pipe(
-      bufferTime(1000),
-      filter((times: string[]) => times.length > 0),
-      map((input: string[]) => input[input.length - 1])
-    );
-    searchInput.subscribe((searchValue) => {
-      // Only search when the term is at least 3 chars long
-      if (searchValue.length > 2) {
-        this.searchService.search(searchValue);
-        this.isLoading = true;
-      }
-    });
+    this.inputSetter$
+      .asObservable()
+      .pipe(
+        debounceTime(800),
+        distinctUntilChanged(),
+        switchMap((searchText) => {
+          return of(this.searchService.search(searchText));
+        })
+      )
+      .subscribe(() => void 0);
   }
 }

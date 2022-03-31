@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { RxStompService } from "@stomp/ng2-stompjs";
 import { Observable } from "rxjs";
-import { map } from "rxjs/operators";
+import { distinctUntilChanged, map } from "rxjs/operators";
 import { SearchResponse } from "../messages/incoming/search-response";
 
 @Injectable({
@@ -20,7 +20,10 @@ export class SearchService {
   getSearchSubscription(): Observable<SearchResponse> {
     return this.rxStompService.watch("/topic/search").pipe(
       map((message) => message.body),
-      map((body: string) => <SearchResponse>JSON.parse(body))
+      map((body: string) => <SearchResponse>JSON.parse(body)),
+      distinctUntilChanged(
+        (prev, curr) => JSON.stringify(prev) === JSON.stringify(curr)
+      )
     );
   }
 }

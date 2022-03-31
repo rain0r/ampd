@@ -149,7 +149,6 @@ export class TrackTableComponent implements OnInit {
       .subscribe((state) => {
         this.currentState = state;
         if (state === "stop") {
-          console.log("Resetting current track");
           this.currentTrack = new QueueTrack();
         }
       });

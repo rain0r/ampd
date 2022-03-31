@@ -1,9 +1,15 @@
 import { Injectable } from "@angular/core";
-import { BehaviorSubject, Observable, Subject } from "rxjs";
-import { VolumeSetter } from "../models/volume-setter";
-import { bufferTime, filter, map, withLatestFrom } from "rxjs/operators";
-import { StateMsgPayload } from "../messages/incoming/state-msg-payload";
 import { RxStompService } from "@stomp/ng2-stompjs";
+import { BehaviorSubject, Observable, Subject } from "rxjs";
+import {
+  bufferTime,
+  distinctUntilChanged,
+  filter,
+  map,
+  withLatestFrom,
+} from "rxjs/operators";
+import { StateMsgPayload } from "../messages/incoming/state-msg-payload";
+import { VolumeSetter } from "../models/volume-setter";
 import { ControlPanelService } from "./control-panel.service";
 
 @Injectable({
@@ -68,7 +74,10 @@ export class VolumeService {
   private getStateSubscription(): Observable<StateMsgPayload> {
     return this.rxStompService.watch("/topic/state").pipe(
       map((message) => message.body),
-      map((body: string) => <StateMsgPayload>JSON.parse(body))
+      map((body: string) => <StateMsgPayload>JSON.parse(body)),
+      distinctUntilChanged(
+        (prev, curr) => JSON.stringify(prev) === JSON.stringify(curr)
+      )
     );
   }
 

@@ -55,7 +55,7 @@
     "@angular/language-service": "^13.3.2",
     "@types/jasmine": "~4.0.2",
     "@types/node": "^17.0.21",
-    "@typescript-eslint/eslint-plugin": "5.17.0",
+    "@typescript-eslint/eslint-plugin": "5.18.0",
     "@typescript-eslint/parser": "5.18.0",
     "chokidar-cli": "^3.0.0",
     "elliptic": "~6.5.3",

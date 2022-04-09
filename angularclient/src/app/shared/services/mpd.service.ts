@@ -84,7 +84,6 @@ export class MpdService {
    * @param payload StateMsgPayload
    */
   private buildCurrentQueueTrack(payload: StateMsgPayload): QueueTrack {
-    console.log(new Date(), "buildCurrentQueueTrack");
     let trackChanged = false;
     let track = new QueueTrack();
     if (payload.currentTrack) {

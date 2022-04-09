@@ -56,8 +56,6 @@ export class AlbumsComponent implements OnInit {
     combineLatest([this.page, searchInput])
       .pipe(
         switchMap(([page, searchInput]) => {
-          console.log("page:", page);
-          console.log("searchInput:", searchInput);
           this.albums = new Observable<MpdAlbum[]>();
           this.isLoading.next(true);
           return this.albumService.getAlbums(page, searchInput);

@@ -34,32 +34,30 @@ $theme: mat-light-theme($primary, $accent, $warn);
 $custom-typography: mat-typography-config(
   $font-family: 'Roboto, "Helvetica Neue", sans-serif',
   /* Large, one-off header, usually at the top of the page (e.g. a hero header). */
-  $display-4: mat-typography-level(112px, 112px, 300, $letter-spacing: -0.05em),
+    $display-4:
+    mat-typography-level(112px, 112px, 300, $letter-spacing: -0.05em),
   /*  Large, one-off header, usually at the top of the page (e.g. a hero header). */
-  $display-3: mat-typography-level(56px, 56px, 400, $letter-spacing: -0.02em),
+    $display-3: mat-typography-level(56px, 56px, 400, $letter-spacing: -0.02em),
   /*  Large, one-off header, usually at the top of the page (e.g. a hero header). */
-  $display-2: mat-typography-level(45px, 48px, 400, $letter-spacing: -0.005em),
+    $display-2: mat-typography-level(45px, 48px, 400, $letter-spacing: -0.005em),
   /*  Large, one-off header, usually at the top of the page (e.g. a hero header). */
-  $display-1: mat-typography-level(34px, 40px, 400),
-  /*  Section heading corresponding to the <h1> tag. */
-  $headline: mat-typography-level(24px, 32px, 400),
-  /*  Section heading corresponding to the <h2> tag. */
-  $title: mat-typography-level(20px, 32px, 500),
-  /*  Section heading corresponding to the <h3> tag. */
-  $subheading-2: mat-typography-level(18px, 28px, 400),
-  /*  Section heading corresponding to the <h4> tag. */
-  $subheading-1: mat-typography-level(15px, 24px, 400),
-  /*  Bolder body text. */
-  $body-2: mat-typography-level(14px, 24px, 500),
-  /*  Base body text. queue-table */
-  $body-1: mat-typography-level(16px, 22px, 400),
-  /*  Smaller body and hint text. */
-  $caption: mat-typography-level(12px, 20px, 400),
-  /*  Buttons and anchors. */
-  $button: mat-typography-level(16px, 16px, 500),
+    $display-1: mat-typography-level(34px, 40px, 400),
+  /*  Section heading corresponding to the <h1> tag. */ $headline:
+    mat-typography-level(24px, 32px, 400),
+  /*  Section heading corresponding to the <h2> tag. */ $title:
+    mat-typography-level(20px, 32px, 500),
+  /*  Section heading corresponding to the <h3> tag. */ $subheading-2:
+    mat-typography-level(18px, 28px, 400),
+  /*  Section heading corresponding to the <h4> tag. */ $subheading-1:
+    mat-typography-level(15px, 24px, 400),
+  /*  Bolder body text. */ $body-2: mat-typography-level(14px, 24px, 500),
+  /*  Base body text. queue-table */ $body-1:
+    mat-typography-level(16px, 22px, 400),
+  /*  Smaller body and hint text. */ $caption:
+    mat-typography-level(12px, 20px, 400),
+  /*  Buttons and anchors. */ $button: mat-typography-level(16px, 16px, 500),
   /*  Line-height must be unit-less fraction of the font-size. */
-  /*  Form input fields. */
-  $input: mat-typography-level(inherit, 1.125, 400),
+    /*  Form input fields. */ $input: mat-typography-level(inherit, 1.125, 400),
 );
 
 // Our dark theme

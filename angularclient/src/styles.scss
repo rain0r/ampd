@@ -1,10 +1,11 @@
-@import 'material-icons/iconfont/material-icons.css';
-@import './styles/material-theme';
-@import '~lightgallery/scss/lightgallery';
+@import "material-icons/iconfont/material-icons.css";
+@import "./styles/material-theme";
+@import "~lightgallery/scss/lightgallery";
 
 html,
 body {
-  font-family: "Segoe UI", Candara, "Bitstream Vera Sans", "DejaVu Sans", "Bitstream Vera Sans", "Trebuchet MS", Verdana, "Verdana Ref", sans-serif;
+  font-family: "Segoe UI", Candara, "Bitstream Vera Sans", "DejaVu Sans",
+    "Bitstream Vera Sans", "Trebuchet MS", Verdana, "Verdana Ref", sans-serif;
   height: 100%;
   background: var(--body-background-color);
 }
@@ -136,27 +137,27 @@ $font-color: var(--font-color);
 
 .cover-xsmall {
   height: 150px !important;
-  width: 150px !important;;
+  width: 150px !important;
 }
 
 .cover-small {
-  height: 175px !important;;
-  width: 175px !important;;
+  height: 175px !important;
+  width: 175px !important;
 }
 
 .cover-medium {
-  height: 200px !important;;
-  width: 200px !important;;
+  height: 200px !important;
+  width: 200px !important;
 }
 
 .cover-large {
-  height: 250px !important;;
-  width: 250px !important;;
+  height: 250px !important;
+  width: 250px !important;
 }
 
 .cover-xlarge {
-  height: 300px !important;;
-  width: 300px !important;;
+  height: 300px !important;
+  width: 300px !important;
 }
 
 .code {

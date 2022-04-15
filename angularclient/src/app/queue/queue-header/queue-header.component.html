@@ -1,3 +1,4 @@
+currentTrack {{ currentTrack.title }}
 <div
   fxLayout="row wrap"
   fxLayoutAlign="center"
@@ -10,8 +11,7 @@
     <div fxFlex="1 0 55%" fxLayout="column">
       <div
         class="mat-h2 queue-sub-title"
-        fxFlex="100%"
-        title="Title: {{ currentTrack.title }}"
+        fxFlex="100%"                
       >
         <a
           class="no-deco-links"
@@ -19,6 +19,7 @@
           [queryParams]="{ dir: currentPathLink }"
           *ngIf="currentTrack.title; else trackFile"
           [class.text-muted]="(currentState | async) === 'pause'"
+          matTooltip="Go to the directory containing this track"
         >
           {{ currentTrack.title }}
         </a>
@@ -35,6 +36,7 @@
         <a
           class="no-deco-links text-muted"
           [routerLink]="['browse']"
+          matTooltip="Go to the directory containing this track"
           [queryParams]="{ dir: currentPathLink }"
         >
           {{ currentTrack.albumName }}
@@ -49,6 +51,7 @@
           class="no-deco-links"
           [routerLink]="['browse']"
           [queryParams]="{ dir: currentPathLink }"
+          matTooltip="Go to the directory containing this track"
           [class.text-muted]="(currentState | async) === 'pause'"
         >
           {{ currentTrack.artistName }}

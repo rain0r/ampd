@@ -4,11 +4,11 @@ import {
   BreakpointState,
 } from "@angular/cdk/layout";
 import { HttpClient } from "@angular/common/http";
-import { AfterViewChecked, Component, OnInit } from "@angular/core";
+import { AfterViewChecked, Component } from "@angular/core";
 import { InitDetail } from "lightgallery/lg-events";
 import { LightGallery } from "lightgallery/lightgallery";
-import { BehaviorSubject, combineLatest, Observable } from "rxjs";
-import { filter, map, take } from "rxjs/operators";
+import { BehaviorSubject, combineLatest, Observable, of } from "rxjs";
+import { distinctUntilChanged, filter, map } from "rxjs/operators";
 import { LIGHTBOX_SETTINGS } from "src/app/shared/lightbox";
 import { InternalMessageType } from "../../shared/messages/internal/internal-message-type.enum";
 import { QueueTrack } from "../../shared/models/queue-track";
@@ -22,10 +22,10 @@ import { ResponsiveCoverSizeService } from "../../shared/services/responsive-cov
   templateUrl: "./queue-header.component.html",
   styleUrls: ["./queue-header.component.scss"],
 })
-export class QueueHeaderComponent implements OnInit, AfterViewChecked {
+export class QueueHeaderComponent implements AfterViewChecked {
   coverSizeClass: Observable<string>;
   currentState: Observable<string>;
-  currentTrack = new QueueTrack();
+  currentTrackObsv = new Observable<QueueTrack>();
   currentPathLink = ""; // encoded dir of the current playing track
   isDisplayCover: Observable<boolean>;
   isMobile = false;
@@ -45,17 +45,13 @@ export class QueueHeaderComponent implements OnInit, AfterViewChecked {
     this.isDisplayCover = this.displayCover$.asObservable();
     this.coverSizeClass = this.responsiveCoverSizeService.getCoverCssClass();
     this.currentState = this.mpdService.currentState;
-    this.buildTrackChangeSubscription();
     this.buildMessageReceiver();
+    this.buildTrackSubscription();
 
     this.breakpointObserver
       .observe([Breakpoints.Small, Breakpoints.HandsetPortrait])
       .pipe(map((state: BreakpointState) => state.matches))
       .subscribe((isMobile) => (this.isMobile = isMobile));
-  }
-
-  ngOnInit(): void {
-    this.updateCover();
   }
 
   ngAfterViewChecked(): void {
@@ -69,17 +65,13 @@ export class QueueHeaderComponent implements OnInit, AfterViewChecked {
   };
 
   private updateCover(): void {
-    if (!this.currentTrack.coverUrl) {
-      return;
-    }
-    this.http
-      .head(this.currentTrack.coverUrl, { observe: "response" })
-      .subscribe({
-        error: () => this.displayCover$.next(false),
-        complete: () => this.coverAvailable(),
-        // () => void 0, // next
-        // () => this.displayCover$.next(false), // error
-        // () => this.coverAvailable() // complete
+    this.currentTrackObsv
+      .pipe(map((track) => track.coverUrl))
+      .subscribe((coverUrl) => {
+        this.http.head(coverUrl, { observe: "response" }).subscribe({
+          error: () => this.displayCover$.next(false),
+          complete: () => this.coverAvailable(),
+        });
       });
   }
 
@@ -88,7 +80,11 @@ export class QueueHeaderComponent implements OnInit, AfterViewChecked {
       this.currentState,
       this.frontendSettingsService.displayCovers,
     ])
-      .pipe(take(1))
+      .pipe(
+        distinctUntilChanged(
+          (prev, curr) => prev[0] === curr[0] && prev[1] === prev[1]
+        )
+      )
       .subscribe((result) => {
         if (
           result[0] !== "stop" && // Check state, we don't change the cover if the player has stopped
@@ -102,16 +98,21 @@ export class QueueHeaderComponent implements OnInit, AfterViewChecked {
   /**
    * Listens for track changes. If a new track is played, trigger the updateCover-method.
    */
-  private buildTrackChangeSubscription(): void {
-    let first = true;
-    this.mpdService.currentTrack.subscribe((queueTrack) => {
-      this.currentTrack = queueTrack;
-      this.currentPathLink = encodeURIComponent(queueTrack.dir);
-      if (first || queueTrack.changed) {
-        first = false;
+  private buildTrackSubscription(): void {
+    this.mpdService.currentTrack
+      .pipe(
+        distinctUntilChanged(
+          (prev, curr) =>
+            (prev.artistName === curr.artistName &&
+              prev.title !== curr.artistName) ||
+            prev.file === curr.file
+        )
+      )
+      .subscribe((track) => {
+        this.currentTrackObsv = of(track);
+        this.currentPathLink = encodeURIComponent(track.dir);
         this.updateCover();
-      }
-    });
+      });
   }
 
   /**

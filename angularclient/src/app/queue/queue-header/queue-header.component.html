@@ -1,83 +1,82 @@
-currentTrack {{ currentTrack.title }}
 <div
   fxLayout="row wrap"
   fxLayoutAlign="center"
-  *ngIf="(currentState | async) === 'stop' || !currentTrack; else queueHeader"
+  *ngIf="(currentState | async) === 'stop'"
 >
   <span class="mat-display-1"> Stopped. </span>
 </div>
-<ng-template #queueHeader>
-  <div fxLayout="row wrap" fxLayoutAlign="space-between start">
-    <div fxFlex="1 0 55%" fxLayout="column">
-      <div
-        class="mat-h2 queue-sub-title"
-        fxFlex="100%"                
+
+<div
+  fxLayout="row wrap"
+  fxLayoutAlign="space-between start"
+  *ngIf="currentTrackObsv | async as currentTrack"
+>
+  <div fxFlex="1 0 55%" fxLayout="column">
+    <div class="mat-h2 queue-sub-title" fxFlex="100%">
+      <a
+        class="no-deco-links"
+        [routerLink]="['browse']"
+        [queryParams]="{ dir: currentPathLink }"
+        *ngIf="currentTrack.title; else trackFile"
+        [class.text-muted]="(currentState | async) === 'pause'"
+        matTooltip="Go to the directory containing this track"
       >
-        <a
-          class="no-deco-links"
-          [routerLink]="['browse']"
-          [queryParams]="{ dir: currentPathLink }"
-          *ngIf="currentTrack.title; else trackFile"
-          [class.text-muted]="(currentState | async) === 'pause'"
-          matTooltip="Go to the directory containing this track"
-        >
-          {{ currentTrack.title }}
-        </a>
-        <ng-template #trackFile>
-          {{ currentTrack.file }}
-        </ng-template>
-      </div>
-      <mat-divider></mat-divider>
-      <div
-        class="mat-h3 queue-sub-title"
-        *ngIf="currentTrack.albumName"
-        title="Album: {{ currentTrack.albumName }}"
-      >
-        <a
-          class="no-deco-links text-muted"
-          [routerLink]="['browse']"
-          matTooltip="Go to the directory containing this track"
-          [queryParams]="{ dir: currentPathLink }"
-        >
-          {{ currentTrack.albumName }}
-        </a>
-        <mat-divider></mat-divider>
-      </div>
-      <div
-        class="mat-h3 queue-sub-title"
-        title="Artist: {{ currentTrack.artistName }}"
-      >
-        <a
-          class="no-deco-links"
-          [routerLink]="['browse']"
-          [queryParams]="{ dir: currentPathLink }"
-          matTooltip="Go to the directory containing this track"
-          [class.text-muted]="(currentState | async) === 'pause'"
-        >
-          {{ currentTrack.artistName }}
-        </a>
-      </div>
+        {{ currentTrack.title }}
+      </a>
+      <ng-template #trackFile>
+        {{ currentTrack.file }}
+      </ng-template>
     </div>
-    <div fxLayoutAlign="end center" *ngIf="isDisplayCover | async">
-      <mat-divider fxShow.lt-md="true" fxShow="false"></mat-divider>
-      <lightgallery [settings]="lightboxSettings" [onInit]="onInit">
-        <a [href]="currentTrack.coverUrl">
-          <img
-            [alt]="
-              'Cover of ' +
-              currentTrack.artistName +
-              ' — ' +
-              currentTrack.albumName
-            "
-            [ngClass]="[coverSizeClass | async]"
-            [src]="currentTrack.coverUrl"
-            [title]="currentTrack.artistName + ' — ' + currentTrack.albumName"
-            class="album-art clickable"
-          />
-        </a>
-      </lightgallery>
+    <mat-divider></mat-divider>
+    <div
+      class="mat-h3 queue-sub-title"
+      *ngIf="currentTrack.albumName"
+      title="Album: {{ currentTrack.albumName }}"
+    >
+      <a
+        class="no-deco-links text-muted"
+        [routerLink]="['browse']"
+        matTooltip="Go to the directory containing this track"
+        [queryParams]="{ dir: currentPathLink }"
+      >
+        {{ currentTrack.albumName }}
+      </a>
+      <mat-divider></mat-divider>
+    </div>
+    <div
+      class="mat-h3 queue-sub-title"
+      title="Artist: {{ currentTrack.artistName }}"
+    >
+      <a
+        class="no-deco-links"
+        [routerLink]="['browse']"
+        [queryParams]="{ dir: currentPathLink }"
+        matTooltip="Go to the directory containing this track"
+        [class.text-muted]="(currentState | async) === 'pause'"
+      >
+        {{ currentTrack.artistName }}
+      </a>
     </div>
   </div>
-</ng-template>
+  <div fxLayoutAlign="end center" *ngIf="isDisplayCover | async">
+    <mat-divider fxShow.lt-md="true" fxShow="false"></mat-divider>
+    <lightgallery [settings]="lightboxSettings" [onInit]="onInit">
+      <a [href]="currentTrack.coverUrl">
+        <img
+          [alt]="
+            'Cover of ' +
+            currentTrack.artistName +
+            ' — ' +
+            currentTrack.albumName
+          "
+          [ngClass]="[coverSizeClass | async]"
+          [src]="currentTrack.coverUrl"
+          [title]="currentTrack.artistName + ' — ' + currentTrack.albumName"
+          class="album-art clickable"
+        />
+      </a>
+    </lightgallery>
+  </div>
+</div>
 
 <mat-divider></mat-divider>

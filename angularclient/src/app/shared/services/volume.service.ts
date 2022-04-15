@@ -47,12 +47,10 @@ export class VolumeService {
   }
 
   setVolume(volume: number | null): void {
-    if (volume) {
-      this.rxStompService.publish({
-        destination: `${this.path}volume`,
-        body: JSON.stringify(volume),
-      });
-    }
+    this.rxStompService.publish({
+      destination: `${this.path}volume`,
+      body: JSON.stringify(volume),
+    });
   }
 
   /**

@@ -28,11 +28,7 @@
       </ng-template>
     </div>
     <mat-divider></mat-divider>
-    <div
-      class="mat-h3 queue-sub-title"
-      *ngIf="currentTrack.albumName"
-      [matTooltip]="'Album: ' + currentTrack.albumName"
-    >
+    <div class="mat-h3 queue-sub-title" *ngIf="currentTrack.albumName">
       <a
         class="no-deco-links text-muted"
         [routerLink]="['browse']"
@@ -43,10 +39,7 @@
       </a>
       <mat-divider></mat-divider>
     </div>
-    <div
-      class="mat-h3 queue-sub-title"
-      [matTooltip]="'Artist: ' + currentTrack.artistName"
-    >
+    <div class="mat-h3 queue-sub-title">
       <a
         class="no-deco-links"
         [routerLink]="['browse']"
@@ -71,7 +64,9 @@
           "
           [ngClass]="[coverSizeClass | async]"
           [src]="currentTrack.coverUrl"
-          [title]="currentTrack.artistName + ' — ' + currentTrack.albumName"
+          [matTooltip]="
+            currentTrack.artistName + ' — ' + currentTrack.albumName
+          "
           class="album-art clickable"
         />
       </a>

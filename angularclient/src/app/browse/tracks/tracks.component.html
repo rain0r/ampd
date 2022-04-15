@@ -18,7 +18,7 @@
           [hidden]="!validCoverUrl"
           [ngClass]="[coverSizeClass | async]"
           [src]="coverUrl()"
-          [title]="'Cover of ' + dirQp"
+          [matTooltip]="'Cover of ' + dirQp"
           class="album-art clickable"
         />
       </a>

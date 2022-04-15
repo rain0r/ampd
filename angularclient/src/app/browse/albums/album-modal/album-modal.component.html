@@ -8,7 +8,7 @@
       <img
         mat-card-image
         [ngClass]="[coverSizeClass | async]"
-        [title]="album.name"
+        [matTooltip]="album.name"
         alt="Cover of {{ album.name }}"
         [src]="album.albumCoverUrl"
       />

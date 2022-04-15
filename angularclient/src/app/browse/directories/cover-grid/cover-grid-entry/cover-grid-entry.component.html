@@ -5,7 +5,7 @@
     [ngClass]="[coverSizeClass | async]"
     [queryParams]="{ dir: pathLink }"
     [routerLink]="['/browse']"
-    [title]="directory.displayedPath"
+    [matTooltip]="directory.displayedPath"
     alt="Cover of {{ directory.displayedPath }}"
     src="{{ directory.albumCoverUrl }}"
   />

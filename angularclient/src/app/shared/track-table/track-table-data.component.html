@@ -50,12 +50,12 @@
           !row.artistName && !row.albumName && !row.title;
           else hasArtistName
         "
-        [title]="row.file"
+        [matTooltip]="row.file"
       >
         {{ row.file }}
       </span>
       <ng-template #hasArtistName>
-        <span [title]="row.artistName">
+        <span [matTooltip]="row.artistName">
           {{ row.artistName }}
         </span>
       </ng-template>
@@ -76,7 +76,7 @@
       mat-cell
       *matCellDef="let row"
       (click)="onRowClick(row)"
-      [title]="row.albumName"
+      [matTooltip]="row.albumName"
       [class.mobile]="isMobile | async"
       [class.ellipsis]="isMobile | async"
     >
@@ -98,7 +98,7 @@
       mat-cell
       *matCellDef="let row"
       (click)="onRowClick(row)"
-      [title]="row.title"
+      [matTooltip]="row.title"
       [class.mobile]="isMobile | async"
       [class.ellipsis]="isMobile | async"
     >

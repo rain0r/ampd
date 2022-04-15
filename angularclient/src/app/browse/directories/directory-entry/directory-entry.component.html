@@ -4,7 +4,7 @@
   fxLayoutAlign="space-between center"
   fxLayoutGap="0.25rem"
   class="list-item"
-  [title]="'Go to directory: ' + directory.path"
+  [matTooltip]="'Go to directory: ' + directory.path"
   [queryParams]="{ dir: pathLink }"
   [routerLink]="['/browse']"
 >

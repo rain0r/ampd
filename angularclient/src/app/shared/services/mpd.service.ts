@@ -20,12 +20,11 @@ import { SettingsService } from "./settings.service";
   providedIn: "root",
 })
 export class MpdService {
-  currentTrack: Observable<QueueTrack>;
+  currentTrack = new Observable<QueueTrack>();
   currentState: Observable<string>;
   mpdModesPanel: Observable<MpdModesPanel>;
 
   private mpdModesPanel$ = new Subject<MpdModesPanel>();
-  private currentTrack$ = new Subject<QueueTrack>();
   private currentState$ = new Subject<string>();
   private prevTrack = new QueueTrack();
 
@@ -36,7 +35,6 @@ export class MpdService {
   ) {
     this.buildStateSubscription();
     this.mpdModesPanel = this.mpdModesPanel$.asObservable();
-    this.currentTrack = this.currentTrack$.asObservable();
     this.currentState = this.currentState$.asObservable();
   }
 
@@ -112,20 +110,18 @@ export class MpdService {
   }
 
   private buildStateSubscription(): void {
-    this.getStateSubscription()
-      .pipe(
-        tap((payload) => {
-          this.mpdModesPanel$.next(payload.mpdModesPanelMsg);
-          this.currentState$.next(payload.serverStatus.state);
-        }),
-        map((payload) => this.buildCurrentQueueTrack(payload)),
-        filter(
-          (queueTrack: QueueTrack) =>
-            (queueTrack.artistName !== "" && queueTrack.title !== "") ||
-            queueTrack.file !== ""
-        )
+    this.currentTrack = this.getStateSubscription().pipe(
+      tap((payload) => {
+        this.mpdModesPanel$.next(payload.mpdModesPanelMsg);
+        this.currentState$.next(payload.serverStatus.state);
+      }),
+      map((payload) => this.buildCurrentQueueTrack(payload)),
+      filter(
+        (queueTrack: QueueTrack) =>
+          (queueTrack.artistName !== "" && queueTrack.title !== "") ||
+          queueTrack.file !== ""
       )
-      .subscribe((queueTrack) => this.currentTrack$.next(queueTrack));
+    );
   }
 
   /**

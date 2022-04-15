@@ -23,13 +23,13 @@ import { MatSortModule } from "@angular/material/sort";
 import { MatTableModule } from "@angular/material/table";
 import { MatTabsModule } from "@angular/material/tabs";
 import { MatToolbarModule } from "@angular/material/toolbar";
-import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatTooltipModule } from "@angular/material/tooltip";
 import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import {
   InjectableRxStompConfig,
   RxStompService,
-  rxStompServiceFactory
+  rxStompServiceFactory,
 } from "@stomp/ng2-stompjs";
 import { LightgalleryModule } from "lightgallery/angular";
 import { NgxFilesizeModule } from "ngx-filesize";

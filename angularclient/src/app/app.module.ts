@@ -23,17 +23,19 @@ import { MatSortModule } from "@angular/material/sort";
 import { MatTableModule } from "@angular/material/table";
 import { MatTabsModule } from "@angular/material/tabs";
 import { MatToolbarModule } from "@angular/material/toolbar";
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import {
   InjectableRxStompConfig,
   RxStompService,
-  rxStompServiceFactory,
+  rxStompServiceFactory
 } from "@stomp/ng2-stompjs";
 import { LightgalleryModule } from "lightgallery/angular";
 import { NgxFilesizeModule } from "ngx-filesize";
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
+import { AlbumItemComponent } from "./browse/albums/album-item/album-item.component";
 import { AlbumModalComponent } from "./browse/albums/album-modal/album-modal.component";
 import { AlbumsPaginationComponent } from "./browse/albums/albums-pagination/albums-pagination.component";
 import { AlbumsComponent } from "./browse/albums/albums.component";
@@ -90,7 +92,6 @@ import { AmpdRxStompConfig } from "./shared/services/ampd-rx-stomp-config.servic
 import { MessageService } from "./shared/services/message.service";
 import { NotificationService } from "./shared/services/notification.service";
 import { TrackTableDataComponent } from "./shared/track-table/track-table-data.component";
-import { AlbumItemComponent } from "./browse/albums/album-item/album-item.component";
 
 @NgModule({
   declarations: [
@@ -183,6 +184,7 @@ import { AlbumItemComponent } from "./browse/albums/album-item/album-item.compon
     MatTableModule,
     MatTabsModule,
     MatToolbarModule,
+    MatTooltipModule,
   ],
   providers: [
     MessageService,

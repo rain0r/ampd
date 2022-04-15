@@ -31,7 +31,7 @@
     <div
       class="mat-h3 queue-sub-title"
       *ngIf="currentTrack.albumName"
-      title="Album: {{ currentTrack.albumName }}"
+      [matTooltip]="'Album: ' + currentTrack.albumName"
     >
       <a
         class="no-deco-links text-muted"
@@ -45,7 +45,7 @@
     </div>
     <div
       class="mat-h3 queue-sub-title"
-      title="Artist: {{ currentTrack.artistName }}"
+      [matTooltip]="'Artist: ' + currentTrack.artistName"
     >
       <a
         class="no-deco-links"

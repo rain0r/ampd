@@ -8,7 +8,7 @@
     value="random"
     [checked]="modesPanel.random"
     (change)="modesPanel.random = $event.source.checked"
-    title="Toggle with 'z'"
+    matTooltip="Toggle with 'z'"
   >
     <mat-icon> shuffle </mat-icon>
     <span fxHide.lt-md> random </span>
@@ -17,7 +17,7 @@
     value="consume"
     [checked]="modesPanel.consume"
     (change)="modesPanel.consume = $event.source.checked"
-    title="Toggle with 'R'"
+    matTooltip="Toggle with 'R'"
   >
     <mat-icon> whatshot </mat-icon>
     <span fxHide.lt-md> consume </span>
@@ -26,7 +26,7 @@
     value="single"
     [checked]="modesPanel.single"
     (change)="modesPanel.single = $event.source.checked"
-    title="Toggle with 'y'"
+    matTooltip="Toggle with 'y'"
   >
     <mat-icon> star_border </mat-icon>
     <span fxHide.lt-md> single </span>
@@ -35,7 +35,7 @@
     value="crossfade"
     [checked]="modesPanel.crossfade"
     (change)="modesPanel.crossfade = $event.source.checked"
-    title="Toggle with 'x'"
+    matTooltip="Toggle with 'x'"
   >
     <mat-icon> compare_arrows </mat-icon>
     <span fxHide.lt-md> crossfade </span>
@@ -44,7 +44,7 @@
     value="repeat"
     [checked]="modesPanel.repeat"
     (change)="modesPanel.repeat = $event.source.checked"
-    title="Toggle with 'r'"
+    matTooltip="Toggle with 'r'"
   >
     <mat-icon> repeat </mat-icon>
     <span fxHide.lt-md> repeat </span>

@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.TreeSet;
 import org.bff.javampd.file.MPDFile;
 import org.bff.javampd.server.MPD;
+import org.bff.javampd.server.MPDConnectionException;
 import org.bff.javampd.song.MPDSong;
 import org.hihn.ampd.server.message.outgoing.browse.BrowsePayload;
 import org.hihn.ampd.server.message.outgoing.browse.Directory;
@@ -87,11 +88,15 @@ public class BrowseService {
     Collection<String> playlists = mpd.getMusicDatabase().getPlaylistDatabase()
         .listPlaylists();
     for (String playlist : playlists) {
-      int count = mpd.getMusicDatabase().getPlaylistDatabase().countPlaylistSongs(playlist);
+      int count = 0;
+      try {
+         count = mpd.getMusicDatabase().getPlaylistDatabase().countPlaylistSongs(playlist);
+      }
+      catch (MPDConnectionException e) {
+        LOG.error("Could not get song count for playlist: " + playlist, e);
+      }
       ret.add(new Playlist(playlist, count));
     }
     return ret;
   }
-
-
 }

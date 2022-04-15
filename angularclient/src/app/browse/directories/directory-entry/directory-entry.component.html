@@ -3,14 +3,12 @@
   fxLayout="row nowrap"
   fxLayoutAlign="space-between center"
   fxLayoutGap="0.25rem"
-  class="list-item"
-  [matTooltip]="'Go to directory: ' + directory.path"
+  class="list-item"  
   [queryParams]="{ dir: pathLink }"
   [routerLink]="['/browse']"
 >
   <mat-icon>folder_open</mat-icon>
-  <div fxFlex class="name">
-    <!--    {{ pathLink }}-->
+  <div fxFlex class="name" [matTooltip]="'Go to directory: ' + directory.path">
     {{ directory.displayedPath }}
   </div>
   <button

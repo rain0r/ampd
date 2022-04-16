@@ -67,7 +67,7 @@ export class FrontendSettingsService {
     this.isDisplayCovers$.next(displayCovers);
   }
 
-  setPagination(checked: boolean) {
+  setPagination(checked: boolean): void {
     localStorage.setItem(KEY_PAGINATION, JSON.stringify(checked));
     this.pagination$.next(checked);
   }

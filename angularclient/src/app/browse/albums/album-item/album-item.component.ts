@@ -42,7 +42,7 @@ export class AlbumItemComponent implements OnInit {
     this.updateCover();
   }
 
-  openModal() {
+  openModal(): void {
     if (!this.albumModalOpen.value) {
       this.albumModalOpen.next(true);
       const width = this.isMobile ? "100%" : "70%";

@@ -10,7 +10,6 @@ import { MatCardModule } from "@angular/material/card";
 import { MatDialogModule } from "@angular/material/dialog";
 import { MatDividerModule } from "@angular/material/divider";
 import { MatFormFieldModule } from "@angular/material/form-field";
-import { MatGridListModule } from "@angular/material/grid-list";
 import { MatIconModule } from "@angular/material/icon";
 import { MatInputModule } from "@angular/material/input";
 import { MatListModule } from "@angular/material/list";
@@ -29,7 +28,7 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import {
   InjectableRxStompConfig,
   RxStompService,
-  rxStompServiceFactory,
+  rxStompServiceFactory
 } from "@stomp/ng2-stompjs";
 import { LightgalleryModule } from "lightgallery/angular";
 import { NgxFilesizeModule } from "ngx-filesize";
@@ -171,7 +170,6 @@ import { TrackTableDataComponent } from "./shared/track-table/track-table-data.c
     MatDividerModule,
     DragDropModule,
     MatFormFieldModule,
-    MatGridListModule,
     MatIconModule,
     MatInputModule,
     MatListModule,

@@ -16,14 +16,15 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin
 public class BrowseController {
 
-  private final BrowseService browseService;
+	private final BrowseService browseService;
 
-  public BrowseController(BrowseService browseService) {
-    this.browseService = browseService;
-  }
+	public BrowseController(BrowseService browseService) {
+		this.browseService = browseService;
+	}
 
-  @GetMapping("/browse")
-  public BrowsePayload browseDir(@RequestParam("path") final String dirPath) {
-    return browseService.browse(dirPath);
-  }
+	@GetMapping("/browse")
+	public BrowsePayload browseDir(@RequestParam("path") final String dirPath) {
+		return browseService.browse(dirPath);
+	}
+
 }

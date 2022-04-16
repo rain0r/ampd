@@ -20,83 +20,82 @@ import org.springframework.stereotype.Service;
 @Service
 public class BrowseService {
 
-  private static final Logger LOG = LoggerFactory.getLogger(BrowseService.class);
+	private static final Logger LOG = LoggerFactory.getLogger(BrowseService.class);
 
-  private final MPD mpd;
+	private final MPD mpd;
 
-  public BrowseService(final MPD mpd) {
-    this.mpd = mpd;
-  }
+	public BrowseService(final MPD mpd) {
+		this.mpd = mpd;
+	}
 
-  /**
-   * Generell browse request for a path. Includes directories, tracks and playlists.
-   *
-   * @param path The path to browse
-   * @return Object with the directories, tracks and playlist of the given path.
-   */
-  public BrowsePayload browse(String path) {
-    /* Remove leading slashes */
-    path = path.replaceAll("^/+", "").trim();
-    /* Outgoing payload */
-    BrowsePayload browsePayload = findDirsAndTracks(path);
-    if (path.equals("/") || path.equals("")) {
-      /* Only look for playlists if we're on the root */
-      browsePayload.addPlaylists(getPlaylists());
-    }
-    return browsePayload;
-  }
+	/**
+	 * Generell browse request for a path. Includes directories, tracks and playlists.
+	 * @param path The path to browse
+	 * @return Object with the directories, tracks and playlist of the given path.
+	 */
+	public BrowsePayload browse(String path) {
+		/* Remove leading slashes */
+		path = path.replaceAll("^/+", "").trim();
+		/* Outgoing payload */
+		BrowsePayload browsePayload = findDirsAndTracks(path);
+		if (path.equals("/") || path.equals("")) {
+			/* Only look for playlists if we're on the root */
+			browsePayload.addPlaylists(getPlaylists());
+		}
+		return browsePayload;
+	}
 
-  /**
-   * Lists the contents of the given directory in the MPD library.
-   *
-   * @param path Path relative to the MPD root library.
-   * @return Object with the directories and tracks of the given path.
-   */
-  public BrowsePayload findDirsAndTracks(String path) {
-    BrowsePayload browsePayload = new BrowsePayload();
-    // Build a MPDFile from the input path
-    MPDFile startDir = new MPDFile(path);
-    startDir.setDirectory(true);
-    Collection<MPDFile> foundFiles = new ArrayList<>();
-    try {
-      foundFiles = mpd.getMusicDatabase().getFileDatabase().listDirectory(startDir);
-    } catch (Exception e) {
-      LOG.error("Error listing directory '{}'", path, e);
-    }
-    for (MPDFile file : foundFiles) {
-      if (file.isDirectory()) {
-        Directory d = new Directory(file.getPath());
-        browsePayload.addDirectory(d);
-      } else {
-        Collection<MPDSong> searchResults =
-            mpd.getMusicDatabase().getSongDatabase().searchFileName(file.getPath());
-        if (!searchResults.isEmpty()) {
-          browsePayload.addTrack(searchResults.iterator().next());
-        }
-      }
-    }
-    return browsePayload;
-  }
+	/**
+	 * Lists the contents of the given directory in the MPD library.
+	 * @param path Path relative to the MPD root library.
+	 * @return Object with the directories and tracks of the given path.
+	 */
+	public BrowsePayload findDirsAndTracks(String path) {
+		BrowsePayload browsePayload = new BrowsePayload();
+		// Build a MPDFile from the input path
+		MPDFile startDir = new MPDFile(path);
+		startDir.setDirectory(true);
+		Collection<MPDFile> foundFiles = new ArrayList<>();
+		try {
+			foundFiles = mpd.getMusicDatabase().getFileDatabase().listDirectory(startDir);
+		}
+		catch (Exception e) {
+			LOG.error("Error listing directory '{}'", path, e);
+		}
+		for (MPDFile file : foundFiles) {
+			if (file.isDirectory()) {
+				Directory d = new Directory(file.getPath());
+				browsePayload.addDirectory(d);
+			}
+			else {
+				Collection<MPDSong> searchResults = mpd.getMusicDatabase().getSongDatabase()
+						.searchFileName(file.getPath());
+				if (!searchResults.isEmpty()) {
+					browsePayload.addTrack(searchResults.iterator().next());
+				}
+			}
+		}
+		return browsePayload;
+	}
 
-  /**
-   * Returns all playlists saved on the MPD server.
-   *
-   * @return List of saved playlists.
-   */
-  private Collection<Playlist> getPlaylists() {
-    TreeSet<Playlist> ret = new TreeSet<>();
-    Collection<String> playlists = mpd.getMusicDatabase().getPlaylistDatabase()
-        .listPlaylists();
-    for (String playlist : playlists) {
-      int count = 0;
-      try {
-         count = mpd.getMusicDatabase().getPlaylistDatabase().countPlaylistSongs(playlist);
-      }
-      catch (MPDConnectionException e) {
-        LOG.error("Could not get song count for playlist: " + playlist, e);
-      }
-      ret.add(new Playlist(playlist, count));
-    }
-    return ret;
-  }
+	/**
+	 * Returns all playlists saved on the MPD server.
+	 * @return List of saved playlists.
+	 */
+	private Collection<Playlist> getPlaylists() {
+		TreeSet<Playlist> ret = new TreeSet<>();
+		Collection<String> playlists = mpd.getMusicDatabase().getPlaylistDatabase().listPlaylists();
+		for (String playlist : playlists) {
+			int count = 0;
+			try {
+				count = mpd.getMusicDatabase().getPlaylistDatabase().countPlaylistSongs(playlist);
+			}
+			catch (MPDConnectionException e) {
+				LOG.error("Could not get song count for playlist: " + playlist, e);
+			}
+			ret.add(new Playlist(playlist, count));
+		}
+		return ret;
+	}
+
 }

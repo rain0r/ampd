@@ -14,48 +14,47 @@ import org.springframework.stereotype.Component;
 @Component
 public class Publisher {
 
-  private static final String QUEUE_URL = "/topic/queue";
+	private static final String QUEUE_URL = "/topic/queue";
 
-  private static final String STATE_URL = "/topic/state";
+	private static final String STATE_URL = "/topic/state";
 
-  private final MPD mpd;
+	private final MPD mpd;
 
-  private final SimpMessagingTemplate template;
+	private final SimpMessagingTemplate template;
 
-  @Autowired
-  public Publisher(
-      final MPD mpd,
-      final SimpMessagingTemplate template) {
-    this.mpd = mpd;
-    this.template = template;
-  }
+	@Autowired
+	public Publisher(final MPD mpd, final SimpMessagingTemplate template) {
+		this.mpd = mpd;
+		this.template = template;
+	}
 
-  /**
-   * Publishes the queue every second.
-   */
-  @Scheduled(fixedRateString = "${publisher.delay}")
-  public void publishQueue() {
-    if (!mpd.isConnected()) {
-      return;
-    }
-    // Tells javampd to get fresh data every second
-    mpd.getServerStatus().setExpiryInterval(1L);
-    template.convertAndSend(QUEUE_URL, mpd.getPlaylist().getSongList());
-  }
+	/**
+	 * Publishes the queue every second.
+	 */
+	@Scheduled(fixedRateString = "${publisher.delay}")
+	public void publishQueue() {
+		if (!mpd.isConnected()) {
+			return;
+		}
+		// Tells javampd to get fresh data every second
+		mpd.getServerStatus().setExpiryInterval(1L);
+		template.convertAndSend(QUEUE_URL, mpd.getPlaylist().getSongList());
+	}
 
-  /**
-   * Publishes the Mpd server state every second.
-   */
-  @Scheduled(fixedRateString = "${publisher.delay}")
-  public void publishState() {
-    if (!mpd.isConnected()) {
-      return;
-    }
-    // Tells javampd to get fresh data every second
-    mpd.getServerStatus().setExpiryInterval(1L);
-    final MpdModesPanelMsg mpdModesPanelMsg = new MpdModesPanelMsg(mpd.getServerStatus());
-    final StatePayload statePayload =
-        new StatePayload(mpd.getServerStatus(), mpd.getPlayer().getCurrentSong(), mpdModesPanelMsg);
-    template.convertAndSend(STATE_URL, statePayload);
-  }
+	/**
+	 * Publishes the Mpd server state every second.
+	 */
+	@Scheduled(fixedRateString = "${publisher.delay}")
+	public void publishState() {
+		if (!mpd.isConnected()) {
+			return;
+		}
+		// Tells javampd to get fresh data every second
+		mpd.getServerStatus().setExpiryInterval(1L);
+		final MpdModesPanelMsg mpdModesPanelMsg = new MpdModesPanelMsg(mpd.getServerStatus());
+		final StatePayload statePayload = new StatePayload(mpd.getServerStatus(), mpd.getPlayer().getCurrentSong(),
+				mpdModesPanelMsg);
+		template.convertAndSend(STATE_URL, statePayload);
+	}
+
 }

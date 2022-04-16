@@ -5,36 +5,37 @@ package org.hihn.ampd.server.message.outgoing;
  */
 public class SavePlaylistResponse {
 
-  private String playlistName;
+	private String playlistName;
 
-  private boolean success;
+	private boolean success;
 
-  private String message;
+	private String message;
 
-  public SavePlaylistResponse() {
-  }
+	public SavePlaylistResponse() {
+	}
 
-  public String getPlaylistName() {
-    return playlistName;
-  }
+	public String getPlaylistName() {
+		return playlistName;
+	}
 
-  public void setPlaylistName(String playlistName) {
-    this.playlistName = playlistName;
-  }
+	public void setPlaylistName(String playlistName) {
+		this.playlistName = playlistName;
+	}
 
-  public boolean isSuccess() {
-    return success;
-  }
+	public boolean isSuccess() {
+		return success;
+	}
 
-  public void setSuccess(boolean success) {
-    this.success = success;
-  }
+	public void setSuccess(boolean success) {
+		this.success = success;
+	}
 
-  public String getMessage() {
-    return message;
-  }
+	public String getMessage() {
+		return message;
+	}
 
-  public void setMessage(String message) {
-    this.message = message;
-  }
+	public void setMessage(String message) {
+		this.message = message;
+	}
+
 }

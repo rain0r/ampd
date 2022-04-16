@@ -19,53 +19,40 @@ import org.springframework.web.server.ResponseStatusException;
 @CrossOrigin
 public class CoverController {
 
-  private final CoverService coverService;
+	private final CoverService coverService;
 
-  @Autowired
-  public CoverController(final CoverService coverService) {
-    this.coverService = coverService;
-  }
+	@Autowired
+	public CoverController(final CoverService coverService) {
+		this.coverService = coverService;
+	}
 
-  /**
-   * Tries to find the cover for a directory.
-   *
-   * @param dirPath Path of a directory.
-   * @return The bytes of the found cover.
-   */
-  @RequestMapping(
-      value = {"/find-dir-cover"},
-      produces = MediaType.IMAGE_JPEG_VALUE
-  )
-  public @ResponseBody
-  byte[] findAlbumCoverForDir(@RequestParam("path") final String dirPath) {
-    return coverService.loadArtworkForDir(dirPath)
-        .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
-  }
+	/**
+	 * Tries to find the cover for a directory.
+	 * @param dirPath Path of a directory.
+	 * @return The bytes of the found cover.
+	 */
+	@RequestMapping(value = { "/find-dir-cover" }, produces = MediaType.IMAGE_JPEG_VALUE)
+	public @ResponseBody byte[] findAlbumCoverForDir(@RequestParam("path") final String dirPath) {
+		return coverService.loadArtworkForDir(dirPath)
+				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+	}
 
-  /**
-   * Tries to find the cover for a track.
-   *
-   * @param trackFilePath File path of a track.
-   * @return The bytes of the found cover.
-   */
-  @RequestMapping(
-      value = {"/find-track-cover"},
-      produces = MediaType.IMAGE_JPEG_VALUE
-  )
-  public @ResponseBody
-  byte[] findAlbumCoverForTrack(@RequestParam("path") final String trackFilePath) {
-    return coverService.findAlbumCoverForTrack(trackFilePath)
-        .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
-  }
+	/**
+	 * Tries to find the cover for a track.
+	 * @param trackFilePath File path of a track.
+	 * @return The bytes of the found cover.
+	 */
+	@RequestMapping(value = { "/find-track-cover" }, produces = MediaType.IMAGE_JPEG_VALUE)
+	public @ResponseBody byte[] findAlbumCoverForTrack(@RequestParam("path") final String trackFilePath) {
+		return coverService.findAlbumCoverForTrack(trackFilePath)
+				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+	}
 
-  @RequestMapping(
-      value = {"/find-album-cover"},
-      produces = MediaType.IMAGE_JPEG_VALUE
-  )
-  public @ResponseBody
-  byte[] findAlbumCoverForArtistAndName(@RequestParam("albumName") final String albumName,
-      @RequestParam("artistName") final String artistName) {
-    return coverService.findAlbumCoverForAlbum(albumName, artistName)
-        .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
-  }
+	@RequestMapping(value = { "/find-album-cover" }, produces = MediaType.IMAGE_JPEG_VALUE)
+	public @ResponseBody byte[] findAlbumCoverForArtistAndName(@RequestParam("albumName") final String albumName,
+			@RequestParam("artistName") final String artistName) {
+		return coverService.findAlbumCoverForAlbum(albumName, artistName)
+				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+	}
+
 }

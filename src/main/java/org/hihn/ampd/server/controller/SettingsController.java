@@ -20,49 +20,48 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin
 public class SettingsController {
 
-  private final CoverCacheService coverCacheService;
+	private final CoverCacheService coverCacheService;
 
-  private final AmpdSettings ampdSettingsBean;
+	private final AmpdSettings ampdSettingsBean;
 
-  private final MPD mpd;
+	private final MPD mpd;
 
-  /**
-   * Endpoint that provides a connection to the settings of this ampd instance.
-   *
-   * @param ampdSettings          Settings of this ampd instance.
-   * @param coverCacheService     Handles locally saved album art / covers.
-   * @param mpd                   Represents a connection to a MPD server.
-   */
-  public SettingsController(final AmpdSettings ampdSettings,
-      final CoverCacheService coverCacheService,
-      final MPD mpd) {
-    this.ampdSettingsBean = ampdSettings;
-    this.coverCacheService = coverCacheService;
-    this.mpd = mpd;
-  }
+	/**
+	 * Endpoint that provides a connection to the settings of this ampd instance.
+	 * @param ampdSettings Settings of this ampd instance.
+	 * @param coverCacheService Handles locally saved album art / covers.
+	 * @param mpd Represents a connection to a MPD server.
+	 */
+	public SettingsController(final AmpdSettings ampdSettings, final CoverCacheService coverCacheService,
+			final MPD mpd) {
+		this.ampdSettingsBean = ampdSettings;
+		this.coverCacheService = coverCacheService;
+		this.mpd = mpd;
+	}
 
-  @GetMapping("/settings")
-  public AmpdSettings getAmpdSettings() {
-    return ampdSettingsBean;
-  }
+	@GetMapping("/settings")
+	public AmpdSettings getAmpdSettings() {
+		return ampdSettingsBean;
+	}
 
-  @GetMapping("/cover-disk-usage")
-  public Map<String, Long> getCoverDiskUsage() {
-    return Collections.singletonMap("coverDiskUsage", coverCacheService.getCoverDiskUsage());
-  }
+	@GetMapping("/cover-disk-usage")
+	public Map<String, Long> getCoverDiskUsage() {
+		return Collections.singletonMap("coverDiskUsage", coverCacheService.getCoverDiskUsage());
+	}
 
-  @GetMapping("/server-statistics")
-  public ServerStatistics getServerStatistics() {
-    return mpd.getServerStatistics();
-  }
+	@GetMapping("/server-statistics")
+	public ServerStatistics getServerStatistics() {
+		return mpd.getServerStatistics();
+	}
 
-  @PostMapping("/update-database")
-  public void updateDatabase() {
-    mpd.getAdmin().updateDatabase();
-  }
+	@PostMapping("/update-database")
+	public void updateDatabase() {
+		mpd.getAdmin().updateDatabase();
+	}
 
-  @PostMapping("/rescan-database")
-  public void rescanDatabase() {
-    mpd.getAdmin().rescanDatabase();
-  }
+	@PostMapping("/rescan-database")
+	public void rescanDatabase() {
+		mpd.getAdmin().rescanDatabase();
+	}
+
 }

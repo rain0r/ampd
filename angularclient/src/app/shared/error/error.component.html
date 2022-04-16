@@ -1,9 +1,10 @@
-<div class="warning-text" *ngIf="error">
-  <p class="mat-body-strong">
+<mat-card *ngIf="error">
+  <mat-card-title>
     {{ error.title }}
-  </p>
-
-  <code>
-    {{ error.detail }}
-  </code>
-</div>
+  </mat-card-title>
+  <mat-card-content>
+    <code>
+      {{ error.detail }}
+    </code>
+  </mat-card-content>
+</mat-card>

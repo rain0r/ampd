@@ -15,24 +15,22 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin
 public class AlbumController {
 
-  private final AlbumService albumService;
+	private final AlbumService albumService;
 
-  public AlbumController(AlbumService albumService) {
-    this.albumService = albumService;
-  }
+	public AlbumController(AlbumService albumService) {
+		this.albumService = albumService;
+	}
 
-  @GetMapping("/albums")
-  public Collection<MPDAlbum> listAllAlbums(
-      @RequestParam(value = "page", defaultValue = "1") Integer page,
-      @RequestParam(value = "searchTerm", defaultValue = "") String searchTerm) {
-    return this.albumService.listAllAlbums(page, searchTerm);
-  }
+	@GetMapping("/albums")
+	public Collection<MPDAlbum> listAllAlbums(@RequestParam(value = "page", defaultValue = "1") Integer page,
+			@RequestParam(value = "searchTerm", defaultValue = "") String searchTerm) {
+		return this.albumService.listAllAlbums(page, searchTerm);
+	}
 
-  @GetMapping("/album")
-  public Collection<MPDSong> listAlbum(@RequestParam("name") final String album,
-      @RequestParam("artistName") final String artist) {
-    return this.albumService.listAlbum(album, artist);
-  }
-
+	@GetMapping("/album")
+	public Collection<MPDSong> listAlbum(@RequestParam("name") final String album,
+			@RequestParam("artistName") final String artist) {
+		return this.albumService.listAlbum(album, artist);
+	}
 
 }

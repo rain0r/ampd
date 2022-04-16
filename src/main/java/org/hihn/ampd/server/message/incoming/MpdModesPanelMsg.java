@@ -10,99 +10,99 @@ import org.slf4j.LoggerFactory;
  */
 public class MpdModesPanelMsg {
 
-  private static final Logger LOG = LoggerFactory.getLogger(MpdModesPanelMsg.class);
+	private static final Logger LOG = LoggerFactory.getLogger(MpdModesPanelMsg.class);
 
-  private boolean consume;
+	private boolean consume;
 
-  private boolean crossfade;
+	private boolean crossfade;
 
-  private boolean random;
+	private boolean random;
 
-  private boolean repeat;
+	private boolean repeat;
 
-  private boolean single;
+	private boolean single;
 
-  /**
-   * Used for incoming message deserialization.
-   */
-  public MpdModesPanelMsg() {
-  }
+	/**
+	 * Used for incoming message deserialization.
+	 */
+	public MpdModesPanelMsg() {
+	}
 
-  /**
-   * Represents a MPD control panel.
-   *
-   * @param serverStatus ServerStatus provided by MPD.
-   */
-  public MpdModesPanelMsg(final ServerStatus serverStatus) {
-    if (serverStatus == null) {
-      LOG.error("Error getting MPD server status");
-      return;
-    }
-    final Collection<String> statusList = serverStatus.getStatus();
-    
-    // crossfade is not part of the statusList so can't assign in it the for loop
-    setCrossfade(serverStatus.getXFade() == 1);
+	/**
+	 * Represents a MPD control panel.
+	 * @param serverStatus ServerStatus provided by MPD.
+	 */
+	public MpdModesPanelMsg(final ServerStatus serverStatus) {
+		if (serverStatus == null) {
+			LOG.error("Error getting MPD server status");
+			return;
+		}
+		final Collection<String> statusList = serverStatus.getStatus();
 
-    for (final String status : statusList) {
-      final String[] splitted = status.split(":");
-      final boolean newValue = "1".equals(splitted[1].trim());
+		// crossfade is not part of the statusList so can't assign in it the for loop
+		setCrossfade(serverStatus.getXFade() == 1);
 
-      switch (splitted[0].trim()) {
-        case "random":
-          setRandom(newValue);
-          break;
-        case "consume":
-          setConsume(newValue);
-          break;
-        case "single":
-          setSingle(newValue);
-          break;
-        case "repeat":
-          setRepeat(newValue);
-          break;
-        default:
-          // Do nothing
-      }
-    }
-  }
+		for (final String status : statusList) {
+			final String[] splitted = status.split(":");
+			final boolean newValue = "1".equals(splitted[1].trim());
 
-  public boolean isConsume() {
-    return consume;
-  }
+			switch (splitted[0].trim()) {
+			case "random":
+				setRandom(newValue);
+				break;
+			case "consume":
+				setConsume(newValue);
+				break;
+			case "single":
+				setSingle(newValue);
+				break;
+			case "repeat":
+				setRepeat(newValue);
+				break;
+			default:
+				// Do nothing
+			}
+		}
+	}
 
-  public void setConsume(boolean consume) {
-    this.consume = consume;
-  }
+	public boolean isConsume() {
+		return consume;
+	}
 
-  public boolean isCrossfade() {
-    return crossfade;
-  }
+	public void setConsume(boolean consume) {
+		this.consume = consume;
+	}
 
-  public void setCrossfade(boolean crossfade) {
-    this.crossfade = crossfade;
-  }
+	public boolean isCrossfade() {
+		return crossfade;
+	}
 
-  public boolean isRandom() {
-    return random;
-  }
+	public void setCrossfade(boolean crossfade) {
+		this.crossfade = crossfade;
+	}
 
-  public void setRandom(boolean random) {
-    this.random = random;
-  }
+	public boolean isRandom() {
+		return random;
+	}
 
-  public boolean isRepeat() {
-    return repeat;
-  }
+	public void setRandom(boolean random) {
+		this.random = random;
+	}
 
-  public void setRepeat(boolean repeat) {
-    this.repeat = repeat;
-  }
+	public boolean isRepeat() {
+		return repeat;
+	}
 
-  public boolean isSingle() {
-    return single;
-  }
+	public void setRepeat(boolean repeat) {
+		this.repeat = repeat;
+	}
 
-  public void setSingle(boolean single) {
-    this.single = single;
-  }
+	public boolean isSingle() {
+		return single;
+	}
+
+	public void setSingle(boolean single) {
+		this.single = single;
+	}
+
 }

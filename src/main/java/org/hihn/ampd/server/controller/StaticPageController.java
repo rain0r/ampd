@@ -9,13 +9,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class StaticPageController {
 
-  /**
-   * Always return the Angular app.
-   *
-   * @return Path to the html-file that contains Angular app.
-   */
-  @RequestMapping(value = {"/", "/browse", "/search", "/settings", "/ampd/"})
-  public String index() {
-    return "forward:/index.html";
-  }
+	/**
+	 * Always return the Angular app.
+	 * @return Path to the html-file that contains Angular app.
+	 */
+	@RequestMapping(value = { "/", "/browse", "/search", "/settings", "/ampd/" })
+	public String index() {
+		return "forward:/index.html";
+	}
+
 }

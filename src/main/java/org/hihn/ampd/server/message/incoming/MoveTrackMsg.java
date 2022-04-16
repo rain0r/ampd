@@ -1,30 +1,32 @@
 package org.hihn.ampd.server.message.incoming;
 
 /**
- * Message that contains the old and the new position of a track in the queue when mvoed around.
+ * Message that contains the old and the new position of a track in the queue when mvoed
+ * around.
  */
 public class MoveTrackMsg {
 
-  private int oldPos;
+	private int oldPos;
 
-  private int newPos;
+	private int newPos;
 
-  public MoveTrackMsg() {
-  }
+	public MoveTrackMsg() {
+	}
 
-  public int getOldPos() {
-    return oldPos;
-  }
+	public int getOldPos() {
+		return oldPos;
+	}
 
-  public void setOldPos(int oldPos) {
-    this.oldPos = oldPos;
-  }
+	public void setOldPos(int oldPos) {
+		this.oldPos = oldPos;
+	}
 
-  public int getNewPos() {
-    return newPos;
-  }
+	public int getNewPos() {
+		return newPos;
+	}
 
-  public void setNewPos(int newPos) {
-    this.newPos = newPos;
-  }
+	public void setNewPos(int newPos) {
+		this.newPos = newPos;
+	}
+
 }

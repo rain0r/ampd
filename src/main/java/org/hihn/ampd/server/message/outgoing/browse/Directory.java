@@ -1,6 +1,5 @@
 package org.hihn.ampd.server.message.outgoing.browse;
 
-
 import org.bff.javampd.file.MPDFile;
 
 /**
@@ -8,8 +7,9 @@ import org.bff.javampd.file.MPDFile;
  */
 public class Directory extends MPDFile {
 
-  public Directory(final String path) {
-    super(path);
-    setDirectory(true);
-  }
+	public Directory(final String path) {
+		super(path);
+		setDirectory(true);
+	}
+
 }

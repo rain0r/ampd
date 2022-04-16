@@ -16,24 +16,24 @@ import org.springframework.context.event.EventListener;
 @SpringBootApplication
 public class AmpdServer {
 
-  @Value("${server.address}")
-  private String address;
+	@Value("${server.address}")
+	private String address;
 
-  @Value("${server.port}")
-  private int port;
+	@Value("${server.port}")
+	private int port;
 
-  public static void main(final String[] args) {
-    SpringApplication.run(AmpdServer.class, args);
-  }
+	public static void main(final String[] args) {
+		SpringApplication.run(AmpdServer.class, args);
+	}
 
-  /**
-   * Show the user a welcome message.
-   */
-  @EventListener(ApplicationReadyEvent.class)
-  public void doSomethingAfterStartup() {
-    System.out.println("\n==================================================");
-    System.out.println("ampd is running on: " + address + ":" + port);
-    System.out.println("==================================================");
-  }
+	/**
+	 * Show the user a welcome message.
+	 */
+	@EventListener(ApplicationReadyEvent.class)
+	public void doSomethingAfterStartup() {
+		System.out.println("\n==================================================");
+		System.out.println("ampd is running on: " + address + ":" + port);
+		System.out.println("==================================================");
+	}
 
 }

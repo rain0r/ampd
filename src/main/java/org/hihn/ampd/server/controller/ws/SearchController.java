@@ -16,33 +16,31 @@ import org.springframework.stereotype.Controller;
 @MessageMapping("/search")
 public class SearchController {
 
-  @Autowired
-  private final MPD mpd;
+	@Autowired
+	private final MPD mpd;
 
-  public SearchController(MPD mpd) {
-    this.mpd = mpd;
-  }
+	public SearchController(MPD mpd) {
+		this.mpd = mpd;
+	}
 
-  /**
-   * Receives a search term and processes it.
-   *
-   * @param searchTerm The term to search for.
-   * @return A {@link SearchPayload}-object contain
-   */
-  @MessageMapping("/")
-  @SendTo("/topic/search")
-  public SearchPayload search(@Payload String searchTerm) {
-    return searchDatabase(searchTerm);
-  }
+	/**
+	 * Receives a search term and processes it.
+	 * @param searchTerm The term to search for.
+	 * @return A {@link SearchPayload}-object contain
+	 */
+	@MessageMapping("/")
+	@SendTo("/topic/search")
+	public SearchPayload search(@Payload String searchTerm) {
+		return searchDatabase(searchTerm);
+	}
 
-  /**
-   * Takes a search-term and searches the MPD database for it.
-   *
-   * @param query The term to search for.
-   * @return A payload with the search results.
-   */
-  private SearchPayload searchDatabase(String query) {
-    return new SearchPayload(mpd.getSongSearcher().search(ScopeType.ANY, query.trim()),
-        query.trim());
-  }
+	/**
+	 * Takes a search-term and searches the MPD database for it.
+	 * @param query The term to search for.
+	 * @return A payload with the search results.
+	 */
+	private SearchPayload searchDatabase(String query) {
+		return new SearchPayload(mpd.getSongSearcher().search(ScopeType.ANY, query.trim()), query.trim());
+	}
+
 }

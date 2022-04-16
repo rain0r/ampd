@@ -4,16 +4,17 @@ package org.hihn.ampd.server.model;
  * Model to distinguish between an album cover and track cover.
  */
 public enum CoverType {
-  ALBUM("a_"),
-  SINGLETON("s_");
 
-  private final String prefix;
+	ALBUM("a_"), SINGLETON("s_");
 
-  CoverType(final String prefix) {
-    this.prefix = prefix;
-  }
+	private final String prefix;
 
-  public String getPrefix() {
-    return prefix;
-  }
+	CoverType(final String prefix) {
+		this.prefix = prefix;
+	}
+
+	public String getPrefix() {
+		return prefix;
+	}
+
 }

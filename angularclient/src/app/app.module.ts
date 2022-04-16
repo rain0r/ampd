@@ -28,7 +28,7 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import {
   InjectableRxStompConfig,
   RxStompService,
-  rxStompServiceFactory
+  rxStompServiceFactory,
 } from "@stomp/ng2-stompjs";
 import { LightgalleryModule } from "lightgallery/angular";
 import { NgxFilesizeModule } from "ngx-filesize";

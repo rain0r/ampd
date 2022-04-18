@@ -109,6 +109,7 @@ export class QueueHeaderComponent implements AfterViewChecked {
         )
       )
       .subscribe((track) => {
+        console.log("track", track);
         this.currentTrackObsv = of(track);
         this.currentPathLink = encodeURIComponent(track.dir);
         this.updateCover();

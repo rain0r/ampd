@@ -7,7 +7,7 @@ import { HttpClient } from "@angular/common/http";
 import { AfterViewChecked, Component } from "@angular/core";
 import { InitDetail } from "lightgallery/lg-events";
 import { LightGallery } from "lightgallery/lightgallery";
-import { BehaviorSubject, combineLatest, Observable, of } from "rxjs";
+import { BehaviorSubject, combineLatest, Observable } from "rxjs";
 import { distinctUntilChanged, filter, map } from "rxjs/operators";
 import { LIGHTBOX_SETTINGS } from "src/app/shared/lightbox";
 import { InternalMessageType } from "../../shared/messages/internal/internal-message-type.enum";
@@ -25,7 +25,8 @@ import { ResponsiveCoverSizeService } from "../../shared/services/responsive-cov
 export class QueueHeaderComponent implements AfterViewChecked {
   coverSizeClass: Observable<string>;
   currentState: Observable<string>;
-  currentTrackObsv = new Observable<QueueTrack>();
+  // currentTrackObsv = new Observable<QueueTrack>();
+  currentTrack = <QueueTrack>{};
   currentPathLink = ""; // encoded dir of the current playing track
   isDisplayCover: Observable<boolean>;
   isMobile = false;
@@ -65,13 +66,14 @@ export class QueueHeaderComponent implements AfterViewChecked {
   };
 
   private updateCover(): void {
-    this.currentTrackObsv
-      .pipe(map((track) => track.coverUrl))
-      .subscribe((coverUrl) => {
-        this.http.head(coverUrl, { observe: "response" }).subscribe({
-          error: () => this.displayCover$.next(false),
-          complete: () => this.coverAvailable(),
-        });
+    if (!this.currentTrack.coverUrl) {
+      return;
+    }
+    this.http
+      .head(this.currentTrack.coverUrl, { observe: "response" })
+      .subscribe({
+        error: () => this.displayCover$.next(false),
+        complete: () => this.coverAvailable(),
       });
   }
 
@@ -99,10 +101,14 @@ export class QueueHeaderComponent implements AfterViewChecked {
    * Listens for track changes. If a new track is played, trigger the updateCover-method.
    */
   private buildTrackSubscription(): void {
-    this.mpdService.currentTrack.subscribe((track) => {
-      this.currentTrackObsv = of(track);
-      this.currentPathLink = encodeURIComponent(track.dir);
-      this.updateCover();
+    let first = true;
+    this.mpdService.currentTrack.subscribe((queueTrack) => {
+      this.currentTrack = queueTrack;
+      this.currentPathLink = encodeURIComponent(queueTrack.dir);
+      if (first || queueTrack.changed) {
+        first = false;
+        this.updateCover();
+      }
     });
   }
 

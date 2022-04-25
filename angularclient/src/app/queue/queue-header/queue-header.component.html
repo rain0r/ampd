@@ -9,10 +9,7 @@
 <div
   fxLayout="row wrap"
   fxLayoutAlign="space-between start"
-  *ngIf="
-    (currentState | async) !== 'stop' &&
-    (currentTrackObsv | async) as currentTrack
-  "
+  *ngIf="(currentState | async) !== 'stop'"
 >
   <div fxFlex="1 0 55%" fxLayout="column">
     <div class="mat-h2 queue-sub-title" fxFlex="100%">

@@ -99,21 +99,11 @@ export class QueueHeaderComponent implements AfterViewChecked {
    * Listens for track changes. If a new track is played, trigger the updateCover-method.
    */
   private buildTrackSubscription(): void {
-    this.mpdService.currentTrack
-      .pipe(
-        distinctUntilChanged(
-          (prev, curr) =>
-            (prev.artistName === curr.artistName &&
-              prev.title !== curr.artistName) ||
-            prev.file === curr.file
-        )
-      )
-      .subscribe((track) => {
-        console.log("track", track);
-        this.currentTrackObsv = of(track);
-        this.currentPathLink = encodeURIComponent(track.dir);
-        this.updateCover();
-      });
+    this.mpdService.currentTrack.subscribe((track) => {
+      this.currentTrackObsv = of(track);
+      this.currentPathLink = encodeURIComponent(track.dir);
+      this.updateCover();
+    });
   }
 
   /**

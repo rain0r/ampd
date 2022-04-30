@@ -17,7 +17,6 @@
   },
   "dependencies": {
     "@angular-devkit/architect": "^0.1303.2",
-    "@angular/animations": "~13.3.2",
     "@angular/cdk": "^13.3.1",
     "@angular/common": "~13.3.2",
     "@angular/compiler": "~13.3.2",
@@ -47,7 +46,6 @@
     "@angular-eslint/template-parser": "13.2.0",
     "@angular/cli": "~13.3.2",
     "@angular/compiler-cli": "~13.3.2",
-    "@angular/language-service": "^13.3.2",
     "@types/jasmine": "~4.0.2",
     "@types/node": "^17.0.21",
     "@typescript-eslint/eslint-plugin": "5.18.0",

@@ -26,8 +26,8 @@ import { HelpModalComponent } from "./help-modal/help-modal.component";
   styleUrls: ["./navbar.component.scss"],
 })
 export class NavbarComponent {
-  isDarkTheme: Observable<boolean> = new Observable<boolean>();
-  connState: Observable<number> = new Observable<number>();
+  isDarkTheme: Observable<boolean>;
+  connState: Observable<number>;
   private isMobile = false;
   private currentState = "stop";
   private helpModalOpen = new BehaviorSubject(false);

@@ -3,7 +3,9 @@ import { ApiEndpoints } from "../api-endpoints";
 import { Injectable } from "@angular/core";
 import { Location } from "@angular/common";
 
-@Injectable()
+@Injectable({
+  providedIn: "root",
+})
 export class AmpdRxStompConfig extends InjectableRxStompConfig {
   constructor(private location: Location) {
     super();

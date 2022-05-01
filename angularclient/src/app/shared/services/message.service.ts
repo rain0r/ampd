@@ -3,7 +3,9 @@ import { Observable, Subject } from "rxjs";
 import { InternalMessageType } from "../messages/internal/internal-message-type.enum";
 import { InternalMessage } from "../messages/internal/internal-message";
 
-@Injectable()
+@Injectable({
+  providedIn: "root",
+})
 export class MessageService {
   message: Observable<InternalMessage>;
   private message$ = new Subject<InternalMessage>();

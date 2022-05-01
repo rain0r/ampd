@@ -92,8 +92,6 @@ import { ReplaceNullWithTextPipe } from "./shared/pipes/replace-null-with-text.p
 import { SecondsToHhMmSsPipe } from "./shared/pipes/seconds-to-hh-mm-ss.pipe";
 import { SecondsToMmSsPipe } from "./shared/pipes/seconds-to-mm-ss.pipe";
 import { AmpdRxStompConfig } from "./shared/services/ampd-rx-stomp-config.service";
-import { MessageService } from "./shared/services/message.service";
-import { NotificationService } from "./shared/services/notification.service";
 import { TrackTableDataComponent } from "./shared/track-table/track-table-data.component";
 
 @NgModule({

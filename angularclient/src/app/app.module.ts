@@ -189,8 +189,6 @@ import { TrackTableDataComponent } from "./shared/track-table/track-table-data.c
     MatTooltipModule,
   ],
   providers: [
-    MessageService,
-    NotificationService,
     {
       provide: InjectableRxStompConfig,
       useClass: AmpdRxStompConfig,

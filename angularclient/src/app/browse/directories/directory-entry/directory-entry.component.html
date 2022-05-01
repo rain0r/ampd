@@ -6,9 +6,10 @@
   class="list-item"
   [queryParams]="{ dir: pathLink }"
   [routerLink]="['/browse']"
+  [matTooltip]="'Go to directory: ' + directory.path"
 >
   <mat-icon>folder_open</mat-icon>
-  <div fxFlex class="name" [matTooltip]="'Go to directory: ' + directory.path">
+  <div fxFlex class="name">
     {{ directory.displayedPath }}
   </div>
   <button

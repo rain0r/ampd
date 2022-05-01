@@ -22,7 +22,10 @@ import { MatSortModule } from "@angular/material/sort";
 import { MatTableModule } from "@angular/material/table";
 import { MatTabsModule } from "@angular/material/tabs";
 import { MatToolbarModule } from "@angular/material/toolbar";
-import { MatTooltipModule } from "@angular/material/tooltip";
+import {
+  MatTooltipModule,
+  MAT_TOOLTIP_DEFAULT_OPTIONS,
+} from "@angular/material/tooltip";
 import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import {
@@ -78,6 +81,7 @@ import { TabTitleComponent } from "./settings/frontend/tab-title/tab-title.compo
 import { ThemeComponent } from "./settings/frontend/theme/theme.component";
 import { VirtualScrollComponent } from "./settings/frontend/virtual-scroll/virtual-scroll.component";
 import { SettingsComponent } from "./settings/settings.component";
+import { customTooltipDefaults } from "./shared/custom-tooltip-defaults";
 import { ErrorComponent } from "./shared/error/error.component";
 import { EncodeURIComponentPipe } from "./shared/pipes/encode-uri.pipe";
 import { DirectoryFilterStartLetterPipePipe } from "./shared/pipes/filter/directory-filter-start-letter-pipe.pipe";
@@ -196,6 +200,7 @@ import { TrackTableDataComponent } from "./shared/track-table/track-table-data.c
       useFactory: rxStompServiceFactory,
       deps: [InjectableRxStompConfig],
     },
+    { provide: MAT_TOOLTIP_DEFAULT_OPTIONS, useValue: customTooltipDefaults },
   ],
   bootstrap: [AppComponent],
 })

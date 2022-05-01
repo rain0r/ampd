@@ -2,7 +2,6 @@
   fxLayout="row nowrap"
   fxLayoutAlign="center center"
   fxLayoutGap.gt-md="0.1rem"
-  id="base"
 >
   <div>
     <mat-icon>volume_down</mat-icon>
@@ -15,6 +14,7 @@
       step="1"
       [(ngModel)]="volume"
       (input)="handleVolumeSlider($event)"
+      [disabled]="(connState | async) !== 1"
     ></mat-slider>
   </div>
   <div>{{ volume }} &#37;</div>

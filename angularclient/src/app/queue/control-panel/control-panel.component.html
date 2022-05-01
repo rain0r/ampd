@@ -3,6 +3,7 @@
     mat-stroked-button
     (click)="handleControlButton($event)"
     id="btn-prev"
+    matTooltip="Previous track"
   >
     <mat-icon>skip_previous</mat-icon>
   </button>
@@ -10,6 +11,7 @@
     mat-stroked-button
     (click)="handleControlButton($event)"
     id="btn-stop"
+    matTooltip="Stop"
   >
     <mat-icon>stop</mat-icon>
   </button>
@@ -18,6 +20,7 @@
     *ngIf="(currentState | async) === 'play'"
     (click)="handleControlButton($event)"
     id="btn-pause"
+    matTooltip="Pause"
   >
     <mat-icon>pause</mat-icon>
   </button>
@@ -26,6 +29,7 @@
     *ngIf="(currentState | async) !== 'play'"
     (click)="handleControlButton($event)"
     id="btn-play"
+    matTooltip="Play"
   >
     <mat-icon>play_arrow</mat-icon>
   </button>
@@ -33,6 +37,7 @@
     mat-stroked-button
     (click)="handleControlButton($event)"
     id="btn-next"
+    matTooltip="Next track"
   >
     <mat-icon>skip_next</mat-icon>
   </button>
@@ -41,6 +46,7 @@
     (click)="onClearQueue()"
     matTooltip="Remove all items from the queue"
     class="valign-top clear-queue"
+    matTooltip="Clear queue"
   >
     <mat-icon>delete</mat-icon>
     <span fxHide.lt-md> Clear </span>

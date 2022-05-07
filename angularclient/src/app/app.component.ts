@@ -10,10 +10,10 @@ import { interval } from "rxjs";
 export class AppComponent implements OnInit {
   ngOnInit(): void {
     const period =
-      4 * // hours
-      60 * // minutes
-      1000; // miliseconds
-
+      1000 * // milliseconds per second
+      60 * // seconds per minute
+      60 * // minutes per hour
+      4;
     // Reload the tab (it sometimes freezes after >12 hours)
     const source = interval(period);
     source.subscribe(() => window.location.reload());

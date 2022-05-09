@@ -30,7 +30,7 @@ export class PlaylistsComponent extends Filterable {
     this.pagination = this.frontendSettingsService.pagination;
     this.virtualScroll = this.frontendSettingsService.virtualScroll;
   }
-  // used to build an array of papers relevant at any given time
+
   public getPaginatorData(event: PageEvent): PageEvent {
     this.paginationFrom = event.pageIndex * event.pageSize;
     this.paginationTo = this.paginationFrom + event.pageSize;

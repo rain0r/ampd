@@ -41,7 +41,6 @@ export class DirectoriesComponent extends Filterable implements OnInit {
     this.buildLetters();
   }
 
-  // used to build an array of papers relevant at any given time
   public getPaginatorData(event: PageEvent): PageEvent {
     this.paginationFrom = event.pageIndex * event.pageSize;
     this.paginationTo = this.paginationFrom + event.pageSize;

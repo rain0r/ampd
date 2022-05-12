@@ -127,7 +127,7 @@
     <td mat-cell *matCellDef="let element" [class.mobile]="isMobile | async">
       <mat-icon
         class="btn-remove-track"
-        matTooltip="Remove from queue"
+        title="Remove from queue"
         (click)="onRemoveTrack(element.position)"
         >backspace
       </mat-icon>
@@ -142,7 +142,7 @@
         class="mat-small"
         mat-button
         (click)="onPlayTrack(track)"
-        matTooltip="Play this track"
+        title="Play this track"
       >
         <mat-icon> play_arrow</mat-icon>
       </button>
@@ -157,7 +157,7 @@
         class="mat-small"
         mat-button
         (click)="onAddTrack(track)"
-        matTooltip="Add this track to the queue"
+        title="Add this track to the queue"
       >
         <mat-icon>add </mat-icon>
       </button>

@@ -19,7 +19,7 @@
         [queryParams]="{ dir: currentPathLink }"
         *ngIf="currentTrack.title; else trackFile"
         [class.text-muted]="(currentState | async) === 'pause'"
-        matTooltip="Go to the directory containing this track"
+        title="Go to the directory containing this track"
       >
         {{ currentTrack.title }}
       </a>
@@ -32,7 +32,7 @@
       <a
         class="no-deco-links text-muted"
         [routerLink]="['browse']"
-        matTooltip="Go to the directory containing this track"
+        title="Go to the directory containing this track"
         [queryParams]="{ dir: currentPathLink }"
       >
         {{ currentTrack.albumName }}
@@ -44,7 +44,7 @@
         class="no-deco-links"
         [routerLink]="['browse']"
         [queryParams]="{ dir: currentPathLink }"
-        matTooltip="Go to the directory containing this track"
+        title="Go to the directory containing this track"
         [class.text-muted]="(currentState | async) === 'pause'"
       >
         {{ currentTrack.artistName }}
@@ -64,9 +64,7 @@
           "
           [ngClass]="[coverSizeClass | async]"
           [src]="currentTrack.coverUrl"
-          [matTooltip]="
-            currentTrack.artistName + ' — ' + currentTrack.albumName
-          "
+          [title]="currentTrack.artistName + ' — ' + currentTrack.albumName"
           class="album-art clickable"
         />
       </a>

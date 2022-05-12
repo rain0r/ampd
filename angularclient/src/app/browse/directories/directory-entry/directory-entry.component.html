@@ -6,7 +6,7 @@
   class="list-item"
   [queryParams]="{ dir: pathLink }"
   [routerLink]="['/browse']"
-  [matTooltip]="'Go to directory: ' + directory.path"
+  [title]="'Go to directory: ' + directory.path"
 >
   <mat-icon>folder_open</mat-icon>
   <div fxFlex class="name">
@@ -15,7 +15,7 @@
   <button
     class="mat-small"
     mat-button
-    matTooltip="Play directory"
+    title="Play directory"
     (click)="onPlayDir($event, directory.path)"
   >
     <mat-icon> play_arrow</mat-icon>
@@ -23,7 +23,7 @@
   <button
     class="mat-small"
     mat-button
-    matTooltip="Add directory to queue"
+    title="Add directory to queue"
     (click)="onAddDir($event, directory.path)"
   >
     <mat-icon> add</mat-icon>

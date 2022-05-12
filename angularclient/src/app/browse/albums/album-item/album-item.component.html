@@ -4,7 +4,7 @@
       mat-card-image
       class="clickable"
       [ngClass]="[coverSizeClass | async]"
-      [matTooltip]="album.name"
+      [title]="album.name"
       [src]="album.albumCoverUrl"
       alt="Cover of {{ album.name }}"
     />

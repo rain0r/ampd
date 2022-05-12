@@ -5,7 +5,7 @@
   fxLayoutAlign="space-between center"
   fxLayoutGap="0.25rem"
   class="list-item"
-  matTooltip="Click to add this playlist"
+  title="Click to add this playlist"
 >
   <mat-icon>list</mat-icon>
   <div fxFlex class="dont-break-out name">
@@ -13,14 +13,14 @@
   </div>
   <div
     class="text-muted space-right"
-    [matTooltip]="playlist.count + 'tracks in this playlist'"
+    [title]="playlist.count + 'tracks in this playlist'"
   >
     {{ playlist.count }}
   </div>
   <button
     class="mat-small"
     mat-button
-    [matTooltip]="'Click to show playlist:' + playlist.name"
+    [title]="'Click to show playlist:' + playlist.name"
     (click)="onPlaylistInfo($event, playlist)"
   >
     <mat-icon>info</mat-icon>

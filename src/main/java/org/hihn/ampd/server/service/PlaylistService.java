@@ -1,7 +1,5 @@
 package org.hihn.ampd.server.service;
 
-import java.util.Collection;
-import java.util.Optional;
 import org.bff.javampd.server.MPD;
 import org.bff.javampd.server.MPDConnectionException;
 import org.bff.javampd.song.MPDSong;
@@ -11,6 +9,9 @@ import org.hihn.ampd.server.model.PlaylistInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+
+import java.util.Collection;
+import java.util.Optional;
 
 /**
  * Provides methods to manage playlists.

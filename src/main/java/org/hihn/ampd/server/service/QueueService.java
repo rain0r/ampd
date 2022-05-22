@@ -1,14 +1,16 @@
 package org.hihn.ampd.server.service;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.stream.Collectors;
+import org.bff.javampd.playlist.MPDPlaylistSong;
 import org.bff.javampd.server.MPD;
 import org.bff.javampd.song.MPDSong;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Provides methods to manage the queue.
@@ -41,7 +43,8 @@ public class QueueService {
 	 * @param tracks The path of the tracks.
 	 */
 	public void addTracks(ArrayList<String> tracks) {
-		mpd.getPlaylist().addSongs(tracks.stream().map(track -> new MPDSong(track, "")).collect(Collectors.toList()));
+		mpd.getPlaylist().addSongs(
+				tracks.stream().map(track -> MPDSong.builder().track(track).build()).collect(Collectors.toList()));
 	}
 
 	/**
@@ -49,7 +52,7 @@ public class QueueService {
 	 * @param path The path of the track.
 	 */
 	public void playTrack(String path) {
-		List<MPDSong> trackList = mpd.getPlaylist().getSongList();
+		List<MPDPlaylistSong> trackList = mpd.getPlaylist().getSongList();
 		Collection<MPDSong> mpdSongCollection = mpd.getMusicDatabase().getSongDatabase().searchFileName(path);
 		trackList.stream().filter(mpdSongCollection::contains).findFirst().ifPresentOrElse(
 				track -> mpd.getPlayer().playSong(track), () -> LOG.warn("Can't play track: not found: {}", path));
@@ -64,7 +67,7 @@ public class QueueService {
 	}
 
 	public void moveTrack(int oldPos, int newPos) {
-		MPDSong track = mpd.getPlaylist().getSongList().get(oldPos);
+		MPDPlaylistSong track = mpd.getPlaylist().getSongList().get(oldPos);
 		mpd.getPlaylist().move(track, newPos);
 	}
 

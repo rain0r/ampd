@@ -27,10 +27,10 @@ public class MpdConfiguration {
 	@Bean
 	public MPD buildMpd() {
 		if (mpdPassword.equals("")) {
-			return new MPD.Builder().server(mpdServer).port(mpdPort).build();
+			return MPD.builder().server(mpdServer).port(mpdPort).build();
 		}
 		else {
-			return new MPD.Builder().server(mpdServer).port(mpdPort).password(mpdPassword).build();
+			return MPD.builder().server(mpdServer).port(mpdPort).password(mpdPassword).build();
 		}
 	}
 

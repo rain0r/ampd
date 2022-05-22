@@ -1,6 +1,6 @@
 export interface MpdAlbum {
   name: string;
-  artistName: string;
+  albumArtist: string;
   date: string;
   genre: string;
   // Only used in frontend

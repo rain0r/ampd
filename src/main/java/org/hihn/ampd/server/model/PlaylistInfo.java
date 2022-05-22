@@ -1,7 +1,8 @@
 package org.hihn.ampd.server.model;
 
-import java.util.Collection;
 import org.bff.javampd.song.MPDSong;
+
+import java.util.Collection;
 
 /**
  * Holds information about a saved playlist.

@@ -1,6 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
-import { BehaviorSubject, combineLatest, Observable, of, Subject } from "rxjs";
+import { BehaviorSubject, combineLatest, Observable, of } from "rxjs";
 import {
   bufferTime,
   distinctUntilChanged,
@@ -23,7 +23,8 @@ export class AlbumsComponent implements OnInit {
   filter = "";
   page = new Observable<number>();
   isLoading = new BehaviorSubject(true);
-  private inputSetter$ = new Subject<string>();
+  // private inputSetter$ = new Subject<string>();
+  private inputSetter$ = new BehaviorSubject<string>("");
 
   constructor(
     private albumService: AlbumsService,
@@ -33,7 +34,7 @@ export class AlbumsComponent implements OnInit {
   ngOnInit(): void {
     this.buildPageListener();
     this.buildInputListener();
-    this.loadData();
+    // this.loadData();
   }
 
   applyFilter(eventTarget: EventTarget | null): void {
@@ -42,12 +43,18 @@ export class AlbumsComponent implements OnInit {
       this.inputSetter$.next(inputValue);
     } else {
       this.loadData();
+      this.inputSetter$.next("");
     }
+  }
+
+  resetFilter(): void {
+    this.filter = "";
+    this.inputSetter$.next("");
   }
 
   private buildInputListener() {
     const searchInput = this.inputSetter$.asObservable().pipe(
-      bufferTime(1000),
+      bufferTime(1500),
       distinctUntilChanged(),
       filter((times: string[]) => times.length > 0),
       map((input: string[]) => input[input.length - 1])
@@ -58,6 +65,7 @@ export class AlbumsComponent implements OnInit {
         switchMap(([page, searchInput]) => {
           this.albums = new Observable<MpdAlbum[]>();
           this.isLoading.next(true);
+          console.log(`Page: ${page}, searchInput: ${searchInput}`);
           return this.albumService.getAlbums(page, searchInput);
         }),
         tap((albums) => (this.albums = of(albums)))
@@ -65,11 +73,12 @@ export class AlbumsComponent implements OnInit {
       .subscribe(() => this.isLoading.next(false));
   }
 
-  private loadData() {
+  private loadData(searchTerm = "") {
     this.page.subscribe((page) => {
       this.isLoading.next(true);
+      console.log(`loadData() page: ${page}`);
       this.albums = this.albumService
-        .getAlbums(page)
+        .getAlbums(page, searchTerm)
         .pipe(tap(() => this.isLoading.next(false)));
     });
   }

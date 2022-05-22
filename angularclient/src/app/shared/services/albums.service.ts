@@ -23,14 +23,15 @@ export class AlbumsService {
    * @param page
    * @returns
    */
-  getAlbums(page: number, searchTerm = ""): Observable<MpdAlbum[]> {
+  getAlbums(page = 1, searchTerm = ""): Observable<MpdAlbum[]> {
+    // console.log(new Date(), `getAlbums: "${searchTerm}"`)
     const url = `${this.settingsService.getBackendContextAddr()}api/albums/?page=${page}&searchTerm=${searchTerm}`;
     return this.http.get<MpdAlbum[]>(url).pipe(
       map((albums) => {
         return albums.map((album) => {
           album.albumCoverUrl = `${this.settingsService.getBackendContextAddr()}api/find-album-cover?albumName=${this.encoder.encodeKey(
             album.name
-          )}&artistName=${this.encoder.encodeKey(album.artistName)}`;
+          )}&artistName=${this.encoder.encodeKey(album.albumArtist)}`;
           return album;
         });
       })

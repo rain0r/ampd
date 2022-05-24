@@ -1,14 +1,25 @@
+<ng-template #loading>
+  <div fxLayout="row" fxLayoutAlign="space-around">
+    <mat-spinner></mat-spinner>
+  </div>
+</ng-template>
+
 <div *ngIf="playlistInfo | async as info; else loading" fxLayout="column">
-  <div
-    mat-dialog-title
-    fxLayout="row wrap"
-    fxLayoutAlign="space-between baseline"
-  >
-    <span class="text-muted" fxFlex.lt-md="100%">Playlist</span>
-    <strong fxFlex.lt-md="100%">{{ info.name }}</strong>
-    <span class="text-muted" fxFlex.lt-md="100%"
-      >{{ info.trackCount }} tracks</span
+  <div fxLayout="row wrap">
+    <div
+      mat-dialog-title
+      fxLayout="row wrap"
+      fxLayoutAlign="space-between baseline"
     >
+      <span class="text-muted" fxFlex.lt-md="100%">Playlist</span>
+      <strong fxFlex.lt-md="100%">{{ info.name }}</strong>
+      <span class="text-muted" fxFlex.lt-md="100%"
+        >{{ info.trackCount }} tracks</span
+      >
+    </div>
+    <div fxFlex="50%" fxLayoutAlign="end start" fxHide fxShow.lt-md="true">
+      <button mat-stroked-button matDialogClose>Close</button>
+    </div>
   </div>
 
   <mat-dialog-content>
@@ -25,9 +36,3 @@
     <button mat-stroked-button matDialogClose>Close</button>
   </mat-dialog-actions>
 </div>
-
-<ng-template #loading>
-  <div fxLayout="row" fxLayoutAlign="space-around">
-    <mat-spinner></mat-spinner>
-  </div>
-</ng-template>

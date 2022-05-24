@@ -11,7 +11,7 @@ import { distinctUntilChanged, map } from "rxjs/operators";
 import { LIGHTBOX_SETTINGS } from "src/app/shared/lightbox";
 import { QueueTrack } from "../../shared/models/queue-track";
 import { MpdService } from "../../shared/services/mpd.service";
-import { ResponsiveCoverSizeService } from "../../shared/services/responsive-cover-size.service";
+import { ResponsiveScreenService } from "../../shared/services/responsive-screen.service";
 import { SettingsService } from "../../shared/services/settings.service";
 import { ClickActions } from "../../shared/track-table/click-actions.enum";
 import { TrackTableData } from "../../shared/track-table/track-table-data";
@@ -35,7 +35,7 @@ export class TracksComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private breakpointObserver: BreakpointObserver,
     private mpdService: MpdService,
-    responsiveCoverSizeService: ResponsiveCoverSizeService,
+    responsiveCoverSizeService: ResponsiveScreenService,
     private settingsService: SettingsService
   ) {
     this.coverSizeClass = responsiveCoverSizeService.getCoverCssClass();

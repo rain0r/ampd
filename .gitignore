@@ -268,3 +268,4 @@ buildNumber.properties
 src/main/resources/application-dev.properties
 src/main/resources/static/
 angularclient/.angular/
+ampd.log*

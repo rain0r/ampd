@@ -10,7 +10,7 @@ import { BehaviorSubject, Observable } from "rxjs";
 import { map } from "rxjs/operators";
 import { MpdAlbum } from "src/app/shared/models/http/album";
 import { FrontendSettingsService } from "src/app/shared/services/frontend-settings.service";
-import { ResponsiveCoverSizeService } from "src/app/shared/services/responsive-cover-size.service";
+import { ResponsiveScreenService } from "src/app/shared/services/responsive-screen.service";
 import { AlbumModalComponent } from "../album-modal/album-modal.component";
 
 @Component({
@@ -27,7 +27,7 @@ export class AlbumItemComponent implements OnInit {
   constructor(
     private breakpointObserver: BreakpointObserver,
     private dialog: MatDialog,
-    private responsiveCoverSizeService: ResponsiveCoverSizeService,
+    private responsiveCoverSizeService: ResponsiveScreenService,
     private http: HttpClient,
     private frontendSettingsService: FrontendSettingsService
   ) {

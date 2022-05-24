@@ -12,7 +12,7 @@ import { MpdAlbum } from "src/app/shared/models/http/album";
 import { QueueTrack } from "src/app/shared/models/queue-track";
 import { AlbumsService } from "src/app/shared/services/albums.service";
 import { QueueService } from "src/app/shared/services/queue.service";
-import { ResponsiveCoverSizeService } from "src/app/shared/services/responsive-cover-size.service";
+import { ResponsiveScreenService } from "src/app/shared/services/responsive-screen.service";
 import { ClickActions } from "src/app/shared/track-table/click-actions.enum";
 import { TrackTableData } from "src/app/shared/track-table/track-table-data";
 
@@ -30,7 +30,7 @@ export class AlbumModalComponent implements OnInit {
   constructor(
     @Inject(MAT_DIALOG_DATA) public album: MpdAlbum,
     private albumService: AlbumsService,
-    private responsiveCoverSizeService: ResponsiveCoverSizeService,
+    private responsiveCoverSizeService: ResponsiveScreenService,
     private queueService: QueueService,
     private breakpointObserver: BreakpointObserver
   ) {

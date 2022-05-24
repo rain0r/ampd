@@ -15,7 +15,7 @@ import { QueueTrack } from "../../shared/models/queue-track";
 import { FrontendSettingsService } from "../../shared/services/frontend-settings.service";
 import { MessageService } from "../../shared/services/message.service";
 import { MpdService } from "../../shared/services/mpd.service";
-import { ResponsiveCoverSizeService } from "../../shared/services/responsive-cover-size.service";
+import { ResponsiveScreenService } from "../../shared/services/responsive-screen.service";
 
 @Component({
   selector: "app-queue-header",
@@ -25,7 +25,6 @@ import { ResponsiveCoverSizeService } from "../../shared/services/responsive-cov
 export class QueueHeaderComponent implements AfterViewChecked {
   coverSizeClass: Observable<string>;
   currentState: Observable<string>;
-  // currentTrackObsv = new Observable<QueueTrack>();
   currentTrack = <QueueTrack>{};
   currentPathLink = ""; // encoded dir of the current playing track
   isDisplayCover: Observable<boolean>;
@@ -38,7 +37,7 @@ export class QueueHeaderComponent implements AfterViewChecked {
   constructor(
     private frontendSettingsService: FrontendSettingsService,
     private http: HttpClient,
-    private responsiveCoverSizeService: ResponsiveCoverSizeService,
+    private responsiveCoverSizeService: ResponsiveScreenService,
     private mpdService: MpdService,
     private messageService: MessageService,
     private breakpointObserver: BreakpointObserver

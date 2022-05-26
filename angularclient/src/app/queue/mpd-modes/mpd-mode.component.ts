@@ -16,8 +16,6 @@ export class MpdModeComponent {
     private mpdModeService: MpdModeService,
     private mpdService: MpdService
   ) {
-    // this.mpdModesPanel = mpdService.initEmptyControlPanel();
-    // this.buildSubscriptions();
     this.mpdModesPanel = this.mpdService.mpdModesPanel;
   }
 

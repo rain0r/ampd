@@ -10,7 +10,6 @@ import {
 } from "rxjs/operators";
 import { StateMsgPayload } from "../messages/incoming/state-msg-payload";
 import { VolumeSetter } from "../models/volume-setter";
-import { ControlPanelService } from "./control-panel.service";
 
 @Injectable({
   providedIn: "root",
@@ -22,10 +21,7 @@ export class VolumeService {
   private volume$ = new BehaviorSubject<number>(0);
   private volumeSetter$ = new Subject<VolumeSetter>();
 
-  constructor(
-    private controlPanelService: ControlPanelService,
-    private rxStompService: RxStompService
-  ) {
+  constructor(private rxStompService: RxStompService) {
     this.volume = this.volume$.asObservable();
     this.volumeSetter = this.volumeSetter$.asObservable();
     this.buildStateSubscription();

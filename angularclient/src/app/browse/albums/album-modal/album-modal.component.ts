@@ -1,13 +1,7 @@
-import {
-  BreakpointObserver,
-  Breakpoints,
-  BreakpointState,
-} from "@angular/cdk/layout";
 import { Component, Inject, OnInit } from "@angular/core";
 import { MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { MatTableDataSource } from "@angular/material/table";
 import { Observable } from "rxjs";
-import { map } from "rxjs/operators";
 import { MpdAlbum } from "src/app/shared/models/http/album";
 import { QueueTrack } from "src/app/shared/models/queue-track";
 import { AlbumsService } from "src/app/shared/services/albums.service";
@@ -25,22 +19,20 @@ export class AlbumModalComponent implements OnInit {
   tracks: Observable<QueueTrack[]> | null = null;
   trackTableData = new TrackTableData();
   coverSizeClass: Observable<string>;
-  isMobile = false;
+  private isMobile = false;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public album: MpdAlbum,
     private albumService: AlbumsService,
-    private responsiveCoverSizeService: ResponsiveScreenService,
     private queueService: QueueService,
-    private breakpointObserver: BreakpointObserver
+    private responsiveScreenService: ResponsiveScreenService
   ) {
-    this.coverSizeClass = this.responsiveCoverSizeService.getCoverCssClass();
+    this.coverSizeClass = this.responsiveScreenService.getCoverCssClass();
   }
 
   ngOnInit(): void {
-    this.breakpointObserver
-      .observe([Breakpoints.Small, Breakpoints.HandsetPortrait])
-      .pipe(map((state: BreakpointState) => state.matches))
+    this.responsiveScreenService
+      .isMobile()
       .subscribe((isMobile) => (this.isMobile = isMobile));
     this.tracks = this.albumService.getAlbum(
       this.album.name,
@@ -70,6 +62,7 @@ export class AlbumModalComponent implements OnInit {
     trackTable.playTitleColumn = true;
     return trackTable;
   }
+
   private getDisplayedColumns(): string[] {
     const displayedColumns = [
       { name: "position", showMobile: false },
@@ -80,6 +73,7 @@ export class AlbumModalComponent implements OnInit {
       { name: "playTitle", showMobile: false },
       { name: "addTitle", showMobile: false },
     ];
+
     return displayedColumns
       .filter((cd) => !this.isMobile || cd.showMobile)
       .map((cd) => cd.name);

@@ -8,13 +8,31 @@ import {
   KEY_VIRTUAL_SCROLL,
 } from "../local-storage-keys";
 import { DarkTheme, LightTheme } from "../themes/themes";
-import {
-  DEFAULT_DARK_THEME,
-  DEFAULT_DISPLAY_COVERS,
-  DEFAULT_PAGINATION,
-  DEFAULT_TAB_TITLE,
-  DEFAULT_VIRTUAL_SCROLL,
-} from "../frontend-defaults";
+
+/**
+ * Dark theme.
+ */
+export const DEFAULT_DARK_THEME = true;
+
+/**
+ * Display cover on the queue.
+ */
+export const DEFAULT_DISPLAY_COVERS = true;
+
+/**
+ * Set the current track as tab title.
+ */
+export const DEFAULT_TAB_TITLE = false;
+
+/**
+ * Virtual scrolling in browse.
+ */
+export const DEFAULT_VIRTUAL_SCROLL = false;
+
+/**
+ * Pagination in browse.
+ */
+export const DEFAULT_PAGINATION = true;
 
 @Injectable({
   providedIn: "root",

@@ -1,51 +1,44 @@
-import {
-  Component,
-  ElementRef,
-  HostListener,
-  OnInit,
-  ViewChild,
-} from "@angular/core";
-import { MatTableDataSource } from "@angular/material/table";
-import { QueueTrack } from "../../shared/models/queue-track";
-import { MpdService } from "../../shared/services/mpd.service";
+import { Component, ElementRef, HostListener, ViewChild } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
-import { SavePlaylistModalComponent } from "../save-playlist-modal/save-playlist-modal.component";
-import { TrackTableData } from "../../shared/track-table/track-table-data";
-import { ClickActions } from "../../shared/track-table/click-actions.enum";
-import {
-  BreakpointObserver,
-  Breakpoints,
-  BreakpointState,
-} from "@angular/cdk/layout";
-import { distinctUntilChanged, map } from "rxjs/operators";
+import { MatTableDataSource } from "@angular/material/table";
+import { distinctUntilChanged } from "rxjs/operators";
+import { ResponsiveScreenService } from "src/app/shared/services/responsive-screen.service";
 import { Track } from "../../shared/messages/incoming/track";
-import { AddStreamModalComponent } from "../add-stream-modal/add-stream-modal.component";
-import { QueueService } from "../../shared/services/queue.service";
+import { QueueTrack } from "../../shared/models/queue-track";
 import { FrontendSettingsService } from "../../shared/services/frontend-settings.service";
+import { MpdService } from "../../shared/services/mpd.service";
+import { QueueService } from "../../shared/services/queue.service";
+import { ClickActions } from "../../shared/track-table/click-actions.enum";
+import { TrackTableData } from "../../shared/track-table/track-table-data";
+import { AddStreamModalComponent } from "../add-stream-modal/add-stream-modal.component";
+import { SavePlaylistModalComponent } from "../save-playlist-modal/save-playlist-modal.component";
 
 @Component({
   selector: "app-track-table",
   templateUrl: "./track-table.component.html",
   styleUrls: ["./track-table.component.scss"],
 })
-export class TrackTableComponent implements OnInit {
+export class TrackTableComponent {
   @ViewChild("filterInputElem") filterInputElem?: ElementRef;
 
   currentTrack: QueueTrack = new QueueTrack();
   currentState = "stop";
   dataSource = new MatTableDataSource<QueueTrack>();
-  isMobile = false;
   trackTableData = new TrackTableData();
   queueDuration = 0;
+  private isMobile = false;
 
   constructor(
-    private breakpointObserver: BreakpointObserver,
     private dialog: MatDialog,
     private frontendSettingsService: FrontendSettingsService,
     private mpdService: MpdService,
+    private responsiveScreenService: ResponsiveScreenService,
     private queueService: QueueService
   ) {
     this.buildReceiver();
+    this.responsiveScreenService
+      .isMobile()
+      .subscribe((isMobile) => (this.isMobile = isMobile));
   }
 
   @HostListener("document:keydown.f", ["$event"])
@@ -57,13 +50,6 @@ export class TrackTableComponent implements OnInit {
     if (this.filterInputElem) {
       (this.filterInputElem.nativeElement as HTMLElement).focus();
     }
-  }
-
-  ngOnInit(): void {
-    this.breakpointObserver
-      .observe([Breakpoints.Small, Breakpoints.HandsetPortrait])
-      .pipe(map((state: BreakpointState) => state.matches))
-      .subscribe((isMobile) => (this.isMobile = isMobile));
   }
 
   openSavePlaylistModal(): void {

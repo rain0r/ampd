@@ -1,14 +1,8 @@
-import {
-  BreakpointObserver,
-  Breakpoints,
-  BreakpointState,
-} from "@angular/cdk/layout";
 import { Component, HostListener } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
 import { Router } from "@angular/router";
 import { RxStompService } from "@stomp/ng2-stompjs";
 import { BehaviorSubject, Observable } from "rxjs";
-import { map } from "rxjs/operators";
 import { AddStreamModalComponent } from "../queue/add-stream-modal/add-stream-modal.component";
 import { SearchComponent } from "../search/search.component";
 import { ControlPanelService } from "../shared/services/control-panel.service";
@@ -17,6 +11,7 @@ import { MpdModeService } from "../shared/services/mpd-mode.service";
 import { MpdService } from "../shared/services/mpd.service";
 import { NotificationService } from "../shared/services/notification.service";
 import { QueueService } from "../shared/services/queue.service";
+import { ResponsiveScreenService } from "../shared/services/responsive-screen.service";
 import { VolumeService } from "../shared/services/volume.service";
 import { HelpModalComponent } from "./help-modal/help-modal.component";
 
@@ -28,13 +23,12 @@ import { HelpModalComponent } from "./help-modal/help-modal.component";
 export class NavbarComponent {
   isDarkTheme: Observable<boolean>;
   connState: Observable<number>;
-  private isMobile = false;
+  private isMobile = new Observable<boolean>();
   private currentState = "stop";
   private helpModalOpen = new BehaviorSubject(false);
   private searchModalOpen = new BehaviorSubject(false);
 
   constructor(
-    private breakpointObserver: BreakpointObserver,
     private controlPanelService: ControlPanelService,
     private dialog: MatDialog,
     private frontendSettingsService: FrontendSettingsService,
@@ -42,6 +36,7 @@ export class NavbarComponent {
     private mpdService: MpdService,
     private notificationService: NotificationService,
     private queueService: QueueService,
+    private responsiveScreenService: ResponsiveScreenService,
     private router: Router,
     private rxStompService: RxStompService,
     private volumeService: VolumeService
@@ -51,10 +46,7 @@ export class NavbarComponent {
     this.mpdService.currentState.subscribe(
       (state) => (this.currentState = state)
     );
-    this.breakpointObserver
-      .observe([Breakpoints.Small, Breakpoints.HandsetPortrait])
-      .pipe(map((state: BreakpointState) => state.matches))
-      .subscribe((isMobile) => (this.isMobile = isMobile));
+    this.isMobile = this.responsiveScreenService.isMobile();
   }
 
   @HostListener("document:keydown", ["$event"])
@@ -156,27 +148,29 @@ export class NavbarComponent {
   }
 
   openSearchModal(): void {
-    if (this.isMobile) {
-      void this.router.navigate(["search"]);
-    } else {
-      if (!this.searchModalOpen.value) {
-        this.searchModalOpen.next(true);
-        const dialogRef = this.dialog.open(SearchComponent, {
-          autoFocus: true,
-          panelClass: this.frontendSettingsService.darkTheme$.value
-            ? "dark-theme"
-            : "",
-          maxWidth: "100vw",
-          maxHeight: "100vh",
-          height: "100%",
-          width: "100%",
-        });
-        dialogRef
-          .afterClosed()
-          .subscribe(() => this.searchModalOpen.next(false));
-        dialogRef.updateSize("90%", "75%");
+    this.isMobile.subscribe((isMobile) => {
+      if (isMobile) {
+        void this.router.navigate(["search"]);
+      } else {
+        if (!this.searchModalOpen.value) {
+          this.searchModalOpen.next(true);
+          const dialogRef = this.dialog.open(SearchComponent, {
+            autoFocus: true,
+            panelClass: this.frontendSettingsService.darkTheme$.value
+              ? "dark-theme"
+              : "",
+            maxWidth: "100vw",
+            maxHeight: "100vh",
+            height: "100%",
+            width: "100%",
+          });
+          dialogRef
+            .afterClosed()
+            .subscribe(() => this.searchModalOpen.next(false));
+          dialogRef.updateSize("90%", "75%");
+        }
       }
-    }
+    });
   }
 
   openHelpModal(): void {

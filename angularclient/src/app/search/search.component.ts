@@ -1,17 +1,8 @@
-import {
-  BreakpointObserver,
-  Breakpoints,
-  BreakpointState,
-} from "@angular/cdk/layout";
-import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
+import { Component, ElementRef, ViewChild } from "@angular/core";
 import { MatTableDataSource } from "@angular/material/table";
 import { of, Subject } from "rxjs";
-import {
-  debounceTime,
-  distinctUntilChanged,
-  map,
-  switchMap,
-} from "rxjs/operators";
+import { debounceTime, distinctUntilChanged, switchMap } from "rxjs/operators";
+import { ResponsiveScreenService } from "src/app/shared/services/responsive-screen.service";
 import { SearchResponse } from "../shared/messages/incoming/search-response";
 import { Track } from "../shared/messages/incoming/track";
 import { QueueTrack } from "../shared/models/queue-track";
@@ -26,7 +17,7 @@ import { TrackTableData } from "../shared/track-table/track-table-data";
   templateUrl: "./search.component.html",
   styleUrls: ["./search.component.scss"],
 })
-export class SearchComponent implements OnInit {
+export class SearchComponent {
   @ViewChild("searchInput", { static: false })
   set input(element: ElementRef<HTMLInputElement>) {
     if (element && !this.isMobile) {
@@ -42,19 +33,15 @@ export class SearchComponent implements OnInit {
   private inputSetter$ = new Subject<string>();
 
   constructor(
-    private breakpointObserver: BreakpointObserver,
     private notificationService: NotificationService,
+    private responsiveScreenService: ResponsiveScreenService,
     private queueService: QueueService,
     private searchService: SearchService
   ) {
     this.buildMsgReceiver();
     this.buildInputListener();
-  }
-
-  ngOnInit(): void {
-    this.breakpointObserver
-      .observe([Breakpoints.Small, Breakpoints.HandsetPortrait])
-      .pipe(map((state: BreakpointState) => state.matches))
+    this.responsiveScreenService
+      .isMobile()
       .subscribe((isMobile) => (this.isMobile = isMobile));
   }
 

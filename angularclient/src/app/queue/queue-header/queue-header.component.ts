@@ -1,14 +1,9 @@
-import {
-  BreakpointObserver,
-  Breakpoints,
-  BreakpointState,
-} from "@angular/cdk/layout";
 import { HttpClient } from "@angular/common/http";
 import { AfterViewChecked, Component } from "@angular/core";
 import { InitDetail } from "lightgallery/lg-events";
 import { LightGallery } from "lightgallery/lightgallery";
 import { BehaviorSubject, combineLatest, Observable } from "rxjs";
-import { distinctUntilChanged, filter, map } from "rxjs/operators";
+import { distinctUntilChanged, filter } from "rxjs/operators";
 import { LIGHTBOX_SETTINGS } from "src/app/shared/lightbox";
 import { InternalMessageType } from "../../shared/messages/internal/internal-message-type.enum";
 import { QueueTrack } from "../../shared/models/queue-track";
@@ -28,7 +23,6 @@ export class QueueHeaderComponent implements AfterViewChecked {
   currentTrack = <QueueTrack>{};
   currentPathLink = ""; // encoded dir of the current playing track
   isDisplayCover: Observable<boolean>;
-  isMobile = false;
   lightboxSettings = LIGHTBOX_SETTINGS;
 
   private displayCover$ = new BehaviorSubject<boolean>(false);
@@ -37,21 +31,15 @@ export class QueueHeaderComponent implements AfterViewChecked {
   constructor(
     private frontendSettingsService: FrontendSettingsService,
     private http: HttpClient,
-    private responsiveCoverSizeService: ResponsiveScreenService,
     private mpdService: MpdService,
     private messageService: MessageService,
-    private breakpointObserver: BreakpointObserver
+    private responsiveCoverSizeService: ResponsiveScreenService
   ) {
     this.isDisplayCover = this.displayCover$.asObservable();
     this.coverSizeClass = this.responsiveCoverSizeService.getCoverCssClass();
     this.currentState = this.mpdService.currentState;
     this.buildMessageReceiver();
     this.buildTrackSubscription();
-
-    this.breakpointObserver
-      .observe([Breakpoints.Small, Breakpoints.HandsetPortrait])
-      .pipe(map((state: BreakpointState) => state.matches))
-      .subscribe((isMobile) => (this.isMobile = isMobile));
   }
 
   ngAfterViewChecked(): void {

@@ -1,6 +1,5 @@
 import { Component, Inject } from "@angular/core";
-import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
-import { NotificationService } from "../../shared/services/notification.service";
+import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { QueueService } from "../../shared/services/queue.service";
 
 @Component({
@@ -11,7 +10,6 @@ import { QueueService } from "../../shared/services/queue.service";
 export class AddStreamModalComponent {
   constructor(
     public dialogRef: MatDialogRef<AddStreamModalComponent>,
-    private notificationService: NotificationService,
     private queueService: QueueService,
     @Inject(MAT_DIALOG_DATA) public streamUrl: string
   ) {}

@@ -1,8 +1,3 @@
-import {
-  BreakpointObserver,
-  Breakpoints,
-  BreakpointState,
-} from "@angular/cdk/layout";
 import { Component, Input, OnInit } from "@angular/core";
 import { MatTableDataSource } from "@angular/material/table";
 import { ActivatedRoute } from "@angular/router";
@@ -11,7 +6,7 @@ import { distinctUntilChanged, map } from "rxjs/operators";
 import { LIGHTBOX_SETTINGS } from "src/app/shared/lightbox";
 import { QueueTrack } from "../../shared/models/queue-track";
 import { MpdService } from "../../shared/services/mpd.service";
-import { ResponsiveCoverSizeService } from "../../shared/services/responsive-cover-size.service";
+import { ResponsiveScreenService } from "../../shared/services/responsive-screen.service";
 import { SettingsService } from "../../shared/services/settings.service";
 import { ClickActions } from "../../shared/track-table/click-actions.enum";
 import { TrackTableData } from "../../shared/track-table/track-table-data";
@@ -25,20 +20,22 @@ export class TracksComponent implements OnInit {
   @Input() tracks: QueueTrack[] = [];
   coverSizeClass: Observable<string>;
   dirQp = "/";
-  isMobile = false;
   queueDuration = 0;
   lightboxSettings = LIGHTBOX_SETTINGS;
   trackTableData = new TrackTableData();
   validCoverUrl = false;
+  private isMobile = false;
 
   constructor(
     private activatedRoute: ActivatedRoute,
-    private breakpointObserver: BreakpointObserver,
     private mpdService: MpdService,
-    responsiveCoverSizeService: ResponsiveCoverSizeService,
+    private responsiveScreenService: ResponsiveScreenService,
     private settingsService: SettingsService
   ) {
-    this.coverSizeClass = responsiveCoverSizeService.getCoverCssClass();
+    this.coverSizeClass = this.responsiveScreenService.getCoverCssClass();
+    this.responsiveScreenService
+      .isMobile()
+      .subscribe((isMobile) => (this.isMobile = isMobile));
     this.activatedRoute.queryParamMap
       .pipe(
         map((qp) => <string>qp.get("dir") || "/"),
@@ -48,10 +45,6 @@ export class TracksComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.breakpointObserver
-      .observe([Breakpoints.Small, Breakpoints.HandsetPortrait])
-      .pipe(map((state: BreakpointState) => state.matches))
-      .subscribe((isMobile) => (this.isMobile = isMobile));
     this.trackTableData = this.buildTableData();
     this.queueDuration = this.sumTrackDuration();
   }

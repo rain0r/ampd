@@ -1,3 +1,4 @@
+import { CdkDragDrop } from "@angular/cdk/drag-drop";
 import {
   ChangeDetectorRef,
   Component,
@@ -7,21 +8,15 @@ import {
   SimpleChanges,
   ViewChild,
 } from "@angular/core";
-import { MatSort } from "@angular/material/sort";
-import { TrackTableData } from "./track-table-data";
-import { NotificationService } from "../services/notification.service";
 import { MatPaginator, MatPaginatorIntl } from "@angular/material/paginator";
-import { ClickActions } from "./click-actions.enum";
-import { QueueTrack } from "../models/queue-track";
+import { MatSort } from "@angular/material/sort";
 import { Observable } from "rxjs";
-import {
-  BreakpointObserver,
-  Breakpoints,
-  BreakpointState,
-} from "@angular/cdk/layout";
-import { map } from "rxjs/operators";
+import { QueueTrack } from "../models/queue-track";
+import { NotificationService } from "../services/notification.service";
 import { QueueService } from "../services/queue.service";
-import { CdkDragDrop } from "@angular/cdk/drag-drop";
+import { ResponsiveScreenService } from "../services/responsive-screen.service";
+import { ClickActions } from "./click-actions.enum";
+import { TrackTableData } from "./track-table-data";
 
 @Component({
   selector: "app-track-data-table",
@@ -40,15 +35,13 @@ export class TrackTableDataComponent implements OnInit, OnChanges {
   isMobile = new Observable<boolean>();
 
   constructor(
-    private breakpointObserver: BreakpointObserver,
     private notificationService: NotificationService,
-    private queueService: QueueService
+    private queueService: QueueService,
+    private responsiveScreenService: ResponsiveScreenService
   ) {}
 
   ngOnInit(): void {
-    this.isMobile = this.breakpointObserver
-      .observe([Breakpoints.Small, Breakpoints.HandsetPortrait])
-      .pipe(map((state: BreakpointState) => state.matches));
+    this.isMobile = this.responsiveScreenService.isMobile();
   }
 
   ngOnChanges(changes: SimpleChanges): void {

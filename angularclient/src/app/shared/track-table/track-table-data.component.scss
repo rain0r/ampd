@@ -4,12 +4,12 @@
   width: 28% !important;
   overflow-wrap: break-word;
   word-break: break-word;
-  -ms-hyphens: auto;
-  -moz-hyphens: auto;
-  -webkit-hyphens: auto;
-  hyphens: auto;
+  // -ms-hyphens: auto;
+  // -moz-hyphens: auto;
+  // -webkit-hyphens: auto;
+  // hyphens: auto;
   /* top | right | bottom | left */
-  padding: 0.25rem 0.25rem 0.25rem 0;
+  // padding: 0.25rem 0.25rem 0.25rem 0;
 }
 
 .mat-column-action {
@@ -33,9 +33,16 @@
 }
 
 .mobile {
-  font-size: smaller;
-  padding-right: 0 !important;
-  padding-left: 0 !important;
+  // font-size: smaller;
+  /* top | right | bottom | left */
+  padding-right: 0 0 0 2px !important;
+  // color: blue;
+  // padding: 0 !important;
+}
+
+.mobile-title {
+  text-align: right;
+  padding-right: 1rem !important;
 }
 
 .mat-column-playTitle,
@@ -52,21 +59,10 @@ table td * {
   vertical-align: center;
 }
 
-.ellipsis {
-  font-size: smaller;
-  position: relative;
+.mobile-40 {
+  width: 40%;
 }
 
-.ellipsis:before {
-  content: "&nbsp;";
-  visibility: hidden;
-}
-
-.ellipsis span {
-  position: absolute;
-  left: 0;
-  right: 0;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+.mobile-min {
+  width: 5%;
 }

@@ -1,16 +1,10 @@
-import {
-  BreakpointObserver,
-  Breakpoints,
-  BreakpointState,
-} from "@angular/cdk/layout";
 import { HttpClient } from "@angular/common/http";
 import { Component, Input, OnInit } from "@angular/core";
 import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
 import { BehaviorSubject, Observable } from "rxjs";
-import { map } from "rxjs/operators";
 import { MpdAlbum } from "src/app/shared/models/http/album";
 import { FrontendSettingsService } from "src/app/shared/services/frontend-settings.service";
-import { ResponsiveCoverSizeService } from "src/app/shared/services/responsive-cover-size.service";
+import { ResponsiveScreenService } from "src/app/shared/services/responsive-screen.service";
 import { AlbumModalComponent } from "../album-modal/album-modal.component";
 
 @Component({
@@ -21,24 +15,20 @@ import { AlbumModalComponent } from "../album-modal/album-modal.component";
 export class AlbumItemComponent implements OnInit {
   @Input() album: MpdAlbum | null = null;
   coverSizeClass: Observable<string>;
-  isMobile = false;
+  private isMobile = new Observable<boolean>();
   private albumModalOpen = new BehaviorSubject(false);
 
   constructor(
-    private breakpointObserver: BreakpointObserver,
     private dialog: MatDialog,
-    private responsiveCoverSizeService: ResponsiveCoverSizeService,
+    private frontendSettingsService: FrontendSettingsService,
     private http: HttpClient,
-    private frontendSettingsService: FrontendSettingsService
+    private responsiveScreenService: ResponsiveScreenService
   ) {
-    this.coverSizeClass = this.responsiveCoverSizeService.getCoverCssClass();
+    this.coverSizeClass = this.responsiveScreenService.getCoverCssClass();
+    this.isMobile = this.responsiveScreenService.isMobile();
   }
 
   ngOnInit(): void {
-    this.breakpointObserver
-      .observe([Breakpoints.Small, Breakpoints.HandsetPortrait])
-      .pipe(map((state: BreakpointState) => state.matches))
-      .subscribe((isMobile) => (this.isMobile = isMobile));
     this.updateCover();
   }
 

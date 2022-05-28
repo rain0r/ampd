@@ -13,7 +13,7 @@
     "ng": "ng",
     "start": "ng serve",
     "test": "ng test",
-    "upaudit": "npm update && npm audit fix --registry=https://registry.npmjs.org/"
+    "upaudit": "npm update --registry=https://registry.npmjs.org/ && npm audit fix --registry=https://registry.npmjs.org/"
   },
   "dependencies": {
     "@angular/animations": "~13.3.10",

@@ -1,53 +1,44 @@
-import { AfterViewInit, Component, Inject, OnInit } from "@angular/core";
-import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
-import { Playlist } from "../../../shared/messages/incoming/playlist-impl";
-import { NotificationService } from "../../../shared/services/notification.service";
-import { ActivatedRoute, Router } from "@angular/router";
-import { PlaylistInfo } from "../../../shared/models/playlist-info";
-import { Observable, Subject } from "rxjs";
-import { TrackTableData } from "../../../shared/track-table/track-table-data";
-import { Track } from "../../../shared/messages/incoming/track";
-import { QueueTrack } from "../../../shared/models/queue-track";
+import { AfterViewInit, Component, Inject } from "@angular/core";
+import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { MatTableDataSource } from "@angular/material/table";
+import { ActivatedRoute, Router } from "@angular/router";
+import { Observable, Subject } from "rxjs";
+import { ResponsiveScreenService } from "src/app/shared/services/responsive-screen.service";
 import { ErrorMsg } from "../../../shared/error/error-msg";
-import {
-  BreakpointObserver,
-  Breakpoints,
-  BreakpointState,
-} from "@angular/cdk/layout";
-import { map } from "rxjs/operators";
-import { QueueService } from "../../../shared/services/queue.service";
+import { Playlist } from "../../../shared/messages/incoming/playlist-impl";
+import { Track } from "../../../shared/messages/incoming/track";
+import { PlaylistInfo } from "../../../shared/models/playlist-info";
+import { QueueTrack } from "../../../shared/models/queue-track";
+import { NotificationService } from "../../../shared/services/notification.service";
 import { PlaylistService } from "../../../shared/services/playlist.service";
+import { QueueService } from "../../../shared/services/queue.service";
 import { ClickActions } from "../../../shared/track-table/click-actions.enum";
+import { TrackTableData } from "../../../shared/track-table/track-table-data";
 
 @Component({
   selector: "app-playlist-info-modal",
   templateUrl: "./playlist-info-modal.component.html",
   styleUrls: ["./playlist-info-modal.component.scss"],
 })
-export class PlaylistInfoModalComponent implements OnInit, AfterViewInit {
-  isMobile = false;
+export class PlaylistInfoModalComponent implements AfterViewInit {
   playlistInfo: Observable<PlaylistInfo>;
   trackTableData = new TrackTableData();
   private playlistInfo$ = new Subject<PlaylistInfo>();
+  private isMobile = false;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: Playlist,
+    public dialogRef: MatDialogRef<PlaylistInfoModalComponent>,
     private activatedRoute: ActivatedRoute,
-    private breakpointObserver: BreakpointObserver,
     private notificationService: NotificationService,
     private playlistService: PlaylistService,
-    private queueService: QueueService,
     private router: Router,
-    public dialogRef: MatDialogRef<PlaylistInfoModalComponent>
+    private responsiveScreenService: ResponsiveScreenService,
+    private queueService: QueueService
   ) {
     this.playlistInfo = this.playlistInfo$.asObservable();
-  }
-
-  ngOnInit(): void {
-    this.breakpointObserver
-      .observe([Breakpoints.Small, Breakpoints.HandsetPortrait])
-      .pipe(map((state: BreakpointState) => state.matches))
+    this.responsiveScreenService
+      .isMobile()
       .subscribe((isMobile) => (this.isMobile = isMobile));
   }
 

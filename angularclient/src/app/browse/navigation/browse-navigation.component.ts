@@ -14,7 +14,6 @@ import { FilterMessage } from "../../shared/messages/internal/message-types/filt
 import { AmpdBrowsePayload } from "../../shared/models/ampd-browse-payload";
 import { ControlPanelService } from "../../shared/services/control-panel.service";
 import { MessageService } from "../../shared/services/message.service";
-import { MpdService } from "../../shared/services/mpd.service";
 import { NotificationService } from "../../shared/services/notification.service";
 import { QueueService } from "../../shared/services/queue.service";
 
@@ -37,7 +36,6 @@ export class BrowseNavigationComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private controlPanelService: ControlPanelService,
     private messageService: MessageService,
-    private mpdService: MpdService,
     private notificationService: NotificationService,
     private queueService: QueueService
   ) {

@@ -1,15 +1,20 @@
 <div class="mat-h3 text-muted">
   <!-- Root directory -->
   <div fxLayout="row" fxLayoutGap="0.5rem" fxLayoutAlign="baseline center">
-    <mat-icon>folder_open</mat-icon>
-    <div>
+    <div
+      fxLayout="row"
+      fxFlex
+      fxLayoutGap="0.5rem"
+      fxLayoutAlign.lt-md="center center"
+    >
+      <mat-icon>folder_open</mat-icon>
       <span *ngIf="dirQp === '/'; else dirName"> Directories </span>
       <ng-template #dirName>
         <span class="dir-prefix">Directory</span>
         <span class="dir-qp">{{ dirQpLabel }}</span>
       </ng-template>
     </div>
-    <div fxFlex></div>
+    <div fxHide.lt-md></div>
     <mat-icon
       class="clickable"
       (click)="toggleFilter()"

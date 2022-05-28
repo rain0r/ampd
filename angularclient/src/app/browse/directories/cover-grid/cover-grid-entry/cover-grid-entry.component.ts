@@ -1,10 +1,10 @@
 import { Component, Input, OnInit } from "@angular/core";
 import { Observable } from "rxjs";
-import { ResponsiveCoverSizeService } from "../../../../shared/services/responsive-cover-size.service";
 import { Directory } from "../../../../shared/messages/incoming/directory";
+import { ControlPanelService } from "../../../../shared/services/control-panel.service";
 import { NotificationService } from "../../../../shared/services/notification.service";
 import { QueueService } from "../../../../shared/services/queue.service";
-import { ControlPanelService } from "../../../../shared/services/control-panel.service";
+import { ResponsiveScreenService } from "../../../../shared/services/responsive-screen.service";
 
 @Component({
   selector: "app-cover-grid-entry",
@@ -20,7 +20,7 @@ export class CoverGridEntryComponent implements OnInit {
     private controlPanelService: ControlPanelService,
     private notificationService: NotificationService,
     private queueService: QueueService,
-    private responsiveCoverSizeService: ResponsiveCoverSizeService
+    private responsiveCoverSizeService: ResponsiveScreenService
   ) {
     this.coverSizeClass = this.responsiveCoverSizeService.getCoverCssClass();
   }

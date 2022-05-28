@@ -1,5 +1,14 @@
 package org.hihn.ampd.server.service;
 
+import org.bff.javampd.album.MPDAlbum;
+import org.bff.javampd.art.MPDArtwork;
+import org.bff.javampd.server.MPD;
+import org.bff.javampd.song.MPDSong;
+import org.hihn.ampd.server.model.AmpdSettings;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
+
 import java.io.IOException;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
@@ -9,14 +18,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
-import org.bff.javampd.album.MPDAlbum;
-import org.bff.javampd.art.MPDArtwork;
-import org.bff.javampd.server.MPD;
-import org.bff.javampd.song.MPDSong;
-import org.hihn.ampd.server.model.AmpdSettings;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Service;
 
 /**
  * Methods to load album artworks from the music directory.
@@ -81,10 +82,16 @@ public class CoverService {
 	}
 
 	public Optional<byte[]> findAlbumCoverForAlbum(String albumName, String artistName) {
-		MPDAlbum mpdAlbum = new MPDAlbum(albumName, artistName);
+		MPDAlbum mpdAlbum = MPDAlbum.builder(albumName).albumArtist(artistName).build();
 		String prefix = ampdSettings.getMusicDirectory().endsWith("/") ? ampdSettings.getMusicDirectory()
 				: ampdSettings.getMusicDirectory() + "/";
-		List<MPDArtwork> ret = mpd.getArtworkFinder().find(mpdAlbum, prefix);
+		List<MPDArtwork> ret = List.of();
+		try {
+			ret = mpd.getArtworkFinder().find(mpdAlbum, prefix);
+		}
+		catch (Exception e) {
+			LOG.warn(e.getMessage());
+		}
 		if (ret.isEmpty()) {
 			return Optional.empty();
 		}

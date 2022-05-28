@@ -2,8 +2,8 @@
 // `ng build ---prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
-// const AMPD_URL = "localhost:8080";
-const AMPD_URL = "punica:8083";
+const AMPD_URL = "localhost:8080";
+// const AMPD_URL = "punica:8083";
 // const AMPD_URL = "192.168.178.50:8080";
 // const AMPD_URL = "punica";
 

@@ -6,7 +6,7 @@
   fxLayoutGap="0.75rem"
 >
   <!--Return to top -->
-  <button
+  <a
     *ngIf="getParamDir !== '/'"
     class="mat-small"
     mat-raised-button
@@ -14,10 +14,10 @@
   >
     <mat-icon>home</mat-icon>
     <span fxHide.lt-md>Home</span>
-  </button>
+  </a>
 
   <!--Go one dir up -->
-  <button
+  <a
     *ngIf="getParamDir !== '/'"
     class="mat-small"
     mat-raised-button
@@ -26,7 +26,7 @@
   >
     <mat-icon>expand_less</mat-icon>
     <span fxHide.lt-md>Return</span>
-  </button>
+  </a>
 
   <!--Add all-->
   <button
@@ -57,7 +57,7 @@
   </button>
 
   <!-- Albums -->
-  <button
+  <a
     *ngIf="getParamDir === '/'"
     class="mat-small"
     mat-raised-button
@@ -65,7 +65,7 @@
   >
     <mat-icon>album</mat-icon>
     <span fxHide.lt-md> Albums </span>
-  </button>
+  </a>
 
   <div fxFlex fxFlex.lt-md="100%"></div>
 

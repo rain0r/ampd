@@ -36,7 +36,7 @@ export class AlbumModalComponent implements OnInit {
       .subscribe((isMobile) => (this.isMobile = isMobile));
     this.tracks = this.albumService.getAlbum(
       this.album.name,
-      this.album.artistName
+      this.album.albumArtist
     );
     this.tracks.subscribe(
       (tracks) => (this.trackTableData = this.buildTableData(tracks))

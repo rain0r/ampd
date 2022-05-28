@@ -1,14 +1,11 @@
 package org.hihn.ampd.server.controller;
 
-import java.util.Collection;
 import org.bff.javampd.album.MPDAlbum;
 import org.bff.javampd.song.MPDSong;
 import org.hihn.ampd.server.service.AlbumService;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Collection;
 
 @RestController
 @RequestMapping("/api")

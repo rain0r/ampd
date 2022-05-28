@@ -4,7 +4,17 @@
   fxLayoutGap="1rem grid"
   fxLayoutGap.lt-md="0.25rem grid"
 >
-  <div class="mat-h2">Albums</div>
+  <div
+    class="mat-h2 clickable"
+    fxLayoutAlign="center center"
+    [routerLink]="['/browse/albums']"
+    (click)="resetFilter()"
+  >
+    Albums
+  </div>
+  <div class="text-muted" fxLayoutAlign="center center">
+    Page {{ page | async }}
+  </div>
 
   <!--Filter-->
   <div fxLayoutAlign="center center" fxFlex="30%" fxFlex.lt-md="100%">
@@ -16,7 +26,7 @@
         autocomplete="off"
         type="text"
         [(ngModel)]="filter"
-        (keydown.escape)="filter = ''"
+        (keydown.escape)="resetFilter()"
         (keyup)="applyFilter($event.target)"
       />
       <button
@@ -25,7 +35,7 @@
         matSuffix
         mat-icon-button
         aria-label="Clear"
-        (click)="filter = ''"
+        (click)="resetFilter()"
       >
         <mat-icon>close</mat-icon>
       </button>
@@ -51,11 +61,6 @@
   >
     <app-album-item fxFlex.lt-md="100%" [album]="album"></app-album-item>
   </div>
-</div>
-
-<!-- Loading animation -->
-<div fxLayout="row" fxLayoutAlign="space-around" *ngIf="isLoading | async">
-  <mat-spinner></mat-spinner>
 </div>
 
 <ng-container *ngIf="albums | async as albumList">

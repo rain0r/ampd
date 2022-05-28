@@ -1,18 +1,18 @@
 package org.hihn.ampd.server.service;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.TreeSet;
 import org.bff.javampd.file.MPDFile;
 import org.bff.javampd.server.MPD;
 import org.bff.javampd.server.MPDConnectionException;
 import org.bff.javampd.song.MPDSong;
 import org.hihn.ampd.server.message.outgoing.browse.BrowsePayload;
-import org.hihn.ampd.server.message.outgoing.browse.Directory;
 import org.hihn.ampd.server.message.outgoing.browse.Playlist;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.TreeSet;
 
 /**
  * Provides methods to browse the MPD library.
@@ -53,7 +53,7 @@ public class BrowseService {
 	public BrowsePayload findDirsAndTracks(String path) {
 		BrowsePayload browsePayload = new BrowsePayload();
 		// Build a MPDFile from the input path
-		MPDFile startDir = new MPDFile(path);
+		MPDFile startDir = MPDFile.builder(path).build();
 		startDir.setDirectory(true);
 		Collection<MPDFile> foundFiles = new ArrayList<>();
 		try {
@@ -64,12 +64,11 @@ public class BrowseService {
 		}
 		for (MPDFile file : foundFiles) {
 			if (file.isDirectory()) {
-				Directory d = new Directory(file.getPath());
-				browsePayload.addDirectory(d);
+				browsePayload.addDirectory(MPDFile.builder(file.getPath()).directory(true).build());
 			}
 			else {
-				Collection<MPDSong> searchResults = mpd.getMusicDatabase().getSongDatabase()
-						.searchFileName(file.getPath());
+				String a = file.getPath().replaceAll("'", "\\'");
+				Collection<MPDSong> searchResults = mpd.getMusicDatabase().getSongDatabase().searchFileName(a);
 				if (!searchResults.isEmpty()) {
 					browsePayload.addTrack(searchResults.iterator().next());
 				}

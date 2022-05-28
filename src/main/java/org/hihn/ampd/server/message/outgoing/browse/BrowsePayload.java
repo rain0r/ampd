@@ -1,11 +1,12 @@
 package org.hihn.ampd.server.message.outgoing.browse;
 
+import org.bff.javampd.file.MPDFile;
+import org.bff.javampd.song.MPDSong;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import org.bff.javampd.file.MPDFile;
-import org.bff.javampd.song.MPDSong;
 
 /**
  * Represents the structure of the browse payload returned to the frontend, containing

@@ -1,9 +1,10 @@
 package org.hihn.ampd.server.message.outgoing;
 
+import org.bff.javampd.song.MPDSong;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import org.bff.javampd.song.MPDSong;
 
 /**
  * Represents the structure of the search payload returned to the frontend.

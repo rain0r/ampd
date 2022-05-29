@@ -3,7 +3,7 @@
 ## Why are there no covers when I browse my library?
 
 Please make sure you either start `ampd` with the `-Dmpd.music.directory` parameter or add the
-parameter to the `ampd.conf` file (see the [README.md](README.md) for examples).
+parameter to the `ampd.conf` file (see the [README.md](../README.md) for examples).
 
 ## Why are the no covers for the currently played track?
 

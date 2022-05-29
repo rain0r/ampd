@@ -8,7 +8,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -53,9 +52,13 @@ public class QueueService {
 	 */
 	public void playTrack(String path) {
 		List<MPDPlaylistSong> trackList = mpd.getPlaylist().getSongList();
-		Collection<MPDSong> mpdSongCollection = mpd.getMusicDatabase().getSongDatabase().searchFileName(path);
-		trackList.stream().filter(mpdSongCollection::contains).findFirst().ifPresentOrElse(
-				track -> mpd.getPlayer().playSong(track), () -> LOG.warn("Can't play track: not found: {}", path));
+		mpd.getMusicDatabase().getSongDatabase().searchFileName(path).stream().findFirst().ifPresentOrElse(track -> {
+			for (MPDPlaylistSong playlistSong : trackList) {
+				if (playlistSong.getFile().equals(track.getFile())) {
+					mpd.getPlayer().playSong(playlistSong);
+				}
+			}
+		}, () -> LOG.warn("Can't play track: not found: {}", path));
 	}
 
 	/**

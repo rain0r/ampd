@@ -41,7 +41,7 @@ To run `ampd`, just run the `jar`-file:
 java -jar ampd.jar
 ```
 
-For more options, please see: [USAGE.md](docs/USAGE.md)
+For more options, please see: [USAGE.md](docs/USAGE.md) or [DOCKER.md](docs/DOCKER.md)
 
 ## Settings
 

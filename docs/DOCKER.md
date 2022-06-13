@@ -54,7 +54,7 @@ To build an image `ampd` form the `master` branch:
 ```sh
 git clone https://github.com/rain0r/ampd/
 cd ampd
-docker build . -t ampd-dev
+docker build . -t ampd-dev -f docker/Dockerfile-src
 docker run -p 8080:8080 ampd-dev
 ```
 

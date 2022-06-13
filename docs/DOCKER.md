@@ -16,7 +16,7 @@ To set `mpd.server` to `my-mpd-server`, start `ampd` with:
 docker run -p 8080:8080 --env MPD_SERVER=my-mpd-server rain0r/ampd
 ```
 
-To persist the settings, create a file with one `KEY=VALUE` per line:
+To persist the settings, create a file with one `KEY=VALUE` per line. See [env.sample](https://github.com/rain0r/ampd/blob/master/docker/env.template) as an example.
 
 ```sh
 docker run -p 8080:8080 --env-file ./env.list rain0r/ampd

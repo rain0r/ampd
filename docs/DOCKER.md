@@ -1,4 +1,4 @@
-# Docker (or `podman`)
+# Docker
 
 # Using a release
 
@@ -20,8 +20,8 @@ All `ampd` settings can be configured via this file.
 
 Then create and run the release:
 ```sh
-podman build . -t ampd
-podman run -p 8080:8080 ampd
+docker build . -t ampd
+docker run -p 8080:8080 ampd
 ```
 
 
@@ -32,7 +32,7 @@ To build an image `ampd` form the `master` branch:
 ```sh
 git clone https://github.com/rain0r/ampd/
 cd ampd
-podman build . -t ampd-dev
-podman run -p 8080:8080 ampd-dev
+docker build . -t ampd-dev
+docker run -p 8080:8080 ampd-dev
 ```
 

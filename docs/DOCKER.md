@@ -1,5 +1,27 @@
 # Docker
 
+# Using Docker hub
+
+To get the latest version of `ampd` from Docker Hub:
+
+```sh
+docker pull rain0r/ampd
+```
+
+All properties from the [application.properties](https://github.com/rain0r/ampd/blob/master/src/main/resources/application.properties) can be set with environment variables. Replace dots with underscores and use upper case.
+
+To set `mpd.server` to `my-mpd-server`, start `ampd` with:
+
+```sh
+docker run -p 8080:8080 --env MPD_SERVER=my-mpd-server rain0r/ampd
+```
+
+To persist the settings, create a file with one `KEY=VALUE` per line:
+
+```sh
+docker run -p 8080:8080 --env-file ./env.list rain0r/ampd
+```
+
 # Using a release
 
 To run a (stable) release of `ampd`, download the latest [release](https://github.com/rain0r/ampd/releases) and rename it to `ampd.jar`.

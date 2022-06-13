@@ -227,7 +227,7 @@
                                 <contextDir>${project.basedir}</contextDir>
                                 <dockerFile>${project.basedir}/docker/Dockerfile-pkg</dockerFile>
                                 <assembly>
-                                      <descriptorRef>artifact-with-dependencies</descriptorRef>
+                                    <descriptorRef>artifact-with-dependencies</descriptorRef>
                                 </assembly>
                                 <tags>
                                     <tag>latest</tag>

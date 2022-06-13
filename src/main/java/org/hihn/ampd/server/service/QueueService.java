@@ -43,7 +43,7 @@ public class QueueService {
 	 */
 	public void addTracks(ArrayList<String> tracks) {
 		mpd.getPlaylist().addSongs(
-				tracks.stream().map(track -> MPDSong.builder().track(track).build()).collect(Collectors.toList()));
+				tracks.stream().map(track -> MPDSong.builder().file(track).build()).collect(Collectors.toList()));
 	}
 
 	/**

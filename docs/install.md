@@ -53,4 +53,4 @@ If you wish, to start `ampd` at the next boot, enable it with `systemctl enable 
 
 ## Installation behind another webserver (apache and nginx)
 
-Please see [DEPLOYING.md](DEPLOYING.md)
+Please see [deployment.md](deployment.md)

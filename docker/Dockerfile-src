@@ -10,7 +10,7 @@ RUN set -x \
 
 FROM openjdk:11-jre-slim
 WORKDIR /srv
-COPY --from=builder /srv/target/ampd-*-SNAPSHOT.jar ./ampd.jar
+COPY --from=builder /srv/target/ampd-*.jar ./ampd.jar
 EXPOSE 8080
 
 CMD ["java", "-jar", "ampd.jar"]

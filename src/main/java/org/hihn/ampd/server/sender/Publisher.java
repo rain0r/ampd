@@ -2,6 +2,8 @@ package org.hihn.ampd.server.sender;
 
 import org.bff.javampd.playlist.MPDPlaylistSong;
 import org.bff.javampd.server.MPD;
+import org.bff.javampd.server.MPDServerStatus;
+import org.bff.javampd.server.ServerStatus;
 import org.hihn.ampd.server.message.incoming.MpdModesPanelMsg;
 import org.hihn.ampd.server.message.outgoing.StatePayload;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,9 +54,10 @@ public class Publisher {
 		}
 		// Tells javampd to get fresh data every second
 		mpd.getServerStatus().setExpiryInterval(1L);
-		final MpdModesPanelMsg mpdModesPanelMsg = new MpdModesPanelMsg(mpd.getServerStatus());
+		ServerStatus serverStatus = mpd.getServerStatus();
+		final MpdModesPanelMsg mpdModesPanelMsg = new MpdModesPanelMsg(serverStatus);
 		MPDPlaylistSong song = mpd.getPlayer().getCurrentSong().orElse(null);
-		final StatePayload statePayload = new StatePayload(mpd.getServerStatus(), song, mpdModesPanelMsg);
+		final StatePayload statePayload = new StatePayload(serverStatus, song, mpdModesPanelMsg);
 		template.convertAndSend(STATE_URL, statePayload);
 	}
 

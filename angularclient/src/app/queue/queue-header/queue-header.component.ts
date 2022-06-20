@@ -60,7 +60,7 @@ export class QueueHeaderComponent implements AfterViewChecked {
       .head(this.currentTrack.coverUrl, { observe: "response" })
       .subscribe({
         error: () => this.displayCover$.next(false),
-        complete: () => this.coverAvailable(),
+        next: () => this.coverAvailable(),
       });
   }
 

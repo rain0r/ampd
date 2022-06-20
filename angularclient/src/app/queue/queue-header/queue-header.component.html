@@ -27,7 +27,7 @@
         {{ currentTrack.file }}
       </ng-template>
     </div>
-    <mat-divider></mat-divider>
+    <mat-divider *ngIf="currentTrack.title"></mat-divider>
     <div class="mat-h3 queue-sub-title" *ngIf="currentTrack.albumName">
       <a
         class="no-deco-links text-muted"

@@ -39,7 +39,6 @@ export class QueueTrack implements Track {
       this.length = currentTrack.length;
       this.name = currentTrack.name;
       this.position = position;
-      this.title = currentTrack.title.trim();
       this.track = currentTrack.track;
       this.year = currentTrack.year;
     }

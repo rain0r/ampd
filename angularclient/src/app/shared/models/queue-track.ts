@@ -41,6 +41,7 @@ export class QueueTrack implements Track {
       this.position = position;
       this.track = currentTrack.track;
       this.year = currentTrack.year;
+      this.title = currentTrack.title || "";
     }
   }
 }

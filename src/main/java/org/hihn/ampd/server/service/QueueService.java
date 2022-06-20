@@ -51,14 +51,9 @@ public class QueueService {
 	 * @param path The path of the track.
 	 */
 	public void playTrack(String path) {
-		List<MPDPlaylistSong> trackList = mpd.getPlaylist().getSongList();
-		mpd.getMusicDatabase().getSongDatabase().searchFileName(path).stream().findFirst().ifPresentOrElse(track -> {
-			for (MPDPlaylistSong playlistSong : trackList) {
-				if (playlistSong.getFile().equals(track.getFile())) {
-					mpd.getPlayer().playSong(playlistSong);
-				}
-			}
-		}, () -> LOG.warn("Can't play track: not found: {}", path));
+		mpd.getPlaylist().getSongList().stream().filter(song -> song.getFile().equals(path)).findFirst()
+				.ifPresentOrElse(song -> mpd.getPlayer().playSong(song),
+						() -> LOG.info("Could not find playlist track: {}", path));
 	}
 
 	/**

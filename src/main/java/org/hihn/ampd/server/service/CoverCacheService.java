@@ -121,7 +121,7 @@ public class CoverCacheService {
 	}
 
 	private Path buildCacheFullPath(MPDSong track) {
-		final CoverType coverType = (track.getAlbumName().isEmpty()) ? CoverType.SINGLETON : CoverType.ALBUM;
+		final CoverType coverType = (track.getAlbumName() == null) ? CoverType.SINGLETON : CoverType.ALBUM;
 		final String titleOrAlbum = (coverType == CoverType.ALBUM) ? track.getAlbumName() : track.getTitle();
 		final String fileName = buildFileName(coverType, track.getArtistName(), titleOrAlbum);
 		try {

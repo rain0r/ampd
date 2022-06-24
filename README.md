@@ -1,3 +1,5 @@
+![Logo of ampd](.github/ampd-logo.png)
+
 # ampd
 
 ampd is a web-based client for [MPD](https://www.musicpd.org/). It is build with `Angular` and

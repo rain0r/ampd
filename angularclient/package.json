@@ -10,7 +10,7 @@
     "warnings": "ng lint --silent --format=checkstyle > checkstyle-ts-result.xml",
     "lint": "ng lint",
     "ng": "ng",
-    "start": "ng serve",
+    "start": "ng serve"
   },
   "dependencies": {
     "@angular/animations": "~13.3.11",

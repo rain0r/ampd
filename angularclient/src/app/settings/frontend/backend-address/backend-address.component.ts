@@ -1,5 +1,5 @@
 import { Component } from "@angular/core";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from "@angular/forms";
 import { NotificationService } from "../../../shared/services/notification.service";
 import { SettingsService } from "../../../shared/services/settings.service";
 
@@ -9,11 +9,11 @@ import { SettingsService } from "../../../shared/services/settings.service";
   styleUrls: ["./backend-address.component.scss"],
 })
 export class BackendAddressComponent {
-  settingsForm: FormGroup;
+  settingsForm: UntypedFormGroup;
 
   constructor(
     private notificationService: NotificationService,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private settingsService: SettingsService
   ) {
     this.settingsForm = this.buildSettingsForm();
@@ -30,7 +30,7 @@ export class BackendAddressComponent {
     this.notificationService.popUp("Saved backend address.");
   }
 
-  private buildSettingsForm(): FormGroup {
+  private buildSettingsForm(): UntypedFormGroup {
     return this.formBuilder.group({
       backendAddr: [
         this.settingsService.getBackendContextAddr(),

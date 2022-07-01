@@ -1,6 +1,5 @@
 import { Component, Input } from "@angular/core";
-import { MatDialog } from "@angular/material/dialog";
-import { MatDialogConfig } from "@angular/material/dialog/dialog-config";
+import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
 import { Observable } from "rxjs";
 import { ResponsiveScreenService } from "src/app/shared/services/responsive-screen.service";
 import { Playlist } from "../../../shared/messages/incoming/playlist-impl";

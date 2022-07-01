@@ -1,4 +1,4 @@
-import { Track } from "../messages/incoming/track";
+import { TagMap, Track } from "../messages/incoming/track";
 
 /**
  * A queue track represents a track in the track table of the queue.
@@ -16,8 +16,10 @@ export class QueueTrack implements Track {
   name = "";
   position = 0;
   title = "";
-  track = 0;
+  track = "";
   year = "";
+  albumArtist = "";
+  tagMap = <TagMap>{};
 
   // QueueTrack properties
   coverUrl = "";
@@ -31,16 +33,15 @@ export class QueueTrack implements Track {
     if (currentTrack) {
       this.albumName = currentTrack.albumName?.trim(); // Optional because of radio streams
       this.artistName = currentTrack.artistName?.trim(); // Optional because of radio streams
-      this.comment = currentTrack.comment;
       this.discNumber = currentTrack.discNumber;
       this.file = currentTrack.file;
-      this.genre = currentTrack.genre;
+      this.albumArtist = currentTrack.albumArtist;
       this.id = currentTrack.id;
       this.length = currentTrack.length;
       this.name = currentTrack.name;
       this.position = position;
       this.track = currentTrack.track;
-      this.year = currentTrack.year;
+      this.tagMap = currentTrack.tagMap;
       this.title = currentTrack.title || "";
     }
   }

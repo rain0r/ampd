@@ -90,6 +90,7 @@ export class TracksComponent implements OnInit {
       { name: "length", showMobile: false },
       { name: "playTitle", showMobile: false },
       { name: "addTitle", showMobile: false },
+      { name: "info", showMobile: false },
     ];
     return displayedColumns
       .filter((cd) => !this.isMobile || cd.showMobile)

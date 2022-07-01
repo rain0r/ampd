@@ -5,7 +5,11 @@ import { Pipe, PipeTransform } from "@angular/core";
 })
 export class ReplaceNullWithTextPipe implements PipeTransform {
   transform(value: string, replaceText = "—"): string {
-    if (typeof value === "undefined" || value === null || value.trim() === "") {
+    if (
+      typeof value === "undefined" ||
+      value === null ||
+      String(value).trim() === ""
+    ) {
       return replaceText;
     }
 

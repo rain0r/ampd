@@ -1,7 +1,7 @@
 package org.hihn.ampd.server.controller;
 
 import org.bff.javampd.server.MPD;
-import org.bff.javampd.statistics.ServerStatistics;
+import org.bff.javampd.statistics.MPDStatistics;
 import org.hihn.ampd.server.model.AmpdSettings;
 import org.hihn.ampd.server.service.CoverCacheService;
 import org.springframework.web.bind.annotation.*;
@@ -47,8 +47,8 @@ public class SettingsController {
 	}
 
 	@GetMapping("/server-statistics")
-	public ServerStatistics getServerStatistics() {
-		return mpd.getServerStatistics();
+	public MPDStatistics getServerStatistics() {
+		return mpd.getServerStatistics().getStatistics();
 	}
 
 	@PostMapping("/update-database")

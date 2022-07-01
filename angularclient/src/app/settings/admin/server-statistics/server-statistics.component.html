@@ -6,13 +6,11 @@
   <mat-card-content>
     <div fxLayout="row">
       <span fxFlex="50%">Artist count</span>
-      <span fxFlex="50%">{{
-        statistics.artistCount | number: "":"en-GB"
-      }}</span>
+      <span fxFlex="50%">{{ statistics.artists | number: "":"en-GB" }}</span>
     </div>
     <div fxLayout="row">
       <span fxFlex="50%">Album count</span>
-      <span fxFlex="50%">{{ statistics.albumCount | number: "":"en-GB" }}</span>
+      <span fxFlex="50%">{{ statistics.albums | number: "":"en-GB" }}</span>
     </div>
     <div fxLayout="row">
       <span fxFlex="50%">Database playtime</span>
@@ -32,7 +30,7 @@
     </div>
     <div fxLayout="row">
       <span fxFlex="50%">Song count</span>
-      <span fxFlex="50%">{{ statistics.songCount | number: "":"en-GB" }}</span>
+      <span fxFlex="50%">{{ statistics.tracks | number: "":"en-GB" }}</span>
     </div>
     <div fxLayout="row">
       <span fxFlex="50%">Uptime</span>

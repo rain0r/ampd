@@ -1,3 +1,4 @@
+import { TitleCasePipe } from "@angular/common";
 import { DragDropModule } from "@angular/cdk/drag-drop";
 import { ScrollingModule } from "@angular/cdk/scrolling";
 import { HttpClientModule } from "@angular/common/http";
@@ -48,6 +49,7 @@ import { PlaylistEntryComponent } from "./browse/playlists/playlist-entry/playli
 import { PlaylistInfoModalComponent } from "./browse/playlists/playlist-info-modal/playlist-info-modal.component";
 import { PlaylistsComponent } from "./browse/playlists/playlists.component";
 import { VirtualScrollPlaylistsComponent } from "./browse/playlists/virtual-scroll-playlists/virtual-scroll-playlists.component";
+import { TrackInfoModalComponent } from "./browse/tracks/track-info-modal/track-info-modal.component";
 import { TracksComponent } from "./browse/tracks/tracks.component";
 import { HelpModalComponent } from "./navbar/help-modal/help-modal.component";
 import { NavbarComponent } from "./navbar/navbar.component";
@@ -78,6 +80,7 @@ import { ThemeComponent } from "./settings/frontend/theme/theme.component";
 import { VirtualScrollComponent } from "./settings/frontend/virtual-scroll/virtual-scroll.component";
 import { SettingsComponent } from "./settings/settings.component";
 import { ErrorComponent } from "./shared/error/error.component";
+import { KeyValueTableComponent } from "./shared/key-value-table/key-value-table.component";
 import { EncodeURIComponentPipe } from "./shared/pipes/encode-uri.pipe";
 import { DirectoryFilterStartLetterPipePipe } from "./shared/pipes/filter/directory-filter-start-letter-pipe.pipe";
 import { DirectoryFilterPipe } from "./shared/pipes/filter/directory-filter.pipe";
@@ -146,6 +149,8 @@ import { TrackTableDataComponent } from "./shared/track-table/track-table-data.c
     AlbumModalComponent,
     AlbumsPaginationComponent,
     AlbumItemComponent,
+    TrackInfoModalComponent,
+    KeyValueTableComponent,
   ],
   imports: [
     AppRoutingModule,
@@ -181,6 +186,8 @@ import { TrackTableDataComponent } from "./shared/track-table/track-table-data.c
     MatToolbarModule,
   ],
   providers: [
+    TitleCasePipe,
+    ReplaceNullWithTextPipe,
     {
       provide: InjectableRxStompConfig,
       useClass: AmpdRxStompConfig,

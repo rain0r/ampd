@@ -173,6 +173,20 @@
     </td>
   </ng-container>
 
+  <ng-container matColumnDef="info">
+    <th mat-header-cell *matHeaderCellDef></th>
+    <td mat-cell *matCellDef="let track">
+      <button
+        class="mat-small"
+        mat-button
+        (click)="onShowTrackInfo(track)"
+        title="Show track info"
+      >
+        <mat-icon>info </mat-icon>
+      </button>
+    </td>
+  </ng-container>
+
   <tr mat-header-row *matHeaderRowDef="trackTableData.displayedColumns"></tr>
 
   <tr

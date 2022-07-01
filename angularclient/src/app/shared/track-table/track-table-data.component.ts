@@ -8,13 +8,17 @@ import {
   SimpleChanges,
   ViewChild,
 } from "@angular/core";
+import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
 import { MatPaginator, MatPaginatorIntl } from "@angular/material/paginator";
 import { MatSort } from "@angular/material/sort";
 import { Observable } from "rxjs";
+import { TrackInfoModalComponent } from "src/app/browse/tracks/track-info-modal/track-info-modal.component";
 import { QueueTrack } from "../models/queue-track";
+import { FrontendSettingsService } from "../services/frontend-settings.service";
 import { NotificationService } from "../services/notification.service";
 import { QueueService } from "../services/queue.service";
 import { ResponsiveScreenService } from "../services/responsive-screen.service";
+import { Track } from "./../messages/incoming/track";
 import { ClickActions } from "./click-actions.enum";
 import { TrackTableData } from "./track-table-data";
 
@@ -37,7 +41,9 @@ export class TrackTableDataComponent implements OnInit, OnChanges {
   constructor(
     private notificationService: NotificationService,
     private queueService: QueueService,
-    private responsiveScreenService: ResponsiveScreenService
+    private responsiveScreenService: ResponsiveScreenService,
+    private dialog: MatDialog,
+    private frontendSettingsService: FrontendSettingsService
   ) {}
 
   ngOnInit(): void {
@@ -106,6 +112,26 @@ export class TrackTableDataComponent implements OnInit, OnChanges {
   onListDrop(event: CdkDragDrop<QueueTrack[]>): void {
     // Swap the elements around
     this.queueService.moveTrack(event.previousIndex, event.currentIndex);
+  }
+
+  onShowTrackInfo(track: Track): void {
+    this.isMobile.subscribe((isMobile) => {
+      const width = isMobile ? "100%" : "70%";
+      const options: MatDialogConfig = {
+        maxWidth: "100vw",
+        height: "90%",
+        panelClass: this.frontendSettingsService.darkTheme$.value
+          ? "dark-theme"
+          : "",
+        width: width,
+        data: track,
+      };
+      if (isMobile) {
+        options["height"] = "75%";
+        options["maxHeight"] = "75vh";
+      }
+      this.dialog.open(TrackInfoModalComponent, options);
+    });
   }
 
   private addPlayTrack(track: QueueTrack): void {

@@ -44,20 +44,20 @@ public class MpdModesPanelMsg {
 			final boolean newValue = "1".equals(splitted[1].trim());
 
 			switch (splitted[0].trim()) {
-			case "random":
-				setRandom(newValue);
-				break;
-			case "consume":
-				setConsume(newValue);
-				break;
-			case "single":
-				setSingle(newValue);
-				break;
-			case "repeat":
-				setRepeat(newValue);
-				break;
-			default:
-				// Do nothing
+				case "random":
+					setRandom(newValue);
+					break;
+				case "consume":
+					setConsume(newValue);
+					break;
+				case "single":
+					setSingle(newValue);
+					break;
+				case "repeat":
+					setRepeat(newValue);
+					break;
+				default:
+					// Do nothing
 			}
 		}
 	}

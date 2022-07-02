@@ -1,5 +1,9 @@
 import { Component } from "@angular/core";
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from "@angular/forms";
+import {
+  UntypedFormBuilder,
+  UntypedFormGroup,
+  Validators,
+} from "@angular/forms";
 import { NotificationService } from "../../../shared/services/notification.service";
 import { SettingsService } from "../../../shared/services/settings.service";
 

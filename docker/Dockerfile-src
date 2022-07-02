@@ -3,10 +3,9 @@ ARG frontend_context=/
 WORKDIR /srv
 COPY . .
 ENV DEBIAN_FRONTEND=noninteractive
-RUN set -x \
-    && curl -fsSL https://deb.nodesource.com/setup_12.x | bash - \
-    && apt-get install -y nodejs \
-    && mvn package -Dfrontend.context=$frontend_context
+RUN curl -fsSL https://deb.nodesource.com/setup_16.x | bash -
+RUN apt-get install -y nodejs
+RUN mvn package -q -Dfrontend.context=$frontend_context
 
 FROM openjdk:11-jre-slim
 WORKDIR /srv

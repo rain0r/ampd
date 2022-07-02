@@ -3,7 +3,7 @@ import { AfterViewChecked, Component } from "@angular/core";
 import { InitDetail } from "lightgallery/lg-events";
 import { LightGallery } from "lightgallery/lightgallery";
 import { BehaviorSubject, combineLatest, Observable } from "rxjs";
-import { distinctUntilChanged, filter } from "rxjs/operators";
+import { filter, first } from "rxjs/operators";
 import { LIGHTBOX_SETTINGS } from "src/app/shared/lightbox";
 import { InternalMessageType } from "../../shared/messages/internal/internal-message-type.enum";
 import { QueueTrack } from "../../shared/models/queue-track";
@@ -69,18 +69,12 @@ export class QueueHeaderComponent implements AfterViewChecked {
       this.currentState,
       this.frontendSettingsService.displayCovers,
     ])
-      .pipe(
-        distinctUntilChanged(
-          (prev, curr) => prev[0] === curr[0] && prev[1] === prev[1]
-        )
-      )
+      .pipe(first())
       .subscribe((result) => {
-        if (
+        this.displayCover$.next(
           result[0] !== "stop" && // Check state, we don't change the cover if the player has stopped
-          result[1] === true // Check if cover-display is active in the frontend-settings
-        ) {
-          this.displayCover$.next(true);
-        }
+            result[1] === true // Check if cover-display is active in the frontend-settings
+        );
       });
   }
 

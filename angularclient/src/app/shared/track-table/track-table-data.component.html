@@ -42,7 +42,7 @@
       mat-cell
       *matCellDef="let row"
       (click)="onRowClick(row)"
-      [ngClass]="(isMobile | async) ? 'mobile mobile-40' : ''"
+      [ngClass]="(isMobile | async) ? 'mobile ' : ''"
     >
       <span
         *ngIf="
@@ -92,7 +92,7 @@
       mat-cell
       *matCellDef="let row"
       (click)="onRowClick(row)"
-      [ngClass]="(isMobile | async) ? 'mobile mobile-40 mobile-title' : ''"
+      [ngClass]="(isMobile | async) ? 'mobile  mobile-title' : ''"
     >
       {{ row.title }}
     </td>
@@ -124,7 +124,7 @@
     <td
       mat-cell
       *matCellDef="let element"
-      [ngClass]="(isMobile | async) ? 'mobile mobile-min' : ''"
+      [ngClass]="(isMobile | async) ? 'mobile ' : ''"
     >
       <mat-icon
         class="btn-remove-track"
@@ -141,7 +141,7 @@
     <td
       mat-cell
       *matCellDef="let track"
-      [ngClass]="(isMobile | async) ? 'mobile mobile-min' : ''"
+      [ngClass]="(isMobile | async) ? 'mobile ' : ''"
     >
       <button
         class="mat-small"
@@ -160,7 +160,7 @@
     <td
       mat-cell
       *matCellDef="let track"
-      [ngClass]="(isMobile | async) ? 'mobile mobile-min' : ''"
+      [ngClass]="(isMobile | async) ? 'mobile ' : ''"
     >
       <button
         class="mat-small"

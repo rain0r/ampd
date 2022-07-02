@@ -9,7 +9,7 @@
     </parent>
     <groupId>org.hihn.ampd</groupId>
     <artifactId>ampd</artifactId>
-    <version>1.4.6-SNAPSHOT</version>
+    <version>1.4.7-SNAPSHOT</version>
     <name>ampd</name>
     <description>Spring Boot server for the ampd-client</description>
     <properties>

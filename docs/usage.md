@@ -16,7 +16,7 @@ java -jar -Dmpd.music.directory=/home/foo/music ampd.jar
 ```
 
 To learn how to persist these options (or change settings generally), please see
-[install.md](install.md).
+[install.md](install.md) and [deployment.md](deployment.md).
 
 ## General
 

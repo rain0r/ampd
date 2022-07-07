@@ -6,12 +6,7 @@
   fxLayoutGap="0.75rem"
 >
   <!--Return to top -->
-  <a
-    *ngIf="getParamDir !== '/'"
-    class="mat-small"
-    mat-raised-button
-    [routerLink]="['/browse']"
-  >
+  <a class="mat-small" mat-raised-button [routerLink]="['/browse']">
     <mat-icon>home</mat-icon>
     <span fxHide.lt-md>Home</span>
   </a>
@@ -62,9 +57,22 @@
     class="mat-small"
     mat-raised-button
     [routerLink]="['/browse/albums']"
+    routerLinkActive="mat-accent"
   >
     <mat-icon>album</mat-icon>
     <span fxHide.lt-md> Albums </span>
+  </a>
+
+  <!-- Genres -->
+  <a
+    *ngIf="getParamDir === '/'"
+    class="mat-small"
+    mat-raised-button
+    [routerLink]="['/browse/genres']"
+    routerLinkActive="mat-accent"
+  >
+    <mat-icon>local_offer</mat-icon>
+    <span fxHide.lt-md> Genres </span>
   </a>
 
   <div fxFlex fxFlex.lt-md="100%"></div>
@@ -81,7 +89,7 @@
         matInput
         placeholder="Filter"
         type="text"
-        [disabled]="(displayFilter$ | async) === false"
+        [disabled]="(filterDisabled$ | async) === false"
       />
       <button
         (click)="filter = ''; resetFilter()"
@@ -96,3 +104,4 @@
     </mat-form-field>
   </div>
 </div>
+<mat-divider></mat-divider>

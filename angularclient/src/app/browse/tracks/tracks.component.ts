@@ -71,13 +71,9 @@ export class TracksComponent implements OnInit {
 
   private buildTableData(): TrackTableData {
     const trackTable = new TrackTableData();
-    trackTable.addTitleColumn = true;
-    trackTable.clickable = true;
     trackTable.dataSource = new MatTableDataSource<QueueTrack>(this.tracks);
     trackTable.displayedColumns = this.getDisplayedColumns();
     trackTable.onPlayClick = ClickActions.AddPlayTrack;
-    trackTable.notify = true;
-    trackTable.playTitleColumn = true;
     return trackTable;
   }
 

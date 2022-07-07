@@ -103,15 +103,10 @@ export class SearchComponent {
 
   private buildTableData(): TrackTableData {
     const trackTable = new TrackTableData();
-    trackTable.addTitleColumn = true;
-    trackTable.clickable = true;
     trackTable.dataSource = this.dataSource;
     trackTable.displayedColumns = this.getDisplayedColumns();
     trackTable.onPlayClick = ClickActions.AddPlayTrack;
-    trackTable.notify = true;
     trackTable.pagination = true;
-    trackTable.playTitleColumn = true;
-    trackTable.sortable = true;
     return trackTable;
   }
 

@@ -24,7 +24,6 @@ export class AlbumsService {
    * @returns
    */
   getAlbums(page = 1, searchTerm = ""): Observable<MpdAlbum[]> {
-    // console.log(new Date(), `getAlbums: "${searchTerm}"`)
     const url = `${this.settingsService.getBackendContextAddr()}api/albums/?page=${page}&searchTerm=${searchTerm}`;
     return this.http.get<MpdAlbum[]>(url).pipe(
       map((albums) => {

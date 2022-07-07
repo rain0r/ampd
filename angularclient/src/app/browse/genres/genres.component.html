@@ -1,0 +1,59 @@
+<app-navigation [filterDisabled]="true"></app-navigation>
+
+<div
+  fxLayout="row wrap"
+  fxLayout.lt-md="column"
+  fxLayoutAlign="space-between"
+  fxLayoutAlign.lt-md="center center"
+  fxLayoutGap="1rem"
+>
+  <a
+    class="genre"
+    mat-stroked-button
+    color="primary"
+    [queryParams]="{ genre: genre | encodeURIComponent }"
+    [routerLink]="['/browse/genres']"
+    *ngFor="let genre of genres | async"
+  >
+    {{ genre }}
+  </a>
+</div>
+
+<div id="results" style="min-height: 800px">
+  <div *ngIf="trackTableData !== null && (genrePayload | async) as payload">
+    <mat-divider></mat-divider>
+    <h1 class="genre-header">Genre: {{ payload.genre }}</h1>
+    <mat-tab-group dynamicHeight [(selectedIndex)]="selectedIndex">
+      <mat-tab label="Albums">
+        <div
+          *ngIf="payload.albums.length > 0; else noAlbums"
+          fxLayout="row wrap"
+          fxLayout.lt-md="column"
+          fxLayoutAlign="space-between"
+          fxLayoutAlign.lt-md="center center"
+          fxLayoutGap="1rem grid"
+          fxLayoutGap.lt-md="1rem"
+        >
+          <div
+            fxFlex
+            fxFlex.lt-md="100%"
+            fxLayoutAlign="center center"
+            *ngFor="let album of payload.albums"
+          >
+            <app-album-item
+              fxFlex.lt-md="100%"
+              [album]="album"
+            ></app-album-item>
+          </div>
+        </div>
+        <ng-template #noAlbums>No albums found.</ng-template>
+      </mat-tab>
+      <mat-tab label="Tracks">
+        <app-track-data-table
+          [trackTableData]="trackTableData"
+        ></app-track-data-table>
+        <ng-template #noTracks>No tracks found.</ng-template>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+</div>

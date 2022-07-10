@@ -65,7 +65,6 @@ export class AlbumsComponent implements OnInit {
         switchMap(([page, searchInput]) => {
           this.albums = new Observable<MpdAlbum[]>();
           this.isLoading.next(true);
-          console.log(`Page: ${page}, searchInput: ${searchInput}`);
           return this.albumService.getAlbums(page, searchInput);
         }),
         tap((albums) => (this.albums = of(albums)))
@@ -76,7 +75,6 @@ export class AlbumsComponent implements OnInit {
   private loadData(searchTerm = "") {
     this.page.subscribe((page) => {
       this.isLoading.next(true);
-      console.log(`loadData() page: ${page}`);
       this.albums = this.albumService
         .getAlbums(page, searchTerm)
         .pipe(tap(() => this.isLoading.next(false)));

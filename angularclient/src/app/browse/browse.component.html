@@ -1,6 +1,5 @@
 <div fxLayout="column">
   <app-navigation [browsePayload]="browsePayload"></app-navigation>
-  <mat-divider></mat-divider>
 
   <!-- "Back to top" icon -->
   <div class="back-to-top" fxHide fxShow.lt-md="true">
@@ -40,9 +39,5 @@
       *ngIf="msg.tracks.length > 0"
       [tracks]="msg.tracks"
     ></app-tracks>
-  </div>
-  <!-- Error handling -->
-  <div fxFlex *ngIf="error">
-    <app-error [error]="error"></app-error>
   </div>
 </div>

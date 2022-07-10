@@ -106,11 +106,11 @@ export class TrackTableComponent {
   private buildTableData(): TrackTableData {
     const trackTable = new TrackTableData();
     trackTable.dataSource = this.dataSource;
-    trackTable.clickable = true;
     trackTable.displayedColumns = this.getDisplayedColumns();
     trackTable.dragEnabled = !this.isMobile;
     trackTable.onRowClick = ClickActions.PlayTrack;
-    trackTable.sortable = true;
+    trackTable.addTitleColumn = false;
+    trackTable.playTitleColumn = false;
     return trackTable;
   }
 

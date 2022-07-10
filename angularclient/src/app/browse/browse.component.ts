@@ -1,10 +1,9 @@
 import { Component } from "@angular/core";
-import { BrowseService } from "../shared/services/browse.service";
 import { ActivatedRoute } from "@angular/router";
-import { AmpdBrowsePayload } from "../shared/models/ampd-browse-payload";
 import { BehaviorSubject, Observable } from "rxjs";
-import { ErrorMsg } from "../shared/error/error-msg";
-import { distinctUntilChanged, map } from "rxjs/operators";
+import { distinctUntilChanged, finalize, map } from "rxjs/operators";
+import { AmpdBrowsePayload } from "../shared/models/ampd-browse-payload";
+import { BrowseService } from "../shared/services/browse.service";
 
 @Component({
   selector: "app-browse",
@@ -13,7 +12,6 @@ import { distinctUntilChanged, map } from "rxjs/operators";
 })
 export class BrowseComponent {
   browsePayload: Observable<AmpdBrowsePayload>;
-  error: ErrorMsg | null = null;
   isLoading = true;
   dirQp = "/";
   private browsePayload$: BehaviorSubject<AmpdBrowsePayload>;
@@ -42,16 +40,12 @@ export class BrowseComponent {
 
         this.dirQp = dir;
 
-        this.browseService.sendBrowseReq(dir).subscribe({
-          next: (browsePayload) => {
-            this.browsePayload$.next(browsePayload);
-          },
-          error: (err: ErrorMsg) => {
-            this.error = err;
-            this.isLoading = false;
-          },
-          complete: () => (this.isLoading = false),
-        });
+        this.browseService
+          .sendBrowseReq(dir)
+          .pipe(finalize(() => (this.isLoading = false)))
+          .subscribe((browsePayload) =>
+            this.browsePayload$.next(browsePayload)
+          );
       });
   }
 

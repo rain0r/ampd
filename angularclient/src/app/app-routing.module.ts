@@ -1,3 +1,4 @@
+import { GenresComponent } from "./browse/genres/genres.component";
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
 import { AlbumModalComponent } from "./browse/albums/album-modal/album-modal.component";
@@ -12,13 +13,19 @@ const routes: Routes = [
   { path: "browse", component: BrowseComponent },
   { path: "browse/albums", component: AlbumsComponent },
   { path: "browse/album-detail", component: AlbumModalComponent },
+  { path: "browse/genres", component: GenresComponent },
   { path: "search", component: SearchComponent },
   { path: "settings", component: SettingsComponent },
   { path: "**", redirectTo: "" },
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, { relativeLinkResolution: "legacy" })],
+  imports: [
+    RouterModule.forRoot(routes, {
+      relativeLinkResolution: "legacy",
+      anchorScrolling: "enabled",
+    }),
+  ],
   exports: [RouterModule],
 })
 export class AppRoutingModule {}

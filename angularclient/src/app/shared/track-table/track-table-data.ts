@@ -10,12 +10,12 @@ export class TrackTableData {
   /**
    * If true, the table as an 'add title' column.
    */
-  private _addTitleColumn = false;
+  private _addTitleColumn = true;
 
   /**
    * If true, the rows of the table are clickable and a click adds the track to the queue.
    */
-  private _clickable = false;
+  private _clickable = true;
 
   /**
    * The tracks that will be displayed in the track table.
@@ -35,7 +35,7 @@ export class TrackTableData {
   /**
    * If true, a notification will be shown after a click action.
    */
-  private _notify = false;
+  private _notify = true;
 
   /**
    * The action that will be triggered on a row click.
@@ -48,6 +48,12 @@ export class TrackTableData {
   private _pagination = false;
 
   /**
+   * If pagination is enabled, this is the default page size.
+   */
+
+  private _pageSize = 100;
+
+  /**
    * The action that will be triggered on a click on the play button.
    */
   private _onPlayClick = ClickActions.PlayTrack;
@@ -55,12 +61,12 @@ export class TrackTableData {
   /**
    * If true, the table as a 'play title' colum.
    */
-  private _playTitleColumn = false;
+  private _playTitleColumn = true;
 
   /**
    * * If true, the columns of the table are orderable.
    */
-  private _sortable = false;
+  private _sortable = true;
 
   get addTitleColumn(): boolean {
     return this._addTitleColumn;
@@ -148,5 +154,12 @@ export class TrackTableData {
 
   set onPlayClick(value: ClickActions) {
     this._onPlayClick = value;
+  }
+
+  get pageSize(): number {
+    return this._pageSize;
+  }
+  set pageSize(v: number) {
+    this._pageSize = v;
   }
 }

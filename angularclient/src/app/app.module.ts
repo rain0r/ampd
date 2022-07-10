@@ -2,7 +2,7 @@ import { TitleCasePipe } from "@angular/common";
 import { DragDropModule } from "@angular/cdk/drag-drop";
 import { ScrollingModule } from "@angular/cdk/scrolling";
 import { HttpClientModule } from "@angular/common/http";
-import { NgModule } from "@angular/core";
+import { ErrorHandler, NgModule } from "@angular/core";
 import { FlexLayoutModule } from "@angular/flex-layout";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { MatButtonModule } from "@angular/material/button";
@@ -91,6 +91,9 @@ import { SecondsToHhMmSsPipe } from "./shared/pipes/seconds-to-hh-mm-ss.pipe";
 import { SecondsToMmSsPipe } from "./shared/pipes/seconds-to-mm-ss.pipe";
 import { AmpdRxStompConfig } from "./shared/services/ampd-rx-stomp-config.service";
 import { TrackTableDataComponent } from "./shared/track-table/track-table-data.component";
+import { GenresComponent } from "./browse/genres/genres.component";
+import { AmpdErrorHandler } from "./shared/ampd-error-handler";
+import { ErrorDialogComponent } from "./shared/error-dialog/error-dialog.component";
 
 @NgModule({
   declarations: [
@@ -151,6 +154,8 @@ import { TrackTableDataComponent } from "./shared/track-table/track-table-data.c
     AlbumItemComponent,
     TrackInfoModalComponent,
     KeyValueTableComponent,
+    GenresComponent,
+    ErrorDialogComponent,
   ],
   imports: [
     AppRoutingModule,
@@ -196,6 +201,10 @@ import { TrackTableDataComponent } from "./shared/track-table/track-table-data.c
       provide: RxStompService,
       useFactory: rxStompServiceFactory,
       deps: [InjectableRxStompConfig],
+    },
+    {
+      provide: ErrorHandler,
+      useClass: AmpdErrorHandler,
     },
   ],
   bootstrap: [AppComponent],

@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Set;
@@ -75,7 +76,7 @@ public class GenreService {
 		return tracks;
 	}
 
-	private static class MPDSongComparator implements Comparator<MPDSong> {
+	private static class MPDSongComparator implements Comparator<MPDSong>, Serializable {
 
 		@Override
 		public int compare(MPDSong o1, MPDSong o2) {
@@ -95,7 +96,7 @@ public class GenreService {
 
 	}
 
-	private static class MpdAlbumComparator implements Comparator<MPDAlbum> {
+	private static class MpdAlbumComparator implements Comparator<MPDAlbum>, Serializable {
 
 		@Override
 		public int compare(MPDAlbum o1, MPDAlbum o2) {

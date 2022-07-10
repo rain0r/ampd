@@ -2,11 +2,12 @@ import { Location } from "@angular/common";
 import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable, throwError } from "rxjs";
-import { catchError } from "rxjs/operators";
+import { catchError, map } from "rxjs/operators";
 import { ApiEndpoints } from "../api-endpoints";
 import { ErrorMsg } from "../error/error-msg";
 import { KEY_BACKEND_ADDRESS } from "../local-storage-keys";
 import { BackendSettings } from "../models/backend-settings";
+import { CoverDiskUsage } from "./../models/http/cover-disk-usage";
 
 @Injectable({
   providedIn: "root",
@@ -38,7 +39,9 @@ export class SettingsService {
 
   getCoverCacheDiskUsage(): Observable<number> {
     const url = `${this.getBackendContextAddr()}api/cover-disk-usage`;
-    return this.http.get<number>(url);
+    return this.http
+      .get<CoverDiskUsage>(url)
+      .pipe(map((usage) => usage.coverDiskUsage));
   }
 
   /**

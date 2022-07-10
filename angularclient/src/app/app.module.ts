@@ -31,7 +31,6 @@ import {
   rxStompServiceFactory,
 } from "@stomp/ng2-stompjs";
 import { LightgalleryModule } from "lightgallery/angular";
-import { NgxFilesizeModule } from "ngx-filesize";
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
 import { AlbumItemComponent } from "./browse/albums/album-item/album-item.component";
@@ -94,6 +93,7 @@ import { TrackTableDataComponent } from "./shared/track-table/track-table-data.c
 import { GenresComponent } from "./browse/genres/genres.component";
 import { AmpdErrorHandler } from "./shared/ampd-error-handler";
 import { ErrorDialogComponent } from "./shared/error-dialog/error-dialog.component";
+import { FileSizePipe } from "./shared/pipes/file-size.pipe";
 
 @NgModule({
   declarations: [
@@ -156,6 +156,7 @@ import { ErrorDialogComponent } from "./shared/error-dialog/error-dialog.compone
     KeyValueTableComponent,
     GenresComponent,
     ErrorDialogComponent,
+    FileSizePipe,
   ],
   imports: [
     AppRoutingModule,
@@ -164,8 +165,7 @@ import { ErrorDialogComponent } from "./shared/error-dialog/error-dialog.compone
     FlexLayoutModule,
     FormsModule,
     HttpClientModule,
-    ReactiveFormsModule,
-    NgxFilesizeModule,
+    ReactiveFormsModule,    
     ScrollingModule,
     BrowserModule,
     LightgalleryModule,

@@ -53,13 +53,10 @@ export class AlbumModalComponent implements OnInit {
 
   private buildTableData(tracks: QueueTrack[]): TrackTableData {
     const trackTable = new TrackTableData();
-    trackTable.addTitleColumn = true;
-    trackTable.clickable = true;
     trackTable.dataSource = new MatTableDataSource<QueueTrack>(tracks);
     trackTable.displayedColumns = this.getDisplayedColumns();
     trackTable.onPlayClick = ClickActions.AddPlayTrack;
-    trackTable.notify = true;
-    trackTable.playTitleColumn = true;
+    trackTable.pagination = true;
     return trackTable;
   }
 

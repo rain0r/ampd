@@ -24,11 +24,11 @@ import { QueueService } from "../../shared/services/queue.service";
 })
 export class BrowseNavigationComponent implements OnInit {
   @ViewChild("filterInputElem") filterInputElem?: ElementRef;
-  @Input()
-  browsePayload: Observable<AmpdBrowsePayload> = new Observable<AmpdBrowsePayload>();
+  @Input() browsePayload = new Observable<AmpdBrowsePayload>();
+  @Input() filterDisabled = false;
 
   dirUp$ = new BehaviorSubject<string>("/");
-  displayFilter$ = new BehaviorSubject<boolean>(true);
+  filterDisabled$ = new BehaviorSubject<boolean>(true);
   filter = "";
   getParamDir = "/";
 
@@ -62,9 +62,14 @@ export class BrowseNavigationComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.browsePayload.subscribe((payload) =>
-      this.displayFilter$.next(!this.isTracksOnlyDir(payload))
-    );
+    if (this.filterDisabled) {
+      // @Input() has precedence over a tracks-only-directory
+      this.filterDisabled$.next(false);
+    } else {
+      this.browsePayload.subscribe((payload) =>
+        this.filterDisabled$.next(!this.isTracksOnlyDir(payload))
+      );
+    }
   }
 
   onAddDir(dir: string): void {

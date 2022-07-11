@@ -1,9 +1,9 @@
 import { Injectable } from "@angular/core";
-import { RxStompService } from "@stomp/ng2-stompjs";
 import { Observable } from "rxjs";
 import { distinctUntilChanged, map } from "rxjs/operators";
 import { Track } from "../shared/messages/incoming/track";
 import { MpdAlbum } from "../shared/models/http/album";
+import { AmpdRxStompService } from "./ampd-rx-stomp.service";
 
 @Injectable({
   providedIn: "root",
@@ -11,7 +11,7 @@ import { MpdAlbum } from "../shared/models/http/album";
 export class QueueService {
   private path = "/app/queue/";
 
-  constructor(private rxStompService: RxStompService) {}
+  constructor(private rxStompService: AmpdRxStompService) {}
 
   getQueue(): void {
     this.rxStompService.publish({

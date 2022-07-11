@@ -1,6 +1,6 @@
 import { DragDropModule } from "@angular/cdk/drag-drop";
 import { ScrollingModule } from "@angular/cdk/scrolling";
-import { TitleCasePipe } from "@angular/common";
+import { Location, TitleCasePipe } from "@angular/common";
 import { HttpClientModule } from "@angular/common/http";
 import { ErrorHandler, NgModule } from "@angular/core";
 import { FlexLayoutModule } from "@angular/flex-layout";
@@ -25,11 +25,6 @@ import { MatTabsModule } from "@angular/material/tabs";
 import { MatToolbarModule } from "@angular/material/toolbar";
 import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
-import {
-  InjectableRxStompConfig,
-  RxStompService,
-  rxStompServiceFactory,
-} from "@stomp/ng2-stompjs";
 import { LightgalleryModule } from "lightgallery/angular";
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
@@ -65,6 +60,7 @@ import { TrackTableComponent } from "./queue/track-table/track-table.component";
 import { VolumeSliderComponent } from "./queue/volume-slider/volume-slider.component";
 import { SearchComponent } from "./search/search.component";
 import { AmpdRxStompConfigService } from "./service/ampd-rx-stomp-config.service";
+import { AmpdRxStompService } from "./service/ampd-rx-stomp.service";
 import { ServerStatisticsComponent } from "./settings/admin/server-statistics/server-statistics.component";
 import { UpdateDatabaseComponent } from "./settings/admin/update-database/update-database.component";
 import { CoverCacheComponent } from "./settings/backend/cover-cache/cover-cache.component";
@@ -195,13 +191,15 @@ import { TrackTableDataComponent } from "./shared/track-table/track-table-data.c
   providers: [
     TitleCasePipe,
     {
-      provide: InjectableRxStompConfig,
-      useClass: AmpdRxStompConfigService,
-    },
-    {
-      provide: RxStompService,
-      useFactory: rxStompServiceFactory,
-      deps: [InjectableRxStompConfig],
+      provide: AmpdRxStompService,
+      useFactory: (location: Location) => {
+        const config = new AmpdRxStompConfigService(location);
+        const rxStomp = new AmpdRxStompService();
+        rxStomp.configure(config);
+        rxStomp.activate();
+        return rxStomp;
+      },
+      deps: [Location],
     },
     {
       provide: ErrorHandler,
@@ -211,3 +209,5 @@ import { TrackTableDataComponent } from "./shared/track-table/track-table-data.c
   bootstrap: [AppComponent],
 })
 export class AppModule {}
+
+// export hello = (location: Location) => new AmpdRxStompConfigService(location);

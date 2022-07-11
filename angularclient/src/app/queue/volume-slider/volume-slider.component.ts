@@ -1,8 +1,8 @@
-import { RxStompService } from "@stomp/ng2-stompjs";
 import { Component } from "@angular/core";
 import { MatSliderChange } from "@angular/material/slider";
-import { VolumeService } from "../../service/volume.service";
 import { Observable } from "rxjs";
+import { VolumeService } from "../../service/volume.service";
+import { AmpdRxStompService } from "./../../service/ampd-rx-stomp.service";
 
 @Component({
   selector: "app-volume-slider",
@@ -15,7 +15,7 @@ export class VolumeSliderComponent {
 
   constructor(
     private volumeService: VolumeService,
-    private rxStompService: RxStompService
+    private rxStompService: AmpdRxStompService
   ) {
     volumeService.volume.subscribe((volume) => (this.volume = volume));
     this.connState = this.rxStompService.connectionState$;

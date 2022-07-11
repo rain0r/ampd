@@ -21,7 +21,7 @@ import java.util.TreeSet;
 @Service
 public class GenreService {
 
-	private static final Logger LOG = LoggerFactory.getLogger(CoverService.class);
+	private static final Logger LOG = LoggerFactory.getLogger(GenreService.class);
 
 	private final MPD mpd;
 
@@ -39,6 +39,7 @@ public class GenreService {
 		return ret;
 	}
 
+	@Cacheable("listGenre")
 	public GenrePayload listGenre(String genre) {
 		if (genre.isBlank()) {
 			return new GenrePayload(genre, Set.of(), Set.of());
@@ -46,7 +47,6 @@ public class GenreService {
 		return new GenrePayload(genre, searchTracks(genre), searchAlbums(genre));
 	}
 
-	@Cacheable("searchAlbums")
 	private Set<MPDAlbum> searchAlbums(String genre) {
 		Set<MPDAlbum> ret = new TreeSet<>();
 		mpd.getMusicDatabase().getAlbumDatabase().listAllAlbums().stream()
@@ -67,7 +67,6 @@ public class GenreService {
 		return ret;
 	}
 
-	@Cacheable("searchTracks")
 	private Set<MPDSong> searchTracks(String genre) {
 		TreeSet<MPDSong> tracks = new TreeSet<>(new MPDSongComparator());
 		SongSearcher songSearcher = mpd.getSongSearcher();

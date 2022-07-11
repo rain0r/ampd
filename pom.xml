@@ -42,6 +42,10 @@
             <optional>true</optional>
         </dependency>
         <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-cache</artifactId>
+        </dependency>
+        <dependency>
             <groupId>com.inthebacklog</groupId>
             <artifactId>javampd</artifactId>
             <version>7.1.0</version>

@@ -43,6 +43,7 @@ import { CoverGridComponent } from "./browse/directories/cover-grid/cover-grid.c
 import { DirectoriesComponent } from "./browse/directories/directories.component";
 import { DirectoryEntryComponent } from "./browse/directories/directory-entry/directory-entry.component";
 import { VirtualScrollDirectoriesComponent } from "./browse/directories/virtual-scroll-directories/virtual-scroll-directories.component";
+import { GenreAlbumsComponent } from "./browse/genres/genre-albums/genre-albums.component";
 import { GenresComponent } from "./browse/genres/genres.component";
 import { BrowseNavigationComponent } from "./browse/navigation/browse-navigation.component";
 import { PlaylistEntryComponent } from "./browse/playlists/playlist-entry/playlist-entry.component";
@@ -94,7 +95,6 @@ import { ReplaceNullWithTextPipe } from "./shared/pipes/replace-null-with-text.p
 import { SecondsToHhMmSsPipe } from "./shared/pipes/seconds-to-hh-mm-ss.pipe";
 import { SecondsToMmSsPipe } from "./shared/pipes/seconds-to-mm-ss.pipe";
 import { TrackTableDataComponent } from "./shared/track-table/track-table-data.component";
-import { GenreAlbumsComponent } from "./browse/genres/genre-albums/genre-albums.component";
 
 @NgModule({
   declarations: [
@@ -194,7 +194,6 @@ import { GenreAlbumsComponent } from "./browse/genres/genre-albums/genre-albums.
   ],
   providers: [
     TitleCasePipe,
-    ReplaceNullWithTextPipe,
     {
       provide: InjectableRxStompConfig,
       useClass: AmpdRxStompConfigService,

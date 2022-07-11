@@ -25,28 +25,7 @@
     <h1 class="genre-header">Genre: {{ payload.genre }}</h1>
     <mat-tab-group dynamicHeight [(selectedIndex)]="selectedIndex">
       <mat-tab label="Albums">
-        <div
-          *ngIf="payload.albums.length > 0; else noAlbums"
-          fxLayout="row wrap"
-          fxLayout.lt-md="column"
-          fxLayoutAlign="space-between"
-          fxLayoutAlign.lt-md="center center"
-          fxLayoutGap="1rem grid"
-          fxLayoutGap.lt-md="1rem"
-        >
-          <div
-            fxFlex
-            fxFlex.lt-md="100%"
-            fxLayoutAlign="center center"
-            *ngFor="let album of payload.albums"
-          >
-            <app-album-item
-              fxFlex.lt-md="100%"
-              [album]="album"
-            ></app-album-item>
-          </div>
-        </div>
-        <ng-template #noAlbums>No albums found.</ng-template>
+        <app-genre-albums [payload]="payload"></app-genre-albums>
       </mat-tab>
       <mat-tab label="Tracks">
         <app-track-data-table

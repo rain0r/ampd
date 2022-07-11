@@ -28,7 +28,7 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import {
   InjectableRxStompConfig,
   RxStompService,
-  rxStompServiceFactory
+  rxStompServiceFactory,
 } from "@stomp/ng2-stompjs";
 import { LightgalleryModule } from "lightgallery/angular";
 import { AppRoutingModule } from "./app-routing.module";
@@ -94,6 +94,7 @@ import { ReplaceNullWithTextPipe } from "./shared/pipes/replace-null-with-text.p
 import { SecondsToHhMmSsPipe } from "./shared/pipes/seconds-to-hh-mm-ss.pipe";
 import { SecondsToMmSsPipe } from "./shared/pipes/seconds-to-mm-ss.pipe";
 import { TrackTableDataComponent } from "./shared/track-table/track-table-data.component";
+import { GenreAlbumsComponent } from "./browse/genres/genre-albums/genre-albums.component";
 
 @NgModule({
   declarations: [
@@ -157,6 +158,7 @@ import { TrackTableDataComponent } from "./shared/track-table/track-table-data.c
     GenresComponent,
     ErrorDialogComponent,
     FileSizePipe,
+    GenreAlbumsComponent,
   ],
   imports: [
     AppRoutingModule,

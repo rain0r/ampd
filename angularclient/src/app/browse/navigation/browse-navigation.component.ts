@@ -12,10 +12,10 @@ import { distinctUntilChanged, map } from "rxjs/operators";
 import { InternalMessageType } from "../../shared/messages/internal/internal-message-type.enum";
 import { FilterMessage } from "../../shared/messages/internal/message-types/filter-message";
 import { AmpdBrowsePayload } from "../../shared/models/ampd-browse-payload";
-import { ControlPanelService } from "../../shared/services/control-panel.service";
-import { MessageService } from "../../shared/services/message.service";
-import { NotificationService } from "../../shared/services/notification.service";
-import { QueueService } from "../../shared/services/queue.service";
+import { ControlPanelService } from "../../service/control-panel.service";
+import { MessageService } from "../../service/message.service";
+import { NotificationService } from "../../service/notification.service";
+import { QueueService } from "../../service/queue.service";
 
 @Component({
   selector: "app-navigation",

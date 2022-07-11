@@ -2,8 +2,8 @@ import { Component, Input, OnInit } from "@angular/core";
 import { PageEvent } from "@angular/material/paginator";
 import { Observable } from "rxjs";
 import { Directory } from "../../shared/messages/incoming/directory";
-import { FrontendSettingsService } from "../../shared/services/frontend-settings.service";
-import { MessageService } from "../../shared/services/message.service";
+import { FrontendSettingsService } from "../../service/frontend-settings.service";
+import { MessageService } from "../../service/message.service";
 import { Filterable } from "../filterable";
 
 @Component({

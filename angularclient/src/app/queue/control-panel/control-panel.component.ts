@@ -1,9 +1,9 @@
 import { Component } from "@angular/core";
-import { NotificationService } from "../../shared/services/notification.service";
-import { MpdService } from "../../shared/services/mpd.service";
+import { NotificationService } from "../../service/notification.service";
+import { MpdService } from "../../service/mpd.service";
 import { Observable } from "rxjs";
-import { ControlPanelService } from "../../shared/services/control-panel.service";
-import { QueueService } from "../../shared/services/queue.service";
+import { ControlPanelService } from "../../service/control-panel.service";
+import { QueueService } from "../../service/queue.service";
 
 @Component({
   selector: "app-control-panel",

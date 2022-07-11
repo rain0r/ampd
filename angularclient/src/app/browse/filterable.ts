@@ -1,4 +1,4 @@
-import { MessageService } from "../shared/services/message.service";
+import { MessageService } from "../service/message.service";
 import { filter, map } from "rxjs/operators";
 import { InternalMessageType } from "../shared/messages/internal/internal-message-type.enum";
 import { FilterMessage } from "../shared/messages/internal/message-types/filter-message";

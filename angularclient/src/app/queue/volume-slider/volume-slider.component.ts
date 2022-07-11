@@ -1,7 +1,7 @@
 import { RxStompService } from "@stomp/ng2-stompjs";
 import { Component } from "@angular/core";
 import { MatSliderChange } from "@angular/material/slider";
-import { VolumeService } from "../../shared/services/volume.service";
+import { VolumeService } from "../../service/volume.service";
 import { Observable } from "rxjs";
 
 @Component({

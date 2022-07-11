@@ -6,8 +6,8 @@ import {
   KEY_PAGINATION,
   KEY_SET_TAB_TITLE,
   KEY_VIRTUAL_SCROLL,
-} from "../local-storage-keys";
-import { DarkTheme, LightTheme } from "../themes/themes";
+} from "../shared/local-storage-keys";
+import { DarkTheme, LightTheme } from "../shared/themes/themes";
 
 /**
  * Dark theme.

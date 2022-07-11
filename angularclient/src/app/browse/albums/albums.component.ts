@@ -10,7 +10,7 @@ import {
   tap,
 } from "rxjs/operators";
 import { MpdAlbum } from "src/app/shared/models/http/album";
-import { AlbumsService } from "src/app/shared/services/albums.service";
+import { AlbumsService } from "src/app/service/albums.service";
 
 @Component({
   selector: "app-albums",

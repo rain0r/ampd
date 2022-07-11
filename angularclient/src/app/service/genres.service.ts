@@ -6,8 +6,8 @@ import {
 import { Injectable } from "@angular/core";
 import { catchError, Observable, throwError } from "rxjs";
 import { map } from "rxjs/operators";
-import { ErrorMsg } from "../error/error-msg";
-import { GenresPayload } from "../models/http/genres";
+import { ErrorMsg } from "../shared/error/error-msg";
+import { GenresPayload } from "../shared/models/http/genres";
 import { SettingsService } from "./settings.service";
 
 @Injectable({

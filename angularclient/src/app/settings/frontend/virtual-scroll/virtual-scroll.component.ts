@@ -1,7 +1,7 @@
 import { Component } from "@angular/core";
-import { NotificationService } from "../../../shared/services/notification.service";
+import { NotificationService } from "../../../service/notification.service";
 import { Observable } from "rxjs";
-import { FrontendSettingsService } from "../../../shared/services/frontend-settings.service";
+import { FrontendSettingsService } from "../../../service/frontend-settings.service";
 
 @Component({
   selector: "app-virtual-scroll",

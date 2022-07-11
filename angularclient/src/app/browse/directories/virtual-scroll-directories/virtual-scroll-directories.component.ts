@@ -1,7 +1,7 @@
 import { Component, Input } from "@angular/core";
 import { Directory } from "../../../shared/messages/incoming/directory";
 import { Filterable } from "../../filterable";
-import { MessageService } from "../../../shared/services/message.service";
+import { MessageService } from "../../../service/message.service";
 
 @Component({
   selector: "app-virtual-scroll-directories",

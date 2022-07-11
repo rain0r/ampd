@@ -1,11 +1,11 @@
 import { Component, Input } from "@angular/core";
 import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
 import { Observable } from "rxjs";
-import { ResponsiveScreenService } from "src/app/shared/services/responsive-screen.service";
+import { ResponsiveScreenService } from "src/app/service/responsive-screen.service";
 import { Playlist } from "../../../shared/messages/incoming/playlist-impl";
-import { FrontendSettingsService } from "../../../shared/services/frontend-settings.service";
-import { NotificationService } from "../../../shared/services/notification.service";
-import { QueueService } from "../../../shared/services/queue.service";
+import { FrontendSettingsService } from "../../../service/frontend-settings.service";
+import { NotificationService } from "../../../service/notification.service";
+import { QueueService } from "../../../service/queue.service";
 import { PlaylistInfoModalComponent } from "../playlist-info-modal/playlist-info-modal.component";
 
 @Component({

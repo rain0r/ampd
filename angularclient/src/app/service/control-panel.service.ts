@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { RxStompService } from "@stomp/ng2-stompjs";
-import { MpdModesPanel } from "../messages/incoming/mpd-modes-panel";
+import { MpdModesPanel } from "../shared/messages/incoming/mpd-modes-panel";
 
 @Injectable({
   providedIn: "root",

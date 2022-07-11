@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { RxStompService } from "@stomp/ng2-stompjs";
 import { Observable } from "rxjs";
 import { distinctUntilChanged, map } from "rxjs/operators";
-import { SearchResponse } from "../messages/incoming/search-response";
+import { SearchResponse } from "../shared/messages/incoming/search-response";
 
 @Injectable({
   providedIn: "root",

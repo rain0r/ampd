@@ -3,11 +3,11 @@ import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable, throwError } from "rxjs";
 import { catchError, map } from "rxjs/operators";
-import { ApiEndpoints } from "../api-endpoints";
-import { ErrorMsg } from "../error/error-msg";
-import { KEY_BACKEND_ADDRESS } from "../local-storage-keys";
-import { BackendSettings } from "../models/backend-settings";
-import { CoverDiskUsage } from "./../models/http/cover-disk-usage";
+import { ApiEndpoints } from "../shared/api-endpoints";
+import { ErrorMsg } from "../shared/error/error-msg";
+import { KEY_BACKEND_ADDRESS } from "../shared/local-storage-keys";
+import { BackendSettings } from "../shared/models/backend-settings";
+import { CoverDiskUsage } from "../shared/models/http/cover-disk-usage";
 
 @Injectable({
   providedIn: "root",

@@ -2,13 +2,13 @@ import { Component, ElementRef, ViewChild } from "@angular/core";
 import { MatTableDataSource } from "@angular/material/table";
 import { of, Subject } from "rxjs";
 import { debounceTime, distinctUntilChanged, switchMap } from "rxjs/operators";
-import { ResponsiveScreenService } from "src/app/shared/services/responsive-screen.service";
+import { ResponsiveScreenService } from "src/app/service/responsive-screen.service";
 import { SearchResponse } from "../shared/messages/incoming/search-response";
 import { Track } from "../shared/messages/incoming/track";
 import { QueueTrack } from "../shared/models/queue-track";
-import { NotificationService } from "../shared/services/notification.service";
-import { QueueService } from "../shared/services/queue.service";
-import { SearchService } from "../shared/services/search.service";
+import { NotificationService } from "../service/notification.service";
+import { QueueService } from "../service/queue.service";
+import { SearchService } from "../service/search.service";
 import { ClickActions } from "../shared/track-table/click-actions.enum";
 import { TrackTableData } from "../shared/track-table/track-table-data";
 

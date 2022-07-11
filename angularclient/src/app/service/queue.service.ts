@@ -2,8 +2,8 @@ import { Injectable } from "@angular/core";
 import { RxStompService } from "@stomp/ng2-stompjs";
 import { Observable } from "rxjs";
 import { distinctUntilChanged, map } from "rxjs/operators";
-import { Track } from "../messages/incoming/track";
-import { MpdAlbum } from "../models/http/album";
+import { Track } from "../shared/messages/incoming/track";
+import { MpdAlbum } from "../shared/models/http/album";
 
 @Injectable({
   providedIn: "root",

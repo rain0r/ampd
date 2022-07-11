@@ -1,8 +1,8 @@
 import { Component, Inject } from "@angular/core";
 import { Observable } from "rxjs";
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
-import { NotificationService } from "../../shared/services/notification.service";
-import { PlaylistService } from "../../shared/services/playlist.service";
+import { NotificationService } from "../../service/notification.service";
+import { PlaylistService } from "../../service/playlist.service";
 
 @Component({
   selector: "app-save-playlist-modal",

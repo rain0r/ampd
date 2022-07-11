@@ -1,6 +1,5 @@
 import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { RxStompService } from "@stomp/ng2-stompjs";
 import { Observable, Subject, throwError } from "rxjs";
 import { catchError, filter, map, tap } from "rxjs/operators";
 import { ErrorMsg } from "../shared/error/error-msg";
@@ -8,6 +7,7 @@ import { MpdModesPanel } from "../shared/messages/incoming/mpd-modes-panel";
 import { StateMsgPayload } from "../shared/messages/incoming/state-msg-payload";
 import { QueueTrack } from "../shared/models/queue-track";
 import { ServerStatistics } from "../shared/models/server-statistics";
+import { AmpdRxStompService } from "./ampd-rx-stomp.service";
 import { SettingsService } from "./settings.service";
 
 @Injectable({
@@ -24,7 +24,7 @@ export class MpdService {
 
   constructor(
     private http: HttpClient,
-    private rxStompService: RxStompService,
+    private rxStompService: AmpdRxStompService,
     private settingsService: SettingsService
   ) {
     this.buildStateSubscription();

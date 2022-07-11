@@ -1,5 +1,4 @@
 import { Injectable } from "@angular/core";
-import { RxStompService } from "@stomp/ng2-stompjs";
 import { BehaviorSubject, Observable, Subject } from "rxjs";
 import {
   bufferTime,
@@ -10,6 +9,7 @@ import {
 } from "rxjs/operators";
 import { StateMsgPayload } from "../shared/messages/incoming/state-msg-payload";
 import { VolumeSetter } from "../shared/models/volume-setter";
+import { AmpdRxStompService } from "./ampd-rx-stomp.service";
 
 @Injectable({
   providedIn: "root",
@@ -21,7 +21,7 @@ export class VolumeService {
   private volume$ = new BehaviorSubject<number>(0);
   private volumeSetter$ = new Subject<VolumeSetter>();
 
-  constructor(private rxStompService: RxStompService) {
+  constructor(private rxStompService: AmpdRxStompService) {
     this.volume = this.volume$.asObservable();
     this.volumeSetter = this.volumeSetter$.asObservable();
     this.buildStateSubscription();

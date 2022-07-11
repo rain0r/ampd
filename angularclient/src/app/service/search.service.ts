@@ -1,14 +1,14 @@
 import { Injectable } from "@angular/core";
-import { RxStompService } from "@stomp/ng2-stompjs";
 import { Observable } from "rxjs";
 import { distinctUntilChanged, map } from "rxjs/operators";
 import { SearchResponse } from "../shared/messages/incoming/search-response";
+import { AmpdRxStompService } from "./ampd-rx-stomp.service";
 
 @Injectable({
   providedIn: "root",
 })
 export class SearchService {
-  constructor(private rxStompService: RxStompService) {}
+  constructor(private rxStompService: AmpdRxStompService) {}
 
   search(term: string): void {
     this.rxStompService.publish({

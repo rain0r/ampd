@@ -1,10 +1,10 @@
 import { Component } from "@angular/core";
 import { MatSliderChange } from "@angular/material/slider";
-import { RxStompService } from "@stomp/ng2-stompjs";
 import { Observable } from "rxjs";
-import { QueueTrack } from "../../shared/models/queue-track";
 import { ControlPanelService } from "../../service/control-panel.service";
 import { MpdService } from "../../service/mpd.service";
+import { QueueTrack } from "../../shared/models/queue-track";
+import { AmpdRxStompService } from "./../../service/ampd-rx-stomp.service";
 
 @Component({
   selector: "app-track-progress",
@@ -19,7 +19,7 @@ export class TrackProgressComponent {
   constructor(
     private mpdService: MpdService,
     private controlPanelService: ControlPanelService,
-    private rxStompService: RxStompService
+    private rxStompService: AmpdRxStompService
   ) {
     this.state = this.mpdService.currentState;
     this.connState = this.rxStompService.connectionState$;

@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
-import { RxStompService } from "@stomp/ng2-stompjs";
 import { MpdModesPanel } from "../shared/messages/incoming/mpd-modes-panel";
+import { AmpdRxStompService } from "./ampd-rx-stomp.service";
 
 @Injectable({
   providedIn: "root",
@@ -8,7 +8,7 @@ import { MpdModesPanel } from "../shared/messages/incoming/mpd-modes-panel";
 export class ControlPanelService {
   private path = "/app/control-panel/";
 
-  constructor(private rxStompService: RxStompService) {}
+  constructor(private rxStompService: AmpdRxStompService) {}
 
   prev(): void {
     this.rxStompService.publish({

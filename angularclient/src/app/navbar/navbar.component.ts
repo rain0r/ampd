@@ -1,7 +1,6 @@
 import { Component, HostListener } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
 import { Router } from "@angular/router";
-import { RxStompService } from "@stomp/ng2-stompjs";
 import { BehaviorSubject, Observable } from "rxjs";
 import { AddStreamModalComponent } from "../queue/add-stream-modal/add-stream-modal.component";
 import { SearchComponent } from "../search/search.component";
@@ -13,6 +12,7 @@ import { NotificationService } from "../service/notification.service";
 import { QueueService } from "../service/queue.service";
 import { ResponsiveScreenService } from "../service/responsive-screen.service";
 import { VolumeService } from "../service/volume.service";
+import { AmpdRxStompService } from "./../service/ampd-rx-stomp.service";
 import { HelpModalComponent } from "./help-modal/help-modal.component";
 
 @Component({
@@ -38,7 +38,7 @@ export class NavbarComponent {
     private queueService: QueueService,
     private responsiveScreenService: ResponsiveScreenService,
     private router: Router,
-    private rxStompService: RxStompService,
+    private rxStompService: AmpdRxStompService,
     private volumeService: VolumeService
   ) {
     this.isDarkTheme = this.frontendSettingsService.darkTheme;

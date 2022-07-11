@@ -18,7 +18,7 @@ export class AlbumsService {
   ) {}
 
   /**
-   * Fetch albums from the backensed.
+   * Fetch albums from the backend.
    *
    * @param page
    * @returns

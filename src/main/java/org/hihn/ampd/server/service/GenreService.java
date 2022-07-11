@@ -21,7 +21,7 @@ import java.util.TreeSet;
 @Service
 public class GenreService {
 
-	private static final Logger LOG = LoggerFactory.getLogger(CoverService.class);
+	private static final Logger LOG = LoggerFactory.getLogger(GenreService.class);
 
 	private final MPD mpd;
 

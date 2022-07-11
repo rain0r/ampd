@@ -1,6 +1,6 @@
-import { TitleCasePipe } from "@angular/common";
 import { DragDropModule } from "@angular/cdk/drag-drop";
 import { ScrollingModule } from "@angular/cdk/scrolling";
+import { TitleCasePipe } from "@angular/common";
 import { HttpClientModule } from "@angular/common/http";
 import { ErrorHandler, NgModule } from "@angular/core";
 import { FlexLayoutModule } from "@angular/flex-layout";
@@ -28,7 +28,7 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import {
   InjectableRxStompConfig,
   RxStompService,
-  rxStompServiceFactory,
+  rxStompServiceFactory
 } from "@stomp/ng2-stompjs";
 import { LightgalleryModule } from "lightgallery/angular";
 import { AppRoutingModule } from "./app-routing.module";
@@ -43,6 +43,7 @@ import { CoverGridComponent } from "./browse/directories/cover-grid/cover-grid.c
 import { DirectoriesComponent } from "./browse/directories/directories.component";
 import { DirectoryEntryComponent } from "./browse/directories/directory-entry/directory-entry.component";
 import { VirtualScrollDirectoriesComponent } from "./browse/directories/virtual-scroll-directories/virtual-scroll-directories.component";
+import { GenresComponent } from "./browse/genres/genres.component";
 import { BrowseNavigationComponent } from "./browse/navigation/browse-navigation.component";
 import { PlaylistEntryComponent } from "./browse/playlists/playlist-entry/playlist-entry.component";
 import { PlaylistInfoModalComponent } from "./browse/playlists/playlist-info-modal/playlist-info-modal.component";
@@ -62,6 +63,7 @@ import { TrackProgressComponent } from "./queue/track-progress/track-progress.co
 import { TrackTableComponent } from "./queue/track-table/track-table.component";
 import { VolumeSliderComponent } from "./queue/volume-slider/volume-slider.component";
 import { SearchComponent } from "./search/search.component";
+import { AmpdRxStompConfigService } from "./service/ampd-rx-stomp-config.service";
 import { ServerStatisticsComponent } from "./settings/admin/server-statistics/server-statistics.component";
 import { UpdateDatabaseComponent } from "./settings/admin/update-database/update-database.component";
 import { CoverCacheComponent } from "./settings/backend/cover-cache/cover-cache.component";
@@ -78,9 +80,12 @@ import { TabTitleComponent } from "./settings/frontend/tab-title/tab-title.compo
 import { ThemeComponent } from "./settings/frontend/theme/theme.component";
 import { VirtualScrollComponent } from "./settings/frontend/virtual-scroll/virtual-scroll.component";
 import { SettingsComponent } from "./settings/settings.component";
+import { AmpdErrorHandler } from "./shared/ampd-error-handler";
+import { ErrorDialogComponent } from "./shared/error-dialog/error-dialog.component";
 import { ErrorComponent } from "./shared/error/error.component";
 import { KeyValueTableComponent } from "./shared/key-value-table/key-value-table.component";
 import { EncodeURIComponentPipe } from "./shared/pipes/encode-uri.pipe";
+import { FileSizePipe } from "./shared/pipes/file-size.pipe";
 import { DirectoryFilterStartLetterPipePipe } from "./shared/pipes/filter/directory-filter-start-letter-pipe.pipe";
 import { DirectoryFilterPipe } from "./shared/pipes/filter/directory-filter.pipe";
 import { PlaylistFilterPipe } from "./shared/pipes/filter/playlist-filter.pipe";
@@ -88,12 +93,7 @@ import { MapEntriesPipe } from "./shared/pipes/map-entries.pipe";
 import { ReplaceNullWithTextPipe } from "./shared/pipes/replace-null-with-text.pipe";
 import { SecondsToHhMmSsPipe } from "./shared/pipes/seconds-to-hh-mm-ss.pipe";
 import { SecondsToMmSsPipe } from "./shared/pipes/seconds-to-mm-ss.pipe";
-import { AmpdRxStompConfig } from "./service/ampd-rx-stomp-config.service";
 import { TrackTableDataComponent } from "./shared/track-table/track-table-data.component";
-import { GenresComponent } from "./browse/genres/genres.component";
-import { AmpdErrorHandler } from "./shared/ampd-error-handler";
-import { ErrorDialogComponent } from "./shared/error-dialog/error-dialog.component";
-import { FileSizePipe } from "./shared/pipes/file-size.pipe";
 
 @NgModule({
   declarations: [
@@ -195,7 +195,7 @@ import { FileSizePipe } from "./shared/pipes/file-size.pipe";
     ReplaceNullWithTextPipe,
     {
       provide: InjectableRxStompConfig,
-      useClass: AmpdRxStompConfig,
+      useClass: AmpdRxStompConfigService,
     },
     {
       provide: RxStompService,

@@ -1,12 +1,12 @@
+import { Location } from "@angular/common";
+import { Injectable } from "@angular/core";
 import { InjectableRxStompConfig } from "@stomp/ng2-stompjs";
 import { ApiEndpoints } from "../shared/api-endpoints";
-import { Injectable } from "@angular/core";
-import { Location } from "@angular/common";
 
 @Injectable({
   providedIn: "root",
 })
-export class AmpdRxStompConfig extends InjectableRxStompConfig {
+export class AmpdRxStompConfigService extends InjectableRxStompConfig {
   constructor(private location: Location) {
     super();
     // Which server?

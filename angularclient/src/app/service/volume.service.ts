@@ -8,8 +8,8 @@ import {
   map,
   withLatestFrom,
 } from "rxjs/operators";
-import { StateMsgPayload } from "../messages/incoming/state-msg-payload";
-import { VolumeSetter } from "../models/volume-setter";
+import { StateMsgPayload } from "../shared/messages/incoming/state-msg-payload";
+import { VolumeSetter } from "../shared/models/volume-setter";
 
 @Injectable({
   providedIn: "root",

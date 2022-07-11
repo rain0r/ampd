@@ -8,8 +8,8 @@ import { AmpdBrowsePayload } from "src/app/shared/models/ampd-browse-payload";
 import { Track } from "../../shared/messages/incoming/track";
 import { GenresPayload } from "../../shared/models/http/genres";
 import { QueueTrack } from "../../shared/models/queue-track";
-import { GenresService as GenreService } from "../../shared/services/genres.service";
-import { ResponsiveScreenService } from "../../shared/services/responsive-screen.service";
+import { GenresService as GenreService } from "../../service/genres.service";
+import { ResponsiveScreenService } from "../../service/responsive-screen.service";
 import { ClickActions } from "../../shared/track-table/click-actions.enum";
 import { TrackTableData } from "../../shared/track-table/track-table-data";
 

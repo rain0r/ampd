@@ -1,4 +1,4 @@
-import { FrontendSettingsService } from "./services/frontend-settings.service";
+import { FrontendSettingsService } from "../service/frontend-settings.service";
 import { ErrorDialogComponent } from "./error-dialog/error-dialog.component";
 import { ErrorHandler, Injectable, NgZone } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";

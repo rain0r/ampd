@@ -1,7 +1,7 @@
 import { Component } from "@angular/core";
 import { MpdModesPanel } from "../../shared/messages/incoming/mpd-modes-panel";
-import { MpdService } from "../../shared/services/mpd.service";
-import { MpdModeService } from "../../shared/services/mpd-mode.service";
+import { MpdService } from "../../service/mpd.service";
+import { MpdModeService } from "../../service/mpd-mode.service";
 import { Observable } from "rxjs";
 
 @Component({

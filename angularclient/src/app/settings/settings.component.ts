@@ -1,7 +1,7 @@
 import { Component } from "@angular/core";
 import { Observable } from "rxjs";
 import { BackendSettings } from "../shared/models/backend-settings";
-import { SettingsService } from "../shared/services/settings.service";
+import { SettingsService } from "../service/settings.service";
 import { Title } from "@angular/platform-browser";
 import { ErrorMsg } from "../shared/error/error-msg";
 

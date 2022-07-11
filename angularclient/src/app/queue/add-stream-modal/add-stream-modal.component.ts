@@ -1,6 +1,6 @@
 import { Component, Inject } from "@angular/core";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
-import { QueueService } from "../../shared/services/queue.service";
+import { QueueService } from "../../service/queue.service";
 
 @Component({
   selector: "app-add-stream-modal",

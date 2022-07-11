@@ -1,10 +1,10 @@
 import { Component, HostListener, OnInit } from "@angular/core";
-import { MpdService } from "../shared/services/mpd.service";
+import { MpdService } from "../service/mpd.service";
 import { Title } from "@angular/platform-browser";
 import { combineLatest } from "rxjs";
 import { map } from "rxjs/operators";
-import { QueueService } from "../shared/services/queue.service";
-import { FrontendSettingsService } from "../shared/services/frontend-settings.service";
+import { QueueService } from "../service/queue.service";
+import { FrontendSettingsService } from "../service/frontend-settings.service";
 
 @Component({
   selector: "app-queue",

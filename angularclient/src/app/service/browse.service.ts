@@ -2,10 +2,10 @@ import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable, throwError } from "rxjs";
 import { catchError, map } from "rxjs/operators";
-import { ErrorMsg } from "../error/error-msg";
-import { AmpdBrowsePayload } from "../models/ampd-browse-payload";
-import { BrowsePayload } from "../models/browse-payload";
-import { QueueTrack } from "../models/queue-track";
+import { ErrorMsg } from "../shared/error/error-msg";
+import { AmpdBrowsePayload } from "../shared/models/ampd-browse-payload";
+import { BrowsePayload } from "../shared/models/browse-payload";
+import { QueueTrack } from "../shared/models/queue-track";
 import { SettingsService } from "./settings.service";
 
 @Injectable({

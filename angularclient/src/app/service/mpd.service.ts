@@ -3,11 +3,11 @@ import { Injectable } from "@angular/core";
 import { RxStompService } from "@stomp/ng2-stompjs";
 import { Observable, Subject, throwError } from "rxjs";
 import { catchError, filter, map, tap } from "rxjs/operators";
-import { ErrorMsg } from "../error/error-msg";
-import { MpdModesPanel } from "../messages/incoming/mpd-modes-panel";
-import { StateMsgPayload } from "../messages/incoming/state-msg-payload";
-import { QueueTrack } from "../models/queue-track";
-import { ServerStatistics } from "../models/server-statistics";
+import { ErrorMsg } from "../shared/error/error-msg";
+import { MpdModesPanel } from "../shared/messages/incoming/mpd-modes-panel";
+import { StateMsgPayload } from "../shared/messages/incoming/state-msg-payload";
+import { QueueTrack } from "../shared/models/queue-track";
+import { ServerStatistics } from "../shared/models/server-statistics";
 import { SettingsService } from "./settings.service";
 
 @Injectable({

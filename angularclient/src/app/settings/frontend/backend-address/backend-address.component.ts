@@ -4,8 +4,8 @@ import {
   UntypedFormGroup,
   Validators,
 } from "@angular/forms";
-import { NotificationService } from "../../../shared/services/notification.service";
-import { SettingsService } from "../../../shared/services/settings.service";
+import { NotificationService } from "../../../service/notification.service";
+import { SettingsService } from "../../../service/settings.service";
 
 @Component({
   selector: "app-backend-address",

@@ -1,8 +1,8 @@
 import { Component, Input, OnInit } from "@angular/core";
 import { Directory } from "../../../shared/messages/incoming/directory";
-import { ControlPanelService } from "../../../shared/services/control-panel.service";
-import { NotificationService } from "../../../shared/services/notification.service";
-import { QueueService } from "../../../shared/services/queue.service";
+import { ControlPanelService } from "../../../service/control-panel.service";
+import { NotificationService } from "../../../service/notification.service";
+import { QueueService } from "../../../service/queue.service";
 
 @Component({
   selector: "app-directory-entry",

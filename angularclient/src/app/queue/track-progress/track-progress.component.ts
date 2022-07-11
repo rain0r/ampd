@@ -3,8 +3,8 @@ import { MatSliderChange } from "@angular/material/slider";
 import { RxStompService } from "@stomp/ng2-stompjs";
 import { Observable } from "rxjs";
 import { QueueTrack } from "../../shared/models/queue-track";
-import { ControlPanelService } from "../../shared/services/control-panel.service";
-import { MpdService } from "../../shared/services/mpd.service";
+import { ControlPanelService } from "../../service/control-panel.service";
+import { MpdService } from "../../service/mpd.service";
 
 @Component({
   selector: "app-track-progress",

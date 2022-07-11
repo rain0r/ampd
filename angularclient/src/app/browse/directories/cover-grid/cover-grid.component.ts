@@ -1,6 +1,6 @@
 import { Component, Input } from "@angular/core";
 import { Directory } from "../../../shared/messages/incoming/directory";
-import { MessageService } from "../../../shared/services/message.service";
+import { MessageService } from "../../../service/message.service";
 import { Filterable } from "../../filterable";
 
 @Component({

@@ -1,6 +1,6 @@
 import { Component } from "@angular/core";
-import { FrontendSettingsService } from "../../../shared/services/frontend-settings.service";
-import { NotificationService } from "../../../shared/services/notification.service";
+import { FrontendSettingsService } from "../../../service/frontend-settings.service";
+import { NotificationService } from "../../../service/notification.service";
 import { Observable } from "rxjs";
 
 @Component({

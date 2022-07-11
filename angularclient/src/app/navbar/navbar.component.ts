@@ -5,14 +5,14 @@ import { RxStompService } from "@stomp/ng2-stompjs";
 import { BehaviorSubject, Observable } from "rxjs";
 import { AddStreamModalComponent } from "../queue/add-stream-modal/add-stream-modal.component";
 import { SearchComponent } from "../search/search.component";
-import { ControlPanelService } from "../shared/services/control-panel.service";
-import { FrontendSettingsService } from "../shared/services/frontend-settings.service";
-import { MpdModeService } from "../shared/services/mpd-mode.service";
-import { MpdService } from "../shared/services/mpd.service";
-import { NotificationService } from "../shared/services/notification.service";
-import { QueueService } from "../shared/services/queue.service";
-import { ResponsiveScreenService } from "../shared/services/responsive-screen.service";
-import { VolumeService } from "../shared/services/volume.service";
+import { ControlPanelService } from "../service/control-panel.service";
+import { FrontendSettingsService } from "../service/frontend-settings.service";
+import { MpdModeService } from "../service/mpd-mode.service";
+import { MpdService } from "../service/mpd.service";
+import { NotificationService } from "../service/notification.service";
+import { QueueService } from "../service/queue.service";
+import { ResponsiveScreenService } from "../service/responsive-screen.service";
+import { VolumeService } from "../service/volume.service";
 import { HelpModalComponent } from "./help-modal/help-modal.component";
 
 @Component({

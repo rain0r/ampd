@@ -1,7 +1,7 @@
 import { Component } from "@angular/core";
 import { ServerStatistics } from "../../../shared/models/server-statistics";
 import { Observable } from "rxjs";
-import { MpdService } from "../../../shared/services/mpd.service";
+import { MpdService } from "../../../service/mpd.service";
 
 @Component({
   selector: "app-server-statistics",

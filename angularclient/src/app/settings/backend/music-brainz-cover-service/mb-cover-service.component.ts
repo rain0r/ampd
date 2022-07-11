@@ -1,6 +1,6 @@
 import { Component, Input } from "@angular/core";
 import { Observable } from "rxjs";
-import { SettingsService } from "../../../shared/services/settings.service";
+import { SettingsService } from "../../../service/settings.service";
 
 @Component({
   selector: "app-music-brainz-cover-service",

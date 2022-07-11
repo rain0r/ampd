@@ -3,7 +3,7 @@ import { ActivatedRoute } from "@angular/router";
 import { BehaviorSubject, Observable } from "rxjs";
 import { distinctUntilChanged, finalize, map } from "rxjs/operators";
 import { AmpdBrowsePayload } from "../shared/models/ampd-browse-payload";
-import { BrowseService } from "../shared/services/browse.service";
+import { BrowseService } from "../service/browse.service";
 
 @Component({
   selector: "app-browse",

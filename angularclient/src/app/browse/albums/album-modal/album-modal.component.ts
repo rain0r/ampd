@@ -4,9 +4,9 @@ import { MatTableDataSource } from "@angular/material/table";
 import { Observable } from "rxjs";
 import { MpdAlbum } from "src/app/shared/models/http/album";
 import { QueueTrack } from "src/app/shared/models/queue-track";
-import { AlbumsService } from "src/app/shared/services/albums.service";
-import { QueueService } from "src/app/shared/services/queue.service";
-import { ResponsiveScreenService } from "src/app/shared/services/responsive-screen.service";
+import { AlbumsService } from "src/app/service/albums.service";
+import { QueueService } from "src/app/service/queue.service";
+import { ResponsiveScreenService } from "src/app/service/responsive-screen.service";
 import { ClickActions } from "src/app/shared/track-table/click-actions.enum";
 import { TrackTableData } from "src/app/shared/track-table/track-table-data";
 

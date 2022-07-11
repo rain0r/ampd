@@ -7,10 +7,10 @@ import { filter, first } from "rxjs/operators";
 import { LIGHTBOX_SETTINGS } from "src/app/shared/lightbox";
 import { InternalMessageType } from "../../shared/messages/internal/internal-message-type.enum";
 import { QueueTrack } from "../../shared/models/queue-track";
-import { FrontendSettingsService } from "../../shared/services/frontend-settings.service";
-import { MessageService } from "../../shared/services/message.service";
-import { MpdService } from "../../shared/services/mpd.service";
-import { ResponsiveScreenService } from "../../shared/services/responsive-screen.service";
+import { FrontendSettingsService } from "../../service/frontend-settings.service";
+import { MessageService } from "../../service/message.service";
+import { MpdService } from "../../service/mpd.service";
+import { ResponsiveScreenService } from "../../service/responsive-screen.service";
 
 @Component({
   selector: "app-queue-header",

@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { MpdModesPanel } from "../messages/incoming/mpd-modes-panel";
+import { MpdModesPanel } from "../shared/messages/incoming/mpd-modes-panel";
 import { NotificationService } from "./notification.service";
 import { MpdService } from "./mpd.service";
 import { ControlPanelService } from "./control-panel.service";

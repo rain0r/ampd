@@ -1,6 +1,6 @@
 import { Component } from "@angular/core";
-import { NotificationService } from "../../../shared/services/notification.service";
-import { MpdService } from "../../../shared/services/mpd.service";
+import { NotificationService } from "../../../service/notification.service";
+import { MpdService } from "../../../service/mpd.service";
 
 @Component({
   selector: "app-update-database",

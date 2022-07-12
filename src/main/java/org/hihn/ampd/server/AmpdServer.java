@@ -1,7 +1,5 @@
 package org.hihn.ampd.server;
 
-import org.hihn.ampd.server.service.GenreService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -23,9 +21,6 @@ public class AmpdServer {
 
 	@Value("${server.port}")
 	private int port;
-
-	@Autowired
-	private GenreService genreService;
 
 	public static void main(final String[] args) {
 		SpringApplication.run(AmpdServer.class, args);

@@ -1,7 +1,6 @@
 package org.hihn.ampd.server.service;
 
 import org.bff.javampd.album.MPDAlbum;
-import org.bff.javampd.artist.MPDArtist;
 import org.bff.javampd.playlist.MPDPlaylistSong;
 import org.bff.javampd.server.MPD;
 import org.bff.javampd.song.MPDSong;
@@ -11,7 +10,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.Optional;
+import java.util.TreeSet;
 import java.util.stream.Collectors;
 
 @Service
@@ -28,7 +30,6 @@ public class AlbumService {
 		this.ampdSettings = ampdSettings;
 	}
 
-	@Cacheable("albums")
 	public TreeSet<MPDAlbum> listAllAlbums(int page, String searchTerm) {
 		LOG.debug("searchTerm: " + searchTerm + " page: " + page);
 		final String st = searchTerm.toLowerCase().trim();
@@ -59,6 +60,7 @@ public class AlbumService {
 						Comparator.comparing(MPDAlbum::getAlbumArtist).thenComparing(MPDAlbum::getName))));
 	}
 
+	@Cacheable("listAlbum")
 	public Collection<MPDSong> listAlbum(String album, String artist) {
 		MPDAlbum mpdAlbum = MPDAlbum.builder(album).albumArtist(artist).build();
 		Collection<MPDSong> songs = mpd.getMusicDatabase().getSongDatabase().findAlbum(mpdAlbum);

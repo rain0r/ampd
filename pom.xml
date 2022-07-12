@@ -200,6 +200,12 @@
                                 <include>**</include>
                             </includes>
                         </fileset>
+                        <fileset>
+                            <directory>src/main/resources/static</directory>
+                            <includes>
+                                <include>**</include>
+                            </includes>
+                        </fileset>
                     </filesets>
                 </configuration>
             </plugin>

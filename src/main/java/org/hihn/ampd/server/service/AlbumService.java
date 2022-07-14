@@ -16,6 +16,9 @@ import java.util.Optional;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
 
+/**
+ * Provides methods to browse through {@link MPDAlbum} of the collection.
+ */
 @Service
 public class AlbumService {
 

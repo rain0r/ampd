@@ -18,6 +18,9 @@ import java.util.Comparator;
 import java.util.Set;
 import java.util.TreeSet;
 
+/**
+ * Provides methods to browse through genres of the collection.
+ */
 @Service
 public class GenreService {
 

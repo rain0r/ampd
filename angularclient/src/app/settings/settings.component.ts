@@ -1,9 +1,10 @@
 import { Component } from "@angular/core";
-import { Observable } from "rxjs";
-import { BackendSettings } from "../shared/models/backend-settings";
-import { SettingsService } from "../service/settings.service";
 import { Title } from "@angular/platform-browser";
+import { Observable } from "rxjs";
+import { SettingsService } from "../service/settings.service";
 import { ErrorMsg } from "../shared/error/error-msg";
+import { BackendSettings } from "../shared/models/backend-settings";
+import { NewBackendSettings } from "../shared/models/new-backend-settings";
 
 @Component({
   selector: "app-settings",
@@ -12,6 +13,7 @@ import { ErrorMsg } from "../shared/error/error-msg";
 })
 export class SettingsComponent {
   backendSettings: Observable<BackendSettings>;
+  newBackendSettings: Observable<NewBackendSettings[]>;
   error: ErrorMsg | null = null;
 
   constructor(
@@ -19,7 +21,9 @@ export class SettingsComponent {
     private titleService: Title
   ) {
     this.titleService.setTitle("ampd — Settings");
-    // Backend stuff
+
+    this.newBackendSettings = this.settingsService.getNewBackendSettings();
+
     this.backendSettings = this.settingsService.getBackendSettings();
     this.backendSettings.subscribe({
       error: (error: ErrorMsg) => {

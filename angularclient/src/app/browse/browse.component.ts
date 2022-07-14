@@ -48,8 +48,4 @@ export class BrowseComponent {
           );
       });
   }
-
-  onBackToTop(): void {
-    window.scrollTo(0, 0);
-  }
 }

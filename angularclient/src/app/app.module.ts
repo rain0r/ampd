@@ -63,13 +63,6 @@ import { AmpdRxStompConfigService } from "./service/ampd-rx-stomp-config.service
 import { AmpdRxStompService } from "./service/ampd-rx-stomp.service";
 import { ServerStatisticsComponent } from "./settings/admin/server-statistics/server-statistics.component";
 import { UpdateDatabaseComponent } from "./settings/admin/update-database/update-database.component";
-import { CoverCacheComponent } from "./settings/backend/cover-cache/cover-cache.component";
-import { MpdPortComponent } from "./settings/backend/mpd-port/mpd-port.component";
-import { MpdServerComponent } from "./settings/backend/mpd-server/mpd-server.component";
-import { MbCoverServiceComponent } from "./settings/backend/music-brainz-cover-service/mb-cover-service.component";
-import { MusicDirectoryComponent } from "./settings/backend/music-directory/music-directory.component";
-import { PlaylistPropertiesComponent } from "./settings/backend/playlist-properties/playlist-properties.component";
-import { ResetModesOnClearComponent } from "./settings/backend/reset-modes-on-clear/reset-modes-on-clear.component";
 import { BackendAddressComponent } from "./settings/frontend/backend-address/backend-address.component";
 import { DisplayCoverComponent } from "./settings/frontend/display-cover/display-cover.component";
 import { PaginationComponent } from "./settings/frontend/pagination/pagination.component";
@@ -125,13 +118,6 @@ import { TrackTableDataComponent } from "./shared/track-table/track-table-data.c
     HelpModalComponent,
     MapEntriesPipe,
     ErrorComponent,
-    CoverCacheComponent,
-    MbCoverServiceComponent,
-    ResetModesOnClearComponent,
-    MusicDirectoryComponent,
-    MpdServerComponent,
-    MpdPortComponent,
-    PlaylistPropertiesComponent,
     BackendAddressComponent,
     ServerStatisticsComponent,
     AddStreamModalComponent,

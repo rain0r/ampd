@@ -33,9 +33,9 @@ public class AlbumService {
 		this.ampdSettings = ampdSettings;
 	}
 
+	@Cacheable("listAlbums")
 	public TreeSet<MPDAlbum> listAllAlbums(int page, String searchTerm) {
-		LOG.debug("searchTerm: " + searchTerm + " page: " + page);
-		final String st = searchTerm.toLowerCase().trim();
+		String st = searchTerm.toLowerCase().trim();
 		int start = (page - 1) * ampdSettings.getAlbumsPageSize();
 		Collection<MPDAlbum> albums = mpd.getMusicDatabase().getAlbumDatabase().listAllAlbums();
 		Collection<MPDAlbum> alive = albums.stream().filter(album -> {

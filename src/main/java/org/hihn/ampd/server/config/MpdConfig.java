@@ -1,7 +1,8 @@
 package org.hihn.ampd.server.config;
 
 import org.bff.javampd.server.MPD;
-import org.springframework.beans.factory.annotation.Value;
+import org.hihn.ampd.server.model.AmpdSettings;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -11,14 +12,8 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class MpdConfig {
 
-	@Value("${mpd.password:}")
-	private String mpdPassword;
-
-	@Value("${mpd.port}")
-	private int mpdPort;
-
-	@Value("${mpd.server}")
-	private String mpdServer;
+	@Autowired
+	private AmpdSettings ampdSettings;
 
 	/**
 	 * Builds an {@link MPD} instance.
@@ -26,11 +21,12 @@ public class MpdConfig {
 	 */
 	@Bean
 	public MPD buildMpd() {
-		if (mpdPassword.equals("")) {
-			return MPD.builder().server(mpdServer).port(mpdPort).build();
+		if (ampdSettings.getMpdPassword().equals("")) {
+			return MPD.builder().server(ampdSettings.getMpdServer()).port(ampdSettings.getMpdPort()).build();
 		}
 		else {
-			return MPD.builder().server(mpdServer).port(mpdPort).password(mpdPassword).build();
+			return MPD.builder().server(ampdSettings.getMpdServer()).port(ampdSettings.getMpdPort())
+					.password(ampdSettings.getMpdPassword()).build();
 		}
 	}
 

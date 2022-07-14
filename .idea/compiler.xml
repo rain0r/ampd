@@ -9,6 +9,10 @@
         <module name="ampd" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="listenbrainz-java" target="11" />
+      <module name="my-lb-test" target="11" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">

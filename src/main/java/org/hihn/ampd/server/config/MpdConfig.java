@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
  * Wrapper around the {@link MPD} library.
  */
 @Configuration
-public class MpdConfiguration {
+public class MpdConfig {
 
 	@Value("${mpd.password:}")
 	private String mpdPassword;

@@ -1,13 +1,6 @@
 <div fxLayout="column">
   <app-navigation [browsePayload]="browsePayload"></app-navigation>
 
-  <!-- "Back to top" icon -->
-  <div class="back-to-top" fxHide fxShow.lt-md="true">
-    <button mat-icon-button (click)="onBackToTop()">
-      <mat-icon> arrow_upward </mat-icon>
-    </button>
-  </div>
-
   <div fxLayout="row" fxLayoutAlign="space-around">
     <mat-spinner *ngIf="isLoading"></mat-spinner>
   </div>

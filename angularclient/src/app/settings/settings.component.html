@@ -1,10 +1,5 @@
 <div fxLayout="column" fxLayoutGap="1rem" fxFlex.gt-md="75%">
   <div class="mat-display-1"><span class="mono">ampd</span> settings</div>
-  <!-- Error handling -->
-  <div fxFlex *ngIf="error">
-    <app-error [error]="error"></app-error>
-  </div>
-
   <mat-tab-group animationDuration="0ms">
     <mat-tab label="Frontend">
       <div
@@ -43,45 +38,66 @@
         *ngIf="backendSettings | async as settings"
       >
         <mat-card>
-          <mat-card-content>
-            These settings need to be changed via
-            <span class="mono code">-D</span> when starting ampd. Alternatively,
-            write them to an <span class="mono code">ampd.conf</span> file. See
-            the
-            <a
-              class="no-deco-links mono code"
-              href="https://github.com/rain0r/ampd/blob/master/README.md"
-              >README</a
-            >
-            for more information.
+          <mat-card-content class="mat-title">
+            <p>
+              These settings are read-only and can be changed with the
+              <span class="mono code">-D</span> when starting ampd.
+            </p>
+            <mat-divider></mat-divider>
+            <p>
+              To persist your changes, write them to the
+              <span class="mono code">application.properties</span> file. See
+              the
+              <a
+                class="no-deco-links mono code"
+                href="https://github.com/rain0r/ampd/blob/master/docs/install.md"
+                target="_blank"
+                >install.md</a
+              >
+              for more information.
+            </p>
           </mat-card-content>
         </mat-card>
 
-        <!-- Cover cache -->
-        <app-cover-cache
-          [localCoverCache]="settings.localCoverCache"
-        ></app-cover-cache>
-        <!-- MusicBrainz cover service -->
-        <app-music-brainz-cover-service
-          [mbCoverService]="settings.mbCoverService"
-        ></app-music-brainz-cover-service>
-        <!-- Reset MPD modes on clear -->
-        <app-reset-modes-on-clear
-          [resetModesOnClear]="settings.resetModesOnClear"
-        ></app-reset-modes-on-clear>
-        <!-- Music directory -->
-        <app-music-directory
-          [musicDirectory]="settings.musicDirectory"
-        ></app-music-directory>
-        <!-- MPD Server -->
-        <app-mpd-server [mpdServer]="settings.mpdServer"></app-mpd-server>
-        <!-- MPD Port -->
-        <app-mpd-port [mpdPort]="settings.mpdPort"></app-mpd-port>
-        <!-- Playlist properties -->
-        <app-playlist-properties
-          [createNewPlaylists]="settings.createNewPlaylists"
-          [deleteExistingPlaylists]="settings.deleteExistingPlaylists"
-        ></app-playlist-properties>
+        <!-- Backend  -->
+        <div
+          class="flex-col"
+          fxLayout="column"
+          fxLayoutGap="1rem"
+          fxFlex.gt-md="75%"
+          *ngIf="newBackendSettings | async as settings"
+        >
+          <mat-card *ngFor="let setting of settings">
+            <mat-card-header>
+              <mat-card-title>{{ setting.name }}</mat-card-title>
+            </mat-card-header>
+            <mat-card-content [ngSwitch]="setting.type">
+              <!-- Boolean -->
+              <mat-slide-toggle
+                class="space-right"
+                [checked]="setting.value"
+                disabled
+                *ngSwitchCase="'bool'"
+              >
+                <mat-hint align="end">{{ setting.hint }}</mat-hint>
+              </mat-slide-toggle>
+              <!-- Default -->
+              <mat-form-field
+                appearance="fill"
+                class="full-width"
+                *ngSwitchDefault
+              >
+                <mat-label>{{ setting.value }}</mat-label>
+                <input matInput disabled />
+                <mat-hint>{{ setting.hint }}</mat-hint>
+              </mat-form-field>
+            </mat-card-content>
+            <mat-card-footer class="card-footer">
+              Change this setting with:
+              <span class="mono code">-D{{ setting.key }}=&#60;value&#62;</span>
+            </mat-card-footer>
+          </mat-card>
+        </div>
       </div>
     </mat-tab>
     <mat-tab label="Admin">
@@ -102,7 +118,7 @@
   <mat-divider></mat-divider>
 
   <div class="mono" *ngIf="backendSettings | async as settings">
-    ampd version {{ settings.applicationVersion }}. Source code at:
+    ampd version {{ settings.version }}. Source code at:
     <a class="mat-app-background" href="https://github.com/rain0r/ampd"
       >github.com/rain0r/ampd</a
     >

@@ -12,7 +12,7 @@ To overwrite any property from the built-in `application.properties`, download t
 copy it to `/opt/ampd/application.properties` and change the properties to suit your needs:
 
 ```sh
-wget https://raw.githubusercontent.com/rain0r/ampd/master/src/main/resources/application.properties -O /opt/ampd/foo.properties
+wget https://raw.githubusercontent.com/rain0r/ampd/master/src/main/resources/application.properties -O /opt/ampd/application.properties
 ```
 
 Then it would look like:

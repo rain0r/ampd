@@ -9,7 +9,13 @@ I would recommend `/opt/ampd/` and in the following we are assuming `ampd` was p
 
 To overwrite any property from the built-in `application.properties`, download the
 [default](https://github.com/rain0r/ampd/blob/master/src/main/resources/application.properties),
-copy it to `/opt/ampd/application.properties` and change the properties to suit your needs.
+copy it to `/opt/ampd/application.properties` and change the properties to suit your needs:
+
+```sh
+wget https://raw.githubusercontent.com/rain0r/ampd/master/src/main/resources/application.properties -O /opt/ampd/foo.properties
+```
+
+Then it would look like:
 
 Example:
 ```sh
@@ -23,8 +29,7 @@ spring.main.banner-mode=on
 spring.messages.encoding=UTF-8
 server.address=127.0.0.1
 server.port=8003
-
-etc.
+...
 ```
 
 ---

@@ -35,8 +35,6 @@ Then edit any setting you like in `application.properties`
 
 ---
 
-Gentoo users can use an [ebuild](https://github.com/rain0r/hihn-overlay/tree/master/media-sound/ampd) from my overlay.
-
 ## Installation as a service
 
 ### init.d

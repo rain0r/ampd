@@ -17,7 +17,6 @@ wget https://raw.githubusercontent.com/rain0r/ampd/master/src/main/resources/app
 
 Then it would look like:
 
-Example:
 ```sh
 $ pwd
 /opt/ampd

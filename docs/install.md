@@ -3,13 +3,13 @@
 Download a release from [here](https://github.com/rain0r/ampd/releases) ([mirror](https://static.hihn.org/dl/ampd/)).
 
 Since `ampd` is distributed as a single `jar`-file, it doesn't need a traditional installation.
-Just copy it wherever you like.
+Just copy it wherever you like. `/opt/ampd` is recommended.
 
-I would recommend `/opt/ampd/` and in the following we are assuming `ampd` was placed into `/opt/ampd/ampd.jar`.
+## Change settings
 
-To overwrite any property from the built-in `application.properties`, download the
-[default](https://github.com/rain0r/ampd/blob/master/src/main/resources/application.properties),
-copy it to `/opt/ampd/application.properties` and change the properties to suit your needs:
+To change any settings download the [default](https://github.com/rain0r/ampd/blob/master/src/main/resources/application.properties) and place it alongside the `jar`-file.
+
+To download it to `/opt/ampd/application.properties`:
 
 ```sh
 wget https://raw.githubusercontent.com/rain0r/ampd/master/src/main/resources/application.properties -O /opt/ampd/application.properties
@@ -30,6 +30,8 @@ server.address=127.0.0.1
 server.port=8003
 ...
 ```
+
+Then edit any setting you like in `application.properties`
 
 ---
 

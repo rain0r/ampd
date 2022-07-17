@@ -11,6 +11,22 @@ To overwrite any property from the built-in `application.properties`, download t
 [default](https://github.com/rain0r/ampd/blob/master/src/main/resources/application.properties),
 copy it to `/opt/ampd/application.properties` and change the properties to suit your needs.
 
+Example:
+```sh
+$ pwd
+/opt/ampd
+$ ls
+ampd.jar  application.properties
+$ cat application.properties
+# General
+spring.main.banner-mode=on
+spring.messages.encoding=UTF-8
+server.address=127.0.0.1
+server.port=8003
+
+etc.
+```
+
 ---
 
 Gentoo users can use an [ebuild](https://github.com/rain0r/hihn-overlay/tree/master/media-sound/ampd) from my overlay.

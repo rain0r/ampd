@@ -8,6 +8,7 @@ import { ErrorMsg } from "../shared/error/error-msg";
 import { KEY_BACKEND_ADDRESS } from "../shared/local-storage-keys";
 import { BackendSettings } from "../shared/models/backend-settings";
 import { CoverDiskUsage } from "../shared/models/http/cover-disk-usage";
+import { NewBackendSettings } from "../shared/models/new-backend-settings";
 
 @Injectable({
   providedIn: "root",
@@ -19,9 +20,19 @@ export class SettingsService {
     localStorage.setItem(KEY_BACKEND_ADDRESS, backendAddr);
   }
 
-  /*
-   * Getter
-   */
+  getNewBackendSettings(): Observable<NewBackendSettings[]> {
+    const url = `${this.getBackendContextAddr()}api/backend`;
+    return this.http.get<NewBackendSettings[]>(url).pipe(
+      catchError((err: HttpErrorResponse) =>
+        throwError(() => {
+          return {
+            title: `Got an error retrieving the backend settings:`,
+            detail: err.message,
+          } as ErrorMsg;
+        })
+      )
+    );
+  }
 
   getBackendSettings(): Observable<BackendSettings> {
     const url = `${this.getBackendContextAddr()}api/settings`;

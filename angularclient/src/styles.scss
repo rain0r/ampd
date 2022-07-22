@@ -104,21 +104,6 @@ $font-color: var(--font-color);
   overflow-wrap: break-word;
 }
 
-.back-to-top {
-  position: fixed;
-  bottom: 50%;
-  right: 0;
-  overflow: hidden;
-  z-index: 10;
-  opacity: 0.4;
-  border: 1px solid var(--border-color);
-  border-radius: 24px;
-  display: inline-flex;
-  padding: 0 !important;
-  margin-right: 1rem;
-  background: var(--background-color);
-}
-
 @media only screen and (max-width: 1280px) {
   // Needs to be here to override Angular's own padding
   .browse-list-item > .mat-list-item-content {

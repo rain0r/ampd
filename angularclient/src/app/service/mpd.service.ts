@@ -1,7 +1,7 @@
 import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable, Subject, throwError } from "rxjs";
-import { catchError, filter, map, tap } from "rxjs/operators";
+import { catchError,distinctUntilChanged, filter, map, tap } from "rxjs/operators";
 import { ErrorMsg } from "../shared/error/error-msg";
 import { MpdModesPanel } from "../shared/messages/incoming/mpd-modes-panel";
 import { StateMsgPayload } from "../shared/messages/incoming/state-msg-payload";
@@ -9,7 +9,6 @@ import { QueueTrack } from "../shared/models/queue-track";
 import { ServerStatistics } from "../shared/models/server-statistics";
 import { AmpdRxStompService } from "./ampd-rx-stomp.service";
 import { SettingsService } from "./settings.service";
-
 @Injectable({
   providedIn: "root",
 })
@@ -131,7 +130,12 @@ export class MpdService {
   private getStateSubscription(): Observable<StateMsgPayload> {
     return this.rxStompService.watch("/topic/state").pipe(
       map((message) => message.body),
-      map((body: string) => <StateMsgPayload>JSON.parse(body))
+      map((body: string) => <StateMsgPayload>JSON.parse(body)),
+      distinctUntilChanged((prev, curr) => {
+        return (
+          JSON.stringify(curr) === JSON.stringify(prev)
+        );
+      })
     );
   }
 }

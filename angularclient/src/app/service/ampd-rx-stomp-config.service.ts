@@ -2,6 +2,7 @@ import { Location } from "@angular/common";
 import { Injectable } from "@angular/core";
 import { RxStompConfig } from "@stomp/rx-stomp";
 import { ApiEndpoints } from "../shared/api-endpoints";
+import { environment } from "./../../environments/environment";
 
 @Injectable({
   providedIn: "root",
@@ -17,7 +18,7 @@ export class AmpdRxStompConfigService extends RxStompConfig {
     // How often to heartbeat?
     // Interval in milliseconds, set to 0 to disable
     this.heartbeatIncoming = 0; // Typical value 0 - disabled
-    this.heartbeatOutgoing = 1000; // Typical value 20000 - every 20 seconds
+    this.heartbeatOutgoing = 0; // Typical value 20000 - every 20 seconds
     // Wait in milliseconds before attempting auto reconnect
     // Set to 0 to disable
     // Typical value 500 (500 milli seconds)
@@ -25,9 +26,11 @@ export class AmpdRxStompConfigService extends RxStompConfig {
     // Will log diagnostics on console
     // It can be quite verbose, not recommended in production
     // Skip this key to stop logging to console
-    // this.debug = (msg: string): void => {
-    //     console.log(new Date(), msg);
-    // };
+    this.debug = (msg: string): void => {
+      if (environment.wsLog) {
+        console.log(new Date(), msg);
+      }
+    };
   }
 
   /**

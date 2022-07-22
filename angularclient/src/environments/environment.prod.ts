@@ -7,6 +7,7 @@ const AMPD_URL = "localhost:8080";
 export const environment = {
   production: true,
   backendAddr: `http://${AMPD_URL}`,
+  wsLog: false,
 };
 
 /*

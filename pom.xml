@@ -1,17 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>2.7.1</version>
-        <relativePath />
+        <relativePath/>
     </parent>
     <groupId>org.hihn.ampd</groupId>
     <artifactId>ampd</artifactId>
     <version>1.4.8-SNAPSHOT</version>
     <name>ampd</name>
     <description>Spring Boot server for the ampd-client</description>
+    <licenses>
+        <license>
+            <name>GNU General Public License v3.0 only</name>
+            <url>https://www.gnu.org/licenses/gpl-3.0-standalone.html</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
     <properties>
         <mpir.skip>true</mpir.skip>
         <java.version>11</java.version>
@@ -61,9 +69,25 @@
             <optional>true</optional>
         </dependency>
         <dependency>
-            <groupId>org.hihn</groupId>
+            <groupId>info.schnatterer.musicbrainzws2-java</groupId>
             <artifactId>musicbrainzws2-java</artifactId>
-            <version>3.0.15</version>
+            <version>3.2.0</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-jdk14</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.hihn</groupId>
+            <artifactId>listenbrainz-java</artifactId>
+            <version>1.1.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.ben-manes.caffeine</groupId>
+            <artifactId>caffeine</artifactId>
+            <version>3.1.1</version>
         </dependency>
     </dependencies>
     <build>
@@ -222,49 +246,42 @@
                         </goals>
                     </execution>
                 </executions>
-            </plugin>
+            </plugin
             <plugin>
                 <groupId>com.github.spotbugs</groupId>
                 <artifactId>spotbugs-maven-plugin</artifactId>
                 <version>4.7.0.0</version>
-                    <dependencies>
-                        <!-- overwrite dependency on spotbugs if you want to specify the version of spotbugs -->
-                        <dependency>
-                            <groupId>com.github.spotbugs</groupId>
-                            <artifactId>spotbugs</artifactId>
-                            <version>4.7.1</version>
-                        </dependency>
+                <dependencies>
+                    <!-- overwrite dependency on spotbugs if you want to specify the version of spotbugs -->
+                    <dependency>
+                        <groupId>com.github.spotbugs</groupId>
+                        <artifactId>spotbugs</artifactId>
+                        <version>4.7.1</version>
+                    </dependency>
                 </dependencies>
-            </plugin>            
+            </plugin>
         </plugins>
     </build>
     <reporting>
         <plugins>
             <plugin>
-                <groupId>com.github.spotbugs</groupId>
-                <artifactId>spotbugs-maven-plugin</artifactId>
-                <version>4.7.0.0</version>
-                <configuration>
-                    <effort>Max</effort>
-                    <spotbugsXmlOutputDirectory>target/site</spotbugsXmlOutputDirectory>
-                    <encoding>${project.build.sourceEncoding}</encoding>
-                    <classFilesDirectory>${project.build.outputDirectory}</classFilesDirectory>
-                    <xmlOutput>true</xmlOutput>
-                    <excludeFilterFile>${project.build.resources[0].directory}/spotbugs-exclude-filter.xml
-                    </excludeFilterFile>
-                </configuration>
-                <reportSets>
-                    <reportSet>
-                        <reports>
-                            <report>spotbugs</report>
-                        </reports>
-                    </reportSet>
-                </reportSets>
-            </plugin>
-            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-project-info-reports-plugin</artifactId>
-                <version>3.3.0</version>
+                <artifactId>maven-pmd-plugin</artifactId>
+                <version>3.17.0</version>
+                <configuration>
+                    <excludeRoots>
+                        <excludeRoot>target/generated-sources/jsonschema2pojo</excludeRoot>
+                    </excludeRoots>
+                    <rulesets>
+                        <ruleset>rulesets/java/basic.xml</ruleset>
+                        <ruleset>rulesets/java/empty.xml</ruleset>
+                        <ruleset>rulesets/java/imports.xml</ruleset>
+                        <ruleset>rulesets/java/braces.xml</ruleset>
+                        <ruleset>rulesets/java/naming.xml</ruleset>
+                        <ruleset>rulesets/java/unnecessary.xml</ruleset>
+                        <ruleset>rulesets/java/unusedcode.xml</ruleset>
+                    </rulesets>
+                </configuration>
             </plugin>
         </plugins>
     </reporting>

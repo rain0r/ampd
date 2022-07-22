@@ -1,16 +1,9 @@
-import { MpdService } from "./mpd.service";
 import { Injectable } from "@angular/core";
 import { BehaviorSubject, Observable, Subject } from "rxjs";
-import {
-  bufferTime,
-  distinctUntilChanged,
-  filter,
-  map,
-  withLatestFrom,
-} from "rxjs/operators";
-import { StateMsgPayload } from "../shared/messages/incoming/state-msg-payload";
+import { bufferTime, filter, withLatestFrom } from "rxjs/operators";
 import { VolumeSetter } from "../shared/models/volume-setter";
 import { AmpdRxStompService } from "./ampd-rx-stomp.service";
+import { MpdService } from "./mpd.service";
 
 @Injectable({
   providedIn: "root",

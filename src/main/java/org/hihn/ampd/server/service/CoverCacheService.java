@@ -31,7 +31,7 @@ public class CoverCacheService {
 	 * @param ampdSettings Settings of this ampd instance.
 	 * @param ampdDirService Handles access to the ampd dir in the home directory.
 	 */
-	public CoverCacheService(final AmpdSettings ampdSettings, final AmpdDirService ampdDirService) {
+	public CoverCacheService(AmpdSettings ampdSettings, AmpdDirService ampdDirService) {
 		cacheEnabled = ampdSettings.isLocalCoverCache() && ampdDirService.getCacheDir().isPresent();
 		if (cacheEnabled) {
 			cacheDir = ampdDirService.getCacheDir().get();
@@ -49,7 +49,7 @@ public class CoverCacheService {
 				size = Files.walk(cacheDir).filter(p -> p.toFile().isFile()).mapToLong(p -> p.toFile().length()).sum();
 			}
 		}
-		catch (final IOException e) {
+		catch (IOException e) {
 			LOG.warn("Could not get the size of the cover cache dir", e);
 		}
 		return size;
@@ -60,11 +60,11 @@ public class CoverCacheService {
 	 * @param path The path of a file.
 	 * @return The bytes of the file.
 	 */
-	public Optional<byte[]> loadFile(final Path path) {
+	public Optional<byte[]> loadFile(Path path) {
 		try {
 			return Optional.of(Files.readAllBytes(path));
 		}
-		catch (final IOException e) {
+		catch (IOException e) {
 			return Optional.empty();
 		}
 	}
@@ -76,10 +76,10 @@ public class CoverCacheService {
 	 */
 	public Optional<byte[]> loadCover(MPDSong track) {
 		if (!cacheEnabled) {
-			LOG.debug("Cache is disabled, not looking for a locally saved cover.");
+			LOG.trace("Cache is disabled, not looking for a locally saved cover.");
 			return Optional.empty();
 		}
-		final Path fullPath = buildCacheFullPath(track);
+		Path fullPath = buildCacheFullPath(track);
 		if (fullPath == null || !fullPath.toFile().exists()) {
 			LOG.debug("File does not exist in cache, aborting: {}", track);
 			return Optional.empty();
@@ -88,7 +88,7 @@ public class CoverCacheService {
 			LOG.debug("Loading cached cover: {}", fullPath);
 			return loadFile(fullPath);
 		}
-		catch (final Exception e) {
+		catch (Exception e) {
 			return Optional.empty();
 		}
 	}
@@ -98,12 +98,12 @@ public class CoverCacheService {
 	 * @param track The track to save the cover for.
 	 * @param file The cover itself.
 	 */
-	public void saveCover(final MPDSong track, final byte[] file) {
+	public void saveCover(MPDSong track, byte[] file) {
 		if (!cacheEnabled) {
 			return;
 		}
 
-		final Path fullPath = buildCacheFullPath(track);
+		Path fullPath = buildCacheFullPath(track);
 		try {
 			// Don't write the file if it already exists
 			if (fullPath != null && !fullPath.toFile().exists()) {
@@ -111,19 +111,19 @@ public class CoverCacheService {
 				Files.write(fullPath, file);
 			}
 		}
-		catch (final IOException e) {
+		catch (IOException e) {
 			LOG.warn("Failed to save cover to local cache", e);
 		}
 	}
 
-	private String buildFileName(final CoverType coverType, final String artist, final String titleOrAlbum) {
+	private String buildFileName(CoverType coverType, String artist, String titleOrAlbum) {
 		return coverType.getPrefix() + artist.trim().hashCode() + "_" + titleOrAlbum.trim().hashCode() + ".jpg";
 	}
 
 	private Path buildCacheFullPath(MPDSong track) {
-		final CoverType coverType = (track.getAlbumName() == null) ? CoverType.SINGLETON : CoverType.ALBUM;
-		final String titleOrAlbum = (coverType == CoverType.ALBUM) ? track.getAlbumName() : track.getTitle();
-		final String fileName = buildFileName(coverType, track.getArtistName(), titleOrAlbum);
+		CoverType coverType = (track.getAlbumName() == null) ? CoverType.SINGLETON : CoverType.ALBUM;
+		String titleOrAlbum = (coverType == CoverType.ALBUM) ? track.getAlbumName() : track.getTitle();
+		String fileName = buildFileName(coverType, track.getArtistName(), titleOrAlbum);
 		try {
 			return Paths.get(cacheDir.toString(), fileName).toAbsolutePath();
 		}

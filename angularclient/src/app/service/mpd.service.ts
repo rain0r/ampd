@@ -1,7 +1,13 @@
 import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable, Subject, throwError } from "rxjs";
-import { catchError,distinctUntilChanged, filter, map, tap } from "rxjs/operators";
+import {
+  catchError,
+  distinctUntilChanged,
+  filter,
+  map,
+  tap,
+} from "rxjs/operators";
 import { ErrorMsg } from "../shared/error/error-msg";
 import { MpdModesPanel } from "../shared/messages/incoming/mpd-modes-panel";
 import { StateMsgPayload } from "../shared/messages/incoming/state-msg-payload";
@@ -69,7 +75,15 @@ export class MpdService {
       )
     );
   }
-
+  getStateSubscription(): Observable<StateMsgPayload> {
+    return this.rxStompService.watch("/topic/state").pipe(
+      map((message) => message.body),
+      map((body: string) => <StateMsgPayload>JSON.parse(body)),
+      distinctUntilChanged((prev, curr) => {
+        return JSON.stringify(curr) === JSON.stringify(prev);
+      })
+    );
+  }
   /**
    * Build the currentTrack object - holds info about the track currently played
    * @param payload StateMsgPayload
@@ -125,17 +139,5 @@ export class MpdService {
     const splitted = file.split("/");
     const ret = splitted.slice(0, splitted.length - 1);
     return ret.join("/");
-  }
-
-  private getStateSubscription(): Observable<StateMsgPayload> {
-    return this.rxStompService.watch("/topic/state").pipe(
-      map((message) => message.body),
-      map((body: string) => <StateMsgPayload>JSON.parse(body)),
-      distinctUntilChanged((prev, curr) => {
-        return (
-          JSON.stringify(curr) === JSON.stringify(prev)
-        );
-      })
-    );
   }
 }

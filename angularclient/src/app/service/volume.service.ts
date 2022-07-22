@@ -1,3 +1,4 @@
+import { MpdService } from "./mpd.service";
 import { Injectable } from "@angular/core";
 import { BehaviorSubject, Observable, Subject } from "rxjs";
 import {
@@ -21,7 +22,10 @@ export class VolumeService {
   private volume$ = new BehaviorSubject<number>(0);
   private volumeSetter$ = new Subject<VolumeSetter>();
 
-  constructor(private rxStompService: AmpdRxStompService) {
+  constructor(
+    private rxStompService: AmpdRxStompService,
+    private mpdService: MpdService
+  ) {
     this.volume = this.volume$.asObservable();
     this.volumeSetter = this.volumeSetter$.asObservable();
     this.buildStateSubscription();
@@ -65,19 +69,9 @@ export class VolumeService {
     });
   }
 
-  private getStateSubscription(): Observable<StateMsgPayload> {
-    return this.rxStompService.watch("/topic/state").pipe(
-      map((message) => message.body),
-      map((body: string) => <StateMsgPayload>JSON.parse(body)),
-      distinctUntilChanged(
-        (prev, curr) => JSON.stringify(prev) === JSON.stringify(curr)
-      )
-    );
-  }
-
   private buildStateSubscription(): void {
-    this.getStateSubscription().subscribe((payload) =>
-      this.volume$.next(payload.serverStatus.volume)
-    );
+    this.mpdService
+      .getStateSubscription()
+      .subscribe((payload) => this.volume$.next(payload.serverStatus.volume));
   }
 }

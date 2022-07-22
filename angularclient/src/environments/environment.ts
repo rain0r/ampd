@@ -10,6 +10,7 @@ const AMPD_URL = "punica:8083/dev-ampd/";
 export const environment = {
   production: false,
   backendAddr: `http://${AMPD_URL}`,
+  wsLog: true,
 };
 
 /*

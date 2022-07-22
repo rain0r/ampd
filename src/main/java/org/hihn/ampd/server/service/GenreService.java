@@ -9,6 +9,7 @@ import org.bff.javampd.song.SongSearcher;
 import org.hihn.ampd.server.message.outgoing.GenrePayload;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
@@ -18,10 +19,13 @@ import java.util.Comparator;
 import java.util.Set;
 import java.util.TreeSet;
 
+import static org.hihn.ampd.server.Constants.CACHE_GENRE_SERVICE;
+
 /**
  * Provides methods to browse through genres of the collection.
  */
 @Service
+@CacheConfig(cacheNames = {CACHE_GENRE_SERVICE})
 public class GenreService {
 
 	private static final Logger LOG = LoggerFactory.getLogger(GenreService.class);
@@ -32,7 +36,7 @@ public class GenreService {
 		this.mpd = mpd;
 	}
 
-	@Cacheable("listGenres")
+	@Cacheable
 	public Set<String> listGenres() {
 		Set<String> ret = new TreeSet<>();
 		for (MPDGenre mpdGenre : mpd.getMusicDatabase().getGenreDatabase().listAllGenres()) {
@@ -42,7 +46,7 @@ public class GenreService {
 		return ret;
 	}
 
-	@Cacheable("listGenre")
+	@Cacheable
 	public GenrePayload listGenre(String genre) {
 		if (genre.isBlank()) {
 			return new GenrePayload(genre, Set.of(), Set.of());
@@ -82,26 +86,6 @@ public class GenreService {
 
 		@Override
 		public int compare(MPDSong o1, MPDSong o2) {
-			if (o1.getAlbumArtist() == null && o2.getAlbumArtist() == null) {
-				return o1.getName().compareTo(o2.getName());
-			}
-
-			if (o1.getAlbumArtist() != null && o2.getAlbumArtist() != null) {
-				if (o1.getAlbumArtist().equals(o2.getAlbumArtist())) {
-					return o1.getName().compareTo(o2.getName());
-				}
-				return o1.getAlbumArtist().compareTo(o2.getAlbumArtist());
-			}
-
-			return o1.getName().compareTo(o2.getName());
-		}
-
-	}
-
-	private static class MpdAlbumComparator implements Comparator<MPDAlbum>, Serializable {
-
-		@Override
-		public int compare(MPDAlbum o1, MPDAlbum o2) {
 			if (o1.getAlbumArtist() == null && o2.getAlbumArtist() == null) {
 				return o1.getName().compareTo(o2.getName());
 			}

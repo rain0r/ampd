@@ -7,6 +7,7 @@ import org.bff.javampd.song.MPDSong;
 import org.hihn.ampd.server.model.AmpdSettings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
@@ -16,10 +17,13 @@ import java.util.Optional;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
 
+import static org.hihn.ampd.server.Constants.CACHE_ALBUM_SERVICE;
+
 /**
  * Provides methods to browse through {@link MPDAlbum} of the collection.
  */
 @Service
+@CacheConfig(cacheNames = {CACHE_ALBUM_SERVICE})
 public class AlbumService {
 
 	private static final Logger LOG = LoggerFactory.getLogger(AlbumService.class);
@@ -33,7 +37,7 @@ public class AlbumService {
 		this.ampdSettings = ampdSettings;
 	}
 
-	@Cacheable("listAlbums")
+	@Cacheable
 	public TreeSet<MPDAlbum> listAllAlbums(int page, String searchTerm) {
 		String st = searchTerm.toLowerCase().trim();
 		int start = (page - 1) * ampdSettings.getAlbumsPageSize();
@@ -63,7 +67,7 @@ public class AlbumService {
 						Comparator.comparing(MPDAlbum::getAlbumArtist).thenComparing(MPDAlbum::getName))));
 	}
 
-	@Cacheable("listAlbum")
+	@Cacheable
 	public Collection<MPDSong> listAlbum(String album, String artist) {
 		MPDAlbum mpdAlbum = MPDAlbum.builder(album).albumArtist(artist).build();
 		Collection<MPDSong> songs = mpd.getMusicDatabase().getSongDatabase().findAlbum(mpdAlbum);
@@ -74,6 +78,7 @@ public class AlbumService {
 		mpd.getPlaylist().insertAlbum(mpdAlbum);
 	}
 
+	// TODO
 	public void playAlbum(MPDAlbum mpdAlbum) {
 		addAlbum(mpdAlbum);
 		Optional<MPDSong> firstSong = mpd.getMusicDatabase().getSongDatabase().findAlbum(mpdAlbum).stream()

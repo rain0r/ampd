@@ -56,7 +56,7 @@ public class MbCoverService {
 			LOG.trace("MusicBrainz is disabled, not downloading a cover");
 			return Optional.empty();
 		}
-		LOG.debug("Trying to load a cover from the MusicBrainz API for file: {}", track.getFile());
+		LOG.trace("Trying to load a cover from the MusicBrainz API for file: {}", track.getFile());
 		Optional<byte[]> cover = (isEmpty(track.getAlbumName())) ? searchSingletonMusicBrainzCover(track)
 				: searchAlbumMusicBrainzCover(track);
 		// Save the cover in the cache

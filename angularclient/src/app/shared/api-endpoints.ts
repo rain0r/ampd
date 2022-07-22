@@ -16,6 +16,10 @@ export class ApiEndpoints {
     } else {
       backendAddr = environment.backendAddr;
     }
+    if (backendAddr.endsWith("/")){
+      // Remove trailing slash to prevent a wrong websocket address
+      backendAddr = backendAddr.substring(0, backendAddr.length - 1);
+    }
     return backendAddr;
   }
 }

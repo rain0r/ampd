@@ -141,7 +141,6 @@ public class AmpdSettings {
 		});
 		LOG.info("Starting ampd with these settings:");
 		output.forEach(LOG::info);
-		LOG.debug("Cache is disabled, not looking for a locally saved cover.");
 	}
 
 	public String getMpdPassword() {

@@ -12,16 +12,17 @@ import java.util.concurrent.TimeUnit;
 @EnableCaching
 @Configuration
 public class CaffeineConfig {
-    @Bean
-    public Caffeine caffeineConfig() {
-        return Caffeine.newBuilder()
-                .expireAfterWrite(60, TimeUnit.MINUTES);
-    }
 
-    @Bean
-    public CacheManager cacheManager(Caffeine caffeine) {
-        CaffeineCacheManager caffeineCacheManager = new CaffeineCacheManager();
-        caffeineCacheManager.setCaffeine(caffeine);
-        return caffeineCacheManager;
-    }
+	@Bean
+	public Caffeine caffeineConfig() {
+		return Caffeine.newBuilder().expireAfterWrite(60, TimeUnit.MINUTES);
+	}
+
+	@Bean
+	public CacheManager cacheManager(Caffeine caffeine) {
+		CaffeineCacheManager caffeineCacheManager = new CaffeineCacheManager();
+		caffeineCacheManager.setCaffeine(caffeine);
+		return caffeineCacheManager;
+	}
+
 }

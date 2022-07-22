@@ -42,7 +42,7 @@ public class CoverService {
 	 * @param coverCacheService Handles locally saved albumart / covers.
 	 * @param mbCoverService Service to download cover from MusicBrainz.
 	 */
-	public CoverService(final AmpdSettings ampdSettings, final MPD mpd, CoverCacheService coverCacheService,
+	public CoverService(AmpdSettings ampdSettings, MPD mpd, CoverCacheService coverCacheService,
 			MbCoverService mbCoverService) {
 		this.ampdSettings = ampdSettings;
 		this.mpd = mpd;
@@ -55,7 +55,7 @@ public class CoverService {
 	 * @param trackFilePath A track file path.
 	 * @return An Optional containing the cover as bytes.
 	 */
-	public Optional<byte[]> findAlbumCoverForTrack(final String trackFilePath) {
+	public Optional<byte[]> findAlbumCoverForTrack(String trackFilePath) {
 		MPDSong track;
 		try {
 			// Map the track file path to a MPDSong
@@ -103,11 +103,11 @@ public class CoverService {
 	 * @param dirPath The directory that contains a cover.
 	 * @return The content of the found cover.
 	 */
-	public Optional<byte[]> loadArtworkForDir(final String dirPath) {
+	public Optional<byte[]> loadArtworkForDir(String dirPath) {
 		try {
 			// Build the full path to search for the artwork that is the MPD
 			// music_directory + dirPath
-			final Path path = Paths.get(ampdSettings.getMusicDirectory(), dirPath);
+			Path path = Paths.get(ampdSettings.getMusicDirectory(), dirPath);
 			MPDArtwork artwork = mpd.getArtworkFinder().find(path.toString()).iterator().next();
 			return Optional.of(artwork.getBytes());
 		}
@@ -122,7 +122,7 @@ public class CoverService {
 	 * @param track The track to find the artwork for.
 	 * @return The bytes of the found cover.
 	 */
-	private Optional<byte[]> loadArtworkForTrack(final MPDSong track) {
+	private Optional<byte[]> loadArtworkForTrack(MPDSong track) {
 		try {
 			return loadMusicDirCover(track.getFile());
 		}
@@ -137,31 +137,31 @@ public class CoverService {
 	 * @param trackFilePath The file path of a track.
 	 * @return Cover as bytes or an empty optional if no cover was found.
 	 */
-	private Optional<byte[]> loadMusicDirCover(final String trackFilePath) {
+	private Optional<byte[]> loadMusicDirCover(String trackFilePath) {
 		// Only look for local covers if a music directory is set
 		if (ampdSettings.getMusicDirectory().equals("")) {
-			LOG.debug("musicDirectory is empty - not looking for a cover in the track directory.");
+			LOG.trace("musicDirectory is empty - not looking for a cover in the track directory.");
 			return Optional.empty();
 		}
-		LOG.debug("Looking for a cover in the directory of file: {}", trackFilePath);
-		final Path path = Paths.get(ampdSettings.getMusicDirectory(), trackFilePath);
+		LOG.trace("Looking for a cover in the directory of file: {}", trackFilePath);
+		Path path = Paths.get(ampdSettings.getMusicDirectory(), trackFilePath);
 		Path parent = path.getParent();
 		if (parent == null) {
 			return Optional.empty();
 		}
-		final List<Path> covers = new ArrayList<>();
-		try (final DirectoryStream<Path> stream = Files.newDirectoryStream(parent,
+		List<Path> covers = new ArrayList<>();
+		try (DirectoryStream<Path> stream = Files.newDirectoryStream(parent,
 				ampdSettings.getArtworkFilenamePattern())) {
 			stream.forEach(covers::add);
 		}
-		catch (final IOException e) {
+		catch (IOException e) {
 			LOG.debug("No covers found in: {}", path);
 			return Optional.empty();
 		}
 		try {
 			return Optional.of(Files.readAllBytes(covers.get(0)));
 		}
-		catch (final Exception e) {
+		catch (Exception e) {
 			return Optional.empty();
 		}
 	}

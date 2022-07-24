@@ -5,11 +5,10 @@
       <set>
         <option value="activate" />
         <option value="organizeImports" />
+        <option value="reformat" />
         <option value="missingOverrideAnnotation" />
         <option value="useBlocks" />
-        <option value="generateSerialVersionUID" />
         <option value="unnecessaryThis" />
-        <option value="finalPrivateMethod" />
         <option value="unnecessaryFinalOnLocalVariableOrParameter" />
         <option value="explicitTypeCanBeDiamond" />
         <option value="suppressAnnotation" />

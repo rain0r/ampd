@@ -10,22 +10,21 @@ import org.springframework.web.server.ResponseStatusException;
 @RequestMapping("/api/lb")
 public class ListenBrainzController {
 
-	private final ListenBrainzService listenBrainzService;
+	private final ListenBrainzService service;
 
-	public ListenBrainzController(ListenBrainzService listenBrainzService) {
-		this.listenBrainzService = listenBrainzService;
+	public ListenBrainzController(ListenBrainzService service) {
+		this.service = service;
 	}
 
 	@GetMapping(value = "/get-listens/{username}")
 	public Listens getListens(@PathVariable String username) {
-		return listenBrainzService.getListens(username)
-				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+		return service.getListens(username).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 	}
 
-	@GetMapping(value = "/get-listens/{username}")
-	public Listens getListens(@PathVariable String username, @RequestParam() int maxTs, @RequestParam() int minTs,
+	@GetMapping(value = "/get-listens/{username}/filter")
+	public Listens filterListens(@PathVariable String username, @RequestParam() int maxTs, @RequestParam() int minTs,
 			@RequestParam() int count) {
-		return listenBrainzService.getListens(username, maxTs, minTs, count)
+		return service.getListens(username, maxTs, minTs, count)
 				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 	}
 

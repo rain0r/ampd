@@ -25,7 +25,7 @@ import static org.hihn.ampd.server.Constants.CACHE_GENRE_SERVICE;
  * Provides methods to browse through genres of the collection.
  */
 @Service
-@CacheConfig(cacheNames = {CACHE_GENRE_SERVICE})
+@CacheConfig(cacheNames = { CACHE_GENRE_SERVICE })
 public class GenreService {
 
 	private static final Logger LOG = LoggerFactory.getLogger(GenreService.class);

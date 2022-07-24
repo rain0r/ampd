@@ -78,14 +78,14 @@ public class AmpdSettings {
 	 */
 	@HelpText(name = "Create playlists", hint = "Users are allowed to create playlists.")
 	@Value("${create.new.playlists:false}")
-	private boolean createNewPlaylists;
+	private boolean createPlaylists;
 
 	/**
 	 * When true, users will be allowed to delete existing playlists on the MPD server.
 	 */
 	@HelpText(name = "Delete playlists", hint = "Users are allowed to delete playlists.")
 	@Value("${delete.existing.playlists:false}")
-	private boolean deleteExistingPlaylists;
+	private boolean deletePlaylists;
 
 	/**
 	 * Strictness of the cover-search. A low value will propably load wrong cover.
@@ -97,7 +97,7 @@ public class AmpdSettings {
 	 * Artwork finder: filename pattern for glob.
 	 */
 	@Value("${artwork.filename.pattern}")
-	private String artworkFilenamePattern;
+	private String coverNamePattern;
 
 	/**
 	 * Version of ampd as specified in pom.xml.
@@ -117,7 +117,7 @@ public class AmpdSettings {
 	 */
 	@HelpText(name = "ListenBrainz", hint = "Scrobble tracks to Listenbrainz.")
 	@Value("${listenbrainz.scrobble:false}")
-	private boolean listenbrainzScrobble;
+	private boolean scrobbleLb;
 
 	/**
 	 * The ListenBrainz auth token.
@@ -171,20 +171,20 @@ public class AmpdSettings {
 		return resetModesOnClear;
 	}
 
-	public boolean isCreateNewPlaylists() {
-		return createNewPlaylists;
+	public boolean isCreatePlaylists() {
+		return createPlaylists;
 	}
 
-	public boolean isDeleteExistingPlaylists() {
-		return deleteExistingPlaylists;
+	public boolean isDeletePlaylists() {
+		return deletePlaylists;
 	}
 
 	public int getMinScore() {
 		return minScore;
 	}
 
-	public String getArtworkFilenamePattern() {
-		return artworkFilenamePattern;
+	public String getCoverNamePattern() {
+		return coverNamePattern;
 	}
 
 	public String getVersion() {
@@ -195,8 +195,8 @@ public class AmpdSettings {
 		return albumsPageSize;
 	}
 
-	public boolean isListenbrainzScrobble() {
-		return listenbrainzScrobble;
+	public boolean isScrobbleLb() {
+		return scrobbleLb;
 	}
 
 	public String getListenbrainzToken() {

@@ -11,26 +11,26 @@ public class Playlist implements Comparable<Playlist> {
 
 	private String name;
 
-	public Playlist(final String name, final int count) {
+	public Playlist(String name, int count) {
 		this.name = name;
 		this.count = count;
 	}
 
 	@Override
-	public int compareTo(final Playlist o) {
-		return name.compareTo(o.getName());
+	public int compareTo(Playlist playlist) {
+		return name.compareTo(playlist.getName());
 	}
 
 	@Override
-	public boolean equals(final Object o) {
-		if (this == o) {
+	public boolean equals(Object other) {
+		if (this == other) {
 			return true;
 		}
-		if (o == null || getClass() != o.getClass()) {
+		if (other == null || getClass() != other.getClass()) {
 			return false;
 		}
 
-		final Playlist playlist = (Playlist) o;
+		Playlist playlist = (Playlist) other;
 
 		if (count != playlist.count) {
 			return false;
@@ -42,7 +42,7 @@ public class Playlist implements Comparable<Playlist> {
 		return count;
 	}
 
-	public void setCount(final int count) {
+	public void setCount(int count) {
 		this.count = count;
 	}
 
@@ -50,7 +50,7 @@ public class Playlist implements Comparable<Playlist> {
 		return name;
 	}
 
-	public void setName(final String name) {
+	public void setName(String name) {
 		this.name = name;
 	}
 

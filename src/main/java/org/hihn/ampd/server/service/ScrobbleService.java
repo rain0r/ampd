@@ -21,19 +21,18 @@ public class ScrobbleService {
 	 * The maximum time you have to listen to a song before it will count as a listen. Set
 	 * to 4 minutes as per the recommendations in the ListenBrainz documentation.
 	 */
-	private static final int MAX_REQUIRED_LISTEN_TIME = 4 * 60;
+	private static final int MAX_REQ_LISTEN_T = 4 * 60;
 
-	private final ListenBrainzScrobbleService listenBrainzScrobbleService;
+	private final ListenBrainzScrobbleService lbScrobbleService;
 
 	private MPDPlaylistSong currentSong = null;
 
-	private boolean currentSongScrobbled = false;
+	private boolean scrobbled = false;
 
 	private final AmpdSettings ampdSettings;
 
-	public ScrobbleService(MPD mpd, ListenBrainzScrobbleService listenBrainzScrobbleService,
-			AmpdSettings ampdSettings) {
-		this.listenBrainzScrobbleService = listenBrainzScrobbleService;
+	public ScrobbleService(MPD mpd, ListenBrainzScrobbleService lbScrobbleService, AmpdSettings ampdSettings) {
+		this.lbScrobbleService = lbScrobbleService;
 		this.ampdSettings = ampdSettings;
 
 		mpd.getStandAloneMonitor().addTrackPositionChangeListener(buildPositionListener());
@@ -51,7 +50,7 @@ public class ScrobbleService {
 			if (pcl.getEvent().equals(PlaylistBasicChangeEvent.Event.SONG_CHANGED)) {
 				mpd.getPlayer().getCurrentSong().ifPresent(song -> {
 					if (songChanged(currentSong, song)) {
-						currentSongScrobbled = false;
+						scrobbled = false;
 						currentSong = song;
 						LOG.trace("Song changed to: {}", currentSong);
 					}
@@ -69,18 +68,18 @@ public class ScrobbleService {
 
 	private TrackPositionChangeListener buildPositionListener() {
 		return tpcl -> {
-			if (currentSongScrobbled) {
+			if (scrobbled) {
 				return;
 			}
 			Optional.ofNullable(currentSong).ifPresent(song -> {
 				// Calculate the required position after which we can scrobble the song
-				int minPos = Math.min(song.getLength() / 2, MAX_REQUIRED_LISTEN_TIME);
+				int minPos = Math.min(song.getLength() / 2, MAX_REQ_LISTEN_T);
 				if (tpcl.getElapsedTime() >= minPos) {
 					// Scrobble it
-					if (ampdSettings.isListenbrainzScrobble()) {
-						listenBrainzScrobbleService.scrobbleListenBrainz(song);
+					if (ampdSettings.isScrobbleLb()) {
+						lbScrobbleService.scrobbleListenBrainz(song);
 					}
-					currentSongScrobbled = true;
+					scrobbled = true;
 				}
 			});
 		};

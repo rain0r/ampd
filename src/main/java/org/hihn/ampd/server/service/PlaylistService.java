@@ -25,7 +25,7 @@ public class PlaylistService {
 
 	private final AmpdSettings ampdSettings;
 
-	public PlaylistService(final MPD mpd, final AmpdSettings ampdSettings) {
+	public PlaylistService(MPD mpd, AmpdSettings ampdSettings) {
 		this.mpd = mpd;
 		this.ampdSettings = ampdSettings;
 	}
@@ -35,7 +35,7 @@ public class PlaylistService {
 	 * @param playlistName Name of the playlist to delete.
 	 */
 	public void deleteByName(String playlistName) {
-		if (ampdSettings.isDeleteExistingPlaylists()) {
+		if (ampdSettings.isDeletePlaylists()) {
 			mpd.getPlaylist().deletePlaylist(playlistName);
 		}
 	}
@@ -48,7 +48,7 @@ public class PlaylistService {
 	public SavePlaylistResponse savePlaylist(String playlistName) {
 		SavePlaylistResponse response = new SavePlaylistResponse();
 		response.setPlaylistName(playlistName);
-		if (ampdSettings.isCreateNewPlaylists()) {
+		if (ampdSettings.isCreatePlaylists()) {
 			try {
 				response.setSuccess(mpd.getPlaylist().savePlaylist(playlistName));
 			}

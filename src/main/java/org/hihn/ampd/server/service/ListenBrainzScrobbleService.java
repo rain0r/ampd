@@ -36,7 +36,7 @@ public class ListenBrainzScrobbleService {
 	public void scrobbleListenBrainz(MPDPlaylistSong song) {
 		LOG.info("Submit Listen: {} - {}", song.getArtistName(), song.getTitle());
 		currentSong = song;
-		if (ampdSettings.isListenbrainzScrobble()) {
+		if (ampdSettings.isScrobbleLb()) {
 			lbService.submitSingleListen(buildPayload());
 		}
 	}

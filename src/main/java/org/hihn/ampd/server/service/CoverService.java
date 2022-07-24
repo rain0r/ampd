@@ -150,8 +150,7 @@ public class CoverService {
 			return Optional.empty();
 		}
 		List<Path> covers = new ArrayList<>();
-		try (DirectoryStream<Path> stream = Files.newDirectoryStream(parent,
-				ampdSettings.getArtworkFilenamePattern())) {
+		try (DirectoryStream<Path> stream = Files.newDirectoryStream(parent, ampdSettings.getCoverNamePattern())) {
 			stream.forEach(covers::add);
 		}
 		catch (IOException e) {

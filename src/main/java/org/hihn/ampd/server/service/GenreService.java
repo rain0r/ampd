@@ -19,13 +19,13 @@ import java.util.Comparator;
 import java.util.Set;
 import java.util.TreeSet;
 
-import static org.hihn.ampd.server.Constants.CACHE_GENRE_SERVICE;
+import static org.hihn.ampd.server.Constants.GENRE_CACHE;
 
 /**
  * Provides methods to browse through genres of the collection.
  */
 @Service
-@CacheConfig(cacheNames = { CACHE_GENRE_SERVICE })
+@CacheConfig(cacheNames = { GENRE_CACHE })
 public class GenreService {
 
 	private static final Logger LOG = LoggerFactory.getLogger(GenreService.class);

@@ -13,13 +13,13 @@ import java.util.Comparator;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
 
-import static org.hihn.ampd.server.Constants.CACHE_ALBUM_SERVICE;
+import static org.hihn.ampd.server.Constants.ALBUM_CACHE;
 
 /**
  * Provides methods to browse through {@link MPDAlbum} of the collection.
  */
 @Service
-@CacheConfig(cacheNames = { CACHE_ALBUM_SERVICE })
+@CacheConfig(cacheNames = { ALBUM_CACHE })
 public class AlbumService {
 
 	private final MPD mpd;

@@ -57,7 +57,7 @@ public class MbCoverService {
 			return Optional.empty();
 		}
 		LOG.trace("Trying to load a cover from the MusicBrainz API for file: {}", track.getFile());
-		Optional<byte[]> cover = (isEmpty(track.getAlbumName())) ? searchSingletonMusicBrainzCover(track)
+		Optional<byte[]> cover = isEmpty(track.getAlbumName()) ? searchSingletonMusicBrainzCover(track)
 				: searchAlbumMusicBrainzCover(track);
 		// Save the cover in the cache
 		cover.ifPresent(bytes -> coverCacheService.saveCover(track, bytes));
@@ -114,17 +114,17 @@ public class MbCoverService {
 
 	private Optional<byte[]> searchSingletonMusicBrainzCover(MPDSong track) {
 		Optional<byte[]> cover = Optional.empty();
-		Recording recordingController = new Recording();
-		recordingController.getSearchFilter().setLimit((long) 10);
-		recordingController.getSearchFilter().setMinScore((long) ampdSettings.getMinScore());
+		Recording recording = new Recording();
+		recording.getSearchFilter().setLimit((long) 10);
+		recording.getSearchFilter().setMinScore((long) ampdSettings.getMinScore());
 		String query;
 		List<RecordingResultWs2> recordingResults = null;
 		try {
 			query = String.format("artist:%s%%20AND%%20title:%s",
 					URLEncoder.encode(track.getArtistName(), StandardCharsets.UTF_8),
 					URLEncoder.encode(track.getTitle(), StandardCharsets.UTF_8));
-			recordingController.search(query);
-			recordingResults = recordingController.getFirstSearchResultPage();
+			recording.search(query);
+			recordingResults = recording.getFirstSearchResultPage();
 		}
 		catch (Exception e) {
 			LOG.error("Error searching singleton", e);

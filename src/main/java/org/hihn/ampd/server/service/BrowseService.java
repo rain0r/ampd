@@ -24,7 +24,7 @@ public class BrowseService {
 
 	private final MPD mpd;
 
-	public BrowseService(final MPD mpd) {
+	public BrowseService(MPD mpd) {
 		this.mpd = mpd;
 	}
 
@@ -67,8 +67,9 @@ public class BrowseService {
 				browsePayload.addDirectory(MPDFile.builder(file.getPath()).directory(true).build());
 			}
 			else {
-				String a = file.getPath().replaceAll("'", "\\'");
-				Collection<MPDSong> searchResults = mpd.getMusicDatabase().getSongDatabase().searchFileName(a);
+				String cleanedPath = file.getPath().replaceAll("'", "\\'");
+				Collection<MPDSong> searchResults = mpd.getMusicDatabase().getSongDatabase()
+						.searchFileName(cleanedPath);
 				if (!searchResults.isEmpty()) {
 					browsePayload.addTrack(searchResults.iterator().next());
 				}

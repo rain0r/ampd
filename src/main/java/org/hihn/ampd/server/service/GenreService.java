@@ -7,8 +7,6 @@ import org.bff.javampd.song.MPDSong;
 import org.bff.javampd.song.SearchCriteria;
 import org.bff.javampd.song.SongSearcher;
 import org.hihn.ampd.server.message.outgoing.GenrePayload;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -27,8 +25,6 @@ import static org.hihn.ampd.server.Constants.GENRE_CACHE;
 @Service
 @CacheConfig(cacheNames = { GENRE_CACHE })
 public class GenreService {
-
-	private static final Logger LOG = LoggerFactory.getLogger(GenreService.class);
 
 	private final MPD mpd;
 
@@ -85,19 +81,19 @@ public class GenreService {
 	private static class MPDSongComparator implements Comparator<MPDSong>, Serializable {
 
 		@Override
-		public int compare(MPDSong o1, MPDSong o2) {
-			if (o1.getAlbumArtist() == null && o2.getAlbumArtist() == null) {
-				return o1.getName().compareTo(o2.getName());
+		public int compare(MPDSong first, MPDSong second) {
+			if (first.getAlbumArtist() == null && second.getAlbumArtist() == null) {
+				return first.getName().compareTo(second.getName());
 			}
 
-			if (o1.getAlbumArtist() != null && o2.getAlbumArtist() != null) {
-				if (o1.getAlbumArtist().equals(o2.getAlbumArtist())) {
-					return o1.getName().compareTo(o2.getName());
+			if (first.getAlbumArtist() != null && second.getAlbumArtist() != null) {
+				if (first.getAlbumArtist().equals(second.getAlbumArtist())) {
+					return first.getName().compareTo(second.getName());
 				}
-				return o1.getAlbumArtist().compareTo(o2.getAlbumArtist());
+				return first.getAlbumArtist().compareTo(second.getAlbumArtist());
 			}
 
-			return o1.getName().compareTo(o2.getName());
+			return first.getName().compareTo(second.getName());
 		}
 
 	}

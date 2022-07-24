@@ -23,7 +23,7 @@ public class AmpdSettingsService {
 		this.ampdSettings = ampdSettings;
 	}
 
-	public List<org.hihn.ampd.server.serializer.BackendSettings> getFields() {
+	public List<BackendSettings> getFields() {
 		return FieldUtils.getFieldsListWithAnnotation(AmpdSettings.class, HelpText.class).stream().map(field -> {
 			HelpText annotation = field.getAnnotation(HelpText.class);
 			String value = "";

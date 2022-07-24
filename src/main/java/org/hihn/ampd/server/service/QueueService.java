@@ -8,7 +8,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.stream.Collectors;
 
 /**
@@ -25,7 +24,7 @@ public class QueueService {
 	 * Service to manage the queue.
 	 * @param mpd Represents a connection to a MPD server.
 	 */
-	public QueueService(final MPD mpd) {
+	public QueueService(MPD mpd) {
 		this.mpd = mpd;
 	}
 

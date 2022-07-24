@@ -23,7 +23,7 @@ import static org.hihn.ampd.server.Constants.CACHE_ALBUM_SERVICE;
  * Provides methods to browse through {@link MPDAlbum} of the collection.
  */
 @Service
-@CacheConfig(cacheNames = {CACHE_ALBUM_SERVICE})
+@CacheConfig(cacheNames = { CACHE_ALBUM_SERVICE })
 public class AlbumService {
 
 	private static final Logger LOG = LoggerFactory.getLogger(AlbumService.class);

@@ -1,8 +1,6 @@
 package org.hihn.ampd.server.message.incoming;
 
 import org.bff.javampd.server.ServerStatus;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.Collection;
 
@@ -10,8 +8,6 @@ import java.util.Collection;
  * Represents a MPD control panel.
  */
 public class MpdModesPanelMsg {
-
-	private static final Logger LOG = LoggerFactory.getLogger(MpdModesPanelMsg.class);
 
 	private boolean consume;
 
@@ -33,15 +29,15 @@ public class MpdModesPanelMsg {
 	 * Represents a MPD control panel.
 	 * @param serverStatus ServerStatus provided by MPD.
 	 */
-	public MpdModesPanelMsg(final ServerStatus serverStatus) {
-		final Collection<String> statusList = serverStatus.getStatus();
+	public MpdModesPanelMsg(ServerStatus serverStatus) {
+		Collection<String> statusList = serverStatus.getStatus();
 
 		// crossfade is not part of the statusList so can't assign in it the for loop
 		setCrossfade(serverStatus.getXFade() == 1);
 
-		for (final String status : statusList) {
-			final String[] splitted = status.split(":");
-			final boolean newValue = "1".equals(splitted[1].trim());
+		for (String status : statusList) {
+			String[] splitted = status.split(":");
+			boolean newValue = "1".equals(splitted[1].trim());
 
 			switch (splitted[0].trim()) {
 				case "random":

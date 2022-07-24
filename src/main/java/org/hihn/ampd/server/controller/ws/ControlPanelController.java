@@ -64,7 +64,7 @@ public class ControlPanelController {
 	public void toggleMpdModes(MpdModesPanelMsg mpdModesPanelMsg) {
 		mpd.getPlayer().setRandom(mpdModesPanelMsg.isRandom());
 		mpd.getPlayer().setRepeat(mpdModesPanelMsg.isRepeat());
-		mpd.getPlayer().setXFade((mpdModesPanelMsg.isCrossfade() ? 1 : 0));
+		mpd.getPlayer().setXFade(mpdModesPanelMsg.isCrossfade() ? 1 : 0);
 		mpd.getPlayer().setConsume(mpdModesPanelMsg.isConsume());
 		mpd.getPlayer().setSingle(mpdModesPanelMsg.isSingle());
 	}

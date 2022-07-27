@@ -37,7 +37,11 @@ public class ListenBrainzScrobbleService {
 		LOG.info("Submit Listen: {} - {}", song.getArtistName(), song.getTitle());
 		currentSong = song;
 		if (ampdSettings.isScrobbleLb()) {
-			lbService.submitSingleListen(buildPayload());
+			SubmitListen submitListen = buildPayload();
+			lbService.submitSingleListen(submitListen);
+			// Timestamp must be omitted from a playing_now submission.
+			submitListen.setListenedAt(-1);
+			lbService.submitPlayingNow(submitListen);
 		}
 	}
 

@@ -195,5 +195,3 @@ import { TrackTableDataComponent } from "./shared/track-table/track-table-data.c
   bootstrap: [AppComponent],
 })
 export class AppModule {}
-
-// export hello = (location: Location) => new AmpdRxStompConfigService(location);

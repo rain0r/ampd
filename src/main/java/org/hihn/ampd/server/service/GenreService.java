@@ -80,6 +80,8 @@ public class GenreService {
 
 	private static class MPDSongComparator implements Comparator<MPDSong>, Serializable {
 
+		private static final long serialVersionUID = -1481575582378051060L;
+
 		@Override
 		public int compare(MPDSong first, MPDSong second) {
 			if (first.getAlbumArtist() == null && second.getAlbumArtist() == null) {

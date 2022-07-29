@@ -21,10 +21,9 @@ ampd is a web-based client for [MPD](https://www.musicpd.org/). It is build with
 * No external JavaScript / CSS loaded
 * Rearrange songs via drag an drop
 
-### Limitations
+### Caveats
 
 * JRE 11 or higher needed
-* JavaScript needed
 * Only one mpd server supported
 
 ## Screenshots

@@ -36,9 +36,29 @@ More screenshots can be found in the [**wiki**](https://github.com/rain0r/ampd/w
 
 ## Running
 
-To run `ampd`, just run the `jar`-file:
+To start, just download the latest release start it via: 
 
-```shell script
+```sh
+java -jar ampd.jar`
+```
+
+Want to start the server on a port other than 8080?
+
+```sh
+java -jar -Dserver.port=8003 ampd.jar
+```
+
+To display album art from the music directory, pass the value of `music_directory` (from your `mpd.conf`) to `ampd`:
+
+```sh
+java -jar -Dmpd.music.directory=/home/foo/music ampd.jar
+```
+
+Too much to type? Just create an `application.properties`
+
+```sh
+echo "mpd.music.directory=/home/foo/music" >> application.properties
+echo "server.port=8003" >> application.properties
 java -jar ampd.jar
 ```
 

@@ -1,6 +1,6 @@
+import { HttpErrorResponse } from "@angular/common/http";
 import { Component, Inject } from "@angular/core";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
-import { ErrorMsg } from "../error/error-msg";
 
 @Component({
   selector: "app-error-dialog",
@@ -10,6 +10,6 @@ import { ErrorMsg } from "../error/error-msg";
 export class ErrorDialogComponent {
   constructor(
     public dialogRef: MatDialogRef<ErrorDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: ErrorMsg
+    @Inject(MAT_DIALOG_DATA) public error: HttpErrorResponse
   ) {}
 }

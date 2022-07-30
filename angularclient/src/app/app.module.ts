@@ -1,28 +1,9 @@
-import { DragDropModule } from "@angular/cdk/drag-drop";
 import { ScrollingModule } from "@angular/cdk/scrolling";
 import { Location, TitleCasePipe } from "@angular/common";
 import { HttpClientModule } from "@angular/common/http";
 import { ErrorHandler, NgModule } from "@angular/core";
 import { FlexLayoutModule } from "@angular/flex-layout";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { MatButtonModule } from "@angular/material/button";
-import { MatButtonToggleModule } from "@angular/material/button-toggle";
-import { MatCardModule } from "@angular/material/card";
-import { MatDialogModule } from "@angular/material/dialog";
-import { MatDividerModule } from "@angular/material/divider";
-import { MatFormFieldModule } from "@angular/material/form-field";
-import { MatIconModule } from "@angular/material/icon";
-import { MatInputModule } from "@angular/material/input";
-import { MatListModule } from "@angular/material/list";
-import { MatPaginatorModule } from "@angular/material/paginator";
-import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
-import { MatSlideToggleModule } from "@angular/material/slide-toggle";
-import { MatSliderModule } from "@angular/material/slider";
-import { MatSnackBarModule } from "@angular/material/snack-bar";
-import { MatSortModule } from "@angular/material/sort";
-import { MatTableModule } from "@angular/material/table";
-import { MatTabsModule } from "@angular/material/tabs";
-import { MatToolbarModule } from "@angular/material/toolbar";
 import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { LightgalleryModule } from "lightgallery/angular";
@@ -74,6 +55,7 @@ import { AmpdErrorHandler } from "./shared/ampd-error-handler";
 import { ErrorDialogComponent } from "./shared/error-dialog/error-dialog.component";
 import { ErrorComponent } from "./shared/error/error.component";
 import { KeyValueTableComponent } from "./shared/key-value-table/key-value-table.component";
+import { MaterialMetaModule } from "./shared/material-meta/material-meta.module";
 import { EncodeURIComponentPipe } from "./shared/pipes/encode-uri.pipe";
 import { FileSizePipe } from "./shared/pipes/file-size.pipe";
 import { DirectoryFilterStartLetterPipePipe } from "./shared/pipes/filter/directory-filter-start-letter-pipe.pipe";
@@ -153,29 +135,11 @@ import { TrackTableDataComponent } from "./shared/track-table/track-table-data.c
     ScrollingModule,
     BrowserModule,
     LightgalleryModule,
-    // Material
-    MatButtonModule,
-    MatButtonToggleModule,
-    MatCardModule,
-    MatDialogModule,
-    MatDividerModule,
-    DragDropModule,
-    MatFormFieldModule,
-    MatIconModule,
-    MatInputModule,
-    MatListModule,
-    MatPaginatorModule,
-    MatProgressSpinnerModule,
-    MatSlideToggleModule,
-    MatSliderModule,
-    MatSnackBarModule,
-    MatSortModule,
-    MatTableModule,
-    MatTabsModule,
-    MatToolbarModule,
+    MaterialMetaModule,
   ],
   providers: [
     TitleCasePipe,
+    SecondsToMmSsPipe,
     {
       provide: AmpdRxStompService,
       useFactory: (location: Location) => {

@@ -1,7 +1,8 @@
 import { Component } from "@angular/core";
+import { map, Observable, take } from "rxjs";
 import { FrontendSettingsService } from "../../../service/frontend-settings.service";
 import { NotificationService } from "../../../service/notification.service";
-import { Observable } from "rxjs";
+import { PAGINATION } from "./../../../shared/models/internal/frontend-settings";
 
 @Component({
   selector: "app-pagination",
@@ -14,15 +15,16 @@ export class PaginationComponent {
     private frontendSettingsService: FrontendSettingsService,
     private notificationService: NotificationService
   ) {
-    this.pagination = frontendSettingsService.pagination;
+    this.pagination = this.frontendSettingsService.settings$.pipe(
+      take(1),
+      map((settings) => settings.pagination)
+    );
   }
 
   toggle(checked: boolean): void {
-    this.frontendSettingsService.setPagination(checked);
+    this.frontendSettingsService.setValue(PAGINATION, checked);
     this.notificationService.popUp(
-      `${
-        checked ? "Setting" : "Not setting"
-      } current playing track as tab title.`
+      `${checked ? "Enabling" : "Disabling"} pagination.`
     );
   }
 }

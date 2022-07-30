@@ -3,14 +3,14 @@ import { AfterViewChecked, Component } from "@angular/core";
 import { InitDetail } from "lightgallery/lg-events";
 import { LightGallery } from "lightgallery/lightgallery";
 import { BehaviorSubject, combineLatest, Observable } from "rxjs";
-import { filter, first } from "rxjs/operators";
+import { filter, first, map } from "rxjs/operators";
 import { LIGHTBOX_SETTINGS } from "src/app/shared/lightbox";
-import { InternalMessageType } from "../../shared/messages/internal/internal-message-type.enum";
-import { QueueTrack } from "../../shared/models/queue-track";
 import { FrontendSettingsService } from "../../service/frontend-settings.service";
 import { MessageService } from "../../service/message.service";
 import { MpdService } from "../../service/mpd.service";
 import { ResponsiveScreenService } from "../../service/responsive-screen.service";
+import { InternalMessageType } from "../../shared/messages/internal/internal-message-type.enum";
+import { QueueTrack } from "../../shared/models/queue-track";
 
 @Component({
   selector: "app-queue-header",
@@ -67,7 +67,9 @@ export class QueueHeaderComponent implements AfterViewChecked {
   private coverAvailable(): void {
     combineLatest([
       this.currentState,
-      this.frontendSettingsService.displayCovers,
+      this.frontendSettingsService.settings$.pipe(
+        map((settings) => settings.displayCovers)
+      ),
     ])
       .pipe(first())
       .subscribe((result) => {

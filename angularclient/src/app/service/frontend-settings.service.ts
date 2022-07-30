@@ -1,135 +1,90 @@
 import { Injectable } from "@angular/core";
-import { BehaviorSubject, Observable } from "rxjs";
-import {
-  KEY_DARK_THEME,
-  KEY_DISPLAY_COVERS,
-  KEY_PAGINATION,
-  KEY_SET_TAB_TITLE,
-  KEY_VIRTUAL_SCROLL,
-} from "../shared/local-storage-keys";
+import { BehaviorSubject, first } from "rxjs";
+import { FrontendSettings } from "../shared/models/internal/frontend-settings";
 import { DarkTheme, LightTheme } from "../shared/themes/themes";
 
-/**
- * Dark theme.
- */
-export const DEFAULT_DARK_THEME = true;
-
-/**
- * Display cover on the queue.
- */
-export const DEFAULT_DISPLAY_COVERS = true;
-
-/**
- * Set the current track as tab title.
- */
-export const DEFAULT_TAB_TITLE = false;
-
-/**
- * Virtual scrolling in browse.
- */
-export const DEFAULT_VIRTUAL_SCROLL = false;
-
-/**
- * Pagination in browse.
- */
-export const DEFAULT_PAGINATION = true;
+const LS_KEY = "ampd_userSettings";
 
 @Injectable({
   providedIn: "root",
 })
 export class FrontendSettingsService {
-  darkTheme: Observable<boolean>;
-  displayCovers: Observable<boolean>;
-  pagination: Observable<boolean>;
-  setTabTitle: Observable<boolean>;
-  virtualScroll: Observable<boolean>;
-
-  /**
-   * Since we want this to be automatically applied, we store it in a subject.
-   * Dark theme is default active.
-   */
-  darkTheme$ = new BehaviorSubject(true);
-
   pageSizeOptions = [20, 50, 100];
   paginationTo = 20;
 
-  private isDisplayCovers$ = new BehaviorSubject(DEFAULT_DISPLAY_COVERS);
-  private pagination$ = new BehaviorSubject(DEFAULT_PAGINATION);
-  private setTabTitle$ = new BehaviorSubject(DEFAULT_TAB_TITLE);
-  private virtualScroll$ = new BehaviorSubject(DEFAULT_VIRTUAL_SCROLL);
+  private _settings$;
+  public settings$;
 
   constructor() {
-    this.darkTheme = this.darkTheme$.asObservable();
-    this.displayCovers = this.isDisplayCovers$.asObservable();
-    this.pagination = this.pagination$.asObservable();
-    this.setTabTitle = this.setTabTitle$.asObservable();
-    this.virtualScroll = this.virtualScroll$.asObservable();
-
-    this.initFrontendSettings();
+    const settings = this.loadFrontendSettings();
+    this.setTheme(settings);
+    this._settings$ = new BehaviorSubject<FrontendSettings>(settings);
+    this.settings$ = this._settings$.asObservable();
   }
 
-  /*
-   * Setters
-   */
-  setDarkTheme(darkTheme: boolean): void {
-    localStorage.setItem(KEY_DARK_THEME, JSON.stringify(darkTheme));
-    this.darkTheme$.next(darkTheme);
-    const theme = darkTheme ? DarkTheme : LightTheme;
-    theme.forEach((value, prop) => {
-      document.documentElement.style.setProperty(prop, value);
+  isDarkTheme(): boolean {
+    const data = this.loadFrontendSettings();
+    return data.darkTheme;
+  }
+
+  save(settings: FrontendSettings): void {
+    localStorage.setItem(LS_KEY, JSON.stringify(settings));
+    this.setTheme(settings);
+    this._settings$.next(settings);
+  }
+
+  setValue(key: string, value: string | number | boolean): void {
+    this.settings$.pipe(first()).subscribe((settings) => {
+      switch (key) {
+        case "darkTheme":
+          settings.darkTheme = Boolean(value).valueOf();
+          break;
+        case "displayCovers":
+          settings.displayCovers = Boolean(value).valueOf();
+          break;
+        case "pagination":
+          settings.pagination = Boolean(value).valueOf();
+          break;
+        case "updateTabTitle":
+          settings.updateTabTitle = Boolean(value).valueOf();
+          break;
+        case "virtualScroll":
+          settings.virtualScroll = Boolean(value).valueOf();
+          break;
+        case "backendAddr":
+          settings.backendAddr = String(value).valueOf();
+          break;
+        default:
+      }
+      this.save(settings);
     });
   }
 
-  setDisplayCovers(displayCovers: boolean): void {
-    localStorage.setItem(KEY_DISPLAY_COVERS, JSON.stringify(displayCovers));
-    this.isDisplayCovers$.next(displayCovers);
-  }
+  private loadFrontendSettings(): FrontendSettings {
+    const lsData = localStorage.getItem(LS_KEY);
+    const defaultUserSettings = {
+      darkTheme: true,
+      displayCovers: true,
+      updateTabTitle: true,
+      virtualScroll: false,
+    } as FrontendSettings;
 
-  setPagination(checked: boolean): void {
-    localStorage.setItem(KEY_PAGINATION, JSON.stringify(checked));
-    this.pagination$.next(checked);
-  }
-
-  setTabTitleOption(tabTitle: boolean): void {
-    localStorage.setItem(KEY_SET_TAB_TITLE, JSON.stringify(tabTitle));
-    this.setTabTitle$.next(tabTitle);
-  }
-
-  setVirtualScroll(virtualScroll: boolean): void {
-    localStorage.setItem(KEY_VIRTUAL_SCROLL, JSON.stringify(virtualScroll));
-    this.virtualScroll$.next(virtualScroll);
-  }
-
-  /**
-   * Load a specific key from localStorage.
-   *
-   * @param key The localStorage-key.
-   * @param defaultValue Return value if no localStorage-entry was found.
-   */
-  private getBoolValue(key: string, defaultValue = false): boolean {
-    try {
-      const value: string =
-        localStorage.getItem(key) || defaultValue.toString();
-      return value === "true";
-    } catch (err) {
-      return defaultValue;
+    if (lsData === null) {
+      return defaultUserSettings;
+    } else {
+      try {
+        const userSettings = <FrontendSettings>JSON.parse(lsData);
+        return userSettings;
+      } catch (err) {
+        return defaultUserSettings;
+      }
     }
   }
 
-  /**
-   * Initializes the frontend settings with the values from localStorage.
-   */
-  private initFrontendSettings(): void {
-    this.setDarkTheme(this.getBoolValue(KEY_DARK_THEME, DEFAULT_DARK_THEME));
-    this.setDisplayCovers(
-      this.getBoolValue(KEY_DISPLAY_COVERS, DEFAULT_DISPLAY_COVERS)
-    );
-    this.setPagination(this.getBoolValue(KEY_PAGINATION, DEFAULT_PAGINATION));
-    this.setTabTitleOption(
-      this.getBoolValue(KEY_SET_TAB_TITLE, DEFAULT_TAB_TITLE)
-    );
-    this.setVirtualScroll(
-      this.getBoolValue(KEY_VIRTUAL_SCROLL, DEFAULT_VIRTUAL_SCROLL)
-    );
+  private setTheme(settings: FrontendSettings): void {
+    const theme = settings.darkTheme ? DarkTheme : LightTheme;
+    theme.forEach((value, prop) => {
+      document.documentElement.style.setProperty(prop, value);
+    });
   }
 }

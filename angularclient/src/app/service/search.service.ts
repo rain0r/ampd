@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
-import { Observable } from "rxjs";
-import { distinctUntilChanged, map } from "rxjs/operators";
+import { Observable, of } from "rxjs";
+import { distinctUntilChanged, map, switchMap } from "rxjs/operators";
 import { SearchResponse } from "../shared/messages/incoming/search-response";
 import { AmpdRxStompService } from "./ampd-rx-stomp.service";
 
@@ -23,7 +23,10 @@ export class SearchService {
       map((body: string) => <SearchResponse>JSON.parse(body)),
       distinctUntilChanged(
         (prev, curr) => JSON.stringify(prev) === JSON.stringify(curr)
-      )
+      ),
+      switchMap((searchResponse) => {
+        return of(searchResponse);
+      })
     );
   }
 }

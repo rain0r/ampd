@@ -2,10 +2,9 @@ import { Component, Input } from "@angular/core";
 import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
 import { Observable } from "rxjs";
 import { ResponsiveScreenService } from "src/app/service/responsive-screen.service";
-import { Playlist } from "../../../shared/messages/incoming/playlist-impl";
-import { FrontendSettingsService } from "../../../service/frontend-settings.service";
 import { NotificationService } from "../../../service/notification.service";
 import { QueueService } from "../../../service/queue.service";
+import { Playlist } from "../../../shared/messages/incoming/playlist-impl";
 import { PlaylistInfoModalComponent } from "../playlist-info-modal/playlist-info-modal.component";
 
 @Component({
@@ -19,7 +18,6 @@ export class PlaylistEntryComponent {
 
   constructor(
     private dialog: MatDialog,
-    private frontendSettingsService: FrontendSettingsService,
     private notificationService: NotificationService,
     private responsiveScreenService: ResponsiveScreenService,
     private queueService: QueueService
@@ -39,9 +37,6 @@ export class PlaylistEntryComponent {
       const width = isMobile ? "100%" : "70%";
       const options: MatDialogConfig = {
         maxWidth: "100vw",
-        panelClass: this.frontendSettingsService.darkTheme$.value
-          ? "dark-theme"
-          : "",
         width: width,
         data: playlist,
       };

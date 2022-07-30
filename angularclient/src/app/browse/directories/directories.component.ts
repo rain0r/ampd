@@ -1,9 +1,9 @@
 import { Component, Input, OnInit } from "@angular/core";
 import { PageEvent } from "@angular/material/paginator";
-import { Observable } from "rxjs";
-import { Directory } from "../../shared/messages/incoming/directory";
+import { map, Observable } from "rxjs";
 import { FrontendSettingsService } from "../../service/frontend-settings.service";
 import { MessageService } from "../../service/message.service";
+import { Directory } from "../../shared/messages/incoming/directory";
 import { Filterable } from "../filterable";
 
 @Component({
@@ -32,8 +32,12 @@ export class DirectoriesComponent extends Filterable implements OnInit {
     super(messageService);
     this.pageSizeOptions = this.frontendSettingsService.pageSizeOptions;
     this.paginationTo = this.frontendSettingsService.paginationTo;
-    this.pagination = this.frontendSettingsService.pagination;
-    this.virtualScroll = this.frontendSettingsService.virtualScroll;
+    this.pagination = this.frontendSettingsService.settings$.pipe(
+      map((settings) => settings.pagination)
+    );
+    this.virtualScroll = this.frontendSettingsService.settings$.pipe(
+      map((settings) => settings.virtualScroll)
+    );
   }
 
   ngOnInit(): void {

@@ -1,7 +1,8 @@
 import { Component } from "@angular/core";
-import { NotificationService } from "../../../service/notification.service";
+import { map, Observable, take } from "rxjs";
 import { FrontendSettingsService } from "../../../service/frontend-settings.service";
-import { Observable } from "rxjs";
+import { NotificationService } from "../../../service/notification.service";
+import { DARK_THEME } from "./../../../shared/models/internal/frontend-settings";
 
 @Component({
   selector: "app-theme",
@@ -15,11 +16,14 @@ export class ThemeComponent {
     private frontendSettingsService: FrontendSettingsService,
     private notificationService: NotificationService
   ) {
-    this.darkTheme = frontendSettingsService.darkTheme;
+    this.darkTheme = this.frontendSettingsService.settings$.pipe(
+      take(1),
+      map((settings) => settings.darkTheme)
+    );
   }
 
   toggle(checked: boolean): void {
-    this.frontendSettingsService.setDarkTheme(checked);
+    this.frontendSettingsService.setValue(DARK_THEME, checked);
     this.notificationService.popUp(
       `${checked ? "Enabled" : "Disabled"} dark theme.`
     );

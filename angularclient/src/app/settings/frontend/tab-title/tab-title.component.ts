@@ -1,7 +1,8 @@
+import { UPDATE_TAB_TITLE } from "./../../../shared/models/internal/frontend-settings";
 import { Component } from "@angular/core";
-import { NotificationService } from "../../../service/notification.service";
-import { Observable } from "rxjs";
+import { map, Observable, take } from "rxjs";
 import { FrontendSettingsService } from "../../../service/frontend-settings.service";
+import { NotificationService } from "../../../service/notification.service";
 
 @Component({
   selector: "app-tab-title",
@@ -15,11 +16,14 @@ export class TabTitleComponent {
     private frontendSettingsService: FrontendSettingsService,
     private notificationService: NotificationService
   ) {
-    this.setTabTitle = frontendSettingsService.setTabTitle;
+    this.setTabTitle = this.frontendSettingsService.settings$.pipe(
+      take(1),
+      map((settings) => settings.updateTabTitle)
+    );
   }
 
   toggle(checked: boolean): void {
-    this.frontendSettingsService.setTabTitleOption(checked);
+    this.frontendSettingsService.setValue(UPDATE_TAB_TITLE, checked);
     this.notificationService.popUp(
       `${
         checked ? "Setting" : "Not setting"

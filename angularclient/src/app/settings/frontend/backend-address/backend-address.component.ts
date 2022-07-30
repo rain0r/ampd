@@ -1,9 +1,4 @@
 import { Component } from "@angular/core";
-import {
-  UntypedFormBuilder,
-  UntypedFormGroup,
-  Validators,
-} from "@angular/forms";
 import { NotificationService } from "../../../service/notification.service";
 import { SettingsService } from "../../../service/settings.service";
 
@@ -13,34 +8,17 @@ import { SettingsService } from "../../../service/settings.service";
   styleUrls: ["./backend-address.component.scss"],
 })
 export class BackendAddressComponent {
-  settingsForm: UntypedFormGroup;
+  addr: string;
 
   constructor(
     private notificationService: NotificationService,
-    private formBuilder: UntypedFormBuilder,
     private settingsService: SettingsService
   ) {
-    this.settingsForm = this.buildSettingsForm();
+    this.addr = this.settingsService.getBackendContextAddr();
   }
 
   onSubmit(): void {
-    if (this.settingsForm.invalid) {
-      this.notificationService.popUp("Invalid input.");
-      return;
-    }
-    this.settingsService.setBackendAddr(
-      this.settingsForm.controls["backendAddr"].value as string
-    );
+    this.settingsService.setBackendAddr(this.addr);
     this.notificationService.popUp("Saved backend address.");
-  }
-
-  private buildSettingsForm(): UntypedFormGroup {
-    return this.formBuilder.group({
-      backendAddr: [
-        this.settingsService.getBackendContextAddr(),
-        // eslint-disable-next-line @typescript-eslint/unbound-method
-        Validators.required,
-      ],
-    });
   }
 }

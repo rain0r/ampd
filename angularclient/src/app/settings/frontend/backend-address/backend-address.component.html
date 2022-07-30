@@ -1,4 +1,4 @@
-<form [formGroup]="settingsForm" (ngSubmit)="onSubmit()" class="settings-form">
+<form (ngSubmit)="onSubmit()" class="settings-form">
   <mat-card>
     <mat-card-header>
       <mat-card-title>Connected to</mat-card-title>
@@ -6,8 +6,8 @@
     <mat-form-field class="full-width">
       <input
         matInput
+        [(ngModel)]="addr"
         required
-        formControlName="backendAddr"
         placeholder="http://your-computer:8080"
       />
       <mat-hint align="end"

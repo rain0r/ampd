@@ -1,11 +1,16 @@
 <h1 mat-dialog-title>Error</h1>
 <div mat-dialog-content>
-  Received status code: {{ error.status }}
-  <mat-divider></mat-divider>
-  {{ error.statusText }}
+  <div *ngIf="isHttp; else genericErr">
+    Received status code: {{ status }}
+    <mat-divider></mat-divider>
+    {{ statusText }}
+  </div>
+  <ng-template #genericErr>
+    {{ error }}
+  </ng-template>
 </div>
 <mat-divider> </mat-divider>
-{{ error.message }}
+
 <div mat-dialog-actions>
   <button mat-button mat-dialog-close cdkFocusInitial>Ok</button>
 </div>

@@ -35,7 +35,7 @@
         fxLayout="column"
         fxLayoutGap="1rem"
         fxFlex.gt-md="75%"
-        *ngIf="backendSettings | async as settings"
+        *ngIf="ampdSettings | async as settings"
       >
         <mat-card>
           <mat-card-content class="mat-title">
@@ -65,7 +65,7 @@
           fxLayout="column"
           fxLayoutGap="1rem"
           fxFlex.gt-md="75%"
-          *ngIf="newBackendSettings | async as settings"
+          *ngIf="ampdSettings | async as settings"
         >
           <mat-card *ngFor="let setting of settings">
             <mat-card-header>
@@ -117,7 +117,7 @@
 
   <mat-divider></mat-divider>
 
-  <div class="mono" *ngIf="backendSettings | async as settings">
+  <div class="mono" *ngIf="mpdSettings | async as settings">
     ampd version {{ settings.version }}. Source code at:
     <a class="mat-app-background" href="https://github.com/rain0r/ampd"
       >github.com/rain0r/ampd</a

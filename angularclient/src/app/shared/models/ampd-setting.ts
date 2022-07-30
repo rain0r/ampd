@@ -1,4 +1,4 @@
-export interface NewBackendSettings {
+export interface AmpdSetting {
   name: string;
   hint: string;
   key: string;

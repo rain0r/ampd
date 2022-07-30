@@ -2,9 +2,8 @@ import { HttpClient } from "@angular/common/http";
 import { Component, Input, OnInit } from "@angular/core";
 import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
 import { BehaviorSubject, Observable } from "rxjs";
-import { MpdAlbum } from "src/app/shared/models/http/album";
-import { FrontendSettingsService } from "src/app/service/frontend-settings.service";
 import { ResponsiveScreenService } from "src/app/service/responsive-screen.service";
+import { MpdAlbum } from "src/app/shared/models/http/album";
 import { AlbumModalComponent } from "../album-modal/album-modal.component";
 
 @Component({
@@ -20,7 +19,6 @@ export class AlbumItemComponent implements OnInit {
 
   constructor(
     private dialog: MatDialog,
-    private frontendSettingsService: FrontendSettingsService,
     private http: HttpClient,
     private responsiveScreenService: ResponsiveScreenService
   ) {
@@ -38,9 +36,6 @@ export class AlbumItemComponent implements OnInit {
       const width = this.isMobile ? "100%" : "70%";
       const options: MatDialogConfig = {
         maxWidth: "100vw",
-        panelClass: this.frontendSettingsService.darkTheme$.value
-          ? "dark-theme"
-          : "",
         width: width,
         data: this.album,
       };

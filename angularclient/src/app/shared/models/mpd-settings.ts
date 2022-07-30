@@ -1,7 +1,7 @@
 /**
  * Corresponds to the settings of the MPD server in the backend.
  */
-export interface BackendSettings {
+export interface MpdSettings {
   musicDirectory: string;
   mpdServer: string;
   mpdPort: number;

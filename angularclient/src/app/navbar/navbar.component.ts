@@ -1,7 +1,7 @@
 import { Component, HostListener } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
 import { Router } from "@angular/router";
-import { BehaviorSubject, Observable } from "rxjs";
+import { BehaviorSubject, map, Observable } from "rxjs";
 import { AddStreamModalComponent } from "../queue/add-stream-modal/add-stream-modal.component";
 import { SearchComponent } from "../search/search.component";
 import { ControlPanelService } from "../service/control-panel.service";
@@ -21,8 +21,8 @@ import { HelpModalComponent } from "./help-modal/help-modal.component";
   styleUrls: ["./navbar.component.scss"],
 })
 export class NavbarComponent {
-  isDarkTheme: Observable<boolean>;
   connState: Observable<number>;
+  darkTheme: Observable<boolean>;
   private isMobile = new Observable<boolean>();
   private currentState = "stop";
   private helpModalOpen = new BehaviorSubject(false);
@@ -41,12 +41,14 @@ export class NavbarComponent {
     private rxStompService: AmpdRxStompService,
     private volumeService: VolumeService
   ) {
-    this.isDarkTheme = this.frontendSettingsService.darkTheme;
     this.connState = this.rxStompService.connectionState$;
     this.mpdService.currentState.subscribe(
       (state) => (this.currentState = state)
     );
     this.isMobile = this.responsiveScreenService.isMobile();
+    this.darkTheme = this.frontendSettingsService.settings$.pipe(
+      map((settings) => settings.darkTheme)
+    );
   }
 
   @HostListener("document:keydown", ["$event"])
@@ -156,9 +158,6 @@ export class NavbarComponent {
           this.searchModalOpen.next(true);
           const dialogRef = this.dialog.open(SearchComponent, {
             autoFocus: true,
-            panelClass: this.frontendSettingsService.darkTheme$.value
-              ? "dark-theme"
-              : "",
             maxWidth: "100vw",
             maxHeight: "100vh",
             height: "100%",
@@ -176,12 +175,7 @@ export class NavbarComponent {
   openHelpModal(): void {
     if (!this.helpModalOpen.value) {
       this.helpModalOpen.next(true);
-      const dialogRef = this.dialog.open(HelpModalComponent, {
-        autoFocus: true,
-        panelClass: this.frontendSettingsService.darkTheme$.value
-          ? "dark-theme"
-          : "",
-      });
+      const dialogRef = this.dialog.open(HelpModalComponent);
       dialogRef.afterClosed().subscribe(() => this.helpModalOpen.next(false));
     }
   }
@@ -195,11 +189,7 @@ export class NavbarComponent {
   }
 
   private openAddStreamModal(): void {
-    this.dialog.open(AddStreamModalComponent, {
-      panelClass: this.frontendSettingsService.darkTheme$.value
-        ? "dark-theme"
-        : "",
-    });
+    this.dialog.open(AddStreamModalComponent);
   }
 
   private stop(): void {

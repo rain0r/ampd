@@ -1,9 +1,9 @@
 import { Component, Input } from "@angular/core";
 import { PageEvent } from "@angular/material/paginator";
-import { Observable } from "rxjs";
-import { Playlist } from "../../shared/messages/incoming/playlist-impl";
+import { map, Observable } from "rxjs";
 import { FrontendSettingsService } from "../../service/frontend-settings.service";
 import { MessageService } from "../../service/message.service";
+import { Playlist } from "../../shared/messages/incoming/playlist-impl";
 import { Filterable } from "../filterable";
 
 @Component({
@@ -27,8 +27,12 @@ export class PlaylistsComponent extends Filterable {
     super(messageService);
     this.pageSizeOptions = this.frontendSettingsService.pageSizeOptions;
     this.paginationTo = this.frontendSettingsService.paginationTo;
-    this.pagination = this.frontendSettingsService.pagination;
-    this.virtualScroll = this.frontendSettingsService.virtualScroll;
+    this.pagination = this.frontendSettingsService.settings$.pipe(
+      map((settings) => settings.pagination)
+    );
+    this.virtualScroll = this.frontendSettingsService.settings$.pipe(
+      map((settings) => settings.virtualScroll)
+    );
   }
 
   public getPaginatorData(event: PageEvent): PageEvent {

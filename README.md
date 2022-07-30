@@ -39,7 +39,7 @@ More screenshots can be found in the [**wiki**](https://github.com/rain0r/ampd/w
 To start, just download the latest release start it via: 
 
 ```sh
-java -jar ampd.jar`
+java -jar ampd.jar
 ```
 
 Want to start the server on a port other than 8080?

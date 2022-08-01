@@ -1,6 +1,8 @@
 import { Component } from "@angular/core";
+import { map } from "rxjs";
+import { FrontendSettingsService } from "src/app/service/frontend-settings.service";
 import { NotificationService } from "../../../service/notification.service";
-import { SettingsService } from "../../../service/settings.service";
+import { BACKEND_ADDR } from "./../../../shared/models/internal/frontend-settings";
 
 @Component({
   selector: "app-backend-address",
@@ -8,17 +10,19 @@ import { SettingsService } from "../../../service/settings.service";
   styleUrls: ["./backend-address.component.scss"],
 })
 export class BackendAddressComponent {
-  addr: string;
+  backendAddr = "";
 
   constructor(
     private notificationService: NotificationService,
-    private settingsService: SettingsService
+    private frontendSettingsService: FrontendSettingsService
   ) {
-    this.addr = this.settingsService.getBackendContextAddr();
+    this.frontendSettingsService.settings$
+      .pipe(map((settings) => settings.backendAddr))
+      .subscribe((addr) => (this.backendAddr = addr));
   }
 
   onSubmit(): void {
-    this.settingsService.setBackendAddr(this.addr);
+    this.frontendSettingsService.setValue(BACKEND_ADDR, this.backendAddr);
     this.notificationService.popUp("Saved backend address.");
   }
 }

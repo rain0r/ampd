@@ -18,7 +18,6 @@ export class PlaylistsComponent extends Filterable {
   pagination: Observable<boolean>;
   paginationFrom = 0;
   paginationTo: number;
-  virtualScroll: Observable<boolean>;
 
   constructor(
     private frontendSettingsService: FrontendSettingsService,
@@ -29,9 +28,6 @@ export class PlaylistsComponent extends Filterable {
     this.paginationTo = this.frontendSettingsService.paginationTo;
     this.pagination = this.frontendSettingsService.settings$.pipe(
       map((settings) => settings.pagination)
-    );
-    this.virtualScroll = this.frontendSettingsService.settings$.pipe(
-      map((settings) => settings.virtualScroll)
     );
   }
 

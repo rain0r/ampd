@@ -1,11 +1,12 @@
 import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Observable, Subject, throwError } from "rxjs";
+import { Observable, of, Subject, throwError } from "rxjs";
 import {
   catchError,
   distinctUntilChanged,
   filter,
   map,
+  switchMap,
   tap,
 } from "rxjs/operators";
 import { ErrorMsg } from "../shared/error/error-msg";
@@ -75,7 +76,8 @@ export class MpdService {
       )
     );
   }
-  getStateSubscription(): Observable<StateMsgPayload> {
+  __getStateSubscription(): Observable<StateMsgPayload> {
+    // TODO: Remove
     return this.rxStompService.watch("/topic/state").pipe(
       map((message) => message.body),
       map((body: string) => <StateMsgPayload>JSON.parse(body)),
@@ -84,6 +86,20 @@ export class MpdService {
       })
     );
   }
+
+  getStateSubscription(): Observable<StateMsgPayload> {
+    return this.rxStompService.watch("/topic/state").pipe(
+      map((message) => message.body),
+      map((body: string) => <StateMsgPayload>JSON.parse(body)),
+      distinctUntilChanged((prev, curr) => {
+        return JSON.stringify(curr) === JSON.stringify(prev);
+      }),
+      switchMap((payload) => {
+        return of(payload);
+      })
+    );
+  }
+
   /**
    * Build the currentTrack object - holds info about the track currently played
    * @param payload StateMsgPayload

@@ -4,9 +4,11 @@ import { HttpClientModule } from "@angular/common/http";
 import { ErrorHandler, NgModule } from "@angular/core";
 import { FlexLayoutModule } from "@angular/flex-layout";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { MAT_DIALOG_DEFAULT_OPTIONS } from "@angular/material/dialog";
 import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { LightgalleryModule } from "lightgallery/angular";
+import { FrontendSettingsService } from "src/app/service/frontend-settings.service";
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
 import { AlbumItemComponent } from "./browse/albums/album-item/album-item.component";
@@ -66,6 +68,13 @@ import { ReplaceNullWithTextPipe } from "./shared/pipes/replace-null-with-text.p
 import { SecondsToHhMmSsPipe } from "./shared/pipes/seconds-to-hh-mm-ss.pipe";
 import { SecondsToMmSsPipe } from "./shared/pipes/seconds-to-mm-ss.pipe";
 import { TrackTableDataComponent } from "./shared/track-table/track-table-data.component";
+
+function isDarkTheme(service: FrontendSettingsService): unknown {
+  console.log("isDarkTheme", service.isDarkTheme() ? "dark-theme" : "");
+  return {
+    panelClass: service.isDarkTheme() ? "dark-theme" : "",
+  };
+}
 
 @NgModule({
   declarations: [
@@ -154,6 +163,11 @@ import { TrackTableDataComponent } from "./shared/track-table/track-table-data.c
     {
       provide: ErrorHandler,
       useClass: AmpdErrorHandler,
+    },
+    {
+      provide: MAT_DIALOG_DEFAULT_OPTIONS,
+      useFactory: isDarkTheme,
+      deps: [FrontendSettingsService],
     },
   ],
   bootstrap: [AppComponent],

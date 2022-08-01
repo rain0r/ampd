@@ -6,9 +6,9 @@ import { catchError, map } from "rxjs/operators";
 import { ApiEndpoints } from "../shared/api-endpoints";
 import { ErrorMsg } from "../shared/error/error-msg";
 import { KEY_BACKEND_ADDRESS } from "../shared/local-storage-keys";
-import { BackendSettings } from "../shared/models/backend-settings";
+import { MpdSettings } from "../shared/models/mpd-settings";
 import { CoverDiskUsage } from "../shared/models/http/cover-disk-usage";
-import { NewBackendSettings } from "../shared/models/new-backend-settings";
+import { AmpdSetting } from "../shared/models/ampd-setting";
 
 @Injectable({
   providedIn: "root",
@@ -20,9 +20,9 @@ export class SettingsService {
     localStorage.setItem(KEY_BACKEND_ADDRESS, backendAddr);
   }
 
-  getNewBackendSettings(): Observable<NewBackendSettings[]> {
+  getAmpdSettings(): Observable<AmpdSetting[]> {
     const url = `${this.getBackendContextAddr()}api/backend`;
-    return this.http.get<NewBackendSettings[]>(url).pipe(
+    return this.http.get<AmpdSetting[]>(url).pipe(
       catchError((err: HttpErrorResponse) =>
         throwError(() => {
           return {
@@ -34,9 +34,9 @@ export class SettingsService {
     );
   }
 
-  getBackendSettings(): Observable<BackendSettings> {
+  getMpdSettings(): Observable<MpdSettings> {
     const url = `${this.getBackendContextAddr()}api/settings`;
-    return this.http.get<BackendSettings>(url).pipe(
+    return this.http.get<MpdSettings>(url).pipe(
       catchError((err: HttpErrorResponse) =>
         throwError(() => {
           return {

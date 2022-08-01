@@ -1,7 +1,7 @@
 import { Component } from "@angular/core";
-import { NotificationService } from "../../../service/notification.service";
-import { Observable } from "rxjs";
+import { map, Observable, take } from "rxjs";
 import { FrontendSettingsService } from "../../../service/frontend-settings.service";
+import { NotificationService } from "../../../service/notification.service";
 
 @Component({
   selector: "app-virtual-scroll",
@@ -15,11 +15,17 @@ export class VirtualScrollComponent {
     private frontendSettingsService: FrontendSettingsService,
     private notificationService: NotificationService
   ) {
-    this.virtualScroll = frontendSettingsService.virtualScroll;
+    this.virtualScroll = this.frontendSettingsService.settings$.pipe(
+      take(1),
+      map((settings) => settings.virtualScroll)
+    );
   }
 
   toggle(checked: boolean): void {
-    this.frontendSettingsService.setVirtualScroll(checked);
+    this.frontendSettingsService.settings$.pipe(take(1)).subscribe((data) => {
+      data.virtualScroll = checked;
+      this.frontendSettingsService.save(data);
+    });
     this.notificationService.popUp(
       `${checked ? "Enabled" : "Disabled"} virtual scrolling`
     );

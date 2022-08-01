@@ -1,6 +1,6 @@
 import { Component } from "@angular/core";
 import { MatSliderChange } from "@angular/material/slider";
-import { Observable } from "rxjs";
+import { delay, Observable } from "rxjs";
 import { ControlPanelService } from "../../service/control-panel.service";
 import { MpdService } from "../../service/mpd.service";
 import { QueueTrack } from "../../shared/models/queue-track";
@@ -28,5 +28,16 @@ export class TrackProgressComponent {
 
   handleCurrentTrackProgressSlider(event: MatSliderChange): void {
     this.controlPanelService.seek(event.value);
+    // Prevent jumping back and forth
+    this.state.pipe(delay(500));
+  }
+
+  formatSeconds(value: number): string {
+    const minutes = Math.floor(value / 60);
+    const seconds = value - minutes * 60;
+    return `${minutes}  :  ${seconds < 10 ? "0" : ""} ${seconds}`.replace(
+      / /g,
+      ""
+    );
   }
 }

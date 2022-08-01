@@ -1,6 +1,6 @@
 <div
   class="app-main mat-app-background"
-  [ngClass]="{ 'dark-theme': isDarkTheme | async }"
+  [ngClass]="{ 'dark-theme': darkTheme | async }"
 >
   <mat-toolbar class="toolbar" color="primary">
     <!-- Queue -->
@@ -64,7 +64,7 @@
       >help</mat-icon
     >
   </mat-toolbar>
-  <div class="app-content" [ngClass]="{ 'dark-theme': isDarkTheme | async }">
+  <div class="app-content" [ngClass]="{ 'dark-theme': darkTheme | async }">
     <router-outlet></router-outlet>
   </div>
 </div>

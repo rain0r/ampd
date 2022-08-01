@@ -1,10 +1,10 @@
 import { Component, HostListener, OnInit } from "@angular/core";
-import { MpdService } from "../service/mpd.service";
 import { Title } from "@angular/platform-browser";
 import { combineLatest } from "rxjs";
 import { map } from "rxjs/operators";
-import { QueueService } from "../service/queue.service";
 import { FrontendSettingsService } from "../service/frontend-settings.service";
+import { MpdService } from "../service/mpd.service";
+import { QueueService } from "../service/queue.service";
 
 @Component({
   selector: "app-queue",
@@ -39,7 +39,9 @@ export class QueueComponent implements OnInit {
     combineLatest([
       this.mpdService.currentState,
       this.mpdService.currentTrack,
-      this.frontendSettingsService.setTabTitle,
+      this.frontendSettingsService.settings$.pipe(
+        map((settings) => settings.updateTabTitle)
+      ),
     ])
       .pipe(
         map((results) => ({

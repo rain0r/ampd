@@ -13,11 +13,10 @@ import { MatPaginator, MatPaginatorIntl } from "@angular/material/paginator";
 import { MatSort } from "@angular/material/sort";
 import { Observable } from "rxjs";
 import { TrackInfoModalComponent } from "src/app/browse/tracks/track-info-modal/track-info-modal.component";
-import { QueueTrack } from "../models/queue-track";
-import { FrontendSettingsService } from "../../service/frontend-settings.service";
 import { NotificationService } from "../../service/notification.service";
 import { QueueService } from "../../service/queue.service";
 import { ResponsiveScreenService } from "../../service/responsive-screen.service";
+import { QueueTrack } from "../models/queue-track";
 import { Track } from "./../messages/incoming/track";
 import { ClickActions } from "./click-actions.enum";
 import { TrackTableData } from "./track-table-data";
@@ -42,8 +41,7 @@ export class TrackTableDataComponent implements OnInit, OnChanges {
     private notificationService: NotificationService,
     private queueService: QueueService,
     private responsiveScreenService: ResponsiveScreenService,
-    private dialog: MatDialog,
-    private frontendSettingsService: FrontendSettingsService
+    private dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -120,9 +118,6 @@ export class TrackTableDataComponent implements OnInit, OnChanges {
       const options: MatDialogConfig = {
         maxWidth: "100vw",
         height: "90%",
-        panelClass: this.frontendSettingsService.darkTheme$.value
-          ? "dark-theme"
-          : "",
         width: width,
         data: track,
       };

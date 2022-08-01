@@ -3,11 +3,10 @@ import { MatDialog } from "@angular/material/dialog";
 import { MatTableDataSource } from "@angular/material/table";
 import { distinctUntilChanged } from "rxjs/operators";
 import { ResponsiveScreenService } from "src/app/service/responsive-screen.service";
-import { Track } from "../../shared/messages/incoming/track";
-import { QueueTrack } from "../../shared/models/queue-track";
-import { FrontendSettingsService } from "../../service/frontend-settings.service";
 import { MpdService } from "../../service/mpd.service";
 import { QueueService } from "../../service/queue.service";
+import { Track } from "../../shared/messages/incoming/track";
+import { QueueTrack } from "../../shared/models/queue-track";
 import { ClickActions } from "../../shared/track-table/click-actions.enum";
 import { TrackTableData } from "../../shared/track-table/track-table-data";
 import { AddStreamModalComponent } from "../add-stream-modal/add-stream-modal.component";
@@ -30,7 +29,6 @@ export class TrackTableComponent {
 
   constructor(
     private dialog: MatDialog,
-    private frontendSettingsService: FrontendSettingsService,
     private mpdService: MpdService,
     private responsiveScreenService: ResponsiveScreenService,
     private queueService: QueueService
@@ -53,11 +51,7 @@ export class TrackTableComponent {
   }
 
   openSavePlaylistModal(): void {
-    this.dialog.open(SavePlaylistModalComponent, {
-      panelClass: this.frontendSettingsService.darkTheme$.value
-        ? "dark-theme"
-        : "",
-    });
+    this.dialog.open(SavePlaylistModalComponent);
   }
 
   applyFilter(eventTarget: EventTarget | null): void {
@@ -73,11 +67,7 @@ export class TrackTableComponent {
   }
 
   openAddStreamModal(): void {
-    this.dialog.open(AddStreamModalComponent, {
-      panelClass: this.frontendSettingsService.darkTheme$.value
-        ? "dark-theme"
-        : "",
-    });
+    this.dialog.open(AddStreamModalComponent);
   }
 
   private getDisplayedColumns(): string[] {

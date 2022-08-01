@@ -8,8 +8,18 @@ import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
   styleUrls: ["./error-dialog.component.scss"],
 })
 export class ErrorDialogComponent {
+  isHttp = false;
+  status = 0;
+  statusText = "";
+
   constructor(
     public dialogRef: MatDialogRef<ErrorDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public error: HttpErrorResponse
-  ) {}
+    @Inject(MAT_DIALOG_DATA) public error: HttpErrorResponse | unknown
+  ) {
+    if (error instanceof HttpErrorResponse) {
+      this.isHttp = true;
+      this.status = error.status;
+      this.statusText = error.statusText;
+    }
+  }
 }

@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
-import { Observable } from "rxjs";
-import { distinctUntilChanged, map } from "rxjs/operators";
+import { Observable, of } from "rxjs";
+import { distinctUntilChanged, map, switchMap } from "rxjs/operators";
 import { Track } from "../shared/messages/incoming/track";
 import { MpdAlbum } from "../shared/models/http/album";
 import { AmpdRxStompService } from "./ampd-rx-stomp.service";
@@ -103,6 +103,9 @@ export class QueueService {
           prev.length == curr.length &&
           JSON.stringify(curr) === JSON.stringify(prev)
         );
+      }),
+      switchMap((track) => {
+        return of(track);
       })
     );
   }

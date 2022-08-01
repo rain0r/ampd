@@ -1,8 +1,8 @@
-import { DISPLAY_COVERS } from "./../../../shared/models/internal/frontend-settings";
 import { Component } from "@angular/core";
-import { map, Observable, take } from "rxjs";
+import { map, Observable } from "rxjs";
 import { FrontendSettingsService } from "../../../service/frontend-settings.service";
 import { NotificationService } from "../../../service/notification.service";
+import { DISPLAY_COVERS } from "./../../../shared/models/internal/frontend-settings";
 
 @Component({
   selector: "app-display-cover",
@@ -17,7 +17,6 @@ export class DisplayCoverComponent {
     private notificationService: NotificationService
   ) {
     this.displayCovers = this.frontendSettingsService.settings$.pipe(
-      take(1),
       map((settings) => settings.displayCovers)
     );
   }

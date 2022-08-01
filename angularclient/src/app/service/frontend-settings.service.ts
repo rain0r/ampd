@@ -22,11 +22,6 @@ export class FrontendSettingsService {
     this.settings$ = this._settings$.asObservable();
   }
 
-  isDarkTheme(): boolean {
-    const data = this.loadFrontendSettings();
-    return data.darkTheme;
-  }
-
   save(settings: FrontendSettings): void {
     localStorage.setItem(LS_KEY, JSON.stringify(settings));
     this.setTheme(settings);
@@ -48,9 +43,6 @@ export class FrontendSettingsService {
         case "updateTabTitle":
           settings.updateTabTitle = Boolean(value).valueOf();
           break;
-        case "virtualScroll":
-          settings.virtualScroll = Boolean(value).valueOf();
-          break;
         case "backendAddr":
           settings.backendAddr = String(value).valueOf();
           break;
@@ -60,13 +52,14 @@ export class FrontendSettingsService {
     });
   }
 
-  private loadFrontendSettings(): FrontendSettings {
+  loadFrontendSettings(): FrontendSettings {
     const lsData = localStorage.getItem(LS_KEY);
     const defaultUserSettings = {
       darkTheme: true,
       displayCovers: true,
+      pagination: true,
       updateTabTitle: true,
-      virtualScroll: false,
+      backendAddr: "",
     } as FrontendSettings;
 
     if (lsData === null) {

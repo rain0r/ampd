@@ -42,50 +42,41 @@
   </div>
 </div>
 
-<!-- Use virtual scroll if it's enabled or we're on the root directory -->
-<app-virtual-scroll-directories
-  [directories]="directories"
-  *ngIf="(virtualScroll | async) && dirQp === '/'; else conventionalScroll"
->
-</app-virtual-scroll-directories>
+<!-- Directives cant be applied conditionally (as of now) --->
+<!-- So we have to to write directory twice  -->
+<div *ngIf="pagination | async; else nonPaginated">
+  <app-directory-entry
+    *ngFor="
+      let directory of directories
+        | directoryFilter: filterValue
+        | directoryFilterStartLetterPipe: filterByStartCharValue
+        | slice: paginationFrom:paginationTo
+    "
+    [directory]="directory"
+  ></app-directory-entry>
 
-<ng-template #conventionalScroll>
-  <!-- Directives cant be applied conditionally (as of now) --->
-  <!-- So we have to to write directory twice  -->
-  <div *ngIf="pagination | async; else nonPaginated">
-    <app-directory-entry
-      *ngFor="
-        let directory of directories
-          | directoryFilter: filterValue
-          | directoryFilterStartLetterPipe: filterByStartCharValue
-          | slice: paginationFrom:paginationTo
-      "
-      [directory]="directory"
-    ></app-directory-entry>
-
-    <mat-paginator
-      *ngIf="
-        (directories | directoryFilter: filterValue).length > 0 &&
-        paginationTo - paginationFrom <
-          (directories | directoryFilter: filterValue).length
-      "
-      [length]="directories.length"
-      (page)="getPaginatorData($event)"
-      [pageSizeOptions]="pageSizeOptions"
-      showFirstLastButtons="true"
-    >
-    </mat-paginator>
-  </div>
-  <ng-template #nonPaginated>
-    <app-directory-entry
-      *ngFor="
-        let directory of directories
-          | directoryFilter: filterValue
-          | directoryFilterStartLetterPipe: filterByStartCharValue
-      "
-      [directory]="directory"
-    ></app-directory-entry>
-  </ng-template>
+  <mat-paginator
+    *ngIf="
+      (directories | directoryFilter: filterValue).length > 0 &&
+      paginationTo - paginationFrom <
+        (directories | directoryFilter: filterValue).length
+    "
+    [length]="directories.length"
+    (page)="getPaginatorData($event)"
+    [pageSizeOptions]="pageSizeOptions"
+    showFirstLastButtons="true"
+  >
+  </mat-paginator>
+</div>
+<ng-template #nonPaginated>
+  <app-directory-entry
+    *ngFor="
+      let directory of directories
+        | directoryFilter: filterValue
+        | directoryFilterStartLetterPipe: filterByStartCharValue
+    "
+    [directory]="directory"
+  ></app-directory-entry>
 </ng-template>
 
 <mat-divider class="divider"></mat-divider>

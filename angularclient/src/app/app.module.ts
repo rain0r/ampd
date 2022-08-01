@@ -20,14 +20,12 @@ import { CoverGridEntryComponent } from "./browse/directories/cover-grid/cover-g
 import { CoverGridComponent } from "./browse/directories/cover-grid/cover-grid.component";
 import { DirectoriesComponent } from "./browse/directories/directories.component";
 import { DirectoryEntryComponent } from "./browse/directories/directory-entry/directory-entry.component";
-import { VirtualScrollDirectoriesComponent } from "./browse/directories/virtual-scroll-directories/virtual-scroll-directories.component";
 import { GenreAlbumsComponent } from "./browse/genres/genre-albums/genre-albums.component";
 import { GenresComponent } from "./browse/genres/genres.component";
 import { BrowseNavigationComponent } from "./browse/navigation/browse-navigation.component";
 import { PlaylistEntryComponent } from "./browse/playlists/playlist-entry/playlist-entry.component";
 import { PlaylistInfoModalComponent } from "./browse/playlists/playlist-info-modal/playlist-info-modal.component";
 import { PlaylistsComponent } from "./browse/playlists/playlists.component";
-import { VirtualScrollPlaylistsComponent } from "./browse/playlists/virtual-scroll-playlists/virtual-scroll-playlists.component";
 import { TrackInfoModalComponent } from "./browse/tracks/track-info-modal/track-info-modal.component";
 import { TracksComponent } from "./browse/tracks/tracks.component";
 import { HelpModalComponent } from "./navbar/help-modal/help-modal.component";
@@ -44,6 +42,7 @@ import { VolumeSliderComponent } from "./queue/volume-slider/volume-slider.compo
 import { SearchComponent } from "./search/search.component";
 import { AmpdRxStompConfigService } from "./service/ampd-rx-stomp-config.service";
 import { AmpdRxStompService } from "./service/ampd-rx-stomp.service";
+import { SettingsService } from "./service/settings.service";
 import { ServerStatisticsComponent } from "./settings/admin/server-statistics/server-statistics.component";
 import { UpdateDatabaseComponent } from "./settings/admin/update-database/update-database.component";
 import { BackendAddressComponent } from "./settings/frontend/backend-address/backend-address.component";
@@ -51,7 +50,6 @@ import { DisplayCoverComponent } from "./settings/frontend/display-cover/display
 import { PaginationComponent } from "./settings/frontend/pagination/pagination.component";
 import { TabTitleComponent } from "./settings/frontend/tab-title/tab-title.component";
 import { ThemeComponent } from "./settings/frontend/theme/theme.component";
-import { VirtualScrollComponent } from "./settings/frontend/virtual-scroll/virtual-scroll.component";
 import { SettingsComponent } from "./settings/settings.component";
 import { AmpdErrorHandler } from "./shared/ampd-error-handler";
 import { ErrorDialogComponent } from "./shared/error-dialog/error-dialog.component";
@@ -70,9 +68,8 @@ import { SecondsToMmSsPipe } from "./shared/pipes/seconds-to-mm-ss.pipe";
 import { TrackTableDataComponent } from "./shared/track-table/track-table-data.component";
 
 function isDarkTheme(service: FrontendSettingsService): unknown {
-  console.log("isDarkTheme", service.isDarkTheme() ? "dark-theme" : "");
   return {
-    panelClass: service.isDarkTheme() ? "dark-theme" : "",
+    panelClass: service.loadFrontendSettings().darkTheme ? "dark-theme" : "",
   };
 }
 
@@ -114,9 +111,6 @@ function isDarkTheme(service: FrontendSettingsService): unknown {
     AddStreamModalComponent,
     UpdateDatabaseComponent,
     DirectoryFilterStartLetterPipePipe,
-    VirtualScrollComponent,
-    VirtualScrollDirectoriesComponent,
-    VirtualScrollPlaylistsComponent,
     PlaylistEntryComponent,
     DirectoryEntryComponent,
     CoverGridComponent,
@@ -151,14 +145,14 @@ function isDarkTheme(service: FrontendSettingsService): unknown {
     SecondsToMmSsPipe,
     {
       provide: AmpdRxStompService,
-      useFactory: (location: Location) => {
-        const config = new AmpdRxStompConfigService(location);
+      useFactory: (location: Location, settingsService: SettingsService) => {
+        const config = new AmpdRxStompConfigService(location, settingsService);
         const rxStomp = new AmpdRxStompService();
         rxStomp.configure(config);
         rxStomp.activate();
         return rxStomp;
       },
-      deps: [Location],
+      deps: [Location, SettingsService],
     },
     {
       provide: ErrorHandler,

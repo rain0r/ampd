@@ -1,24 +1,25 @@
+import { BACKEND_ADDR } from "./../shared/models/internal/frontend-settings";
 import { Location } from "@angular/common";
 import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable, throwError } from "rxjs";
 import { catchError, map } from "rxjs/operators";
-import { ApiEndpoints } from "../shared/api-endpoints";
+import { FrontendSettingsService } from "src/app/service/frontend-settings.service";
+import { environment } from "src/environments/environment";
 import { ErrorMsg } from "../shared/error/error-msg";
-import { KEY_BACKEND_ADDRESS } from "../shared/local-storage-keys";
-import { MpdSettings } from "../shared/models/mpd-settings";
-import { CoverDiskUsage } from "../shared/models/http/cover-disk-usage";
 import { AmpdSetting } from "../shared/models/ampd-setting";
+import { CoverDiskUsage } from "../shared/models/http/cover-disk-usage";
+import { MpdSettings } from "../shared/models/mpd-settings";
 
 @Injectable({
   providedIn: "root",
 })
 export class SettingsService {
-  constructor(private http: HttpClient, private location: Location) {}
-
-  setBackendAddr(backendAddr: string): void {
-    localStorage.setItem(KEY_BACKEND_ADDRESS, backendAddr);
-  }
+  constructor(
+    private http: HttpClient,
+    private location: Location,
+    private frontendSettingsService: FrontendSettingsService
+  ) {}
 
   getAmpdSettings(): Observable<AmpdSetting[]> {
     const url = `${this.getBackendContextAddr()}api/backend`;
@@ -68,12 +69,39 @@ export class SettingsService {
    * return 'example.com/ampd'.
    */
   getBackendContextAddr(): string {
-    return `${ApiEndpoints.getBackendAddr()}${this.location.prepareExternalUrl(
-      ""
-    )}`;
+    return `${this.getBackendAddr()}${this.location.prepareExternalUrl("")}`;
   }
 
   getPlaylistRootUrl(): string {
     return `${this.getBackendContextAddr()}api/playlists/`;
+  }
+
+  /**
+   * Returns the base backend address, not taking a potential context into account.
+   * In development mode we're running on http://localhost:4200 which can't be used as a backend address.
+   * If the user somehow decided to change the backend address to a different value, we return this value from
+   * localStorage.
+   */
+  getBackendAddr(): string {
+    let backendAddr: string;
+    if (environment.production) {
+      let backendAddr =
+        this.frontendSettingsService.loadFrontendSettings().backendAddr;
+      if (backendAddr === "") {
+        backendAddr = window.location.origin;
+        this.frontendSettingsService.setValue(
+          BACKEND_ADDR,
+          window.location.origin
+        );
+      }
+      return backendAddr;
+    } else {
+      backendAddr = environment.backendAddr;
+    }
+    if (backendAddr.endsWith("/")) {
+      // Remove trailing slash to prevent a wrong websocket address
+      backendAddr = backendAddr.substring(0, backendAddr.length - 1);
+    }
+    return backendAddr;
   }
 }

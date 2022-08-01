@@ -1,14 +1,17 @@
 import { Location } from "@angular/common";
 import { Injectable } from "@angular/core";
 import { RxStompConfig } from "@stomp/rx-stomp";
-import { ApiEndpoints } from "../shared/api-endpoints";
 import { environment } from "./../../environments/environment";
+import { SettingsService } from "./settings.service";
 
 @Injectable({
   providedIn: "root",
 })
 export class AmpdRxStompConfigService extends RxStompConfig {
-  constructor(private location: Location) {
+  constructor(
+    private location: Location,
+    private settingsService: SettingsService
+  ) {
     super();
     // Which server?
     this.brokerURL = this.getBrokerUrl();
@@ -38,7 +41,7 @@ export class AmpdRxStompConfigService extends RxStompConfig {
    * websocket library.
    */
   private getBrokerUrl(): string {
-    let brokerUrl = `${ApiEndpoints.getBackendAddr()}${this.location.prepareExternalUrl(
+    let brokerUrl = `${this.settingsService.getBackendAddr()}${this.location.prepareExternalUrl(
       "mpd"
     )}`;
     if (brokerUrl.includes("https")) {

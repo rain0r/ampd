@@ -1,11 +1,9 @@
+import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Observable, Subject, throwError } from "rxjs";
+import { Observable, Subject } from "rxjs";
 import { PlaylistSaved } from "../shared/messages/incoming/playlist-saved";
-import { PlaylistInfo } from "../shared/models/playlist-info";
 import { SavePlaylistResponse } from "../shared/models/http/savePlaylistResponse";
-import { catchError } from "rxjs/operators";
-import { HttpClient, HttpErrorResponse } from "@angular/common/http";
-import { ErrorMsg } from "../shared/error/error-msg";
+import { PlaylistInfo } from "../shared/models/playlist-info";
 import { SettingsService } from "./settings.service";
 
 @Injectable({
@@ -36,15 +34,6 @@ export class PlaylistService {
 
   deletePlaylist(name: string): Observable<unknown> {
     const url = `${this.settingsService.getPlaylistRootUrl()}${name}`;
-    return this.http.delete(url).pipe(
-      catchError((err: HttpErrorResponse) =>
-        throwError(() => {
-          return {
-            title: `Got an error deleteting playlist: ${name}:`,
-            detail: err.message,
-          } as ErrorMsg;
-        })
-      )
-    );
+    return this.http.delete(url);
   }
 }

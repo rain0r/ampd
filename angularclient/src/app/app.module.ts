@@ -52,8 +52,7 @@ import { TabTitleComponent } from "./settings/frontend/tab-title/tab-title.compo
 import { ThemeComponent } from "./settings/frontend/theme/theme.component";
 import { SettingsComponent } from "./settings/settings.component";
 import { AmpdErrorHandler } from "./shared/ampd-error-handler";
-import { ErrorDialogComponent } from "./shared/error-dialog/error-dialog.component";
-import { ErrorComponent } from "./shared/error/error.component";
+import { ErrorDialogComponent } from "./shared/error/error-dialog/error-dialog.component";
 import { KeyValueTableComponent } from "./shared/key-value-table/key-value-table.component";
 import { MaterialMetaModule } from "./shared/material-meta/material-meta.module";
 import { EncodeURIComponentPipe } from "./shared/pipes/encode-uri.pipe";
@@ -66,6 +65,7 @@ import { ReplaceNullWithTextPipe } from "./shared/pipes/replace-null-with-text.p
 import { SecondsToHhMmSsPipe } from "./shared/pipes/seconds-to-hh-mm-ss.pipe";
 import { SecondsToMmSsPipe } from "./shared/pipes/seconds-to-mm-ss.pipe";
 import { TrackTableDataComponent } from "./shared/track-table/track-table-data.component";
+import { HttpErrorDialogComponent } from "./shared/error/http-error-dialog/http-error-dialog.component";
 
 function isDarkTheme(service: FrontendSettingsService): unknown {
   return {
@@ -105,7 +105,6 @@ function isDarkTheme(service: FrontendSettingsService): unknown {
     TabTitleComponent,
     HelpModalComponent,
     MapEntriesPipe,
-    ErrorComponent,
     BackendAddressComponent,
     ServerStatisticsComponent,
     AddStreamModalComponent,
@@ -126,6 +125,7 @@ function isDarkTheme(service: FrontendSettingsService): unknown {
     ErrorDialogComponent,
     FileSizePipe,
     GenreAlbumsComponent,
+    HttpErrorDialogComponent,
   ],
   imports: [
     AppRoutingModule,

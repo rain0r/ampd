@@ -1,0 +1,21 @@
+<h1 mat-dialog-title>An error occurred</h1>
+<div mat-dialog-content>
+  <p class="error-title">
+    Status code {{ error.status }}: <strong>{{ error.error.message }}</strong>
+  </p>
+  <mat-accordion>
+    <mat-expansion-panel hideToggle>
+      <mat-expansion-panel-header>
+        <mat-panel-title>Details</mat-panel-title>
+      </mat-expansion-panel-header>
+      <pre
+        >{{ error | json }}
+      </pre>
+    </mat-expansion-panel>
+  </mat-accordion>
+</div>
+
+<mat-divider> </mat-divider>
+<div mat-dialog-actions>
+  <button mat-button mat-dialog-close cdkFocusInitial>Close</button>
+</div>

@@ -1,8 +1,7 @@
-import { HttpClient, HttpErrorResponse } from "@angular/common/http";
+import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Observable, throwError } from "rxjs";
-import { catchError, map } from "rxjs/operators";
-import { ErrorMsg } from "../shared/error/error-msg";
+import { Observable } from "rxjs";
+import { map } from "rxjs/operators";
 import { AmpdBrowsePayload } from "../shared/models/ampd-browse-payload";
 import { BrowsePayload } from "../shared/models/browse-payload";
 import { QueueTrack } from "../shared/models/queue-track";
@@ -27,17 +26,9 @@ export class BrowseService {
 
   sendBrowseReq(path: string): Observable<AmpdBrowsePayload> {
     const url = `${this.settingsService.getBackendContextAddr()}api/browse?path=${path}`;
-    return this.http.get<BrowsePayload>(url).pipe(
-      catchError((err: HttpErrorResponse) =>
-        throwError(() => {
-          return {
-            title: `Got an error while browsing ${path}:`,
-            detail: err.message,
-          } as ErrorMsg;
-        })
-      ),
-      map((payload) => this.convertPayload(payload))
-    );
+    return this.http
+      .get<BrowsePayload>(url)
+      .pipe(map((payload) => this.convertPayload(payload)));
   }
 
   private convertPayload(payload: BrowsePayload): AmpdBrowsePayload {

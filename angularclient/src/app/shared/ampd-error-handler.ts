@@ -1,7 +1,10 @@
+import { ComponentType } from "@angular/cdk/portal";
+import { HttpErrorResponse } from "@angular/common/http";
 import { ErrorHandler, Injectable, NgZone } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
 import { BehaviorSubject } from "rxjs";
-import { ErrorDialogComponent } from "./error-dialog/error-dialog.component";
+import { ErrorDialogComponent } from "./error/error-dialog/error-dialog.component";
+import { HttpErrorDialogComponent } from "./error/http-error-dialog/http-error-dialog.component";
 
 @Injectable()
 export class AmpdErrorHandler implements ErrorHandler {
@@ -13,16 +16,24 @@ export class AmpdErrorHandler implements ErrorHandler {
     this.zone.run(() => {
       console.error("Error from global error handler", error);
 
-      if (!this.errorModalOpen.value) {
-        this.errorModalOpen.next(true);
-
-        const dialogRef = this.dialog.open(ErrorDialogComponent, {
-          data: error,
-        });
-        dialogRef
-          .afterClosed()
-          .subscribe(() => this.errorModalOpen.next(false));
+      if (this.errorModalOpen.value) {
+        // We already have an open dialog
+        return;
       }
+
+      let clazz: ComponentType<unknown>;
+      if (error instanceof HttpErrorResponse) {
+        clazz = HttpErrorDialogComponent;
+      } else {
+        clazz = ErrorDialogComponent;
+      }
+
+      const dialogRef = this.dialog.open(clazz, {
+        width: "70%",
+        data: error,
+      });
+      this.errorModalOpen.next(true);
+      dialogRef.afterClosed().subscribe(() => this.errorModalOpen.next(false));
     });
   }
 }

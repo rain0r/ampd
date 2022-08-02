@@ -1,15 +1,13 @@
-import { HttpClient, HttpErrorResponse } from "@angular/common/http";
+import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Observable, of, Subject, throwError } from "rxjs";
+import { Observable, of, Subject } from "rxjs";
 import {
-  catchError,
   distinctUntilChanged,
   filter,
   map,
   switchMap,
   tap,
 } from "rxjs/operators";
-import { ErrorMsg } from "../shared/error/error-msg";
 import { MpdModesPanel } from "../shared/messages/incoming/mpd-modes-panel";
 import { StateMsgPayload } from "../shared/messages/incoming/state-msg-payload";
 import { QueueTrack } from "../shared/models/queue-track";
@@ -65,16 +63,7 @@ export class MpdService {
 
   getServerStatistics(): Observable<ServerStatistics> {
     const url = `${this.settingsService.getBackendContextAddr()}api/server-statistics`;
-    return this.http.get<ServerStatistics>(url).pipe(
-      catchError((err: HttpErrorResponse) =>
-        throwError(() => {
-          return {
-            title: `Got an error retrieving the server statistics:`,
-            detail: err.message,
-          } as ErrorMsg;
-        })
-      )
-    );
+    return this.http.get<ServerStatistics>(url);
   }
   __getStateSubscription(): Observable<StateMsgPayload> {
     // TODO: Remove

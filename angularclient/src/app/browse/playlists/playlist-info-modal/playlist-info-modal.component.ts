@@ -4,14 +4,13 @@ import { MatTableDataSource } from "@angular/material/table";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Observable, Subject } from "rxjs";
 import { ResponsiveScreenService } from "src/app/service/responsive-screen.service";
-import { ErrorMsg } from "../../../shared/error/error-msg";
+import { NotificationService } from "../../../service/notification.service";
+import { PlaylistService } from "../../../service/playlist.service";
+import { QueueService } from "../../../service/queue.service";
 import { Playlist } from "../../../shared/messages/incoming/playlist-impl";
 import { Track } from "../../../shared/messages/incoming/track";
 import { PlaylistInfo } from "../../../shared/models/playlist-info";
 import { QueueTrack } from "../../../shared/models/queue-track";
-import { NotificationService } from "../../../service/notification.service";
-import { PlaylistService } from "../../../service/playlist.service";
-import { QueueService } from "../../../service/queue.service";
 import { ClickActions } from "../../../shared/track-table/click-actions.enum";
 import { TrackTableData } from "../../../shared/track-table/track-table-data";
 
@@ -62,12 +61,7 @@ export class PlaylistInfoModalComponent implements AfterViewInit {
       next: () => {
         this.notificationService.popUp(`Deleted playlist: ${this.data.name}`);
       },
-      error: (errorMsg: ErrorMsg) => {
-        this.notificationService.popUp(
-          `${errorMsg.title}: ${errorMsg.detail}`,
-          true
-        );
-      },
+      error: () => void 0,
       complete: () =>
         void this.router.navigate([], {
           relativeTo: this.activatedRoute,

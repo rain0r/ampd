@@ -1,15 +1,14 @@
-import { BACKEND_ADDR } from "./../shared/models/internal/frontend-settings";
 import { Location } from "@angular/common";
-import { HttpClient, HttpErrorResponse } from "@angular/common/http";
+import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Observable, throwError } from "rxjs";
-import { catchError, map } from "rxjs/operators";
+import { Observable } from "rxjs";
+import { map } from "rxjs/operators";
 import { FrontendSettingsService } from "src/app/service/frontend-settings.service";
 import { environment } from "src/environments/environment";
-import { ErrorMsg } from "../shared/error/error-msg";
 import { AmpdSetting } from "../shared/models/ampd-setting";
 import { CoverDiskUsage } from "../shared/models/http/cover-disk-usage";
 import { MpdSettings } from "../shared/models/mpd-settings";
+import { BACKEND_ADDR } from "./../shared/models/internal/frontend-settings";
 
 @Injectable({
   providedIn: "root",
@@ -23,30 +22,12 @@ export class SettingsService {
 
   getAmpdSettings(): Observable<AmpdSetting[]> {
     const url = `${this.getBackendContextAddr()}api/backend`;
-    return this.http.get<AmpdSetting[]>(url).pipe(
-      catchError((err: HttpErrorResponse) =>
-        throwError(() => {
-          return {
-            title: `Got an error retrieving the backend settings:`,
-            detail: err.message,
-          } as ErrorMsg;
-        })
-      )
-    );
+    return this.http.get<AmpdSetting[]>(url);
   }
 
   getMpdSettings(): Observable<MpdSettings> {
     const url = `${this.getBackendContextAddr()}api/settings`;
-    return this.http.get<MpdSettings>(url).pipe(
-      catchError((err: HttpErrorResponse) =>
-        throwError(() => {
-          return {
-            title: `Got an error retrieving the backend settings:`,
-            detail: err.message,
-          } as ErrorMsg;
-        })
-      )
-    );
+    return this.http.get<MpdSettings>(url);
   }
 
   getCoverCacheDiskUsage(): Observable<number> {

@@ -36,6 +36,14 @@
             "scripts": []
           },
           "configurations": {
+            "dev": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            },
             "production": {
               "fileReplacements": [
                 {
@@ -71,6 +79,9 @@
             "browserTarget": "ampd:build"
           },
           "configurations": {
+            "dev": {
+              "browserTarget": "ampd:build:dev"
+            },            
             "production": {
               "browserTarget": "ampd:build:production"
             }

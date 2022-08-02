@@ -4,6 +4,7 @@ import org.bff.javampd.playlist.MPDPlaylistSong;
 import org.hihn.ampd.server.model.AmpdSettings;
 import org.hihn.listenbrainz.LbService;
 import org.hihn.listenbrainz.lb.SubmitListen;
+import org.hihn.listenbrainz.lb.SubmitListenNow;
 import org.hihn.listenbrainz.lb.SubmitListensAdditionalInfo;
 import org.hihn.listenbrainz.lb.SubmitListensTrackMetadata;
 import org.slf4j.Logger;
@@ -37,12 +38,14 @@ public class ListenBrainzScrobbleService {
 		LOG.info("Submit Listen: {} - {}", song.getArtistName(), song.getTitle());
 		currentSong = song;
 		if (ampdSettings.isScrobbleLb()) {
-			SubmitListen submitListen = buildPayload();
-			lbService.submitSingleListen(submitListen);
-			// Timestamp must be omitted from a playing_now submission.
-			submitListen.setListenedAt(-1);
-			lbService.submitPlayingNow(submitListen);
+			lbService.submitSingleListen(buildPayload());
+			lbService.submitPlayingNow(buildPlayingNowPayload());
 		}
+	}
+
+	private List<SubmitListenNow> buildPlayingNowPayload() {
+		SubmitListenNow submitListenNow = new SubmitListenNow(buildTrackMetadata(currentSong));
+		return List.of(submitListenNow);
 	}
 
 	private SubmitListen buildPayload() {

@@ -14,7 +14,6 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
  */
 @RestController
 @RequestMapping("/api/playlists")
-@CrossOrigin
 public class PlaylistController {
 
 	private final PlaylistService playlistService;
@@ -29,13 +28,13 @@ public class PlaylistController {
 	 * @return An {@link PlaylistInfo} object.
 	 */
 	@RequestMapping(value = "/{name}", method = GET)
-	public PlaylistInfo getPlaylist(@PathVariable("name") final String playlistName) {
+	public PlaylistInfo getPlaylist(@PathVariable("name") String playlistName) {
 		return playlistService.getPlaylistInfo(playlistName)
 				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 	}
 
 	@PostMapping("/")
-	public SavePlaylistResponse savePlaylist(@RequestBody final String playlist) {
+	public SavePlaylistResponse savePlaylist(@RequestBody String playlist) {
 		return playlistService.savePlaylist(playlist);
 	}
 

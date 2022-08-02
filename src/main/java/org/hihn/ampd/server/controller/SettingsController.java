@@ -6,7 +6,10 @@ import org.hihn.ampd.server.model.AmpdSettings;
 import org.hihn.ampd.server.serializer.BackendSettings;
 import org.hihn.ampd.server.service.AmpdSettingsService;
 import org.hihn.ampd.server.service.CoverCacheService;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Collections;
 import java.util.List;
@@ -17,7 +20,6 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("/api")
-@CrossOrigin
 public class SettingsController {
 
 	private final CoverCacheService coverCacheService;

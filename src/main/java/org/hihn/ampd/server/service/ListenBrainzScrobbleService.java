@@ -34,11 +34,18 @@ public class ListenBrainzScrobbleService {
 		this.lbService = lbService;
 	}
 
-	public void scrobbleListenBrainz(MPDPlaylistSong song) {
+	public void scrobblelisten(MPDPlaylistSong song) {
 		LOG.info("Submit Listen: {} - {}", song.getArtistName(), song.getTitle());
 		currentSong = song;
 		if (ampdSettings.isScrobbleLb()) {
 			lbService.submitSingleListen(buildPayload());
+		}
+	}
+
+	public void scrobblePlayingNow(MPDPlaylistSong song) {
+		LOG.info("Submit Listen: {} - {}", song.getArtistName(), song.getTitle());
+		currentSong = song;
+		if (ampdSettings.isScrobbleLb()) {
 			lbService.submitPlayingNow(buildPlayingNowPayload());
 		}
 	}

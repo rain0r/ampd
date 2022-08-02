@@ -53,6 +53,7 @@ public class ScrobbleService {
 						scrobbled = false;
 						currentSong = song;
 						LOG.trace("Song changed to: {}", currentSong);
+						lbScrobbleService.scrobblePlayingNow(song);
 					}
 				});
 			}
@@ -77,7 +78,7 @@ public class ScrobbleService {
 				if (tpcl.getElapsedTime() >= minPos) {
 					// Scrobble it
 					if (ampdSettings.isScrobbleLb()) {
-						lbScrobbleService.scrobbleListenBrainz(song);
+						lbScrobbleService.scrobblelisten(song);
 					}
 					scrobbled = true;
 				}

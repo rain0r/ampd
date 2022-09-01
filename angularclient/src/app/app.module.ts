@@ -57,7 +57,7 @@ import { KeyValueTableComponent } from "./shared/key-value-table/key-value-table
 import { MaterialMetaModule } from "./shared/material-meta/material-meta.module";
 import { EncodeURIComponentPipe } from "./shared/pipes/encode-uri.pipe";
 import { FileSizePipe } from "./shared/pipes/file-size.pipe";
-import { DirectoryFilterStartLetterPipePipe } from "./shared/pipes/filter/directory-filter-start-letter-pipe.pipe";
+import { DirectoryFilterStartLetterPipePipe as DirectoryFilterStartLetterPipe } from "./shared/pipes/filter/directory-filter-start-letter-pipe";
 import { DirectoryFilterPipe } from "./shared/pipes/filter/directory-filter.pipe";
 import { PlaylistFilterPipe } from "./shared/pipes/filter/playlist-filter.pipe";
 import { MapEntriesPipe } from "./shared/pipes/map-entries.pipe";
@@ -109,7 +109,7 @@ function isDarkTheme(service: FrontendSettingsService): unknown {
     ServerStatisticsComponent,
     AddStreamModalComponent,
     UpdateDatabaseComponent,
-    DirectoryFilterStartLetterPipePipe,
+    DirectoryFilterStartLetterPipe,
     PlaylistEntryComponent,
     DirectoryEntryComponent,
     CoverGridComponent,

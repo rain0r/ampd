@@ -143,6 +143,7 @@ function isDarkTheme(service: FrontendSettingsService): unknown {
   providers: [
     TitleCasePipe,
     SecondsToMmSsPipe,
+    ReplaceNullWithTextPipe,
     {
       provide: AmpdRxStompService,
       useFactory: (location: Location, settingsService: SettingsService) => {

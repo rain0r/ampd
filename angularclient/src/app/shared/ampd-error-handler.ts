@@ -15,25 +15,30 @@ export class AmpdErrorHandler implements ErrorHandler {
   handleError(error: unknown): void {
     this.zone.run(() => {
       console.error("Error from global error handler", error);
+      this.openErrorDialog(error);
+    });
+  }
 
-      if (this.errorModalOpen.value) {
-        // We already have an open dialog
-        return;
+  private openErrorDialog(error: unknown) {
+    this.errorModalOpen.asObservable().subscribe((open) => {
+      if (!open) {
+        let clazz: ComponentType<unknown>;
+        if (error instanceof HttpErrorResponse) {
+          clazz = HttpErrorDialogComponent;
+        } else {
+          clazz = ErrorDialogComponent;
+        }
+
+        const dialogRef = this.dialog.open(clazz, {
+          width: "70%",
+          data: error,
+        });
+
+        this.errorModalOpen.next(true);
+        dialogRef
+          .afterClosed()
+          .subscribe(() => this.errorModalOpen.next(false));
       }
-
-      let clazz: ComponentType<unknown>;
-      if (error instanceof HttpErrorResponse) {
-        clazz = HttpErrorDialogComponent;
-      } else {
-        clazz = ErrorDialogComponent;
-      }
-
-      const dialogRef = this.dialog.open(clazz, {
-        width: "70%",
-        data: error,
-      });
-      this.errorModalOpen.next(true);
-      dialogRef.afterClosed().subscribe(() => this.errorModalOpen.next(false));
     });
   }
 }

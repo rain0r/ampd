@@ -1,9 +1,10 @@
-import { KeyValue, TitleCasePipe } from "@angular/common";
+import { KeyValue } from "@angular/common";
 import { Component, Inject } from "@angular/core";
 import { MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { Track } from "src/app/shared/messages/incoming/track";
 import { ReplaceNullWithTextPipe } from "src/app/shared/pipes/replace-null-with-text.pipe";
 import { TagMap } from "./../../../shared/messages/incoming/track";
+import { CamelCaseTitlePipe } from "./../../../shared/pipes/camel-case-title.pipe";
 
 @Component({
   selector: "app-track-info-modal",
@@ -17,7 +18,7 @@ export class TrackInfoModalComponent {
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public track: Track,
-    private titleCasePipe: TitleCasePipe,
+    private camelCaseTitlePipe: CamelCaseTitlePipe,
     private replaceNullWithTextPipe: ReplaceNullWithTextPipe
   ) {
     this.trackSource = this.buildTableData(track);
@@ -32,7 +33,7 @@ export class TrackInfoModalComponent {
       }
       const keyType = key as keyof typeof track;
       const data = {
-        key: this.titleCasePipe.transform(key),
+        key: this.camelCaseTitlePipe.transform(key),
         value: this.replaceNullWithTextPipe.transform(track[keyType]),
       } as KeyValue<string, string>;
       ret.push(data);

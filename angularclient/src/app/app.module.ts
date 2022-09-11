@@ -1,5 +1,5 @@
 import { ScrollingModule } from "@angular/cdk/scrolling";
-import { Location, TitleCasePipe } from "@angular/common";
+import { Location } from "@angular/common";
 import { HttpClientModule } from "@angular/common/http";
 import { ErrorHandler, NgModule } from "@angular/core";
 import { FlexLayoutModule } from "@angular/flex-layout";
@@ -53,8 +53,10 @@ import { ThemeComponent } from "./settings/frontend/theme/theme.component";
 import { SettingsComponent } from "./settings/settings.component";
 import { AmpdErrorHandler } from "./shared/ampd-error-handler";
 import { ErrorDialogComponent } from "./shared/error/error-dialog/error-dialog.component";
+import { HttpErrorDialogComponent } from "./shared/error/http-error-dialog/http-error-dialog.component";
 import { KeyValueTableComponent } from "./shared/key-value-table/key-value-table.component";
 import { MaterialMetaModule } from "./shared/material-meta/material-meta.module";
+import { CamelCaseTitlePipe } from "./shared/pipes/camel-case-title.pipe";
 import { EncodeURIComponentPipe } from "./shared/pipes/encode-uri.pipe";
 import { FileSizePipe } from "./shared/pipes/file-size.pipe";
 import { DirectoryFilterStartLetterPipePipe as DirectoryFilterStartLetterPipe } from "./shared/pipes/filter/directory-filter-start-letter-pipe";
@@ -65,7 +67,6 @@ import { ReplaceNullWithTextPipe } from "./shared/pipes/replace-null-with-text.p
 import { SecondsToHhMmSsPipe } from "./shared/pipes/seconds-to-hh-mm-ss.pipe";
 import { SecondsToMmSsPipe } from "./shared/pipes/seconds-to-mm-ss.pipe";
 import { TrackTableDataComponent } from "./shared/track-table/track-table-data.component";
-import { HttpErrorDialogComponent } from "./shared/error/http-error-dialog/http-error-dialog.component";
 
 function isDarkTheme(service: FrontendSettingsService): unknown {
   return {
@@ -126,6 +127,7 @@ function isDarkTheme(service: FrontendSettingsService): unknown {
     FileSizePipe,
     GenreAlbumsComponent,
     HttpErrorDialogComponent,
+    CamelCaseTitlePipe,
   ],
   imports: [
     AppRoutingModule,
@@ -141,7 +143,7 @@ function isDarkTheme(service: FrontendSettingsService): unknown {
     MaterialMetaModule,
   ],
   providers: [
-    TitleCasePipe,
+    CamelCaseTitlePipe,
     SecondsToMmSsPipe,
     ReplaceNullWithTextPipe,
     {

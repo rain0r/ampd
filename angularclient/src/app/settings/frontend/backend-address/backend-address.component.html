@@ -5,10 +5,12 @@
     </mat-card-header>
     <mat-form-field class="full-width">
       <input
+        name="backend-addr"
         matInput
         [(ngModel)]="backendAddr"
         required
         placeholder="http://your-computer:8080"
+        type="text"
       />
       <mat-hint align="end"
         >This will be set automatically. Don't change it if ampd works. The name

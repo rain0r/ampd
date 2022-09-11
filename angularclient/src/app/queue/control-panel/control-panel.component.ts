@@ -1,8 +1,8 @@
 import { Component, OnInit } from "@angular/core";
 import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
 import { BehaviorSubject, combineLatest, first, map, Observable } from "rxjs";
-import { TrackInfoModalComponent } from "src/app/browse/tracks/track-info-modal/track-info-modal.component";
 import { ResponsiveScreenService } from "src/app/service/responsive-screen.service";
+import { TrackInfoModalComponent } from "src/app/browse/tracks/track-info-modal/track-info-modal.component";
 import { ControlPanelService } from "../../service/control-panel.service";
 import { MpdService } from "../../service/mpd.service";
 import { NotificationService } from "../../service/notification.service";
@@ -16,6 +16,7 @@ import { QueueService } from "../../service/queue.service";
 export class ControlPanelComponent implements OnInit {
   currentState: Observable<string>;
   isMobile = new Observable<boolean>();
+  queueTrackCount: Observable<number>;
   private trackInfoModalOpen = new BehaviorSubject(false);
 
   constructor(
@@ -27,6 +28,7 @@ export class ControlPanelComponent implements OnInit {
     private dialog: MatDialog
   ) {
     this.currentState = this.mpdService.currentState;
+    this.queueTrackCount = this.mpdService.getQueueTrackCount();
   }
 
   ngOnInit(): void {
@@ -84,8 +86,6 @@ export class ControlPanelComponent implements OnInit {
         first()
       )
       .subscribe((result) => {
-        console.log("result", result);
-
         const width = result.isMobile ? "100%" : "70%";
         const options: MatDialogConfig = {
           maxWidth: "100vw",

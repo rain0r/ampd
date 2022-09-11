@@ -1,11 +1,11 @@
-package org.hihn.ampd.server.service;
+package org.hihn.ampd.server.service.scrobbler;
 
 import org.bff.javampd.player.PlayerBasicChangeEvent;
 import org.bff.javampd.player.TrackPositionChangeListener;
 import org.bff.javampd.playlist.MPDPlaylistSong;
 import org.bff.javampd.playlist.PlaylistBasicChangeEvent;
 import org.bff.javampd.server.MPD;
-import org.hihn.ampd.server.model.AmpdSettings;
+import org.hihn.ampd.server.service.ListenBrainzScrobbleService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -25,15 +25,16 @@ public class ScrobbleService {
 
 	private final ListenBrainzScrobbleService lbScrobbleService;
 
+	private final LastFmScrobbleService lastFmScrobbleService;
+
 	private MPDPlaylistSong currentSong = null;
 
 	private boolean scrobbled = false;
 
-	private final AmpdSettings ampdSettings;
-
-	public ScrobbleService(MPD mpd, ListenBrainzScrobbleService lbScrobbleService, AmpdSettings ampdSettings) {
+	public ScrobbleService(MPD mpd, ListenBrainzScrobbleService lbScrobbleService,
+			LastFmScrobbleService lastFmScrobbleService) {
 		this.lbScrobbleService = lbScrobbleService;
-		this.ampdSettings = ampdSettings;
+		this.lastFmScrobbleService = lastFmScrobbleService;
 
 		mpd.getStandAloneMonitor().addTrackPositionChangeListener(buildPositionListener());
 		mpd.getStandAloneMonitor().start();
@@ -53,11 +54,21 @@ public class ScrobbleService {
 						scrobbled = false;
 						currentSong = song;
 						LOG.trace("Song changed to: {}", currentSong);
-						lbScrobbleService.scrobblePlayingNow(song);
+						scrobblePlayingNow(song);
 					}
 				});
 			}
 		});
+	}
+
+	private void scrobblePlayingNow(MPDPlaylistSong song) {
+		lbScrobbleService.scrobblePlayingNow(song);
+		lastFmScrobbleService.scrobblePlayingNow(song);
+	}
+
+	private void scrobbleListen(MPDPlaylistSong song) {
+		lbScrobbleService.scrobbleListen(song);
+		lastFmScrobbleService.scrobbleListen(song);
 	}
 
 	private boolean songChanged(MPDPlaylistSong currSong, MPDPlaylistSong playlistSong) {
@@ -77,9 +88,7 @@ public class ScrobbleService {
 				int minPos = Math.min(song.getLength() / 2, MAX_REQ_LISTEN_T);
 				if (tpcl.getElapsedTime() >= minPos) {
 					// Scrobble it
-					if (ampdSettings.isScrobbleLb()) {
-						lbScrobbleService.scrobblelisten(song);
-					}
+					scrobbleListen(song);
 					scrobbled = true;
 				}
 			});

@@ -4,8 +4,6 @@
 
 // const AMPD_URL = "localhost:8080";
 const AMPD_URL = "punica:8083/dev-ampd/";
-// const AMPD_URL = "192.168.178.50:8080";
-// const AMPD_URL = "punica";
 
 export const environment = {
   production: false,

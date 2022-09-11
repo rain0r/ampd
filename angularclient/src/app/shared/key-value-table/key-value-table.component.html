@@ -1,3 +1,5 @@
+<span *ngIf="dataSource.length===0" >No data</span>
+
 <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
   <ng-container matColumnDef="key">
     <td mat-cell *matCellDef="let element">{{ element.key }}</td>

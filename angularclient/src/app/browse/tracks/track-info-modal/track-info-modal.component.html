@@ -1,13 +1,24 @@
-<h2 mat-dialog-title>Track info</h2>
+<div mat-dialog-title>{{ track.artistName }} — {{ track.title }}</div>
 
-<mat-tab-group animationDuration="0ms">
+<mat-tab-group
+  animationDuration="0ms"
+  *ngIf="similarSource | async as similar; else loading"
+>
   <mat-tab label="Track">
     <app-key-value-table [dataSource]="trackSource"></app-key-value-table>
   </mat-tab>
   <mat-tab label="Tags">
     <app-key-value-table [dataSource]="tagSource"></app-key-value-table>
   </mat-tab>
+  <mat-tab label="Similar Tracks">
+    <app-key-value-table [dataSource]="similar"></app-key-value-table>
+  </mat-tab>
 </mat-tab-group>
+
+<ng-template #loading
+  ><div fxLayout="row" fxLayoutAlign="space-around" #loading>
+    <mat-spinner></mat-spinner></div
+></ng-template>
 
 <mat-dialog-actions align="end">
   <button mat-button mat-dialog-close>Close</button>

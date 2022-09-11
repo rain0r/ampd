@@ -50,4 +50,14 @@
     <mat-icon>delete</mat-icon>
     <span fxHide.lt-md> Clear </span>
   </button>
+  <button
+    mat-stroked-button
+    (click)="onShowTrackInfo()"
+    title="Info about currently playing track"
+    class="valign-top"
+    [disabled]="(currentState | async) === 'stop'"
+  >
+    <mat-icon>info</mat-icon>
+    <span fxHide.lt-md> Info </span>
+  </button>
 </div>

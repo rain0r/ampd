@@ -1,8 +1,11 @@
-import { Component } from "@angular/core";
-import { NotificationService } from "../../service/notification.service";
-import { MpdService } from "../../service/mpd.service";
-import { Observable } from "rxjs";
+import { Component, OnInit } from "@angular/core";
+import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
+import { combineLatest, map, Observable } from "rxjs";
+import { TrackInfoModalComponent } from "src/app/browse/tracks/track-info-modal/track-info-modal.component";
+import { ResponsiveScreenService } from "src/app/service/responsive-screen.service";
 import { ControlPanelService } from "../../service/control-panel.service";
+import { MpdService } from "../../service/mpd.service";
+import { NotificationService } from "../../service/notification.service";
 import { QueueService } from "../../service/queue.service";
 
 @Component({
@@ -10,16 +13,23 @@ import { QueueService } from "../../service/queue.service";
   templateUrl: "./control-panel.component.html",
   styleUrls: ["./control-panel.component.scss"],
 })
-export class ControlPanelComponent {
+export class ControlPanelComponent implements OnInit {
   currentState: Observable<string>;
+  isMobile = new Observable<boolean>();
 
   constructor(
     private controlPanelService: ControlPanelService,
     private mpdService: MpdService,
     private notificationService: NotificationService,
-    private queueService: QueueService
+    private queueService: QueueService,
+    private responsiveScreenService: ResponsiveScreenService,
+    private dialog: MatDialog
   ) {
     this.currentState = this.mpdService.currentState;
+  }
+
+  ngOnInit(): void {
+    this.isMobile = this.responsiveScreenService.isMobile();
   }
 
   handleControlButton(event: MouseEvent): void {
@@ -49,5 +59,29 @@ export class ControlPanelComponent {
   onClearQueue(): void {
     this.queueService.clearQueue();
     this.notificationService.popUp("Cleared queue");
+  }
+
+  onShowTrackInfo(): void {
+    combineLatest([this.isMobile, this.mpdService.currentTrack])
+      .pipe(
+        map((results) => ({
+          isMobile: results[0],
+          track: results[1],
+        }))
+      )
+      .subscribe((result) => {
+        const width = result.isMobile ? "100%" : "70%";
+        const options: MatDialogConfig = {
+          maxWidth: "100vw",
+          height: "90%",
+          width: width,
+          data: result.track,
+        };
+        if (result.isMobile) {
+          options["height"] = "75%";
+          options["maxHeight"] = "75vh";
+        }
+        this.dialog.open(TrackInfoModalComponent, options);
+      });
   }
 }

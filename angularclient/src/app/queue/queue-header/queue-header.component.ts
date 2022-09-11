@@ -38,6 +38,7 @@ export class QueueHeaderComponent implements AfterViewChecked {
     this.isDisplayCover = this.displayCover$.asObservable();
     this.coverSizeClass = this.responsiveCoverSizeService.getCoverCssClass();
     this.currentState = this.mpdService.currentState;
+    this.currentState.subscribe((val) => console.log(new Date(), val));
     this.buildMessageReceiver();
     this.buildTrackSubscription();
   }

@@ -77,8 +77,6 @@ export class ControlPanelComponent implements OnInit {
         first()
       )
       .subscribe((result) => {
-        console.log("result", result);
-
         const width = result.isMobile ? "100%" : "70%";
         const options: MatDialogConfig = {
           maxWidth: "100vw",

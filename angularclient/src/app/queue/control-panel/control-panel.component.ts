@@ -63,13 +63,6 @@ export class ControlPanelComponent implements OnInit {
   }
 
   onShowTrackInfo(): void {
-    if (this.trackInfoModalOpen.value) {
-      // We already have an open dialog
-      return;
-    }
-
-    this.trackInfoModalOpen.asObservable().subscribe();
-
     combineLatest([
       this.isMobile,
       this.mpdService.currentTrack,

@@ -1,7 +1,7 @@
 import { Component, HostListener } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
 import { Router } from "@angular/router";
-import { BehaviorSubject, map, Observable } from "rxjs";
+import { BehaviorSubject, first, map, Observable } from "rxjs";
 import { AddStreamModalComponent } from "../queue/add-stream-modal/add-stream-modal.component";
 import { SearchComponent } from "../search/search.component";
 import { ControlPanelService } from "../service/control-panel.service";
@@ -153,22 +153,28 @@ export class NavbarComponent {
     this.isMobile.subscribe((isMobile) => {
       if (isMobile) {
         void this.router.navigate(["search"]);
-      } else {
-        if (!this.searchModalOpen.value) {
-          this.searchModalOpen.next(true);
-          const dialogRef = this.dialog.open(SearchComponent, {
-            autoFocus: true,
-            maxWidth: "100vw",
-            maxHeight: "100vh",
-            height: "100%",
-            width: "100%",
-          });
-          dialogRef
-            .afterClosed()
-            .subscribe(() => this.searchModalOpen.next(false));
-          dialogRef.updateSize("90%", "75%");
-        }
+        return;
       }
+
+      this.searchModalOpen
+        .asObservable()
+        .pipe(first())
+        .subscribe((open) => {
+          if (!open) {
+            this.searchModalOpen.next(true);
+            const dialogRef = this.dialog.open(SearchComponent, {
+              autoFocus: true,
+              maxWidth: "100vw",
+              maxHeight: "100vh",
+              height: "100%",
+              width: "100%",
+            });
+            dialogRef
+              .afterClosed()
+              .subscribe(() => this.searchModalOpen.next(false));
+            dialogRef.updateSize("90%", "75%");
+          }
+        });
     });
   }
 

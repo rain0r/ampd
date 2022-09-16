@@ -2,6 +2,7 @@ package org.hihn.ampd.server.service;
 
 import org.bff.javampd.playlist.MPDPlaylistSong;
 import org.hihn.ampd.server.model.AmpdSettings;
+import org.hihn.ampd.server.service.scrobbler.AmpdScrobbler;
 import org.hihn.listenbrainz.LbService;
 import org.hihn.listenbrainz.lb.SubmitListen;
 import org.hihn.listenbrainz.lb.SubmitListenNow;
@@ -19,7 +20,7 @@ import java.util.UUID;
  * Service to scrobble songs to ListenBrainz.
  */
 @Service
-public class ListenBrainzScrobbleService {
+public class ListenBrainzScrobbleService implements AmpdScrobbler {
 
 	private static final Logger LOG = LoggerFactory.getLogger(ListenBrainzScrobbleService.class);
 
@@ -34,18 +35,19 @@ public class ListenBrainzScrobbleService {
 		this.lbService = lbService;
 	}
 
-	public void scrobblelisten(MPDPlaylistSong song) {
-		LOG.info("Submiting Listen: {} - {}", song.getArtistName(), song.getTitle());
+	@Override
+	public void scrobbleListen(MPDPlaylistSong song) {
 		currentSong = song;
 		if (ampdSettings.isScrobbleLb()) {
 			lbService.submitSingleListen(buildPayload());
 		}
 	}
 
+	@Override
 	public void scrobblePlayingNow(MPDPlaylistSong song) {
-		LOG.info("Submiting playing now: {} - {}", song.getArtistName(), song.getTitle());
 		currentSong = song;
 		if (ampdSettings.isScrobbleLb()) {
+			LOG.info("Submiting playing now: {} - {}", song.getArtistName(), song.getTitle());
 			lbService.submitPlayingNow(buildPlayingNowPayload());
 		}
 	}

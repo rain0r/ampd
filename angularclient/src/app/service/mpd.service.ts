@@ -13,6 +13,7 @@ import { StateMsgPayload } from "../shared/messages/incoming/state-msg-payload";
 import { QueueTrack } from "../shared/models/queue-track";
 import { ServerStatistics } from "../shared/models/server-statistics";
 import { AmpdRxStompService } from "./ampd-rx-stomp.service";
+import { QueueService } from "./queue.service";
 import { SettingsService } from "./settings.service";
 @Injectable({
   providedIn: "root",
@@ -29,7 +30,8 @@ export class MpdService {
   constructor(
     private http: HttpClient,
     private rxStompService: AmpdRxStompService,
-    private settingsService: SettingsService
+    private settingsService: SettingsService,
+    private queueService: QueueService
   ) {
     this.buildStateSubscription();
     this.mpdModesPanel = this.mpdModesPanel$.asObservable();
@@ -87,6 +89,12 @@ export class MpdService {
         return of(payload);
       })
     );
+  }
+
+  getQueueTrackCount(): Observable<number> {
+    return this.queueService
+      .getQueueSubscription()
+      .pipe(map((tracks) => tracks.length));
   }
 
   /**

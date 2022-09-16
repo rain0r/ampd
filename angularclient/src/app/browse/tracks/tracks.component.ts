@@ -4,10 +4,10 @@ import { ActivatedRoute } from "@angular/router";
 import { Observable } from "rxjs";
 import { distinctUntilChanged, map } from "rxjs/operators";
 import { LIGHTBOX_SETTINGS } from "src/app/shared/lightbox";
-import { QueueTrack } from "../../shared/models/queue-track";
 import { MpdService } from "../../service/mpd.service";
 import { ResponsiveScreenService } from "../../service/responsive-screen.service";
 import { SettingsService } from "../../service/settings.service";
+import { QueueTrack } from "../../shared/models/queue-track";
 import { ClickActions } from "../../shared/track-table/click-actions.enum";
 import { TrackTableData } from "../../shared/track-table/track-table-data";
 

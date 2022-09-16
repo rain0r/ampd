@@ -77,14 +77,14 @@ public class AmpdSettings {
 	 * server.
 	 */
 	@HelpText(name = "Create playlists", hint = "Users are allowed to create playlists.")
-	@Value("${create.new.playlists:false}")
+	@Value("${create.new.playlists:true}")
 	private boolean createPlaylists;
 
 	/**
 	 * When true, users will be allowed to delete existing playlists on the MPD server.
 	 */
 	@HelpText(name = "Delete playlists", hint = "Users are allowed to delete playlists.")
-	@Value("${delete.existing.playlists:false}")
+	@Value("${delete.existing.playlists:true}")
 	private boolean deletePlaylists;
 
 	/**
@@ -126,6 +126,39 @@ public class AmpdSettings {
 	private String listenbrainzToken;
 
 	/**
+	 * API key for the Last.fm api
+	 */
+	@HelpText(name = "Last.fm API Key", hint = "API key for the Last.fm api")
+	@Value("${lastfm.api.key:}")
+	private String lastfmApiKey;
+
+	/**
+	 * API secret for the Last.fm api
+	 */
+	@Value("${lastfm.api.secret:}")
+	private String lastfmApiSecret;
+
+	/**
+	 * Last.fm username
+	 */
+	@HelpText(name = "Last.fm username", hint = "Last.fm username")
+	@Value("${lastfm.api.username:}")
+	private String lastfmApiUsername;
+
+	/**
+	 * Last.fm password
+	 */
+	@Value("${lastfm.api.password:}")
+	private String lastfmApiPassword;
+
+	/**
+	 * If Last.fm scrobbling is enabled.
+	 */
+	@HelpText(name = "Last.fm", hint = "Scrobble tracks to Last.fm")
+	@Value("${lastfm.api.scrobble:false}")
+	private boolean lastfmApiScrobble;
+
+	/**
 	 * Prints the applied properties to the console.
 	 */
 	@PostConstruct
@@ -136,7 +169,7 @@ public class AmpdSettings {
 			output.add(field.getName() + ": " + field.get(this));
 		}, field -> {
 			// Field Filter, exclude passwords and tokens
-			String[] excluded = { "listenbrainzToken", "mpdPassword", "LOG" };
+			String[] excluded = { "listenbrainzToken", "mpdPassword", "lastfmApiPassword", "LOG" };
 			return !Arrays.asList(excluded).contains(field.getName());
 		});
 		LOG.info("Starting ampd with these settings:");
@@ -201,6 +234,26 @@ public class AmpdSettings {
 
 	public String getListenbrainzToken() {
 		return listenbrainzToken;
+	}
+
+	public String getLastfmApiKey() {
+		return lastfmApiKey;
+	}
+
+	public String getLastfmApiSecret() {
+		return lastfmApiSecret;
+	}
+
+	public String getLastfmApiUsername() {
+		return lastfmApiUsername;
+	}
+
+	public String getLastfmApiPassword() {
+		return lastfmApiPassword;
+	}
+
+	public boolean getLastfmApiScrobble() {
+		return lastfmApiScrobble;
 	}
 
 }

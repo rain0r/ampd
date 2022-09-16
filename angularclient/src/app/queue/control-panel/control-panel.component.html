@@ -46,6 +46,7 @@
     (click)="onClearQueue()"
     title="Remove all items from the queue"
     class="valign-top clear-queue"
+    [disabled]="(queueTrackCount | async) === (null || 0)"
   >
     <mat-icon>delete</mat-icon>
   </button>

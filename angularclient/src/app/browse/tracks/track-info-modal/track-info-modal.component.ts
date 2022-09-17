@@ -18,6 +18,7 @@ export class TrackInfoModalComponent {
   trackSource: KeyValue<string, string>[] = [];
   tagSource: KeyValue<string, string>[] = [];
   similarSource: Observable<KeyValue<string, string>[]> = new Observable();
+  lastFmApiKey = "";
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public track: Track,
@@ -33,7 +34,7 @@ export class TrackInfoModalComponent {
     return this.lastFmService
       .getSimilarTracks(track.artistName, track.title)
       .pipe(
-        tap((x) => console.log(x)),
+        tap((ret) => (this.lastFmApiKey = ret.apiKey)),
         map((st) => st.similarTracks),
         map((tracks) => {
           const ret: KeyValue<string, string>[] = [];

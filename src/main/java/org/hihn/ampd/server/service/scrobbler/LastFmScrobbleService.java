@@ -11,55 +11,68 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.util.stream.Stream;
+
 /**
  * Service to interact with the last.fm api.
  */
 @Service
 public class LastFmScrobbleService implements AmpdScrobbler {
 
-	private static final Logger LOG = LoggerFactory.getLogger(LastFmScrobbleService.class);
+    private static final Logger LOG = LoggerFactory.getLogger(LastFmScrobbleService.class);
 
-	private final AmpdSettings ampdSettings;
+    private final AmpdSettings ampdSettings;
 
-	Session session;
+    Session session;
 
-	LastFmScrobbleService(AmpdSettings ampdSettings) {
-		this.ampdSettings = ampdSettings;
-	}
+    LastFmScrobbleService(AmpdSettings ampdSettings) {
+        this.ampdSettings = ampdSettings;
+    }
 
-	@Override
-	public void scrobbleListen(MPDPlaylistSong song) {
-		buildSession();
-		if (session == null || !ampdSettings.getLastfmApiScrobble()) {
-			return;
-		}
-		int now = (int) (System.currentTimeMillis() / 1000);
-		ScrobbleResult result = Track.scrobble(song.getArtistName(), song.getTitle(), now, session);
-		LOG.debug("ok: " + (result.isSuccessful() && !result.isIgnored()));
-	}
+    @Override
+    public void scrobbleListen(MPDPlaylistSong song) {
+        buildSession();
+        if (session == null || !ampdSettings.getLastfmApiScrobble()) {
+            return;
+        }
+        int now = (int) (System.currentTimeMillis() / 1000);
+        ScrobbleResult result = Track.scrobble(song.getArtistName(), song.getTitle(), now, session);
+        LOG.trace("ok: " + (result.isSuccessful() && !result.isIgnored()));
+    }
 
-	@Override
-	public void scrobblePlayingNow(MPDPlaylistSong song) {
-		buildSession();
-		if (session == null || !ampdSettings.getLastfmApiScrobble()) {
-			return;
-		}
-		ScrobbleResult result = Track.updateNowPlaying(song.getArtistName(), song.getTitle(), session);
-		LOG.debug("ok: " + (result.isSuccessful() && !result.isIgnored()));
-	}
+    @Override
+    public void scrobblePlayingNow(MPDPlaylistSong song) {
+        buildSession();
+        if (session == null || !ampdSettings.getLastfmApiScrobble()) {
+            return;
+        }
+        ScrobbleResult result = Track.updateNowPlaying(song.getArtistName(), song.getTitle(), session);
+        LOG.trace("ok: " + (result.isSuccessful() && !result.isIgnored()));
+    }
 
-	public LastFmSimilarTracks getSimilarTracks(String artist, String title) {
-		return new LastFmSimilarTracks(ampdSettings.getLastfmApiKey(),
-				Track.getSimilar(artist, title, ampdSettings.getLastfmApiKey()));
+    public LastFmSimilarTracks getSimilarTracks(String artist, String title) {
+        return new LastFmSimilarTracks(ampdSettings.getLastfmApiKey(),
+                Track.getSimilar(artist, title, ampdSettings.getLastfmApiKey()));
 
-	}
+    }
 
-	private void buildSession() {
-		if (session == null) {
-			session = Authenticator.getMobileSession(ampdSettings.getLastfmApiUsername(),
-					ampdSettings.getLastfmApiPassword(), ampdSettings.getLastfmApiKey(),
-					ampdSettings.getLastfmApiSecret());
-		}
-	}
+    private void buildSession() {
+        if (session == null) {
+
+            // Only attempt authentication if all fields are set
+            boolean valid = Stream
+                    .of(ampdSettings.getLastfmApiUsername(), ampdSettings.getLastfmApiPassword(),
+                            ampdSettings.getLastfmApiKey(), ampdSettings.getLastfmApiSecret())
+                    .noneMatch(String::isBlank);
+
+            if (!valid) {
+                return;
+            }
+
+            session = Authenticator.getMobileSession(ampdSettings.getLastfmApiUsername(),
+                    ampdSettings.getLastfmApiPassword(), ampdSettings.getLastfmApiKey(),
+                    ampdSettings.getLastfmApiSecret());
+        }
+    }
 
 }

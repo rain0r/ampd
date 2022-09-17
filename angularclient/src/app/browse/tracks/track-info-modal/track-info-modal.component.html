@@ -11,6 +11,11 @@
     <app-key-value-table [dataSource]="tagSource"></app-key-value-table>
   </mat-tab>
   <mat-tab label="Similar Tracks">
+    <div *ngIf="lastFmApiKey === ''" class="last-fm-help">
+      To retrieve similar tracks from Last.fm, please get yourself an api key
+      and start ampd with the parameter
+      <span class="mono code">-Dlastfm.api.key=&#60;value&#62;</span>
+    </div>
     <app-key-value-table [dataSource]="similar"></app-key-value-table>
   </mat-tab>
 </mat-tab-group>

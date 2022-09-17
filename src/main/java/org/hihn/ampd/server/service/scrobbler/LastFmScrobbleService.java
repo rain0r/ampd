@@ -6,12 +6,10 @@ import de.umass.lastfm.Track;
 import de.umass.lastfm.scrobble.ScrobbleResult;
 import org.bff.javampd.playlist.MPDPlaylistSong;
 import org.hihn.ampd.server.model.AmpdSettings;
-import org.hihn.ampd.server.model.LastFmCred;
+import org.hihn.ampd.server.model.LastFmSimilarTracks;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-
-import java.util.Collection;
 
 /**
  * Service to interact with the last.fm api.
@@ -50,14 +48,10 @@ public class LastFmScrobbleService implements AmpdScrobbler {
 		LOG.debug("ok: " + (result.isSuccessful() && !result.isIgnored()));
 	}
 
-	public LastFmCred getLastFmCred() {
-		LastFmCred lastFmCred = new LastFmCred();
-		lastFmCred.setApiKey(ampdSettings.getLastfmApiKey());
-		return lastFmCred;
-	}
+	public LastFmSimilarTracks getSimilarTracks(String artist, String title) {
+		return new LastFmSimilarTracks(ampdSettings.getLastfmApiKey(),
+				Track.getSimilar(artist, title, ampdSettings.getLastfmApiKey()));
 
-	public Collection<Track> getSimilarTracks(String artist, String title) {
-		return Track.getSimilar(artist, title, ampdSettings.getLastfmApiKey());
 	}
 
 	private void buildSession() {

@@ -1,7 +1,7 @@
 import { KeyValue } from "@angular/common";
 import { Component, Inject } from "@angular/core";
 import { MAT_DIALOG_DATA } from "@angular/material/dialog";
-import { map, Observable } from "rxjs";
+import { map, Observable, tap } from "rxjs";
 import { LastFmService } from "src/app/service/last-fm.service";
 import { Track } from "src/app/shared/messages/incoming/track";
 import { ReplaceNullWithTextPipe } from "src/app/shared/pipes/replace-null-with-text.pipe";
@@ -33,6 +33,8 @@ export class TrackInfoModalComponent {
     return this.lastFmService
       .getSimilarTracks(track.artistName, track.title)
       .pipe(
+        tap((x) => console.log(x)),
+        map((st) => st.similarTracks),
         map((tracks) => {
           const ret: KeyValue<string, string>[] = [];
           tracks.map((innerTrack) => {

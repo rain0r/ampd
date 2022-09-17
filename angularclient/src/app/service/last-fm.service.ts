@@ -1,7 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
-import { Track } from "../shared/models/http/lastfm/track";
+import { LastFmSimilarTracks } from "../shared/models/http/lastfm/last-fm-similar-tracks";
 import { SettingsService } from "./settings.service";
 
 @Injectable({
@@ -13,12 +13,11 @@ export class LastFmService {
     private settingsService: SettingsService
   ) {}
 
-  getSimilarTracks(artist: string, title: string): Observable<Track[]> {
+  getSimilarTracks(
+    artist: string,
+    title: string
+  ): Observable<LastFmSimilarTracks> {
     const url = `${this.settingsService.getBackendContextAddr()}api/last-fm/similar-tracks?artist=${artist}&title=${title}`;
-    return this.http.get<Track[]>(url);
-  }
-
-  getLastFmCred(): void {
-    
+    return this.http.get<LastFmSimilarTracks>(url);
   }
 }

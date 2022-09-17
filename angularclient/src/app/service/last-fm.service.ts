@@ -14,7 +14,11 @@ export class LastFmService {
   ) {}
 
   getSimilarTracks(artist: string, title: string): Observable<Track[]> {
-    const url = `${this.settingsService.getBackendContextAddr()}api/similar-tracks?artist=${artist}&title=${title}`;
+    const url = `${this.settingsService.getBackendContextAddr()}api/last-fm/similar-tracks?artist=${artist}&title=${title}`;
     return this.http.get<Track[]>(url);
+  }
+
+  getLastFmCred(): void {
+    
   }
 }

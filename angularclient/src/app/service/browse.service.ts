@@ -25,9 +25,7 @@ export class BrowseService {
   }
 
   sendBrowseReq(path: string): Observable<AmpdBrowsePayload> {
-    const url = `${this.settingsService.getBackendContextAddr()}api/browse?path=${encodeURIComponent(
-      path
-    )}`;
+    const url = `${this.settingsService.getBackendContextAddr()}api/browse?path=${path}`;
     return this.http
       .get<BrowsePayload>(url)
       .pipe(map((payload) => this.convertPayload(payload)));

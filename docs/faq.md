@@ -17,7 +17,15 @@ lastfm.api.key=
 lastfm.api.secret=
 ```
 
-Scrobbling can be turned on / off with lastfm.api.scrobble`.
+Scrobbling can be turned on / off with lastfm.api.scrobble.
+
+## I just want to retrieve similar tracks from Last.fm
+
+To just retrieve similar tracks from Last.fm (without scrobbling what you listen to), you just need set `lastfm.api.key`. No username, password or api secret needed.
+
+```properties
+lastfm.api.key=
+```
 
 ## Why are there no covers when I browse my library?
 

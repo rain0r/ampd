@@ -24,16 +24,16 @@ public class ScrobbleService {
 
 	private final ListenBrainzScrobbleService lbScrobbleService;
 
-	private final LastFmScrobbleService lastFmScrobbleService;
+	private final LastFmService lastFmService;
 
 	private MPDPlaylistSong currentSong = null;
 
 	private boolean scrobbled = false;
 
 	public ScrobbleService(MPD mpd, ListenBrainzScrobbleService lbScrobbleService,
-			LastFmScrobbleService lastFmScrobbleService) {
+			LastFmService lastFmService) {
 		this.lbScrobbleService = lbScrobbleService;
-		this.lastFmScrobbleService = lastFmScrobbleService;
+		this.lastFmService = lastFmService;
 
 		mpd.getStandAloneMonitor().addTrackPositionChangeListener(buildPositionListener());
 		mpd.getStandAloneMonitor().start();
@@ -62,12 +62,12 @@ public class ScrobbleService {
 
 	private void scrobblePlayingNow(MPDPlaylistSong song) {
 		lbScrobbleService.scrobblePlayingNow(song);
-		lastFmScrobbleService.scrobblePlayingNow(song);
+		lastFmService.scrobblePlayingNow(song);
 	}
 
 	private void scrobbleListen(MPDPlaylistSong song) {
 		lbScrobbleService.scrobbleListen(song);
-		lastFmScrobbleService.scrobbleListen(song);
+		lastFmService.scrobbleListen(song);
 	}
 
 	private boolean songChanged(MPDPlaylistSong currSong, MPDPlaylistSong playlistSong) {

@@ -17,15 +17,15 @@ import java.util.stream.Stream;
  * Service to interact with the last.fm api.
  */
 @Service
-public class LastFmScrobbleService implements AmpdScrobbler {
+public class LastFmService implements AmpdScrobbler {
 
-	private static final Logger LOG = LoggerFactory.getLogger(LastFmScrobbleService.class);
+	private static final Logger LOG = LoggerFactory.getLogger(LastFmService.class);
 
 	private final AmpdSettings ampdSettings;
 
 	Session session;
 
-	LastFmScrobbleService(AmpdSettings ampdSettings) {
+	LastFmService(AmpdSettings ampdSettings) {
 		this.ampdSettings = ampdSettings;
 	}
 

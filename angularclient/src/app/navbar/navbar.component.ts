@@ -164,15 +164,14 @@ export class NavbarComponent {
             this.searchModalOpen.next(true);
             const dialogRef = this.dialog.open(SearchComponent, {
               autoFocus: true,
-              maxWidth: "100vw",
-              maxHeight: "100vh",
-              height: "100%",
-              width: "100%",
+              // maxWidth: "100vw",
+              // maxHeight: "100vh",
+              height: "75%",
+              width: "75%",
             });
             dialogRef
               .afterClosed()
               .subscribe(() => this.searchModalOpen.next(false));
-            dialogRef.updateSize("90%", "75%");
           }
         });
     });

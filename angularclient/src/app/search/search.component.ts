@@ -18,12 +18,6 @@ import { TrackTableData } from "../shared/track-table/track-table-data";
   styleUrls: ["./search.component.scss"],
 })
 export class SearchComponent {
-  @ViewChild("searchInput", { static: false })
-  set input(element: ElementRef<HTMLInputElement>) {
-    if (element && !this.isMobile) {
-      element.nativeElement.focus();
-    }
-  }
   dataSource = new MatTableDataSource<QueueTrack>([]);
   isMobile = false;
   search = "";

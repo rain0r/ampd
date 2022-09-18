@@ -255,4 +255,5 @@ public class AmpdSettings {
 	public boolean isLastfmApiScrobble() {
 		return lastfmApiScrobble;
 	}
+
 }

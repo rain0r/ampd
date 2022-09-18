@@ -8,7 +8,14 @@ To run `ampd`, just run the `jar`-file:
 java -jar ampd.jar
 ```
 
-## Settings
+Want to start the server on a port other than 8080?
+
+```sh
+java -jar -Dserver.port=8003 ampd.jar
+```
+
+
+
 
 Please see the
 [default](https://github.com/rain0r/ampd/blob/master/src/main/resources/application.properties)
@@ -25,11 +32,7 @@ Additional options can be passed via the `-D` arguments, for example:
 java -jar -Dmpd.music.directory=/home/foo/music ampd.jar
 ```
 
-Want to start the server on a port other than 8080?
 
-```sh
-java -jar -Dserver.port=8003 ampd.jar
-```
 
 To display album art from the music directory, pass the value of `music_directory` (from your `mpd.conf`) to `ampd`:
 

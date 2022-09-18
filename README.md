@@ -7,18 +7,21 @@ ampd is a web-based client for [MPD](https://www.musicpd.org/). It is build with
 
 ## Features
 
-* Modern and responsive UI (with Angular Material)
-* Shows Album Cover Art
-* Support for MusicBrainz Cover Art API
-* Storing and using playlists
-* Directory browser
-* Database search
-* Light and dark theme included
+* Modern and responsive UI
+  * Built with [Angular](https://angular.io/) and [Angular Material](https://material.angular.io/)
+  * Light and dark theme included
+  * No external JavaScript / CSS files loaded: 100% self hosted
+  * Rearrange queue via drag an drop
+* Support for album cover art
+  * Loads and displays image files from the music directory
+  * Support for the [MusicBrainz Cover Art Archive/API](https://wiki.musicbrainz.org/Cover_Art_Archive/API)
+* Playlists
+  * Saving / editing / removing (can be turned on / off)
+* Database search and browsing
 * Customizable front- and backend
 * `ncmcpp`-like shortcuts
+  * `>` for next track etc.
 * Internet radio support
-* No external JavaScript / CSS loaded
-* Rearrange songs via drag an drop
 * Support for scrobbling (Last.fm and ListenBrainz)
 * Shows similar tracks via Last.fm (Api token required)
 * Comes as a single `jar`-file

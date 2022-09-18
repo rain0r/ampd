@@ -15,9 +15,6 @@ Additional options can be passed via the `-D` arguments, for example:
 java -jar -Dmpd.music.directory=/home/foo/music ampd.jar
 ```
 
-To learn how to persist these options (or change settings generally), please see
-[install.md](install.md) and [deployment.md](deployment.md).
-
 ## General
 
 `ampd` is pretty straightforward and has just four views:

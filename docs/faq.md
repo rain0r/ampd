@@ -1,5 +1,24 @@
 # FAQ
 
+## Can I scrobble to ListenBrainz?
+
+Yes. Please fill out the property `listenbrainz.token`  in `application.properties`.
+
+Scrobbling can be turned on / off with `listenbrainz.scrobble`.
+
+## Can I scrobble to Last.fm?
+
+Yes. Please fill out these properties in `application.properties`:
+
+```properties
+lastfm.api.username=
+lastfm.api.password= # in cleartext or 32-char md5 string
+lastfm.api.key=
+lastfm.api.secret=
+```
+
+Scrobbling can be turned on / off with lastfm.api.scrobble`.
+
 ## Why are there no covers when I browse my library?
 
 Please make sure you either start `ampd` with the `-Dmpd.music.directory` parameter or add the

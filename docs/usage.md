@@ -49,7 +49,7 @@ MPD_MUSIC_DIRECTORY=/home/foo/music java -jar ampd.jar
 
 ---
 
-If you plan to run `ampd` as a service behind another webserver, please see Please see [deployment.md](deployment.md).
+If you plan to run `ampd` as a service behind another webserver, please see [deployment.md](deployment.md).
 
 ## General
 

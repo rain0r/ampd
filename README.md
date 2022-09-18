@@ -61,13 +61,15 @@ To display album art from the music directory, pass the value of `music_director
 
 ```sh
 java -jar -Dmpd.music.directory=/home/foo/music ampd.jar
+
+# Alternatively, all properties may be set via environmental variables.
+MPD_MUSIC_DIRECTORY=/home/foo/music java -jar ampd.jar
 ```
 
 Too much to type? Just create an `application.properties`
 
 ```sh
 echo "mpd.music.directory=/home/foo/music" >> application.properties
-echo "server.port=8003" >> application.properties
 java -jar ampd.jar
 ```
 

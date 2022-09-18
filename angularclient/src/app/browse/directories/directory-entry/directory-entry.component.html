@@ -13,7 +13,6 @@
     {{ directory.displayedPath }}
   </div>
   <button
-    class="mat-small"
     mat-button
     title="Play directory"
     (click)="onPlayDir($event, directory.path)"
@@ -21,7 +20,6 @@
     <mat-icon> play_arrow</mat-icon>
   </button>
   <button
-    class="mat-small"
     mat-button
     title="Add directory to queue"
     (click)="onAddDir($event, directory.path)"

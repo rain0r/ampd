@@ -6,74 +6,72 @@
   fxLayoutGap="0.75rem"
 >
   <!--Return to top -->
-  <a class="mat-small" mat-raised-button [routerLink]="['/browse']">
-    <mat-icon>home</mat-icon>
-    <span fxHide.lt-md>Top</span>
-  </a>
+  <div>
+    <button mat-raised-button [routerLink]="['/browse']">
+      <mat-icon>home</mat-icon>
+      <span fxHide.lt-md>Top</span>
+    </button>
+  </div>
 
   <!--Go one dir up -->
-  <a
-    *ngIf="getParamDir !== '/'"
-    class="mat-small"
-    mat-raised-button
-    [routerLink]="['/browse']"
-    [queryParams]="{ dir: dirUp$ | async }"
-  >
-    <mat-icon>expand_less</mat-icon>
-    <span fxHide.lt-md>Return</span>
-  </a>
+  <div *ngIf="getParamDir !== '/'">
+    <button
+      mat-raised-button
+      [routerLink]="['/browse']"
+      [queryParams]="{ dir: dirUp$ | async }"
+    >
+      <mat-icon>expand_less</mat-icon>
+      <span fxHide.lt-md>Return</span>
+    </button>
+  </div>
 
   <!--Add all-->
-  <button
-    *ngIf="getParamDir !== '/'"
-    class="mat-small"
-    mat-raised-button
-    (click)="onAddDir(getParamDir)"
-  >
-    <mat-icon> add</mat-icon>
-    <span fxHide.lt-md>Add all</span>
-  </button>
+  <div *ngIf="getParamDir !== '/'">
+    <button mat-raised-button (click)="onAddDir(getParamDir)">
+      <mat-icon> add</mat-icon>
+      <span fxHide.lt-md>Add all</span>
+    </button>
+  </div>
 
   <!--Play all-->
-  <button
-    *ngIf="getParamDir !== '/'"
-    class="mat-small"
-    mat-raised-button
-    (click)="onPlayDir(getParamDir)"
-  >
-    <mat-icon> play_arrow</mat-icon>
-    <span fxHide.lt-md>Play all</span>
-  </button>
+  <div *ngIf="getParamDir !== '/'">
+    <button mat-raised-button (click)="onPlayDir(getParamDir)">
+      <mat-icon> play_arrow</mat-icon>
+      <span fxHide.lt-md>Play all</span>
+    </button>
+  </div>
 
   <!--Clear queue-->
-  <button class="mat-small" mat-raised-button (click)="onClearQueue()">
-    <mat-icon>delete</mat-icon>
-    <span fxHide.lt-md>Clear queue</span>
-  </button>
+  <div>
+    <button mat-raised-button (click)="onClearQueue()">
+      <mat-icon>delete</mat-icon>
+      <span fxHide.lt-md>Clear queue</span>
+    </button>
+  </div>
 
   <!-- Albums -->
-  <a
-    *ngIf="getParamDir === '/'"
-    class="mat-small"
-    mat-raised-button
-    [routerLink]="['/browse/albums']"
-    routerLinkActive="mat-accent"
-  >
-    <mat-icon>album</mat-icon>
-    <span fxHide.lt-md> Albums </span>
-  </a>
+  <div *ngIf="getParamDir === '/'">
+    <button
+      mat-raised-button
+      [routerLink]="['/browse/albums']"
+      routerLinkActive="mat-accent"
+    >
+      <mat-icon>album</mat-icon>
+      <span fxHide.lt-md> Albums </span>
+    </button>
+  </div>
 
   <!-- Genres -->
-  <a
-    *ngIf="getParamDir === '/'"
-    class="mat-small"
-    mat-raised-button
-    [routerLink]="['/browse/genres']"
-    routerLinkActive="mat-accent"
-  >
-    <mat-icon>local_offer</mat-icon>
-    <span fxHide.lt-md> Genres </span>
-  </a>
+  <div *ngIf="getParamDir === '/'">
+    <button
+      mat-raised-button
+      [routerLink]="['/browse/genres']"
+      routerLinkActive="mat-accent"
+    >
+      <mat-icon>local_offer</mat-icon>
+      <span fxHide.lt-md> Genres </span>
+    </button>
+  </div>
 
   <div fxFlex fxFlex.lt-md="100%"></div>
 

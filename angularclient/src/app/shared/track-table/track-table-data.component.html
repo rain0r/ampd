@@ -143,12 +143,7 @@
       *matCellDef="let track"
       [ngClass]="(isMobile | async) ? 'mobile ' : ''"
     >
-      <button
-        class="mat-small"
-        mat-button
-        (click)="onPlayTrack(track)"
-        title="Play this track"
-      >
+      <button mat-button (click)="onPlayTrack(track)" title="Play this track">
         <mat-icon> play_arrow</mat-icon>
       </button>
     </td>
@@ -163,7 +158,6 @@
       [ngClass]="(isMobile | async) ? 'mobile ' : ''"
     >
       <button
-        class="mat-small"
         mat-button
         (click)="onAddTrack(track)"
         title="Add this track to the queue"
@@ -177,7 +171,6 @@
     <th mat-header-cell *matHeaderCellDef></th>
     <td mat-cell *matCellDef="let track">
       <button
-        class="mat-small"
         mat-button
         (click)="onShowTrackInfo(track)"
         title="Show track info"

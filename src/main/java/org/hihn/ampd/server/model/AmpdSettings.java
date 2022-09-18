@@ -252,8 +252,7 @@ public class AmpdSettings {
 		return lastfmApiPassword;
 	}
 
-	public boolean getLastfmApiScrobble() {
+	public boolean isLastfmApiScrobble() {
 		return lastfmApiScrobble;
 	}
-
 }

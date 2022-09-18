@@ -20,6 +20,8 @@ ampd is a web-based client for [MPD](https://www.musicpd.org/). It is build with
 * Internet radio support
 * No external JavaScript / CSS loaded
 * Rearrange songs via drag an drop
+* Support for scrobbling (Last.fm and ListenBrainz)
+* Shows similar tracks via Last.fm (Api token required)
 
 ### Caveats
 

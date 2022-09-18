@@ -15,6 +15,10 @@ ampd is a web-based client for [MPD](https://www.musicpd.org/). It is build with
 * Support for album cover art
   * Loads and displays image files from the music directory
   * Support for the [MusicBrainz Cover Art Archive/API](https://wiki.musicbrainz.org/Cover_Art_Archive/API)
+* Database support / browsing
+  * Directories
+  * Albums
+  * Genres
 * Playlists
   * Saving / editing / removing (can be turned on / off)
 * Database search and browsing

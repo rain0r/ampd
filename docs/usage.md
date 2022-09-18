@@ -8,31 +8,25 @@ To run `ampd`, just run the `jar`-file:
 java -jar ampd.jar
 ```
 
-Want to start the server on a port other than 8080?
-
-```sh
-java -jar -Dserver.port=8003 ampd.jar
-```
-
-
-
+## Settings
 
 Please see the
 [default](https://github.com/rain0r/ampd/blob/master/src/main/resources/application.properties)
 `application.properties` file for settings that can be changed. It's pretty self-explanatory and commented.
 
+There are multiple ways to start `ampd` with different settings:
 
+* Using the `-D` parameter
+* Writing the setting to `application.properties`
+* Using the environment variables
 
+### Using the `-D` parameter
 
+To start `ampd` on a port other than 8080:
 
-Additional options can be passed via the `-D` arguments, for example:
-
-```shell script
-# Music dir is located at /home/foo/music
-java -jar -Dmpd.music.directory=/home/foo/music ampd.jar
+```sh
+java -jar -Dserver.port=8003 ampd.jar
 ```
-
-
 
 To display album art from the music directory, pass the value of `music_directory` (from your `mpd.conf`) to `ampd`:
 
@@ -40,18 +34,22 @@ To display album art from the music directory, pass the value of `music_director
 java -jar -Dmpd.music.directory=/home/foo/music ampd.jar
 ```
 
-Alternatively, all properties may be set via environmental variables.
-
-```sh
-MPD_MUSIC_DIRECTORY=/home/foo/music java -jar ampd.jar
-```
-
-Too much to type? Just create an `application.properties`
+### Writing the setting to `application.properties`
 
 ```sh
 echo "mpd.music.directory=/home/foo/music" >> application.properties
 java -jar ampd.jar
 ```
+
+### Using the environment variables
+
+```sh
+MPD_MUSIC_DIRECTORY=/home/foo/music java -jar ampd.jar
+```
+
+---
+
+If you plan to run `ampd` as a service behind another webserver, please see Please see [deployment.md](deployment.md).
 
 ## General
 

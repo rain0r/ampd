@@ -30,8 +30,7 @@ public class ScrobbleService {
 
 	private boolean scrobbled = false;
 
-	public ScrobbleService(MPD mpd, ListenBrainzScrobbleService lbScrobbleService,
-			LastFmService lastFmService) {
+	public ScrobbleService(MPD mpd, ListenBrainzScrobbleService lbScrobbleService, LastFmService lastFmService) {
 		this.lbScrobbleService = lbScrobbleService;
 		this.lastFmService = lastFmService;
 

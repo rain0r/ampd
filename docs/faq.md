@@ -13,7 +13,7 @@ This can happen for multiple reasons:
 - Retrieving covers from MusicBrainz is disabled (enable it with `-Dmb.cover.service=true`
 - No (previously downloaded) cover was found in the local cover cache
 
-## Why do I get a blanke page when opening `ampd` in my browser?
+## Why do I get a blank page when opening `ampd` in my browser?
 
 `ampd` offers two options when downloading a release: One for the context path `/` and one for
 `/ampd`. So if you decide to access `ampd` under the context path `/ampd` but instead are

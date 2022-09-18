@@ -7,9 +7,8 @@ ampd is a web-based client for [MPD](https://www.musicpd.org/). It is build with
 
 ## Features
 
-* Modern and responsive UI
-* Bundles as single `jar`-file
-* Album Cover Art
+* Modern and responsive UI (with Angular Material)
+* Shows Album Cover Art
 * Support for MusicBrainz Cover Art API
 * Storing and using playlists
 * Directory browser
@@ -22,6 +21,7 @@ ampd is a web-based client for [MPD](https://www.musicpd.org/). It is build with
 * Rearrange songs via drag an drop
 * Support for scrobbling (Last.fm and ListenBrainz)
 * Shows similar tracks via Last.fm (Api token required)
+* Comes as a single `jar`-file
 
 ### Caveats
 

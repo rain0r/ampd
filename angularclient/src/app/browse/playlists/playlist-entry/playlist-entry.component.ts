@@ -5,7 +5,7 @@ import { ResponsiveScreenService } from "src/app/service/responsive-screen.servi
 import { NotificationService } from "../../../service/notification.service";
 import { QueueService } from "../../../service/queue.service";
 import { Playlist } from "../../../shared/messages/incoming/playlist-impl";
-import { PlaylistInfoModalComponent } from "../playlist-info-modal/playlist-info-modal.component";
+import { PlaylistInfoDialogComponent } from "../playlist-info-dialog/playlist-info-dialog.component";
 
 @Component({
   selector: "app-playlist-entry",
@@ -44,7 +44,7 @@ export class PlaylistEntryComponent {
         options["height"] = "100%";
         options["maxHeight"] = "100vh";
       }
-      this.dialog.open(PlaylistInfoModalComponent, options);
+      this.dialog.open(PlaylistInfoDialogComponent, options);
     });
   }
 }

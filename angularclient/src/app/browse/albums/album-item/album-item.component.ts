@@ -1,10 +1,10 @@
 import { HttpClient } from "@angular/common/http";
 import { Component, Input, OnInit } from "@angular/core";
 import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
-import { BehaviorSubject, Observable } from "rxjs";
+import { BehaviorSubject, first, Observable } from "rxjs";
 import { ResponsiveScreenService } from "src/app/service/responsive-screen.service";
 import { MpdAlbum } from "src/app/shared/models/http/album";
-import { AlbumModalComponent } from "../album-modal/album-modal.component";
+import { AlbumDialogComponent } from "../album-dialog/album-dialog.component";
 
 @Component({
   selector: "app-album-item",
@@ -15,7 +15,7 @@ export class AlbumItemComponent implements OnInit {
   @Input() album: MpdAlbum | null = null;
   coverSizeClass: Observable<string>;
   private isMobile = new Observable<boolean>();
-  private albumModalOpen = new BehaviorSubject(false);
+  private albumDialogOpen = new BehaviorSubject(false);
 
   constructor(
     private dialog: MatDialog,
@@ -30,22 +30,29 @@ export class AlbumItemComponent implements OnInit {
     this.updateCover();
   }
 
-  openModal(): void {
-    if (!this.albumModalOpen.value) {
-      this.albumModalOpen.next(true);
-      const width = this.isMobile ? "100%" : "70%";
-      const options: MatDialogConfig = {
-        maxWidth: "100vw",
-        width: width,
-        data: this.album,
-      };
-      if (this.isMobile) {
-        options["height"] = "100%";
-        options["maxHeight"] = "100vh";
-      }
-      const dialogRef = this.dialog.open(AlbumModalComponent, options);
-      dialogRef.afterClosed().subscribe(() => this.albumModalOpen.next(false));
-    }
+  openDialog(): void {
+    this.albumDialogOpen
+      .asObservable()
+      .pipe(first())
+      .subscribe((open) => {
+        if (!open) {
+          this.albumDialogOpen.next(true);
+          // const width = this.isMobile ? "100%" : "70%";
+          const options: MatDialogConfig = {
+            // maxWidth: "100vw",
+            // width: width,
+            data: this.album,
+          };
+          if (this.isMobile) {
+            options["height"] = "100%";
+            options["maxHeight"] = "100vh";
+          }
+          const dialogRef = this.dialog.open(AlbumDialogComponent, options);
+          dialogRef
+            .afterClosed()
+            .subscribe(() => this.albumDialogOpen.next(false));
+        }
+      });
   }
 
   private updateCover(): void {

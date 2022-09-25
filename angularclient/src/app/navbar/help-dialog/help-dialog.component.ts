@@ -3,10 +3,10 @@ import { Observable } from "rxjs";
 
 @Component({
   selector: "app-help-dialog",
-  templateUrl: "./help-modal.component.html",
-  styleUrls: ["./help-modal.component.scss"],
+  templateUrl: "./help-dialog.component.html",
+  styleUrls: ["./help-dialog.component.scss"],
 })
-export class HelpModalComponent {
+export class HelpDialogComponent {
   isDarkTheme: Observable<boolean> = new Observable<boolean>();
   shortcuts = [
     // General

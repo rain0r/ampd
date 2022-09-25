@@ -3,13 +3,13 @@ import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { QueueService } from "../../service/queue.service";
 
 @Component({
-  selector: "app-add-stream-modal",
-  templateUrl: "./add-stream-modal.component.html",
-  styleUrls: ["./add-stream-modal.component.scss"],
+  selector: "app-add-stream-dialog",
+  templateUrl: "./add-stream-dialog.component.html",
+  styleUrls: ["./add-stream-dialog.component.scss"],
 })
-export class AddStreamModalComponent {
+export class AddStreamDialogComponent {
   constructor(
-    public dialogRef: MatDialogRef<AddStreamModalComponent>,
+    public dialogRef: MatDialogRef<AddStreamDialogComponent>,
     private queueService: QueueService,
     @Inject(MAT_DIALOG_DATA) public streamUrl: string
   ) {}

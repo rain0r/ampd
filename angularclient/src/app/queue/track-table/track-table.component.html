@@ -48,13 +48,17 @@
       {{ queueDuration | secondsToHhMmSs }}
     </span>
   </span>
-  <button mat-stroked-button (click)="openAddStreamModal()" fxFlex.lt-md="100%">
+  <button
+    mat-stroked-button
+    (click)="openAddStreamDialog()"
+    fxFlex.lt-md="100%"
+  >
     <mat-icon>add</mat-icon>
     Add stream
   </button>
   <button
     mat-stroked-button
-    (click)="openSavePlaylistModal()"
+    (click)="openSavePlaylistDialog()"
     *ngIf="dataSource.data.length > 0"
     fxFlex.lt-md="100%"
   >

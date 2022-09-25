@@ -49,7 +49,7 @@ export class TracksComponent implements OnInit {
     this.queueDuration = this.sumTrackDuration();
   }
 
-  openCoverModal(): void {
+  openCoverDialog(): void {
     const track = this.tracks[0];
     track.coverUrl = this.mpdService.buildCoverUrl(track.file);
   }

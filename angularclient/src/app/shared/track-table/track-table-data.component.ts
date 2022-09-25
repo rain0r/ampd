@@ -12,7 +12,7 @@ import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
 import { MatPaginator, MatPaginatorIntl } from "@angular/material/paginator";
 import { MatSort } from "@angular/material/sort";
 import { Observable } from "rxjs";
-import { TrackInfoModalComponent } from "src/app/browse/tracks/track-info-modal/track-info-modal.component";
+import { TrackInfoDialogComponent } from "src/app/browse/tracks/track-info-dialog/track-info-dialog.component";
 import { NotificationService } from "../../service/notification.service";
 import { QueueService } from "../../service/queue.service";
 import { ResponsiveScreenService } from "../../service/responsive-screen.service";
@@ -125,7 +125,7 @@ export class TrackTableDataComponent implements OnInit, OnChanges {
         options["height"] = "75%";
         options["maxHeight"] = "75vh";
       }
-      this.dialog.open(TrackInfoModalComponent, options);
+      this.dialog.open(TrackInfoDialogComponent, options);
     });
   }
 

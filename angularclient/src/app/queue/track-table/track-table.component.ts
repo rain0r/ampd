@@ -9,8 +9,8 @@ import { Track } from "../../shared/messages/incoming/track";
 import { QueueTrack } from "../../shared/models/queue-track";
 import { ClickActions } from "../../shared/track-table/click-actions.enum";
 import { TrackTableData } from "../../shared/track-table/track-table-data";
-import { AddStreamModalComponent } from "../add-stream-modal/add-stream-modal.component";
-import { SavePlaylistModalComponent } from "../save-playlist-modal/save-playlist-modal.component";
+import { AddStreamDialogComponent } from "../add-stream-dialog/add-stream-dialog.component";
+import { SavePlaylistDialogComponent } from "../save-playlist-dialog/save-playlist-dialog.component";
 
 @Component({
   selector: "app-track-table",
@@ -50,8 +50,8 @@ export class TrackTableComponent {
     }
   }
 
-  openSavePlaylistModal(): void {
-    this.dialog.open(SavePlaylistModalComponent);
+  openSavePlaylistDialog(): void {
+    this.dialog.open(SavePlaylistDialogComponent);
   }
 
   applyFilter(eventTarget: EventTarget | null): void {
@@ -66,8 +66,8 @@ export class TrackTableComponent {
     this.dataSource.filter = "";
   }
 
-  openAddStreamModal(): void {
-    this.dialog.open(AddStreamModalComponent);
+  openAddStreamDialog(): void {
+    this.dialog.open(AddStreamDialogComponent);
   }
 
   private getDisplayedColumns(): string[] {

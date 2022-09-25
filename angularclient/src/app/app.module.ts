@@ -12,7 +12,7 @@ import { FrontendSettingsService } from "src/app/service/frontend-settings.servi
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
 import { AlbumItemComponent } from "./browse/albums/album-item/album-item.component";
-import { AlbumModalComponent } from "./browse/albums/album-modal/album-modal.component";
+import { AlbumDialogComponent } from "./browse/albums/album-dialog/album-dialog.component";
 import { AlbumsPaginationComponent } from "./browse/albums/albums-pagination/albums-pagination.component";
 import { AlbumsComponent } from "./browse/albums/albums.component";
 import { BrowseComponent } from "./browse/browse.component";
@@ -24,18 +24,18 @@ import { GenreAlbumsComponent } from "./browse/genres/genre-albums/genre-albums.
 import { GenresComponent } from "./browse/genres/genres.component";
 import { BrowseNavigationComponent } from "./browse/navigation/browse-navigation.component";
 import { PlaylistEntryComponent } from "./browse/playlists/playlist-entry/playlist-entry.component";
-import { PlaylistInfoModalComponent } from "./browse/playlists/playlist-info-modal/playlist-info-modal.component";
+import { PlaylistInfoDialogComponent } from "./browse/playlists/playlist-info-dialog/playlist-info-dialog.component";
 import { PlaylistsComponent } from "./browse/playlists/playlists.component";
-import { TrackInfoModalComponent } from "./browse/tracks/track-info-modal/track-info-modal.component";
+import { TrackInfoDialogComponent } from "./browse/tracks/track-info-dialog/track-info-dialog.component";
 import { TracksComponent } from "./browse/tracks/tracks.component";
-import { HelpModalComponent } from "./navbar/help-modal/help-modal.component";
+import { HelpDialogComponent } from "./navbar/help-dialog/help-dialog.component";
 import { NavbarComponent } from "./navbar/navbar.component";
-import { AddStreamModalComponent } from "./queue/add-stream-modal/add-stream-modal.component";
+import { AddStreamDialogComponent } from "./queue/add-stream-dialog/add-stream-dialog.component";
 import { ControlPanelComponent } from "./queue/control-panel/control-panel.component";
 import { MpdModeComponent } from "./queue/mpd-modes/mpd-mode.component";
 import { QueueHeaderComponent } from "./queue/queue-header/queue-header.component";
 import { QueueComponent } from "./queue/queue.component";
-import { SavePlaylistModalComponent } from "./queue/save-playlist-modal/save-playlist-modal.component";
+import { SavePlaylistDialogComponent } from "./queue/save-playlist-dialog/save-playlist-dialog.component";
 import { TrackProgressComponent } from "./queue/track-progress/track-progress.component";
 import { TrackTableComponent } from "./queue/track-table/track-table.component";
 import { VolumeSliderComponent } from "./queue/volume-slider/volume-slider.component";
@@ -99,16 +99,16 @@ function isDarkTheme(service: FrontendSettingsService): unknown {
     TrackTableDataComponent,
     TracksComponent,
     VolumeSliderComponent,
-    SavePlaylistModalComponent,
-    PlaylistInfoModalComponent,
+    SavePlaylistDialogComponent,
+    PlaylistInfoDialogComponent,
     ThemeComponent,
     DisplayCoverComponent,
     TabTitleComponent,
-    HelpModalComponent,
+    HelpDialogComponent,
     MapEntriesPipe,
     BackendAddressComponent,
     ServerStatisticsComponent,
-    AddStreamModalComponent,
+    AddStreamDialogComponent,
     UpdateDatabaseComponent,
     DirectoryFilterStartLetterPipe,
     PlaylistEntryComponent,
@@ -117,10 +117,10 @@ function isDarkTheme(service: FrontendSettingsService): unknown {
     CoverGridEntryComponent,
     PaginationComponent,
     AlbumsComponent,
-    AlbumModalComponent,
+    AlbumDialogComponent,
     AlbumsPaginationComponent,
     AlbumItemComponent,
-    TrackInfoModalComponent,
+    TrackInfoDialogComponent,
     KeyValueTableComponent,
     GenresComponent,
     ErrorDialogComponent,

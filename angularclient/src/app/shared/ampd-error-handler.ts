@@ -8,7 +8,7 @@ import { HttpErrorDialogComponent } from "./error/http-error-dialog/http-error-d
 
 @Injectable()
 export class AmpdErrorHandler implements ErrorHandler {
-  private errorModalOpen = new BehaviorSubject(false);
+  private errorDialogOpen = new BehaviorSubject(false);
 
   constructor(private dialog: MatDialog, private zone: NgZone) {}
 
@@ -20,7 +20,7 @@ export class AmpdErrorHandler implements ErrorHandler {
   }
 
   private openErrorDialog(error: unknown) {
-    this.errorModalOpen
+    this.errorDialogOpen
       .asObservable()
       .pipe(first())
       .subscribe((open) => {
@@ -37,10 +37,10 @@ export class AmpdErrorHandler implements ErrorHandler {
             data: error,
           });
 
-          this.errorModalOpen.next(true);
+          this.errorDialogOpen.next(true);
           dialogRef
             .afterClosed()
-            .subscribe(() => this.errorModalOpen.next(false));
+            .subscribe(() => this.errorDialogOpen.next(false));
         }
       });
   }

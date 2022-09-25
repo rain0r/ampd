@@ -9,11 +9,11 @@ import { TagMap } from "../../../shared/messages/incoming/track";
 import { CamelCaseTitlePipe } from "../../../shared/pipes/camel-case-title.pipe";
 
 @Component({
-  selector: "app-track-info-modal",
-  templateUrl: "./track-info-modal.component.html",
-  styleUrls: ["./track-info-modal.component.scss"],
+  selector: "app-track-info-dialog",
+  templateUrl: "./track-info-dialog.component.html",
+  styleUrls: ["./track-info-dialog.component.scss"],
 })
-export class TrackInfoModalComponent {
+export class TrackInfoDialogComponent {
   displayedColumns: string[] = ["key", "value"];
   trackSource: KeyValue<string, string>[] = [];
   tagSource: KeyValue<string, string>[] = [];

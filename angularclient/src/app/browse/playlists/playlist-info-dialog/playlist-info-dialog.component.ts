@@ -15,11 +15,11 @@ import { ClickActions } from "../../../shared/track-table/click-actions.enum";
 import { TrackTableData } from "../../../shared/track-table/track-table-data";
 
 @Component({
-  selector: "app-playlist-info-modal",
-  templateUrl: "./playlist-info-modal.component.html",
-  styleUrls: ["./playlist-info-modal.component.scss"],
+  selector: "app-playlist-info-dialog",
+  templateUrl: "./playlist-info-dialog.component.html",
+  styleUrls: ["./playlist-info-dialog.component.scss"],
 })
-export class PlaylistInfoModalComponent implements AfterViewInit {
+export class PlaylistInfoDialogComponent implements AfterViewInit {
   playlistInfo: Observable<PlaylistInfo>;
   trackTableData = new TrackTableData();
   private playlistInfo$ = new Subject<PlaylistInfo>();
@@ -27,7 +27,7 @@ export class PlaylistInfoModalComponent implements AfterViewInit {
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: Playlist,
-    public dialogRef: MatDialogRef<PlaylistInfoModalComponent>,
+    public dialogRef: MatDialogRef<PlaylistInfoDialogComponent>,
     private activatedRoute: ActivatedRoute,
     private notificationService: NotificationService,
     private playlistService: PlaylistService,

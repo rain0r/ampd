@@ -5,15 +5,15 @@ import { NotificationService } from "../../service/notification.service";
 import { PlaylistService } from "../../service/playlist.service";
 
 @Component({
-  selector: "app-save-playlist-modal",
-  templateUrl: "./save-playlist-modal.component.html",
-  styleUrls: ["./save-playlist-modal.component.scss"],
+  selector: "app-save-playlist-dialog",
+  templateUrl: "./save-playlist-dialog.component.html",
+  styleUrls: ["./save-playlist-dialog.component.scss"],
 })
-export class SavePlaylistModalComponent {
+export class SavePlaylistDialogComponent {
   isDarkTheme: Observable<boolean> = new Observable<boolean>();
 
   constructor(
-    public dialogRef: MatDialogRef<SavePlaylistModalComponent>,
+    public dialogRef: MatDialogRef<SavePlaylistDialogComponent>,
     private playlistService: PlaylistService,
     private notificationService: NotificationService,
     @Inject(MAT_DIALOG_DATA) public data: string

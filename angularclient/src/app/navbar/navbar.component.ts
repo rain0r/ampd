@@ -2,7 +2,7 @@ import { Component, HostListener } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
 import { Router } from "@angular/router";
 import { BehaviorSubject, first, map, Observable } from "rxjs";
-import { AddStreamModalComponent } from "../queue/add-stream-modal/add-stream-modal.component";
+import { AddStreamDialogComponent } from "../queue/add-stream-dialog/add-stream-dialog.component";
 import { SearchComponent } from "../search/search.component";
 import { ControlPanelService } from "../service/control-panel.service";
 import { FrontendSettingsService } from "../service/frontend-settings.service";
@@ -13,7 +13,7 @@ import { QueueService } from "../service/queue.service";
 import { ResponsiveScreenService } from "../service/responsive-screen.service";
 import { VolumeService } from "../service/volume.service";
 import { AmpdRxStompService } from "./../service/ampd-rx-stomp.service";
-import { HelpModalComponent } from "./help-modal/help-modal.component";
+import { HelpDialogComponent } from "./help-dialog/help-dialog.component";
 
 @Component({
   selector: "app-navbar",
@@ -25,8 +25,8 @@ export class NavbarComponent {
   darkTheme: Observable<boolean>;
   private isMobile = new Observable<boolean>();
   private currentState = "stop";
-  private helpModalOpen = new BehaviorSubject(false);
-  private searchModalOpen = new BehaviorSubject(false);
+  private helpDialogOpen = new BehaviorSubject(false);
+  private searchDialogOpen = new BehaviorSubject(false);
 
   constructor(
     private controlPanelService: ControlPanelService,
@@ -99,7 +99,7 @@ export class NavbarComponent {
         break;
       case "3":
       case "S":
-        this.openSearchModal();
+        this.openSearchDialog();
         break;
       case "4":
         void this.router.navigate(["/settings"]);
@@ -120,14 +120,14 @@ export class NavbarComponent {
       case "x":
         this.mpdModeService.toggleCtrlFromInput("crossfade");
         break;
-      // Display help modal
+      // Display help dialog
       case "h":
       case "?":
-        this.openHelpModal();
+        this.openHelpDialog();
         break;
-      // Display add stream modal
+      // Display add stream dialog
       case "a":
-        this.openAddStreamModal();
+        this.openAddStreamDialog();
         break;
       // Decrease / increase volume
       case "+":
@@ -149,40 +149,49 @@ export class NavbarComponent {
     $event.preventDefault();
   }
 
-  openSearchModal(): void {
+  openSearchDialog(): void {
     this.isMobile.subscribe((isMobile) => {
       if (isMobile) {
         void this.router.navigate(["search"]);
         return;
       }
 
-      this.searchModalOpen
+      this.searchDialogOpen
         .asObservable()
         .pipe(first())
         .subscribe((open) => {
           if (!open) {
-            this.searchModalOpen.next(true);
+            this.searchDialogOpen.next(true);
             const dialogRef = this.dialog.open(SearchComponent, {
               autoFocus: true,
-              // maxWidth: "100vw",
-              // maxHeight: "100vh",
               height: "75%",
               width: "75%",
             });
             dialogRef
               .afterClosed()
-              .subscribe(() => this.searchModalOpen.next(false));
+              .subscribe(() => this.searchDialogOpen.next(false));
           }
         });
     });
   }
 
-  openHelpModal(): void {
-    if (!this.helpModalOpen.value) {
-      this.helpModalOpen.next(true);
-      const dialogRef = this.dialog.open(HelpModalComponent);
-      dialogRef.afterClosed().subscribe(() => this.helpModalOpen.next(false));
-    }
+  openHelpDialog(): void {
+    this.helpDialogOpen
+      .asObservable()
+      .pipe(first())
+      .subscribe((open) => {
+        if (!open) {
+          this.helpDialogOpen.next(true);
+          const dialogRef = this.dialog.open(HelpDialogComponent, {
+            autoFocus: true,
+            height: "75%",
+            width: "75%",
+          });
+          dialogRef
+            .afterClosed()
+            .subscribe(() => this.helpDialogOpen.next(false));
+        }
+      });
   }
 
   private togglePause(): void {
@@ -193,8 +202,8 @@ export class NavbarComponent {
     }
   }
 
-  private openAddStreamModal(): void {
-    this.dialog.open(AddStreamModalComponent);
+  private openAddStreamDialog(): void {
+    this.dialog.open(AddStreamDialogComponent);
   }
 
   private stop(): void {

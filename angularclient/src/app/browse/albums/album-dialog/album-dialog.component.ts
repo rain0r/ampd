@@ -2,20 +2,20 @@ import { Component, Inject, OnInit } from "@angular/core";
 import { MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { MatTableDataSource } from "@angular/material/table";
 import { Observable } from "rxjs";
-import { MpdAlbum } from "src/app/shared/models/http/album";
-import { QueueTrack } from "src/app/shared/models/queue-track";
 import { AlbumsService } from "src/app/service/albums.service";
 import { QueueService } from "src/app/service/queue.service";
 import { ResponsiveScreenService } from "src/app/service/responsive-screen.service";
+import { MpdAlbum } from "src/app/shared/models/http/album";
+import { QueueTrack } from "src/app/shared/models/queue-track";
 import { ClickActions } from "src/app/shared/track-table/click-actions.enum";
 import { TrackTableData } from "src/app/shared/track-table/track-table-data";
 
 @Component({
-  selector: "app-album-modal",
-  templateUrl: "./album-modal.component.html",
-  styleUrls: ["./album-modal.component.scss"],
+  selector: "app-album-dialog",
+  templateUrl: "./album-dialog.component.html",
+  styleUrls: ["./album-dialog.component.scss"],
 })
-export class AlbumModalComponent implements OnInit {
+export class AlbumDialogComponent implements OnInit {
   tracks: Observable<QueueTrack[]> | null = null;
   trackTableData = new TrackTableData();
   coverSizeClass: Observable<string>;

@@ -2,7 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
 import { BehaviorSubject, combineLatest, first, map, Observable } from "rxjs";
 import { ResponsiveScreenService } from "src/app/service/responsive-screen.service";
-import { TrackInfoModalComponent } from "src/app/browse/tracks/track-info-modal/track-info-modal.component";
+import { TrackInfoDialogComponent } from "src/app/browse/tracks/track-info-dialog/track-info-dialog.component";
 import { ControlPanelService } from "../../service/control-panel.service";
 import { MpdService } from "../../service/mpd.service";
 import { NotificationService } from "../../service/notification.service";
@@ -17,7 +17,7 @@ export class ControlPanelComponent implements OnInit {
   currentState: Observable<string>;
   isMobile = new Observable<boolean>();
   queueTrackCount: Observable<number>;
-  private trackInfoModalOpen = new BehaviorSubject(false);
+  private trackInfoDialogOpen = new BehaviorSubject(false);
 
   constructor(
     private controlPanelService: ControlPanelService,
@@ -68,13 +68,13 @@ export class ControlPanelComponent implements OnInit {
     combineLatest([
       this.isMobile,
       this.mpdService.currentTrack,
-      this.trackInfoModalOpen.asObservable(),
+      this.trackInfoDialogOpen.asObservable(),
     ])
       .pipe(
         map((results) => ({
           isMobile: results[0],
           track: results[1],
-          errorModalOpen: results[2],
+          errorDialogOpen: results[2],
         })),
         first()
       )
@@ -90,12 +90,12 @@ export class ControlPanelComponent implements OnInit {
           options["height"] = "75%";
           options["maxHeight"] = "75vh";
         }
-        if (!result.errorModalOpen) {
-          const dialogRef = this.dialog.open(TrackInfoModalComponent, options);
-          this.trackInfoModalOpen.next(true);
+        if (!result.errorDialogOpen) {
+          const dialogRef = this.dialog.open(TrackInfoDialogComponent, options);
+          this.trackInfoDialogOpen.next(true);
           dialogRef
             .afterClosed()
-            .subscribe(() => this.trackInfoModalOpen.next(false));
+            .subscribe(() => this.trackInfoDialogOpen.next(false));
         }
       });
   }

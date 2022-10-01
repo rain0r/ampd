@@ -19,7 +19,7 @@
     "@angular/compiler": "~14.2.4",
     "@angular/core": "~14.2.2",
     "@angular/flex-layout": "^14.0.0-beta.40",
-    "@angular/forms": "~14.2.2",
+    "@angular/forms": "~14.2.4",
     "@angular/material": "^14.2.3",
     "@angular/platform-browser": "~14.2.4",
     "@angular/platform-browser-dynamic": "~14.2.4",

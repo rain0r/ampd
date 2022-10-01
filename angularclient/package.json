@@ -23,7 +23,7 @@
     "@angular/material": "^14.2.2",
     "@angular/platform-browser": "~14.2.4",
     "@angular/platform-browser-dynamic": "~14.2.2",
-    "@angular/router": "~14.2.2",
+    "@angular/router": "~14.2.4",
     "@stomp/rx-stomp": "^1.1.0",
     "@stomp/stompjs": "^6.1.0",
     "filesize": ">= 4.0.0",

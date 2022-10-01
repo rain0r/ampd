@@ -26,7 +26,7 @@
     "@angular/router": "~14.2.4",
     "@stomp/rx-stomp": "^1.1.0",
     "@stomp/stompjs": "^6.1.0",
-    "filesize": ">= 10.0.5",
+    "filesize": "^10.0.5",
     "lightgallery": "^2.6.1",
     "material-icons": "0.3.1",
     "rxjs": "~7.5.7",

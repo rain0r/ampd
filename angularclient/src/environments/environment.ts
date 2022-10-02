@@ -2,13 +2,13 @@
 // `ng build ---prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
-// const AMPD_URL = "localhost:8080";
-const AMPD_URL = "punica:8083/dev-ampd/";
+const AMPD_URL = "localhost:8080";
+// const AMPD_URL = "punica:8083/dev-ampd/";
 
 export const environment = {
   production: false,
   backendAddr: `http://${AMPD_URL}`,
-  wsLog: false,
+  wsLog: true,
 };
 
 /*

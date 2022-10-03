@@ -1,4 +1,4 @@
-import { UPDATE_TAB_TITLE } from "./../../../shared/models/internal/frontend-settings";
+import { UPDATE_TAB_TITLE } from "../../../shared/model/internal/frontend-settings";
 import { Component } from "@angular/core";
 import { map, Observable, take } from "rxjs";
 import { FrontendSettingsService } from "../../../service/frontend-settings.service";

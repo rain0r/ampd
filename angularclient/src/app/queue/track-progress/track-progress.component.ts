@@ -3,7 +3,7 @@ import { MatSliderChange } from "@angular/material/slider";
 import { delay, Observable } from "rxjs";
 import { ControlPanelService } from "../../service/control-panel.service";
 import { MpdService } from "../../service/mpd.service";
-import { QueueTrack } from "../../shared/models/queue-track";
+import { QueueTrack } from "../../shared/model/queue-track";
 import { AmpdRxStompService } from "./../../service/ampd-rx-stomp.service";
 
 @Component({

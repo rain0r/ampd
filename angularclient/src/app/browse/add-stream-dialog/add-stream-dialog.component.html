@@ -1,0 +1,47 @@
+<app-navigation [filterDisabled]="true"></app-navigation>
+
+<div
+  fxLayout="column"
+  fxLayoutGap="1.5rem"
+  *ngIf="dataSource$ | async as dataSource"
+>
+  <h1 fxLayoutAlign.lt-md="center center">Radio streams</h1>
+  <app-radio-stream-list [dataSource]="dataSource"></app-radio-stream-list>
+  <mat-divider></mat-divider>
+  <h1 fxLayoutAlign.lt-md="center center">Add a radio stream</h1>
+  <form [formGroup]="radioStreamForm" (ngSubmit)="onSubmit()">
+    <div fxLayout="column" style="min-width: 400px">
+      <mat-form-field>
+        <mat-label for="name">Name</mat-label>
+        <input
+          id="name"
+          matInput
+          formControlName="name"
+          required
+          autocomplete="off"
+          type="text"
+        />
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label for="url">URL of the stream</mat-label>
+        <input
+          id="url"
+          matInput
+          formControlName="url"
+          type="url"
+          required
+          autocomplete="off"
+        />
+      </mat-form-field>
+    </div>
+    <div fxLayout="row" fxLayoutGap="1rem">
+      <button
+        mat-stroked-button
+        color="primary"
+        [disabled]="!radioStreamForm.valid"
+      >
+        Save
+      </button>
+    </div>
+  </form>
+</div>

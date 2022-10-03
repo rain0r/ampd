@@ -1,5 +1,5 @@
 import { Component } from "@angular/core";
-import { ServerStatistics } from "../../../shared/models/server-statistics";
+import { ServerStatistics } from "../../../shared/model/server-statistics";
 import { Observable } from "rxjs";
 import { MpdService } from "../../../service/mpd.service";
 

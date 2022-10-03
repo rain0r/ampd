@@ -2,8 +2,8 @@ import { Component } from "@angular/core";
 import { Title } from "@angular/platform-browser";
 import { Observable } from "rxjs";
 import { SettingsService } from "../service/settings.service";
-import { AmpdSetting } from "../shared/models/ampd-setting";
-import { MpdSettings } from "../shared/models/mpd-settings";
+import { AmpdSetting } from "../shared/model/ampd-setting";
+import { MpdSettings } from "../shared/model/mpd-settings";
 
 @Component({
   selector: "app-settings",

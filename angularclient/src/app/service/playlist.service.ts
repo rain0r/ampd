@@ -2,8 +2,8 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable, Subject } from "rxjs";
 import { PlaylistSaved } from "../shared/messages/incoming/playlist-saved";
-import { SavePlaylistResponse } from "../shared/models/http/savePlaylistResponse";
-import { PlaylistInfo } from "../shared/models/playlist-info";
+import { SavePlaylistResponse } from "../shared/model/http/savePlaylistResponse";
+import { PlaylistInfo } from "../shared/model/playlist-info";
 import { SettingsService } from "./settings.service";
 
 @Injectable({

@@ -32,7 +32,7 @@ public class LastFmService implements AmpdScrobbler {
 	@Override
 	public void scrobbleListen(MPDPlaylistSong song) {
 		buildSession();
-		if (session == null || !ampdSettings.isLastfmApiScrobble()) {
+		if (session == null) {
 			return;
 		}
 		int now = (int) (System.currentTimeMillis() / 1000);
@@ -43,7 +43,7 @@ public class LastFmService implements AmpdScrobbler {
 	@Override
 	public void scrobblePlayingNow(MPDPlaylistSong song) {
 		buildSession();
-		if (session == null || !ampdSettings.isLastfmApiScrobble()) {
+		if (session == null) {
 			return;
 		}
 		ScrobbleResult result = Track.updateNowPlaying(song.getArtistName(), song.getTitle(), session);
@@ -57,6 +57,9 @@ public class LastFmService implements AmpdScrobbler {
 	}
 
 	private void buildSession() {
+		if (!ampdSettings.isLastfmApiScrobble()) {
+			return;
+		}
 		if (session == null) {
 
 			// Only attempt authentication if all fields are set

@@ -9,8 +9,8 @@ import { PlaylistService } from "../../../service/playlist.service";
 import { QueueService } from "../../../service/queue.service";
 import { Playlist } from "../../../shared/messages/incoming/playlist-impl";
 import { Track } from "../../../shared/messages/incoming/track";
-import { PlaylistInfo } from "../../../shared/models/playlist-info";
-import { QueueTrack } from "../../../shared/models/queue-track";
+import { PlaylistInfo } from "../../../shared/model/playlist-info";
+import { QueueTrack } from "../../../shared/model/queue-track";
 import { ClickActions } from "../../../shared/track-table/click-actions.enum";
 import { TrackTableData } from "../../../shared/track-table/track-table-data";
 

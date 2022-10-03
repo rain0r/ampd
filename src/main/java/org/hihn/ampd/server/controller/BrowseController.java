@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
  * Endpoint to retrieve browsing info.
  */
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/browse")
 public class BrowseController {
 
 	private final BrowseService browseService;
@@ -20,7 +20,7 @@ public class BrowseController {
 		this.browseService = browseService;
 	}
 
-	@GetMapping("/browse")
+	@GetMapping("")
 	public BrowsePayload browseDir(@RequestParam("path") String dirPath) {
 		return browseService.browse(dirPath);
 	}

@@ -2,7 +2,7 @@ import { Component } from "@angular/core";
 import { map } from "rxjs";
 import { FrontendSettingsService } from "src/app/service/frontend-settings.service";
 import { NotificationService } from "../../../service/notification.service";
-import { BACKEND_ADDR } from "./../../../shared/models/internal/frontend-settings";
+import { BACKEND_ADDR } from "../../../shared/model/internal/frontend-settings";
 
 @Component({
   selector: "app-backend-address",

@@ -2,7 +2,7 @@ import { Component } from "@angular/core";
 import { map, Observable } from "rxjs";
 import { FrontendSettingsService } from "../../../service/frontend-settings.service";
 import { NotificationService } from "../../../service/notification.service";
-import { DISPLAY_COVERS } from "./../../../shared/models/internal/frontend-settings";
+import { DISPLAY_COVERS } from "../../../shared/model/internal/frontend-settings";
 
 @Component({
   selector: "app-display-cover",

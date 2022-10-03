@@ -2,9 +2,9 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
-import { AmpdBrowsePayload } from "../shared/models/ampd-browse-payload";
-import { BrowsePayload } from "../shared/models/browse-payload";
-import { QueueTrack } from "../shared/models/queue-track";
+import { AmpdBrowsePayload } from "../shared/model/ampd-browse-payload";
+import { BrowsePayload } from "../shared/model/browse-payload";
+import { QueueTrack } from "../shared/model/queue-track";
 import { SettingsService } from "./settings.service";
 
 @Injectable({

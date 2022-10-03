@@ -10,8 +10,8 @@ import {
 } from "rxjs/operators";
 import { MpdModesPanel } from "../shared/messages/incoming/mpd-modes-panel";
 import { StateMsgPayload } from "../shared/messages/incoming/state-msg-payload";
-import { QueueTrack } from "../shared/models/queue-track";
-import { ServerStatistics } from "../shared/models/server-statistics";
+import { QueueTrack } from "../shared/model/queue-track";
+import { ServerStatistics } from "../shared/model/server-statistics";
 import { AmpdRxStompService } from "./ampd-rx-stomp.service";
 import { QueueService } from "./queue.service";
 import { SettingsService } from "./settings.service";

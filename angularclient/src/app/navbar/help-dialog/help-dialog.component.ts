@@ -22,7 +22,6 @@ export class HelpDialogComponent {
       [">", "Next song"],
       ["+", "Increase volume"],
       ["-", "Decrease volume"],
-      ["a", "Add stream url"],
     ]),
     // Navigation
     new Map([

@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { BehaviorSubject, Observable, Subject } from "rxjs";
 import { bufferTime, filter, withLatestFrom } from "rxjs/operators";
-import { VolumeSetter } from "../shared/models/volume-setter";
+import { VolumeSetter } from "../shared/model/volume-setter";
 import { AmpdRxStompService } from "./ampd-rx-stomp.service";
 import { MpdService } from "./mpd.service";
 

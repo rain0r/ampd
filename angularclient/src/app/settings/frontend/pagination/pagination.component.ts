@@ -2,7 +2,7 @@ import { Component } from "@angular/core";
 import { map, Observable, take } from "rxjs";
 import { FrontendSettingsService } from "../../../service/frontend-settings.service";
 import { NotificationService } from "../../../service/notification.service";
-import { PAGINATION } from "./../../../shared/models/internal/frontend-settings";
+import { PAGINATION } from "../../../shared/model/internal/frontend-settings";
 
 @Component({
   selector: "app-pagination",

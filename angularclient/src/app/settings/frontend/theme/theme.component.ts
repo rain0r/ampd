@@ -2,7 +2,7 @@ import { Component } from "@angular/core";
 import { map, Observable, take } from "rxjs";
 import { FrontendSettingsService } from "../../../service/frontend-settings.service";
 import { NotificationService } from "../../../service/notification.service";
-import { DARK_THEME } from "./../../../shared/models/internal/frontend-settings";
+import { DARK_THEME } from "../../../shared/model/internal/frontend-settings";
 
 @Component({
   selector: "app-theme",

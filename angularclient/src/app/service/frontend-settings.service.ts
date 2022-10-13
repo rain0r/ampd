@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { BehaviorSubject, first } from "rxjs";
-import { FrontendSettings } from "../shared/models/internal/frontend-settings";
+import { FrontendSettings } from "../shared/model/internal/frontend-settings";
 import { DarkTheme, LightTheme } from "../shared/themes/themes";
 
 const LS_KEY = "ampd_userSettings";

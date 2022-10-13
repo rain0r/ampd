@@ -1,7 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
-import { LastFmSimilarTracks } from "../shared/models/http/lastfm/last-fm-similar-tracks";
+import { LastFmSimilarTracks } from "../shared/model/http/lastfm/last-fm-similar-tracks";
 import { SettingsService } from "./settings.service";
 
 @Injectable({

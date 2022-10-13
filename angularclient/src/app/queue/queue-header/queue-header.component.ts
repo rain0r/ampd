@@ -10,7 +10,7 @@ import { MessageService } from "../../service/message.service";
 import { MpdService } from "../../service/mpd.service";
 import { ResponsiveScreenService } from "../../service/responsive-screen.service";
 import { InternalMessageType } from "../../shared/messages/internal/internal-message-type.enum";
-import { QueueTrack } from "../../shared/models/queue-track";
+import { QueueTrack } from "../../shared/model/queue-track";
 
 @Component({
   selector: "app-queue-header",

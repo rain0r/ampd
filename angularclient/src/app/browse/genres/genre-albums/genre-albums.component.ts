@@ -1,6 +1,6 @@
 import { Component, Input } from "@angular/core";
 import { PageEvent } from "@angular/material/paginator";
-import { GenresPayload } from "src/app/shared/models/http/genres";
+import { GenresPayload } from "src/app/shared/model/http/genres";
 
 @Component({
   selector: "app-genre-albums",

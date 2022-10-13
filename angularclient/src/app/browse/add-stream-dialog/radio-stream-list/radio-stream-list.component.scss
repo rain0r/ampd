@@ -1,0 +1,14 @@
+table {
+  width: 100%;
+}
+
+.mat-column-deleteStream,
+.mat-column-addStream,
+.mat-column-playStream {
+  width: 1%;
+}
+
+.stream-card {
+  /* top | right | bottom | left */
+  margin: 1rem 0.2rem 1rem 0.2rem;
+}

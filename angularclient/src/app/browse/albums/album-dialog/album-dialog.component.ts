@@ -5,8 +5,8 @@ import { Observable } from "rxjs";
 import { AlbumsService } from "src/app/service/albums.service";
 import { QueueService } from "src/app/service/queue.service";
 import { ResponsiveScreenService } from "src/app/service/responsive-screen.service";
-import { MpdAlbum } from "src/app/shared/models/http/album";
-import { QueueTrack } from "src/app/shared/models/queue-track";
+import { MpdAlbum } from "src/app/shared/model/http/album";
+import { QueueTrack } from "src/app/shared/model/queue-track";
 import { ClickActions } from "src/app/shared/track-table/click-actions.enum";
 import { TrackTableData } from "src/app/shared/track-table/track-table-data";
 

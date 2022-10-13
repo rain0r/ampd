@@ -11,7 +11,7 @@ import { BehaviorSubject, Observable } from "rxjs";
 import { distinctUntilChanged, map } from "rxjs/operators";
 import { InternalMessageType } from "../../shared/messages/internal/internal-message-type.enum";
 import { FilterMessage } from "../../shared/messages/internal/message-types/filter-message";
-import { AmpdBrowsePayload } from "../../shared/models/ampd-browse-payload";
+import { AmpdBrowsePayload } from "../../shared/model/ampd-browse-payload";
 import { ControlPanelService } from "../../service/control-panel.service";
 import { MessageService } from "../../service/message.service";
 import { NotificationService } from "../../service/notification.service";

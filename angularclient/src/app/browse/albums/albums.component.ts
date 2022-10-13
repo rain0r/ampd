@@ -9,7 +9,7 @@ import {
   switchMap,
   tap,
 } from "rxjs/operators";
-import { MpdAlbum } from "src/app/shared/models/http/album";
+import { MpdAlbum } from "src/app/shared/model/http/album";
 import { AlbumsService } from "src/app/service/albums.service";
 
 @Component({

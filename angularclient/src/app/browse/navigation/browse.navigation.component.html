@@ -3,7 +3,7 @@
   fxLayoutAlign="center center"
   fxLayoutAlign.lt-md="space-between"
   fxFlex.lt-md="100%"
-  fxLayoutGap="0.75rem"
+  fxLayoutGap.gt-md="0.75rem"
 >
   <!--Return to top -->
   <div>
@@ -70,6 +70,18 @@
     >
       <mat-icon>local_offer</mat-icon>
       <span fxHide.lt-md> Genres </span>
+    </button>
+  </div>
+
+  <!-- Radio Streams -->
+  <div *ngIf="getParamDir === '/'">
+    <button
+      mat-raised-button
+      [routerLink]="['/browse/radio-streams']"
+      routerLinkActive="mat-accent"
+    >
+      <mat-icon>radio</mat-icon>
+      <span fxHide.lt-md> Radio </span>
     </button>
   </div>
 

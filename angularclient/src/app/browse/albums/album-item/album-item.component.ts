@@ -3,7 +3,7 @@ import { Component, Input, OnInit } from "@angular/core";
 import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
 import { BehaviorSubject, first, Observable } from "rxjs";
 import { ResponsiveScreenService } from "src/app/service/responsive-screen.service";
-import { MpdAlbum } from "src/app/shared/models/http/album";
+import { MpdAlbum } from "src/app/shared/model/http/album";
 import { AlbumDialogComponent } from "../album-dialog/album-dialog.component";
 
 @Component({

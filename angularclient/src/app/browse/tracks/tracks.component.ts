@@ -7,7 +7,7 @@ import { LIGHTBOX_SETTINGS } from "src/app/shared/lightbox";
 import { MpdService } from "../../service/mpd.service";
 import { ResponsiveScreenService } from "../../service/responsive-screen.service";
 import { SettingsService } from "../../service/settings.service";
-import { QueueTrack } from "../../shared/models/queue-track";
+import { QueueTrack } from "../../shared/model/queue-track";
 import { ClickActions } from "../../shared/track-table/click-actions.enum";
 import { TrackTableData } from "../../shared/track-table/track-table-data";
 

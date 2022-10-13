@@ -2,7 +2,7 @@ import { HttpClient, HttpUrlEncodingCodec } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
-import { GenresPayload } from "../shared/models/http/genres";
+import { GenresPayload } from "../shared/model/http/genres";
 import { SettingsService } from "./settings.service";
 
 @Injectable({

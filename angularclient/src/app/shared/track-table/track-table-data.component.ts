@@ -16,7 +16,7 @@ import { TrackInfoDialogComponent } from "src/app/browse/tracks/track-info-dialo
 import { NotificationService } from "../../service/notification.service";
 import { QueueService } from "../../service/queue.service";
 import { ResponsiveScreenService } from "../../service/responsive-screen.service";
-import { QueueTrack } from "../models/queue-track";
+import { QueueTrack } from "../model/queue-track";
 import { Track } from "./../messages/incoming/track";
 import { ClickActions } from "./click-actions.enum";
 import { TrackTableData } from "./track-table-data";

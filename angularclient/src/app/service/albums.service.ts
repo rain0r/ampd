@@ -2,8 +2,8 @@ import { HttpClient, HttpUrlEncodingCodec } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
-import { MpdAlbum } from "../shared/models/http/album";
-import { QueueTrack } from "../shared/models/queue-track";
+import { MpdAlbum } from "../shared/model/http/album";
+import { QueueTrack } from "../shared/model/queue-track";
 import { SettingsService } from "./settings.service";
 
 @Injectable({

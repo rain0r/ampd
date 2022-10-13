@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { Observable, of } from "rxjs";
 import { distinctUntilChanged, map, switchMap } from "rxjs/operators";
 import { Track } from "../shared/messages/incoming/track";
-import { MpdAlbum } from "../shared/models/http/album";
+import { MpdAlbum } from "../shared/model/http/album";
 import { AmpdRxStompService } from "./ampd-rx-stomp.service";
 
 @Injectable({

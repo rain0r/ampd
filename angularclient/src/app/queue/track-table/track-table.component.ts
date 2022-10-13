@@ -3,13 +3,13 @@ import { MatDialog } from "@angular/material/dialog";
 import { MatTableDataSource } from "@angular/material/table";
 import { distinctUntilChanged } from "rxjs/operators";
 import { ResponsiveScreenService } from "src/app/service/responsive-screen.service";
+import { AddStreamDialogComponent } from "../../browse/add-stream-dialog/add-stream-dialog.component";
 import { MpdService } from "../../service/mpd.service";
 import { QueueService } from "../../service/queue.service";
 import { Track } from "../../shared/messages/incoming/track";
-import { QueueTrack } from "../../shared/models/queue-track";
+import { QueueTrack } from "../../shared/model/queue-track";
 import { ClickActions } from "../../shared/track-table/click-actions.enum";
 import { TrackTableData } from "../../shared/track-table/track-table-data";
-import { AddStreamDialogComponent } from "../add-stream-dialog/add-stream-dialog.component";
 import { SavePlaylistDialogComponent } from "../save-playlist-dialog/save-playlist-dialog.component";
 
 @Component({

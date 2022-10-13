@@ -11,8 +11,10 @@ import { LightgalleryModule } from "lightgallery/angular";
 import { FrontendSettingsService } from "src/app/service/frontend-settings.service";
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
-import { AlbumItemComponent } from "./browse/albums/album-item/album-item.component";
+import { AddStreamDialogComponent } from "./browse/add-stream-dialog/add-stream-dialog.component";
+import { RadioStreamListComponent } from "./browse/add-stream-dialog/radio-stream-list/radio-stream-list.component";
 import { AlbumDialogComponent } from "./browse/albums/album-dialog/album-dialog.component";
+import { AlbumItemComponent } from "./browse/albums/album-item/album-item.component";
 import { AlbumsPaginationComponent } from "./browse/albums/albums-pagination/albums-pagination.component";
 import { AlbumsComponent } from "./browse/albums/albums.component";
 import { BrowseComponent } from "./browse/browse.component";
@@ -30,7 +32,6 @@ import { TrackInfoDialogComponent } from "./browse/tracks/track-info-dialog/trac
 import { TracksComponent } from "./browse/tracks/tracks.component";
 import { HelpDialogComponent } from "./navbar/help-dialog/help-dialog.component";
 import { NavbarComponent } from "./navbar/navbar.component";
-import { AddStreamDialogComponent } from "./queue/add-stream-dialog/add-stream-dialog.component";
 import { ControlPanelComponent } from "./queue/control-panel/control-panel.component";
 import { MpdModeComponent } from "./queue/mpd-modes/mpd-mode.component";
 import { QueueHeaderComponent } from "./queue/queue-header/queue-header.component";
@@ -128,6 +129,7 @@ function isDarkTheme(service: FrontendSettingsService): unknown {
     GenreAlbumsComponent,
     HttpErrorDialogComponent,
     CamelCaseTitlePipe,
+    RadioStreamListComponent,
   ],
   imports: [
     AppRoutingModule,

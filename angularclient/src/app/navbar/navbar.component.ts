@@ -2,7 +2,6 @@ import { Component, HostListener } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
 import { Router } from "@angular/router";
 import { BehaviorSubject, first, map, Observable } from "rxjs";
-import { AddStreamDialogComponent } from "../queue/add-stream-dialog/add-stream-dialog.component";
 import { SearchComponent } from "../search/search.component";
 import { ControlPanelService } from "../service/control-panel.service";
 import { FrontendSettingsService } from "../service/frontend-settings.service";
@@ -27,6 +26,7 @@ export class NavbarComponent {
   private currentState = "stop";
   private helpDialogOpen = new BehaviorSubject(false);
   private searchDialogOpen = new BehaviorSubject(false);
+  private addStreamDialogOpen = new BehaviorSubject(false);
 
   constructor(
     private controlPanelService: ControlPanelService,
@@ -125,10 +125,6 @@ export class NavbarComponent {
       case "?":
         this.openHelpDialog();
         break;
-      // Display add stream dialog
-      case "a":
-        this.openAddStreamDialog();
-        break;
       // Decrease / increase volume
       case "+":
         this.volumeService.increaseVolume();
@@ -200,10 +196,6 @@ export class NavbarComponent {
     } else if (this.currentState === "play") {
       this.controlPanelService.pause();
     }
-  }
-
-  private openAddStreamDialog(): void {
-    this.dialog.open(AddStreamDialogComponent);
   }
 
   private stop(): void {

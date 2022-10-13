@@ -13,6 +13,7 @@ import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 /**
  * Handles the caching of album art.
@@ -32,9 +33,9 @@ public class CoverCacheService {
 	 * @param ampdDirService Handles access to the ampd dir in the home directory.
 	 */
 	public CoverCacheService(AmpdSettings ampdSettings, AmpdDirService ampdDirService) {
-		cacheEnabled = ampdSettings.isLocalCoverCache() && ampdDirService.getCacheDir().isPresent();
+		cacheEnabled = ampdSettings.isLocalCoverCache();
 		if (cacheEnabled) {
-			cacheDir = ampdDirService.getCacheDir().get();
+			cacheDir = ampdDirService.getCacheDir();
 		}
 	}
 
@@ -42,12 +43,10 @@ public class CoverCacheService {
 	 * Return who many disk space the cached cover use.
 	 * @return The size of the cover cache dir in bytes.
 	 */
-	public Long getCoverDiskUsage() {
+	public long getCoverDiskUsage() {
 		long size = 0;
-		try {
-			if (cacheEnabled) {
-				size = Files.walk(cacheDir).filter(p -> p.toFile().isFile()).mapToLong(p -> p.toFile().length()).sum();
-			}
+		try (Stream<Path> linesStream = Files.walk(cacheDir).filter(p -> p.toFile().isFile())) {
+			size = linesStream.mapToLong(p -> p.toFile().length()).sum();
 		}
 		catch (IOException e) {
 			LOG.warn("Could not get the size of the cover cache dir", e);

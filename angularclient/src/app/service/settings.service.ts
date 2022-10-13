@@ -5,10 +5,10 @@ import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
 import { FrontendSettingsService } from "src/app/service/frontend-settings.service";
 import { environment } from "src/environments/environment";
-import { AmpdSetting } from "../shared/models/ampd-setting";
-import { CoverDiskUsage } from "../shared/models/http/cover-disk-usage";
-import { MpdSettings } from "../shared/models/mpd-settings";
-import { BACKEND_ADDR } from "./../shared/models/internal/frontend-settings";
+import { AmpdSetting } from "../shared/model/ampd-setting";
+import { CoverDiskUsage } from "../shared/model/http/cover-disk-usage";
+import { MpdSettings } from "../shared/model/mpd-settings";
+import { BACKEND_ADDR } from "../shared/model/internal/frontend-settings";
 
 @Injectable({
   providedIn: "root",

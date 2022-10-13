@@ -8,7 +8,7 @@ import { QueueService } from "../service/queue.service";
 import { SearchService } from "../service/search.service";
 import { SearchResponse } from "../shared/messages/incoming/search-response";
 import { Track } from "../shared/messages/incoming/track";
-import { QueueTrack } from "../shared/models/queue-track";
+import { QueueTrack } from "../shared/model/queue-track";
 import { ClickActions } from "../shared/track-table/click-actions.enum";
 import { TrackTableData } from "../shared/track-table/track-table-data";
 

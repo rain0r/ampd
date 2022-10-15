@@ -1,6 +1,6 @@
 package org.hihn.ampd.server.config;
 
-import org.hihn.ampd.server.service.AmpdDirService;
+import org.hihn.ampd.server.service.cache.DirService;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,10 +10,10 @@ import javax.sql.DataSource;
 @Configuration
 public class DataSourceConfig {
 
-	private final AmpdDirService ampdDirService;
+	private final DirService dirService;
 
-	public DataSourceConfig(AmpdDirService ampdDirService) {
-		this.ampdDirService = ampdDirService;
+	public DataSourceConfig(DirService dirService) {
+		this.dirService = dirService;
 	}
 
 	@Bean
@@ -24,7 +24,7 @@ public class DataSourceConfig {
 
 		System.out.println();
 
-		dataSourceBuilder.url("jdbc:h2:file:" + ampdDirService.getDbPath());
+		dataSourceBuilder.url("jdbc:h2:file:" + dirService.getDbPath());
 		return dataSourceBuilder.build();
 	}
 

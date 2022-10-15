@@ -61,9 +61,11 @@ export class QueueComponent implements OnInit {
         if (result.state === "stop") {
           this.titleService.setTitle("Stopped");
         } else {
-          this.titleService.setTitle(
-            `${result.track.artistName} — ${result.track.title}`
-          );
+          if (result.track.artistName && result.track.title) {
+            this.titleService.setTitle(
+              `${result.track.artistName} — ${result.track.title}`
+            );
+          }
         }
       });
   }

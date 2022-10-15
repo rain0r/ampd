@@ -1,4 +1,4 @@
-package org.hihn.ampd.server.service;
+package org.hihn.ampd.server.service.albumart;
 
 import fm.last.musicbrainz.coverart.CoverArt;
 import fm.last.musicbrainz.coverart.CoverArtArchiveClient;
@@ -6,6 +6,7 @@ import fm.last.musicbrainz.coverart.impl.DefaultCoverArtArchiveClient;
 import org.apache.commons.io.IOUtils;
 import org.bff.javampd.song.MPDSong;
 import org.hihn.ampd.server.model.AmpdSettings;
+import org.hihn.ampd.server.service.cache.CoverCacheService;
 import org.musicbrainz.controller.Recording;
 import org.musicbrainz.controller.Release;
 import org.musicbrainz.model.entity.ReleaseWs2;

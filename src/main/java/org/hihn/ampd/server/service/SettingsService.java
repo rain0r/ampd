@@ -13,13 +13,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class AmpdSettingsService {
+public class SettingsService {
 
-	private static final Logger LOG = LoggerFactory.getLogger(AmpdSettingsService.class);
+	private static final Logger LOG = LoggerFactory.getLogger(SettingsService.class);
 
 	private final AmpdSettings ampdSettings;
 
-	public AmpdSettingsService(AmpdSettings ampdSettings) {
+	public SettingsService(AmpdSettings ampdSettings) {
 		this.ampdSettings = ampdSettings;
 	}
 

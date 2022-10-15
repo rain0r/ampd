@@ -1,6 +1,6 @@
 package org.hihn.ampd.server.controller;
 
-import org.hihn.ampd.server.service.CoverService;
+import org.hihn.ampd.server.service.albumart.AlbumArtService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -17,11 +17,11 @@ import org.springframework.web.server.ResponseStatusException;
 @RequestMapping("/api")
 public class CoverController {
 
-	private final CoverService coverService;
+	private final AlbumArtService albumArtService;
 
 	@Autowired
-	public CoverController(CoverService coverService) {
-		this.coverService = coverService;
+	public CoverController(AlbumArtService albumArtService) {
+		this.albumArtService = albumArtService;
 	}
 
 	/**
@@ -31,7 +31,7 @@ public class CoverController {
 	 */
 	@RequestMapping(value = { "/find-dir-cover" }, produces = MediaType.IMAGE_JPEG_VALUE)
 	public @ResponseBody byte[] findAlbumCoverForDir(@RequestParam("path") String dirPath) {
-		return coverService.loadArtworkForDir(dirPath)
+		return albumArtService.loadArtworkForDir(dirPath)
 				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 	}
 
@@ -42,14 +42,14 @@ public class CoverController {
 	 */
 	@RequestMapping(value = { "/find-track-cover" }, produces = MediaType.IMAGE_JPEG_VALUE)
 	public @ResponseBody byte[] findAlbumCoverForTrack(@RequestParam("path") String trackFilePath) {
-		return coverService.findAlbumCoverForTrack(trackFilePath)
+		return albumArtService.findAlbumCoverForTrack(trackFilePath)
 				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 	}
 
 	@RequestMapping(value = { "/find-album-cover" }, produces = MediaType.IMAGE_JPEG_VALUE)
 	public @ResponseBody byte[] findAlbumCoverForArtistAndName(@RequestParam("albumName") String albumName,
 			@RequestParam("artistName") String artistName) {
-		return coverService.findAlbumCoverForAlbum(albumName, artistName)
+		return albumArtService.findAlbumCoverForAlbum(albumName, artistName)
 				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 	}
 

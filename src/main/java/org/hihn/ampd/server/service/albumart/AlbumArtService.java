@@ -1,10 +1,11 @@
-package org.hihn.ampd.server.service;
+package org.hihn.ampd.server.service.albumart;
 
 import org.bff.javampd.album.MPDAlbum;
 import org.bff.javampd.art.MPDArtwork;
 import org.bff.javampd.server.MPD;
 import org.bff.javampd.song.MPDSong;
 import org.hihn.ampd.server.model.AmpdSettings;
+import org.hihn.ampd.server.service.cache.CoverCacheService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -23,9 +24,9 @@ import java.util.Optional;
  * Methods to load album artworks from the music directory.
  */
 @Service
-public class CoverService {
+public class AlbumArtService {
 
-	private static final Logger LOG = LoggerFactory.getLogger(CoverService.class);
+	private static final Logger LOG = LoggerFactory.getLogger(AlbumArtService.class);
 
 	private final MPD mpd;
 
@@ -42,7 +43,7 @@ public class CoverService {
 	 * @param coverCacheService Handles locally saved albumart / covers.
 	 * @param mbCoverService Service to download cover from MusicBrainz.
 	 */
-	public CoverService(AmpdSettings ampdSettings, MPD mpd, CoverCacheService coverCacheService,
+	public AlbumArtService(AmpdSettings ampdSettings, MPD mpd, CoverCacheService coverCacheService,
 			MbCoverService mbCoverService) {
 		this.ampdSettings = ampdSettings;
 		this.mpd = mpd;

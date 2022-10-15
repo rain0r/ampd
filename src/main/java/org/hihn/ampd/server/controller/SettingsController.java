@@ -4,8 +4,8 @@ import org.bff.javampd.server.MPD;
 import org.bff.javampd.statistics.MPDStatistics;
 import org.hihn.ampd.server.model.AmpdSettings;
 import org.hihn.ampd.server.serializer.BackendSettings;
-import org.hihn.ampd.server.service.AmpdSettingsService;
-import org.hihn.ampd.server.service.CoverCacheService;
+import org.hihn.ampd.server.service.SettingsService;
+import org.hihn.ampd.server.service.cache.CoverCacheService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,7 +26,7 @@ public class SettingsController {
 
 	private final AmpdSettings ampdSettings;
 
-	private final AmpdSettingsService settingsService;
+	private final SettingsService settingsService;
 
 	private final MPD mpd;
 
@@ -38,7 +38,7 @@ public class SettingsController {
 	 * @param mpd Represents a connection to a MPD server.
 	 */
 	public SettingsController(AmpdSettings ampdSettings, CoverCacheService coverCacheService,
-			AmpdSettingsService settingsService, MPD mpd) {
+			SettingsService settingsService, MPD mpd) {
 		this.ampdSettings = ampdSettings;
 		this.coverCacheService = coverCacheService;
 		this.settingsService = settingsService;

@@ -1,4 +1,4 @@
-package org.hihn.ampd.server.service;
+package org.hihn.ampd.server.service.cache;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,7 +13,7 @@ import java.nio.file.Paths;
  * Handles access to the ampd dir. Usually, ~/.local/share/ampd/.
  */
 @Service
-public class AmpdDirService {
+public class DirService {
 
 	/**
 	 * Name of the dir that holds all covers.
@@ -22,11 +22,11 @@ public class AmpdDirService {
 
 	private static final String DB_NAME = "ampd";
 
-	private static final Logger LOG = LoggerFactory.getLogger(AmpdDirService.class);
+	private static final Logger LOG = LoggerFactory.getLogger(DirService.class);
 
 	private final Path ampdHomeDir;
 
-	public AmpdDirService() {
+	public DirService() {
 		ampdHomeDir = Paths.get(System.getProperty("user.home"), ".local", "share", "ampd");
 		if (!Files.exists(ampdHomeDir) && !new File(ampdHomeDir.toString()).mkdirs()) {
 			LOG.warn("Could not create ampd home-dir: {}. This is not fatal, "

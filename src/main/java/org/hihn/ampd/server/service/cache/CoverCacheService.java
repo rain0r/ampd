@@ -1,4 +1,4 @@
-package org.hihn.ampd.server.service;
+package org.hihn.ampd.server.service.cache;
 
 import org.bff.javampd.song.MPDSong;
 import org.hihn.ampd.server.model.AmpdSettings;
@@ -30,12 +30,12 @@ public class CoverCacheService {
 	/**
 	 * Handles the caching of album art.
 	 * @param ampdSettings Settings of this ampd instance.
-	 * @param ampdDirService Handles access to the ampd dir in the home directory.
+	 * @param dirService Handles access to the ampd dir in the home directory.
 	 */
-	public CoverCacheService(AmpdSettings ampdSettings, AmpdDirService ampdDirService) {
+	public CoverCacheService(AmpdSettings ampdSettings, DirService dirService) {
 		cacheEnabled = ampdSettings.isLocalCoverCache();
 		if (cacheEnabled) {
-			cacheDir = ampdDirService.getCacheDir();
+			cacheDir = dirService.getCacheDir();
 		}
 	}
 

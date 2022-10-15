@@ -9,8 +9,8 @@ import { SearchService } from "../service/search.service";
 import { SearchResponse } from "../shared/messages/incoming/search-response";
 import { Track } from "../shared/messages/incoming/track";
 import { QueueTrack } from "../shared/model/queue-track";
-import { ClickActions } from "../shared/track-table/click-actions.enum";
-import { TrackTableData } from "../shared/track-table/track-table-data";
+import { ClickActions } from "../shared/track-table-data/click-actions.enum";
+import { TrackTableOptions } from "../shared/track-table-data/track-table-options";
 
 @Component({
   selector: "app-search",
@@ -22,7 +22,7 @@ export class SearchComponent {
   isMobile = false;
   search = "";
   searchResultCount = 0;
-  trackTableData = new TrackTableData();
+  trackTableData = new TrackTableOptions();
   private searchResultTracks: QueueTrack[] = [];
   private inputSetter$ = new Subject<string>();
 
@@ -95,8 +95,8 @@ export class SearchComponent {
     this.searchResultCount = searchResultCount;
   }
 
-  private buildTableData(): TrackTableData {
-    const trackTable = new TrackTableData();
+  private buildTableData(): TrackTableOptions {
+    const trackTable = new TrackTableOptions();
     trackTable.dataSource = this.dataSource;
     trackTable.displayedColumns = this.getDisplayedColumns();
     trackTable.onPlayClick = ClickActions.AddPlayTrack;

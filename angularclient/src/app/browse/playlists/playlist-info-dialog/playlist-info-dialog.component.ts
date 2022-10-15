@@ -11,8 +11,8 @@ import { Playlist } from "../../../shared/messages/incoming/playlist-impl";
 import { Track } from "../../../shared/messages/incoming/track";
 import { PlaylistInfo } from "../../../shared/model/playlist-info";
 import { QueueTrack } from "../../../shared/model/queue-track";
-import { ClickActions } from "../../../shared/track-table/click-actions.enum";
-import { TrackTableData } from "../../../shared/track-table/track-table-data";
+import { ClickActions } from "../../../shared/track-table-data/click-actions.enum";
+import { TrackTableOptions } from "../../../shared/track-table-data/track-table-options";
 
 @Component({
   selector: "app-playlist-info-dialog",
@@ -21,7 +21,7 @@ import { TrackTableData } from "../../../shared/track-table/track-table-data";
 })
 export class PlaylistInfoDialogComponent implements AfterViewInit {
   playlistInfo: Observable<PlaylistInfo>;
-  trackTableData = new TrackTableData();
+  trackTableData = new TrackTableOptions();
   private playlistInfo$ = new Subject<PlaylistInfo>();
   private isMobile = false;
 
@@ -43,7 +43,7 @@ export class PlaylistInfoDialogComponent implements AfterViewInit {
 
   ngAfterViewInit(): void {
     this.playlistService.getPlaylistInfo(this.data.name).subscribe((info) => {
-      const tableData = new TrackTableData();
+      const tableData = new TrackTableOptions();
       tableData.addTitleColumn = true;
       tableData.clickable = true;
       tableData.dataSource = this.buildDataSource(info.tracks);

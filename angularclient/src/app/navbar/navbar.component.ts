@@ -26,7 +26,6 @@ export class NavbarComponent {
   private currentState = "stop";
   private helpDialogOpen = new BehaviorSubject(false);
   private searchDialogOpen = new BehaviorSubject(false);
-  private addStreamDialogOpen = new BehaviorSubject(false);
 
   constructor(
     private controlPanelService: ControlPanelService,

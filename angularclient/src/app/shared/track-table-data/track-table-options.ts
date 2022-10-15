@@ -1,12 +1,12 @@
 import { MatTableDataSource } from "@angular/material/table";
-import { ClickActions } from "./click-actions.enum";
 import { QueueTrack } from "../model/queue-track";
+import { ClickActions } from "./click-actions.enum";
 
 /**
  * When including the track table in a view, some parameters are needed. Too much, to insert them
  * from the template.
  */
-export class TrackTableData {
+export class TrackTableOptions {
   /**
    * If true, the table as an 'add title' column.
    */
@@ -67,6 +67,8 @@ export class TrackTableData {
    * * If true, the columns of the table are orderable.
    */
   private _sortable = true;
+
+  private _pageSizeOptions = [10, 20, 50, 100];
 
   get addTitleColumn(): boolean {
     return this._addTitleColumn;
@@ -159,7 +161,16 @@ export class TrackTableData {
   get pageSize(): number {
     return this._pageSize;
   }
+
   set pageSize(v: number) {
     this._pageSize = v;
+  }
+
+  public get pageSizeOptions(): Array<number> {
+    return this._pageSizeOptions;
+  }
+
+  public set pageSizeOptions(value: Array<number>) {
+    this._pageSizeOptions = value;
   }
 }

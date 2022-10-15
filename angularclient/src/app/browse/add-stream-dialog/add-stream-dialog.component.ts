@@ -19,7 +19,7 @@ export class AddStreamDialogComponent implements OnInit {
     url: new FormControl("", Validators.required),
   });
 
-  constructor(private radioStreamService: RadioStreamService) {}
+  constructor(private radioService: RadioStreamService) {}
 
   ngOnInit(): void {
     this.loadData();
@@ -27,7 +27,7 @@ export class AddStreamDialogComponent implements OnInit {
 
   onSubmit(): void {
     console.log(this.name.value);
-    this.radioStreamService
+    this.radioService
       .addRadioStream({
         name: String(this.name.value),
         url: String(this.url.value),
@@ -47,7 +47,7 @@ export class AddStreamDialogComponent implements OnInit {
   }
 
   private loadData(): void {
-    this.dataSource$ = this.radioStreamService
+    this.dataSource$ = this.radioService
       .getRadioStreams()
       .pipe(map((data) => new MatTableDataSource<RadioStream>(data)));
   }

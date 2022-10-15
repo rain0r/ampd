@@ -1,7 +1,7 @@
 package org.hihn.ampd.server.controller;
 
 import org.hihn.ampd.server.model.db.RadioStream;
-import org.hihn.ampd.server.service.RadioStreamService;
+import org.hihn.ampd.server.service.RadioService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,26 +15,26 @@ import java.util.List;
 @RequestMapping("/api/radio-streams")
 public class RadioStreamController {
 
-	private final RadioStreamService radioStreamService;
+	private final RadioService radioService;
 
-	public RadioStreamController(RadioStreamService radioStreamService) {
-		this.radioStreamService = radioStreamService;
+	public RadioStreamController(RadioService radioService) {
+		this.radioService = radioService;
 	}
 
 	@GetMapping("")
 	public List<RadioStream> browseRadioStreams() {
-		return radioStreamService.browseRadioStreams();
+		return radioService.browseRadioStreams();
 	}
 
 	@PostMapping("")
 	public List<RadioStream> addRadioStream(@Valid @RequestBody RadioStream radioStream) {
-		return radioStreamService.addRadioStream(radioStream);
+		return radioService.addRadioStream(radioStream);
 	}
 
 	@DeleteMapping(value = "/{id}")
 	@ResponseStatus(HttpStatus.OK)
 	public List<RadioStream> delete(@PathVariable("id") int streamId) {
-		return radioStreamService.deleteStream(streamId);
+		return radioService.deleteStream(streamId);
 	}
 
 }

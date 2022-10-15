@@ -24,7 +24,7 @@ export class RadioStreamListComponent implements AfterViewInit {
   @ViewChild(MatPaginator) paginator: MatPaginator = <MatPaginator>{};
 
   constructor(
-    private radioStreamService: RadioStreamService,
+    private radioService: RadioStreamService,
     private queueService: QueueService
   ) {}
 
@@ -41,7 +41,7 @@ export class RadioStreamListComponent implements AfterViewInit {
   }
 
   onDeleteStream(stream: RadioStream): void {
-    this.radioStreamService
+    this.radioService
       .deleteStream(stream.id)
       .subscribe((data) => (this.dataSource.data = data));
   }

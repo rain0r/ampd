@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface RadioStreamsRepository extends JpaRepository<RadioStream, Long> {
+public interface RadioRepository extends JpaRepository<RadioStream, Long> {
 
 	List<RadioStream> findAllByOrderByNameAsc();
 

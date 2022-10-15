@@ -196,7 +196,7 @@
 <div [hidden]="!trackTableData.pagination">
   <mat-paginator
     [pageSize]="trackTableData.pageSize"
-    [pageSizeOptions]="[10, 20, 50, 100]"
+    [pageSizeOptions]="trackTableData.pageSizeOptions"
     showFirstLastButtons
   ></mat-paginator>
 </div>

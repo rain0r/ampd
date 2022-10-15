@@ -8,8 +8,8 @@ import { MpdService } from "../../service/mpd.service";
 import { ResponsiveScreenService } from "../../service/responsive-screen.service";
 import { SettingsService } from "../../service/settings.service";
 import { QueueTrack } from "../../shared/model/queue-track";
-import { ClickActions } from "../../shared/track-table/click-actions.enum";
-import { TrackTableData } from "../../shared/track-table/track-table-data";
+import { ClickActions } from "../../shared/track-table-data/click-actions.enum";
+import { TrackTableOptions } from "../../shared/track-table-data/track-table-options";
 
 @Component({
   selector: "app-tracks",
@@ -22,7 +22,7 @@ export class TracksComponent implements OnInit {
   dirQp = "/";
   queueDuration = 0;
   lightboxSettings = LIGHTBOX_SETTINGS;
-  trackTableData = new TrackTableData();
+  trackTableData = new TrackTableOptions();
   validCoverUrl = false;
   private isMobile = false;
 
@@ -69,8 +69,8 @@ export class TracksComponent implements OnInit {
     this.validCoverUrl = true;
   }
 
-  private buildTableData(): TrackTableData {
-    const trackTable = new TrackTableData();
+  private buildTableData(): TrackTableOptions {
+    const trackTable = new TrackTableOptions();
     trackTable.dataSource = new MatTableDataSource<QueueTrack>(this.tracks);
     trackTable.displayedColumns = this.getDisplayedColumns();
     trackTable.onPlayClick = ClickActions.AddPlayTrack;

@@ -16,10 +16,10 @@ import { TrackInfoDialogComponent } from "src/app/browse/tracks/track-info-dialo
 import { NotificationService } from "../../service/notification.service";
 import { QueueService } from "../../service/queue.service";
 import { ResponsiveScreenService } from "../../service/responsive-screen.service";
+import { Track } from "../messages/incoming/track";
 import { QueueTrack } from "../model/queue-track";
-import { Track } from "./../messages/incoming/track";
 import { ClickActions } from "./click-actions.enum";
-import { TrackTableData } from "./track-table-data";
+import { TrackTableOptions } from "./track-table-options";
 
 @Component({
   selector: "app-track-data-table",
@@ -27,7 +27,7 @@ import { TrackTableData } from "./track-table-data";
   styleUrls: ["./track-table-data.component.scss"],
 })
 export class TrackTableDataComponent implements OnInit, OnChanges {
-  @Input() trackTableData: TrackTableData = new TrackTableData();
+  @Input() trackTableData: TrackTableOptions = new TrackTableOptions();
   @ViewChild(MatPaginator, { static: true })
   paginator: MatPaginator = new MatPaginator(
     new MatPaginatorIntl(),
@@ -50,7 +50,7 @@ export class TrackTableDataComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if ("trackTableData" in changes) {
-      const tableData: TrackTableData = <TrackTableData>(
+      const tableData: TrackTableOptions = <TrackTableOptions>(
         changes["trackTableData"].currentValue
       );
       if (tableData.dataSource.data.length > 0) {

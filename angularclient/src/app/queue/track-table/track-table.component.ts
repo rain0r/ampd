@@ -8,8 +8,8 @@ import { MpdService } from "../../service/mpd.service";
 import { QueueService } from "../../service/queue.service";
 import { Track } from "../../shared/messages/incoming/track";
 import { QueueTrack } from "../../shared/model/queue-track";
-import { ClickActions } from "../../shared/track-table/click-actions.enum";
-import { TrackTableData } from "../../shared/track-table/track-table-data";
+import { ClickActions } from "../../shared/track-table-data/click-actions.enum";
+import { TrackTableOptions } from "../../shared/track-table-data/track-table-options";
 import { SavePlaylistDialogComponent } from "../save-playlist-dialog/save-playlist-dialog.component";
 
 @Component({
@@ -23,7 +23,7 @@ export class TrackTableComponent {
   currentTrack: QueueTrack = new QueueTrack();
   currentState = "stop";
   dataSource = new MatTableDataSource<QueueTrack>();
-  trackTableData = new TrackTableData();
+  trackTableData = new TrackTableOptions();
   queueDuration = 0;
   private isMobile = false;
 
@@ -93,14 +93,17 @@ export class TrackTableComponent {
     this.queueDuration = this.sumTrackDuration();
   }
 
-  private buildTableData(): TrackTableData {
-    const trackTable = new TrackTableData();
+  private buildTableData(): TrackTableOptions {
+    const trackTable = new TrackTableOptions();
     trackTable.dataSource = this.dataSource;
     trackTable.displayedColumns = this.getDisplayedColumns();
     trackTable.dragEnabled = !this.isMobile;
     trackTable.onRowClick = ClickActions.PlayTrack;
     trackTable.addTitleColumn = false;
     trackTable.playTitleColumn = false;
+    trackTable.pageSize = 100;
+    trackTable.pagination = true;
+    trackTable.pageSizeOptions = [50, 100, 500, 1000];
     return trackTable;
   }
 

@@ -8,6 +8,8 @@ import { SettingsService } from "./settings.service";
   providedIn: "root",
 })
 export class AmpdRxStompConfigService extends RxStompConfig {
+  public static readonly ONE_MB = 1048576;
+
   constructor(
     private location: Location,
     private settingsService: SettingsService
@@ -25,7 +27,7 @@ export class AmpdRxStompConfigService extends RxStompConfig {
     // Wait in milliseconds before attempting auto reconnect
     // Set to 0 to disable
     // Typical value 500 (500 milli seconds)
-    this.reconnectDelay = 100;
+    this.reconnectDelay = 1500;
     // Will log diagnostics on console
     // It can be quite verbose, not recommended in production
     // Skip this key to stop logging to console
@@ -34,6 +36,8 @@ export class AmpdRxStompConfigService extends RxStompConfig {
         console.log(new Date(), msg);
       }
     };
+    this.splitLargeFrames = true;
+    this.maxWebSocketChunkSize = AmpdRxStompConfigService.ONE_MB;
   }
 
   /**

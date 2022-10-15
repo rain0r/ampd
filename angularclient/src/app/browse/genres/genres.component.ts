@@ -5,13 +5,13 @@ import { ActivatedRoute } from "@angular/router";
 import { delay, distinctUntilChanged, filter, map, Observable, of } from "rxjs";
 import { tap } from "rxjs/operators";
 import { AmpdBrowsePayload } from "src/app/shared/model/ampd-browse-payload";
+import { GenresService as GenreService } from "../../service/genres.service";
+import { ResponsiveScreenService } from "../../service/responsive-screen.service";
 import { Track } from "../../shared/messages/incoming/track";
 import { GenresPayload } from "../../shared/model/http/genres";
 import { QueueTrack } from "../../shared/model/queue-track";
-import { GenresService as GenreService } from "../../service/genres.service";
-import { ResponsiveScreenService } from "../../service/responsive-screen.service";
-import { ClickActions } from "../../shared/track-table/click-actions.enum";
-import { TrackTableData } from "../../shared/track-table/track-table-data";
+import { ClickActions } from "../../shared/track-table-data/click-actions.enum";
+import { TrackTableOptions } from "../../shared/track-table-data/track-table-options";
 
 @Component({
   selector: "app-genres",
@@ -21,7 +21,7 @@ import { TrackTableData } from "../../shared/track-table/track-table-data";
 export class GenresComponent implements OnInit {
   genres = new Observable<string[]>();
   genrePayload = new Observable<GenresPayload>();
-  trackTableData = new TrackTableData();
+  trackTableData = new TrackTableOptions();
   isMobile = false;
   selectedIndex = 0;
   browsePayload = new Observable<AmpdBrowsePayload>();
@@ -76,8 +76,8 @@ export class GenresComponent implements OnInit {
 
   private buildTableData(
     dataSource: MatTableDataSource<QueueTrack>
-  ): TrackTableData {
-    const trackTable = new TrackTableData();
+  ): TrackTableOptions {
+    const trackTable = new TrackTableOptions();
     trackTable.dataSource = dataSource;
     trackTable.displayedColumns = this.getDisplayedColumns();
     trackTable.onPlayClick = ClickActions.AddPlayTrack;

@@ -7,8 +7,8 @@ import { QueueService } from "src/app/service/queue.service";
 import { ResponsiveScreenService } from "src/app/service/responsive-screen.service";
 import { MpdAlbum } from "src/app/shared/model/http/album";
 import { QueueTrack } from "src/app/shared/model/queue-track";
-import { ClickActions } from "src/app/shared/track-table/click-actions.enum";
-import { TrackTableData } from "src/app/shared/track-table/track-table-data";
+import { ClickActions } from "src/app/shared/track-table-data/click-actions.enum";
+import { TrackTableOptions } from "src/app/shared/track-table-data/track-table-options";
 
 @Component({
   selector: "app-album-dialog",
@@ -17,7 +17,7 @@ import { TrackTableData } from "src/app/shared/track-table/track-table-data";
 })
 export class AlbumDialogComponent implements OnInit {
   tracks: Observable<QueueTrack[]> | null = null;
-  trackTableData = new TrackTableData();
+  trackTableData = new TrackTableOptions();
   coverSizeClass: Observable<string>;
   private isMobile = false;
 
@@ -51,8 +51,8 @@ export class AlbumDialogComponent implements OnInit {
     this.queueService.playAlbum(this.album);
   }
 
-  private buildTableData(tracks: QueueTrack[]): TrackTableData {
-    const trackTable = new TrackTableData();
+  private buildTableData(tracks: QueueTrack[]): TrackTableOptions {
+    const trackTable = new TrackTableOptions();
     trackTable.dataSource = new MatTableDataSource<QueueTrack>(tracks);
     trackTable.displayedColumns = this.getDisplayedColumns();
     trackTable.onPlayClick = ClickActions.AddPlayTrack;

@@ -67,7 +67,7 @@ import { MapEntriesPipe } from "./shared/pipes/map-entries.pipe";
 import { ReplaceNullWithTextPipe } from "./shared/pipes/replace-null-with-text.pipe";
 import { SecondsToHhMmSsPipe } from "./shared/pipes/seconds-to-hh-mm-ss.pipe";
 import { SecondsToMmSsPipe } from "./shared/pipes/seconds-to-mm-ss.pipe";
-import { TrackTableDataComponent } from "./shared/track-table/track-table-data.component";
+import { TrackTableDataComponent } from "./shared/track-table-data/track-table-data.component";
 
 function isDarkTheme(service: FrontendSettingsService): unknown {
   return {

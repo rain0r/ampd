@@ -67,16 +67,6 @@ export class MpdService {
     const url = `${this.settingsService.getBackendContextAddr()}api/server-statistics`;
     return this.http.get<ServerStatistics>(url);
   }
-  __getStateSubscription(): Observable<StateMsgPayload> {
-    // TODO: Remove
-    return this.rxStompService.watch("/topic/state").pipe(
-      map((message) => message.body),
-      map((body: string) => <StateMsgPayload>JSON.parse(body)),
-      distinctUntilChanged((prev, curr) => {
-        return JSON.stringify(curr) === JSON.stringify(prev);
-      })
-    );
-  }
 
   getStateSubscription(): Observable<StateMsgPayload> {
     return this.rxStompService.watch("/topic/state").pipe(

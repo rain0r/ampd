@@ -23,7 +23,6 @@ export class AlbumsComponent implements OnInit {
   filter = "";
   page = new Observable<number>();
   isLoading = new BehaviorSubject(true);
-  // private inputSetter$ = new Subject<string>();
   private inputSetter$ = new BehaviorSubject<string>("");
 
   constructor(
@@ -34,7 +33,6 @@ export class AlbumsComponent implements OnInit {
   ngOnInit(): void {
     this.buildPageListener();
     this.buildInputListener();
-    // this.loadData();
   }
 
   applyFilter(eventTarget: EventTarget | null): void {

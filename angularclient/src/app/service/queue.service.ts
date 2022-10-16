@@ -4,6 +4,7 @@ import { distinctUntilChanged, map, switchMap } from "rxjs/operators";
 import { Track } from "../shared/messages/incoming/track";
 import { MpdAlbum } from "../shared/model/http/album";
 import { AmpdRxStompService } from "./ampd-rx-stomp.service";
+import { NotificationService } from "./notification.service";
 
 @Injectable({
   providedIn: "root",
@@ -11,7 +12,10 @@ import { AmpdRxStompService } from "./ampd-rx-stomp.service";
 export class QueueService {
   private path = "/app/queue/";
 
-  constructor(private rxStompService: AmpdRxStompService) {}
+  constructor(
+    private rxStompService: AmpdRxStompService,
+    private notificationService: NotificationService
+  ) {}
 
   getQueue(): void {
     this.rxStompService.publish({
@@ -21,6 +25,7 @@ export class QueueService {
 
   clearQueue(): void {
     this.removeAll();
+    this.notificationService.popUp("Cleared queue");
     this.getQueue();
   }
 

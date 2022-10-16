@@ -21,7 +21,7 @@
     </a>
 
     <!-- Search -->
-    <button mat-button (click)="openSearchDialog()">
+    <button mat-button>
       <mat-icon>search</mat-icon>
       <span fxHide.lt-md> Search </span>
     </button>
@@ -57,6 +57,7 @@
       <mat-icon *ngSwitchDefault title="Disconnected">cloud_off</mat-icon>
     </div>
     <mat-icon
+      #helpIcon
       fxHide.lt-md
       class="help-icon"
       (click)="openHelpDialog()"

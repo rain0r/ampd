@@ -115,7 +115,7 @@ public class AmpdSettings {
 	/**
 	 * If ListenBrainz scrobbling is enabled.
 	 */
-	@HelpText(name = "ListenBrainz", hint = "Scrobble tracks to Listenbrainz.")
+	@HelpText(name = "ListenBrainz", hint = "If scrobbling to ListenBrainz is enabled.")
 	@Value("${listenbrainz.scrobble:false}")
 	private boolean scrobbleLb;
 
@@ -128,7 +128,7 @@ public class AmpdSettings {
 	/**
 	 * API key for the Last.fm api
 	 */
-	@HelpText(name = "Last.fm API Key", hint = "API key for the Last.fm api")
+	@HelpText(name = "Last.fm API key", hint = "Key for the Last.fm api.")
 	@Value("${lastfm.api.key:}")
 	private String lastfmApiKey;
 
@@ -141,7 +141,7 @@ public class AmpdSettings {
 	/**
 	 * Last.fm username
 	 */
-	@HelpText(name = "Last.fm username", hint = "Last.fm username")
+	@HelpText(name = "Last.fm username", hint = "Last.fm username that will scrobble.")
 	@Value("${lastfm.api.username:}")
 	private String lastfmApiUsername;
 
@@ -154,14 +154,19 @@ public class AmpdSettings {
 	/**
 	 * If Last.fm scrobbling is enabled.
 	 */
-	@HelpText(name = "Last.fm", hint = "Scrobble tracks to Last.fm")
+	@HelpText(name = "Last.fm", hint = "If scrobbling to Last.fm is enabled.")
 	@Value("${lastfm.api.scrobble:false}")
 	private boolean lastfmApiScrobble;
+
+	@HelpText(name = "Home dir", hint = "Directory where ampd stores its data.")
+	@Value("${home.dir:}")
+	private String homeDir;
 
 	/**
 	 * Prints the applied properties to the console.
 	 */
 	@PostConstruct
+
 	public void printProperties() {
 		Set<String> output = new TreeSet<>();
 		ReflectionUtils.doWithFields(AmpdSettings.class, field -> {
@@ -254,6 +259,10 @@ public class AmpdSettings {
 
 	public boolean isLastfmApiScrobble() {
 		return lastfmApiScrobble;
+	}
+
+	public String getHomeDir() {
+		return homeDir;
 	}
 
 }

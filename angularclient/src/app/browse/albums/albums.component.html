@@ -18,6 +18,22 @@
     Page {{ page | async }}
   </div>
 
+  <mat-form-field appearance="fill" class="dark-theme">
+    <mat-label>Sort by</mat-label>
+    <mat-select
+      [(ngModel)]="sortBy"
+      name="sortByKey"
+      (selectionChange)="onSortBy($event.value)"
+    >
+      <mat-option
+        *ngFor="let sortByKey of sortByKeys"
+        [value]="sortByKey.value"
+      >
+        {{ sortByKey.viewValue }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
   <!--Filter-->
   <div fxLayoutAlign="center center" fxFlex="30%" fxFlex.lt-md="100%">
     <mat-form-field class="full-width">
@@ -46,7 +62,7 @@
 </div>
 
 <mat-divider></mat-divider>
-
+<mat-spinner *ngIf="isLoading | async"></mat-spinner>
 <div
   fxLayout="row wrap"
   fxLayout.lt-md="column"
@@ -56,12 +72,12 @@
   fxLayoutGap.lt-md="1rem"
 >
   <div
-    fxFlex
-    fxFlex.lt-md="100%"
-    fxLayoutAlign="center center"
+    [fxFlex]="100 / gridColumns + '%'"
+    fxFlex.xs="100%"
+    fxFlex.sm="33%"
     *ngFor="let album of albums | async"
   >
-    <app-album-item fxFlex.lt-md="100%" [album]="album"></app-album-item>
+    <app-album-item [album]="album"></app-album-item>
   </div>
 </div>
 

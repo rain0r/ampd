@@ -22,6 +22,7 @@ import { MatTableModule } from "@angular/material/table";
 import { MatTabsModule } from "@angular/material/tabs";
 import { MatToolbarModule } from "@angular/material/toolbar";
 import { MatExpansionModule } from "@angular/material/expansion";
+import { MatSelectModule } from "@angular/material/select";
 
 @NgModule({
   exports: [
@@ -48,6 +49,7 @@ import { MatExpansionModule } from "@angular/material/expansion";
     MatTabsModule,
     MatToolbarModule,
     MatExpansionModule,
+    MatSelectModule,
   ],
 })
 export class MaterialMetaModule {}

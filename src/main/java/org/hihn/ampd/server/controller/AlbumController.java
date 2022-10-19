@@ -22,8 +22,9 @@ public class AlbumController {
 
 	@GetMapping("/albums")
 	public Collection<MPDAlbum> listAllAlbums(@RequestParam(value = "page", defaultValue = "1") Integer page,
-			@RequestParam(value = "searchTerm", defaultValue = "") String searchTerm) {
-		return albumService.listAllAlbums(page, searchTerm);
+			@RequestParam(value = "searchTerm", defaultValue = "") String searchTerm,
+			@RequestParam(value = "sortBy", defaultValue = "") String sortBy) {
+		return albumService.listAllAlbums(page, searchTerm, sortBy);
 	}
 
 	@GetMapping("/album")

@@ -41,8 +41,7 @@ export class AlbumItemComponent implements OnInit {
             data: this.album,
           };
           if (this.isMobile) {
-            options["height"] = "100%";
-            options["maxHeight"] = "100vh";
+            options["height"] = "90%";
           }
           const dialogRef = this.dialog.open(AlbumDialogComponent, options);
           dialogRef
@@ -61,7 +60,7 @@ export class AlbumItemComponent implements OnInit {
       .subscribe({
         error: () => {
           if (this.album) {
-            this.album.albumCoverUrl = "assets/transparent.png";
+            this.album.albumCoverUrl = "assets/images/no-cover.svg";
           }
         },
       });

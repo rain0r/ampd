@@ -90,6 +90,7 @@
   <!--Filter-->
   <div fxLayoutAlign="center center" fxFlex="30%" fxFlex.lt-md="100%">
     <mat-form-field>
+      <mat-label>Filter</mat-label>
       <input
         #filterInputElem
         (keydown.escape)="resetFilter()"
@@ -97,7 +98,7 @@
         [(ngModel)]="filter"
         autocomplete="off"
         matInput
-        placeholder="Filter"
+        placeholder="Press 'f' to jump here"
         type="text"
         [disabled]="(filterDisabled$ | async) === false"
       />

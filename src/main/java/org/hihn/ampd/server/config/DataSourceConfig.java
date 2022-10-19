@@ -21,9 +21,6 @@ public class DataSourceConfig {
 
 		DataSourceBuilder<?> dataSourceBuilder = DataSourceBuilder.create();
 		dataSourceBuilder.driverClassName("org.h2.Driver");
-
-		System.out.println();
-
 		dataSourceBuilder.url("jdbc:h2:file:" + dirService.getDbPath());
 		return dataSourceBuilder.build();
 	}

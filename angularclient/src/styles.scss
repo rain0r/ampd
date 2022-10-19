@@ -16,7 +16,9 @@ body {
 }
 
 .mono {
-  font-family: Monaco, monospace;
+  // font-family: Monaco, monospace;
+  font-family: Courier New, Courier, Lucida Sans Typewriter, Lucida Typewriter,
+    monospace;
   color: var(--font-color) !important;
 }
 

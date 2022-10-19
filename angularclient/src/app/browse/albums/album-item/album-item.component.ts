@@ -37,10 +37,7 @@ export class AlbumItemComponent implements OnInit {
       .subscribe((open) => {
         if (!open) {
           this.albumDialogOpen.next(true);
-          // const width = this.isMobile ? "100%" : "70%";
           const options: MatDialogConfig = {
-            // maxWidth: "100vw",
-            // width: width,
             data: this.album,
           };
           if (this.isMobile) {

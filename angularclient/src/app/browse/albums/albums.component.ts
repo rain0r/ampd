@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { BehaviorSubject, combineLatest, Observable, of } from "rxjs";
 import {
   bufferTime,
@@ -9,8 +9,13 @@ import {
   switchMap,
   tap,
 } from "rxjs/operators";
-import { MpdAlbum } from "src/app/shared/model/http/album";
 import { AlbumsService } from "src/app/service/albums.service";
+import { MpdAlbum } from "src/app/shared/model/http/album";
+
+interface SortByKey {
+  value: string;
+  viewValue: string;
+}
 
 @Component({
   selector: "app-albums",
@@ -21,17 +26,24 @@ export class AlbumsComponent implements OnInit {
   @ViewChild("filterInputElem") filterInputElem?: ElementRef;
   albums = new Observable<MpdAlbum[]>();
   filter = "";
+  sortBy = new Observable<string>();
   page = new Observable<number>();
   isLoading = new BehaviorSubject(true);
+  sortByKeys: SortByKey[] = [
+    { value: "artist", viewValue: "Artist" },
+    { value: "album", viewValue: "Album" },
+  ];
+  gridColumns = 3;
   private inputSetter$ = new BehaviorSubject<string>("");
 
   constructor(
     private albumService: AlbumsService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
-    this.buildPageListener();
+    this.buildQueryParamListener();
     this.buildInputListener();
   }
 
@@ -39,15 +51,28 @@ export class AlbumsComponent implements OnInit {
     const inputValue = (<HTMLInputElement>eventTarget).value;
     if (inputValue) {
       this.inputSetter$.next(inputValue);
+      void this.router.navigate([], {
+        relativeTo: this.activatedRoute,
+        queryParams: { search_term: encodeURIComponent(inputValue) },
+        queryParamsHandling: "merge",
+      });
     } else {
-      this.loadData();
       this.inputSetter$.next("");
+      this.resetFilter();
     }
   }
 
   resetFilter(): void {
     this.filter = "";
     this.inputSetter$.next("");
+  }
+
+  onSortBy($event: string): void {
+    void this.router.navigate([], {
+      relativeTo: this.activatedRoute,
+      queryParams: { sortBy: $event },
+      queryParamsHandling: "merge",
+    });
   }
 
   private buildInputListener() {
@@ -58,12 +83,12 @@ export class AlbumsComponent implements OnInit {
       map((input: string[]) => input[input.length - 1])
     );
 
-    combineLatest([this.page, searchInput])
+    combineLatest([this.page, searchInput, this.sortBy])
       .pipe(
-        switchMap(([page, searchInput]) => {
+        switchMap(([page, searchInput, sortBy]) => {
           this.albums = new Observable<MpdAlbum[]>();
           this.isLoading.next(true);
-          return this.albumService.getAlbums(page, searchInput);
+          return this.albumService.getAlbums(page, searchInput, sortBy);
         }),
         tap((albums) => (this.albums = of(albums)))
       )
@@ -79,9 +104,13 @@ export class AlbumsComponent implements OnInit {
     });
   }
 
-  private buildPageListener() {
+  private buildQueryParamListener() {
     this.page = this.activatedRoute.queryParamMap.pipe(
       map((qp) => parseInt(qp.get("page") || "1")),
+      distinctUntilChanged()
+    );
+    this.sortBy = this.activatedRoute.queryParamMap.pipe(
+      map((qp) => qp.get("sortBy") || ""),
       distinctUntilChanged()
     );
   }

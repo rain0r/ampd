@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 import java.util.Comparator;
+import java.util.List;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
 
@@ -32,11 +33,11 @@ public class AlbumService {
 	}
 
 	@Cacheable
-	public TreeSet<MPDAlbum> listAllAlbums(int page, String searchTermP) {
+	public TreeSet<MPDAlbum> listAllAlbums(int page, String searchTermP, String sortBy) {
 		String searchTerm = searchTermP.toLowerCase().trim();
 		int start = (page - 1) * ampdSettings.getAlbumsPageSize();
 		Collection<MPDAlbum> albums = mpd.getMusicDatabase().getAlbumDatabase().listAllAlbums();
-		Collection<MPDAlbum> alive = albums.stream().filter(album -> {
+		List<MPDAlbum> filteredAlbums = albums.stream().filter(album -> {
 			if (album.getName().isBlank()) {
 				// No album title
 				return false;
@@ -52,11 +53,26 @@ public class AlbumService {
 			else {
 				album.setAlbumArtist(album.getArtistNames().get(0));
 			}
+
+			int albumContains = mpd.getMusicDatabase().getSongDatabase().findAlbum(album).size();
+			if (albumContains < 2) {
+				// Some tracks have the album attribute set but are not actually part of
+				// an album but a singleton
+				// Only use albums with at least 2 tracks
+				return false;
+			}
+
 			return album.getName().toLowerCase().contains(searchTerm)
 					|| album.getAlbumArtist().toLowerCase().contains(searchTerm)
 					|| album.getArtistNames().get(0).toLowerCase().contains(searchTerm);
-		}).collect(Collectors.toList());
-		return alive.stream().skip(start) // the offset
+		}).sorted(Comparator.comparing(a -> {
+			if (sortBy.equalsIgnoreCase("album")) {
+				return a.getName();
+			}
+			return a.getAlbumArtist();
+		})).collect(Collectors.toList());
+
+		return filteredAlbums.stream().skip(start) // the offset
 				.limit(ampdSettings.getAlbumsPageSize()) // how many items you want
 				.collect(Collectors.toCollection(() -> new TreeSet<>(
 						Comparator.comparing(MPDAlbum::getAlbumArtist).thenComparing(MPDAlbum::getName))));

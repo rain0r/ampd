@@ -5,7 +5,12 @@
   fxLayoutGap.lt-md="0.25rem grid"
 >
   <button mat-button disabled>Page {{ pageNo }}</button>
-  <a mat-button [queryParams]="{ page: 1 }" [routerLink]="['/browse/albums']">
+  <a
+    mat-button
+    [queryParams]="{ page: 1 }"
+    [routerLink]="['/browse/albums']"
+    [queryParamsHandling]="'merge'"
+  >
     Start
   </a>
   <a
@@ -13,12 +18,14 @@
     mat-button
     [queryParams]="{ page: pageNo - 1 }"
     [routerLink]="['/browse/albums']"
+    [queryParamsHandling]="'merge'"
   >
     Prev
   </a>
   <a
     mat-button
     [queryParams]="{ page: pageNo + 1 }"
+    [queryParamsHandling]="'merge'"
     [routerLink]="['/browse/albums']"
   >
     Next

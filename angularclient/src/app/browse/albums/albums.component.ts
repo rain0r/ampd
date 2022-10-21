@@ -95,15 +95,6 @@ export class AlbumsComponent implements OnInit {
       .subscribe(() => this.isLoading.next(false));
   }
 
-  private loadData(searchTerm = "") {
-    this.page.subscribe((page) => {
-      this.isLoading.next(true);
-      this.albums = this.albumService
-        .getAlbums(page, searchTerm)
-        .pipe(tap(() => this.isLoading.next(false)));
-    });
-  }
-
   private buildQueryParamListener() {
     this.page = this.activatedRoute.queryParamMap.pipe(
       map((qp) => parseInt(qp.get("page") || "1")),

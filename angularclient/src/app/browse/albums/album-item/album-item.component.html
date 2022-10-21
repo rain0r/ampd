@@ -1,8 +1,7 @@
-<mat-card (click)="openDialog()" *ngIf="album">
+<mat-card class="clickable" (click)="openDialog()" *ngIf="album">
   <mat-card-content fxFlex fxLayout="column">
     <img
       mat-card-image
-      class="clickable"
       [ngClass]="[coverSizeClass | async]"
       [title]="album.name"
       [src]="album.albumCoverUrl"

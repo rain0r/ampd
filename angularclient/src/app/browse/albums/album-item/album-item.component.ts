@@ -39,9 +39,11 @@ export class AlbumItemComponent implements OnInit {
           this.albumDialogOpen.next(true);
           const options: MatDialogConfig = {
             data: this.album,
+            width: "75%",
           };
           if (this.isMobile) {
             options["height"] = "90%";
+            options["width"] = "90%";
           }
           const dialogRef = this.dialog.open(AlbumDialogComponent, options);
           dialogRef

@@ -270,6 +270,8 @@ src/main/resources/static/
 angularclient/.angular/
 ampd.log*
 tmp/
+ampd.mv.db 
+ampd.trace.db
 
 # General
 .DS_Store
@@ -297,3 +299,4 @@ Icon
 Network Trash Folder
 Temporary Items
 .apdisk
+

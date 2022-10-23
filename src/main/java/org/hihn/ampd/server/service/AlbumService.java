@@ -4,6 +4,7 @@ import org.bff.javampd.album.MPDAlbum;
 import org.bff.javampd.server.MPD;
 import org.bff.javampd.song.MPDSong;
 import org.hihn.ampd.server.model.AmpdSettings;
+import org.hihn.ampd.server.util.StringUtils;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -42,8 +43,7 @@ public class AlbumService {
 				// No album title
 				return false;
 			}
-			if (album.getArtistNames().isEmpty()
-					&& (album.getAlbumArtist() == null || album.getAlbumArtist().isBlank())) {
+			if (album.getArtistNames().isEmpty() && (StringUtils.isNullOrEmpty(album.getAlbumArtist()))) {
 				// No info about the album artist
 				return false;
 			}

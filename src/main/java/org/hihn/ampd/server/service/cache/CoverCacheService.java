@@ -3,6 +3,7 @@ package org.hihn.ampd.server.service.cache;
 import org.bff.javampd.song.MPDSong;
 import org.hihn.ampd.server.model.AmpdSettings;
 import org.hihn.ampd.server.model.CoverType;
+import org.hihn.ampd.server.util.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -37,7 +38,7 @@ public class CoverCacheService {
 		cacheEnabled = ampdSettings.isLocalCoverCache();
 		if (cacheEnabled) {
 			cacheDir = dirService.getCacheDir();
-			if (!new File(cacheDir.toString()).mkdirs()) {
+			if (!cacheDir.toFile().exists() && !new File(cacheDir.toString()).mkdirs()) {
 				LOG.warn("Could not create cache cover dir: {}", cacheDir);
 			}
 		}
@@ -119,7 +120,7 @@ public class CoverCacheService {
 	}
 
 	private Optional<Path> buildCacheFullPath(MPDSong track) {
-		CoverType coverType = (track.getAlbumName() == null) ? CoverType.SINGLETON : CoverType.ALBUM;
+		CoverType coverType = (StringUtils.isNullOrEmpty(track.getAlbumName())) ? CoverType.SINGLETON : CoverType.ALBUM;
 		String titleOrAlbum = (coverType == CoverType.ALBUM) ? track.getAlbumName() : track.getTitle();
 		if (titleOrAlbum == null || track.getArtistName() == null) {
 			return Optional.empty();

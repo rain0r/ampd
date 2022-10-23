@@ -7,6 +7,7 @@ import org.apache.commons.io.IOUtils;
 import org.bff.javampd.song.MPDSong;
 import org.hihn.ampd.server.model.AmpdSettings;
 import org.hihn.ampd.server.service.cache.CoverCacheService;
+import org.hihn.ampd.server.util.StringUtils;
 import org.musicbrainz.controller.Recording;
 import org.musicbrainz.controller.Release;
 import org.musicbrainz.model.entity.ReleaseWs2;
@@ -14,7 +15,6 @@ import org.musicbrainz.model.searchresult.RecordingResultWs2;
 import org.musicbrainz.model.searchresult.ReleaseResultWs2;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 
 import java.io.InputStream;
@@ -58,8 +58,8 @@ public class MbCoverService {
 			return Optional.empty();
 		}
 		LOG.trace("Trying to load a cover from the MusicBrainz API for file: {}", track.getFile());
-		Optional<byte[]> cover = isEmpty(track.getAlbumName()) ? searchSingletonMusicBrainzCover(track)
-				: searchAlbumMusicBrainzCover(track);
+		Optional<byte[]> cover = StringUtils.isNullOrEmpty(track.getAlbumName())
+				? searchSingletonMusicBrainzCover(track) : searchAlbumMusicBrainzCover(track);
 		// Save the cover in the cache
 		cover.ifPresent(bytes -> coverCacheService.saveCover(track, bytes));
 		return cover;
@@ -115,6 +115,9 @@ public class MbCoverService {
 
 	private Optional<byte[]> searchSingletonMusicBrainzCover(MPDSong track) {
 		Optional<byte[]> cover = Optional.empty();
+		if (StringUtils.isNullOrEmpty(track.getArtistName()) || StringUtils.isNullOrEmpty(track.getTitle())) {
+			return cover;
+		}
 		Recording recording = new Recording();
 		recording.getSearchFilter().setLimit((long) 10);
 		recording.getSearchFilter().setMinScore((long) ampdSettings.getMinScore());
@@ -147,10 +150,6 @@ public class MbCoverService {
 			}
 		}
 		return cover;
-	}
-
-	private boolean isEmpty(@Nullable Object str) {
-		return str == null || "".equals(str);
 	}
 
 }

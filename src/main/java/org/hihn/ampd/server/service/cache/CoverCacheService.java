@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.InvalidPathException;
@@ -36,6 +37,9 @@ public class CoverCacheService {
 		cacheEnabled = ampdSettings.isLocalCoverCache();
 		if (cacheEnabled) {
 			cacheDir = dirService.getCacheDir();
+			if (!new File(cacheDir.toString()).mkdirs()) {
+				LOG.warn("Could not create cache cover dir: {}", cacheDir);
+			}
 		}
 	}
 
@@ -78,14 +82,13 @@ public class CoverCacheService {
 			LOG.trace("Cache is disabled, not looking for a locally saved cover.");
 			return Optional.empty();
 		}
-		Path fullPath = buildCacheFullPath(track);
-		if (fullPath == null || !fullPath.toFile().exists()) {
-			LOG.debug("File does not exist in cache, aborting: {}", track);
+		Optional<Path> fullPath = buildCacheFullPath(track);
+		if (fullPath.isEmpty() || !fullPath.get().toFile().exists()) {
 			return Optional.empty();
 		}
 		try {
-			LOG.debug("Loading cached cover: {}", fullPath);
-			return loadFile(fullPath);
+			LOG.debug("Loading cached cover: {}", fullPath.get());
+			return loadFile(fullPath.get());
 		}
 		catch (Exception e) {
 			return Optional.empty();
@@ -101,34 +104,34 @@ public class CoverCacheService {
 		if (!cacheEnabled) {
 			return;
 		}
-
-		Path fullPath = buildCacheFullPath(track);
-		try {
-			// Don't write the file if it already exists
-			if (fullPath != null && !fullPath.toFile().exists()) {
-				LOG.debug("Saving cover: {}", fullPath);
-				Files.write(fullPath, file);
+		buildCacheFullPath(track).ifPresent(path -> {
+			try {
+				// Don't write the file if it already exists
+				if (!path.toFile().exists()) {
+					LOG.debug("Saving cover: {}", path);
+					Files.write(path, file);
+				}
 			}
-		}
-		catch (IOException e) {
-			LOG.warn("Failed to save cover to local cache", e);
-		}
+			catch (IOException e) {
+				LOG.warn("Failed to save cover to local cache", e);
+			}
+		});
 	}
 
-	private String buildFileName(CoverType coverType, String artist, String titleOrAlbum) {
-		return coverType.getPrefix() + artist.trim().hashCode() + "_" + titleOrAlbum.trim().hashCode() + ".jpg";
-	}
-
-	private Path buildCacheFullPath(MPDSong track) {
+	private Optional<Path> buildCacheFullPath(MPDSong track) {
 		CoverType coverType = (track.getAlbumName() == null) ? CoverType.SINGLETON : CoverType.ALBUM;
 		String titleOrAlbum = (coverType == CoverType.ALBUM) ? track.getAlbumName() : track.getTitle();
-		String fileName = buildFileName(coverType, track.getArtistName(), titleOrAlbum);
+		if (titleOrAlbum == null || track.getArtistName() == null) {
+			return Optional.empty();
+		}
+		String fileName = coverType.getPrefix() + track.getArtistName().trim().hashCode() + "_"
+				+ titleOrAlbum.trim().hashCode() + ".jpg";
 		try {
-			return Paths.get(cacheDir.toString(), fileName).toAbsolutePath();
+			return Optional.of(Paths.get(cacheDir.toString(), fileName).toAbsolutePath());
 		}
 		catch (InvalidPathException e) {
 			LOG.error("Error getting Path for: {}", fileName, e);
-			return null;
+			return Optional.empty();
 		}
 	}
 

@@ -32,25 +32,27 @@ public class DirService {
 	public DirService(AmpdSettings ampdSettings) {
 		this.ampdSettings = ampdSettings;
 		ampdHomeDir = buildHomeDir();
-		if (!Files.exists(ampdHomeDir) && !new File(ampdHomeDir.toString()).mkdirs()) {
-			LOG.warn("Could not create ampd home-dir: {}. This is not fatal, "
-					+ "it just means, we can't save or load covers to the local cache.", ampdHomeDir);
-		}
+
 	}
 
 	private Path buildHomeDir() {
-		Path path = Paths.get(ampdSettings.getHomeDir());
+		String propPath = ampdSettings.getHomeDir();
 		Path defaultPath = Paths.get(System.getProperty("user.home"), ".local", "share", "ampd");
-		if (ampdSettings.getHomeDir().isBlank()) {
-			return defaultPath;
+		Path path = propPath.isBlank() ? defaultPath : Paths.get(propPath);
+
+		if (!Files.exists(path)) {
+			boolean created = new File(path.toString()).mkdirs();
+			if (!created) {
+				LOG.warn("Could not create ampd home-dir: {}. This is not fatal, "
+						+ "it just means, we can't save or load covers to the local cache.", path);
+				LOG.error("home dir does not exist: `{}` - please create it or change the value of `home.dir`",
+						propPath);
+			}
 		}
 		if (!path.toFile().exists()) {
-			LOG.error("home dir does not exist: `{}` - please create it or change the value of `home.dir`", path);
-			return defaultPath;
+			LOG.error("home dir does not exist: `{}` - please create it or change the value of `home.dir`", propPath);
 		}
-		else {
-			return path;
-		}
+		return path;
 	}
 
 	/**

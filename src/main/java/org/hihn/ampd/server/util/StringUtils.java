@@ -2,9 +2,9 @@ package org.hihn.ampd.server.util;
 
 public class StringUtils {
 
-	public static boolean isNullOrEmpty(String s) {
+	public static boolean isNullOrEmpty(String input) {
 		// Null-safe, short-circuit evaluation.
-		return s == null || s.trim().isEmpty();
+		return input == null || input.trim().isEmpty();
 	}
 
 }

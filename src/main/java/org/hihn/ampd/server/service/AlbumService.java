@@ -43,7 +43,7 @@ public class AlbumService {
 				// No album title
 				return false;
 			}
-			if (album.getArtistNames().isEmpty() && (StringUtils.isNullOrEmpty(album.getAlbumArtist()))) {
+			if (album.getArtistNames().isEmpty() && StringUtils.isNullOrEmpty(album.getAlbumArtist())) {
 				// No info about the album artist
 				return false;
 			}

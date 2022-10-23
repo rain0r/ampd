@@ -120,7 +120,7 @@ public class CoverCacheService {
 	}
 
 	private Optional<Path> buildCacheFullPath(MPDSong track) {
-		CoverType coverType = (StringUtils.isNullOrEmpty(track.getAlbumName())) ? CoverType.SINGLETON : CoverType.ALBUM;
+		CoverType coverType = StringUtils.isNullOrEmpty(track.getAlbumName()) ? CoverType.SINGLETON : CoverType.ALBUM;
 		String titleOrAlbum = (coverType == CoverType.ALBUM) ? track.getAlbumName() : track.getTitle();
 		if (titleOrAlbum == null || track.getArtistName() == null) {
 			return Optional.empty();

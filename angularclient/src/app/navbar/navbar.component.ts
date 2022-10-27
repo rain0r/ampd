@@ -55,4 +55,8 @@ export class NavbarComponent {
   openHelpDialog(): void {
     document.dispatchEvent(new KeyboardEvent("keydown", { key: "h" }));
   }
+
+  openSearchDialog(): void {
+    this.shortcutService.openSearchDialog();
+  }
 }

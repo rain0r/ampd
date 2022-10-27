@@ -173,15 +173,7 @@ export class ShortcutService {
     return ret;
   }
 
-  private togglePause(): void {
-    if (this.currentState === "pause" || this.currentState === "stop") {
-      this.controlPanelService.play();
-    } else if (this.currentState === "play") {
-      this.controlPanelService.pause();
-    }
-  }
-
-  private openSearchDialog(): void {
+  openSearchDialog(): void {
     this.isMobile.subscribe((isMobile) => {
       if (isMobile) {
         void this.router.navigate(["search"]);
@@ -205,6 +197,14 @@ export class ShortcutService {
           }
         });
     });
+  }
+
+  private togglePause(): void {
+    if (this.currentState === "pause" || this.currentState === "stop") {
+      this.controlPanelService.play();
+    } else if (this.currentState === "play") {
+      this.controlPanelService.pause();
+    }
   }
 
   private openHelpDialog(): void {

@@ -1,34 +1,34 @@
-<div *ngIf="currentState | async as state">
-  <div fxLayout="row wrap" fxLayoutAlign="center" *ngIf="state === 'stop'">
+<div *ngIf="currentPlay | async as play">
+  <div fxLayout="row wrap" fxLayoutAlign="center" *ngIf="play.state === 'stop'">
     <span class="mat-display-1"> Stopped. </span>
   </div>
 
   <div fxLayout="row wrap" fxLayoutAlign="space-between start">
-    <div fxFlex="1 0 55%" fxLayout="column" *ngIf="state !== 'stop'">
+    <div fxFlex="1 0 55%" fxLayout="column" *ngIf="play.state !== 'stop'">
       <div class="mat-h2 queue-sub-title" fxFlex="100%">
         <a
           class="no-deco-links"
           [routerLink]="['browse']"
           [queryParams]="{ dir: currentPathLink }"
-          *ngIf="currentTrack.title; else trackFile"
-          [class.text-muted]="state === 'pause'"
+          *ngIf="play.track.title; else trackFile"
+          [class.text-muted]="play.state === 'pause'"
           title="Go to the directory containing this track"
         >
-          {{ currentTrack.title }}
+          {{ play.track.title }}
         </a>
         <ng-template #trackFile>
-          {{ currentTrack.file }}
+          {{ play.track.file }}
         </ng-template>
       </div>
-      <mat-divider *ngIf="currentTrack.title"></mat-divider>
-      <div class="mat-h3 queue-sub-title" *ngIf="currentTrack.albumName">
+      <mat-divider *ngIf="play.track.title"></mat-divider>
+      <div class="mat-h3 queue-sub-title" *ngIf="play.track.albumName">
         <a
           class="no-deco-links text-muted"
           [routerLink]="['browse']"
           title="Go to the directory containing this track"
           [queryParams]="{ dir: currentPathLink }"
         >
-          {{ currentTrack.albumName }}
+          {{ play.track.albumName }}
         </a>
         <mat-divider></mat-divider>
       </div>
@@ -38,30 +38,18 @@
           [routerLink]="['browse']"
           [queryParams]="{ dir: currentPathLink }"
           title="Go to the directory containing this track"
-          [class.text-muted]="state === 'pause'"
+          [class.text-muted]="play.state === 'pause'"
         >
-          {{ currentTrack.artistName }}
+          {{ play.track.artistName }}
         </a>
       </div>
     </div>
-    <div fxLayoutAlign="end center" *ngIf="isDisplayCover | async">
+    <div fxLayoutAlign="end center">
       <mat-divider fxShow.lt-md="true" fxShow="false"></mat-divider>
-      <lightgallery [settings]="lightboxSettings" [onInit]="onInit">
-        <a [href]="currentTrack.coverUrl">
-          <img
-            [alt]="
-              'Cover of ' +
-              currentTrack.artistName +
-              ' — ' +
-              currentTrack.albumName
-            "
-            [ngClass]="[coverSizeClass | async]"
-            [src]="currentTrack.coverUrl"
-            [title]="currentTrack.artistName + ' — ' + currentTrack.albumName"
-            class="album-art clickable"
-          />
-        </a>
-      </lightgallery>
+      <app-cover-image
+        [track]="play.track"
+        [state]="play.state"
+      ></app-cover-image>
     </div>
   </div>
 </div>

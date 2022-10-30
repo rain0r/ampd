@@ -1,10 +1,8 @@
-import { ComponentType } from "@angular/cdk/portal";
 import { HttpErrorResponse } from "@angular/common/http";
 import { ErrorHandler, Injectable, NgZone } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
 import { BehaviorSubject, first } from "rxjs";
 import { ErrorDialogComponent } from "./error/error-dialog/error-dialog.component";
-import { HttpErrorDialogComponent } from "./error/http-error-dialog/http-error-dialog.component";
 
 @Injectable()
 export class AmpdErrorHandler implements ErrorHandler {
@@ -24,15 +22,15 @@ export class AmpdErrorHandler implements ErrorHandler {
       .asObservable()
       .pipe(first())
       .subscribe((open) => {
-        if (!open) {
-          let clazz: ComponentType<unknown>;
-          if (error instanceof HttpErrorResponse) {
-            clazz = HttpErrorDialogComponent;
-          } else {
-            clazz = ErrorDialogComponent;
+        if (error instanceof HttpErrorResponse) {
+          if (error.status === 404) {
+            // Ignore 404 errors coming from find-cover
+            return;
           }
+        }
 
-          const dialogRef = this.dialog.open(clazz, {
+        if (!open) {
+          const dialogRef = this.dialog.open(ErrorDialogComponent, {
             width: "70%",
             data: error,
           });

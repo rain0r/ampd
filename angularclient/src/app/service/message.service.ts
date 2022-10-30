@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Observable, Subject } from "rxjs";
-import { InternalMessageType } from "../shared/messages/internal/internal-message-type.enum";
 import { InternalMessage } from "../shared/messages/internal/internal-message";
+import { InternalMessageType } from "../shared/messages/internal/internal-message-type.enum";
 
 @Injectable({
   providedIn: "root",
@@ -19,6 +19,7 @@ export class MessageService {
    * @param {InternalMessageType} type
    */
   sendMessageType(type: InternalMessageType): void {
+    console.log("sendMessageType", type);
     this.message$.next({ type: type } as InternalMessage);
   }
 

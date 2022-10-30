@@ -1,0 +1,19 @@
+<div *ngIf="coverData | async as data">
+  <lightgallery
+    [settings]="lightboxSettings"
+    [onInit]="onInit"
+    *ngIf="data.isDisplayCover && data.coverAvailable"
+  >
+    <a [href]="data.track.coverUrl">
+      <img
+        [alt]="
+          'Cover of ' + data.track.artistName + ' — ' + data.track.albumName
+        "
+        [ngClass]="data.coverSizeClass"
+        [src]="data.track.coverUrl"
+        [title]="data.track.artistName + ' — ' + data.track.albumName"
+        class="album-art clickable"
+      />
+    </a>
+  </lightgallery>
+</div>

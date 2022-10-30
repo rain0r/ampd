@@ -1,8 +1,7 @@
 <h1 mat-dialog-title>An error occurred</h1>
 <div mat-dialog-content>
-  <p>
-    {{ error }}
-  </p>
+  <pre><code>{{ error | json }}
+  </code></pre>
 </div>
 <mat-divider> </mat-divider>
 

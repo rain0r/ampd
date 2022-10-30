@@ -34,6 +34,7 @@ import { HelpDialogComponent } from "./navbar/help-dialog/help-dialog.component"
 import { NavbarComponent } from "./navbar/navbar.component";
 import { ControlPanelComponent } from "./queue/control-panel/control-panel.component";
 import { MpdModeComponent } from "./queue/mpd-modes/mpd-mode.component";
+import { CoverImageComponent } from "./queue/queue-header/cover-image/cover-image.component";
 import { QueueHeaderComponent } from "./queue/queue-header/queue-header.component";
 import { QueueComponent } from "./queue/queue.component";
 import { SavePlaylistDialogComponent } from "./queue/save-playlist-dialog/save-playlist-dialog.component";
@@ -54,7 +55,6 @@ import { ThemeComponent } from "./settings/frontend/theme/theme.component";
 import { SettingsComponent } from "./settings/settings.component";
 import { AmpdErrorHandler } from "./shared/ampd-error-handler";
 import { ErrorDialogComponent } from "./shared/error/error-dialog/error-dialog.component";
-import { HttpErrorDialogComponent } from "./shared/error/http-error-dialog/http-error-dialog.component";
 import { KeyValueTableComponent } from "./shared/key-value-table/key-value-table.component";
 import { MaterialMetaModule } from "./shared/material-meta/material-meta.module";
 import { CamelCaseTitlePipe } from "./shared/pipes/camel-case-title.pipe";
@@ -128,10 +128,10 @@ function isDarkTheme(service: FrontendSettingsService): unknown {
     ErrorDialogComponent,
     FileSizePipe,
     GenreAlbumsComponent,
-    HttpErrorDialogComponent,
     CamelCaseTitlePipe,
     RadioStreamListComponent,
     FilterByCategoryPipe,
+    CoverImageComponent,
   ],
   imports: [
     AppRoutingModule,

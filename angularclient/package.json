@@ -6,7 +6,8 @@
     "polyfills.ts"
   ],
   "scripts": {
-    "format": "ng lint --fix && prettier --write \"src/**/*.scss\" && package-lock-sanitizer",
+    "format": "ng lint --fix && prettier --write \"src/**/*.scss\" && package-lock-sanitizer",    
+    "format2": "git diff --cached --name-only | grep -E '\\.(js|ts)$' | xargs printf -- '--files=%s\n' | xargs ng lint -- --tsConfig=tsconfig.json 2>/dev/null",
     "warnings": "ng lint --silent --format=checkstyle > checkstyle-ts-result.xml",
     "lint": "ng lint",
     "ng": "ng",

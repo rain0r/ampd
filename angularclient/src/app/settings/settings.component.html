@@ -1,5 +1,5 @@
 <div fxLayout="column" fxLayoutGap="1rem" fxFlex.gt-md="75%">
-  <div class="mat-display-1"><span class="mono">ampd</span> settings</div>
+  <div class="mat-display-1">Settings</div>
   <mat-tab-group animationDuration="0ms">
     <mat-tab label="Frontend">
       <div
@@ -8,20 +8,51 @@
         fxLayoutGap="1rem"
         fxFlex.gt-md="75%"
       >
-        <!-- Toggle Dark/Light theme -->
-        <app-theme></app-theme>
-
-        <!-- Toggle cover display -->
-        <app-display-cover></app-display-cover>
-
-        <!-- Toggle setting of tab titles -->
-        <app-tab-title></app-tab-title>
-
-        <!-- Pagination -->
-        <app-pagination></app-pagination>
-
-        <!-- Backend Addr -->
-        <app-backend-address></app-backend-address>
+        <mat-card>
+          <mat-card-content class="mat-title">
+            <p>
+              These settings are stored in the browser. That means, each device
+              can have their own settings.
+            </p>
+          </mat-card-content>
+        </mat-card>
+        <mat-card *ngFor="let setting of feSettings">
+          <mat-card-header>
+            <mat-card-title>{{ setting.name | camelCaseTitle }}</mat-card-title>
+          </mat-card-header>
+          <mat-card-content [ngSwitch]="setting.type">
+            <!-- Boolean -->
+            <mat-slide-toggle
+              class="space-right"
+              [checked]="setting.value"
+              *ngSwitchCase="'bool'"
+              (change)="toggleFrontendSetting(setting.name, $event)"
+            >
+              <mat-label align="end">{{ setting.description }} </mat-label>
+            </mat-slide-toggle>
+            <!-- Default -->
+            <div *ngSwitchDefault>
+              <mat-form-field appearance="fill" class="full-width">
+                <input
+                  matInput
+                  [value]="setting.value"
+                  #inputField
+                  (keyup.enter)="onSaveBtnClick(setting.name, inputField.value)"
+                />
+                <mat-label> {{ setting.description }}</mat-label>
+              </mat-form-field>
+              <mat-card-actions>
+                <button
+                  mat-stroked-button
+                  type="submit"
+                  (click)="onSaveBtnClick(setting.name, inputField.value)"
+                >
+                  Save
+                </button>
+              </mat-card-actions>
+            </div>
+          </mat-card-content>
+        </mat-card>
       </div>
     </mat-tab>
 
@@ -85,7 +116,7 @@
                 *ngSwitchDefault
               >
                 <mat-label>{{ setting.value }}</mat-label>
-                <input matInput disabled />
+                <input matInput />
                 <mat-hint>{{ setting.hint }}</mat-hint>
               </mat-form-field>
             </mat-card-content>

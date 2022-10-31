@@ -1,6 +1,7 @@
 import { Component, ElementRef, HostListener, ViewChild } from "@angular/core";
-import { map, Observable } from "rxjs";
+import { Observable } from "rxjs";
 import { FrontendSettingsService } from "../service/frontend-settings.service";
+import { SettingKeys } from "../shared/model/internal/frontend-settings";
 import { AmpdRxStompService } from "./../service/ampd-rx-stomp.service";
 import { ShortcutService } from "./../service/shortcut.service";
 
@@ -21,8 +22,8 @@ export class NavbarComponent {
     private shortcutService: ShortcutService
   ) {
     this.connState = this.rxStompService.connectionState$;
-    this.darkTheme = this.frontendSettingsService.settings$.pipe(
-      map((settings) => settings.darkTheme)
+    this.darkTheme = this.frontendSettingsService.getBoolValue$(
+      SettingKeys.DARK_THEME
     );
   }
 

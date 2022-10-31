@@ -26,7 +26,6 @@ export class AddStreamDialogComponent implements OnInit {
   }
 
   onSubmit(): void {
-    console.log(this.name.value);
     this.radioService
       .addRadioStream({
         name: String(this.name.value),

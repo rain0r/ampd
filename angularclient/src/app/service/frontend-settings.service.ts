@@ -1,7 +1,16 @@
 import { Injectable } from "@angular/core";
-import { BehaviorSubject, first } from "rxjs";
-import { FrontendSettings } from "../shared/model/internal/frontend-settings";
+import { BehaviorSubject, map, Observable } from "rxjs";
+import {
+  backendAddr,
+  darkTheme,
+  displayCovers,
+  displayInfoBtn,
+  pagination,
+  SettingKeys,
+  updateTabTitle,
+} from "../shared/model/internal/frontend-settings";
 import { DarkTheme, LightTheme } from "../shared/themes/themes";
+import { FrontendSetting } from "./../shared/model/internal/frontend-settings";
 
 const LS_KEY = "ampd_userSettings";
 
@@ -12,70 +21,112 @@ export class FrontendSettingsService {
   pageSizeOptions = [20, 50, 100];
   paginationTo = 20;
 
-  private _settings$;
-  public settings$;
+  private settings: FrontendSetting[] = [
+    darkTheme,
+    displayCovers,
+    pagination,
+    updateTabTitle,
+    displayInfoBtn,
+    backendAddr,
+  ];
+  private settings$: Observable<FrontendSetting[]>;
+  private settingsSub$: BehaviorSubject<FrontendSetting[]>;
 
   constructor() {
-    const settings = this.loadFrontendSettings();
-    this.setTheme(settings);
-    this._settings$ = new BehaviorSubject<FrontendSettings>(settings);
-    this.settings$ = this._settings$.asObservable();
+    this.settingsSub$ = new BehaviorSubject<FrontendSetting[]>(
+      this.loadFrontendSettingsNg()
+    );
+    this.settings$ = this.settingsSub$.asObservable();
+    this.getBoolValue$(SettingKeys.DARK_THEME).subscribe((isDark) =>
+      this.setTheme(isDark)
+    );
   }
 
-  save(settings: FrontendSettings): void {
-    localStorage.setItem(LS_KEY, JSON.stringify(settings));
-    this.setTheme(settings);
-    this._settings$.next(settings);
-  }
+  save(name: string, value: string | number | boolean): void {
+    const index = this.settings.findIndex((s) => s.name === name);
 
-  setValue(key: string, value: string | number | boolean): void {
-    this.settings$.pipe(first()).subscribe((settings) => {
-      switch (key) {
-        case "darkTheme":
-          settings.darkTheme = Boolean(value).valueOf();
-          break;
-        case "displayCovers":
-          settings.displayCovers = Boolean(value).valueOf();
-          break;
-        case "pagination":
-          settings.pagination = Boolean(value).valueOf();
-          break;
-        case "updateTabTitle":
-          settings.updateTabTitle = Boolean(value).valueOf();
-          break;
-        case "backendAddr":
-          settings.backendAddr = String(value).valueOf();
-          break;
-        default:
-      }
-      this.save(settings);
-    });
-  }
-
-  loadFrontendSettings(): FrontendSettings {
-    const lsData = localStorage.getItem(LS_KEY);
-    const defaultUserSettings = {
-      darkTheme: true,
-      displayCovers: true,
-      pagination: true,
-      updateTabTitle: true,
-      backendAddr: "",
-    } as FrontendSettings;
-
-    if (lsData === null) {
-      return defaultUserSettings;
-    } else {
-      try {
-        const userSettings = <FrontendSettings>JSON.parse(lsData);
-        return userSettings;
-      } catch (err) {
-        return defaultUserSettings;
-      }
+    if (index === -1) {
+      console.error("Could not find frontend setting with name: ", name);
+      return;
     }
+
+    this.settings[index].value = String(value);
+
+    if (this.settings[index].name === SettingKeys.DARK_THEME) {
+      // Apply the new theme immediately
+      this.setTheme(value === "true");
+    }
+
+    this.persist();
+    this.settingsSub$.next(this.settings);
   }
 
-  private setTheme(settings: FrontendSettings): void {
-    const theme = settings.darkTheme ? DarkTheme : LightTheme;
+  getIntValue$(key: SettingKeys): Observable<number> {
+    return this.getValue$(key).pipe(map((s) => Number(s.value)));
+  }
+
+  getStrValue$(key: SettingKeys): Observable<string> {
+    return this.getValue$(key).pipe(map((s) => String(s.value)));
+  }
+
+  getBoolValue$(key: SettingKeys): Observable<boolean> {
+    return this.getValue$(key).pipe(map((s) => s.value === "true"));
+  }
+
+  getIntValue(key: SettingKeys): number {
+    const elem = this.settings.find((s) => s.name === key);
+    return Number(elem ? elem.value : "");
+  }
+
+  getStrValue(key: SettingKeys): string {
+    const elem = this.settings.find((s) => s.name === key);
+    return String(elem ? elem.value : "");
+  }
+
+  getBoolValue(key: SettingKeys): boolean {
+    const elem = this.settings.find((s) => s.name === key);
+    return elem ? elem.value === "true" : false;
+  }
+
+  loadFrontendSettingsNg(): FrontendSetting[] {
+    const lsData = localStorage.getItem(LS_KEY) || "";
+    try {
+      const savedSettings = <FrontendSetting[]>JSON.parse(lsData);
+      for (const setting of savedSettings) {
+        const elem = this.settings.find(
+          (s) => s.name === setting.name && s.value !== setting.value
+        );
+        if (elem) {
+          console.log(
+            `Changing ${elem.name} from "${elem.value}" (default value) to "${setting.value}" (user setting)`
+          );
+          elem.value = setting.value;
+        }
+      }
+    } catch (err) {}
+    return this.settings;
+  }
+
+  private getValue$(key: SettingKeys): Observable<FrontendSetting> {
+    return this.settings$.pipe(
+      map((s) => {
+        const elem = s.find((it) => it.name === key);
+        if (elem) {
+          return elem;
+        } else {
+          console.error("Could not find setting: ", key);
+          return <FrontendSetting>{};
+        }
+      })
+    );
+  }
+
+  private persist(): void {
+    localStorage.setItem(LS_KEY, JSON.stringify(this.settings));
+  }
+
+  private setTheme(isDarkTheme: boolean): void {
+    const theme = isDarkTheme ? DarkTheme : LightTheme;
     theme.forEach((value, prop) => {
       document.documentElement.style.setProperty(prop, value);
     });

@@ -8,11 +8,13 @@ import {
   concatMap,
   map,
   Observable,
+  of,
   Subject,
 } from "rxjs";
 import { FrontendSettingsService } from "src/app/service/frontend-settings.service";
 import { ResponsiveScreenService } from "src/app/service/responsive-screen.service";
 import { LIGHTBOX_SETTINGS } from "src/app/shared/lightbox";
+import { SettingKeys } from "src/app/shared/model/internal/frontend-settings";
 import { QueueTrack } from "src/app/shared/model/queue-track";
 
 interface CoverData {
@@ -36,7 +38,7 @@ export class CoverImageComponent implements AfterViewChecked {
   }
 
   lightboxSettings = LIGHTBOX_SETTINGS;
-  coverData: Observable<CoverData>;
+  coverData: Observable<CoverData> = new Observable<CoverData>();
 
   private lightGallery!: LightGallery;
   private state$ = new BehaviorSubject<string>("stop");
@@ -47,33 +49,37 @@ export class CoverImageComponent implements AfterViewChecked {
     private frontendSettingsService: FrontendSettingsService,
     private http: HttpClient
   ) {
-    this.coverData = combineLatest([
+    combineLatest([
       this.isDisplayCover(),
       this.responsiveCoverSizeService.getCoverCssClass(),
       this.track$.asObservable(),
-    ]).pipe(
-      map((result) => {
-        return {
-          isDisplayCover: result[0],
-          coverSizeClass: result[1],
-          track: result[2],
-          coverAvailable: false,
-        } as CoverData;
-      }),
-      concatMap((coverData) => {
-        return this.http
-          .head(coverData.track.coverUrl, { observe: "response" })
-          .pipe(
-            map((response) => {
-              coverData.coverAvailable = response.status === 200;
-              return coverData;
-            })
-          );
-      })
-    );
-    this.coverData.subscribe((coverData) => {
-      console.log("coverData", coverData);
-    });
+    ])
+      .pipe(
+        map(([displayCover, cssClass, track]) => {
+          return {
+            isDisplayCover: displayCover,
+            coverSizeClass: cssClass,
+            track: track,
+            coverAvailable: false,
+          } as CoverData;
+        }),
+        concatMap((coverData) => {
+          return this.http
+            .head(coverData.track.coverUrl, { observe: "response" })
+            .pipe(
+              map((response) => {
+                coverData.coverAvailable = response.status === 200;
+                return coverData;
+              })
+            );
+        })
+      )
+      .subscribe((cv) => {
+        // It seems like combineLatest is not triggered when in paused mode
+        // Leads to an non-displayed cover
+        // This is a hack to circumvent that
+        this.coverData = of(cv);
+      });
   }
 
   ngAfterViewChecked(): void {
@@ -88,9 +94,7 @@ export class CoverImageComponent implements AfterViewChecked {
 
   private isDisplayCover() {
     return combineLatest([
-      this.frontendSettingsService.settings$.pipe(
-        map((settings) => settings.displayCovers)
-      ),
+      this.frontendSettingsService.getBoolValue$(SettingKeys.DISPLAY_COVERS),
       this.state$.pipe(map((state) => state !== "stop")),
     ]).pipe(
       map((result) => {

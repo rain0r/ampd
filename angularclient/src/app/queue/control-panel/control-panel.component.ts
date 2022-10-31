@@ -1,8 +1,18 @@
 import { Component, OnInit } from "@angular/core";
 import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
-import { BehaviorSubject, combineLatest, first, map, Observable } from "rxjs";
-import { ResponsiveScreenService } from "src/app/service/responsive-screen.service";
+import {
+  BehaviorSubject,
+  combineLatest,
+  first,
+  map,
+  Observable,
+  of,
+  switchMap,
+} from "rxjs";
 import { TrackInfoDialogComponent } from "src/app/browse/tracks/track-info-dialog/track-info-dialog.component";
+import { FrontendSettingsService } from "src/app/service/frontend-settings.service";
+import { ResponsiveScreenService } from "src/app/service/responsive-screen.service";
+import { SettingKeys } from "src/app/shared/model/internal/frontend-settings";
 import { ControlPanelService } from "../../service/control-panel.service";
 import { MpdService } from "../../service/mpd.service";
 import { NotificationService } from "../../service/notification.service";
@@ -17,6 +27,7 @@ export class ControlPanelComponent implements OnInit {
   currentState: Observable<string>;
   isMobile = new Observable<boolean>();
   queueTrackCount: Observable<number>;
+  displayInfoBtn: Observable<boolean>;
   private trackInfoDialogOpen = new BehaviorSubject(false);
 
   constructor(
@@ -25,10 +36,19 @@ export class ControlPanelComponent implements OnInit {
     private notificationService: NotificationService,
     private queueService: QueueService,
     private responsiveScreenService: ResponsiveScreenService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private fsSettings: FrontendSettingsService
   ) {
     this.currentState = this.mpdService.currentState;
     this.queueTrackCount = this.mpdService.getQueueTrackCount();
+    this.displayInfoBtn = combineLatest([
+      this.fsSettings.getBoolValue$(SettingKeys.DISPLAY_INFO_BTN),
+      this.currentState,
+    ]).pipe(
+      switchMap(([displayInfoBtn, status]) =>
+        of(displayInfoBtn === true && (status === "play" || status === "pause"))
+      )
+    );
   }
 
   ngOnInit(): void {

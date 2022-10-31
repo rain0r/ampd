@@ -10,7 +10,9 @@ import {
   tap,
 } from "rxjs/operators";
 import { AlbumsService } from "src/app/service/albums.service";
+import { FrontendSettingsService } from "src/app/service/frontend-settings.service";
 import { MpdAlbum } from "src/app/shared/model/http/album";
+import { SettingKeys } from "src/app/shared/model/internal/frontend-settings";
 
 interface SortByKey {
   value: string;
@@ -34,13 +36,19 @@ export class AlbumsComponent implements OnInit {
     { value: "album", viewValue: "Album" },
   ];
   gridColumns = 3;
+  darkTheme: Observable<boolean>;
   private inputSetter$ = new BehaviorSubject<string>("");
 
   constructor(
     private albumService: AlbumsService,
     private activatedRoute: ActivatedRoute,
-    private router: Router
-  ) {}
+    private router: Router,
+    private frontendSettingsService: FrontendSettingsService
+  ) {
+    this.darkTheme = this.frontendSettingsService.getBoolValue$(
+      SettingKeys.DARK_THEME
+    );
+  }
 
   ngOnInit(): void {
     this.buildQueryParamListener();

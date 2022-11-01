@@ -1,13 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Observable, of, Subject } from "rxjs";
-import {
-  distinctUntilChanged,
-  filter,
-  map,
-  switchMap,
-  tap,
-} from "rxjs/operators";
+import { Observable, of } from "rxjs";
+import { distinctUntilChanged, filter, map, switchMap } from "rxjs/operators";
 import { MpdModesPanel } from "../shared/messages/incoming/mpd-modes-panel";
 import { StateMsgPayload } from "../shared/messages/incoming/state-msg-payload";
 import { QueueTrack } from "../shared/model/queue-track";
@@ -19,13 +13,13 @@ import { SettingsService } from "./settings.service";
   providedIn: "root",
 })
 export class MpdService {
-  currentTrack = new Observable<QueueTrack>();
-  currentState: Observable<string>;
-  mpdModesPanel: Observable<MpdModesPanel>;
+  currentTrack$: Observable<QueueTrack>; //  = new Observable<QueueTrack>();
+  currentState$: Observable<string>;
+  mpdModesPanel$: Observable<MpdModesPanel>;
 
-  private mpdModesPanel$ = new Subject<MpdModesPanel>();
-  private currentState$ = new Subject<string>();
-  private prevTrack = new QueueTrack();
+  // private mpdModesPanel$ = new Subject<MpdModesPanel>();
+  // private currentState$ = new Subject<string>();
+  private prevTrack = <QueueTrack>{};
 
   constructor(
     private http: HttpClient,
@@ -33,9 +27,34 @@ export class MpdService {
     private settingsService: SettingsService,
     private queueService: QueueService
   ) {
-    this.buildStateSubscription();
-    this.mpdModesPanel = this.mpdModesPanel$.asObservable();
-    this.currentState = this.currentState$.asObservable();
+    this.currentTrack$ = this.getStateSubscription().pipe(
+      map((payload) => this.buildCurrentQueueTrack(payload)),
+      filter(
+        (queueTrack: QueueTrack) =>
+          (queueTrack.artistName !== "" && queueTrack.title !== "") ||
+          queueTrack.file !== ""
+      )
+    );
+    this.mpdModesPanel$ = this.getStateSubscription().pipe(
+      map((state) => state.mpdModesPanelMsg)
+    );
+    this.currentState$ = this.getStateSubscription().pipe(
+      map((state) => state.serverStatus.state)
+    );
+    // this.currentTrack$ = this.getStateSubscription().pipe(
+    //   tap((payload) => {
+    //     this.mpdModesPanel$.next(payload.mpdModesPanelMsg);
+    //     this.currentState$.next(payload.serverStatus.state);
+    //   }),
+    //   map((payload) => this.buildCurrentQueueTrack(payload)),
+    //   filter(
+    //     (queueTrack: QueueTrack) =>
+    //       (queueTrack.artistName !== "" && queueTrack.title !== "") ||
+    //       queueTrack.file !== ""
+    //   )
+    // );
+    // this.mpdModesPanel = this.mpdModesPanel$.asObservable();
+    // this.currentState = this.currentState$.asObservable();
   }
 
   initEmptyControlPanel(): MpdModesPanel {
@@ -92,10 +111,17 @@ export class MpdService {
    * @param payload StateMsgPayload
    */
   private buildCurrentQueueTrack(payload: StateMsgPayload): QueueTrack {
-    let trackChanged = false;
+    let trackChanged = this.prevTrack === null;
+
+    // Check if this is the first track. It will have the changed-attr set to true
+    trackChanged =
+      this.prevTrack &&
+      Object.keys(this.prevTrack).length === 0 &&
+      Object.getPrototypeOf(this.prevTrack) === Object.prototype;
+
     let track = new QueueTrack();
     if (payload.currentTrack) {
-      if (this.prevTrack && this.prevTrack.id) {
+      if (!trackChanged && this.prevTrack && this.prevTrack.id) {
         if (payload.currentTrack.id !== this.prevTrack.id) {
           trackChanged = true;
         }
@@ -118,22 +144,6 @@ export class MpdService {
     queueTrack.dir = this.buildDirForTrack(payload.currentTrack.file);
     return queueTrack;
   }
-
-  private buildStateSubscription(): void {
-    this.currentTrack = this.getStateSubscription().pipe(
-      tap((payload) => {
-        this.mpdModesPanel$.next(payload.mpdModesPanelMsg);
-        this.currentState$.next(payload.serverStatus.state);
-      }),
-      map((payload) => this.buildCurrentQueueTrack(payload)),
-      filter(
-        (queueTrack: QueueTrack) =>
-          (queueTrack.artistName !== "" && queueTrack.title !== "") ||
-          queueTrack.file !== ""
-      )
-    );
-  }
-
   /**
    * Strips the file name from the file path. This returns the directory that holds the tracks.
    * @param file

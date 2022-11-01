@@ -109,7 +109,7 @@ export class TrackTableComponent {
 
   private buildReceiver(): void {
     // Current track
-    this.mpdService.currentTrack.subscribe((track) => {
+    this.mpdService.currentTrack$.subscribe((track) => {
       if (this.currentState !== "stop") {
         this.currentTrack = track;
       }
@@ -123,7 +123,7 @@ export class TrackTableComponent {
       .getQueueSubscription()
       .subscribe((message: Track[]) => this.buildQueue(message));
     // State
-    this.mpdService.currentState
+    this.mpdService.currentState$
       .pipe(distinctUntilChanged())
       .subscribe((state) => {
         this.currentState = state;

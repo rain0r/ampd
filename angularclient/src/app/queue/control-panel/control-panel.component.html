@@ -52,6 +52,7 @@
   </button>
   <button
     mat-stroked-button
+    *ngIf="displayInfoBtn | async"
     (click)="onShowTrackInfo()"
     title="Info about currently playing track"
     class="valign-top"

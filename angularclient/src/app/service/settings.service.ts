@@ -7,8 +7,8 @@ import { FrontendSettingsService } from "src/app/service/frontend-settings.servi
 import { environment } from "src/environments/environment";
 import { AmpdSetting } from "../shared/model/ampd-setting";
 import { CoverDiskUsage } from "../shared/model/http/cover-disk-usage";
+import { SettingKeys } from "../shared/model/internal/frontend-settings";
 import { MpdSettings } from "../shared/model/mpd-settings";
-import { BACKEND_ADDR } from "../shared/model/internal/frontend-settings";
 
 @Injectable({
   providedIn: "root",
@@ -17,7 +17,7 @@ export class SettingsService {
   constructor(
     private http: HttpClient,
     private location: Location,
-    private frontendSettingsService: FrontendSettingsService
+    private fesService: FrontendSettingsService
   ) {}
 
   getAmpdSettings(): Observable<AmpdSetting[]> {
@@ -64,24 +64,19 @@ export class SettingsService {
    * localStorage.
    */
   getBackendAddr(): string {
-    let backendAddr: string;
-    if (environment.production) {
-      let backendAddr =
-        this.frontendSettingsService.loadFrontendSettings().backendAddr;
-      if (backendAddr === "") {
+    // let backendAddr: string;
+    let backendAddr = this.fesService.getStrValue(SettingKeys.BACKEND_ADDR);
+    if (backendAddr === "") {
+      if (environment.production) {
         backendAddr = window.location.origin;
-        this.frontendSettingsService.setValue(
-          BACKEND_ADDR,
-          window.location.origin
-        );
+      } else {
+        backendAddr = environment.backendAddr;
       }
-      return backendAddr;
-    } else {
-      backendAddr = environment.backendAddr;
-    }
-    if (backendAddr.endsWith("/")) {
-      // Remove trailing slash to prevent a wrong websocket address
-      backendAddr = backendAddr.substring(0, backendAddr.length - 1);
+      if (backendAddr.endsWith("/")) {
+        // Remove trailing slash to prevent a wrong websocket address
+        backendAddr = backendAddr.substring(0, backendAddr.length - 1);
+      }
+      this.fesService.save(SettingKeys.BACKEND_ADDR, backendAddr);
     }
     return backendAddr;
   }

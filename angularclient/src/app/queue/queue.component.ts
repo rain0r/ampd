@@ -5,6 +5,7 @@ import { map } from "rxjs/operators";
 import { FrontendSettingsService } from "../service/frontend-settings.service";
 import { MpdService } from "../service/mpd.service";
 import { QueueService } from "../service/queue.service";
+import { SettingKeys } from "../shared/model/internal/frontend-settings";
 
 @Component({
   selector: "app-queue",
@@ -39,9 +40,7 @@ export class QueueComponent implements OnInit {
     combineLatest([
       this.mpdService.currentState,
       this.mpdService.currentTrack,
-      this.frontendSettingsService.settings$.pipe(
-        map((settings) => settings.updateTabTitle)
-      ),
+      this.frontendSettingsService.getBoolValue$(SettingKeys.UPDATE_TAB_TITLE),
     ])
       .pipe(
         map((results) => ({

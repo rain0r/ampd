@@ -34,7 +34,6 @@ export class AmpdErrorHandler implements ErrorHandler {
             width: "70%",
             data: error,
           });
-
           this.errorDialogOpen.next(true);
           dialogRef
             .afterClosed()

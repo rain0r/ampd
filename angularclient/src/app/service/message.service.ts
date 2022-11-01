@@ -19,7 +19,6 @@ export class MessageService {
    * @param {InternalMessageType} type
    */
   sendMessageType(type: InternalMessageType): void {
-    console.log("sendMessageType", type);
     this.message$.next({ type: type } as InternalMessage);
   }
 

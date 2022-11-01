@@ -18,7 +18,10 @@
     Page {{ page | async }}
   </div>
 
-  <mat-form-field appearance="fill" class="dark-theme">
+  <mat-form-field
+    appearance="fill"
+    [ngClass]="{ 'dark-theme': darkTheme | async }"
+  >
     <mat-label>Sort by</mat-label>
     <mat-select
       [(ngModel)]="sortBy"

@@ -47,16 +47,12 @@ import { AmpdRxStompService } from "./service/ampd-rx-stomp.service";
 import { SettingsService } from "./service/settings.service";
 import { ServerStatisticsComponent } from "./settings/admin/server-statistics/server-statistics.component";
 import { UpdateDatabaseComponent } from "./settings/admin/update-database/update-database.component";
-import { BackendAddressComponent } from "./settings/frontend/backend-address/backend-address.component";
-import { DisplayCoverComponent } from "./settings/frontend/display-cover/display-cover.component";
-import { PaginationComponent } from "./settings/frontend/pagination/pagination.component";
-import { TabTitleComponent } from "./settings/frontend/tab-title/tab-title.component";
-import { ThemeComponent } from "./settings/frontend/theme/theme.component";
 import { SettingsComponent } from "./settings/settings.component";
 import { AmpdErrorHandler } from "./shared/ampd-error-handler";
 import { ErrorDialogComponent } from "./shared/error/error-dialog/error-dialog.component";
 import { KeyValueTableComponent } from "./shared/key-value-table/key-value-table.component";
 import { MaterialMetaModule } from "./shared/material-meta/material-meta.module";
+import { SettingKeys } from "./shared/model/internal/frontend-settings";
 import { CamelCaseTitlePipe } from "./shared/pipes/camel-case-title.pipe";
 import { EncodeURIComponentPipe } from "./shared/pipes/encode-uri.pipe";
 import { FileSizePipe } from "./shared/pipes/file-size.pipe";
@@ -72,7 +68,9 @@ import { TrackTableDataComponent } from "./shared/track-table-data/track-table-d
 
 function isDarkTheme(service: FrontendSettingsService): unknown {
   return {
-    panelClass: service.loadFrontendSettings().darkTheme ? "dark-theme" : "",
+    panelClass: service.getBoolValue(SettingKeys.DARK_THEME)
+      ? "dark-theme"
+      : "",
   };
 }
 
@@ -103,12 +101,8 @@ function isDarkTheme(service: FrontendSettingsService): unknown {
     VolumeSliderComponent,
     SavePlaylistDialogComponent,
     PlaylistInfoDialogComponent,
-    ThemeComponent,
-    DisplayCoverComponent,
-    TabTitleComponent,
     HelpDialogComponent,
     MapEntriesPipe,
-    BackendAddressComponent,
     ServerStatisticsComponent,
     AddStreamDialogComponent,
     UpdateDatabaseComponent,
@@ -117,7 +111,6 @@ function isDarkTheme(service: FrontendSettingsService): unknown {
     DirectoryEntryComponent,
     CoverGridComponent,
     CoverGridEntryComponent,
-    PaginationComponent,
     AlbumsComponent,
     AlbumDialogComponent,
     AlbumsPaginationComponent,

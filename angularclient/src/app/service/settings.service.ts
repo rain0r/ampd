@@ -64,7 +64,6 @@ export class SettingsService {
    * localStorage.
    */
   getBackendAddr(): string {
-    // let backendAddr: string;
     let backendAddr = this.fesService.getStrValue(SettingKeys.BACKEND_ADDR);
     if (backendAddr === "") {
       if (environment.production) {

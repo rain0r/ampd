@@ -13,12 +13,10 @@ import { SettingsService } from "./settings.service";
   providedIn: "root",
 })
 export class MpdService {
-  currentTrack$: Observable<QueueTrack>; //  = new Observable<QueueTrack>();
+  currentTrack$: Observable<QueueTrack>; 
   currentState$: Observable<string>;
   mpdModesPanel$: Observable<MpdModesPanel>;
 
-  // private mpdModesPanel$ = new Subject<MpdModesPanel>();
-  // private currentState$ = new Subject<string>();
   private prevTrack = <QueueTrack>{};
 
   constructor(
@@ -40,21 +38,7 @@ export class MpdService {
     );
     this.currentState$ = this.getStateSubscription().pipe(
       map((state) => state.serverStatus.state)
-    );
-    // this.currentTrack$ = this.getStateSubscription().pipe(
-    //   tap((payload) => {
-    //     this.mpdModesPanel$.next(payload.mpdModesPanelMsg);
-    //     this.currentState$.next(payload.serverStatus.state);
-    //   }),
-    //   map((payload) => this.buildCurrentQueueTrack(payload)),
-    //   filter(
-    //     (queueTrack: QueueTrack) =>
-    //       (queueTrack.artistName !== "" && queueTrack.title !== "") ||
-    //       queueTrack.file !== ""
-    //   )
-    // );
-    // this.mpdModesPanel = this.mpdModesPanel$.asObservable();
-    // this.currentState = this.currentState$.asObservable();
+    );    
   }
 
   initEmptyControlPanel(): MpdModesPanel {

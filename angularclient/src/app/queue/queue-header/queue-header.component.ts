@@ -14,14 +14,10 @@ interface CurrentPlay {
   styleUrls: ["./queue-header.component.scss"],
 })
 export class QueueHeaderComponent {
-  // currentState: Observable<string>;
-  // currentTrack : Observable <QueueTrack>;
   currentPlay: Observable<CurrentPlay>;
   currentPathLink = ""; // encoded dir of the current playing track
 
   constructor(private mpdService: MpdService) {
-    // this.currentState = this.mpdService.currentState;
-    // this.currentTrack = this.mpdService.currentTrack
     this.currentPlay = combineLatest([
       this.mpdService.currentState$,
       this.mpdService.currentTrack$,

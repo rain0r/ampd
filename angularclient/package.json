@@ -31,7 +31,7 @@
     "lightgallery": "^2.6.1",
     "material-icons": "0.3.1",
     "rxjs": "~7.5.7",
-    "tslib": "^2.4.0",
+    "tslib": "^2.4.1",
     "zone.js": "~0.11.8"
   },
   "devDependencies": {

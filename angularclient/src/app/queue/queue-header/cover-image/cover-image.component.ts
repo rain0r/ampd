@@ -6,12 +6,11 @@ import {
   BehaviorSubject,
   combineLatest,
   distinctUntilChanged,
-  filter,
   map,
   Observable,
   of,
   Subject,
-  switchMap,
+  tap,
 } from "rxjs";
 import { FrontendSettingsService } from "src/app/service/frontend-settings.service";
 import { ResponsiveScreenService } from "src/app/service/responsive-screen.service";
@@ -72,29 +71,22 @@ export class CoverImageComponent implements AfterViewChecked {
           curr.track.elapsed = 0;
           return JSON.stringify(curr) === JSON.stringify(prev);
         }),
-        filter((cv) => {
-          if (cv.isDisplayCover === true && this.firstTrack === true) {
-            this.firstTrack = false;
-            return true;
-          }
-          return cv.track.changed;
-        }),
-        switchMap((coverData) => {
-          return this.http
-            .head(coverData.track.coverUrl, { observe: "response" })
-            .pipe(
-              map((response) => {
-                coverData.coverAvailable = response.status === 200;
-                return coverData;
-              })
-            );
-        })
+        tap((cv) => console.log("tap()", cv))
       )
       .subscribe((cv) => {
         // It seems like combineLatest is not triggered when in paused mode
         // Leads to an non-displayed cover
         // This is a hack to circumvent that
-        this.coverData = of(cv);
+        if (cv.isDisplayCover === true) {
+          if (this.firstTrack === true) {
+            this.firstTrack = false;
+          }
+          this.isCoverAvailable(cv).subscribe(
+            (head) => (this.coverData = of(head))
+          );
+        } else {
+          this.coverData = of(cv);
+        }
       });
   }
 
@@ -107,6 +99,17 @@ export class CoverImageComponent implements AfterViewChecked {
   onInit = (detail: InitDetail): void => {
     this.lightGallery = detail.instance;
   };
+
+  private isCoverAvailable(coverData: CoverData): Observable<CoverData> {
+    return this.http
+      .head(coverData.track.coverUrl, { observe: "response" })
+      .pipe(
+        map((response) => {
+          coverData.coverAvailable = response.status === 200;
+          return coverData;
+        })
+      );
+  }
 
   private isDisplayCover() {
     return combineLatest([

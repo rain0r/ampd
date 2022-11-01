@@ -37,9 +37,12 @@ export class ShortcutService {
       "Next song",
       [">", "ArrowRight"]
     ),
-    this.build(Category.PlayerControls, this.controlPanelService.stop, "Stop", [
-      "s",
-    ]),
+    this.build(
+      Category.PlayerControls,
+      () => this.controlPanelService.stop(),
+      "Stop",
+      ["s"]
+    ),
     this.build(
       Category.PlayerControls,
       () => this.volumeService.decreaseVolume(),

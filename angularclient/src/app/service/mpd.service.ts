@@ -13,7 +13,7 @@ import { SettingsService } from "./settings.service";
   providedIn: "root",
 })
 export class MpdService {
-  currentTrack$: Observable<QueueTrack>; 
+  currentTrack$: Observable<QueueTrack>;
   currentState$: Observable<string>;
   mpdModesPanel$: Observable<MpdModesPanel>;
 
@@ -38,7 +38,7 @@ export class MpdService {
     );
     this.currentState$ = this.getStateSubscription().pipe(
       map((state) => state.serverStatus.state)
-    );    
+    );
   }
 
   initEmptyControlPanel(): MpdModesPanel {

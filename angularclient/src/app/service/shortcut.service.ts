@@ -141,7 +141,7 @@ export class ShortcutService {
     private dialog: MatDialog
   ) {
     this.isMobile = this.responsiveScreenService.isMobile();
-    this.mpdService.currentState.subscribe(
+    this.mpdService.currentState$.subscribe(
       (state) => (this.currentState = state)
     );
   }

@@ -5,11 +5,13 @@ import { LightGallery } from "lightgallery/lightgallery";
 import {
   BehaviorSubject,
   combineLatest,
-  concatMap,
+  distinctUntilChanged,
+  filter,
   map,
   Observable,
   of,
   Subject,
+  switchMap,
 } from "rxjs";
 import { FrontendSettingsService } from "src/app/service/frontend-settings.service";
 import { ResponsiveScreenService } from "src/app/service/responsive-screen.service";
@@ -40,6 +42,7 @@ export class CoverImageComponent implements AfterViewChecked {
   lightboxSettings = LIGHTBOX_SETTINGS;
   coverData: Observable<CoverData> = new Observable<CoverData>();
 
+  private firstTrack = true;
   private lightGallery!: LightGallery;
   private state$ = new BehaviorSubject<string>("stop");
   private track$ = new Subject<QueueTrack>();
@@ -63,7 +66,20 @@ export class CoverImageComponent implements AfterViewChecked {
             coverAvailable: false,
           } as CoverData;
         }),
-        concatMap((coverData) => {
+        distinctUntilChanged((prev, curr) => {
+          // Ignore elapsed time because that won't trigger a cover update
+          prev.track.elapsed = 0;
+          curr.track.elapsed = 0;
+          return JSON.stringify(curr) === JSON.stringify(prev);
+        }),
+        filter((cv) => {
+          if (cv.isDisplayCover === true && this.firstTrack === true) {
+            this.firstTrack = false;
+            return true;
+          }
+          return cv.track.changed;
+        }),
+        switchMap((coverData) => {
           return this.http
             .head(coverData.track.coverUrl, { observe: "response" })
             .pipe(

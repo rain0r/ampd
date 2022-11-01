@@ -39,7 +39,7 @@ export class ControlPanelComponent implements OnInit {
     private dialog: MatDialog,
     private fsSettings: FrontendSettingsService
   ) {
-    this.currentState = this.mpdService.currentState;
+    this.currentState = this.mpdService.currentState$;
     this.queueTrackCount = this.mpdService.getQueueTrackCount();
     this.displayInfoBtn = combineLatest([
       this.fsSettings.getBoolValue$(SettingKeys.DISPLAY_INFO_BTN),
@@ -87,7 +87,7 @@ export class ControlPanelComponent implements OnInit {
   onShowTrackInfo(): void {
     combineLatest([
       this.isMobile,
-      this.mpdService.currentTrack,
+      this.mpdService.currentTrack$,
       this.trackInfoDialogOpen.asObservable(),
     ])
       .pipe(

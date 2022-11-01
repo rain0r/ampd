@@ -16,7 +16,7 @@ export class MpdModeComponent {
     private mpdModeService: MpdModeService,
     private mpdService: MpdService
   ) {
-    this.mpdModesPanel = this.mpdService.mpdModesPanel;
+    this.mpdModesPanel = this.mpdService.mpdModesPanel$;
   }
 
   toggleCtrl(key: string): void {

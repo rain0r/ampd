@@ -21,9 +21,9 @@ export class TrackProgressComponent {
     private controlPanelService: ControlPanelService,
     private rxStompService: AmpdRxStompService
   ) {
-    this.state = this.mpdService.currentState;
+    this.state = this.mpdService.currentState$;
     this.connState = this.rxStompService.connectionState$;
-    this.mpdService.currentTrack.subscribe((track) => (this.track = track));
+    this.mpdService.currentTrack$.subscribe((track) => (this.track = track));
   }
 
   handleCurrentTrackProgressSlider(event: MatSliderChange): void {

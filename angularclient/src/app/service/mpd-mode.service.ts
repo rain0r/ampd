@@ -17,7 +17,7 @@ export class MpdModeService {
     private mpdService: MpdService
   ) {
     this.mpdModesPanel = mpdService.initEmptyControlPanel();
-    this.mpdService.mpdModesPanel.subscribe(
+    this.mpdService.mpdModesPanel$.subscribe(
       (panel) => (this.mpdModesPanel = panel)
     );
   }

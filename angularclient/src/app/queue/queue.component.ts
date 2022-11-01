@@ -38,8 +38,8 @@ export class QueueComponent implements OnInit {
    */
   private buildTitle(): void {
     combineLatest([
-      this.mpdService.currentState,
-      this.mpdService.currentTrack,
+      this.mpdService.currentState$,
+      this.mpdService.currentTrack$,
       this.frontendSettingsService.getBoolValue$(SettingKeys.UPDATE_TAB_TITLE),
     ])
       .pipe(

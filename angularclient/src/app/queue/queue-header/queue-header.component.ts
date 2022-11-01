@@ -23,8 +23,8 @@ export class QueueHeaderComponent {
     // this.currentState = this.mpdService.currentState;
     // this.currentTrack = this.mpdService.currentTrack
     this.currentPlay = combineLatest([
-      this.mpdService.currentState,
-      this.mpdService.currentTrack,
+      this.mpdService.currentState$,
+      this.mpdService.currentTrack$,
     ]).pipe(
       map((result) => {
         return {

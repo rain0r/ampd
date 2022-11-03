@@ -3,7 +3,7 @@ import { MatDialog } from "@angular/material/dialog";
 import { MatTableDataSource } from "@angular/material/table";
 import { distinctUntilChanged } from "rxjs/operators";
 import { ResponsiveScreenService } from "src/app/service/responsive-screen.service";
-import { AddStreamDialogComponent } from "../../browse/add-stream-dialog/add-stream-dialog.component";
+import { AddStreamDialogComponent } from "../../browse/add-radio-stream/add-radio-stream.component";
 import { MpdService } from "../../service/mpd.service";
 import { QueueService } from "../../service/queue.service";
 import { Track } from "../../shared/messages/incoming/track";

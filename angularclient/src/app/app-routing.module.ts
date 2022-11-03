@@ -1,6 +1,6 @@
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
-import { AddStreamDialogComponent } from "./browse/add-stream-dialog/add-stream-dialog.component";
+import { AddStreamDialogComponent } from "./browse/add-radio-stream/add-radio-stream.component";
 import { AlbumDialogComponent } from "./browse/albums/album-dialog/album-dialog.component";
 import { AlbumsComponent } from "./browse/albums/albums.component";
 import { BrowseComponent } from "./browse/browse.component";

@@ -6,9 +6,9 @@ import { RadioStreamService } from "../../service/radio-stream.service";
 import { RadioStream } from "../../shared/model/db/radio-stream";
 
 @Component({
-  selector: "app-add-stream-dialog",
-  templateUrl: "./add-stream-dialog.component.html",
-  styleUrls: ["./add-stream-dialog.component.scss"],
+  selector: "app-add-radio-stream",
+  templateUrl: "./add-radio-stream.component.html",
+  styleUrls: ["./add-radio-stream.component.scss"],
 })
 export class AddStreamDialogComponent implements OnInit {
   dataSource$ = new Observable<MatTableDataSource<RadioStream>>();

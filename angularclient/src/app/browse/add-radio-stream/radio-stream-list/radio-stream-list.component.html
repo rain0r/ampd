@@ -1,4 +1,14 @@
-<div *ngIf="dataSource.data.length > 0; else noResults">
+<div
+  *ngIf="dataSource.data.length > 0; else noResults"
+  fxLayout="column"
+  fxLayoutGap="1rem"
+>
+  <div fxLayout="row" fxLayoutGap="1rem" fxLayoutAlign.gt-md="end end">
+    <button mat-stroked-button color="primary" (click)="onAddAll()">
+      Add all to queue
+    </button>
+  </div>
+
   <div fxHide.gt-md>
     <mat-card
       *ngFor="let stream of dataSource.data"

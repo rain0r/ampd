@@ -45,4 +45,10 @@ export class RadioStreamListComponent implements AfterViewInit {
       .deleteStream(stream.id)
       .subscribe((data) => (this.dataSource.data = data));
   }
+
+  onAddAll(): void {
+    const streams = this.dataSource.data.map((rs) => rs.url);
+    console.log("streams", streams);
+    this.queueService.addTracks(streams);
+  }
 }

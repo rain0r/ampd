@@ -19,9 +19,9 @@ export class SettingsComponent {
   feSettings: FrontendSetting[];
 
   constructor(
+    private fsService: FrontendSettingsService,
     private settingsService: SettingsService,
-    private titleService: Title,
-    private fsService: FrontendSettingsService
+    private titleService: Title
   ) {
     this.titleService.setTitle("ampd — Settings");
     this.ampdSettings = this.settingsService.getAmpdSettings();

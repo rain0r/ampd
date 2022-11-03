@@ -32,21 +32,26 @@ export class ControlPanelComponent implements OnInit {
 
   constructor(
     private controlPanelService: ControlPanelService,
+    private dialog: MatDialog,
+    private fsSettings: FrontendSettingsService,
     private mpdService: MpdService,
     private notificationService: NotificationService,
     private queueService: QueueService,
-    private responsiveScreenService: ResponsiveScreenService,
-    private dialog: MatDialog,
-    private fsSettings: FrontendSettingsService
+    private responsiveScreenService: ResponsiveScreenService
   ) {
     this.currentState = this.mpdService.currentState$;
-    this.queueTrackCount = this.mpdService.getQueueTrackCount();
+    this.queueTrackCount = this.mpdService.getQueueTrackCount$();
     this.displayInfoBtn = combineLatest([
       this.fsSettings.getBoolValue$(SettingKeys.DISPLAY_INFO_BTN),
       this.currentState,
+      this.mpdService.isCurrentTrackRadioStream$(),
     ]).pipe(
-      switchMap(([displayInfoBtn, status]) =>
-        of(displayInfoBtn === true && (status === "play" || status === "pause"))
+      switchMap(([displayInfoBtn, status, isStream]) =>
+        of(
+          displayInfoBtn === true &&
+            (status === "play" || status === "pause") &&
+            isStream === false
+        )
       )
     );
   }

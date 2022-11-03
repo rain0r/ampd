@@ -2,7 +2,7 @@ import { HttpClient } from "@angular/common/http";
 import { AfterViewChecked, Component, Input, OnInit } from "@angular/core";
 import { InitDetail } from "lightgallery/lg-events";
 import { LightGallery } from "lightgallery/lightgallery";
-import { BehaviorSubject, combineLatest, map, Observable, Subject } from "rxjs";
+import { BehaviorSubject, combineLatest, Observable, Subject } from "rxjs";
 import { FrontendSettingsService } from "src/app/service/frontend-settings.service";
 import { ResponsiveScreenService } from "src/app/service/responsive-screen.service";
 import { LIGHTBOX_SETTINGS } from "src/app/shared/lightbox";
@@ -74,10 +74,6 @@ export class CoverImageComponent implements OnInit, AfterViewChecked {
   }
 
   coverAvailable(): void {
-    console.log(new Date(), "coverAvailable");
-    this.state$
-      .pipe(map((state) => state !== "stop"))
-      .subscribe((state) => console.log("state", state));
     combineLatest([
       this.state$.asObservable(),
       this.frontendSettingsService.getBoolValue$(SettingKeys.DISPLAY_COVERS),

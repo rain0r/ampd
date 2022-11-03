@@ -1,0 +1,17 @@
+<div [formGroup]="form">
+  <div [ngSwitch]="input.controlType">
+    <div *ngSwitchCase="'textbox'">
+      <mat-form-field class="full-width" appearance="fill">
+        <mat-label [attr.for]="input.key">{{ input.label }}</mat-label>
+        <input
+          matInput
+          class="full-width"
+          [formControlName]="input.key"
+          [id]="input.key"
+          [type]="input.type"
+          autocomplete="off"
+        />
+      </mat-form-field>
+    </div>
+  </div>
+</div>

@@ -1,5 +1,6 @@
 import { Component } from "@angular/core";
 import { MatTableDataSource } from "@angular/material/table";
+import { Router } from "@angular/router";
 import { of, Subject } from "rxjs";
 import { debounceTime, distinctUntilChanged, switchMap } from "rxjs/operators";
 import { ResponsiveScreenService } from "src/app/service/responsive-screen.service";
@@ -30,7 +31,8 @@ export class SearchComponent {
     private notificationService: NotificationService,
     private responsiveScreenService: ResponsiveScreenService,
     private queueService: QueueService,
-    private searchService: SearchService
+    private searchService: SearchService,
+    private router: Router
   ) {
     this.buildMsgReceiver();
     this.buildInputListener();
@@ -65,6 +67,15 @@ export class SearchComponent {
   onClearQueue(): void {
     this.queueService.clearQueue();
     this.notificationService.popUp("Cleared queue");
+  }
+
+  onAdvSearchClick(): void {
+    this.router
+      .navigate(["/adv-search"])
+      .then(() => {
+        window.location.reload();
+      })
+      .catch(() => void 0);
   }
 
   /**

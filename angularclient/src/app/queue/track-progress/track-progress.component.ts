@@ -17,8 +17,8 @@ export class TrackProgressComponent {
   state: Observable<string>;
 
   constructor(
-    private mpdService: MpdService,
     private controlPanelService: ControlPanelService,
+    private mpdService: MpdService,
     private rxStompService: AmpdRxStompService
   ) {
     this.state = this.mpdService.currentState$;

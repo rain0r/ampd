@@ -1,0 +1,76 @@
+<div class="mat-display-1 clickable" [routerLink]="['/adv-search']">
+  Advanced Search
+</div>
+
+<form (ngSubmit)="onSubmit()" [formGroup]="form">
+  <div
+    fxLayout="row wrap"
+    fxLayout.lt-md="column"
+    fxLayoutAlign="space-between"
+    fxLayoutAlign.lt-md="center center"
+    fxLayoutGap="1rem grid"
+    fxLayoutGap.lt-md="1rem"
+  >
+    <app-dynamic-form-input
+      *ngFor="let formField of formFields"
+      fxFlex="33%"
+      [input]="formField"
+      [form]="form"
+    ></app-dynamic-form-input>
+  </div>
+  <div fxLayout="row" fxLayout.lt-md="column">
+    <button
+      mat-stroked-button
+      class="full-width"
+      color="primary"
+      fxFlex.lt-md
+      fxFlex.gt-md="50%"
+    >
+      Search
+    </button>
+    <button
+      mat-stroked-button
+      class="full-width"
+      color="accent"
+      fxFlex.lt-md
+      fxFlex.gt-md="50%"
+      (click)="form.reset()"
+      type="button"
+    >
+      Clear
+    </button>
+  </div>
+</form>
+
+<div id="results">
+  <div
+    *ngIf="trackTableOptions$ | async as trackTableOptions"
+    class="space-top"
+  >
+    <div
+      *ngIf="trackTableOptions.dataSource.data.length > 0"
+      fxLayout="column"
+      fxLayoutGap="1rem"
+    >
+      <div fxFlex fxLayoutAlign="end end">
+        {{ trackTableOptions.dataSource.data.length }} results
+      </div>
+
+      <button
+        mat-stroked-button
+        class="full-width"
+        fxFlex.lt-md
+        fxFlex.gt-md="50%"
+        (click)="onAddAll()"
+        type="button"
+      >
+        Add all
+      </button>
+
+      <!-- Search results table -->
+      <app-track-data-table
+        [trackTableData]="trackTableOptions"
+      ></app-track-data-table>
+    </div>
+  </div>
+</div>

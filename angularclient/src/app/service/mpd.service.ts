@@ -25,7 +25,7 @@ export class MpdService {
     private settingsService: SettingsService,
     private queueService: QueueService
   ) {
-    this.currentTrack$ = this.getStateSubscription().pipe(
+    this.currentTrack$ = this.getStateSubscription$().pipe(
       map((payload) => this.buildCurrentQueueTrack(payload)),
       filter(
         (queueTrack: QueueTrack) =>
@@ -33,10 +33,10 @@ export class MpdService {
           queueTrack.file !== ""
       )
     );
-    this.mpdModesPanel$ = this.getStateSubscription().pipe(
+    this.mpdModesPanel$ = this.getStateSubscription$().pipe(
       map((state) => state.mpdModesPanelMsg)
     );
-    this.currentState$ = this.getStateSubscription().pipe(
+    this.currentState$ = this.getStateSubscription$().pipe(
       map((state) => state.serverStatus.state)
     );
   }
@@ -56,22 +56,22 @@ export class MpdService {
     return `${url}?path=${encodeURIComponent(file)}`;
   }
 
-  updateDatabase(): Observable<void> {
+  updateDatabase$(): Observable<void> {
     const url = `${this.settingsService.getBackendContextAddr()}api/update-database`;
     return this.http.post<void>(url, {});
   }
 
-  rescanDatabase(): Observable<void> {
+  rescanDatabase$(): Observable<void> {
     const url = `${this.settingsService.getBackendContextAddr()}api/rescan-database`;
     return this.http.post<void>(url, {});
   }
 
-  getServerStatistics(): Observable<ServerStatistics> {
+  getServerStatistics$(): Observable<ServerStatistics> {
     const url = `${this.settingsService.getBackendContextAddr()}api/server-statistics`;
     return this.http.get<ServerStatistics>(url);
   }
 
-  getStateSubscription(): Observable<StateMsgPayload> {
+  getStateSubscription$(): Observable<StateMsgPayload> {
     return this.rxStompService.watch("/topic/state").pipe(
       map((message) => message.body),
       map((body: string) => <StateMsgPayload>JSON.parse(body)),
@@ -84,10 +84,15 @@ export class MpdService {
     );
   }
 
-  getQueueTrackCount(): Observable<number> {
+  getQueueTrackCount$(): Observable<number> {
     return this.queueService
       .getQueueSubscription()
       .pipe(map((tracks) => tracks.length));
+  }
+
+  isCurrentTrackRadioStream$(): Observable<boolean> {
+    const re = new RegExp("^(http|https)://", "i");
+    return this.currentTrack$.pipe(map((track) => re.test(track.file)));
   }
 
   /**

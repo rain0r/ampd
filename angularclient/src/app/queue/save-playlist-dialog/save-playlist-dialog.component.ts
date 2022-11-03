@@ -13,10 +13,10 @@ export class SavePlaylistDialogComponent {
   isDarkTheme: Observable<boolean> = new Observable<boolean>();
 
   constructor(
-    public dialogRef: MatDialogRef<SavePlaylistDialogComponent>,
-    private playlistService: PlaylistService,
+    @Inject(MAT_DIALOG_DATA) public data: string,
     private notificationService: NotificationService,
-    @Inject(MAT_DIALOG_DATA) public data: string
+    private playlistService: PlaylistService,
+    public dialogRef: MatDialogRef<SavePlaylistDialogComponent>
   ) {}
 
   onEnterPressed(): void {

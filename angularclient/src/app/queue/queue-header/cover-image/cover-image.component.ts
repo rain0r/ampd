@@ -1,17 +1,8 @@
 import { HttpClient } from "@angular/common/http";
-import { AfterViewChecked, Component, Input } from "@angular/core";
+import { AfterViewChecked, Component, Input, OnInit } from "@angular/core";
 import { InitDetail } from "lightgallery/lg-events";
 import { LightGallery } from "lightgallery/lightgallery";
-import {
-  BehaviorSubject,
-  combineLatest,
-  distinctUntilChanged,
-  map,
-  Observable,
-  of,
-  Subject,
-  tap,
-} from "rxjs";
+import { BehaviorSubject, combineLatest, map, Observable, Subject } from "rxjs";
 import { FrontendSettingsService } from "src/app/service/frontend-settings.service";
 import { ResponsiveScreenService } from "src/app/service/responsive-screen.service";
 import { LIGHTBOX_SETTINGS } from "src/app/shared/lightbox";
@@ -30,7 +21,7 @@ interface CoverData {
   templateUrl: "./cover-image.component.html",
   styleUrls: ["./cover-image.component.scss"],
 })
-export class CoverImageComponent implements AfterViewChecked {
+export class CoverImageComponent implements OnInit, AfterViewChecked {
   @Input() set track(track: QueueTrack) {
     this.track$.next(track);
   }
@@ -39,55 +30,36 @@ export class CoverImageComponent implements AfterViewChecked {
   }
 
   lightboxSettings = LIGHTBOX_SETTINGS;
-  coverData: Observable<CoverData> = new Observable<CoverData>();
+  coverData = new Observable<CoverData>();
+  isDisplayCover: Observable<boolean>;
+  coverSizeClass: Observable<string>;
+  myTrack: Observable<QueueTrack>;
 
   private firstTrack = true;
   private lightGallery!: LightGallery;
   private state$ = new BehaviorSubject<string>("stop");
   private track$ = new Subject<QueueTrack>();
+  private coverData$ = new Subject<CoverData>();
+  private displayCover$ = new BehaviorSubject<boolean>(false);
 
   constructor(
     private responsiveCoverSizeService: ResponsiveScreenService,
     private frontendSettingsService: FrontendSettingsService,
     private http: HttpClient
   ) {
-    combineLatest([
-      this.isDisplayCover(),
-      this.responsiveCoverSizeService.getCoverCssClass(),
-      this.track$.asObservable(),
-    ])
-      .pipe(
-        map(([displayCover, cssClass, track]) => {
-          return {
-            isDisplayCover: displayCover,
-            coverSizeClass: cssClass,
-            track: track,
-            coverAvailable: false,
-          } as CoverData;
-        }),
-        distinctUntilChanged((prev, curr) => {
-          // Ignore elapsed time because that won't trigger a cover update
-          prev.track.elapsed = 0;
-          curr.track.elapsed = 0;
-          return JSON.stringify(curr) === JSON.stringify(prev);
-        }),
-        tap((cv) => console.log("tap()", cv))
-      )
-      .subscribe((cv) => {
-        // It seems like combineLatest is not triggered when in paused mode
-        // Leads to an non-displayed cover
-        // This is a hack to circumvent that
-        if (cv.isDisplayCover === true) {
-          if (this.firstTrack === true) {
-            this.firstTrack = false;
-          }
-          this.isCoverAvailable(cv).subscribe(
-            (head) => (this.coverData = of(head))
-          );
-        } else {
-          this.coverData = of(cv);
-        }
-      });
+    this.isDisplayCover = this.displayCover$.asObservable();
+    this.coverSizeClass = this.responsiveCoverSizeService.getCoverCssClass();
+    this.myTrack = this.track$.asObservable();
+    // this.buildCover()
+
+    // this.track$.asObservable()
+    // .pipe(
+    //   filter((track) => this.firstTrack === true || track.changed)
+    // )
+    // .subscribe((track) => {
+    //   this.firstTrack = false;
+    //   console.log(new Date(), track)
+    // })
   }
 
   ngAfterViewChecked(): void {
@@ -100,25 +72,100 @@ export class CoverImageComponent implements AfterViewChecked {
     this.lightGallery = detail.instance;
   };
 
-  private isCoverAvailable(coverData: CoverData): Observable<CoverData> {
-    return this.http
-      .head(coverData.track.coverUrl, { observe: "response" })
-      .pipe(
-        map((response) => {
-          coverData.coverAvailable = response.status === 200;
-          return coverData;
-        })
-      );
+  ngOnInit(): void {
+    this.buildCover2();
+    console.log("state", this.state);
   }
 
-  private isDisplayCover() {
-    return combineLatest([
+  // private buildCover() {
+  //   combineLatest([
+  //     this._isDisplayCover(),
+  //     this.responsiveCoverSizeService.getCoverCssClass(),
+  //     this.track$.asObservable(),
+  //   ])
+  //     .pipe(
+  //       map(([displayCover, cssClass, track]) => {
+  //         return {
+  //           isDisplayCover: displayCover,
+  //           coverSizeClass: cssClass,
+  //           track: track,
+  //           coverAvailable: false,
+  //         } as CoverData;
+  //       }),
+  //       filter((cv) => this.firstTrack === true ||cv.track.changed === true),
+  //       tap((cv) => console.log("tap()", cv))
+  //     )
+  //     .subscribe((cv) => {
+  //       this.firstTrack = false;
+
+  //       console.log("cv", cv)
+
+  //       // It seems like combineLatest is not triggered when in paused mode
+  //       // Leads to an non-displayed cover
+  //       // This is a hack to circumvent that
+  //       if (cv.isDisplayCover === true) {
+  //         this.isCoverAvailable(cv).subscribe(
+  //           (head) => (this.coverData = of(head))
+  //         );
+  //       } else {
+  //         this.coverData = of(cv);
+  //       }
+  //     });
+  // }
+
+  // private isCoverAvailable(coverData: CoverData): Observable<CoverData> {
+  //   return this.http
+  //     .head(coverData.track.coverUrl, { observe: "response" })
+  //     .pipe(
+  //       map((response) => {
+  //         coverData.coverAvailable = response.status === 200;
+  //         return coverData;
+  //       })
+  //     );
+  // }
+
+  // private _isDisplayCover() {
+  //   return combineLatest([
+  //     this.frontendSettingsService.getBoolValue$(SettingKeys.DISPLAY_COVERS),
+  //     this.state$.pipe(map((state) => state !== "stop")),
+  //   ]).pipe(
+  //     map(([displayCover, notStopped]) =>
+  //        displayCover === true && notStopped === true
+  //     )
+  //   );
+  // }
+
+  private buildCover2(): void {
+    let first = true;
+    this.track$.asObservable().subscribe((track) => {
+      if (first || track.changed) {
+        first = false;
+        this.updateCover(track);
+      }
+    });
+  }
+
+  private updateCover(track: QueueTrack): void {
+    this.http.head(track.coverUrl, { observe: "response" }).subscribe({
+      error: () => this.displayCover$.next(false),
+      next: () => this.coverAvailable(),
+    });
+  }
+
+  coverAvailable(): void {
+    console.log(new Date(), "coverAvailable");
+    this.state$
+      .pipe(map((state) => state !== "stop"))
+      .subscribe((state) => console.log("state", state));
+    combineLatest([
+      this.state$.asObservable(),
       this.frontendSettingsService.getBoolValue$(SettingKeys.DISPLAY_COVERS),
-      this.state$.pipe(map((state) => state !== "stop")),
-    ]).pipe(
-      map((result) => {
-        return result[0] === true && result[1] === true;
-      })
-    );
+    ]).subscribe(([state, displayCovers]) => {
+      console.log("state", state);
+      this.displayCover$.next(
+        state !== "stop" && // Check state, we don't change the cover if the player has stopped
+          displayCovers === true // Check if cover-display is active in the frontend-settings
+      );
+    });
   }
 }

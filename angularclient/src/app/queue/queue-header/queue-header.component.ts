@@ -22,10 +22,10 @@ export class QueueHeaderComponent {
       this.mpdService.currentState$,
       this.mpdService.currentTrack$,
     ]).pipe(
-      map((result) => {
+      map(([state, track]) => {
         return {
-          state: result[0],
-          track: result[1],
+          state: state,
+          track: track,
         } as CurrentPlay;
       })
     );

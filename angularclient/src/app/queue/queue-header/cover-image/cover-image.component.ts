@@ -9,13 +9,6 @@ import { LIGHTBOX_SETTINGS } from "src/app/shared/lightbox";
 import { SettingKeys } from "src/app/shared/model/internal/frontend-settings";
 import { QueueTrack } from "src/app/shared/model/queue-track";
 
-interface CoverData {
-  coverAvailable: boolean;
-  isDisplayCover: boolean;
-  coverSizeClass: string;
-  track: QueueTrack;
-}
-
 @Component({
   selector: "app-cover-image",
   templateUrl: "./cover-image.component.html",
@@ -30,16 +23,13 @@ export class CoverImageComponent implements OnInit, AfterViewChecked {
   }
 
   lightboxSettings = LIGHTBOX_SETTINGS;
-  coverData = new Observable<CoverData>();
   isDisplayCover: Observable<boolean>;
   coverSizeClass: Observable<string>;
-  myTrack: Observable<QueueTrack>;
+  currTrack: Observable<QueueTrack>;
 
-  private firstTrack = true;
   private lightGallery!: LightGallery;
   private state$ = new BehaviorSubject<string>("stop");
   private track$ = new Subject<QueueTrack>();
-  private coverData$ = new Subject<CoverData>();
   private displayCover$ = new BehaviorSubject<boolean>(false);
 
   constructor(
@@ -49,17 +39,7 @@ export class CoverImageComponent implements OnInit, AfterViewChecked {
   ) {
     this.isDisplayCover = this.displayCover$.asObservable();
     this.coverSizeClass = this.responsiveCoverSizeService.getCoverCssClass();
-    this.myTrack = this.track$.asObservable();
-    // this.buildCover()
-
-    // this.track$.asObservable()
-    // .pipe(
-    //   filter((track) => this.firstTrack === true || track.changed)
-    // )
-    // .subscribe((track) => {
-    //   this.firstTrack = false;
-    //   console.log(new Date(), track)
-    // })
+    this.currTrack = this.track$.asObservable();
   }
 
   ngAfterViewChecked(): void {
@@ -73,69 +53,10 @@ export class CoverImageComponent implements OnInit, AfterViewChecked {
   };
 
   ngOnInit(): void {
-    this.buildCover2();
-    console.log("state", this.state);
+    this.buildCover();
   }
 
-  // private buildCover() {
-  //   combineLatest([
-  //     this._isDisplayCover(),
-  //     this.responsiveCoverSizeService.getCoverCssClass(),
-  //     this.track$.asObservable(),
-  //   ])
-  //     .pipe(
-  //       map(([displayCover, cssClass, track]) => {
-  //         return {
-  //           isDisplayCover: displayCover,
-  //           coverSizeClass: cssClass,
-  //           track: track,
-  //           coverAvailable: false,
-  //         } as CoverData;
-  //       }),
-  //       filter((cv) => this.firstTrack === true ||cv.track.changed === true),
-  //       tap((cv) => console.log("tap()", cv))
-  //     )
-  //     .subscribe((cv) => {
-  //       this.firstTrack = false;
-
-  //       console.log("cv", cv)
-
-  //       // It seems like combineLatest is not triggered when in paused mode
-  //       // Leads to an non-displayed cover
-  //       // This is a hack to circumvent that
-  //       if (cv.isDisplayCover === true) {
-  //         this.isCoverAvailable(cv).subscribe(
-  //           (head) => (this.coverData = of(head))
-  //         );
-  //       } else {
-  //         this.coverData = of(cv);
-  //       }
-  //     });
-  // }
-
-  // private isCoverAvailable(coverData: CoverData): Observable<CoverData> {
-  //   return this.http
-  //     .head(coverData.track.coverUrl, { observe: "response" })
-  //     .pipe(
-  //       map((response) => {
-  //         coverData.coverAvailable = response.status === 200;
-  //         return coverData;
-  //       })
-  //     );
-  // }
-
-  // private _isDisplayCover() {
-  //   return combineLatest([
-  //     this.frontendSettingsService.getBoolValue$(SettingKeys.DISPLAY_COVERS),
-  //     this.state$.pipe(map((state) => state !== "stop")),
-  //   ]).pipe(
-  //     map(([displayCover, notStopped]) =>
-  //        displayCover === true && notStopped === true
-  //     )
-  //   );
-  // }
-
-  private buildCover2(): void {
+  private buildCover(): void {
     let first = true;
     this.track$.asObservable().subscribe((track) => {
       if (first || track.changed) {
@@ -161,7 +82,6 @@ export class CoverImageComponent implements OnInit, AfterViewChecked {
       this.state$.asObservable(),
       this.frontendSettingsService.getBoolValue$(SettingKeys.DISPLAY_COVERS),
     ]).subscribe(([state, displayCovers]) => {
-      console.log("state", state);
       this.displayCover$.next(
         state !== "stop" && // Check state, we don't change the cover if the player has stopped
           displayCovers === true // Check if cover-display is active in the frontend-settings

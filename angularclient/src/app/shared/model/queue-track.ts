@@ -6,16 +6,42 @@ import { TagMap, Track } from "../messages/incoming/track";
  */
 export class QueueTrack implements Track {
   albumName = "";
+
   artistName = "";
+
   comment = "";
+
   discNumber = "";
+
+  /**
+   * Path of the file relative to MPD music directory.
+   */
   file = "";
+
   genre = "";
+
   id = 0;
+
+  /**
+   * Track length in seconds.
+   */
   length = 0;
+
+  /**
+   * Same as title.
+   */
   name = "";
+
   position = 0;
+
+  /**
+   * Title of the track
+   */
   title = "";
+
+  /**
+   * Position in the queue.
+   */
   track = "";
   year = "";
   albumArtist = "";

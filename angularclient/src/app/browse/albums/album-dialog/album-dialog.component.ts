@@ -39,7 +39,7 @@ export class AlbumDialogComponent implements OnInit {
       this.album.albumArtist
     );
     this.tracks.subscribe(
-      (tracks) => (this.trackTableData = this.buildTableData(tracks))
+      (tracks) => (this.trackTableData = this.buildTrackTableOptions(tracks))
     );
   }
 
@@ -51,7 +51,7 @@ export class AlbumDialogComponent implements OnInit {
     this.queueService.playAlbum(this.album);
   }
 
-  private buildTableData(tracks: QueueTrack[]): TrackTableOptions {
+  private buildTrackTableOptions(tracks: QueueTrack[]): TrackTableOptions {
     const trackTable = new TrackTableOptions();
     trackTable.dataSource = new MatTableDataSource<QueueTrack>(tracks);
     trackTable.displayedColumns = this.getDisplayedColumns();

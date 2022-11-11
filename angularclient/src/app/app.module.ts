@@ -30,6 +30,7 @@ import { PlaylistInfoDialogComponent } from "./browse/playlists/playlist-info-di
 import { PlaylistsComponent } from "./browse/playlists/playlists.component";
 import { TrackInfoDialogComponent } from "./browse/tracks/track-info-dialog/track-info-dialog.component";
 import { TracksComponent } from "./browse/tracks/tracks.component";
+import { DynamicFormInputComponent } from "./dynamic-form-input/dynamic-form-input.component";
 import { HelpDialogComponent } from "./navbar/help-dialog/help-dialog.component";
 import { NavbarComponent } from "./navbar/navbar.component";
 import { ControlPanelComponent } from "./queue/control-panel/control-panel.component";
@@ -41,6 +42,7 @@ import { SavePlaylistDialogComponent } from "./queue/save-playlist-dialog/save-p
 import { TrackProgressComponent } from "./queue/track-progress/track-progress.component";
 import { TrackTableComponent } from "./queue/track-table/track-table.component";
 import { VolumeSliderComponent } from "./queue/volume-slider/volume-slider.component";
+import { AdvancedSearchComponent } from "./search/advanced-search/advanced-search.component";
 import { SearchComponent } from "./search/search.component";
 import { AmpdRxStompConfigService } from "./service/ampd-rx-stomp-config.service";
 import { AmpdRxStompService } from "./service/ampd-rx-stomp.service";
@@ -56,7 +58,7 @@ import { SettingKeys } from "./shared/model/internal/frontend-settings";
 import { CamelCaseTitlePipe } from "./shared/pipes/camel-case-title.pipe";
 import { EncodeURIComponentPipe } from "./shared/pipes/encode-uri.pipe";
 import { FileSizePipe } from "./shared/pipes/file-size.pipe";
-import { DirectoryFilterStartLetterPipePipe as DirectoryFilterStartLetterPipe } from "./shared/pipes/filter/directory-filter-start-letter-pipe";
+import { DirectoryFilterStartLetterPipe } from "./shared/pipes/filter/directory-filter-start-letter-pipe";
 import { DirectoryFilterPipe } from "./shared/pipes/filter/directory-filter.pipe";
 import { FilterByCategoryPipe } from "./shared/pipes/filter/filter-by-category.pipe";
 import { PlaylistFilterPipe } from "./shared/pipes/filter/playlist-filter.pipe";
@@ -125,6 +127,8 @@ function isDarkTheme(service: FrontendSettingsService): unknown {
     RadioStreamListComponent,
     FilterByCategoryPipe,
     CoverImageComponent,
+    DynamicFormInputComponent,
+    AdvancedSearchComponent,
   ],
   imports: [
     AppRoutingModule,

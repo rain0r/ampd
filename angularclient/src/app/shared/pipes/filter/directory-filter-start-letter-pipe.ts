@@ -4,7 +4,7 @@ import { Directory } from "../../messages/incoming/directory";
 @Pipe({
   name: "directoryFilterStartLetterPipe",
 })
-export class DirectoryFilterStartLetterPipePipe implements PipeTransform {
+export class DirectoryFilterStartLetterPipe implements PipeTransform {
   transform(value: Directory[], filterBy: string): Directory[] {
     filterBy = filterBy ? filterBy.substring(0, 1).toUpperCase() : "";
     return filterBy

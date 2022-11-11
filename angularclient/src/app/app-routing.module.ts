@@ -6,6 +6,7 @@ import { AlbumsComponent } from "./browse/albums/albums.component";
 import { BrowseComponent } from "./browse/browse.component";
 import { GenresComponent } from "./browse/genres/genres.component";
 import { QueueComponent } from "./queue/queue.component";
+import { AdvancedSearchComponent } from "./search/advanced-search/advanced-search.component";
 import { SearchComponent } from "./search/search.component";
 import { SettingsComponent } from "./settings/settings.component";
 
@@ -17,6 +18,7 @@ const routes: Routes = [
   { path: "browse/genres", component: GenresComponent },
   { path: "browse/radio-streams", component: AddStreamDialogComponent },
   { path: "search", component: SearchComponent },
+  { path: "adv-search", component: AdvancedSearchComponent },
   { path: "settings", component: SettingsComponent },
   { path: "**", redirectTo: "" },
 ];

@@ -48,7 +48,6 @@ export class RadioStreamListComponent implements AfterViewInit {
 
   onAddAll(): void {
     const streams = this.dataSource.data.map((rs) => rs.url);
-    console.log("streams", streams);
     this.queueService.addTracks(streams);
   }
 }

@@ -13,7 +13,6 @@ import { MatPaginator, MatPaginatorIntl } from "@angular/material/paginator";
 import { MatSort } from "@angular/material/sort";
 import { Observable } from "rxjs";
 import { TrackInfoDialogComponent } from "src/app/browse/tracks/track-info-dialog/track-info-dialog.component";
-import { NotificationService } from "../../service/notification.service";
 import { QueueService } from "../../service/queue.service";
 import { ResponsiveScreenService } from "../../service/responsive-screen.service";
 import { Track } from "../messages/incoming/track";
@@ -36,9 +35,9 @@ export class TrackTableDataComponent implements OnInit, OnChanges {
   @ViewChild(MatSort, { static: true }) sort: MatSort = new MatSort();
 
   isMobile = new Observable<boolean>();
+  pageCount = 1;
 
   constructor(
-    private notificationService: NotificationService,
     private queueService: QueueService,
     private responsiveScreenService: ResponsiveScreenService,
     private dialog: MatDialog
@@ -54,6 +53,11 @@ export class TrackTableDataComponent implements OnInit, OnChanges {
         changes["trackTableData"].currentValue
       );
       if (tableData.dataSource.data.length > 0) {
+        this.pageCount = Math.ceil(
+          this.trackTableData.dataSource.data.length /
+            this.trackTableData.pageSize
+        );
+
         if (tableData.sortable) {
           this.trackTableData.dataSource.sort = this.sort;
         }
@@ -130,23 +134,14 @@ export class TrackTableDataComponent implements OnInit, OnChanges {
   }
 
   private addPlayTrack(track: QueueTrack): void {
-    this.queueService.addPlayTrack(track.file);
-    if (this.trackTableData.notify) {
-      this.notificationService.popUp(`Playing: ${track.title}`);
-    }
+    this.queueService.addPlayQueueTrack(track);
   }
 
   private addTrack(track: QueueTrack): void {
-    this.queueService.addTrack(track.file);
-    if (this.trackTableData.notify) {
-      this.notificationService.popUp(`Added: ${track.title}`);
-    }
+    this.queueService.addQueueTrack(track);
   }
 
   private playTrack(track: QueueTrack): void {
-    this.queueService.playTrack(track.file);
-    if (this.trackTableData.notify) {
-      this.notificationService.popUp(`Playing: ${track.title}`);
-    }
+    this.queueService.playQueueTrack(track);
   }
 }

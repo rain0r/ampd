@@ -4,7 +4,6 @@ import { Observable, of } from "rxjs";
 import { distinctUntilChanged, map, switchMap } from "rxjs/operators";
 import { SearchResponse } from "../shared/messages/incoming/search-response";
 import { AdvSearchResponse } from "../shared/model/http/adv-search-response";
-import { QueueTrack } from "../shared/model/queue-track";
 import { AmpdRxStompService } from "./ampd-rx-stomp.service";
 import { SettingsService } from "./settings.service";
 
@@ -38,17 +37,18 @@ export class SearchService {
     );
   }
 
-  advSearch(formData: Record<string, string>): Observable<QueueTrack[]> {
+  advSearch(
+    formData: Record<string, string>,
+    page = 0
+  ): Observable<AdvSearchResponse> {
     let params = new HttpParams();
+    params = params.append("page", page);
     for (const key in formData) {
-      params = params.append(key, formData[key] || "");
+      if (!!formData[key]) {
+        params = params.append(key, formData[key] || "");
+      }
     }
     const url = `${this.settingsService.getBackendContextAddr()}api/adv-search`;
-    return this.http.get<AdvSearchResponse>(url, { params: params }).pipe(
-      map((response) => response.content),
-      map((tracks) => {
-        return tracks.map((track, index) => new QueueTrack(track, index));
-      })
-    );
+    return this.http.get<AdvSearchResponse>(url, { params: params });
   }
 }

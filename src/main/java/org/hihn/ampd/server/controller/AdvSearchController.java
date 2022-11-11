@@ -25,7 +25,7 @@ public class AdvSearchController {
 
 	@GetMapping("")
 	public PageImpl<MPDSong> search(@RequestParam Map<String, String> searchParams,
-			@RequestParam(defaultValue = "1") int page) {
+			@RequestParam(defaultValue = "0") int page) {
 		return searchService.search(searchParams, page);
 	}
 

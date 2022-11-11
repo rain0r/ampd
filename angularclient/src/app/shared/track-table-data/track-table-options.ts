@@ -10,167 +10,71 @@ export class TrackTableOptions {
   /**
    * If true, the table as an 'add title' column.
    */
-  private _addTitleColumn = true;
+  addTitleColumn = true;
 
   /**
    * If true, the rows of the table are clickable and a click adds the track to the queue.
    */
-  private _clickable = true;
+  clickable = true;
 
   /**
    * The tracks that will be displayed in the track table.
    */
-  private _dataSource = new MatTableDataSource<QueueTrack>();
+  dataSource = new MatTableDataSource<QueueTrack>();
 
   /**
    *  Reordering tracks via drag & drop
    * */
-  private _dragEnabled = false;
+  dragEnabled = false;
 
   /**
    * Which columns this track table will have.
    */
-  private _displayedColumns: string[] = [];
-
-  /**
-   * If true, a notification will be shown after a click action.
-   */
-  private _notify = true;
+  displayedColumns: string[] = [];
 
   /**
    * The action that will be triggered on a row click.
    */
-  private _onRowClick = ClickActions.AddTrack;
+  onRowClick = ClickActions.AddTrack;
 
   /**
    * If true, the table has pagination elements.
    */
-  private _pagination = false;
+  pagination = false;
 
   /**
    * If pagination is enabled, this is the default page size.
    */
 
-  private _pageSize = 100;
+  pageSize = 50;
 
   /**
    * The action that will be triggered on a click on the play button.
    */
-  private _onPlayClick = ClickActions.PlayTrack;
+  onPlayClick = ClickActions.PlayTrack;
 
   /**
    * If true, the table as a 'play title' colum.
    */
-  private _playTitleColumn = true;
+  playTitleColumn = true;
 
   /**
-   * * If true, the columns of the table are orderable.
+   *  If true, the columns of the table are orderable.
    */
-  private _sortable = true;
+  sortable = true;
 
-  private _pageSizeOptions = [10, 20, 50, 100];
+  /**
+   * Options for the "Paginate by" select.
+   */
+  pageSizeOptions = [10, 20, 50, 100];
 
-  get addTitleColumn(): boolean {
-    return this._addTitleColumn;
-  }
+  /**
+   * The length of the total number of items that are being paginated.
+   */
+  length = 0;
 
-  set addTitleColumn(value: boolean) {
-    this._addTitleColumn = value;
-  }
-
-  get clickable(): boolean {
-    return this._clickable;
-  }
-
-  set clickable(value: boolean) {
-    this._clickable = value;
-  }
-
-  get dataSource(): MatTableDataSource<QueueTrack> {
-    return this._dataSource;
-  }
-
-  set dataSource(value: MatTableDataSource<QueueTrack>) {
-    this._dataSource = value;
-  }
-
-  get displayedColumns(): string[] {
-    return this._displayedColumns;
-  }
-
-  set displayedColumns(value: string[]) {
-    this._displayedColumns = value;
-  }
-
-  get dragEnabled(): boolean {
-    return this._dragEnabled;
-  }
-
-  set dragEnabled(value: boolean) {
-    this._dragEnabled = value;
-  }
-
-  get notify(): boolean {
-    return this._notify;
-  }
-
-  set notify(value: boolean) {
-    this._notify = value;
-  }
-
-  get onRowClick(): ClickActions {
-    return this._onRowClick;
-  }
-
-  set onRowClick(value: ClickActions) {
-    this._onRowClick = value;
-  }
-
-  get pagination(): boolean {
-    return this._pagination;
-  }
-
-  set pagination(value: boolean) {
-    this._pagination = value;
-  }
-
-  get playTitleColumn(): boolean {
-    return this._playTitleColumn;
-  }
-
-  set playTitleColumn(value: boolean) {
-    this._playTitleColumn = value;
-  }
-
-  get sortable(): boolean {
-    return this._sortable;
-  }
-
-  set sortable(value: boolean) {
-    this._sortable = value;
-  }
-
-  get onPlayClick(): ClickActions {
-    return this._onPlayClick;
-  }
-
-  set onPlayClick(value: ClickActions) {
-    this._onPlayClick = value;
-  }
-
-  get pageSize(): number {
-    return this._pageSize;
-  }
-
-  set pageSize(v: number) {
-    this._pageSize = v;
-  }
-
-  public get pageSizeOptions(): Array<number> {
-    return this._pageSizeOptions;
-  }
-
-  public set pageSizeOptions(value: Array<number>) {
-    this._pageSizeOptions = value;
-  }
+  /**
+   * The zero-based page index of the displayed list of items.
+   */
+  pageIndex = 0;
 }

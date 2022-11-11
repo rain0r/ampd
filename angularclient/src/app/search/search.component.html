@@ -48,6 +48,13 @@
       <span fxHide.lt-md> Add all </span>
     </button>
   </div>
+</div>
+
+<div fxLayout="column">
+  <!-- Search results table -->
+  <app-track-data-table
+    [trackTableData]="trackTableData"
+  ></app-track-data-table>
 
   <div fxFlex fxLayoutAlign="end center">
     <!--Advanced Search Link-->
@@ -56,6 +63,3 @@
     </button>
   </div>
 </div>
-
-<!-- Search results table -->
-<app-track-data-table [trackTableData]="trackTableData"></app-track-data-table>

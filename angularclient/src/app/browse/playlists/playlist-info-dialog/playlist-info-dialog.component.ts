@@ -44,13 +44,9 @@ export class PlaylistInfoDialogComponent implements AfterViewInit {
   ngAfterViewInit(): void {
     this.playlistService.getPlaylistInfo(this.data.name).subscribe((info) => {
       const tableData = new TrackTableOptions();
-      tableData.addTitleColumn = true;
-      tableData.clickable = true;
       tableData.dataSource = this.buildDataSource(info.tracks);
       tableData.displayedColumns = this.getDisplayedColumns();
-      tableData.notify = true;
       tableData.onPlayClick = ClickActions.AddPlayTrack;
-      tableData.playTitleColumn = true;
       this.trackTableData = tableData;
       this.playlistInfo$.next(info);
     });

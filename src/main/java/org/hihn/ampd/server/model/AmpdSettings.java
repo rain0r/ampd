@@ -113,6 +113,13 @@ public class AmpdSettings {
 	private int albumsPageSize;
 
 	/**
+	 * Page size for advanced search results.
+	 */
+	@HelpText(name = "Albums page size", hint = "Page size for advanced search results.")
+	@Value("${adv.search.page.size:50}")
+	private int advSearchPageSize;
+
+	/**
 	 * If ListenBrainz scrobbling is enabled.
 	 */
 	@HelpText(name = "ListenBrainz", hint = "If scrobbling to ListenBrainz is enabled.")
@@ -263,6 +270,14 @@ public class AmpdSettings {
 
 	public String getHomeDir() {
 		return homeDir;
+	}
+
+	public int getAdvSearchPageSize() {
+		return advSearchPageSize;
+	}
+
+	public void setAdvSearchPageSize(int advSearchPageSize) {
+		this.advSearchPageSize = advSearchPageSize;
 	}
 
 }

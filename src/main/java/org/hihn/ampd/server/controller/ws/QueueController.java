@@ -7,12 +7,12 @@ import org.bff.javampd.server.MPD;
 import org.hihn.ampd.server.message.incoming.MoveTrackMsg;
 import org.hihn.ampd.server.model.AmpdSettings;
 import org.hihn.ampd.server.service.QueueService;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Websocket endpoint to control the queue. Besides getting the current queue, it also
@@ -34,7 +34,7 @@ public class QueueController {
 	 * @param ampdSettings Settings of this ampd instance.
 	 * @param queueService Service to manage the queue.
 	 */
-	public QueueController(final MPD mpd, final AmpdSettings ampdSettings, final QueueService queueService) {
+	public QueueController(MPD mpd, AmpdSettings ampdSettings, QueueService queueService) {
 		this.mpd = mpd;
 		this.ampdSettings = ampdSettings;
 		this.queueService = queueService;
@@ -42,8 +42,8 @@ public class QueueController {
 
 	@MessageMapping("/")
 	@SendTo("/topic/queue")
-	public List<MPDPlaylistSong> getQueue() {
-		return mpd.getPlaylist().getSongList();
+	public PageImpl<MPDPlaylistSong> getQueue() {
+		return queueService.getQueue();
 	}
 
 	/**

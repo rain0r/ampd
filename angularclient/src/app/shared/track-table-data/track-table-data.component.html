@@ -193,10 +193,11 @@
     cdkDrag
   ></tr>
 </table>
-<div [hidden]="!trackTableData.pagination">
+<div [hidden]="!trackTableData.pagination || pageCount < 2">
   <mat-paginator
+    [length]="trackTableData.length"
+    [pageIndex]="trackTableData.pageIndex"
     [pageSize]="trackTableData.pageSize"
-    [pageSizeOptions]="trackTableData.pageSizeOptions"
     showFirstLastButtons
   ></mat-paginator>
 </div>

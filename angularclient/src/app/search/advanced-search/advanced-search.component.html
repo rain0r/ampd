@@ -42,35 +42,90 @@
   </div>
 </form>
 
-<div id="results">
-  <div
-    *ngIf="trackTableOptions$ | async as trackTableOptions"
-    class="space-top"
+<mat-divider class="space-top"></mat-divider>
+
+<div id="results" fxLayout="column" fxLayoutGap="1rem">
+  <mat-spinner
+    fxLayoutAlign="center center"
+    *ngIf="isLoadingResults"
+  ></mat-spinner>
+
+  <button
+    mat-stroked-button
+    class="full-width"
+    fxFlex.lt-md
+    fxFlex.gt-md="50%"
+    (click)="onAddAll()"
+    type="button"
   >
-    <div
-      *ngIf="trackTableOptions.dataSource.data.length > 0"
-      fxLayout="column"
-      fxLayoutGap="1rem"
+    Add all
+  </button>
+
+  <div *ngIf="advSearchResponse$ | async as advSearchResponse">
+    <table
+      class="mat-elevation-z8"
+      mat-table
+      [dataSource]="advSearchResponse.content"
+      matSort
+      matSortActive="created"
+      matSortDisableClear
+      matSortDirection="desc"
     >
-      <div fxFlex fxLayoutAlign="end end">
-        {{ trackTableOptions.dataSource.data.length }} results
-      </div>
+      <!-- Artist Column -->
+      <ng-container matColumnDef="artistName">
+        <th mat-header-cell *matHeaderCellDef>Artist</th>
+        <td mat-cell *matCellDef="let row">{{ row.artistName }}</td>
+      </ng-container>
 
-      <button
-        mat-stroked-button
-        class="full-width"
-        fxFlex.lt-md
-        fxFlex.gt-md="50%"
-        (click)="onAddAll()"
-        type="button"
-      >
-        Add all
-      </button>
+      <!-- Album Column-->
+      <ng-container matColumnDef="albumName">
+        <th mat-header-cell *matHeaderCellDef>Album</th>
+        <td mat-cell *matCellDef="let row">{{ row.albumName }}</td>
+      </ng-container>
 
-      <!-- Search results table -->
-      <app-track-data-table
-        [trackTableData]="trackTableOptions"
-      ></app-track-data-table>
-    </div>
+      <!-- Title Column -->
+      <ng-container matColumnDef="title">
+        <th mat-header-cell *matHeaderCellDef>Title</th>
+        <td mat-cell *matCellDef="let row">{{ row.title }}</td>
+      </ng-container>
+
+      <!-- Button: Play track -->
+      <ng-container matColumnDef="playTitle">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let track">
+          <button
+            mat-button
+            (click)="addPlayTrack(track)"
+            title="Play this track"
+          >
+            <mat-icon> play_arrow</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <!-- Button: Add track to queue -->
+      <ng-container matColumnDef="addTitle">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let track">
+          <button
+            mat-button
+            (click)="onAddTrack(track)"
+            title="Add this track to the queue"
+          >
+            <mat-icon>add </mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+  </div>
+  <div [hidden]="advSearchResponse.content.length === 0">
+    <mat-paginator
+      [length]="advSearchResponse.totalElements"
+      [pageIndex]="advSearchResponse.number"
+      [pageSize]="advSearchResponse.size"
+    ></mat-paginator>
   </div>
 </div>

@@ -5,6 +5,8 @@ import org.bff.javampd.server.MPD;
 import org.bff.javampd.song.MPDSong;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.support.PagedListHolder;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -15,6 +17,8 @@ import java.util.stream.Collectors;
  */
 @Service
 public class QueueService {
+
+	private static final int QUEUE_PAGE_SIZE = 500;
 
 	private static final Logger LOG = LoggerFactory.getLogger(QueueService.class);
 
@@ -66,6 +70,17 @@ public class QueueService {
 	public void moveTrack(int oldPos, int newPos) {
 		MPDPlaylistSong track = mpd.getPlaylist().getSongList().get(oldPos);
 		mpd.getPlaylist().move(track, newPos);
+	}
+
+	public PageImpl<MPDPlaylistSong> getQueue() {
+		return getQueue(1);
+	}
+
+	public PageImpl<MPDPlaylistSong> getQueue(int page) {
+		PagedListHolder<MPDPlaylistSong> pages = new PagedListHolder<>(mpd.getPlaylist().getSongList());
+		pages.setPage(page);
+		pages.setPageSize(QUEUE_PAGE_SIZE);
+		return new PageImpl<>(pages.getPageList());
 	}
 
 }

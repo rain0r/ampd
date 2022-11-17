@@ -1,7 +1,6 @@
 import { Component, ElementRef, HostListener, ViewChild } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
 import { MatTableDataSource } from "@angular/material/table";
-import { distinctUntilChanged } from "rxjs/operators";
 import { ResponsiveScreenService } from "src/app/service/responsive-screen.service";
 import { AddStreamDialogComponent } from "../../browse/add-radio-stream/add-radio-stream.component";
 import { MpdService } from "../../service/mpd.service";
@@ -30,8 +29,8 @@ export class TrackTableComponent {
   constructor(
     private dialog: MatDialog,
     private mpdService: MpdService,
-    private responsiveScreenService: ResponsiveScreenService,
-    private queueService: QueueService
+    private queueService: QueueService,
+    private responsiveScreenService: ResponsiveScreenService
   ) {
     this.buildReceiver();
     this.responsiveScreenService
@@ -121,16 +120,15 @@ export class TrackTableComponent {
     // Queue
     this.queueService
       .getQueueSubscription()
-      .subscribe((message: Track[]) => this.buildQueue(message));
+      .subscribe((tracks: Track[]) => this.buildQueue(tracks));
+
     // State
-    this.mpdService.currentState$
-      .pipe(distinctUntilChanged())
-      .subscribe((state) => {
-        this.currentState = state;
-        if (state === "stop") {
-          this.currentTrack = new QueueTrack();
-        }
-      });
+    this.mpdService.currentState$.subscribe((state) => {
+      this.currentState = state;
+      if (state === "stop") {
+        this.currentTrack = new QueueTrack();
+      }
+    });
   }
 
   /**

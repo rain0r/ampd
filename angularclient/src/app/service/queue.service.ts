@@ -1,8 +1,10 @@
 import { Injectable } from "@angular/core";
-import { Observable, of } from "rxjs";
-import { distinctUntilChanged, map, switchMap } from "rxjs/operators";
+import { Observable } from "rxjs";
+import { distinctUntilChanged, map } from "rxjs/operators";
 import { Track } from "../shared/messages/incoming/track";
 import { MpdAlbum } from "../shared/model/http/album";
+import { QueueTrack } from "../shared/model/queue-track";
+import { QueueResponse } from "./../shared/messages/incoming/queue-response";
 import { AmpdRxStompService } from "./ampd-rx-stomp.service";
 import { NotificationService } from "./notification.service";
 
@@ -48,6 +50,21 @@ export class QueueService {
       destination: `${this.path}play-album`,
       body: JSON.stringify(album),
     });
+  }
+
+  addPlayQueueTrack(track: QueueTrack): void {
+    this.addPlayTrack(track.file);
+    this.notificationService.popUp(`Playing: ${track.title}`);
+  }
+
+  playQueueTrack(track: QueueTrack): void {
+    this.playTrack(track.file);
+    this.notificationService.popUp(`Playing: ${track.title}`);
+  }
+
+  addQueueTrack(track: QueueTrack): void {
+    this.addTrack(track.file);
+    this.notificationService.popUp(`Added: ${track.title}`);
   }
 
   addTrack(file: string): void {
@@ -102,15 +119,13 @@ export class QueueService {
   getQueueSubscription(): Observable<Track[]> {
     return this.rxStompService.watch("/topic/queue").pipe(
       map((message) => message.body),
-      map((body) => <Track[]>JSON.parse(body)),
+      map((body) => <QueueResponse>JSON.parse(body)),
+      map((data) => data.content),
       distinctUntilChanged((prev, curr) => {
         return (
           prev.length == curr.length &&
           JSON.stringify(curr) === JSON.stringify(prev)
         );
-      }),
-      switchMap((track) => {
-        return of(track);
       })
     );
   }

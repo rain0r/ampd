@@ -5,6 +5,7 @@ import org.bff.javampd.server.MPD;
 import org.bff.javampd.server.ServerStatus;
 import org.hihn.ampd.server.message.incoming.MpdModesPanelMsg;
 import org.hihn.ampd.server.message.outgoing.StatePayload;
+import org.hihn.ampd.server.service.QueueService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -24,10 +25,14 @@ public class Publisher {
 
 	private final SimpMessagingTemplate template;
 
+	private final QueueService queueService;
+
 	@Autowired
-	public Publisher(final MPD mpd, final SimpMessagingTemplate template) {
+
+	public Publisher(MPD mpd, SimpMessagingTemplate template, QueueService queueService) {
 		this.mpd = mpd;
 		this.template = template;
+		this.queueService = queueService;
 	}
 
 	/**
@@ -40,7 +45,7 @@ public class Publisher {
 		}
 		// Tells javampd to get fresh data every second
 		mpd.getServerStatus().setExpiryInterval(1L);
-		template.convertAndSend(QUEUE_URL, mpd.getPlaylist().getSongList());
+		template.convertAndSend(QUEUE_URL, queueService.getQueue());
 	}
 
 	/**
@@ -54,9 +59,9 @@ public class Publisher {
 		// Tells javampd to get fresh data every second
 		mpd.getServerStatus().setExpiryInterval(1L);
 		ServerStatus serverStatus = mpd.getServerStatus();
-		final MpdModesPanelMsg mpdModesPanelMsg = new MpdModesPanelMsg(serverStatus);
+		MpdModesPanelMsg mpdModesPanelMsg = new MpdModesPanelMsg(serverStatus);
 		MPDPlaylistSong song = mpd.getPlayer().getCurrentSong().orElse(null);
-		final StatePayload statePayload = new StatePayload(serverStatus, song, mpdModesPanelMsg);
+		StatePayload statePayload = new StatePayload(serverStatus, song, mpdModesPanelMsg);
 		template.convertAndSend(STATE_URL, statePayload);
 	}
 

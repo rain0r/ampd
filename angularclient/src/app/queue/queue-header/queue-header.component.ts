@@ -1,5 +1,5 @@
 import { Component } from "@angular/core";
-import { combineLatest, map, Observable } from "rxjs";
+import { combineLatest, map, Observable, startWith } from "rxjs";
 import { MpdService } from "../../service/mpd.service";
 import { QueueTrack } from "../../shared/model/queue-track";
 
@@ -19,8 +19,8 @@ export class QueueHeaderComponent {
 
   constructor(private mpdService: MpdService) {
     this.currentPlay = combineLatest([
-      this.mpdService.currentState$,
-      this.mpdService.currentTrack$,
+      this.mpdService.currentState$.pipe(startWith("stop")),
+      this.mpdService.currentTrack$.pipe(startWith({})),
     ]).pipe(
       map(([state, track]) => {
         return {

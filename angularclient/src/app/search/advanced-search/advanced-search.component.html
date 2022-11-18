@@ -50,18 +50,22 @@
     *ngIf="isLoadingResults"
   ></mat-spinner>
 
-  <button
-    mat-stroked-button
-    class="full-width"
-    fxFlex.lt-md
-    fxFlex.gt-md="50%"
-    (click)="onAddAll()"
-    type="button"
+  <div
+    *ngIf="advSearchResponse$ | async as advSearchResponse"
+    fxLayout="column"
+    fxLayoutGap="1rem"
   >
-    Add all
-  </button>
+    <button
+      mat-stroked-button
+      class="full-width"
+      fxFlex.lt-md
+      fxFlex.gt-md="50%"
+      (click)="onAddAll()"
+      type="button"
+    >
+      Add all
+    </button>
 
-  <div *ngIf="advSearchResponse$ | async as advSearchResponse">
     <table
       class="mat-elevation-z8"
       mat-table

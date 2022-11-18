@@ -19,6 +19,7 @@ import {
 } from "rxjs";
 import { NotificationService } from "src/app/service/notification.service";
 import { QueueService } from "src/app/service/queue.service";
+import { ResponsiveScreenService } from "src/app/service/responsive-screen.service";
 import { SearchService } from "src/app/service/search.service";
 import { AdvSearchResponse } from "src/app/shared/model/http/adv-search-response";
 import { QueueTrack } from "src/app/shared/model/queue-track";
@@ -38,26 +39,32 @@ export class AdvancedSearchComponent implements OnInit, AfterViewInit {
   advSearchResponse: AdvSearchResponse = <AdvSearchResponse>{};
   advSearchResponse$ = new Observable<AdvSearchResponse>();
   displayedColumns: string[] = [
-    "artistName",
-    "albumName",
+    "artist-name",
+    "album-name",
     "title",
-    "playTitle",
-    "addTitle",
+    "play-title",
+    "add-title",
   ];
   form: FormGroup = <FormGroup>{};
   formFields: FormField[];
   isLoadingResults = true;
 
   private formDataSubmitted = new Subject<Record<string, string>>();
+  private isMobile = false;
 
   constructor(
     private notificationService: NotificationService,
     private queueService: QueueService,
+    private responsiveScreenService: ResponsiveScreenService,
     private scroller: ViewportScroller,
     private searchService: SearchService
   ) {
     this.advSearchResponse.content = [];
     this.formFields = this.getFormFields();
+    this.responsiveScreenService
+      .isMobile()
+      .subscribe((isMobile) => (this.isMobile = isMobile));
+    this.displayedColumns = this.getDisplayedColumns();
   }
 
   ngOnInit(): void {
@@ -140,5 +147,19 @@ export class AdvancedSearchComponent implements OnInit, AfterViewInit {
       group[input.key] = new FormControl();
     });
     return new FormGroup(group);
+  }
+
+  private getDisplayedColumns(): string[] {
+    const displayedColumns = [
+      { name: "artist-name", showMobile: true },
+      { name: "album-name", showMobile: false },
+      { name: "title", showMobile: true },
+      { name: "length", showMobile: false },
+      { name: "play-title", showMobile: true },
+      { name: "add-title", showMobile: true },
+    ];
+    return displayedColumns
+      .filter((cd) => !this.isMobile || cd.showMobile)
+      .map((cd) => cd.name);
   }
 }

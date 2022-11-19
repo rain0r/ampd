@@ -38,17 +38,6 @@ export class TrackTableOptions {
   onRowClick = ClickActions.AddTrack;
 
   /**
-   * If true, the table has pagination elements.
-   */
-  pagination = false;
-
-  /**
-   * If pagination is enabled, this is the default page size.
-   */
-
-  pageSize = 50;
-
-  /**
    * The action that will be triggered on a click on the play button.
    */
   onPlayClick = ClickActions.PlayTrack;
@@ -64,17 +53,37 @@ export class TrackTableOptions {
   sortable = true;
 
   /**
+   * If true, the table has pagination elements.
+   */
+  pagination = false;
+
+  /**
+   * If pagination is enabled, this is the default page size.
+   */
+  pageSize = 10;
+
+  /**
    * Options for the "Paginate by" select.
    */
-  pageSizeOptions = [10, 20, 50, 100];
+  pageSizeOptions = [10, 100, 500, 1000];
 
   /**
    * The length of the total number of items that are being paginated.
    */
-  length = 0;
+  totalElements = 0;
+
+  /**
+   * Length of all tracks in the queue in seconds.
+   */
+  totalPlayTime = -1;
 
   /**
    * The zero-based page index of the displayed list of items.
    */
   pageIndex = 0;
+
+  /**
+   * Amount of pages.
+   */
+  totalPages = 0;
 }

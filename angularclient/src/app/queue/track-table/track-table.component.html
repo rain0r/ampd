@@ -49,13 +49,13 @@
         <span [ngPlural]="dataSource.data.length">
           <ng-template ngPluralCase="=1">1 track </ng-template>
           <ng-template ngPluralCase="other"
-            >{{ dataSource.data.length }} tracks</ng-template
+            >{{ trackTableData.totalElements }} tracks</ng-template
           >
         </span>
         in the queue.
-        <span *ngIf="queueDuration > 0">
+        <span *ngIf="trackTableData.totalPlayTime > 0">
           Duration:
-          {{ queueDuration | secondsToHhMmSs }}
+          {{ trackTableData.totalPlayTime | secondsToHhMmSs }}
         </span>
       </span>
       <button

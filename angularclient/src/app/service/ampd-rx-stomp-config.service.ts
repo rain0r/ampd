@@ -8,8 +8,6 @@ import { SettingsService } from "./settings.service";
   providedIn: "root",
 })
 export class AmpdRxStompConfigService extends RxStompConfig {
-  public static readonly ONE_MB = 1048576;
-
   constructor(
     private location: Location,
     private settingsService: SettingsService
@@ -37,7 +35,6 @@ export class AmpdRxStompConfigService extends RxStompConfig {
       }
     };
     this.splitLargeFrames = true;
-    this.maxWebSocketChunkSize = AmpdRxStompConfigService.ONE_MB;
   }
 
   /**

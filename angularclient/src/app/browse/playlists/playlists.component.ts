@@ -3,7 +3,7 @@ import { PageEvent } from "@angular/material/paginator";
 import { Observable } from "rxjs";
 import { SettingKeys } from "src/app/shared/model/internal/frontend-settings";
 import { FrontendSettingsService } from "../../service/frontend-settings.service";
-import { MessageService } from "../../service/message.service";
+import { MsgService } from "../../service/msg.service";
 import { Playlist } from "../../shared/messages/incoming/playlist-impl";
 import { Filterable } from "../filterable";
 
@@ -22,7 +22,7 @@ export class PlaylistsComponent extends Filterable {
 
   constructor(
     private frontendSettingsService: FrontendSettingsService,
-    private messageService: MessageService
+    private messageService: MsgService
   ) {
     super(messageService);
     this.pageSizeOptions = this.frontendSettingsService.pageSizeOptions;

@@ -4,7 +4,6 @@ import { combineLatest } from "rxjs";
 import { map } from "rxjs/operators";
 import { FrontendSettingsService } from "../service/frontend-settings.service";
 import { MpdService } from "../service/mpd.service";
-import { QueueService } from "../service/queue.service";
 import { SettingKeys } from "../shared/model/internal/frontend-settings";
 
 @Component({
@@ -16,7 +15,6 @@ export class QueueComponent implements OnInit {
   constructor(
     private frontendSettingsService: FrontendSettingsService,
     private mpdService: MpdService,
-    private queueService: QueueService,
     private titleService: Title
   ) {}
 
@@ -24,13 +22,11 @@ export class QueueComponent implements OnInit {
   onKeyUp(): void {
     if (document.visibilityState === "visible") {
       this.buildTitle();
-      this.queueService.getQueue();
     }
   }
 
   ngOnInit(): void {
     this.buildTitle();
-    this.queueService.getQueue();
   }
 
   /**

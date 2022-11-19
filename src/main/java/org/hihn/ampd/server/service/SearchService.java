@@ -55,7 +55,6 @@ public class SearchService {
 		Pageable pageable = PageRequest.of(0, ampdSettings.getAdvSearchPageSize());
 		PagedListHolder<MPDSong> pages = new PagedListHolder<>(ret);
 		pages.setPage(page);
-		pages.setPage(page);
 		pages.setPageSize(ampdSettings.getAdvSearchPageSize());
 
 		return new PageImpl<>(pages.getPageList(), pageable, ret.size());

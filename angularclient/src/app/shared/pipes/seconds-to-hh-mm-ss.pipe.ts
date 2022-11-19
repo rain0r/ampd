@@ -2,14 +2,30 @@ import { Pipe, PipeTransform } from "@angular/core";
 
 @Pipe({ name: "secondsToHhMmSs" })
 export class SecondsToHhMmSsPipe implements PipeTransform {
-  transform(d: number, labels = [":", ":", ""]): string {
-    const h = Math.floor(d / 3600);
-    const m = Math.floor((d % 3600) / 60);
-    const s = Math.floor((d % 3600) % 60);
+  transform(d: number): string {
+    return this.toDaysMinutesSeconds(d);
+  }
 
-    const hours = h > 0 ? `${`0${h}`.slice(-2)}${labels[0]}` : "";
-    return `${hours}${`0${m}`.slice(-2)}${labels[1]}${`0${s}`.slice(-2)}${
-      labels[2]
-    }`;
+  toDaysMinutesSeconds(totalSeconds: number): string {
+    const seconds = Math.floor(totalSeconds % 60);
+    const minutes = Math.floor((totalSeconds % 3600) / 60);
+    const hours = Math.floor((totalSeconds % (3600 * 24)) / 3600);
+    const days = Math.floor(totalSeconds / (3600 * 24));
+
+    const secondsStr = this.makeHumanReadable(seconds, "second");
+    const minutesStr = this.makeHumanReadable(minutes, "minute");
+    const hoursStr = this.makeHumanReadable(hours, "hour");
+    const daysStr = this.makeHumanReadable(days, "day");
+
+    return `${daysStr}${hoursStr}${minutesStr}${secondsStr}`.replace(
+      /,\s*$/,
+      ""
+    );
+  }
+
+  makeHumanReadable(num: number, singular: string): string {
+    return num > 0
+      ? `${num}${num === 1 ? ` ${singular}, ` : ` ${singular}s, `}`
+      : "";
   }
 }

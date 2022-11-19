@@ -11,8 +11,7 @@
     <div fxLayout="row">
       <span fxFlex="50%" fxLayoutAlign="end">Database playtime</span>
       <span fxFlex="50%" fxLayoutAlign="end">{{
-        statistics.databasePlaytime
-          | secondsToHhMmSs: ["hours ", "minutes ", "seconds"]
+        statistics.databasePlaytime | secondsToHhMmSs
       }}</span>
     </div>
     <div fxLayout="row">

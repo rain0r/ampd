@@ -1,11 +1,17 @@
 import { Component, ElementRef, HostListener, ViewChild } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
 import { MatTableDataSource } from "@angular/material/table";
+import { filter, map } from "rxjs";
+import { MsgService } from "src/app/service/msg.service";
 import { ResponsiveScreenService } from "src/app/service/responsive-screen.service";
+import { QueueResponse } from "src/app/shared/messages/incoming/queue-response";
+import {
+  InternMsgType,
+  PaginationMsg,
+} from "src/app/shared/messages/internal/internal-msg";
 import { AddStreamDialogComponent } from "../../browse/add-radio-stream/add-radio-stream.component";
 import { MpdService } from "../../service/mpd.service";
 import { QueueService } from "../../service/queue.service";
-import { Track } from "../../shared/messages/incoming/track";
 import { QueueTrack } from "../../shared/model/queue-track";
 import { ClickActions } from "../../shared/track-table-data/click-actions.enum";
 import { TrackTableOptions } from "../../shared/track-table-data/track-table-options";
@@ -23,12 +29,12 @@ export class TrackTableComponent {
   currentState = "stop";
   dataSource = new MatTableDataSource<QueueTrack>();
   trackTableData = new TrackTableOptions();
-  queueDuration = 0;
   private isMobile = false;
 
   constructor(
     private dialog: MatDialog,
     private mpdService: MpdService,
+    private msgService: MsgService,
     private queueService: QueueService,
     private responsiveScreenService: ResponsiveScreenService
   ) {
@@ -83,16 +89,15 @@ export class TrackTableComponent {
       .map((cd) => cd.name);
   }
 
-  private buildQueue(tracks: Track[]): void {
+  private buildQueue(queueResponse: QueueResponse): void {
     /* add the new model object to the trackTableData */
-    this.dataSource.data = tracks.map(
+    this.dataSource.data = queueResponse.content.map(
       (track, index) => new QueueTrack(track, index)
     );
-    this.trackTableData = this.buildTableData();
-    this.queueDuration = this.sumTrackDuration();
+    this.trackTableData = this.buildTableData(queueResponse);
   }
 
-  private buildTableData(): TrackTableOptions {
+  private buildTableData(queueResponse: QueueResponse): TrackTableOptions {
     const trackTable = new TrackTableOptions();
     trackTable.dataSource = this.dataSource;
     trackTable.displayedColumns = this.getDisplayedColumns();
@@ -100,13 +105,31 @@ export class TrackTableComponent {
     trackTable.onRowClick = ClickActions.PlayTrack;
     trackTable.addTitleColumn = false;
     trackTable.playTitleColumn = false;
-    trackTable.pageSize = 100;
+    trackTable.pageSize = queueResponse.numberOfElements;
+    trackTable.pageIndex = queueResponse.number;
+    trackTable.totalElements = queueResponse.totalElements;
+    trackTable.totalPages = queueResponse.totalPages;
+    trackTable.totalPlayTime = queueResponse.totalPlayTime;
     trackTable.pagination = true;
-    trackTable.pageSizeOptions = [50, 100, 500, 1000];
     return trackTable;
   }
 
   private buildReceiver(): void {
+    // Queue
+    this.queueService
+      .getQueueSubscription()
+      .subscribe((queueResponse: QueueResponse) =>
+        this.buildQueue(queueResponse)
+      );
+
+    // State
+    this.mpdService.currentState$.subscribe((state) => {
+      this.currentState = state;
+      if (state === "stop") {
+        this.currentTrack = new QueueTrack();
+      }
+    });
+
     // Current track
     this.mpdService.currentTrack$.subscribe((track) => {
       if (this.currentState !== "stop") {
@@ -117,28 +140,14 @@ export class TrackTableComponent {
       }
     });
 
-    // Queue
-    this.queueService
-      .getQueueSubscription()
-      .subscribe((tracks: Track[]) => this.buildQueue(tracks));
-
-    // State
-    this.mpdService.currentState$.subscribe((state) => {
-      this.currentState = state;
-      if (state === "stop") {
-        this.currentTrack = new QueueTrack();
-      }
-    });
-  }
-
-  /**
-   * Calculate the sum of all track durations.
-   */
-  private sumTrackDuration(): number {
-    let ret = 0.0;
-    for (const item of this.dataSource.data) {
-      ret += item.length;
-    }
-    return ret;
+    // Listen for pagination events
+    this.msgService.message
+      .pipe(
+        filter((msg) => msg.type === InternMsgType.PaginationEvent),
+        map((msg) => <PaginationMsg>msg)
+      )
+      .subscribe((msg) => {
+        this.queueService.getPage(msg.event.pageIndex, msg.event.pageSize);
+      });
   }
 }

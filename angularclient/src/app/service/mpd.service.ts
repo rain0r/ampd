@@ -87,7 +87,7 @@ export class MpdService {
   getQueueTrackCount$(): Observable<number> {
     return this.queueService
       .getQueueSubscription()
-      .pipe(map((tracks) => tracks.length));
+      .pipe(map((tracks) => tracks.content.length));
   }
 
   isCurrentTrackRadioStream$(): Observable<boolean> {

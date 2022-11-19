@@ -3,7 +3,7 @@ import { PageEvent } from "@angular/material/paginator";
 import { Observable } from "rxjs";
 import { SettingKeys } from "src/app/shared/model/internal/frontend-settings";
 import { FrontendSettingsService } from "../../service/frontend-settings.service";
-import { MessageService } from "../../service/message.service";
+import { MsgService } from "../../service/msg.service";
 import { Directory } from "../../shared/messages/incoming/directory";
 import { Filterable } from "../filterable";
 
@@ -27,7 +27,7 @@ export class DirectoriesComponent extends Filterable implements OnInit {
 
   constructor(
     private frontendSettingsService: FrontendSettingsService,
-    private messageService: MessageService
+    private messageService: MsgService
   ) {
     super(messageService);
     this.pageSizeOptions = this.frontendSettingsService.pageSizeOptions;

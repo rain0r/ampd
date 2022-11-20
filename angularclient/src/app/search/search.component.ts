@@ -1,5 +1,4 @@
 import { Component } from "@angular/core";
-import { MatTableDataSource } from "@angular/material/table";
 import { of, Subject } from "rxjs";
 import { debounceTime, distinctUntilChanged, switchMap } from "rxjs/operators";
 import { ResponsiveScreenService } from "src/app/service/responsive-screen.service";
@@ -18,7 +17,6 @@ import { TrackTableOptions } from "../shared/track-table-data/track-table-option
   styleUrls: ["./search.component.scss"],
 })
 export class SearchComponent {
-  dataSource = new MatTableDataSource<QueueTrack>([]);
   isMobile = false;
   search = "";
   searchResultCount = 0;
@@ -49,8 +47,7 @@ export class SearchComponent {
   }
 
   resetSearch(): void {
-    this.dataSource = new MatTableDataSource<QueueTrack>([]);
-    this.trackTableData = this.buildTableData();
+    this.trackTableData.dataSource.data = [];
     this.searchResultCount = 0;
   }
 
@@ -86,19 +83,13 @@ export class SearchComponent {
     searchResults: Track[],
     searchResultCount: number
   ): void {
-    this.searchResultTracks = searchResults.map(
-      (track, index) => new QueueTrack(track, index)
-    );
-    this.dataSource = new MatTableDataSource<QueueTrack>(
-      this.searchResultTracks
-    );
-    this.trackTableData = this.buildTableData();
+    this.trackTableData = this.buildTableData(searchResults);
     this.searchResultCount = searchResultCount;
   }
 
-  private buildTableData(): TrackTableOptions {
+  private buildTableData(searchResults: Track[]): TrackTableOptions {
     const trackTable = new TrackTableOptions();
-    trackTable.dataSource = this.dataSource;
+    trackTable.addTracks(searchResults);
     trackTable.displayedColumns = this.getDisplayedColumns();
     trackTable.onPlayClick = ClickActions.AddPlayTrack;
     trackTable.pagination = true;

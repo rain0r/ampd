@@ -1,4 +1,5 @@
 import { MatTableDataSource } from "@angular/material/table";
+import { Track } from "../messages/incoming/track";
 import { QueueTrack } from "../model/queue-track";
 import { ClickActions } from "./click-actions.enum";
 
@@ -86,4 +87,9 @@ export class TrackTableOptions {
    * Amount of pages.
    */
   totalPages = 0;
+
+  addTracks(tracks: Track[]): void {
+    const qt = tracks.map((track, index) => new QueueTrack(track, index));
+    this.dataSource.data = qt;
+  }
 }

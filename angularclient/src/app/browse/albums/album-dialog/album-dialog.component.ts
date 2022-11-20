@@ -1,12 +1,11 @@
 import { Component, Inject, OnInit } from "@angular/core";
 import { MAT_DIALOG_DATA } from "@angular/material/dialog";
-import { MatTableDataSource } from "@angular/material/table";
 import { Observable } from "rxjs";
 import { AlbumsService } from "src/app/service/albums.service";
 import { QueueService } from "src/app/service/queue.service";
 import { ResponsiveScreenService } from "src/app/service/responsive-screen.service";
+import { Track } from "src/app/shared/messages/incoming/track";
 import { MpdAlbum } from "src/app/shared/model/http/album";
-import { QueueTrack } from "src/app/shared/model/queue-track";
 import { ClickActions } from "src/app/shared/track-table-data/click-actions.enum";
 import { TrackTableOptions } from "src/app/shared/track-table-data/track-table-options";
 
@@ -16,9 +15,9 @@ import { TrackTableOptions } from "src/app/shared/track-table-data/track-table-o
   styleUrls: ["./album-dialog.component.scss"],
 })
 export class AlbumDialogComponent implements OnInit {
-  tracks: Observable<QueueTrack[]> | null = null;
-  trackTableData = new TrackTableOptions();
   coverSizeClass: Observable<string>;
+  isLoadingResults = true;
+  trackTableData = new TrackTableOptions();
   private isMobile = false;
 
   constructor(
@@ -34,13 +33,13 @@ export class AlbumDialogComponent implements OnInit {
     this.responsiveScreenService
       .isMobile()
       .subscribe((isMobile) => (this.isMobile = isMobile));
-    this.tracks = this.albumService.getAlbum(
-      this.album.name,
-      this.album.albumArtist
-    );
-    this.tracks.subscribe(
-      (tracks) => (this.trackTableData = this.buildTrackTableOptions(tracks))
-    );
+    this.isLoadingResults = true;
+    this.albumService
+      .getAlbum(this.album.name, this.album.albumArtist)
+      .subscribe((tracks) => {
+        this.isLoadingResults = false;
+        this.trackTableData = this.buildTrackTableOptions(tracks);
+      });
   }
 
   onAddDir(): void {
@@ -51,9 +50,9 @@ export class AlbumDialogComponent implements OnInit {
     this.queueService.playAlbum(this.album);
   }
 
-  private buildTrackTableOptions(tracks: QueueTrack[]): TrackTableOptions {
+  private buildTrackTableOptions(tracks: Track[]): TrackTableOptions {
     const trackTable = new TrackTableOptions();
-    trackTable.dataSource = new MatTableDataSource<QueueTrack>(tracks);
+    trackTable.addTracks(tracks);
     trackTable.displayedColumns = this.getDisplayedColumns();
     trackTable.onPlayClick = ClickActions.AddPlayTrack;
     trackTable.pagination = true;

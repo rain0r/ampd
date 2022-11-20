@@ -1,8 +1,7 @@
-<div
-  fxLayout="column"
-  fxLayoutAlign="space-between"
-  *ngIf="tracks | async; else loading"
->
+<div fxLayout="column" fxLayoutAlign="space-between">
+  <div *ngIf="isLoadingResults" fxLayout="row" fxLayoutAlign="space-around">
+    <mat-spinner></mat-spinner>
+  </div>
   <div mat-dialog-title fxLayout="row wrap" fxLayoutAlign="space-between">
     <div fxLayoutAlign="start center" fxFlex fxFlex.lt-md="100%">
       <img
@@ -52,9 +51,3 @@
     <button mat-stroked-button matDialogClose>Close</button>
   </mat-dialog-actions>
 </div>
-
-<ng-template #loading>
-  <div fxLayout="row" fxLayoutAlign="space-around">
-    <mat-spinner></mat-spinner>
-  </div>
-</ng-template>

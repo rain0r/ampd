@@ -1,6 +1,5 @@
 import { ViewportScroller } from "@angular/common";
 import { Component, OnInit } from "@angular/core";
-import { MatTableDataSource } from "@angular/material/table";
 import { ActivatedRoute } from "@angular/router";
 import { delay, distinctUntilChanged, filter, map, Observable, of } from "rxjs";
 import { tap } from "rxjs/operators";
@@ -9,7 +8,6 @@ import { GenresService as GenreService } from "../../service/genres.service";
 import { ResponsiveScreenService } from "../../service/responsive-screen.service";
 import { Track } from "../../shared/messages/incoming/track";
 import { GenresPayload } from "../../shared/model/http/genres";
-import { QueueTrack } from "../../shared/model/queue-track";
 import { ClickActions } from "../../shared/track-table-data/click-actions.enum";
 import { TrackTableOptions } from "../../shared/track-table-data/track-table-options";
 
@@ -27,8 +25,8 @@ export class GenresComponent implements OnInit {
   browsePayload = new Observable<AmpdBrowsePayload>();
 
   constructor(
-    private genreService: GenreService,
     private activatedRoute: ActivatedRoute,
+    private genreService: GenreService,
     private responsiveScreenService: ResponsiveScreenService,
     private viewportScroller: ViewportScroller
   ) {
@@ -49,9 +47,7 @@ export class GenresComponent implements OnInit {
       .subscribe((genre) => {
         this.genrePayload = this.genreService.listGenre(genre).pipe(
           tap((payload) => {
-            this.trackTableData = this.buildTableData(
-              this.buildDataSource(payload.tracks)
-            );
+            this.trackTableData = this.buildTableData(payload.tracks);
             if (payload.albums.length === 0 && payload.tracks.length > 0) {
               // Switch to tracks tab, if there are no albums
               this.selectedIndex = 1;
@@ -66,19 +62,9 @@ export class GenresComponent implements OnInit {
       });
   }
 
-  private buildDataSource(tracks: Track[]): MatTableDataSource<QueueTrack> {
-    const dataSource = new MatTableDataSource<QueueTrack>();
-    dataSource.data = tracks.map(
-      (track, index) => new QueueTrack(track, index)
-    );
-    return dataSource;
-  }
-
-  private buildTableData(
-    dataSource: MatTableDataSource<QueueTrack>
-  ): TrackTableOptions {
+  private buildTableData(tracks: Track[]): TrackTableOptions {
     const trackTable = new TrackTableOptions();
-    trackTable.dataSource = dataSource;
+    trackTable.addTracks(tracks);
     trackTable.displayedColumns = this.getDisplayedColumns();
     trackTable.onPlayClick = ClickActions.AddPlayTrack;
     trackTable.pagination = true;

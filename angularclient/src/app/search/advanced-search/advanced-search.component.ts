@@ -24,6 +24,8 @@ import { SearchService } from "src/app/service/search.service";
 import { AdvSearchResponse } from "src/app/shared/model/http/adv-search-response";
 import { QueueTrack } from "src/app/shared/model/queue-track";
 import { FormField } from "src/app/shared/search/form-field";
+import { ClickActions } from "src/app/shared/track-table-data/click-actions.enum";
+import { TrackTableOptions } from "src/app/shared/track-table-data/track-table-options";
 
 @Component({
   selector: "app-advanced-search",
@@ -48,6 +50,7 @@ export class AdvancedSearchComponent implements OnInit, AfterViewInit {
   form: FormGroup = <FormGroup>{};
   formFields: FormField[];
   isLoadingResults = true;
+  trackTableData = new TrackTableOptions();
 
   private formDataSubmitted = new Subject<Record<string, string>>();
   private isMobile = false;
@@ -88,6 +91,7 @@ export class AdvancedSearchComponent implements OnInit, AfterViewInit {
         this.advSearchResponse = data;
         this.scroller.scrollToAnchor("results");
         this.advSearchResponse$ = of(data);
+        this.trackTableData = this.buildTableData(data);
       });
   }
 
@@ -129,6 +133,17 @@ export class AdvancedSearchComponent implements OnInit, AfterViewInit {
       this.buildTextInput("filename", "File Name"),
     ];
     return inputs;
+  }
+
+  private buildTableData(
+    advSearchResponse: AdvSearchResponse
+  ): TrackTableOptions {
+    const trackTable = new TrackTableOptions();
+    trackTable.addTracks(advSearchResponse.content);
+    trackTable.displayedColumns = this.getDisplayedColumns();
+    trackTable.onPlayClick = ClickActions.AddPlayTrack;
+    trackTable.pagination = true;
+    return trackTable;
   }
 
   private buildTextInput(name: string, label: string) {

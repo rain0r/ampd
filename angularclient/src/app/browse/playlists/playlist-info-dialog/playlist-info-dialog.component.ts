@@ -1,6 +1,5 @@
 import { AfterViewInit, Component, Inject } from "@angular/core";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
-import { MatTableDataSource } from "@angular/material/table";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Observable, Subject } from "rxjs";
 import { ResponsiveScreenService } from "src/app/service/responsive-screen.service";
@@ -8,9 +7,7 @@ import { NotificationService } from "../../../service/notification.service";
 import { PlaylistService } from "../../../service/playlist.service";
 import { QueueService } from "../../../service/queue.service";
 import { Playlist } from "../../../shared/messages/incoming/playlist-impl";
-import { Track } from "../../../shared/messages/incoming/track";
 import { PlaylistInfo } from "../../../shared/model/playlist-info";
-import { QueueTrack } from "../../../shared/model/queue-track";
 import { ClickActions } from "../../../shared/track-table-data/click-actions.enum";
 import { TrackTableOptions } from "../../../shared/track-table-data/track-table-options";
 
@@ -44,7 +41,7 @@ export class PlaylistInfoDialogComponent implements AfterViewInit {
   ngAfterViewInit(): void {
     this.playlistService.getPlaylistInfo(this.data.name).subscribe((info) => {
       const tableData = new TrackTableOptions();
-      tableData.dataSource = this.buildDataSource(info.tracks);
+      tableData.addTracks(info.tracks);
       tableData.displayedColumns = this.getDisplayedColumns();
       tableData.onPlayClick = ClickActions.AddPlayTrack;
       this.trackTableData = tableData;
@@ -86,13 +83,5 @@ export class PlaylistInfoDialogComponent implements AfterViewInit {
     return displayedColumns
       .filter((cd) => !this.isMobile || cd.showMobile)
       .map((cd) => cd.name);
-  }
-
-  private buildDataSource(tracks: Track[]): MatTableDataSource<QueueTrack> {
-    const dataSource = new MatTableDataSource<QueueTrack>();
-    dataSource.data = tracks.map(
-      (track, index) => new QueueTrack(track, index)
-    );
-    return dataSource;
   }
 }

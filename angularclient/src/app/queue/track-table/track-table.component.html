@@ -9,12 +9,15 @@
       fxLayoutAlign="center"
       *ngIf="trackTableData.dataSource.data.length > 0"
     >
-      <mat-form-field class="full-width" *ngIf="dataSource.data.length > 0">
+      <mat-form-field
+        class="full-width"
+        *ngIf="trackTableData.dataSource.data.length > 0"
+      >
         <input
           #filterInputElem
           (keydown.escape)="resetFilter()"
           (keyup)="applyFilter($event.target)"
-          [(ngModel)]="dataSource.filter"
+          [(ngModel)]="trackTableData.dataSource.filter"
           autocomplete="off"
           matInput
           placeholder="Filter queue"
@@ -22,7 +25,7 @@
         />
         <mat-icon
           (click)="resetFilter()"
-          *ngIf="dataSource.filter"
+          *ngIf="trackTableData.dataSource.filter"
           aria-label="Clear"
           matSuffix
         >
@@ -44,9 +47,9 @@
       <span
         class="bottom-divider"
         fxFlex.lt-md="100%"
-        *ngIf="dataSource.data.length > 0"
+        *ngIf="trackTableData.dataSource.data.length > 0"
       >
-        <span [ngPlural]="dataSource.data.length">
+        <span [ngPlural]="trackTableData.dataSource.data.length">
           <ng-template ngPluralCase="=1">1 track </ng-template>
           <ng-template ngPluralCase="other"
             >{{ trackTableData.totalElements }} tracks</ng-template
@@ -69,7 +72,7 @@
       <button
         mat-stroked-button
         (click)="openSavePlaylistDialog()"
-        *ngIf="dataSource.data.length > 0"
+        *ngIf="trackTableData.dataSource.data.length > 0"
         fxFlex.lt-md="100%"
       >
         <mat-icon>save</mat-icon>

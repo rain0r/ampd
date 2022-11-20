@@ -50,10 +50,6 @@ export class AlbumsService {
     name = this.encoder.encodeValue(name);
     artistName = this.encoder.encodeValue(artistName);
     const url = `${this.settingsService.getBackendContextAddr()}api/album/?name=${name}&artistName=${artistName}`;
-    return this.http.get<QueueTrack[]>(url).pipe(
-      map((tracks) => {
-        return tracks.map((track, index) => new QueueTrack(track, index));
-      })
-    );
+    return this.http.get<QueueTrack[]>(url);
   }
 }

@@ -1,6 +1,5 @@
 import { Component, ElementRef, HostListener, ViewChild } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
-import { MatTableDataSource } from "@angular/material/table";
 import { filter, map } from "rxjs";
 import { MsgService } from "src/app/service/msg.service";
 import { ResponsiveScreenService } from "src/app/service/responsive-screen.service";
@@ -27,7 +26,6 @@ export class TrackTableComponent {
 
   currentTrack: QueueTrack = new QueueTrack();
   currentState = "stop";
-  dataSource = new MatTableDataSource<QueueTrack>();
   trackTableData = new TrackTableOptions();
   private isMobile = false;
 
@@ -64,11 +62,11 @@ export class TrackTableComponent {
       return;
     }
     const filterValue = (<HTMLInputElement>eventTarget).value;
-    this.dataSource.filter = filterValue.toLowerCase();
+    this.trackTableData.dataSource.filter = filterValue.toLowerCase();
   }
 
   resetFilter(): void {
-    this.dataSource.filter = "";
+    this.trackTableData.dataSource.filter = "";
   }
 
   openAddStreamDialog(): void {
@@ -91,26 +89,24 @@ export class TrackTableComponent {
 
   private buildQueue(queueResponse: QueueResponse): void {
     /* add the new model object to the trackTableData */
-    this.dataSource.data = queueResponse.content.map(
-      (track, index) => new QueueTrack(track, index)
-    );
+    this.trackTableData.addTracks(queueResponse.content);
     this.trackTableData = this.buildTableData(queueResponse);
   }
 
   private buildTableData(queueResponse: QueueResponse): TrackTableOptions {
     const trackTable = new TrackTableOptions();
-    trackTable.dataSource = this.dataSource;
+    trackTable.addTracks(queueResponse.content);
+    trackTable.addTitleColumn = false;
     trackTable.displayedColumns = this.getDisplayedColumns();
     trackTable.dragEnabled = !this.isMobile;
     trackTable.onRowClick = ClickActions.PlayTrack;
-    trackTable.addTitleColumn = false;
-    trackTable.playTitleColumn = false;
-    trackTable.pageSize = queueResponse.numberOfElements;
     trackTable.pageIndex = queueResponse.number;
+    trackTable.pageSize = queueResponse.numberOfElements;
+    trackTable.pagination = true;
+    trackTable.playTitleColumn = false;
     trackTable.totalElements = queueResponse.totalElements;
     trackTable.totalPages = queueResponse.totalPages;
     trackTable.totalPlayTime = queueResponse.totalPlayTime;
-    trackTable.pagination = true;
     return trackTable;
   }
 
@@ -135,7 +131,7 @@ export class TrackTableComponent {
       if (this.currentState !== "stop") {
         this.currentTrack = track;
       }
-      for (const track of this.dataSource.data) {
+      for (const track of this.trackTableData.dataSource.data) {
         track.playing = track.id === this.currentTrack.id;
       }
     });

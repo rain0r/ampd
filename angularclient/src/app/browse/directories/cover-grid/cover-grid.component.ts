@@ -1,6 +1,6 @@
 import { Component, Input } from "@angular/core";
+import { MsgService } from "../../../service/msg.service";
 import { Directory } from "../../../shared/messages/incoming/directory";
-import { MessageService } from "../../../service/message.service";
 import { Filterable } from "../../filterable";
 
 @Component({
@@ -14,7 +14,7 @@ export class CoverGridComponent extends Filterable {
 
   maxCoversDisplayed = 50;
 
-  constructor(private messageService: MessageService) {
+  constructor(private messageService: MsgService) {
     super(messageService);
   }
 }

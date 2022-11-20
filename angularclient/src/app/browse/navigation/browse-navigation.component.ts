@@ -9,13 +9,15 @@ import {
 import { ActivatedRoute } from "@angular/router";
 import { BehaviorSubject, Observable } from "rxjs";
 import { distinctUntilChanged, map } from "rxjs/operators";
-import { InternalMessageType } from "../../shared/messages/internal/internal-message-type.enum";
-import { FilterMessage } from "../../shared/messages/internal/message-types/filter-message";
-import { AmpdBrowsePayload } from "../../shared/model/ampd-browse-payload";
+import {
+  FilterMsg,
+  InternMsgType,
+} from "src/app/shared/messages/internal/internal-msg";
 import { ControlPanelService } from "../../service/control-panel.service";
-import { MessageService } from "../../service/message.service";
+import { MsgService } from "../../service/msg.service";
 import { NotificationService } from "../../service/notification.service";
 import { QueueService } from "../../service/queue.service";
+import { AmpdBrowsePayload } from "../../shared/model/ampd-browse-payload";
 
 @Component({
   selector: "app-navigation",
@@ -35,7 +37,7 @@ export class BrowseNavigationComponent implements OnInit {
   constructor(
     private activatedRoute: ActivatedRoute,
     private controlPanelService: ControlPanelService,
-    private messageService: MessageService,
+    private messageService: MsgService,
     private notificationService: NotificationService,
     private queueService: QueueService
   ) {
@@ -99,9 +101,9 @@ export class BrowseNavigationComponent implements OnInit {
     this.filter = term;
     if (term) {
       this.messageService.sendMessage({
-        type: InternalMessageType.BrowseFilter,
+        type: InternMsgType.BrowseFilter,
         filterValue: term,
-      } as FilterMessage);
+      } as FilterMsg);
     } else {
       this.resetFilter();
     }
@@ -110,9 +112,9 @@ export class BrowseNavigationComponent implements OnInit {
   resetFilter(): void {
     this.filter = "";
     this.messageService.sendMessage({
-      type: InternalMessageType.BrowseFilter,
+      type: InternMsgType.BrowseFilter,
       filterValue: "",
-    } as FilterMessage);
+    } as FilterMsg);
   }
 
   private buildDirUp(dir: string): void {

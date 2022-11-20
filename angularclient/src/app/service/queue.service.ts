@@ -1,7 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { distinctUntilChanged, map } from "rxjs/operators";
-import { Track } from "../shared/messages/incoming/track";
 import { MpdAlbum } from "../shared/model/http/album";
 import { QueueTrack } from "../shared/model/queue-track";
 import { QueueResponse } from "./../shared/messages/incoming/queue-response";
@@ -19,16 +18,31 @@ export class QueueService {
     private notificationService: NotificationService
   ) {}
 
+  /**
+   * Don't wait for the next publisher message from the server: manually request the queue.
+   */
   getQueue(): void {
     this.rxStompService.publish({
       destination: this.path,
     });
   }
 
+  getPage(pageIndex: number, pageSize: number): void {
+    this.rxStompService.publish({
+      destination: `${this.path}page`,
+      body: JSON.stringify({
+        pageIndex: pageIndex,
+        pageSize: pageSize,
+      }),
+    });
+  }
+
   clearQueue(): void {
-    this.removeAll();
-    this.notificationService.popUp("Cleared queue");
+    this.rxStompService.publish({
+      destination: `${this.path}clear`,
+    });
     this.getQueue();
+    this.notificationService.popUp("Cleared queue");
   }
 
   addDir(dir: string): void {
@@ -36,6 +50,7 @@ export class QueueService {
       destination: `${this.path}add-dir`,
       body: decodeURIComponent(dir),
     });
+    this.getQueue();
   }
 
   addAlbum(album: MpdAlbum): void {
@@ -43,6 +58,7 @@ export class QueueService {
       destination: `${this.path}add-album`,
       body: JSON.stringify(album),
     });
+    this.getQueue();
   }
 
   playAlbum(album: MpdAlbum): void {
@@ -50,6 +66,7 @@ export class QueueService {
       destination: `${this.path}play-album`,
       body: JSON.stringify(album),
     });
+    this.getQueue();
   }
 
   addPlayQueueTrack(track: QueueTrack): void {
@@ -76,6 +93,7 @@ export class QueueService {
       destination: `${this.path}add-tracks`,
       body: JSON.stringify(filePaths),
     });
+    this.getQueue();
   }
 
   addPlaylist(playlistName: string): void {
@@ -83,6 +101,7 @@ export class QueueService {
       destination: `${this.path}add-playlist`,
       body: playlistName,
     });
+    this.getQueue();
   }
 
   addPlayTrack(file: string): void {
@@ -90,6 +109,7 @@ export class QueueService {
       destination: `${this.path}add-play-track`,
       body: file,
     });
+    this.getQueue();
   }
 
   removeTrack(position: number): void {
@@ -97,6 +117,7 @@ export class QueueService {
       destination: `${this.path}remove-track`,
       body: JSON.stringify(position),
     });
+    this.getQueue();
   }
 
   playTrack(file: string): void {
@@ -114,25 +135,20 @@ export class QueueService {
         newPos: newPos,
       }),
     });
+    this.getQueue();
   }
 
-  getQueueSubscription(): Observable<Track[]> {
+  getQueueSubscription(): Observable<QueueResponse> {
+    this.getQueue();
     return this.rxStompService.watch("/topic/queue").pipe(
       map((message) => message.body),
       map((body) => <QueueResponse>JSON.parse(body)),
-      map((data) => data.content),
       distinctUntilChanged((prev, curr) => {
         return (
-          prev.length == curr.length &&
+          prev.content.length == curr.content.length &&
           JSON.stringify(curr) === JSON.stringify(prev)
         );
       })
     );
-  }
-
-  private removeAll(): void {
-    this.rxStompService.publish({
-      destination: `${this.path}clear`,
-    });
   }
 }

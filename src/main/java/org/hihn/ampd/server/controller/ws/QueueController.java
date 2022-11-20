@@ -6,8 +6,8 @@ import org.bff.javampd.playlist.MPDPlaylistSong;
 import org.bff.javampd.server.MPD;
 import org.hihn.ampd.server.message.incoming.MoveTrackMsg;
 import org.hihn.ampd.server.model.AmpdSettings;
+import org.hihn.ampd.server.model.QueuePageImpl;
 import org.hihn.ampd.server.service.QueueService;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
@@ -42,8 +42,15 @@ public class QueueController {
 
 	@MessageMapping("/")
 	@SendTo("/topic/queue")
-	public PageImpl<MPDPlaylistSong> getQueue() {
+	public QueuePageImpl<MPDPlaylistSong> getQueue() {
 		return queueService.getQueue();
+	}
+
+	@MessageMapping("/page")
+	// @SendTo("/topic/page")
+	@SendTo("/topic/queue")
+	public QueuePageImpl<MPDPlaylistSong> getPage(PageEvent pageEvent) {
+		return queueService.getQueue(pageEvent.getPageIndex(), pageEvent.getPageSize());
 	}
 
 	/**
@@ -104,6 +111,30 @@ public class QueueController {
 	@MessageMapping("/move-track")
 	public void moveTrack(MoveTrackMsg moveTrackMsg) {
 		queueService.moveTrack(moveTrackMsg.getOldPos(), moveTrackMsg.getNewPos());
+	}
+
+	public static final class PageEvent {
+
+		private int pageIndex;
+
+		private int pageSize;
+
+		public int getPageIndex() {
+			return pageIndex;
+		}
+
+		public void setPageIndex(int pageIndex) {
+			this.pageIndex = pageIndex;
+		}
+
+		public int getPageSize() {
+			return pageSize;
+		}
+
+		public void setPageSize(int pageSize) {
+			this.pageSize = pageSize;
+		}
+
 	}
 
 }

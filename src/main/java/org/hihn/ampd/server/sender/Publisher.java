@@ -33,6 +33,8 @@ public class Publisher {
 		this.mpd = mpd;
 		this.template = template;
 		this.queueService = queueService;
+
+		buildChangeListener();
 	}
 
 	/**
@@ -43,9 +45,7 @@ public class Publisher {
 		if (!mpd.isConnected()) {
 			return;
 		}
-		// Tells javampd to get fresh data every second
-		mpd.getServerStatus().setExpiryInterval(1L);
-		template.convertAndSend(QUEUE_URL, queueService.getQueue());
+
 	}
 
 	/**
@@ -63,6 +63,29 @@ public class Publisher {
 		MPDPlaylistSong song = mpd.getPlayer().getCurrentSong().orElse(null);
 		StatePayload statePayload = new StatePayload(serverStatus, song, mpdModesPanelMsg);
 		template.convertAndSend(STATE_URL, statePayload);
+	}
+
+	private void buildChangeListener() {
+		// Tells javampd to get fresh data every second
+		mpd.getServerStatus().setExpiryInterval(1L);
+		mpd.getStandAloneMonitor().start();
+
+		mpd.getStandAloneMonitor()
+				.addTrackPositionChangeListener(event -> template.convertAndSend(QUEUE_URL, queueService.getQueue()));
+
+		mpd.getStandAloneMonitor()
+				.addBitrateChangeListener(event -> template.convertAndSend(QUEUE_URL, queueService.getQueue()));
+
+		mpd.getStandAloneMonitor()
+				.addVolumeChangeListener(event -> template.convertAndSend(QUEUE_URL, queueService.getQueue()));
+
+		mpd.getStandAloneMonitor()
+				.addPlayerChangeListener(event -> template.convertAndSend(QUEUE_URL, queueService.getQueue()));
+
+		mpd.getStandAloneMonitor().addPlaylistChangeListener(event ->
+
+		template.convertAndSend(QUEUE_URL, queueService.getQueue()));
+
 	}
 
 }

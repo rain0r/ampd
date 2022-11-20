@@ -3,13 +3,17 @@ package org.hihn.ampd.server.service;
 import org.bff.javampd.playlist.MPDPlaylistSong;
 import org.bff.javampd.server.MPD;
 import org.bff.javampd.song.MPDSong;
+import org.hihn.ampd.server.model.QueuePageImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.support.PagedListHolder;
-import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 /**
@@ -18,7 +22,9 @@ import java.util.stream.Collectors;
 @Service
 public class QueueService {
 
-	private static final int QUEUE_PAGE_SIZE = 500;
+	// queue.tracks.page.size
+	@Value("${queue.tracks.page.size}")
+	private int queueTracksPageSize;
 
 	private static final Logger LOG = LoggerFactory.getLogger(QueueService.class);
 
@@ -72,15 +78,25 @@ public class QueueService {
 		mpd.getPlaylist().move(track, newPos);
 	}
 
-	public PageImpl<MPDPlaylistSong> getQueue() {
-		return getQueue(1);
+	public QueuePageImpl<MPDPlaylistSong> getQueue() {
+		// return mpd.getPlaylist().getSongList();
+		return getQueue(0, queueTracksPageSize);
 	}
 
-	public PageImpl<MPDPlaylistSong> getQueue(int page) {
+	public QueuePageImpl<MPDPlaylistSong> getQueue(int pageIndex, int pageSize) {
+		List<MPDPlaylistSong> songList = mpd.getPlaylist().getSongList();
 		PagedListHolder<MPDPlaylistSong> pages = new PagedListHolder<>(mpd.getPlaylist().getSongList());
-		pages.setPage(page);
-		pages.setPageSize(QUEUE_PAGE_SIZE);
-		return new PageImpl<>(pages.getPageList());
+		Pageable pageable = PageRequest.of(pageIndex, pageSize);
+		pages.setPage(pageIndex);
+		pages.setPageSize(pageSize);
+		// return new CustomPage<MPDPlaylistSong>(pages.getPageList());
+		QueuePageImpl<MPDPlaylistSong> page = new QueuePageImpl<>(pages.getPageList(), pageable, songList.size());
+		page.setTotalPlayTime(sumQueuePlayTime(songList));
+		return page;
+	}
+
+	private Integer sumQueuePlayTime(List<MPDPlaylistSong> songList) {
+		return songList.stream().map(MPDPlaylistSong::getLength).mapToInt(Integer::intValue).sum();
 	}
 
 }

@@ -1,16 +1,18 @@
-import { MessageService } from "../service/message.service";
 import { filter, map } from "rxjs/operators";
-import { InternalMessageType } from "../shared/messages/internal/internal-message-type.enum";
-import { FilterMessage } from "../shared/messages/internal/message-types/filter-message";
+import { MsgService } from "../service/msg.service";
+import {
+  FilterMsg,
+  InternMsgType,
+} from "../shared/messages/internal/internal-msg";
 
 export abstract class Filterable {
   filterValue = "";
 
-  protected constructor(messageService: MessageService) {
+  protected constructor(messageService: MsgService) {
     messageService.message
       .pipe(
-        filter((msg) => msg.type === InternalMessageType.BrowseFilter),
-        map((msg) => msg as FilterMessage)
+        filter((msg) => msg.type === InternMsgType.BrowseFilter),
+        map((msg) => msg as FilterMsg)
       )
       .subscribe(
         (message) =>

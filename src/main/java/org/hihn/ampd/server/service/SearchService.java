@@ -7,6 +7,7 @@ import org.bff.javampd.song.SongSearcher;
 import org.hihn.ampd.server.model.AmpdSettings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.support.PagedListHolder;
+import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -19,7 +20,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import static org.hihn.ampd.server.Constants.SEARCH_CACHE;
+
 @Service
+@CacheConfig(cacheNames = { SEARCH_CACHE })
 public class SearchService {
 
 	private static final int PAGE_SIZE = 5;
@@ -54,7 +58,6 @@ public class SearchService {
 
 		Pageable pageable = PageRequest.of(0, ampdSettings.getAdvSearchPageSize());
 		PagedListHolder<MPDSong> pages = new PagedListHolder<>(ret);
-		pages.setPage(page);
 		pages.setPage(page);
 		pages.setPageSize(ampdSettings.getAdvSearchPageSize());
 

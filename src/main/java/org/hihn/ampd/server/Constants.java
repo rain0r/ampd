@@ -6,4 +6,6 @@ public interface Constants {
 
 	String GENRE_CACHE = "GenreService";
 
+	String SEARCH_CACHE = "SearchService";
+
 }

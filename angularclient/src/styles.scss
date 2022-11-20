@@ -191,3 +191,10 @@ $font-color: var(--font-color);
 .mat-icon {
   padding-right: 0.5rem;
 }
+
+.mat-column-remove,
+.mat-column-info,
+.mat-column-add-title,
+.mat-column-play-title {
+  width: 1%;
+}

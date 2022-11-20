@@ -87,12 +87,12 @@ export class GenresComponent implements OnInit {
 
   private getDisplayedColumns(): string[] {
     const displayedColumns = [
-      { name: "artistName", showMobile: true },
-      { name: "albumName", showMobile: false },
+      { name: "artist-name", showMobile: true },
+      { name: "album-name", showMobile: false },
       { name: "title", showMobile: true },
       { name: "length", showMobile: false },
-      { name: "playTitle", showMobile: true },
-      { name: "addTitle", showMobile: true },
+      { name: "play-title", showMobile: true },
+      { name: "add-title", showMobile: true },
     ];
     return displayedColumns
       .filter((cd) => !this.isMobile || cd.showMobile)

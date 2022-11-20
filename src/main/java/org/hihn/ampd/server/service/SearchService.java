@@ -26,8 +26,6 @@ import static org.hihn.ampd.server.Constants.SEARCH_CACHE;
 @CacheConfig(cacheNames = { SEARCH_CACHE })
 public class SearchService {
 
-	private static final int PAGE_SIZE = 5;
-
 	private final AmpdSettings ampdSettings;
 
 	private static final List<String> SEARCH_FIELDS = Arrays.stream(SongSearcher.ScopeType.values())

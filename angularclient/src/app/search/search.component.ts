@@ -1,6 +1,5 @@
 import { Component } from "@angular/core";
 import { MatTableDataSource } from "@angular/material/table";
-import { Router } from "@angular/router";
 import { of, Subject } from "rxjs";
 import { debounceTime, distinctUntilChanged, switchMap } from "rxjs/operators";
 import { ResponsiveScreenService } from "src/app/service/responsive-screen.service";
@@ -29,10 +28,9 @@ export class SearchComponent {
 
   constructor(
     private notificationService: NotificationService,
-    private responsiveScreenService: ResponsiveScreenService,
     private queueService: QueueService,
-    private searchService: SearchService,
-    private router: Router
+    private responsiveScreenService: ResponsiveScreenService,
+    private searchService: SearchService
   ) {
     this.buildMsgReceiver();
     this.buildInputListener();
@@ -69,27 +67,19 @@ export class SearchComponent {
     this.notificationService.popUp("Cleared queue");
   }
 
-  onAdvSearchClick(): void {
-    this.router
-      .navigate(["/adv-search"])
-      .then(() => {
-        window.location.reload();
-      })
-      .catch(() => void 0);
-  }
-
   /**
    * Listen for results on the websocket channel
    */
   private buildMsgReceiver(): void {
     this.searchService
       .getSearchSubscription()
-      .subscribe((message: SearchResponse) =>
+      .subscribe((message: SearchResponse) => {
+        console.log("SearchResponse", message);
         this.processSearchResults(
           message.searchResults,
           message.searchResultCount
-        )
-      );
+        );
+      });
   }
 
   private processSearchResults(
@@ -112,17 +102,18 @@ export class SearchComponent {
     trackTable.displayedColumns = this.getDisplayedColumns();
     trackTable.onPlayClick = ClickActions.AddPlayTrack;
     trackTable.pagination = true;
+    trackTable.totalElements = this.searchResultCount;
     return trackTable;
   }
 
   private getDisplayedColumns(): string[] {
     const displayedColumns = [
-      { name: "artistName", showMobile: true },
-      { name: "albumName", showMobile: false },
+      { name: "artist-name", showMobile: true },
+      { name: "album-name", showMobile: false },
       { name: "title", showMobile: true },
       { name: "length", showMobile: false },
-      { name: "playTitle", showMobile: true },
-      { name: "addTitle", showMobile: true },
+      { name: "play-title", showMobile: true },
+      { name: "add-title", showMobile: true },
     ];
     return displayedColumns
       .filter((cd) => !this.isMobile || cd.showMobile)

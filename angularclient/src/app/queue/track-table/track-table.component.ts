@@ -78,8 +78,8 @@ export class TrackTableComponent {
   private getDisplayedColumns(): string[] {
     const displayedColumns = [
       { name: "position", showMobile: false },
-      { name: "artistName", showMobile: true },
-      { name: "albumName", showMobile: false },
+      { name: "artist-name", showMobile: true },
+      { name: "album-name", showMobile: false },
       { name: "title", showMobile: true },
       { name: "length", showMobile: false },
       { name: "remove", showMobile: true },

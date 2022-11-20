@@ -1,16 +1,14 @@
 import { Injectable } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
 import { Router } from "@angular/router";
-import { BehaviorSubject, first, Observable } from "rxjs";
+import { BehaviorSubject, first } from "rxjs";
 import { HelpDialogComponent } from "../navbar/help-dialog/help-dialog.component";
-import { SearchComponent } from "../search/search.component";
 import { Category } from "../shared/shortcuts/shortcut";
 import { ShortCut } from "./../shared/shortcuts/shortcut";
 import { ControlPanelService } from "./control-panel.service";
 import { MpdModeService } from "./mpd-mode.service";
 import { MpdService } from "./mpd.service";
 import { QueueService } from "./queue.service";
-import { ResponsiveScreenService } from "./responsive-screen.service";
 import { VolumeService } from "./volume.service";
 
 /* eslint-disable @typescript-eslint/unbound-method */
@@ -68,10 +66,12 @@ export class ShortcutService {
       "Browse view",
       ["2"]
     ),
-    this.build(Category.Navigation, this.openSearchDialog, "Search view", [
-      "3",
-      "S",
-    ]),
+    this.build(
+      Category.Navigation,
+      () => void this.router.navigate(["/search"]),
+      "Search view",
+      ["3", "S"]
+    ),
     this.build(
       Category.Navigation,
       () => void this.router.navigate(["/settings"]),
@@ -129,21 +129,17 @@ export class ShortcutService {
   ];
 
   private currentState = "stop";
-  private isMobile = new Observable<boolean>();
   private helpDialogOpen = new BehaviorSubject(false);
-  private searchDialogOpen = new BehaviorSubject(false);
 
   constructor(
-    private mpdService: MpdService,
     private controlPanelService: ControlPanelService,
-    private router: Router,
+    private dialog: MatDialog,
     private mpdModeService: MpdModeService,
-    private volumeService: VolumeService,
+    private mpdService: MpdService,
     private queueService: QueueService,
-    private responsiveScreenService: ResponsiveScreenService,
-    private dialog: MatDialog
+    private router: Router,
+    private volumeService: VolumeService
   ) {
-    this.isMobile = this.responsiveScreenService.isMobile();
     this.mpdService.currentState$.subscribe(
       (state) => (this.currentState = state)
     );
@@ -174,32 +170,6 @@ export class ShortcutService {
       this.shortcuts.map((shortcut) => Category[shortcut.category])
     );
     return ret;
-  }
-
-  openSearchDialog(): void {
-    this.isMobile.subscribe((isMobile) => {
-      if (isMobile) {
-        void this.router.navigate(["search"]);
-        return;
-      }
-
-      this.searchDialogOpen
-        .asObservable()
-        .pipe(first())
-        .subscribe((open) => {
-          if (!open) {
-            this.searchDialogOpen.next(true);
-            const dialogRef = this.dialog.open(SearchComponent, {
-              autoFocus: true,
-              height: "75%",
-              width: "75%",
-            });
-            dialogRef
-              .afterClosed()
-              .subscribe(() => this.searchDialogOpen.next(false));
-          }
-        });
-    });
   }
 
   private togglePause(): void {

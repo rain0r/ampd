@@ -76,12 +76,12 @@ export class PlaylistInfoDialogComponent implements AfterViewInit {
   private getDisplayedColumns(): string[] {
     const displayedColumns = [
       { name: "position", showMobile: false },
-      { name: "artistName", showMobile: true },
-      { name: "albumName", showMobile: false },
+      { name: "artist-name", showMobile: true },
+      { name: "album-name", showMobile: false },
       { name: "title", showMobile: true },
       { name: "length", showMobile: false },
-      { name: "playTitle", showMobile: false },
-      { name: "addTitle", showMobile: false },
+      { name: "play-title", showMobile: false },
+      { name: "add-title", showMobile: false },
     ];
     return displayedColumns
       .filter((cd) => !this.isMobile || cd.showMobile)

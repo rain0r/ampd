@@ -88,9 +88,11 @@ export class TrackTableDataComponent implements OnInit {
   }
 
   onRemoveTrack(position: number): void {
-    if (this.trackTableData.clickable) {
-      this.queueService.removeTrack(position);
-    }
+    this.trackTableDataObs.subscribe((trackTableData) => {
+      if (trackTableData.clickable) {
+        this.queueService.removeTrack(position);
+      }
+    });
   }
 
   onAddTrack(track: QueueTrack): void {
@@ -98,16 +100,18 @@ export class TrackTableDataComponent implements OnInit {
   }
 
   onPlayTrack(track: QueueTrack): void {
-    switch (this.trackTableData.onPlayClick) {
-      case ClickActions.PlayTrack:
-        this.playTrack(track);
-        break;
-      case ClickActions.AddPlayTrack:
-        this.addPlayTrack(track);
-        break;
-      default:
-      // Ignore it
-    }
+    this.trackTableDataObs.subscribe((trackTableData) => {
+      switch (trackTableData.onPlayClick) {
+        case ClickActions.PlayTrack:
+          this.playTrack(track);
+          break;
+        case ClickActions.AddPlayTrack:
+          this.addPlayTrack(track);
+          break;
+        default:
+        // Ignore it
+      }
+    });
   }
 
   onListDrop(event: CdkDragDrop<QueueTrack[]>): void {

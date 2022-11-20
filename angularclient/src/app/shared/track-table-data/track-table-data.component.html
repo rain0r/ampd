@@ -30,7 +30,7 @@
     </ng-container>
 
     <!-- Artist column. Shows the file name if none of artist/album/title is present -->
-    <ng-container matColumnDef="artistName">
+    <ng-container matColumnDef="artist-name">
       <th
         mat-header-cell
         mat-sort-header
@@ -60,7 +60,7 @@
     </ng-container>
 
     <!-- Album column -->
-    <ng-container matColumnDef="albumName">
+    <ng-container matColumnDef="album-name">
       <th
         mat-header-cell
         mat-sort-header
@@ -138,7 +138,7 @@
 
     <!-- Button: Play track -->
     <ng-container
-      matColumnDef="playTitle"
+      matColumnDef="play-title"
       *ngIf="trackTableData.playTitleColumn"
     >
       <th mat-header-cell *matHeaderCellDef></th>
@@ -154,7 +154,10 @@
     </ng-container>
 
     <!-- Button: Add track to queue -->
-    <ng-container matColumnDef="addTitle" *ngIf="trackTableData.addTitleColumn">
+    <ng-container
+      matColumnDef="add-title"
+      *ngIf="trackTableData.addTitleColumn"
+    >
       <th mat-header-cell *matHeaderCellDef></th>
       <td
         mat-cell

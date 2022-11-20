@@ -21,7 +21,7 @@
     </a>
 
     <!-- Search -->
-    <button mat-button (click)="openSearchDialog()">
+    <button mat-button [routerLink]="['/search']" routerLinkActive="mat-accent">
       <mat-icon>search</mat-icon>
       <span fxHide.lt-md> Search </span>
     </button>

@@ -35,7 +35,6 @@ export class AlbumsComponent implements OnInit {
     { value: "artist", viewValue: "Artist" },
     { value: "album", viewValue: "Album" },
   ];
-  gridColumns = 3;
   darkTheme: Observable<boolean>;
   private inputSetter$ = new BehaviorSubject<string>("");
 

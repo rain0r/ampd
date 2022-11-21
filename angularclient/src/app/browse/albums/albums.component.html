@@ -65,23 +65,14 @@
 </div>
 
 <mat-divider></mat-divider>
+
 <mat-spinner *ngIf="isLoading | async"></mat-spinner>
-<div
-  fxLayout="row wrap"
-  fxLayout.lt-md="column"
-  fxLayoutAlign="space-between"
-  fxLayoutAlign.lt-md="center center"
-  fxLayoutGap="1rem grid"
-  fxLayoutGap.lt-md="1rem"
->
-  <div
-    [fxFlex]="100 / gridColumns + '%'"
-    fxFlex.xs="100%"
-    fxFlex.sm="33%"
+
+<div id="photos">
+  <app-album-item
     *ngFor="let album of albums | async"
-  >
-    <app-album-item [album]="album"></app-album-item>
-  </div>
+    [album]="album"
+  ></app-album-item>
 </div>
 
 <ng-container *ngIf="albums | async as albumList">

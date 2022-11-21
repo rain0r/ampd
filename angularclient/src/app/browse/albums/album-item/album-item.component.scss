@@ -1,3 +1,9 @@
 img {
-  padding: 2rem;
+  /* Just in case there are inline attributes */
+  width: 100% !important;
+  height: auto !important;
+}
+
+.album-card {
+  margin-bottom: 1rem !important;
 }

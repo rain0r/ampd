@@ -1,17 +1,9 @@
-<mat-card class="clickable" (click)="openDialog()" *ngIf="album">
+<mat-card class="album-card clickable" (click)="openDialog()" *ngIf="album">
   <mat-card-content fxFlex fxLayout="column">
     <img
-      mat-card-image
-      [ngClass]="[coverSizeClass | async]"
-      [title]="album.name"
+      title="{{ album.name }} — {{ album.albumArtist }}"
       [src]="album.albumCoverUrl"
-      alt="Cover of {{ album.name }}"
+      alt="Cover of {{ album.name }} — {{ album.albumArtist }}"
     />
-    <p>
-      {{ album.name }}
-    </p>
-    <p class="text-muted">
-      {{ album.albumArtist }}
-    </p>
   </mat-card-content>
 </mat-card>

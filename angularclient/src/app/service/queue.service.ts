@@ -71,17 +71,23 @@ export class QueueService {
 
   addPlayQueueTrack(track: QueueTrack): void {
     this.addPlayTrack(track.file);
-    this.notificationService.popUp(`Playing: ${track.title}`);
+    this.notificationService.popUp(
+      `Playing: ${track.title ? track.title : track.file}`
+    );
   }
 
   playQueueTrack(track: QueueTrack): void {
     this.playTrack(track.file);
-    this.notificationService.popUp(`Playing: ${track.title}`);
+    this.notificationService.popUp(
+      `Playing: ${track.title ? track.title : track.file}`
+    );
   }
 
   addQueueTrack(track: QueueTrack): void {
     this.addTrack(track.file);
-    this.notificationService.popUp(`Added: ${track.title}`);
+    this.notificationService.popUp(
+      `Added: ${track.title ? track.title : track.file}`
+    );
   }
 
   addTrack(file: string): void {

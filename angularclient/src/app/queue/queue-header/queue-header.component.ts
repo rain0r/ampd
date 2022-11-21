@@ -29,5 +29,8 @@ export class QueueHeaderComponent {
         } as CurrentPlay;
       })
     );
+    this.currentPlay.subscribe(
+      (data) => (this.currentPathLink = encodeURIComponent(data.track.dir))
+    );
   }
 }

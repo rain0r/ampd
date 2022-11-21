@@ -43,7 +43,7 @@
         mat-cell
         *matCellDef="let row"
         (click)="onRowClick(row)"
-        [ngClass]="(isMobile | async) ? 'mobile ' : ''"
+        [ngClass]="(isMobile | async) ? 'mobile' : ''"
       >
         <span
           *ngIf="
@@ -93,7 +93,7 @@
         mat-cell
         *matCellDef="let row"
         (click)="onRowClick(row)"
-        [ngClass]="(isMobile | async) ? 'mobile  mobile-title' : ''"
+        [ngClass]="(isMobile | async) ? 'mobile' : ''"
       >
         {{ row.title }}
       </td>

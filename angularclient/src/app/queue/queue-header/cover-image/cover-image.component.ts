@@ -77,10 +77,12 @@ export class CoverImageComponent implements OnInit, AfterViewChecked {
     combineLatest([
       this.state$.asObservable(),
       this.frontendSettingsService.getBoolValue$(SettingKeys.DISPLAY_COVERS),
-    ]).subscribe(([state, displayCovers]) => {
+      this.currTrack,
+    ]).subscribe(([state, displayCovers, currTrack]) => {
       this.displayCover$.next(
         state !== "stop" && // Check state, we don't change the cover if the player has stopped
-          displayCovers === true // Check if cover-display is active in the frontend-settings
+          displayCovers === true && // Check if cover-display is active in the frontend-settings
+          typeof currTrack.albumName === "string" // No need to check for a cover, if there is no album name
       );
     });
   }

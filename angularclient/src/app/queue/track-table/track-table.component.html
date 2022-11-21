@@ -39,13 +39,10 @@
       *ngIf="trackTableData.dataSource.data.length > 0"
     ></app-track-data-table>
 
-    <div
-      fxLayout="row wrap"
-      fxLayoutAlign="space-between center"
-      class="space-top"
-    >
+    <mat-divider></mat-divider>
+
+    <div fxLayout="row wrap" fxLayoutAlign="space-between center">
       <span
-        class="bottom-divider"
         fxFlex.lt-md="100%"
         *ngIf="trackTableData.dataSource.data.length > 0"
       >

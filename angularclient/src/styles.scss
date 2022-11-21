@@ -52,8 +52,9 @@ table {
 }
 
 .mat-divider-horizontal {
-  padding-top: 0.2rem;
-  padding-bottom: 0.2rem;
+  /* top | right | bottom | left */
+  padding: 0.25rem 0 0.25rem 0;
+  margin: 0.25rem 0 0.25rem 0;
 }
 
 .dir-prefix {
@@ -158,12 +159,6 @@ $font-color: var(--font-color);
 
 .smaller-font {
   font-size: smaller !important;
-}
-
-.bottom-divider {
-  /* top | right | bottom | left */
-  padding: 1rem 0 1rem 0;
-  margin: 1rem 0 1rem 0;
 }
 
 .mat-sort-header-container {

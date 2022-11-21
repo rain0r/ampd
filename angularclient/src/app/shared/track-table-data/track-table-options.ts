@@ -54,14 +54,9 @@ export class TrackTableOptions {
   sortable = true;
 
   /**
-   * If true, the table has pagination elements.
+   * The default page size.
    */
-  pagination = false;
-
-  /**
-   * If pagination is enabled, this is the default page size.
-   */
-  pageSize = 10;
+  pageSize = 50;
 
   /**
    * Options for the "Paginate by" select.

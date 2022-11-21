@@ -102,7 +102,6 @@ export class TrackTableComponent {
     trackTable.onRowClick = ClickActions.PlayTrack;
     trackTable.pageIndex = queueResponse.number;
     trackTable.pageSize = queueResponse.numberOfElements;
-    trackTable.pagination = true;
     trackTable.playTitleColumn = false;
     trackTable.totalElements = queueResponse.totalElements;
     trackTable.totalPages = queueResponse.totalPages;

@@ -1,7 +1,5 @@
 import { Component, Input } from "@angular/core";
 import { PageEvent } from "@angular/material/paginator";
-import { Observable } from "rxjs";
-import { SettingKeys } from "src/app/shared/model/internal/frontend-settings";
 import { FrontendSettingsService } from "../../service/frontend-settings.service";
 import { MsgService } from "../../service/msg.service";
 import { Playlist } from "../../shared/messages/incoming/playlist-impl";
@@ -16,9 +14,8 @@ export class PlaylistsComponent extends Filterable {
   @Input() playlists: Playlist[] = [];
 
   pageSizeOptions: number[];
-  pagination: Observable<boolean>;
   paginationFrom = 0;
-  paginationTo: number;
+  paginationTo = 50;
 
   constructor(
     private frontendSettingsService: FrontendSettingsService,
@@ -26,10 +23,6 @@ export class PlaylistsComponent extends Filterable {
   ) {
     super(messageService);
     this.pageSizeOptions = this.frontendSettingsService.pageSizeOptions;
-    this.paginationTo = this.frontendSettingsService.paginationTo;
-    this.pagination = this.frontendSettingsService.getBoolValue$(
-      SettingKeys.PAGINATION
-    );
   }
 
   public getPaginatorData(event: PageEvent): PageEvent {

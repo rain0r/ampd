@@ -5,7 +5,6 @@ import {
   darkTheme,
   displayCovers,
   displayInfoBtn,
-  pagination,
   SettingKeys,
   updateTabTitle,
 } from "../shared/model/internal/frontend-settings";
@@ -19,12 +18,10 @@ const LS_KEY = "ampd_userSettings";
 })
 export class FrontendSettingsService {
   pageSizeOptions = [20, 50, 100];
-  paginationTo = 20;
 
   private settings: FrontendSetting[] = [
     darkTheme,
     displayCovers,
-    pagination,
     updateTabTitle,
     displayInfoBtn,
     backendAddr,

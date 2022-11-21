@@ -55,7 +55,6 @@ export class AlbumDialogComponent implements OnInit {
     trackTable.addTracks(tracks);
     trackTable.displayedColumns = this.getDisplayedColumns();
     trackTable.onPlayClick = ClickActions.AddPlayTrack;
-    trackTable.pagination = true;
     return trackTable;
   }
 

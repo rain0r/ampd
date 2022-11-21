@@ -1,7 +1,6 @@
 export enum SettingKeys {
   DARK_THEME = "darkTheme",
   DISPLAY_COVERS = "displayCovers",
-  PAGINATION = "pagination",
   UPDATE_TAB_TITLE = "updateTabTitle",
   BACKEND_ADDR = "backendAddr",
   DISPLAY_INFO_BTN = "displayInfoButton",
@@ -26,13 +25,6 @@ export const displayCovers: FrontendSetting = {
   type: "bool",
   value: "true",
   description: "Toggle if covers should be displayed in the queue.",
-};
-
-export const pagination: FrontendSetting = {
-  name: SettingKeys.PAGINATION,
-  type: "bool",
-  value: "true",
-  description: "Enables pagination in the browse view.",
 };
 
 export const updateTabTitle: FrontendSetting = {

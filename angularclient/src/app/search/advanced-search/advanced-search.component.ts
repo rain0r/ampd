@@ -142,7 +142,6 @@ export class AdvancedSearchComponent implements OnInit, AfterViewInit {
     trackTable.addTracks(advSearchResponse.content);
     trackTable.displayedColumns = this.getDisplayedColumns();
     trackTable.onPlayClick = ClickActions.AddPlayTrack;
-    trackTable.pagination = true;
     return trackTable;
   }
 

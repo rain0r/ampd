@@ -10,34 +10,24 @@
   </div>
 </div>
 
-<!-- Directives cant be applied conditionally (as of now) --->
-<!-- So we have to to write directory twice  -->
-<div *ngIf="pagination | async; else nonPaginated">
-  <app-playlist-entry
-    *ngFor="
-      let playlist of playlists
-        | playlistFilter: filterValue
-        | slice: paginationFrom:paginationTo
-    "
-    [playlist]="playlist"
-  ></app-playlist-entry>
+<app-playlist-entry
+  *ngFor="
+    let playlist of playlists
+      | playlistFilter: filterValue
+      | slice: paginationFrom:paginationTo
+  "
+  [playlist]="playlist"
+></app-playlist-entry>
 
-  <mat-paginator
-    *ngIf="
-      (playlists | playlistFilter: filterValue).length > 0 &&
-      paginationTo - paginationFrom <
-        (playlists | playlistFilter: filterValue).length
-    "
-    [length]="playlists.length"
-    (page)="getPaginatorData($event)"
-    [pageSizeOptions]="pageSizeOptions"
-    showFirstLastButtons="true"
-  >
-  </mat-paginator>
-</div>
-<ng-template #nonPaginated>
-  <app-playlist-entry
-    *ngFor="let playlist of playlists | playlistFilter: filterValue"
-    [playlist]="playlist"
-  ></app-playlist-entry>
-</ng-template>
+<mat-paginator
+  *ngIf="
+    (playlists | playlistFilter: filterValue).length > 0 &&
+    paginationTo - paginationFrom <
+      (playlists | playlistFilter: filterValue).length
+  "
+  [length]="playlists.length"
+  (page)="getPaginatorData($event)"
+  [pageSizeOptions]="pageSizeOptions"
+  showFirstLastButtons="true"
+>
+</mat-paginator>

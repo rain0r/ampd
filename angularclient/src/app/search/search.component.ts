@@ -92,7 +92,6 @@ export class SearchComponent {
     trackTable.addTracks(searchResults);
     trackTable.displayedColumns = this.getDisplayedColumns();
     trackTable.onPlayClick = ClickActions.AddPlayTrack;
-    trackTable.pagination = true;
     trackTable.totalElements = this.searchResultCount;
     return trackTable;
   }

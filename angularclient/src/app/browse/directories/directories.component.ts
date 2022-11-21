@@ -1,7 +1,5 @@
 import { Component, Input, OnInit } from "@angular/core";
 import { PageEvent } from "@angular/material/paginator";
-import { Observable } from "rxjs";
-import { SettingKeys } from "src/app/shared/model/internal/frontend-settings";
 import { FrontendSettingsService } from "../../service/frontend-settings.service";
 import { MsgService } from "../../service/msg.service";
 import { Directory } from "../../shared/messages/incoming/directory";
@@ -21,9 +19,8 @@ export class DirectoriesComponent extends Filterable implements OnInit {
   filterVisible = false;
   letters = new Set<string>();
   pageSizeOptions: number[];
-  pagination: Observable<boolean>;
   paginationFrom = 0;
-  paginationTo: number;
+  paginationTo = 50;
 
   constructor(
     private frontendSettingsService: FrontendSettingsService,
@@ -31,10 +28,6 @@ export class DirectoriesComponent extends Filterable implements OnInit {
   ) {
     super(messageService);
     this.pageSizeOptions = this.frontendSettingsService.pageSizeOptions;
-    this.paginationTo = this.frontendSettingsService.paginationTo;
-    this.pagination = this.frontendSettingsService.getBoolValue$(
-      SettingKeys.PAGINATION
-    );
   }
 
   ngOnInit(): void {

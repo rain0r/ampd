@@ -200,7 +200,11 @@
       cdkDrag
     ></tr>
   </table>
-  <div [hidden]="trackTableData.pageSize < 2">
+  <div
+    [hidden]="
+      trackTableData.dataSource.data.length === 0 || trackTableData.pageSize < 2
+    "
+  >
     <mat-paginator
       [length]="trackTableData.totalElements"
       [pageIndex]="trackTableData.pageIndex"

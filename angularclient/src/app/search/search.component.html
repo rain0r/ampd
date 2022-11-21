@@ -51,6 +51,8 @@
     </div>
   </div>
 
+  <mat-spinner *ngIf="isLoading | async"></mat-spinner>
+
   <!-- Search results table -->
   <app-track-data-table
     [trackTableData]="trackTableData"

@@ -1,5 +1,5 @@
 import { Component } from "@angular/core";
-import { of, Subject } from "rxjs";
+import { BehaviorSubject, of, Subject } from "rxjs";
 import { debounceTime, distinctUntilChanged, switchMap } from "rxjs/operators";
 import { ResponsiveScreenService } from "src/app/service/responsive-screen.service";
 import { NotificationService } from "../service/notification.service";
@@ -17,6 +17,7 @@ import { TrackTableOptions } from "../shared/track-table-data/track-table-option
   styleUrls: ["./search.component.scss"],
 })
 export class SearchComponent {
+  isLoading = new BehaviorSubject(false);
   isMobile = false;
   search = "";
   searchResultCount = 0;
@@ -71,7 +72,6 @@ export class SearchComponent {
     this.searchService
       .getSearchSubscription()
       .subscribe((message: SearchResponse) => {
-        console.log("SearchResponse", message);
         this.processSearchResults(
           message.searchResults,
           message.searchResultCount
@@ -85,6 +85,7 @@ export class SearchComponent {
   ): void {
     this.trackTableData = this.buildTableData(searchResults);
     this.searchResultCount = searchResultCount;
+    this.isLoading.next(false);
   }
 
   private buildTableData(searchResults: Track[]): TrackTableOptions {
@@ -120,6 +121,7 @@ export class SearchComponent {
         debounceTime(800),
         distinctUntilChanged(),
         switchMap((searchText) => {
+          this.isLoading.next(true);
           return of(this.searchService.search(searchText));
         })
       )

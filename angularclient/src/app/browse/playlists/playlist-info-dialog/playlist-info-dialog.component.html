@@ -1,39 +1,37 @@
-<ng-template #loading>
-  <div fxLayout="row" fxLayoutAlign="space-around">
+<div fxLayout="row wrap" mat-dialog-title fxFex>
+  <div fxFlex fxLayout="row wrap" fxLayoutAlign="space-between baseline">
+    <span class="text-muted" fxFlex.lt-md="100%">Playlist</span>
+    <strong fxFlex.lt-md="100%">{{ data.name }}</strong>
+    <span
+      class="text-muted"
+      fxFlex.lt-md="100%"
+      *ngIf="playlistInfo | async as info"
+      >{{ info.tracks.totalElements }} tracks</span
+    >
+  </div>
+  <div fxFlex="50%" fxLayoutAlign="end start" fxHide fxShow.lt-md="true">
+    <button mat-stroked-button matDialogClose>Close</button>
+  </div>
+</div>
+
+<div mat-dialog-content>
+  <div
+    *ngIf="isLoadingResults | async"
+    fxLayout="row"
+    fxLayoutAlign="space-around"
+  >
     <mat-spinner></mat-spinner>
   </div>
-</ng-template>
-
-<div *ngIf="playlistInfo | async as info; else loading" fxLayout="column">
-  <div fxLayout="row wrap">
-    <div
-      mat-dialog-title
-      fxFlex
-      fxLayout="row wrap"
-      fxLayoutAlign="space-between baseline"
-    >
-      <span class="text-muted" fxFlex.lt-md="100%">Playlist</span>
-      <strong fxFlex.lt-md="100%">{{ info.name }}</strong>
-      <span class="text-muted" fxFlex.lt-md="100%"
-        >{{ info.trackCount }} tracks</span
-      >
-    </div>
-    <div fxFlex="50%" fxLayoutAlign="end start" fxHide fxShow.lt-md="true">
-      <button mat-stroked-button matDialogClose>Close</button>
-    </div>
-  </div>
-
-  <mat-dialog-content>
-    <app-track-data-table
-      [trackTableData]="trackTableData"
-    ></app-track-data-table>
-  </mat-dialog-content>
-
-  <mat-dialog-actions fxLayout="row nowrap" fxLayoutAlign="end">
-    <button mat-stroked-button (click)="onDeletePlaylist()" color="warn">
-      Delete
-    </button>
-    <button mat-stroked-button (click)="onAddPlaylist()">Add</button>
-    <button mat-stroked-button matDialogClose>Close</button>
-  </mat-dialog-actions>
+  <app-track-data-table
+    *ngIf="(isLoadingResults | async) === false"
+    [trackTableData]="trackTableData"
+  ></app-track-data-table>
 </div>
+
+<mat-dialog-actions fxLayout="row nowrap" fxLayoutAlign="end">
+  <button mat-stroked-button (click)="onDeletePlaylist()" color="warn">
+    Delete
+  </button>
+  <button mat-stroked-button (click)="onAddPlaylist()">Add</button>
+  <button mat-stroked-button matDialogClose>Close</button>
+</mat-dialog-actions>

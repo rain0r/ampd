@@ -39,11 +39,47 @@ public class SearchService {
 		this.mpd = mpd;
 	}
 
+	/**
+	 * Takes a search-term and searches the MPD database for it.
+	 * @param query The term to search for.
+	 * @return A payload with the search results.
+	 */
+	public PageImpl<MPDSong> search(String query, int pageIndex, Integer pageSize) {
+		List<MPDSong> ret = new ArrayList<>(mpd.getSongSearcher().search(SongSearcher.ScopeType.ANY, query.trim()));
+		Pageable pageable = PageRequest.of(pageIndex, getPageSize(pageSize));
+		PagedListHolder<MPDSong> pages = new PagedListHolder<>(ret);
+		pages.setPage(pageIndex);
+		pages.setPageSize(getPageSize(pageSize));
+		return new PageImpl<>(pages.getPageList(), pageable, ret.size());
+	}
+
 	@Cacheable
-	public PageImpl<MPDSong> search(Map<String, String> searchParams, int page) {
+	public PageImpl<MPDSong> advSearch(Map<String, String> searchParams, int pageIndex, Integer pageSize) {
+		List<MPDSong> ret = searcByParams(searchParams);
+		Pageable pageable = PageRequest.of(pageIndex, getPageSize(pageSize));
+		PagedListHolder<MPDSong> pages = new PagedListHolder<>(ret);
+		pages.setPage(pageIndex);
+		pages.setPageSize(getPageSize(pageSize));
+		return new PageImpl<>(pages.getPageList(), pageable, ret.size());
+	}
+
+	private int getPageSize(Integer pageSize) {
+		return pageSize == null ? ampdSettings.getSearchPageSize() : pageSize;
+	}
+
+	private SongSearcher.ScopeType scopeTypeForStr(String typeName) {
+		return Arrays.stream(SongSearcher.ScopeType.values()).filter(scopeType -> scopeType.getType().equals(typeName))
+				.findFirst().orElseThrow();
+	}
+
+	public void addTracks(Map<String, String> searchParams) {
+		searcByParams(searchParams).stream().map(MPDSong::getFile).forEach(t -> mpd.getPlaylist().addSong(t));
+	}
+
+	private List<MPDSong> searcByParams(Map<String, String> searchParams) {
 		ArrayList<SearchCriteria> tmpSp = new ArrayList<>();
 		for (Map.Entry<String, String> entry : searchParams.entrySet()) {
-			if (SEARCH_FIELDS.contains(entry.getKey())) {
+			if (SEARCH_FIELDS.contains(entry.getKey()) && entry.getValue() != null) {
 				tmpSp.add(new SearchCriteria(scopeTypeForStr(entry.getKey()), entry.getValue()));
 			}
 		}
@@ -54,17 +90,7 @@ public class SearchService {
 			ret = new ArrayList<>(mpd.getSongSearcher().search(tmpSp.toArray(SearchCriteria[]::new)));
 		}
 
-		Pageable pageable = PageRequest.of(0, ampdSettings.getAdvSearchPageSize());
-		PagedListHolder<MPDSong> pages = new PagedListHolder<>(ret);
-		pages.setPage(page);
-		pages.setPageSize(ampdSettings.getAdvSearchPageSize());
-
-		return new PageImpl<>(pages.getPageList(), pageable, ret.size());
-	}
-
-	private SongSearcher.ScopeType scopeTypeForStr(String typeName) {
-		return Arrays.stream(SongSearcher.ScopeType.values()).filter(scopeType -> scopeType.getType().equals(typeName))
-				.findFirst().orElseThrow();
+		return ret;
 	}
 
 }

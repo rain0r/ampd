@@ -1,14 +1,5 @@
-import { Sort } from "./../../model/pageable";
+import { Pageable, Sort } from "./../../model/pageable";
 import { Track } from "./track";
-
-export interface Pageable {
-  sort: Sort;
-  pageNumber: number;
-  pageSize: number;
-  offset: number;
-  paged: boolean;
-  unpaged: boolean;
-}
 
 export interface QueueResponse {
   content: Track[];

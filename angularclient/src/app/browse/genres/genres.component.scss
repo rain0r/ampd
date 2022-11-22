@@ -4,7 +4,8 @@
 }
 
 #results {
-  padding-top: 2.5rem;
+  /* top | right | bottom | left */
+  padding: 1.5rem 0 3.5rem 0;
 }
 
 .genre-header {
@@ -14,4 +15,8 @@
 
 html {
   scroll-behavior: smooth;
+}
+
+.not-found {
+  padding-top: 2.5rem;
 }

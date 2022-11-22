@@ -2,28 +2,27 @@ package org.hihn.ampd.server.message.outgoing;
 
 import org.bff.javampd.album.MPDAlbum;
 import org.bff.javampd.song.MPDSong;
-
-import java.util.Collection;
+import org.springframework.data.domain.PageImpl;
 
 public class GenrePayload {
 
 	private final String genre;
 
-	private final Collection<MPDSong> tracks;
+	private final PageImpl<MPDSong> tracks;
 
-	private final Collection<MPDAlbum> albums;
+	private final PageImpl<MPDAlbum> albums;
 
-	public GenrePayload(String genre, Collection<MPDSong> songs, Collection<MPDAlbum> albums) {
+	public GenrePayload(String genre, PageImpl<MPDSong> songs, PageImpl<MPDAlbum> albums) {
 		this.genre = genre;
-		this.tracks = songs;
+		tracks = songs;
 		this.albums = albums;
 	}
 
-	public Collection<MPDSong> getTracks() {
+	public PageImpl<MPDSong> getTracks() {
 		return tracks;
 	}
 
-	public Collection<MPDAlbum> getAlbums() {
+	public PageImpl<MPDAlbum> getAlbums() {
 		return albums;
 	}
 

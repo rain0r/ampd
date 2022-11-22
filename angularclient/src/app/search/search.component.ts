@@ -1,12 +1,23 @@
-import { Component } from "@angular/core";
-import { BehaviorSubject, of, Subject } from "rxjs";
-import { debounceTime, distinctUntilChanged, switchMap } from "rxjs/operators";
+import { Component, OnInit } from "@angular/core";
+import { BehaviorSubject, combineLatest, Observable, of, Subject } from "rxjs";
+import {
+  debounceTime,
+  distinctUntilChanged,
+  filter,
+  map,
+  startWith,
+  switchMap,
+} from "rxjs/operators";
 import { ResponsiveScreenService } from "src/app/service/responsive-screen.service";
+import { MsgService } from "../service/msg.service";
 import { NotificationService } from "../service/notification.service";
 import { QueueService } from "../service/queue.service";
 import { SearchService } from "../service/search.service";
-import { SearchResponse } from "../shared/messages/incoming/search-response";
-import { Track } from "../shared/messages/incoming/track";
+import {
+  InternMsgType,
+  PaginationMsg,
+} from "../shared/messages/internal/internal-msg";
+import { AdvSearchResponse } from "../shared/model/http/adv-search-response";
 import { QueueTrack } from "../shared/model/queue-track";
 import { ClickActions } from "../shared/track-table-data/click-actions.enum";
 import { TrackTableOptions } from "../shared/track-table-data/track-table-options";
@@ -16,26 +27,31 @@ import { TrackTableOptions } from "../shared/track-table-data/track-table-option
   templateUrl: "./search.component.html",
   styleUrls: ["./search.component.scss"],
 })
-export class SearchComponent {
-  isLoading = new BehaviorSubject(false);
+export class SearchComponent implements OnInit {
+  advSearchResponse$ = new Observable<AdvSearchResponse>();
+  isLoadingResults = new BehaviorSubject(true);
   isMobile = false;
   search = "";
-  searchResultCount = 0;
+
   trackTableData = new TrackTableOptions();
   private searchResultTracks: QueueTrack[] = [];
   private inputSetter$ = new Subject<string>();
 
   constructor(
+    private msgService: MsgService,
     private notificationService: NotificationService,
     private queueService: QueueService,
     private responsiveScreenService: ResponsiveScreenService,
     private searchService: SearchService
   ) {
-    this.buildMsgReceiver();
     this.buildInputListener();
     this.responsiveScreenService
       .isMobile()
       .subscribe((isMobile) => (this.isMobile = isMobile));
+  }
+
+  ngOnInit(): void {
+    this.isLoadingResults.next(false);
   }
 
   applySearch(eventTarget: EventTarget | null): void {
@@ -49,7 +65,6 @@ export class SearchComponent {
 
   resetSearch(): void {
     this.trackTableData.dataSource.data = [];
-    this.searchResultCount = 0;
   }
 
   onAddAll(): void {
@@ -65,35 +80,17 @@ export class SearchComponent {
     this.notificationService.popUp("Cleared queue");
   }
 
-  /**
-   * Listen for results on the websocket channel
-   */
-  private buildMsgReceiver(): void {
-    this.searchService
-      .getSearchSubscription()
-      .subscribe((message: SearchResponse) => {
-        this.processSearchResults(
-          message.searchResults,
-          message.searchResultCount
-        );
-      });
-  }
-
-  private processSearchResults(
-    searchResults: Track[],
-    searchResultCount: number
-  ): void {
-    this.trackTableData = this.buildTableData(searchResults);
-    this.searchResultCount = searchResultCount;
-    this.isLoading.next(false);
-  }
-
-  private buildTableData(searchResults: Track[]): TrackTableOptions {
+  private buildTableData(
+    advSearchResponse: AdvSearchResponse
+  ): TrackTableOptions {
     const trackTable = new TrackTableOptions();
-    trackTable.addTracks(searchResults);
+    trackTable.addTracks(advSearchResponse.content);
     trackTable.displayedColumns = this.getDisplayedColumns();
     trackTable.onPlayClick = ClickActions.AddPlayTrack;
-    trackTable.totalElements = this.searchResultCount;
+    trackTable.totalElements = advSearchResponse.totalElements;
+    trackTable.totalPages = advSearchResponse.totalPages;
+    trackTable.pageIndex = advSearchResponse.number;
+    trackTable.pageSize = advSearchResponse.numberOfElements;
     return trackTable;
   }
 
@@ -115,16 +112,33 @@ export class SearchComponent {
    * Listens to the input field and buffers the keys. So that we don't send a request per character.
    */
   private buildInputListener(): void {
-    this.inputSetter$
-      .asObservable()
+    combineLatest([
+      this.inputSetter$.asObservable(),
+      this.msgService.message.pipe(
+        filter((msg) => msg.type === InternMsgType.PaginationEvent),
+        map((msg) => <PaginationMsg>msg),
+        map((msg) => msg.event),
+        startWith({ pageIndex: null, pageSize: null })
+      ),
+    ])
       .pipe(
-        debounceTime(800),
+        debounceTime(750),
         distinctUntilChanged(),
-        switchMap((searchText) => {
-          this.isLoading.next(true);
-          return of(this.searchService.search(searchText));
+        switchMap(([searchText, pagination]) => {
+          this.isLoadingResults.next(true);
+          return this.searchService.search(
+            searchText,
+            pagination.pageIndex,
+            pagination.pageSize
+          );
         })
       )
-      .subscribe(() => void 0);
+      .subscribe((data) => this.processSearchResults(data));
+  }
+
+  private processSearchResults(advSearchResponse: AdvSearchResponse): void {
+    this.trackTableData = this.buildTableData(advSearchResponse);
+    this.isLoadingResults.next(false);
+    this.advSearchResponse$ = of(advSearchResponse);
   }
 }

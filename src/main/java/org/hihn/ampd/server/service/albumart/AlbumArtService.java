@@ -1,24 +1,23 @@
 package org.hihn.ampd.server.service.albumart;
 
-import org.bff.javampd.album.MPDAlbum;
 import org.bff.javampd.art.MPDArtwork;
 import org.bff.javampd.server.MPD;
 import org.bff.javampd.song.MPDSong;
+import org.bff.javampd.song.SearchCriteria;
+import org.bff.javampd.song.SongSearcher;
 import org.hihn.ampd.server.model.AmpdSettings;
 import org.hihn.ampd.server.service.cache.CoverCacheService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 
 import java.io.IOException;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * Methods to load album artworks from the music directory.
@@ -83,20 +82,12 @@ public class AlbumArtService {
 	}
 
 	public Optional<byte[]> findAlbumCoverForAlbum(String albumName, String artistName) {
-		MPDAlbum mpdAlbum = MPDAlbum.builder(albumName).albumArtist(artistName).build();
-		String prefix = ampdSettings.getMusicDirectory().endsWith("/") ? ampdSettings.getMusicDirectory()
-				: ampdSettings.getMusicDirectory() + "/";
-		List<MPDArtwork> ret = List.of();
-		try {
-			ret = mpd.getArtworkFinder().find(mpdAlbum, prefix);
-		}
-		catch (Exception e) {
-			LOG.warn(e.getMessage());
-		}
-		if (ret.isEmpty()) {
-			return Optional.empty();
-		}
-		return Optional.of(ret.get(0).getBytes());
+		// Find all tracks with this album and artist
+		ArrayList<MPDSong> xxx = new ArrayList<>(
+				mpd.getSongSearcher().search(new SearchCriteria(SongSearcher.ScopeType.ARTIST, artistName),
+						new SearchCriteria(SongSearcher.ScopeType.ALBUM, albumName)));
+		Optional<Optional<byte[]>> ret = xxx.stream().map(MPDSong::getFile).map(this::loadMusicDirCover).findFirst();
+		return ret.orElseGet(Optional::empty);
 	}
 
 	/**

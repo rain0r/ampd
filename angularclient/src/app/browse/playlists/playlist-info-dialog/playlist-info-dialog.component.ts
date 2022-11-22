@@ -1,8 +1,22 @@
-import { AfterViewInit, Component, Inject } from "@angular/core";
+import { AfterViewInit, Component, Inject, OnDestroy } from "@angular/core";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
-import { ActivatedRoute, Router } from "@angular/router";
-import { Observable, Subject } from "rxjs";
+import { Router } from "@angular/router";
+import {
+  BehaviorSubject,
+  filter,
+  map,
+  Observable,
+  startWith,
+  Subject,
+  Subscription,
+  switchMap,
+} from "rxjs";
+import { MsgService } from "src/app/service/msg.service";
 import { ResponsiveScreenService } from "src/app/service/responsive-screen.service";
+import {
+  InternMsgType,
+  PaginationMsg,
+} from "src/app/shared/messages/internal/internal-msg";
 import { NotificationService } from "../../../service/notification.service";
 import { PlaylistService } from "../../../service/playlist.service";
 import { QueueService } from "../../../service/queue.service";
@@ -16,21 +30,23 @@ import { TrackTableOptions } from "../../../shared/track-table-data/track-table-
   templateUrl: "./playlist-info-dialog.component.html",
   styleUrls: ["./playlist-info-dialog.component.scss"],
 })
-export class PlaylistInfoDialogComponent implements AfterViewInit {
+export class PlaylistInfoDialogComponent implements AfterViewInit, OnDestroy {
+  isLoadingResults = new BehaviorSubject(true);
   playlistInfo: Observable<PlaylistInfo>;
   trackTableData = new TrackTableOptions();
-  private playlistInfo$ = new Subject<PlaylistInfo>();
   private isMobile = false;
+  private msgSub = <Subscription>{};
+  private playlistInfo$ = new Subject<PlaylistInfo>();
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: Playlist,
-    public dialogRef: MatDialogRef<PlaylistInfoDialogComponent>,
-    private activatedRoute: ActivatedRoute,
+    private msgService: MsgService,
     private notificationService: NotificationService,
     private playlistService: PlaylistService,
-    private router: Router,
+    private queueService: QueueService,
     private responsiveScreenService: ResponsiveScreenService,
-    private queueService: QueueService
+    private router: Router,
+    public dialogRef: MatDialogRef<PlaylistInfoDialogComponent>
   ) {
     this.playlistInfo = this.playlistInfo$.asObservable();
     this.responsiveScreenService
@@ -39,28 +55,44 @@ export class PlaylistInfoDialogComponent implements AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.playlistService.getPlaylistInfo(this.data.name).subscribe((info) => {
-      const tableData = new TrackTableOptions();
-      tableData.addTracks(info.tracks);
-      tableData.displayedColumns = this.getDisplayedColumns();
-      tableData.onPlayClick = ClickActions.AddPlayTrack;
-      this.trackTableData = tableData;
-      this.playlistInfo$.next(info);
-    });
+    this.isLoadingResults.next(false);
+
+    this.msgSub = this.msgService.message
+      .pipe(
+        filter((msg) => msg.type === InternMsgType.PaginationEvent),
+        map((msg) => <PaginationMsg>msg),
+        map((msg) => msg.event),
+        startWith({ pageIndex: null, pageSize: null })
+      )
+      .pipe(
+        switchMap((pagination) => {
+          this.isLoadingResults.next(true);
+          return this.playlistService.getPlaylistInfo(
+            this.data.name,
+            pagination.pageIndex,
+            pagination.pageSize
+          );
+        })
+      )
+      .subscribe((info) => {
+        this.trackTableData = this.buildTable(info);
+        this.playlistInfo$.next(info);
+        this.isLoadingResults.next(false);
+      });
+  }
+
+  ngOnDestroy(): void {
+    this.msgSub.unsubscribe();
   }
 
   onDeletePlaylist(): void {
-    this.playlistService.deletePlaylist(this.data.name).subscribe({
-      next: () => {
-        this.notificationService.popUp(`Deleted playlist: ${this.data.name}`);
-      },
-      error: () => void 0,
-      complete: () =>
-        void this.router.navigate([], {
-          relativeTo: this.activatedRoute,
-          queryParams: { action: "playlist-deleted" },
-          queryParamsHandling: "merge",
-        }),
+    this.playlistService.deletePlaylist(this.data.name).subscribe(() => {
+      this.router
+        .navigate(["/browse"])
+        .then(() => {
+          window.location.reload();
+        })
+        .catch(() => void 0);
     });
     this.dialogRef.close();
   }
@@ -70,9 +102,21 @@ export class PlaylistInfoDialogComponent implements AfterViewInit {
     this.notificationService.popUp(`Added playlist: "${this.data.name}"`);
   }
 
+  private buildTable(info: PlaylistInfo): TrackTableOptions {
+    const trackTable = new TrackTableOptions();
+    trackTable.addTracks(info.tracks.content);
+    trackTable.displayedColumns = this.getDisplayedColumns();
+    trackTable.onPlayClick = ClickActions.AddPlayTrack;
+    trackTable.totalElements = info.tracks.totalElements;
+    trackTable.totalPages = info.tracks.totalPages;
+    trackTable.pageIndex = info.tracks.number;
+    trackTable.pageSize = info.tracks.numberOfElements;
+    trackTable.showPageSizeOptions = false;
+    return trackTable;
+  }
+
   private getDisplayedColumns(): string[] {
     const displayedColumns = [
-      { name: "position", showMobile: false },
       { name: "artist-name", showMobile: true },
       { name: "album-name", showMobile: false },
       { name: "title", showMobile: true },

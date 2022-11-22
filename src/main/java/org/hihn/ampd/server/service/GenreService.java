@@ -7,15 +7,16 @@ import org.bff.javampd.song.MPDSong;
 import org.bff.javampd.song.SearchCriteria;
 import org.bff.javampd.song.SongSearcher;
 import org.hihn.ampd.server.message.outgoing.GenrePayload;
+import org.hihn.ampd.server.util.StringUtils;
+import org.springframework.beans.support.PagedListHolder;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.io.Serializable;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
 
 import static org.hihn.ampd.server.Constants.GENRE_CACHE;
 
@@ -25,6 +26,8 @@ import static org.hihn.ampd.server.Constants.GENRE_CACHE;
 @Service
 @CacheConfig(cacheNames = { GENRE_CACHE })
 public class GenreService {
+
+	private static final int PAGE_SIZE = 30;
 
 	private final MPD mpd;
 
@@ -43,61 +46,53 @@ public class GenreService {
 	}
 
 	@Cacheable
-	public GenrePayload listGenre(String genre) {
+	public GenrePayload listGenre(String genre, int pageIndex, Integer pageSize) {
 		if (genre.isBlank()) {
-			return new GenrePayload(genre, Set.of(), Set.of());
+			return new GenrePayload(genre, null, null);
 		}
-		return new GenrePayload(genre, searchTracks(genre), searchAlbums(genre));
+		return new GenrePayload(genre, getTracks(genre, pageIndex, pageSize), getAlbums(genre, pageIndex, pageSize));
 	}
 
-	private Set<MPDAlbum> searchAlbums(String genre) {
-		Set<MPDAlbum> ret = new TreeSet<>();
+	private PageImpl<MPDAlbum> getAlbums(String genre, int pageIndex, Integer pageSize) {
+		List<MPDAlbum> albums = new ArrayList<>();
 		mpd.getMusicDatabase().getAlbumDatabase().listAllAlbums().stream()
-				.filter(mpdAlbum -> !mpdAlbum.getGenres().isEmpty() && !mpdAlbum.getName().isEmpty())
+				.filter(mpdAlbum -> !mpdAlbum.getGenres().isEmpty() && !StringUtils.isNullOrEmpty(mpdAlbum.getName())
+						&& !StringUtils.isNullOrEmpty(mpdAlbum.getAlbumArtist()))
 				.forEach(mpdAlbum -> {
 					Set<String> genres = new TreeSet<>();
-					for (String s : mpdAlbum.getGenres()) {
-						// Some tracks have multiple genre delimited with a comma
-						String[] splitGenres = s.split(",");
-						for (String sg : splitGenres) {
-							genres.add(sg.trim());
-						}
-					}
+					mpdAlbum.getGenres()
+							.forEach(foo -> Arrays.stream(foo.split(",")).forEach(bar -> genres.add(bar.trim())));
 					if (genres.contains(genre)) {
-						ret.add(mpdAlbum);
+						albums.add(mpdAlbum);
 					}
 				});
-		return ret;
+		Pageable pageable = PageRequest.of(pageIndex, getPageSize(pageSize));
+		PagedListHolder<MPDAlbum> pages = new PagedListHolder<>(albums);
+		pages.setPage(pageIndex);
+		pages.setPageSize(getPageSize(pageSize));
+		return new PageImpl<>(pages.getPageList(), pageable, albums.size());
 	}
 
-	private Set<MPDSong> searchTracks(String genre) {
-		TreeSet<MPDSong> tracks = new TreeSet<>(new MPDSongComparator());
+	private PageImpl<MPDSong> getTracks(String genre, int pageIndex, Integer pageSize) {
 		SongSearcher songSearcher = mpd.getSongSearcher();
 		SearchCriteria crit = new SearchCriteria(SongSearcher.ScopeType.GENRE, genre);
-		tracks.addAll(songSearcher.search(crit));
-		return tracks;
+		List<MPDSong> tracks = new ArrayList<>(songSearcher.search(crit));
+
+		Comparator<MPDSong> trackComp = Comparator
+				.comparing(MPDSong::getAlbumArtist, Comparator.nullsLast(Comparator.naturalOrder()))
+				.thenComparing(MPDSong::getName, Comparator.nullsLast(Comparator.naturalOrder()));
+
+		tracks.sort(trackComp);
+
+		Pageable pageable = PageRequest.of(pageIndex, getPageSize(pageSize));
+		PagedListHolder<MPDSong> pages = new PagedListHolder<>(tracks);
+		pages.setPage(pageIndex);
+		pages.setPageSize(getPageSize(pageSize));
+		return new PageImpl<>(pages.getPageList(), pageable, tracks.size());
 	}
 
-	private static class MPDSongComparator implements Comparator<MPDSong>, Serializable {
-
-		private static final long serialVersionUID = -1481575582378051060L;
-
-		@Override
-		public int compare(MPDSong first, MPDSong second) {
-			if (first.getAlbumArtist() == null && second.getAlbumArtist() == null) {
-				return first.getName().compareTo(second.getName());
-			}
-
-			if (first.getAlbumArtist() != null && second.getAlbumArtist() != null) {
-				if (first.getAlbumArtist().equals(second.getAlbumArtist())) {
-					return first.getName().compareTo(second.getName());
-				}
-				return first.getAlbumArtist().compareTo(second.getAlbumArtist());
-			}
-
-			return first.getName().compareTo(second.getName());
-		}
-
+	private int getPageSize(Integer pageSize) {
+		return pageSize == null ? PAGE_SIZE : pageSize;
 	}
 
 }

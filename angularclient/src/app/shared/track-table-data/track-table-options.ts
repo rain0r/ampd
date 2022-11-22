@@ -83,6 +83,11 @@ export class TrackTableOptions {
    */
   totalPages = 0;
 
+  /**
+   * Show select to change page size
+   */
+  showPageSizeOptions = true;
+
   addTracks(tracks: Track[]): void {
     const qt = tracks.map((track, index) => new QueueTrack(track, index));
     this.dataSource.data = qt;

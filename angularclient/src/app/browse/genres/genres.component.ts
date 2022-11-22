@@ -1,32 +1,51 @@
 import { ViewportScroller } from "@angular/common";
-import { Component, OnInit } from "@angular/core";
+import { Component, OnDestroy, OnInit } from "@angular/core";
+import { PageEvent } from "@angular/material/paginator";
 import { ActivatedRoute } from "@angular/router";
-import { delay, distinctUntilChanged, filter, map, Observable, of } from "rxjs";
-import { tap } from "rxjs/operators";
+import {
+  BehaviorSubject,
+  combineLatest,
+  delay,
+  filter,
+  map,
+  Observable,
+  of,
+  Subscription,
+} from "rxjs";
+import { startWith, switchMap } from "rxjs/operators";
+import { MsgService } from "src/app/service/msg.service";
+import { GenreResponse } from "src/app/shared/messages/incoming/genres-response";
+import { Track } from "src/app/shared/messages/incoming/track";
+import {
+  InternMsgType,
+  PaginationMsg,
+} from "src/app/shared/messages/internal/internal-msg";
 import { AmpdBrowsePayload } from "src/app/shared/model/ampd-browse-payload";
 import { GenresService as GenreService } from "../../service/genres.service";
 import { ResponsiveScreenService } from "../../service/responsive-screen.service";
-import { Track } from "../../shared/messages/incoming/track";
-import { GenresPayload } from "../../shared/model/http/genres";
 import { ClickActions } from "../../shared/track-table-data/click-actions.enum";
 import { TrackTableOptions } from "../../shared/track-table-data/track-table-options";
+import { PaginatedResponse } from "./../../shared/messages/incoming/genres-response";
 
 @Component({
   selector: "app-genres",
   templateUrl: "./genres.component.html",
   styleUrls: ["./genres.component.scss"],
 })
-export class GenresComponent implements OnInit {
+export class GenresComponent implements OnInit, OnDestroy {
+  browsePayload = new Observable<AmpdBrowsePayload>();
+  genrePayload = new Observable<GenreResponse>();
   genres = new Observable<string[]>();
-  genrePayload = new Observable<GenresPayload>();
-  trackTableData = new TrackTableOptions();
+  isLoadingResults = new BehaviorSubject(true);
   isMobile = false;
   selectedIndex = 0;
-  browsePayload = new Observable<AmpdBrowsePayload>();
+  sub = new Subscription();
+  trackTableData = new TrackTableOptions();
 
   constructor(
     private activatedRoute: ActivatedRoute,
     private genreService: GenreService,
+    private msgService: MsgService,
     private responsiveScreenService: ResponsiveScreenService,
     private viewportScroller: ViewportScroller
   ) {
@@ -35,38 +54,75 @@ export class GenresComponent implements OnInit {
       .subscribe((isMobile) => (this.isMobile = isMobile));
   }
 
-  ngOnInit(): void {
-    this.genres = this.genreService.listGenres();
-
-    this.activatedRoute.queryParamMap
-      .pipe(
-        map((qp) => <string>qp.get("genre") || ""),
-        filter((qp) => qp !== ""),
-        distinctUntilChanged()
-      )
-      .subscribe((genre) => {
-        this.genrePayload = this.genreService.listGenre(genre).pipe(
-          tap((payload) => {
-            this.trackTableData = this.buildTableData(payload.tracks);
-            if (payload.albums.length === 0 && payload.tracks.length > 0) {
-              // Switch to tracks tab, if there are no albums
-              this.selectedIndex = 1;
-            }
-          })
-        );
-
-        // Scrolling to anchor needs to be delayed to work
-        of(null)
-          .pipe(delay(250))
-          .subscribe(() => this.viewportScroller.scrollToAnchor("results"));
-      });
+  ngOnDestroy(): void {
+    this.sub.unsubscribe();
   }
 
-  private buildTableData(tracks: Track[]): TrackTableOptions {
+  ngOnInit(): void {
+    this.isLoadingResults.next(false);
+    this.genres = this.genreService.listGenres();
+    this.sub = combineLatest([
+      this.activatedRoute.queryParamMap.pipe(filter((qp) => qp.has("genre"))),
+      this.msgService.message.pipe(
+        filter((msg) => msg.type === InternMsgType.PaginationEvent),
+        map((msg) => <PaginationMsg>msg),
+        map((msg) => msg.event),
+        startWith({ pageIndex: null, pageSize: null })
+      ),
+    ])
+      .pipe(
+        switchMap(([qp, pagination]) => {
+          this.isLoadingResults.next(true);
+          return this.genreService.listGenre(
+            qp.get("genre") || "",
+            pagination.pageIndex,
+            pagination.pageSize
+          );
+        })
+      )
+      .subscribe((data) => this.processSearchResults(data));
+  }
+
+  onAlbumPageChange($event: PageEvent): void {
+    this.msgService.sendMessage({
+      type: InternMsgType.PaginationEvent,
+      event: $event,
+    } as PaginationMsg);
+  }
+
+  scrollDown(): void {
+    // Scrolling to anchor needs to be delayed to work
+    of(null)
+      .pipe(delay(150))
+      .subscribe(() => this.viewportScroller.scrollToAnchor("results"));
+  }
+
+  private processSearchResults(genreResponse: GenreResponse) {
+    genreResponse.genre = decodeURIComponent(genreResponse.genre);
+    this.trackTableData = this.buildTableData(genreResponse.tracks);
+    if (
+      genreResponse.albums.content.length === 0 &&
+      genreResponse.tracks.content.length > 0
+    ) {
+      // Switch to tracks tab, if there are no albums
+      this.selectedIndex = 1;
+    }
+    this.genrePayload = of(genreResponse);
+    this.isLoadingResults.next(false);
+    this.scrollDown();
+  }
+
+  private buildTableData(
+    paginatedTracks: PaginatedResponse<Track>
+  ): TrackTableOptions {
     const trackTable = new TrackTableOptions();
-    trackTable.addTracks(tracks);
+    trackTable.addTracks(paginatedTracks.content);
     trackTable.displayedColumns = this.getDisplayedColumns();
     trackTable.onPlayClick = ClickActions.AddPlayTrack;
+    trackTable.totalElements = paginatedTracks.totalElements;
+    trackTable.totalPages = paginatedTracks.totalPages;
+    trackTable.pageIndex = paginatedTracks.number;
+    trackTable.pageSize = paginatedTracks.numberOfElements;
     return trackTable;
   }
 

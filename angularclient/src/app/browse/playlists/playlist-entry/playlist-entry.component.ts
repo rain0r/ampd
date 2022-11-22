@@ -37,6 +37,7 @@ export class PlaylistEntryComponent {
       const width = isMobile ? "100%" : "70%";
       const options: MatDialogConfig = {
         maxWidth: "100vw",
+        height: "95%",
         width: width,
         data: playlist,
       };

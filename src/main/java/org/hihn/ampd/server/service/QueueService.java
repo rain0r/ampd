@@ -3,10 +3,10 @@ package org.hihn.ampd.server.service;
 import org.bff.javampd.playlist.MPDPlaylistSong;
 import org.bff.javampd.server.MPD;
 import org.bff.javampd.song.MPDSong;
+import org.hihn.ampd.server.model.AmpdSettings;
 import org.hihn.ampd.server.model.QueuePageImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.support.PagedListHolder;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -22,9 +22,7 @@ import java.util.stream.Collectors;
 @Service
 public class QueueService {
 
-	// queue.tracks.page.size
-	@Value("${queue.tracks.page.size}")
-	private int queueTracksPageSize;
+	private final AmpdSettings ampdSettings;
 
 	private static final Logger LOG = LoggerFactory.getLogger(QueueService.class);
 
@@ -32,9 +30,11 @@ public class QueueService {
 
 	/**
 	 * Service to manage the queue.
+	 * @param ampdSettings
 	 * @param mpd Represents a connection to a MPD server.
 	 */
-	public QueueService(MPD mpd) {
+	public QueueService(AmpdSettings ampdSettings, MPD mpd) {
+		this.ampdSettings = ampdSettings;
 		this.mpd = mpd;
 	}
 
@@ -79,16 +79,15 @@ public class QueueService {
 	}
 
 	public QueuePageImpl<MPDPlaylistSong> getQueue() {
-		// return mpd.getPlaylist().getSongList();
-		return getQueue(0, queueTracksPageSize);
+		return getQueue(0, getPageSize(null));
 	}
 
-	public QueuePageImpl<MPDPlaylistSong> getQueue(int pageIndex, int pageSize) {
+	public QueuePageImpl<MPDPlaylistSong> getQueue(int pageIndex, Integer pageSize) {
 		List<MPDPlaylistSong> songList = mpd.getPlaylist().getSongList();
 		PagedListHolder<MPDPlaylistSong> pages = new PagedListHolder<>(mpd.getPlaylist().getSongList());
-		Pageable pageable = PageRequest.of(pageIndex, pageSize);
+		Pageable pageable = PageRequest.of(pageIndex, getPageSize(pageSize));
 		pages.setPage(pageIndex);
-		pages.setPageSize(pageSize);
+		pages.setPageSize(getPageSize(pageSize));
 		// return new CustomPage<MPDPlaylistSong>(pages.getPageList());
 		QueuePageImpl<MPDPlaylistSong> page = new QueuePageImpl<>(pages.getPageList(), pageable, songList.size());
 		page.setTotalPlayTime(sumQueuePlayTime(songList));
@@ -97,6 +96,10 @@ public class QueueService {
 
 	private Integer sumQueuePlayTime(List<MPDPlaylistSong> songList) {
 		return songList.stream().map(MPDPlaylistSong::getLength).mapToInt(Integer::intValue).sum();
+	}
+
+	private int getPageSize(Integer pageSize) {
+		return pageSize == null ? ampdSettings.getQueuePageSize() : pageSize;
 	}
 
 }

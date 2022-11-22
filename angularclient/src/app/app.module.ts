@@ -22,7 +22,6 @@ import { CoverGridEntryComponent } from "./browse/directories/cover-grid/cover-g
 import { CoverGridComponent } from "./browse/directories/cover-grid/cover-grid.component";
 import { DirectoriesComponent } from "./browse/directories/directories.component";
 import { DirectoryEntryComponent } from "./browse/directories/directory-entry/directory-entry.component";
-import { GenreAlbumsComponent } from "./browse/genres/genre-albums/genre-albums.component";
 import { GenresComponent } from "./browse/genres/genres.component";
 import { BrowseNavigationComponent } from "./browse/navigation/browse-navigation.component";
 import { PlaylistEntryComponent } from "./browse/playlists/playlist-entry/playlist-entry.component";
@@ -122,7 +121,6 @@ function isDarkTheme(service: FrontendSettingsService): unknown {
     GenresComponent,
     ErrorDialogComponent,
     FileSizePipe,
-    GenreAlbumsComponent,
     CamelCaseTitlePipe,
     RadioStreamListComponent,
     FilterByCategoryPipe,

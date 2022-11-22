@@ -25,8 +25,9 @@ public class GenreController {
 	}
 
 	@GetMapping("/genre")
-	public GenrePayload listGenre(@RequestParam("genre") String genre) {
-		return genreService.listGenre(genre);
+	public GenrePayload listGenre(@RequestParam("genre") String genre, @RequestParam(defaultValue = "0") int pageIndex,
+			@RequestParam(required = false) Integer pageSize) {
+		return genreService.listGenre(genre, pageIndex, pageSize);
 	}
 
 }

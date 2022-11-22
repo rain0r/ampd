@@ -50,7 +50,11 @@ export class SettingsService {
    * return 'example.com/ampd'.
    */
   getBackendContextAddr(): string {
-    return `${this.getBackendAddr()}${this.location.prepareExternalUrl("")}`;
+    const re = /\/\/$/;
+    // Replace a double slash at the end with a single one.
+    return `${this.getBackendAddr()}${this.location.prepareExternalUrl(
+      ""
+    )}`.replace(re, "/");
   }
 
   getPlaylistRootUrl(): string {

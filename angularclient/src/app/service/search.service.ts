@@ -1,10 +1,7 @@
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Observable, of } from "rxjs";
-import { distinctUntilChanged, map, switchMap } from "rxjs/operators";
-import { SearchResponse } from "../shared/messages/incoming/search-response";
+import { Observable } from "rxjs";
 import { AdvSearchResponse } from "../shared/model/http/adv-search-response";
-import { AmpdRxStompService } from "./ampd-rx-stomp.service";
 import { SettingsService } from "./settings.service";
 
 @Injectable({
@@ -12,37 +9,35 @@ import { SettingsService } from "./settings.service";
 })
 export class SearchService {
   constructor(
-    private rxStompService: AmpdRxStompService,
     private http: HttpClient,
     private settingsService: SettingsService
   ) {}
 
-  search(term: string): void {
-    this.rxStompService.publish({
-      destination: "/app/search/",
-      body: term,
-    });
-  }
-
-  getSearchSubscription(): Observable<SearchResponse> {
-    return this.rxStompService.watch("/topic/search").pipe(
-      map((message) => message.body),
-      map((body: string) => <SearchResponse>JSON.parse(body)),
-      distinctUntilChanged(
-        (prev, curr) => JSON.stringify(prev) === JSON.stringify(curr)
-      ),
-      switchMap((searchResponse) => {
-        return of(searchResponse);
-      })
-    );
+  search(
+    term: string,
+    pageIndex: number | null,
+    pageSize: number | null
+  ): Observable<AdvSearchResponse> {
+    let params = new HttpParams();
+    if (!!pageIndex) {
+      params = params.append("pageIndex", pageIndex);
+    }
+    if (!!pageSize) {
+      params = params.append("pageSize", pageSize);
+    }
+    params = params.append("term", term);
+    const url = `${this.settingsService.getBackendContextAddr()}api/search`;
+    return this.http.get<AdvSearchResponse>(url, { params: params });
   }
 
   advSearch(
     formData: Record<string, string>,
-    page = 0
+    pageIndex: number,
+    pageSize: number
   ): Observable<AdvSearchResponse> {
     let params = new HttpParams();
-    params = params.append("page", page);
+    params = params.append("pageIndex", pageIndex);
+    params = params.append("pageSize", pageSize);
     for (const key in formData) {
       if (!!formData[key]) {
         params = params.append(key, formData[key] || "");
@@ -50,5 +45,16 @@ export class SearchService {
     }
     const url = `${this.settingsService.getBackendContextAddr()}api/adv-search`;
     return this.http.get<AdvSearchResponse>(url, { params: params });
+  }
+
+  /**
+   * Add all search results to the queue.
+   * @param formData
+   */
+  addAll(formData: Record<string, string>): Observable<void> {
+    return this.http.post<void>(
+      `${this.settingsService.getBackendContextAddr()}api/adv-search`,
+      formData
+    );
   }
 }

@@ -1,4 +1,4 @@
-import { HttpClient, HttpUrlEncodingCodec } from "@angular/common/http";
+import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
@@ -10,8 +10,6 @@ import { SettingsService } from "./settings.service";
   providedIn: "root",
 })
 export class AlbumsService {
-  private encoder = new HttpUrlEncodingCodec();
-
   constructor(
     private http: HttpClient,
     private settingsService: SettingsService
@@ -24,15 +22,15 @@ export class AlbumsService {
    * @returns
    */
   getAlbums(page = 1, searchTerm = "", sortBy = ""): Observable<MpdAlbum[]> {
-    const url = `${this.settingsService.getBackendContextAddr()}api/albums/?page=${page}&searchTerm=${searchTerm}&sortBy=${this.encoder.encodeKey(
+    const url = `${this.settingsService.getBackendContextAddr()}api/albums/?page=${page}&searchTerm=${searchTerm}&sortBy=${encodeURIComponent(
       sortBy
     )}`;
     return this.http.get<MpdAlbum[]>(url).pipe(
       map((albums) => {
         return albums.map((album) => {
-          album.albumCoverUrl = `${this.settingsService.getBackendContextAddr()}api/find-album-cover?albumName=${this.encoder.encodeKey(
+          album.albumCoverUrl = `${this.settingsService.getBackendContextAddr()}api/find-album-cover?albumName=${encodeURIComponent(
             album.name
-          )}&artistName=${this.encoder.encodeKey(album.albumArtist)}`;
+          )}&artistName=${encodeURIComponent(album.albumArtist)}`;
           return album;
         });
       })
@@ -47,9 +45,9 @@ export class AlbumsService {
    * @returns
    */
   getAlbum(name: string, artistName: string): Observable<QueueTrack[]> {
-    name = this.encoder.encodeValue(name);
-    artistName = this.encoder.encodeValue(artistName);
-    const url = `${this.settingsService.getBackendContextAddr()}api/album/?name=${name}&artistName=${artistName}`;
+    const url = `${this.settingsService.getBackendContextAddr()}api/album/?name=${encodeURIComponent(
+      name
+    )}&artistName=${encodeURIComponent(artistName)}`;
     return this.http.get<QueueTrack[]>(url);
   }
 }

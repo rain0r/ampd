@@ -1,4 +1,4 @@
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable, Subject } from "rxjs";
 import { PlaylistSaved } from "../shared/messages/incoming/playlist-saved";
@@ -20,9 +20,20 @@ export class PlaylistService {
     this.playlistSaved = this.playlistSaved$.asObservable();
   }
 
-  getPlaylistInfo(playlistName: string): Observable<PlaylistInfo> {
+  getPlaylistInfo(
+    playlistName: string,
+    pageIndex: number | null,
+    pageSize: number | null
+  ): Observable<PlaylistInfo> {
+    let params = new HttpParams();
+    if (!!pageIndex) {
+      params = params.append("pageIndex", encodeURIComponent(pageIndex));
+    }
+    if (!!pageSize) {
+      params = params.append("pageSize", encodeURIComponent(pageSize));
+    }
     const url = `${this.settingsService.getPlaylistRootUrl()}${playlistName}`;
-    return this.http.get<PlaylistInfo>(url);
+    return this.http.get<PlaylistInfo>(url, { params: params });
   }
 
   savePlaylist(playlistName: string): Observable<SavePlaylistResponse> {

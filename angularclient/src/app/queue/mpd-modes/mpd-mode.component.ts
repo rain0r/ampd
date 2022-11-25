@@ -20,6 +20,6 @@ export class MpdModeComponent {
   }
 
   toggleCtrl(key: string): void {
-    this.mpdModeService.toggleCtrl(key);
+    this.mpdModeService.toggleCtrlFromInput(key);
   }
 }

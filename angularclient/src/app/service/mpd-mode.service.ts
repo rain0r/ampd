@@ -25,7 +25,10 @@ export class MpdModeService {
   }
 
   toggleCtrlFromInput(changedKey: string): void {
-    console.log("router.url", this.router.url);
+    // Only apply mode changes from the queue view
+    if (this.router.url !== "/") {
+      return;
+    }
     const tmpControlPanel = { ...this.mpdModesPanel };
     for (const [key, value] of Object.entries(this.mpdModesPanel)) {
       if (key === changedKey) {

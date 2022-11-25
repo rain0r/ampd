@@ -30,9 +30,6 @@
     <div fxLayout="row" fxLayoutAlign="space-around">The queue is empty.</div>
   </div>
 
-  <!-- <h1>{{ trackTableData.dataSource.data.length }}</h1>
-  <app-track-data-table [trackTableData]="trackTableData"></app-track-data-table> -->
-
   <div *ngIf="trackTableData$ | async as trackTableData">
     <app-track-data-table
       [trackTableData]="trackTableData"

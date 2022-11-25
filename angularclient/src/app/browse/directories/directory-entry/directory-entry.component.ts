@@ -1,8 +1,8 @@
 import { Component, Input, OnInit } from "@angular/core";
-import { Directory } from "../../../shared/messages/incoming/directory";
 import { ControlPanelService } from "../../../service/control-panel.service";
 import { NotificationService } from "../../../service/notification.service";
 import { QueueService } from "../../../service/queue.service";
+import { Directory } from "../../../shared/messages/incoming/directory";
 
 @Component({
   selector: "app-directory-entry",
@@ -22,7 +22,6 @@ export class DirectoryEntryComponent implements OnInit {
   ngOnInit(): void {
     if (this.directory) {
       this.pathLink = encodeURIComponent(this.directory.path);
-      // this.pathLink = this.directory.path;
     }
   }
 

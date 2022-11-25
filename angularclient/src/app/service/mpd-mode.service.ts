@@ -1,8 +1,9 @@
 import { Injectable } from "@angular/core";
+import { Router } from "@angular/router";
 import { MpdModesPanel } from "../shared/messages/incoming/mpd-modes-panel";
-import { NotificationService } from "./notification.service";
-import { MpdService } from "./mpd.service";
 import { ControlPanelService } from "./control-panel.service";
+import { MpdService } from "./mpd.service";
+import { NotificationService } from "./notification.service";
 
 @Injectable({
   providedIn: "root",
@@ -12,9 +13,10 @@ export class MpdModeService {
   private mpdModesOpts = ["random", "consume", "single", "crossfade", "repeat"];
 
   constructor(
+    private router: Router,
     private controlPanelService: ControlPanelService,
-    private notificationService: NotificationService,
-    private mpdService: MpdService
+    private mpdService: MpdService,
+    private notificationService: NotificationService
   ) {
     this.mpdModesPanel = mpdService.initEmptyControlPanel();
     this.mpdService.mpdModesPanel$.subscribe(
@@ -23,6 +25,7 @@ export class MpdModeService {
   }
 
   toggleCtrlFromInput(changedKey: string): void {
+    console.log("router.url", this.router.url);
     const tmpControlPanel = { ...this.mpdModesPanel };
     for (const [key, value] of Object.entries(this.mpdModesPanel)) {
       if (key === changedKey) {

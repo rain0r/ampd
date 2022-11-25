@@ -1,12 +1,6 @@
-import {
-  AfterViewInit,
-  Component,
-  ElementRef,
-  HostListener,
-  ViewChild,
-} from "@angular/core";
+import { Component, ElementRef, HostListener, ViewChild } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
-import { filter, map, Observable } from "rxjs";
+import { filter, map } from "rxjs";
 import { MsgService } from "src/app/service/msg.service";
 import { ResponsiveScreenService } from "src/app/service/responsive-screen.service";
 import { QueueResponse } from "src/app/shared/messages/incoming/queue-response";
@@ -27,13 +21,13 @@ import { SavePlaylistDialogComponent } from "../save-playlist-dialog/save-playli
   templateUrl: "./track-table.component.html",
   styleUrls: ["./track-table.component.scss"],
 })
-export class TrackTableComponent implements AfterViewInit {
+export class TrackTableComponent {
   @ViewChild("filterInputElem") filterInputElem?: ElementRef;
 
   currentTrack: QueueTrack = new QueueTrack();
   currentState = "stop";
   trackTableData = new TrackTableOptions();
-  trackTableData$: Observable<TrackTableOptions>;
+  // trackTableData$: Observable<TrackTableOptions>;
   private isMobile = false;
 
   constructor(
@@ -43,9 +37,10 @@ export class TrackTableComponent implements AfterViewInit {
     private queueService: QueueService,
     private responsiveScreenService: ResponsiveScreenService
   ) {
-    this.trackTableData$ = this.queueService
-      .getQueueSubscription()
-      .pipe(map((data) => this.buildTableData(data)));
+    // this.trackTableData$ = this.queueService
+    //   .getQueueSubscription()
+    //   .pipe(map((data) => this.buildTableData(data)));
+    this.buildReceiver();
     this.responsiveScreenService
       .isMobile()
       .subscribe((isMobile) => (this.isMobile = isMobile));
@@ -61,10 +56,6 @@ export class TrackTableComponent implements AfterViewInit {
     if (this.filterInputElem) {
       (this.filterInputElem.nativeElement as HTMLElement).focus();
     }
-  }
-
-  ngAfterViewInit(): void {
-    this.buildReceiver();
   }
 
   openSavePlaylistDialog(): void {

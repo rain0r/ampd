@@ -22,6 +22,7 @@ export class DirectoryEntryComponent implements OnInit {
   ngOnInit(): void {
     if (this.directory) {
       this.pathLink = encodeURIComponent(this.directory.path);
+      // this.pathLink = this.directory.path;
     }
   }
 

@@ -1,15 +1,10 @@
 import { ViewportScroller } from "@angular/common";
-import {
-  AfterViewInit,
-  ChangeDetectorRef,
-  Component,
-  OnInit,
-  ViewChild,
-} from "@angular/core";
+import { AfterViewInit, Component, OnInit } from "@angular/core";
 import { AbstractControl, FormControl, FormGroup } from "@angular/forms";
-import { MatPaginator, MatPaginatorIntl } from "@angular/material/paginator";
 import {
+  BehaviorSubject,
   combineLatest,
+  filter,
   map,
   Observable,
   of,
@@ -17,10 +12,15 @@ import {
   Subject,
   switchMap,
 } from "rxjs";
+import { MsgService } from "src/app/service/msg.service";
 import { NotificationService } from "src/app/service/notification.service";
 import { QueueService } from "src/app/service/queue.service";
 import { ResponsiveScreenService } from "src/app/service/responsive-screen.service";
 import { SearchService } from "src/app/service/search.service";
+import {
+  InternMsgType,
+  PaginationMsg,
+} from "src/app/shared/messages/internal/internal-msg";
 import { AdvSearchResponse } from "src/app/shared/model/http/adv-search-response";
 import { QueueTrack } from "src/app/shared/model/queue-track";
 import { FormField } from "src/app/shared/search/form-field";
@@ -33,12 +33,6 @@ import { TrackTableOptions } from "src/app/shared/track-table-data/track-table-o
   styleUrls: ["./advanced-search.component.scss"],
 })
 export class AdvancedSearchComponent implements OnInit, AfterViewInit {
-  @ViewChild(MatPaginator, { static: true })
-  paginator: MatPaginator = new MatPaginator(
-    new MatPaginatorIntl(),
-    ChangeDetectorRef.prototype
-  );
-  advSearchResponse: AdvSearchResponse = <AdvSearchResponse>{};
   advSearchResponse$ = new Observable<AdvSearchResponse>();
   displayedColumns: string[] = [
     "artist-name",
@@ -49,20 +43,21 @@ export class AdvancedSearchComponent implements OnInit, AfterViewInit {
   ];
   form: FormGroup = <FormGroup>{};
   formFields: FormField[];
-  isLoadingResults = true;
+  isLoadingResults = new BehaviorSubject(true);
   trackTableData = new TrackTableOptions();
 
+  private searchParams: Record<string, string> = {};
   private formDataSubmitted = new Subject<Record<string, string>>();
   private isMobile = false;
 
   constructor(
+    private msgService: MsgService,
     private notificationService: NotificationService,
     private queueService: QueueService,
     private responsiveScreenService: ResponsiveScreenService,
     private scroller: ViewportScroller,
     private searchService: SearchService
   ) {
-    this.advSearchResponse.content = [];
     this.formFields = this.getFormFields();
     this.responsiveScreenService
       .isMobile()
@@ -72,27 +67,31 @@ export class AdvancedSearchComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.form = this.toFormGroup(this.formFields);
-    this.isLoadingResults = false;
+    this.isLoadingResults.next(false);
   }
 
   ngAfterViewInit(): void {
     combineLatest([
       this.formDataSubmitted,
-      this.paginator.page.pipe(startWith({})),
+      this.msgService.message.pipe(
+        filter((msg) => msg.type === InternMsgType.PaginationEvent),
+        map((msg) => <PaginationMsg>msg),
+        map((msg) => msg.event),
+        startWith({ pageIndex: 0, pageSize: 30 })
+      ),
     ])
       .pipe(
-        switchMap(([fd]) => {
-          this.isLoadingResults = true;
-          return this.searchService.advSearch(fd, this.paginator.pageIndex);
+        switchMap(([fd, pagination]) => {
+          this.isLoadingResults.next(true);
+          this.searchParams = fd;
+          return this.searchService.advSearch(
+            fd,
+            pagination.pageIndex,
+            pagination.pageSize
+          );
         })
       )
-      .subscribe((data) => {
-        this.isLoadingResults = false;
-        this.advSearchResponse = data;
-        this.scroller.scrollToAnchor("results");
-        this.advSearchResponse$ = of(data);
-        this.trackTableData = this.buildTableData(data);
-      });
+      .subscribe((data) => this.processSearchResults(data));
   }
 
   onSubmit(): void {
@@ -109,12 +108,14 @@ export class AdvancedSearchComponent implements OnInit, AfterViewInit {
   }
 
   onAddAll(): void {
-    this.advSearchResponse$
-      .pipe(map((opt) => opt.content.map((queueTrack) => queueTrack.file)))
-      .subscribe((opt) => {
-        this.queueService.addTracks(opt);
-        this.notificationService.popUp(`Added ${opt.length} tracks`);
-      });
+    this.searchService.addAll(this.searchParams).subscribe(() => void 0);
+  }
+
+  private processSearchResults(advSearchResponse: AdvSearchResponse): void {
+    this.isLoadingResults.next(false);
+    this.scroller.scrollToAnchor("results");
+    this.advSearchResponse$ = of(advSearchResponse);
+    this.trackTableData = this.buildTableData(advSearchResponse);
   }
 
   private getFormFields(): FormField[] {
@@ -142,6 +143,10 @@ export class AdvancedSearchComponent implements OnInit, AfterViewInit {
     trackTable.addTracks(advSearchResponse.content);
     trackTable.displayedColumns = this.getDisplayedColumns();
     trackTable.onPlayClick = ClickActions.AddPlayTrack;
+    trackTable.totalElements = advSearchResponse.totalElements;
+    trackTable.totalPages = advSearchResponse.totalPages;
+    trackTable.pageIndex = advSearchResponse.number;
+    trackTable.pageSize = advSearchResponse.numberOfElements;
     return trackTable;
   }
 

@@ -20,7 +20,7 @@ export class DirectoriesComponent extends Filterable implements OnInit {
   letters = new Set<string>();
   pageSizeOptions: number[];
   paginationFrom = 0;
-  paginationTo = 50;
+  paginationTo = 30;
 
   constructor(
     private frontendSettingsService: FrontendSettingsService,

@@ -1,10 +1,9 @@
-import { Track } from "../messages/incoming/track";
+import { AdvSearchResponse } from "./http/adv-search-response";
 
 /**
  * Info about a playlist as received by the backend.
  */
 export interface PlaylistInfo {
   name: string;
-  trackCount: number;
-  tracks: Track[];
+  tracks: AdvSearchResponse;
 }

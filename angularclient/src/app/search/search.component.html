@@ -1,6 +1,12 @@
+<div class="mat-display-1 clickable" [routerLink]="['/search']">Search</div>
+
 <div fxLayout="column" fxLayoutGap="1rem">
-  <div fxLayout="row wrap" fxLayoutAlign="start baseline">
-    <div fxLayout="row nowrap" fxFlex="50%" fxFlex.lt-md="100%">
+  <div
+    fxLayout="row nowrap"
+    fxLayoutAlign="space-between baseline"
+    fxLayoutGap="0.5rem"
+  >
+    <div fxLayout="row nowrap" fxFlex="30%" fxFlex.lt-md="100%">
       <mat-form-field class="full-width">
         <input
           #searchInput
@@ -25,17 +31,20 @@
         </button>
       </mat-form-field>
     </div>
+
     <div
-      *ngIf="searchResultCount > 0"
+      *ngIf="advSearchResponse$ | async as advSearchResponse"
       fxLayout="row nowrap"
-      fxFlex="50%"
+      fxFlex
       fxFlex.lt-md="100%"
-      fxLayoutAlign="end center"
       fxLayoutGap="0.5rem"
+      fxLayoutAlign="space-between baseline"
     >
-      <div>
-        <span fxFlex class="text-muted">{{ searchResultCount }} results </span>
+      <div class="text-muted">
+        {{ advSearchResponse.totalElements }} results
       </div>
+
+      <div fxFlex></div>
 
       <!--Clear queue-->
       <button mat-raised-button (click)="onClearQueue()">
@@ -49,19 +58,26 @@
         <span fxHide.lt-md> Add all </span>
       </button>
     </div>
+
+    <div fxFlex.lt-md="100%" fxLayoutAlign="end baseline">
+      <!--Advanced Search Link-->
+      <button mat-raised-button [routerLink]="['/adv-search']">
+        <span> Advanced Search</span>
+      </button>
+    </div>
   </div>
 
-  <mat-spinner *ngIf="isLoading | async"></mat-spinner>
+  <div
+    *ngIf="isLoadingResults | async"
+    fxLayout="row"
+    fxLayoutAlign="space-around"
+  >
+    <mat-spinner></mat-spinner>
+  </div>
 
   <!-- Search results table -->
   <app-track-data-table
+    *ngIf="(isLoadingResults | async) === false"
     [trackTableData]="trackTableData"
   ></app-track-data-table>
-
-  <div fxFlex fxLayoutAlign="end center">
-    <!--Advanced Search Link-->
-    <button mat-raised-button [routerLink]="['/adv-search']">
-      <span> Advanced Search</span>
-    </button>
-  </div>
 </div>

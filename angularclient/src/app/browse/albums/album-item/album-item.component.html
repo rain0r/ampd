@@ -1,9 +1,9 @@
-<mat-card class="album-card clickable" (click)="openDialog()" *ngIf="album">
-  <mat-card-content fxFlex fxLayout="column">
-    <img
-      title="{{ album.name }} — {{ album.albumArtist }}"
-      [src]="album.albumCoverUrl"
-      alt="Cover of {{ album.name }} — {{ album.albumArtist }}"
-    />
-  </mat-card-content>
-</mat-card>
+<figure class="gallery-frame clickable" (click)="openDialog()" *ngIf="album">
+  <img
+    class="gallery-img"
+    [src]="album.albumCoverUrl"
+    alt="{{ album.albumArtist }} — {{ album.name }}"
+    title="{{ album.albumArtist }} — {{ album.name }}"
+  />
+  <figcaption>{{ album.albumArtist }} — {{ album.name }}</figcaption>
+</figure>

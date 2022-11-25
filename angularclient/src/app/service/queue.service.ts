@@ -22,6 +22,7 @@ export class QueueService {
    * Don't wait for the next publisher message from the server: manually request the queue.
    */
   getQueue(): void {
+    console.log("getQueue()");
     this.rxStompService.publish({
       destination: this.path,
     });
@@ -100,6 +101,7 @@ export class QueueService {
       body: JSON.stringify(filePaths),
     });
     this.getQueue();
+    this.notificationService.popUp(`Added ${filePaths.length} tracks`);
   }
 
   addPlaylist(playlistName: string): void {
@@ -145,7 +147,6 @@ export class QueueService {
   }
 
   getQueueSubscription(): Observable<QueueResponse> {
-    this.getQueue();
     return this.rxStompService.watch("/topic/queue").pipe(
       map((message) => message.body),
       map((body) => <QueueResponse>JSON.parse(body)),

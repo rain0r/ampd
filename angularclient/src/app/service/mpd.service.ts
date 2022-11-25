@@ -41,6 +41,10 @@ export class MpdService {
     );
   }
 
+  getQueue(): void {
+    this.queueService.getQueue();
+  }
+
   initEmptyControlPanel(): MpdModesPanel {
     return {
       random: false,

@@ -12,6 +12,12 @@ export enum InternMsgType {
   PaginationEvent,
 }
 
+export enum InternMsgSrc {
+  Search,
+  AdvSearch,
+  PlaylistDialog,
+}
+
 export interface InternMsg {
   type: InternMsgType;
 }
@@ -22,4 +28,5 @@ export interface FilterMsg extends InternMsg {
 
 export interface PaginationMsg extends InternMsg {
   event: PageEvent;
+  src: InternMsgSrc;
 }

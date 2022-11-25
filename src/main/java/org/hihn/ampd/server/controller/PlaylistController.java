@@ -28,8 +28,9 @@ public class PlaylistController {
 	 * @return An {@link PlaylistInfo} object.
 	 */
 	@RequestMapping(value = "/{name}", method = GET)
-	public PlaylistInfo getPlaylist(@PathVariable("name") String playlistName) {
-		return playlistService.getPlaylistInfo(playlistName)
+	public PlaylistInfo getPlaylist(@PathVariable("name") String playlistName,
+			@RequestParam(defaultValue = "0") int pageIndex, @RequestParam(required = false) Integer pageSize) {
+		return playlistService.getPlaylistInfo(playlistName, pageIndex, pageSize)
 				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 	}
 

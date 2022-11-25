@@ -1,9 +1,20 @@
-img {
-  /* Just in case there are inline attributes */
-  width: 100% !important;
-  height: auto !important;
+/* The Picture Frame */
+.gallery-frame {
+  padding: 0.5rem;
+  font-size: 1.2rem;
+  text-align: center;
+  background-color: #333;
+  color: #d9d9d9;
 }
 
-.album-card {
-  margin-bottom: 1rem !important;
+/* The Images */
+.gallery-img {
+  max-width: 100%;
+  height: auto;
+  object-fit: cover;
+  transition: opacity 0.25s ease-in-out;
+}
+
+.gallery-img:hover {
+  opacity: 0.7;
 }

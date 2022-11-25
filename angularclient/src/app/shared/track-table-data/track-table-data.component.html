@@ -1,5 +1,6 @@
-<div *ngIf="trackTableDataObs | async as trackTableData">
+<div *ngIf="trackTableDataObs | async as trackTableData" class="track-table">
   <table
+    *ngIf="trackTableData.dataSource.data.length > 0"
     mat-table
     [dataSource]="trackTableData.dataSource"
     matSort
@@ -209,9 +210,11 @@
       [length]="trackTableData.totalElements"
       [pageIndex]="trackTableData.pageIndex"
       [pageSize]="trackTableData.pageSize"
-      [pageSizeOptions]="trackTableData.pageSizeOptions"
+      [pageSizeOptions]="
+        trackTableData.showPageSizeOptions ? trackTableData.pageSizeOptions : []
+      "
       (page)="handlePage($event)"
-      showFirstLastButtons
+      [showFirstLastButtons]="trackTableData.totalPages > 1"
     ></mat-paginator>
   </div>
 </div>

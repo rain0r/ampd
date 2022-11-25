@@ -66,9 +66,11 @@
 
 <mat-divider></mat-divider>
 
-<mat-spinner *ngIf="isLoading | async"></mat-spinner>
+<div fxLayout="row" fxLayoutAlign="space-around">
+  <mat-spinner *ngIf="isLoading | async"></mat-spinner>
+</div>
 
-<div id="photos">
+<div class="gallery-grid">
   <app-album-item
     *ngFor="let album of albums | async"
     [album]="album"

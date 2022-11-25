@@ -1,16 +1,15 @@
-import { HttpClient, HttpUrlEncodingCodec } from "@angular/common/http";
+import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
-import { GenresPayload } from "../shared/model/http/genres";
+import { GenreResponse } from "./../shared/messages/incoming/genres-response";
+
 import { SettingsService } from "./settings.service";
 
 @Injectable({
   providedIn: "root",
 })
 export class GenresService {
-  private encoder = new HttpUrlEncodingCodec();
-
   constructor(
     private http: HttpClient,
     private settingsService: SettingsService
@@ -21,15 +20,29 @@ export class GenresService {
     return this.http.get<string[]>(url);
   }
 
-  listGenre(genre: string): Observable<GenresPayload> {
-    const url = `${this.settingsService.getBackendContextAddr()}api/genre?genre=${genre}`;
-    return this.http.get<GenresPayload>(url).pipe(
+  listGenre(
+    genre: string,
+    pageIndex: number | null,
+    pageSize: number | null
+  ): Observable<GenreResponse> {
+    let params = new HttpParams();
+    if (!!genre) {
+      params = params.append("genre", genre);
+    }
+    if (!!pageIndex) {
+      params = params.append("pageIndex", encodeURIComponent(pageIndex));
+    }
+    if (!!pageSize) {
+      params = params.append("pageSize", encodeURIComponent(pageSize));
+    }
+    const url = `${this.settingsService.getBackendContextAddr()}api/genre`;
+    return this.http.get<GenreResponse>(url, { params: params }).pipe(
       map((payload) => {
-        payload.albums.map(
+        payload.albums.content.map(
           (album) =>
-            (album.albumCoverUrl = `${this.settingsService.getBackendContextAddr()}api/find-album-cover?albumName=${this.encoder.encodeKey(
+            (album.albumCoverUrl = `${this.settingsService.getBackendContextAddr()}api/find-album-cover?albumName=${encodeURIComponent(
               album.name
-            )}&artistName=${this.encoder.encodeKey(album.albumArtist)}`)
+            )}&artistName=${encodeURIComponent(album.albumArtist)}`)
         );
         return payload;
       })

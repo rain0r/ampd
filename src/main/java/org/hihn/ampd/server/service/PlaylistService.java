@@ -8,9 +8,14 @@ import org.hihn.ampd.server.model.AmpdSettings;
 import org.hihn.ampd.server.model.PlaylistInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.support.PagedListHolder;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -20,6 +25,8 @@ import java.util.Optional;
 public class PlaylistService {
 
 	private static final Logger LOG = LoggerFactory.getLogger(PlaylistService.class);
+
+	private static final int TABLE_SIZE = 10;
 
 	private final MPD mpd;
 
@@ -70,17 +77,31 @@ public class PlaylistService {
 	 * @param name The name of the playlist.
 	 * @return Info about the specified playlist.
 	 */
-	public Optional<PlaylistInfo> getPlaylistInfo(String name) {
+	public Optional<PlaylistInfo> getPlaylistInfo(String name, int pageIndex, Integer pageSize) {
 		Optional<PlaylistInfo> ret = Optional.empty();
 		try {
-			Collection<MPDSong> playlists = mpd.getMusicDatabase().getPlaylistDatabase().listPlaylistSongs(name);
-			int trackCount = mpd.getMusicDatabase().getPlaylistDatabase().countPlaylistSongs(name);
-			ret = Optional.of(new PlaylistInfo(name, trackCount, playlists));
+			List<MPDSong> plTracks = new ArrayList<>(
+					mpd.getMusicDatabase().getPlaylistDatabase().listPlaylistSongs(name));
+			PageImpl<MPDSong> page = getPage(plTracks, pageIndex, pageSize);
+			ret = Optional.of(new PlaylistInfo(name, page));
 		}
 		catch (Exception e) {
 			LOG.warn("Could not get info about playlist: {}", name);
 		}
 		return ret;
+	}
+
+	private PageImpl<MPDSong> getPage(List<MPDSong> playlists, int pageIndex, Integer pageSize) {
+		Pageable pageable = PageRequest.of(pageIndex, getPageSize(pageSize));
+		PagedListHolder<MPDSong> pages = new PagedListHolder<>(playlists);
+		pages.setPage(pageIndex);
+		pages.setPageSize(getPageSize(pageSize));
+		return new PageImpl<>(pages.getPageList(), pageable, playlists.size());
+
+	}
+
+	private int getPageSize(Integer pageSize) {
+		return pageSize == null ? TABLE_SIZE : pageSize;
 	}
 
 }

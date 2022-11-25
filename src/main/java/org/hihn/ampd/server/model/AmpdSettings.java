@@ -116,8 +116,12 @@ public class AmpdSettings {
 	 * Page size for advanced search results.
 	 */
 	@HelpText(name = "Albums page size", hint = "Page size for advanced search results.")
-	@Value("${adv.search.page.size:50}")
-	private int advSearchPageSize;
+	@Value("${search.page.size:50}")
+	private int searchPageSize;
+
+	@HelpText(name = "Queue page size", hint = "Page size for the queue.")
+	@Value("${queue.page.size:100}")
+	private int queuePageSize;
 
 	/**
 	 * If ListenBrainz scrobbling is enabled.
@@ -201,7 +205,7 @@ public class AmpdSettings {
 	}
 
 	public String getMusicDirectory() {
-		return musicDirectory;
+		return musicDirectory.endsWith("/") ? musicDirectory : musicDirectory + "/";
 	}
 
 	public boolean isLocalCoverCache() {
@@ -272,12 +276,20 @@ public class AmpdSettings {
 		return homeDir;
 	}
 
-	public int getAdvSearchPageSize() {
-		return advSearchPageSize;
+	public int getSearchPageSize() {
+		return searchPageSize;
 	}
 
-	public void setAdvSearchPageSize(int advSearchPageSize) {
-		this.advSearchPageSize = advSearchPageSize;
+	public void setSearchPageSize(int searchPageSize) {
+		this.searchPageSize = searchPageSize;
+	}
+
+	public int getQueuePageSize() {
+		return queuePageSize;
+	}
+
+	public void setQueuePageSize(int queuePageSize) {
+		this.queuePageSize = queuePageSize;
 	}
 
 }

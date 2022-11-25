@@ -1,6 +1,12 @@
-import { Component, ElementRef, HostListener, ViewChild } from "@angular/core";
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  HostListener,
+  ViewChild,
+} from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
-import { filter, map } from "rxjs";
+import { filter, map, Observable } from "rxjs";
 import { MsgService } from "src/app/service/msg.service";
 import { ResponsiveScreenService } from "src/app/service/responsive-screen.service";
 import { QueueResponse } from "src/app/shared/messages/incoming/queue-response";
@@ -21,12 +27,13 @@ import { SavePlaylistDialogComponent } from "../save-playlist-dialog/save-playli
   templateUrl: "./track-table.component.html",
   styleUrls: ["./track-table.component.scss"],
 })
-export class TrackTableComponent {
+export class TrackTableComponent implements AfterViewInit {
   @ViewChild("filterInputElem") filterInputElem?: ElementRef;
 
   currentTrack: QueueTrack = new QueueTrack();
   currentState = "stop";
   trackTableData = new TrackTableOptions();
+  trackTableData$: Observable<TrackTableOptions>;
   private isMobile = false;
 
   constructor(
@@ -36,10 +43,13 @@ export class TrackTableComponent {
     private queueService: QueueService,
     private responsiveScreenService: ResponsiveScreenService
   ) {
-    this.buildReceiver();
+    this.trackTableData$ = this.queueService
+      .getQueueSubscription()
+      .pipe(map((data) => this.buildTableData(data)));
     this.responsiveScreenService
       .isMobile()
       .subscribe((isMobile) => (this.isMobile = isMobile));
+    this.mpdService.getQueue();
   }
 
   @HostListener("document:keydown.f", ["$event"])
@@ -51,6 +61,10 @@ export class TrackTableComponent {
     if (this.filterInputElem) {
       (this.filterInputElem.nativeElement as HTMLElement).focus();
     }
+  }
+
+  ngAfterViewInit(): void {
+    this.buildReceiver();
   }
 
   openSavePlaylistDialog(): void {
@@ -87,12 +101,6 @@ export class TrackTableComponent {
       .map((cd) => cd.name);
   }
 
-  private buildQueue(queueResponse: QueueResponse): void {
-    /* add the new model object to the trackTableData */
-    this.trackTableData.addTracks(queueResponse.content);
-    this.trackTableData = this.buildTableData(queueResponse);
-  }
-
   private buildTableData(queueResponse: QueueResponse): TrackTableOptions {
     const trackTable = new TrackTableOptions();
     trackTable.addTracks(queueResponse.content);
@@ -113,8 +121,9 @@ export class TrackTableComponent {
     // Queue
     this.queueService
       .getQueueSubscription()
-      .subscribe((queueResponse: QueueResponse) =>
-        this.buildQueue(queueResponse)
+      .subscribe(
+        (queueResponse: QueueResponse) =>
+          (this.trackTableData = this.buildTableData(queueResponse))
       );
 
     // State

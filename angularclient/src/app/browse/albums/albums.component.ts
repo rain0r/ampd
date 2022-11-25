@@ -60,7 +60,7 @@ export class AlbumsComponent implements OnInit {
       this.inputSetter$.next(inputValue);
       void this.router.navigate([], {
         relativeTo: this.activatedRoute,
-        queryParams: { search_term: encodeURIComponent(inputValue) },
+        queryParams: { search_term: inputValue },
         queryParamsHandling: "merge",
       });
     } else {

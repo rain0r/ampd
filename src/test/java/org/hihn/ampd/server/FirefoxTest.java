@@ -9,12 +9,14 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 @ExtendWith(SpringExtension.class)
-// @TestPropertySource(locations = "application.properties")
 @TestPropertySource("classpath:application.properties")
 public class FirefoxTest {
 
 	@Value("${webdriver.gecko.driver}")
 	private String gecko;
+
+	@Value("${ampd.address}")
+	private String ampdAddress;
 
 	@Test
 	void ff() {
@@ -22,7 +24,7 @@ public class FirefoxTest {
 		FirefoxOptions options = new FirefoxOptions();
 		options.setHeadless(true); // <-- headless set here
 		FirefoxDriver driver = new FirefoxDriver(options);
-		driver.get("https://hihn.org");
+		driver.get(ampdAddress);
 		String title = driver.getTitle();
 
 		System.out.println(title);

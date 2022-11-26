@@ -1,4 +1,10 @@
-import { Component, ElementRef, HostListener, ViewChild } from "@angular/core";
+import {
+  AfterContentInit,
+  Component,
+  ElementRef,
+  HostListener,
+  ViewChild,
+} from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
 import { filter, map } from "rxjs";
 import { MsgService } from "src/app/service/msg.service";
@@ -21,13 +27,12 @@ import { SavePlaylistDialogComponent } from "../save-playlist-dialog/save-playli
   templateUrl: "./track-table.component.html",
   styleUrls: ["./track-table.component.scss"],
 })
-export class TrackTableComponent {
+export class TrackTableComponent implements AfterContentInit {
   @ViewChild("filterInputElem") filterInputElem?: ElementRef;
 
   currentTrack: QueueTrack = new QueueTrack();
   currentState = "stop";
   trackTableData = new TrackTableOptions();
-  // trackTableData$: Observable<TrackTableOptions>;
   private isMobile = false;
 
   constructor(
@@ -37,9 +42,6 @@ export class TrackTableComponent {
     private queueService: QueueService,
     private responsiveScreenService: ResponsiveScreenService
   ) {
-    // this.trackTableData$ = this.queueService
-    //   .getQueueSubscription()
-    //   .pipe(map((data) => this.buildTableData(data)));
     this.buildReceiver();
     this.responsiveScreenService
       .isMobile()
@@ -56,6 +58,10 @@ export class TrackTableComponent {
     if (this.filterInputElem) {
       (this.filterInputElem.nativeElement as HTMLElement).focus();
     }
+  }
+
+  ngAfterContentInit(): void {
+    this.mpdService.getQueue();
   }
 
   openSavePlaylistDialog(): void {

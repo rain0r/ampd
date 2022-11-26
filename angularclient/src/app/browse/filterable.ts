@@ -16,7 +16,9 @@ export abstract class Filterable {
       )
       .subscribe(
         (message) =>
-          (this.filterValue = message.filterValue ? message.filterValue : "")
+          (this.filterValue = message.filterValue
+            ? message.filterValue.trim()
+            : "")
       );
   }
 }

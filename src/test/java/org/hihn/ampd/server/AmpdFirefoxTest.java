@@ -31,6 +31,11 @@ public class AmpdFirefoxTest {
 		driver.findElement(
 				By.xpath("//button[contains(@title, 'Remove all items from the queue')]")
 		).click();
+
+		// Click disabled button
+		driver.findElement(
+				By.xpath("//button[contains(@title, 'Remove all items from the queue')]")
+		).click();
 	}
 
 }

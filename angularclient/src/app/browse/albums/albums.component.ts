@@ -28,12 +28,14 @@ export class AlbumsComponent implements OnInit {
   @ViewChild("filterInputElem") filterInputElem?: ElementRef;
   albums = new Observable<MpdAlbum[]>();
   filter = "";
-  sortBy = new Observable<string>();
-  page = new Observable<number>();
+  selected = "";
+  sortBy$ = new Observable<string>();
+  page$ = new Observable<number>();
   isLoading = new BehaviorSubject(true);
   sortByKeys: SortByKey[] = [
     { value: "artist", viewValue: "Artist" },
     { value: "album", viewValue: "Album" },
+    { value: "random", viewValue: "Random" },
   ];
   darkTheme: Observable<boolean>;
   private inputSetter$ = new BehaviorSubject<string>("");
@@ -90,7 +92,7 @@ export class AlbumsComponent implements OnInit {
       map((input: string[]) => input[input.length - 1])
     );
 
-    combineLatest([this.page, searchInput, this.sortBy])
+    combineLatest([this.page$, searchInput, this.sortBy$])
       .pipe(
         switchMap(([page, searchInput, sortBy]) => {
           this.albums = new Observable<MpdAlbum[]>();
@@ -103,13 +105,14 @@ export class AlbumsComponent implements OnInit {
   }
 
   private buildQueryParamListener() {
-    this.page = this.activatedRoute.queryParamMap.pipe(
+    this.page$ = this.activatedRoute.queryParamMap.pipe(
       map((qp) => parseInt(qp.get("page") || "1")),
       distinctUntilChanged()
     );
-    this.sortBy = this.activatedRoute.queryParamMap.pipe(
+    this.sortBy$ = this.activatedRoute.queryParamMap.pipe(
       map((qp) => qp.get("sortBy") || ""),
       distinctUntilChanged()
     );
+    this.sortBy$.subscribe((sort) => (this.selected = sort));
   }
 }

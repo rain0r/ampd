@@ -22,7 +22,6 @@ export class QueueService {
    * Don't wait for the next publisher message from the server: manually request the queue.
    */
   getQueue(): void {
-    console.log("getQueue()");
     this.rxStompService.publish({
       destination: this.path,
     });

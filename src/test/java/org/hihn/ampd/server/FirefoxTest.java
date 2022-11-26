@@ -15,6 +15,7 @@ public class FirefoxTest {
 
 	@Test
 	void ff() {
+		System.setProperty("webdriver.gecko.driver", "/usr/local/bin/geckodriver");
 		FirefoxOptions options = new FirefoxOptions();
 		options.setHeadless(true); // <-- headless set here
 		FirefoxDriver driver = new FirefoxDriver(options);

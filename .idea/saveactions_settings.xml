@@ -5,7 +5,6 @@
       <set>
         <option value="activate" />
         <option value="organizeImports" />
-        <option value="reformat" />
         <option value="missingOverrideAnnotation" />
         <option value="useBlocks" />
         <option value="unnecessaryThis" />

@@ -9,10 +9,7 @@ import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
-import java.util.Comparator;
-import java.util.List;
-import java.util.TreeSet;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static org.hihn.ampd.server.Constants.ALBUM_CACHE;
@@ -27,6 +24,22 @@ public class AlbumService {
 	private final MPD mpd;
 
 	private final AmpdSettings ampdSettings;
+
+	private enum SortBy {
+
+		NAME("name"), ARTIST("artist"), RANDOM("random");
+
+		private final String key;
+
+		SortBy(String sortBy) {
+			key = sortBy;
+		}
+
+		public String getKey() {
+			return key;
+		}
+
+	}
 
 	public AlbumService(MPD mpd, AmpdSettings ampdSettings) {
 		this.mpd = mpd;
@@ -66,11 +79,17 @@ public class AlbumService {
 					|| album.getAlbumArtist().toLowerCase().contains(searchTerm)
 					|| album.getArtistNames().get(0).toLowerCase().contains(searchTerm);
 		}).sorted(Comparator.comparing(a -> {
-			if (sortBy.equalsIgnoreCase("album")) {
+			if (sortBy.equals(SortBy.NAME.getKey())) {
 				return a.getName();
 			}
+
 			return a.getAlbumArtist();
+
 		})).collect(Collectors.toList());
+
+		if (sortBy.equals(SortBy.RANDOM.getKey())) {
+			Collections.shuffle(filteredAlbums);
+		}
 
 		return filteredAlbums.stream().skip(start) // the offset
 				.limit(ampdSettings.getAlbumsPageSize()) // how many items you want

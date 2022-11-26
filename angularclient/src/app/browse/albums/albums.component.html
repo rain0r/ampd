@@ -15,7 +15,7 @@
     Albums
   </div>
   <div class="text-muted" fxLayoutAlign="center center">
-    Page {{ page | async }}
+    Page {{ page$ | async }}
   </div>
 
   <mat-form-field
@@ -24,7 +24,7 @@
   >
     <mat-label>Sort by</mat-label>
     <mat-select
-      [(ngModel)]="sortBy"
+      [(ngModel)]="selected"
       name="sortByKey"
       (selectionChange)="onSortBy($event.value)"
     >
@@ -79,7 +79,7 @@
 
 <ng-container *ngIf="albums | async as albumList">
   <ng-container *ngIf="albumList.length > 0; else noResults">
-    <div *ngIf="page | async as pageNo">
+    <div *ngIf="page$ | async as pageNo">
       <mat-divider></mat-divider>
       <app-albums-pagination [pageNo]="pageNo"></app-albums-pagination>
     </div>

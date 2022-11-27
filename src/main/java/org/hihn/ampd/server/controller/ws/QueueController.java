@@ -1,9 +1,9 @@
 package org.hihn.ampd.server.controller.ws;
 
-import org.bff.javampd.album.MPDAlbum;
 import org.bff.javampd.file.MPDFile;
 import org.bff.javampd.playlist.MPDPlaylistSong;
 import org.bff.javampd.server.MPD;
+import org.hihn.ampd.server.message.incoming.AddPlayAlbum;
 import org.hihn.ampd.server.message.incoming.MoveTrackMsg;
 import org.hihn.ampd.server.model.AmpdSettings;
 import org.hihn.ampd.server.model.QueuePageImpl;
@@ -79,8 +79,13 @@ public class QueueController {
 	}
 
 	@MessageMapping("/add-album")
-	public void addAlbum(MPDAlbum mpdAlbum) {
-		mpd.getPlaylist().insertAlbum(mpdAlbum);
+	public void addAlbum(AddPlayAlbum addPlayAlbum) {
+		queueService.addAlbum(addPlayAlbum);
+	}
+
+	@MessageMapping("/play-album")
+	public void addPlayAlbum(AddPlayAlbum addPlayAlbum) {
+		queueService.addPlayAlbum(addPlayAlbum);
 	}
 
 	/**

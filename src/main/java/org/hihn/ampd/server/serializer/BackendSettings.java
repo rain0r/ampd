@@ -1,8 +1,5 @@
 package org.hihn.ampd.server.serializer;
 
-/**
- * Definiert ein Feld im Suchformular im Frontend
- */
 public class BackendSettings {
 
 	private final String name;

@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from "@angular/core";
-import { MAT_DIALOG_DATA } from "@angular/material/dialog";
+import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { Observable } from "rxjs";
 import { AlbumsService } from "src/app/service/albums.service";
 import { QueueService } from "src/app/service/queue.service";
@@ -24,7 +24,8 @@ export class AlbumDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public album: MpdAlbum,
     private albumService: AlbumsService,
     private queueService: QueueService,
-    private responsiveScreenService: ResponsiveScreenService
+    private responsiveScreenService: ResponsiveScreenService,
+    public dialogRef: MatDialogRef<AlbumDialogComponent>
   ) {
     this.coverSizeClass = this.responsiveScreenService.getCoverCssClass();
   }
@@ -43,11 +44,13 @@ export class AlbumDialogComponent implements OnInit {
   }
 
   onAddDir(): void {
-    this.queueService.addAlbum(this.album);
+    this.queueService.addAlbum(this.album.albumArtist, this.album.name);
+    this.dialogRef.close();
   }
 
   onPlayDir(): void {
-    this.queueService.playAlbum(this.album);
+    this.queueService.playAlbum(this.album.albumArtist, this.album.name);
+    this.dialogRef.close();
   }
 
   private buildTrackTableOptions(tracks: Track[]): TrackTableOptions {

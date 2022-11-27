@@ -1,12 +1,11 @@
-import { PaginatedResponse } from "./../shared/messages/incoming/paginated-response";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { distinctUntilChanged, map } from "rxjs/operators";
-import { MpdAlbum } from "../shared/model/http/album";
+import { Track } from "../shared/messages/incoming/track";
 import { QueueTrack } from "../shared/model/queue-track";
+import { PaginatedResponse } from "./../shared/messages/incoming/paginated-response";
 import { AmpdRxStompService } from "./ampd-rx-stomp.service";
 import { NotificationService } from "./notification.service";
-import { Track } from "../shared/messages/incoming/track";
 
 @Injectable({
   providedIn: "root",
@@ -54,20 +53,22 @@ export class QueueService {
     this.getQueue();
   }
 
-  addAlbum(album: MpdAlbum): void {
+  addAlbum(albumArtist: string, name: string): void {
     this.rxStompService.publish({
       destination: `${this.path}add-album`,
-      body: JSON.stringify(album),
+      body: JSON.stringify({ albumArtist: albumArtist, name: name }),
     });
     this.getQueue();
+    this.notificationService.popUp(`Added album: ${albumArtist} — ${name}`);
   }
 
-  playAlbum(album: MpdAlbum): void {
+  playAlbum(albumArtist: string, name: string): void {
     this.rxStompService.publish({
       destination: `${this.path}play-album`,
-      body: JSON.stringify(album),
+      body: JSON.stringify({ albumArtist: albumArtist, name: name }),
     });
     this.getQueue();
+    this.notificationService.popUp(`Playing album: ${albumArtist} — ${name}`);
   }
 
   addPlayQueueTrack(track: QueueTrack): void {

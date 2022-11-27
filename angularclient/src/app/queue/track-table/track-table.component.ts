@@ -9,7 +9,8 @@ import { MatDialog } from "@angular/material/dialog";
 import { filter, map } from "rxjs";
 import { MsgService } from "src/app/service/msg.service";
 import { ResponsiveScreenService } from "src/app/service/responsive-screen.service";
-import { QueueResponse } from "src/app/shared/messages/incoming/queue-response";
+import { PaginatedResponse } from "src/app/shared/messages/incoming/paginated-response";
+import { Track } from "src/app/shared/messages/incoming/track";
 import {
   InternMsgType,
   PaginationMsg,
@@ -98,7 +99,9 @@ export class TrackTableComponent implements AfterContentInit {
       .map((cd) => cd.name);
   }
 
-  private buildTableData(queueResponse: QueueResponse): TrackTableOptions {
+  private buildTableData(
+    queueResponse: PaginatedResponse<Track>
+  ): TrackTableOptions {
     const trackTable = new TrackTableOptions();
     trackTable.addTracks(queueResponse.content);
     trackTable.addTitleColumn = false;
@@ -119,7 +122,7 @@ export class TrackTableComponent implements AfterContentInit {
     this.queueService
       .getQueueSubscription()
       .subscribe(
-        (queueResponse: QueueResponse) =>
+        (queueResponse: PaginatedResponse<Track>) =>
           (this.trackTableData = this.buildTableData(queueResponse))
       );
 

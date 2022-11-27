@@ -1,7 +1,8 @@
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
-import { AdvSearchResponse } from "../shared/model/http/adv-search-response";
+import { PaginatedResponse } from "../shared/messages/incoming/paginated-response";
+import { Track } from "../shared/messages/incoming/track";
 import { SettingsService } from "./settings.service";
 
 @Injectable({
@@ -17,7 +18,7 @@ export class SearchService {
     term: string,
     pageIndex: number | null,
     pageSize: number | null
-  ): Observable<AdvSearchResponse> {
+  ): Observable<PaginatedResponse<Track>> {
     let params = new HttpParams();
     if (!!pageIndex) {
       params = params.append("pageIndex", pageIndex);
@@ -27,14 +28,14 @@ export class SearchService {
     }
     params = params.append("term", term);
     const url = `${this.settingsService.getBackendContextAddr()}api/search`;
-    return this.http.get<AdvSearchResponse>(url, { params: params });
+    return this.http.get<PaginatedResponse<Track>>(url, { params: params });
   }
 
   advSearch(
     formData: Record<string, string>,
     pageIndex: number,
     pageSize: number
-  ): Observable<AdvSearchResponse> {
+  ): Observable<PaginatedResponse<Track>> {
     let params = new HttpParams();
     params = params.append("pageIndex", pageIndex);
     params = params.append("pageSize", pageSize);
@@ -44,7 +45,7 @@ export class SearchService {
       }
     }
     const url = `${this.settingsService.getBackendContextAddr()}api/adv-search`;
-    return this.http.get<AdvSearchResponse>(url, { params: params });
+    return this.http.get<PaginatedResponse<Track>>(url, { params: params });
   }
 
   /**

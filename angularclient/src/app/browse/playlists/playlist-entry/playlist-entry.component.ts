@@ -4,7 +4,7 @@ import { Observable } from "rxjs";
 import { ResponsiveScreenService } from "src/app/service/responsive-screen.service";
 import { NotificationService } from "../../../service/notification.service";
 import { QueueService } from "../../../service/queue.service";
-import { Playlist } from "../../../shared/messages/incoming/playlist-impl";
+import { Playlist } from "../../../shared/messages/incoming/playlist";
 import { PlaylistInfoDialogComponent } from "../playlist-info-dialog/playlist-info-dialog.component";
 
 @Component({

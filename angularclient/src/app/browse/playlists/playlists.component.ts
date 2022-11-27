@@ -2,7 +2,7 @@ import { Component, Input } from "@angular/core";
 import { PageEvent } from "@angular/material/paginator";
 import { FrontendSettingsService } from "../../service/frontend-settings.service";
 import { MsgService } from "../../service/msg.service";
-import { Playlist } from "../../shared/messages/incoming/playlist-impl";
+import { Playlist } from "../../shared/messages/incoming/playlist";
 import { Filterable } from "../filterable";
 
 @Component({

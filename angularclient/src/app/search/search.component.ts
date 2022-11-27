@@ -13,11 +13,12 @@ import { MsgService } from "../service/msg.service";
 import { NotificationService } from "../service/notification.service";
 import { QueueService } from "../service/queue.service";
 import { SearchService } from "../service/search.service";
+import { PaginatedResponse } from "../shared/messages/incoming/paginated-response";
+import { Track } from "../shared/messages/incoming/track";
 import {
   InternMsgType,
   PaginationMsg,
 } from "../shared/messages/internal/internal-msg";
-import { AdvSearchResponse } from "../shared/model/http/adv-search-response";
 import { QueueTrack } from "../shared/model/queue-track";
 import { ClickActions } from "../shared/track-table-data/click-actions.enum";
 import { TrackTableOptions } from "../shared/track-table-data/track-table-options";
@@ -28,7 +29,7 @@ import { TrackTableOptions } from "../shared/track-table-data/track-table-option
   styleUrls: ["./search.component.scss"],
 })
 export class SearchComponent implements OnInit {
-  advSearchResponse$ = new Observable<AdvSearchResponse>();
+  advSearchResponse$ = new Observable<PaginatedResponse<Track>>();
   isLoadingResults = new BehaviorSubject(true);
   isMobile = false;
   search = "";
@@ -81,7 +82,7 @@ export class SearchComponent implements OnInit {
   }
 
   private buildTableData(
-    advSearchResponse: AdvSearchResponse
+    advSearchResponse: PaginatedResponse<Track>
   ): TrackTableOptions {
     const trackTable = new TrackTableOptions();
     trackTable.addTracks(advSearchResponse.content);
@@ -136,7 +137,9 @@ export class SearchComponent implements OnInit {
       .subscribe((data) => this.processSearchResults(data));
   }
 
-  private processSearchResults(advSearchResponse: AdvSearchResponse): void {
+  private processSearchResults(
+    advSearchResponse: PaginatedResponse<Track>
+  ): void {
     this.trackTableData = this.buildTableData(advSearchResponse);
     this.isLoadingResults.next(false);
     this.advSearchResponse$ = of(advSearchResponse);

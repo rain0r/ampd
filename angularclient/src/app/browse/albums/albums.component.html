@@ -14,10 +14,6 @@
   >
     Albums
   </div>
-  <div class="text-muted" fxLayoutAlign="center center">
-    Page {{ page$ | async }}
-  </div>
-
   <mat-form-field
     appearance="fill"
     [ngClass]="{ 'dark-theme': darkTheme | async }"
@@ -70,20 +66,23 @@
   <mat-spinner *ngIf="isLoading | async"></mat-spinner>
 </div>
 
-<div class="gallery-grid">
-  <app-album-item
-    *ngFor="let album of albums | async"
-    [album]="album"
-  ></app-album-item>
+<div *ngIf="pagedAlbums$ | async as pagedAlbums" fxLayout="column">
+  <div class="gallery-grid">
+    <app-album-item
+      *ngFor="let album of pagedAlbums.content"
+      [album]="album"
+    ></app-album-item>
+  </div>
+  <div
+    [hidden]="pagedAlbums.content.length === 0 || pagedAlbums.totalPages < 2"
+  >
+    <mat-paginator
+      [length]="pagedAlbums.totalElements"
+      [pageIndex]="pagedAlbums.number"
+      [pageSize]="pagedAlbums.size"
+      [pageSizeOptions]="[]"
+      [showFirstLastButtons]="pagedAlbums.totalPages > 1"
+      (page)="handlePage($event)"
+    ></mat-paginator>
+  </div>
 </div>
-
-<ng-container *ngIf="albums | async as albumList">
-  <ng-container *ngIf="albumList.length > 0; else noResults">
-    <div *ngIf="page$ | async as pageNo">
-      <mat-divider></mat-divider>
-      <app-albums-pagination [pageNo]="pageNo"></app-albums-pagination>
-    </div>
-  </ng-container>
-</ng-container>
-
-<ng-template #noResults>No albums found.</ng-template>

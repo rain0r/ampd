@@ -17,11 +17,12 @@ import { NotificationService } from "src/app/service/notification.service";
 import { QueueService } from "src/app/service/queue.service";
 import { ResponsiveScreenService } from "src/app/service/responsive-screen.service";
 import { SearchService } from "src/app/service/search.service";
+import { PaginatedResponse } from "src/app/shared/messages/incoming/paginated-response";
+import { Track } from "src/app/shared/messages/incoming/track";
 import {
   InternMsgType,
   PaginationMsg,
 } from "src/app/shared/messages/internal/internal-msg";
-import { AdvSearchResponse } from "src/app/shared/model/http/adv-search-response";
 import { QueueTrack } from "src/app/shared/model/queue-track";
 import { FormField } from "src/app/shared/search/form-field";
 import { ClickActions } from "src/app/shared/track-table-data/click-actions.enum";
@@ -33,7 +34,7 @@ import { TrackTableOptions } from "src/app/shared/track-table-data/track-table-o
   styleUrls: ["./advanced-search.component.scss"],
 })
 export class AdvancedSearchComponent implements OnInit, AfterViewInit {
-  advSearchResponse$ = new Observable<AdvSearchResponse>();
+  advSearchResponse$ = new Observable<PaginatedResponse<Track>>();
   displayedColumns: string[] = [
     "artist-name",
     "album-name",
@@ -111,7 +112,9 @@ export class AdvancedSearchComponent implements OnInit, AfterViewInit {
     this.searchService.addAll(this.searchParams).subscribe(() => void 0);
   }
 
-  private processSearchResults(advSearchResponse: AdvSearchResponse): void {
+  private processSearchResults(
+    advSearchResponse: PaginatedResponse<Track>
+  ): void {
     this.isLoadingResults.next(false);
     this.scroller.scrollToAnchor("results");
     this.advSearchResponse$ = of(advSearchResponse);
@@ -137,7 +140,7 @@ export class AdvancedSearchComponent implements OnInit, AfterViewInit {
   }
 
   private buildTableData(
-    advSearchResponse: AdvSearchResponse
+    advSearchResponse: PaginatedResponse<Track>
   ): TrackTableOptions {
     const trackTable = new TrackTableOptions();
     trackTable.addTracks(advSearchResponse.content);

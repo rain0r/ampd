@@ -3,6 +3,7 @@ package org.hihn.ampd.server.controller;
 import org.bff.javampd.album.MPDAlbum;
 import org.bff.javampd.song.MPDSong;
 import org.hihn.ampd.server.service.AlbumService;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -21,10 +22,12 @@ public class AlbumController {
 	}
 
 	@GetMapping("/albums")
-	public Collection<MPDAlbum> listAllAlbums(@RequestParam(value = "page", defaultValue = "1") Integer page,
-			@RequestParam(value = "searchTerm", defaultValue = "") String searchTerm,
-			@RequestParam(value = "sortBy", defaultValue = "") String sortBy) {
-		return albumService.listAllAlbums(page, searchTerm, sortBy);
+	public PageImpl<MPDAlbum> listAllAlbums(@RequestParam(value = "searchTerm", defaultValue = "") String searchTerm,
+			@RequestParam(defaultValue = "0") int pageIndex, @RequestParam(required = false) Integer pageSize,
+			@RequestParam(value = "sortBy", defaultValue = "") String sortBy
+
+	) {
+		return albumService.listAllAlbums(searchTerm, pageIndex, pageSize, sortBy);
 	}
 
 	@GetMapping("/album")

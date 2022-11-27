@@ -3,7 +3,7 @@
  * That is playlists, directories and tracks.
  */
 import { Directory } from "../messages/incoming/directory";
-import { Playlist } from "../messages/incoming/playlist-impl";
+import { Playlist } from "../messages/incoming/playlist";
 import { Track } from "../messages/incoming/track";
 
 export interface BrowsePayload {

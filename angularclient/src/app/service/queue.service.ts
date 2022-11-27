@@ -1,11 +1,12 @@
+import { PaginatedResponse } from "./../shared/messages/incoming/paginated-response";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { distinctUntilChanged, map } from "rxjs/operators";
 import { MpdAlbum } from "../shared/model/http/album";
 import { QueueTrack } from "../shared/model/queue-track";
-import { QueueResponse } from "./../shared/messages/incoming/queue-response";
 import { AmpdRxStompService } from "./ampd-rx-stomp.service";
 import { NotificationService } from "./notification.service";
+import { Track } from "../shared/messages/incoming/track";
 
 @Injectable({
   providedIn: "root",
@@ -145,10 +146,10 @@ export class QueueService {
     this.getQueue();
   }
 
-  getQueueSubscription(): Observable<QueueResponse> {
+  getQueueSubscription(): Observable<PaginatedResponse<Track>> {
     return this.rxStompService.watch("/topic/queue").pipe(
       map((message) => message.body),
-      map((body) => <QueueResponse>JSON.parse(body)),
+      map((body) => <PaginatedResponse<Track>>JSON.parse(body)),
       distinctUntilChanged((prev, curr) => {
         return (
           prev.content.length == curr.content.length &&

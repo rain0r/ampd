@@ -1,8 +1,8 @@
-import { Pageable, Sort } from "./../../model/pageable";
-import { Track } from "./track";
+import { Sort } from "@angular/material/sort";
+import { Pageable } from "../../model/pageable";
 
-export interface QueueResponse {
-  content: Track[];
+export interface PaginatedResponse<T> {
+  content: T[];
   pageable: Pageable;
   totalPages: number;
   totalElements: number;

@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from "@angular/core";
-import { Playlist } from "../../messages/incoming/playlist-impl";
+import { Playlist } from "../../messages/incoming/playlist";
 
 @Pipe({ name: "playlistFilter" })
 export class PlaylistFilterPipe implements PipeTransform {

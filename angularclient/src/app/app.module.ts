@@ -15,7 +15,6 @@ import { AddStreamDialogComponent } from "./browse/add-radio-stream/add-radio-st
 import { RadioStreamListComponent } from "./browse/add-radio-stream/radio-stream-list/radio-stream-list.component";
 import { AlbumDialogComponent } from "./browse/albums/album-dialog/album-dialog.component";
 import { AlbumItemComponent } from "./browse/albums/album-item/album-item.component";
-import { AlbumsPaginationComponent } from "./browse/albums/albums-pagination/albums-pagination.component";
 import { AlbumsComponent } from "./browse/albums/albums.component";
 import { BrowseComponent } from "./browse/browse.component";
 import { CoverGridEntryComponent } from "./browse/directories/cover-grid/cover-grid-entry/cover-grid-entry.component";
@@ -114,7 +113,6 @@ function isDarkTheme(service: FrontendSettingsService): unknown {
     CoverGridEntryComponent,
     AlbumsComponent,
     AlbumDialogComponent,
-    AlbumsPaginationComponent,
     AlbumItemComponent,
     TrackInfoDialogComponent,
     KeyValueTableComponent,

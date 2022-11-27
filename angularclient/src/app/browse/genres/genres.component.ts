@@ -15,6 +15,7 @@ import {
 import { startWith, switchMap } from "rxjs/operators";
 import { MsgService } from "src/app/service/msg.service";
 import { GenreResponse } from "src/app/shared/messages/incoming/genres-response";
+import { PaginatedResponse } from "src/app/shared/messages/incoming/paginated-response";
 import { Track } from "src/app/shared/messages/incoming/track";
 import {
   InternMsgType,
@@ -25,7 +26,6 @@ import { GenresService as GenreService } from "../../service/genres.service";
 import { ResponsiveScreenService } from "../../service/responsive-screen.service";
 import { ClickActions } from "../../shared/track-table-data/click-actions.enum";
 import { TrackTableOptions } from "../../shared/track-table-data/track-table-options";
-import { PaginatedResponse } from "./../../shared/messages/incoming/genres-response";
 
 @Component({
   selector: "app-genres",

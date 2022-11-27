@@ -59,6 +59,7 @@ export class QueueService {
       body: JSON.stringify({ albumArtist: albumArtist, name: name }),
     });
     this.getQueue();
+    this.notificationService.popUp(`Added album: ${albumArtist} — ${name}`);
   }
 
   playAlbum(albumArtist: string, name: string): void {
@@ -67,6 +68,7 @@ export class QueueService {
       body: JSON.stringify({ albumArtist: albumArtist, name: name }),
     });
     this.getQueue();
+    this.notificationService.popUp(`Playing album: ${albumArtist} — ${name}`);
   }
 
   addPlayQueueTrack(track: QueueTrack): void {

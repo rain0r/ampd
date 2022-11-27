@@ -1,3 +1,4 @@
+import { ViewportScroller } from "@angular/common";
 import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import { PageEvent } from "@angular/material/paginator";
 import { ActivatedRoute, Router } from "@angular/router";
@@ -33,17 +34,18 @@ interface SortByKey {
 })
 export class AlbumsComponent implements OnInit {
   @ViewChild("filterInputElem") filterInputElem?: ElementRef;
-  pagedAlbums$ = new Observable<PaginatedResponse<MpdAlbum>>();
+  darkTheme: Observable<boolean>;
   filter = "";
+  isLoading = new BehaviorSubject(true);
+  pagedAlbums$ = new Observable<PaginatedResponse<MpdAlbum>>();
   selected = "";
   sortBy$ = new Observable<string>();
-  isLoading = new BehaviorSubject(true);
   sortByKeys: SortByKey[] = [
     { value: "artist", viewValue: "Artist" },
     { value: "album", viewValue: "Album" },
     { value: "random", viewValue: "Random" },
   ];
-  darkTheme: Observable<boolean>;
+
   private inputSetter$ = new BehaviorSubject<string>("");
 
   constructor(
@@ -51,7 +53,8 @@ export class AlbumsComponent implements OnInit {
     private albumService: AlbumsService,
     private frontendSettingsService: FrontendSettingsService,
     private msgService: MsgService,
-    private router: Router
+    private router: Router,
+    private viewportScroller: ViewportScroller
   ) {
     this.darkTheme = this.frontendSettingsService.getBoolValue$(
       SettingKeys.DARK_THEME
@@ -128,10 +131,12 @@ export class AlbumsComponent implements OnInit {
   }
 
   handlePage($event: PageEvent): void {
+    this.viewportScroller.scrollToAnchor("loading");
     this.msgService.sendMessage({
       type: InternMsgType.PaginationEvent,
       event: $event,
     } as PaginationMsg);
+    this.pagedAlbums$ = new Observable<PaginatedResponse<MpdAlbum>>();
   }
 
   private buildQueryParamListener() {

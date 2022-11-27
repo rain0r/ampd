@@ -43,11 +43,11 @@ export class AlbumDialogComponent implements OnInit {
   }
 
   onAddDir(): void {
-    this.queueService.addAlbum(this.album);
+    this.queueService.addAlbum(this.album.albumArtist, this.album.name);
   }
 
   onPlayDir(): void {
-    this.queueService.playAlbum(this.album);
+    this.queueService.playAlbum(this.album.albumArtist, this.album.name);
   }
 
   private buildTrackTableOptions(tracks: Track[]): TrackTableOptions {

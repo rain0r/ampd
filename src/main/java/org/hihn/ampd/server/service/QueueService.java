@@ -1,8 +1,10 @@
 package org.hihn.ampd.server.service;
 
+import org.bff.javampd.album.MPDAlbum;
 import org.bff.javampd.playlist.MPDPlaylistSong;
 import org.bff.javampd.server.MPD;
 import org.bff.javampd.song.MPDSong;
+import org.hihn.ampd.server.message.incoming.AddPlayAlbum;
 import org.hihn.ampd.server.model.AmpdSettings;
 import org.hihn.ampd.server.model.QueuePageImpl;
 import org.slf4j.Logger;
@@ -92,6 +94,16 @@ public class QueueService {
 		QueuePageImpl<MPDPlaylistSong> page = new QueuePageImpl<>(pages.getPageList(), pageable, songList.size());
 		page.setTotalPlayTime(sumQueuePlayTime(songList));
 		return page;
+	}
+
+	public void addAlbum(AddPlayAlbum addPlayAlbum) {
+		mpd.getPlaylist().insertAlbum(
+				MPDAlbum.builder(addPlayAlbum.getName()).albumArtist(addPlayAlbum.getAlbumArtist()).build());
+	}
+
+	public void addPlayAlbum(AddPlayAlbum addPlayAlbum) {
+		addPlayAlbum(addPlayAlbum);
+		mpd.getPlayer().play();
 	}
 
 	private Integer sumQueuePlayTime(List<MPDPlaylistSong> songList) {

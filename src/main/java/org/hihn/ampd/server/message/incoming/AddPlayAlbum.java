@@ -6,6 +6,9 @@ public class AddPlayAlbum {
 
 	private String name;
 
+	public AddPlayAlbum() {
+	}
+
 	public AddPlayAlbum(String albumArtist, String name) {
 		this.albumArtist = albumArtist;
 		this.name = name;

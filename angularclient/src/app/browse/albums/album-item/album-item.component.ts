@@ -40,6 +40,7 @@ export class AlbumItemComponent implements OnInit {
           const options: MatDialogConfig = {
             data: this.album,
             width: "75%",
+            exitAnimationDuration: "400ms",
           };
           if (this.isMobile) {
             options["height"] = "90%";

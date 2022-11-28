@@ -102,7 +102,7 @@ public class QueueService {
 	}
 
 	public void addPlayAlbum(AddPlayAlbum addPlayAlbum) {
-		addPlayAlbum(addPlayAlbum);
+		addAlbum(addPlayAlbum);
 		mpd.getPlayer().play();
 	}
 

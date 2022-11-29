@@ -34,7 +34,7 @@ server {
     server_name_in_redirect off;
     location / {
         sendfile off;
-        proxy_pass http://127.0.0.1:8003;
+        proxy_pass http://127.0.0.1:8080;
         proxy_redirect default;
         proxy_http_version 1.1;
     

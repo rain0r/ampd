@@ -2,6 +2,7 @@ package org.hihn.ampd.server.service;
 
 import org.bff.javampd.album.MPDAlbum;
 import org.bff.javampd.server.MPD;
+import org.bff.javampd.server.MPDConnectionException;
 import org.bff.javampd.song.MPDSong;
 import org.hihn.ampd.server.model.AmpdSettings;
 import org.hihn.ampd.server.util.StringUtils;
@@ -73,11 +74,18 @@ public class AlbumService {
 						album.setAlbumArtist(album.getArtistNames().get(0));
 					}
 
-					int albumContains = mpd.getMusicDatabase().getSongDatabase().findAlbum(album).size();
-					if (albumContains < 2) {
-						// Some tracks have the album attribute set but are not actually
-						// part of an album but a singleton. Only use albums with at least
-						// 2 tracks
+					try {
+						int albumContains = mpd.getMusicDatabase().getSongDatabase().findAlbum(album).size();
+						if (albumContains < 2) {
+							// Some tracks have the album attribute set but are not
+							// actually
+							// part of an album but a singleton. Only use albums with at
+							// least
+							// 2 tracks
+							return false;
+						}
+					}
+					catch (MPDConnectionException e) {
 						return false;
 					}
 

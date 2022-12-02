@@ -88,11 +88,7 @@ export class TrackTableDataComponent implements OnInit {
   }
 
   onRemoveTrack(position: number): void {
-    this.trackTableDataObs.subscribe((trackTableData) => {
-      if (trackTableData.clickable) {
-        this.queueService.removeTrack(position);
-      }
-    });
+    this.queueService.removeTrack(position);
   }
 
   onAddTrack(track: QueueTrack): void {

@@ -15,3 +15,13 @@ table td * {
   padding-right: 0 0 0 2px !important;
   word-break: break-all;
 }
+
+.mobile.mat-column-artist-name {
+  width: 40%;
+  word-break: normal;
+}
+
+.mobile.mat-column-title {
+  width: 40%;
+  word-break: normal;
+}

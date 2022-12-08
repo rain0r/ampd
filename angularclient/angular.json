@@ -36,7 +36,7 @@
             "scripts": []
           },
           "configurations": {
-            "dev": {
+            "development": {
               "buildOptimizer": false,
               "optimization": false,
               "vendorChunk": true,
@@ -79,8 +79,8 @@
             "browserTarget": "ampd:build"
           },
           "configurations": {
-            "dev": {
-              "browserTarget": "ampd:build:dev"
+            "development": {
+              "browserTarget": "ampd:build:development"
             },            
             "production": {
               "browserTarget": "ampd:build:production"

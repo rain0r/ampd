@@ -1,54 +1,51 @@
-<div
-  *ngIf="dataSource.data.length > 0; else noResults"
-  fxLayout="column"
-  fxLayoutGap="1rem"
->
-  <div fxLayout="row" fxLayoutGap="1rem" fxLayoutAlign.gt-md="end end">
+<div *ngIf="dataSource.data.length > 0; else noResults">
+  <div class="flex justify-end my-3">
     <button mat-stroked-button color="primary" (click)="onAddAll()">
       Add all to queue
     </button>
   </div>
 
-  <div fxHide.gt-md>
-    <mat-card
-      *ngFor="let stream of dataSource.data"
-      fxLayout="column"
-      fxLayoutGap="0.5rem"
-      class="stream-card"
-    >
+  <div class="inline md:hidden">
+    <!-- Show on mobile -->
+    <mat-card *ngFor="let stream of dataSource.data" class="stream-card">
       <mat-card-title>{{ stream.name }}</mat-card-title>
 
-      <mat-card-content class="text-muted">
+      <mat-card-content class="text-muted break-all">
         {{ stream.url }}
       </mat-card-content>
 
       <mat-card-actions>
-        <button
-          mat-button
-          (click)="onDeleteStream(stream)"
-          title="Delete this stream"
-        >
-          <mat-icon>delete </mat-icon>
-        </button>
-        <button
-          mat-button
-          (click)="onAddStream(stream)"
-          title="Add this stream to the queue"
-        >
-          <mat-icon>add </mat-icon>
-        </button>
-        <button
-          mat-button
-          (click)="onPlayStream(stream)"
-          title="Play this stream"
-        >
-          <mat-icon> play_arrow</mat-icon>
-        </button>
+        <div class="flex flex-row justify-between">
+          <button
+            mat-button
+            (click)="onPlayStream(stream)"
+            title="Play this stream"
+          >
+            <mat-icon> play_arrow</mat-icon>
+          </button>
+
+          <button
+            mat-button
+            (click)="onAddStream(stream)"
+            title="Add this stream to the queue"
+          >
+            <mat-icon>add </mat-icon>
+          </button>
+
+          <button
+            mat-button
+            (click)="onDeleteStream(stream)"
+            title="Delete this stream"
+          >
+            <mat-icon>delete </mat-icon>
+          </button>
+        </div>
       </mat-card-actions>
     </mat-card>
   </div>
 
-  <div fxHide.lt-md>
+  <div class="hidden md:inline">
+    <!-- Show table on desktop -->
     <table mat-table [dataSource]="dataSource">
       <!-- Position Column -->
       <ng-container matColumnDef="name">

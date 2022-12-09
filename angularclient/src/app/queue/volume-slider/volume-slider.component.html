@@ -1,20 +1,19 @@
 <div
-  fxLayout="row nowrap"
-  fxLayoutAlign="center center"
-  fxLayoutGap.gt-md="0.1rem"
+  class="flex flex-row place-items-center gap-x-2"
+  [title]="'Volume: ' + volume"
 >
   <div>
     <mat-icon>volume_down</mat-icon>
   </div>
-  <div fxFlex="1 1 auto">
+  <div class="flex-grow">
     <mat-slider
-      class="full-width"
-      min="0"
-      max="100"
-      step="1"
-      [(ngModel)]="volume"
       (input)="handleVolumeSlider($event)"
-      [disabled]="(connState | async) !== 1"
+      [(ngModel)]="volume"
+      [disabled]="(connected$ | async) === false"
+      class="w-full"
+      max="100"
+      min="0"
+      step="1"
     ></mat-slider>
   </div>
   <div>{{ volume }} &#37;</div>

@@ -9,6 +9,7 @@ import { ServerStatistics } from "../shared/model/server-statistics";
 import { AmpdRxStompService } from "./ampd-rx-stomp.service";
 import { QueueService } from "./queue.service";
 import { SettingsService } from "./settings.service";
+import { RxStompState } from "@stomp/rx-stomp";
 @Injectable({
   providedIn: "root",
 })
@@ -97,6 +98,12 @@ export class MpdService {
   isCurrentTrackRadioStream$(): Observable<boolean> {
     const re = new RegExp("^(http|https)://", "i");
     return this.currentTrack$.pipe(map((track) => re.test(track.file)));
+  }
+
+  isConnected$(): Observable<boolean> {
+    return this.rxStompService.connectionState$.pipe(
+      map((state) => state === RxStompState.OPEN)
+    );
   }
 
   /**

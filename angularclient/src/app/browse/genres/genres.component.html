@@ -1,28 +1,19 @@
-<app-navigation [filterDisabled]="true"></app-navigation>
+<app-browse-navigation [filterDisabled]="true"></app-browse-navigation>
 
-<div
-  fxLayout="row wrap"
-  fxLayoutAlign="space-between"
-  fxLayoutAlign.lt-md="center center"
-  fxLayoutGap="1rem"
->
+<div class="flex flex-col md:flex-row md:flex-wrap gap-4">
   <a
-    class="genre"
-    mat-stroked-button
-    color="primary"
     [queryParams]="{ genre: genre }"
     [routerLink]="['/browse/genres']"
     *ngFor="let genre of genres | async"
+    class="genre"
+    color="primary"
+    mat-stroked-button
   >
     {{ genre }}
   </a>
 </div>
 
-<div
-  *ngIf="isLoadingResults | async"
-  fxLayout="row"
-  fxLayoutAlign="space-around"
->
+<div *ngIf="isLoadingResults | async">
   <mat-spinner></mat-spinner>
 </div>
 
@@ -37,8 +28,11 @@
     >
       <!-- Albums -->
       <mat-tab label="Albums">
-        <div *ngIf="payload.albums.content.length > 0; else noAlbums">
-          <div class="gallery-grid">
+        <div
+          *ngIf="payload.albums.content.length > 0; else noAlbums"
+          class="pt-1 md:pt-9"
+        >
+          <div class="grid grid-cols-1 md:grid-cols-5 gap-x-5">
             <app-album-item
               *ngFor="let album of payload.albums.content"
               [album]="album"
@@ -60,7 +54,10 @@
       </mat-tab>
       <!-- Tracks -->
       <mat-tab label="Tracks">
-        <div *ngIf="payload.tracks.content.length > 0; else noTracks">
+        <div
+          *ngIf="payload.tracks.content.length > 0; else noTracks"
+          class="pt-1 md:pt-9"
+        >
           <app-track-data-table
             *ngIf="payload"
             [trackTableData]="trackTableData"

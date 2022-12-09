@@ -19,9 +19,10 @@ import { TrackTableOptions } from "../../shared/track-table-data/track-table-opt
 export class TracksComponent implements OnInit {
   @Input() tracks: QueueTrack[] = [];
   coverSizeClass: Observable<string>;
+  coverUrl = "";
   dirQp = "/";
-  queueDuration = 0;
   lightboxSettings = LIGHTBOX_SETTINGS;
+  queueDuration = 0;
   trackTableData = new TrackTableOptions();
   validCoverUrl = false;
   private isMobile = false;
@@ -47,18 +48,14 @@ export class TracksComponent implements OnInit {
   ngOnInit(): void {
     this.trackTableData = this.buildTableData();
     this.queueDuration = this.sumTrackDuration();
+    this.coverUrl = `${this.settingsService.getFindDirCoverUrl()}?path=${encodeURIComponent(
+      this.dirQp
+    )}`;
   }
 
   openCoverDialog(): void {
     const track = this.tracks[0];
     track.coverUrl = this.mpdService.buildCoverUrl(track.file);
-  }
-
-  coverUrl(): string {
-    // Add a query param to trigger an image change in the browser
-    return `${this.settingsService.getFindDirCoverUrl()}?path=${encodeURIComponent(
-      this.dirQp
-    )}`;
   }
 
   onError(): void {

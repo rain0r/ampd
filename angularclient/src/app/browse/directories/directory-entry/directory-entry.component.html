@@ -1,17 +1,15 @@
 <div
-  *ngIf="directory !== null"
-  fxLayout="row nowrap"
-  fxLayoutAlign="space-between center"
-  fxLayoutGap="0.25rem"
-  class="list-item"
   [queryParams]="{ dir: pathLink }"
   [routerLink]="['/browse']"
   [title]="'Go to directory: ' + directory.path"
+  *ngIf="directory !== null"
+  class="flex flex-row justify-between items-center browse-list-item p-2"
 >
   <mat-icon>folder_open</mat-icon>
-  <div fxFlex class="name">
+  <div class="name">
     {{ directory.displayedPath }}
   </div>
+  <div class="flex-grow"></div>
   <button
     mat-button
     title="Play directory"
@@ -20,9 +18,9 @@
     <mat-icon> play_arrow</mat-icon>
   </button>
   <button
+    (click)="onAddDir($event, directory.path)"
     mat-button
     title="Add directory to queue"
-    (click)="onAddDir($event, directory.path)"
   >
     <mat-icon> add</mat-icon>
   </button>

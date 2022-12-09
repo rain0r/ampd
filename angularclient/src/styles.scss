@@ -2,10 +2,18 @@
 @import "./styles/material-theme";
 @import "~lightgallery/scss/lightgallery";
 
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  color: #222;
+  font-size: 1em;
+  line-height: 1.4;
+}
+
 html,
 body {
-  font-family: "Segoe UI", Candara, "Bitstream Vera Sans", "DejaVu Sans",
-    "Bitstream Vera Sans", "Trebuchet MS", Verdana, "Verdana Ref", sans-serif;
   height: 100%;
   background: var(--body-background-color);
 }
@@ -16,23 +24,18 @@ body {
 }
 
 .mono {
-  // font-family: Monaco, monospace;
   font-family: Courier New, Courier, Lucida Sans Typewriter, Lucida Typewriter,
     monospace;
   color: var(--font-color) !important;
 }
 
-mat-toolbar {
-  justify-content: center;
-  padding-bottom: 0;
-}
-
-.space-right {
-  padding-right: 0.5em;
-}
-
 .clickable {
   cursor: pointer;
+}
+
+.clickable:hover {
+  cursor: pointer;
+  text-decoration: underline;
 }
 
 .text-muted {
@@ -40,10 +43,6 @@ mat-toolbar {
 }
 
 table {
-  width: 100%;
-}
-
-.full-width {
   width: 100%;
 }
 
@@ -105,14 +104,6 @@ $font-color: var(--font-color);
 
 .cut-text div {
   overflow-wrap: break-word;
-}
-
-@media only screen and (max-width: 1280px) {
-  // Needs to be here to override Angular's own padding
-  .browse-list-item > .mat-list-item-content {
-    padding-right: 5px !important;
-    padding-left: 5px !important;
-  }
 }
 
 /**
@@ -200,11 +191,11 @@ $font-color: var(--font-color);
 
 /* Albums grid */
 .gallery-grid {
-  display: -ms-grid;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  grid-gap: 1.5rem;
-  justify-items: center;
-  margin: 0;
-  padding: 0;
+  // display: -ms-grid;
+  // display: grid;
+  // grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  // grid-gap: 1.5rem;
+  // justify-items: center;
+  // margin: 0;
+  // padding: 0;
 }

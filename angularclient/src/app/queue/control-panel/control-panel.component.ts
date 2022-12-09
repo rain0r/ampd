@@ -24,10 +24,11 @@ import { QueueService } from "../../service/queue.service";
   styleUrls: ["./control-panel.component.scss"],
 })
 export class ControlPanelComponent implements OnInit {
+  connected$: Observable<boolean>;
   currentState: Observable<string>;
+  displayInfoBtn: Observable<boolean>;
   isMobile = new Observable<boolean>();
   queueTrackCount: Observable<number>;
-  displayInfoBtn: Observable<boolean>;
   private trackInfoDialogOpen = new BehaviorSubject(false);
 
   constructor(
@@ -39,6 +40,7 @@ export class ControlPanelComponent implements OnInit {
     private queueService: QueueService,
     private responsiveScreenService: ResponsiveScreenService
   ) {
+    this.connected$ = this.mpdService.isConnected$();
     this.currentState = this.mpdService.currentState$;
     this.queueTrackCount = this.mpdService.getQueueTrackCount$();
     this.displayInfoBtn = combineLatest([

@@ -1,21 +1,17 @@
-<div
-  fxLayout="row nowrap"
-  fxLayoutAlign="center center"
-  fxLayoutGap.gt-md="0.4rem"
->
-  <div>
+<div class="flex flex-row place-items-center gap-x-2">
+  <div [class.text-muted]="track.length === 0">
     {{ track.elapsed | secondsToMmSs }}
   </div>
-  <div fxFlex="1 1 auto">
+  <div class="flex-grow">
     <mat-slider
-      class="full-width"
-      min="0"
-      max="{{ track.length }}"
-      [thumbLabel]="true"
-      [displayWith]="formatSeconds"
-      [(ngModel)]="track.progress"
       (input)="handleCurrentTrackProgressSlider($event)"
-      [disabled]="(connState | async) !== 1"
+      [(ngModel)]="track.progress"
+      [disabled]="(connected$ | async) === false || track.length === 0"
+      [displayWith]="formatSeconds"
+      [thumbLabel]="true"
+      class="w-full"
+      max="{{ track.length }}"
+      min="0"
     ></mat-slider>
   </div>
   <div *ngIf="track.length > 0">

@@ -1,11 +1,9 @@
-.list-item {
+.browse-list-item {
   font-size: larger;
-  margin-bottom: 0.65rem;
-  padding: 0.5rem;
   background: var(--second-background-color);
 }
 
-.list-item:hover {
+.browse-list-item:hover {
   cursor: pointer;
   background: var(--hover-background-color);
 }

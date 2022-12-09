@@ -1,11 +1,14 @@
-<div *ngIf="currentPlay | async as play">
-  <div fxLayout="row wrap" fxLayoutAlign="center" *ngIf="play.state === 'stop'">
+<div *ngIf="currentPlay | async as play" class="pb-1 md:pb-4">
+  <div *ngIf="play.state === 'stop'" class="grid place-items-center">
     <span class="mat-display-1"> Stopped. </span>
   </div>
 
-  <div fxLayout="row wrap" fxLayoutAlign="space-between start">
-    <div fxFlex="1 0 55%" fxLayout="column" *ngIf="play.state !== 'stop'">
-      <div class="mat-h2 queue-sub-title" fxFlex="100%">
+  <div class="flex flex-row">
+    <div
+      class="flex flex-grow flex-col basis-[55%]"
+      *ngIf="play.state !== 'stop'"
+    >
+      <div class="mat-h2 queue-sub-title">
         <a
           class="no-deco-links"
           [routerLink]="['browse']"
@@ -44,8 +47,7 @@
         </a>
       </div>
     </div>
-    <div fxLayoutAlign="end center">
-      <mat-divider fxShow.lt-md="true" fxShow="false"></mat-divider>
+    <div>
       <app-cover-image
         [track]="play.track"
         [state]="play.state"

@@ -3,22 +3,14 @@
 </div>
 
 <form (ngSubmit)="onSubmit()" [formGroup]="form">
-  <div
-    fxLayout="row wrap"
-    fxLayout.lt-md="column"
-    fxLayoutAlign="space-between"
-    fxLayoutAlign.lt-md="center center"
-    fxLayoutGap="1rem grid"
-    fxLayoutGap.lt-md="1rem"
-  >
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
     <app-dynamic-form-input
       *ngFor="let formField of formFields"
-      fxFlex="33%"
       [input]="formField"
       [form]="form"
     ></app-dynamic-form-input>
   </div>
-  <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="2rem">
+  <div class="flex flex-col md:flex-row gap-x-4">
     <button mat-raised-button>
       <mat-icon> search</mat-icon>
       <span>Search</span>
@@ -27,21 +19,20 @@
       <mat-icon> clear</mat-icon><span>Clear</span>
     </button>
     <button
-      mat-raised-button
       (click)="onAddAll()"
       *ngIf="trackTableData.totalElements > 0"
-      (click)="onAddAll()"
+      mat-raised-button
       type="button"
     >
       <mat-icon> add</mat-icon>
-      <span fxHide.lt-md> Add all </span>
+      <span> Add all </span>
     </button>
   </div>
 </form>
 
-<mat-divider></mat-divider>
-
-<app-track-data-table
-  *ngIf="(isLoadingResults | async) === false"
-  [trackTableData]="trackTableData"
-></app-track-data-table>
+<div class="mt-4">
+  <app-track-data-table
+    *ngIf="(isLoadingResults | async) === false"
+    [trackTableData]="trackTableData"
+  ></app-track-data-table>
+</div>

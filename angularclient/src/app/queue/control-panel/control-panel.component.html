@@ -1,62 +1,72 @@
-<div fxLayout="row" fxLayoutAlign.gt-md="space-between end">
+<div class="flex flex-row justify-between md:justify-start">
   <button
-    mat-stroked-button
     (click)="handleControlButton($event)"
+    [disabled]="(connected$ | async) === false"
     id="btn-prev"
+    mat-stroked-button
     title="Previous track"
   >
     <mat-icon>skip_previous</mat-icon>
   </button>
   <button
-    mat-stroked-button
     (click)="handleControlButton($event)"
+    [disabled]="(connected$ | async) === false"
     id="btn-stop"
+    mat-stroked-button
     title="Stop"
   >
     <mat-icon>stop</mat-icon>
   </button>
   <button
-    mat-stroked-button
-    *ngIf="(currentState | async) === 'play'"
     (click)="handleControlButton($event)"
+    [disabled]="(connected$ | async) === false"
+    *ngIf="(currentState | async) === 'play'"
     id="btn-pause"
+    mat-stroked-button
     title="Pause"
   >
     <mat-icon>pause</mat-icon>
   </button>
   <button
-    mat-stroked-button
-    *ngIf="(currentState | async) !== 'play'"
     (click)="handleControlButton($event)"
+    [disabled]="(connected$ | async) === false"
+    *ngIf="(currentState | async) !== 'play'"
     id="btn-play"
+    mat-stroked-button
     title="Play"
   >
     <mat-icon>play_arrow</mat-icon>
   </button>
   <button
-    mat-stroked-button
     (click)="handleControlButton($event)"
+    [disabled]="(connected$ | async) === false"
     id="btn-next"
+    mat-stroked-button
     title="Next track"
   >
     <mat-icon>skip_next</mat-icon>
   </button>
   <button
-    mat-stroked-button
     (click)="onClearQueue()"
-    title="Remove all items from the queue"
+    [disabled]="
+      (queueTrackCount | async) === (null || 0) ||
+      (connected$ | async) === false
+    "
     class="valign-top clear-queue"
-    [disabled]="(queueTrackCount | async) === (null || 0)"
+    mat-stroked-button
+    title="Remove all items from the queue"
   >
     <mat-icon>delete</mat-icon>
   </button>
   <button
-    mat-stroked-button
-    *ngIf="displayInfoBtn | async"
     (click)="onShowTrackInfo()"
-    title="Info about currently playing track"
+    [disabled]="
+      (currentState | async) === 'stop' || (connected$ | async) === false
+    "
+    *ngIf="displayInfoBtn | async"
     class="valign-top"
-    [disabled]="(currentState | async) === 'stop'"
+    mat-stroked-button
+    title="Info about currently playing track"
   >
     <mat-icon>info</mat-icon>
   </button>

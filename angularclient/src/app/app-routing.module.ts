@@ -1,6 +1,6 @@
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
-import { AddStreamDialogComponent } from "./browse/add-radio-stream/add-radio-stream.component";
+import { AddStreamComponent } from "./browse/add-radio-stream/add-radio-stream.component";
 import { AlbumDialogComponent } from "./browse/albums/album-dialog/album-dialog.component";
 import { AlbumsComponent } from "./browse/albums/albums.component";
 import { BrowseComponent } from "./browse/browse.component";
@@ -16,7 +16,7 @@ const routes: Routes = [
   { path: "browse/albums", component: AlbumsComponent },
   { path: "browse/album-detail", component: AlbumDialogComponent },
   { path: "browse/genres", component: GenresComponent },
-  { path: "browse/radio-streams", component: AddStreamDialogComponent },
+  { path: "browse/radio-streams", component: AddStreamComponent },
   { path: "search", component: SearchComponent },
   { path: "adv-search", component: AdvancedSearchComponent },
   { path: "settings", component: SettingsComponent },

@@ -1,8 +1,16 @@
-<h1 mat-dialog-title>Save queue as playlist</h1>
+<h1 mat-dialog-title>Add stream url to the queue</h1>
 <div mat-dialog-content>
   <mat-form-field class="w-full">
-    <mat-label>Name</mat-label>
-    <input matInput [(ngModel)]="data" (keyup.enter)="onEnterPressed()" focus />
+    <mat-label>URL</mat-label>
+    <input
+      (keyup.enter)="onEnterPressed()"
+      [(ngModel)]="streamUrl"
+      autocomplete="off"
+      focus
+      matInput
+      required
+      type="url"
+    />
   </mat-form-field>
 </div>
 <div mat-dialog-actions align="end">

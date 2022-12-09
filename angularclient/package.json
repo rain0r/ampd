@@ -6,7 +6,7 @@
     "polyfills.ts"
   ],
   "scripts": {
-    "format": "ng lint --fix && prettier --write \"src/**/*.scss\" && package-lock-sanitizer",    
+    "format": "ng lint --fix && prettier --write \"src/**/*.scss\" && package-lock-sanitizer",
     "warnings": "ng lint --silent --format=checkstyle > checkstyle-ts-result.xml",
     "lint": "ng lint",
     "ng": "ng",
@@ -18,7 +18,6 @@
     "@angular/common": "~14.2.10",
     "@angular/compiler": "~14.2.10",
     "@angular/core": "~14.2.10",
-    "@angular/flex-layout": "^14.0.0-beta.41",
     "@angular/forms": "~14.2.10",
     "@angular/material": "^14.2.7",
     "@angular/platform-browser": "~14.2.10",
@@ -44,11 +43,14 @@
     "@angular/compiler-cli": "~14.2.10",
     "@typescript-eslint/eslint-plugin": "5.45.0",
     "@typescript-eslint/parser": "5.38.1",
+    "autoprefixer": "^10.4.13",
     "eslint": "^8.28.0",
     "eslint-config-prettier": "~8.5.0",
     "eslint-plugin-deprecation": "^1.3.2",
     "eslint-plugin-prettier": "~4.2.1",
     "package-lock-sanitizer": "^1.0.1",
+    "postcss": "^8.4.19",
+    "tailwindcss": "^3.2.4",
     "typescript": "~4.8.4"
   }
 }

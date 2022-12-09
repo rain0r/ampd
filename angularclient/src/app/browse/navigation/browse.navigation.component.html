@@ -1,15 +1,13 @@
-<div
-  fxLayout="row wrap"
-  fxLayoutAlign="center center"
-  fxLayoutAlign.lt-md="space-between"
-  fxFlex.lt-md="100%"
-  fxLayoutGap.gt-md="0.75rem"
->
+<div class="flex flex-wrap justify-between md:justify-start md:gap-x-2">
   <!--Return to top -->
   <div>
-    <button mat-raised-button [routerLink]="['/browse']">
+    <button
+      mat-raised-button
+      [routerLink]="['/browse']"
+      title="Go to base directory"
+    >
       <mat-icon>home</mat-icon>
-      <span fxHide.lt-md>Top</span>
+      <span class="hidden md:inline">Top</span>
     </button>
   </div>
 
@@ -19,9 +17,10 @@
       mat-raised-button
       [routerLink]="['/browse']"
       [queryParams]="{ dir: dirUp$ | async }"
+      title="Go one directory up"
     >
       <mat-icon>expand_less</mat-icon>
-      <span fxHide.lt-md>Return</span>
+      <span class="hidden md:inline">Return</span>
     </button>
   </div>
 
@@ -29,23 +28,23 @@
   <div *ngIf="getParamDir !== '/'">
     <button mat-raised-button (click)="onAddDir(getParamDir)">
       <mat-icon> add</mat-icon>
-      <span fxHide.lt-md>Add all</span>
+      <span class="hidden md:inline">Add all</span>
     </button>
   </div>
 
   <!--Play all-->
   <div *ngIf="getParamDir !== '/'">
-    <button mat-raised-button (click)="onPlayDir(getParamDir)">
+    <button mat-raised-button (click)="onPlayDir(getParamDir)" title="Play all">
       <mat-icon> play_arrow</mat-icon>
-      <span fxHide.lt-md>Play all</span>
+      <span class="hidden md:inline">Play all</span>
     </button>
   </div>
 
   <!--Clear queue-->
   <div>
-    <button mat-raised-button (click)="onClearQueue()">
+    <button mat-raised-button (click)="onClearQueue()" title="Clear the queue">
       <mat-icon>delete</mat-icon>
-      <span fxHide.lt-md>Clear queue</span>
+      <span class="hidden md:inline">Clear queue</span>
     </button>
   </div>
 
@@ -55,9 +54,10 @@
       mat-raised-button
       [routerLink]="['/browse/albums']"
       routerLinkActive="mat-accent"
+      title="Go to albums"
     >
       <mat-icon>album</mat-icon>
-      <span fxHide.lt-md> Albums </span>
+      <span class="hidden md:inline"> Albums </span>
     </button>
   </div>
 
@@ -67,9 +67,10 @@
       mat-raised-button
       [routerLink]="['/browse/genres']"
       routerLinkActive="mat-accent"
+      title="Go to genres"
     >
       <mat-icon>local_offer</mat-icon>
-      <span fxHide.lt-md> Genres </span>
+      <span class="hidden md:inline"> Genres </span>
     </button>
   </div>
 
@@ -79,16 +80,17 @@
       mat-raised-button
       [routerLink]="['/browse/radio-streams']"
       routerLinkActive="mat-accent"
+      title="Go to radio streams"
     >
       <mat-icon>radio</mat-icon>
-      <span fxHide.lt-md> Radio </span>
+      <span class="hidden md:inline"> Radio </span>
     </button>
   </div>
 
-  <div fxFlex fxFlex.lt-md="100%"></div>
+  <div class="md:flex-grow"></div>
 
   <!--Filter-->
-  <div fxLayoutAlign="center center" fxFlex="30%" fxFlex.lt-md="100%">
+  <div class="w-full md:w-1/3">
     <mat-form-field>
       <mat-label>Filter</mat-label>
       <input
@@ -115,4 +117,5 @@
     </mat-form-field>
   </div>
 </div>
+
 <mat-divider></mat-divider>

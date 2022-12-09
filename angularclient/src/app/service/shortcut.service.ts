@@ -4,6 +4,7 @@ import { Router } from "@angular/router";
 import { BehaviorSubject, first } from "rxjs";
 import { HelpDialogComponent } from "../navbar/help-dialog/help-dialog.component";
 import { Category } from "../shared/shortcuts/shortcut";
+import { AddStreamDialogComponent } from "./../add-stream-dialog/add-stream-dialog.component";
 import { ShortCut } from "./../shared/shortcuts/shortcut";
 import { ControlPanelService } from "./control-panel.service";
 import { MpdModeService } from "./mpd-mode.service";
@@ -126,10 +127,17 @@ export class ShortcutService {
       "Clear queue",
       ["C"]
     ),
+    this.build(
+      Category.General,
+      this.openAddStreamDialog,
+      "Open add stream dialog",
+      ["a"]
+    ),
   ];
 
   private currentState = "stop";
   private helpDialogOpen = new BehaviorSubject(false);
+  private addStreamDialog = new BehaviorSubject(false);
 
   constructor(
     private controlPanelService: ControlPanelService,
@@ -195,6 +203,24 @@ export class ShortcutService {
           dialogRef
             .afterClosed()
             .subscribe(() => this.helpDialogOpen.next(false));
+        }
+      });
+  }
+
+  private openAddStreamDialog(): void {
+    this.addStreamDialog
+      .asObservable()
+      .pipe(first())
+      .subscribe((open) => {
+        if (!open) {
+          this.addStreamDialog.next(true);
+          const dialogRef = this.dialog.open(AddStreamDialogComponent, {
+            autoFocus: true,
+            width: "50%",
+          });
+          dialogRef
+            .afterClosed()
+            .subscribe(() => this.addStreamDialog.next(false));
         }
       });
   }

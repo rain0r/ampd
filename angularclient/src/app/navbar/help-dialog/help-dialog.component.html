@@ -1,42 +1,28 @@
-<h2 fxLayoutAlign="center center">Shortcuts</h2>
-<div fxLayout="column" fxLayoutGap="1rem">
-  <mat-divider></mat-divider>
-  <div
-    *ngFor="let shortcutSection of categories"
-    fxFlex
-    fxLayoutGap="0.5rem grid"
-    fxLayout="row wrap"
-  >
-    <div
-      fxFlex="100"
-      fxLayoutAlign="center center"
-      style="margin-bottom: 1.5rem"
-    >
-      <h3>{{ shortcutSection }}</h3>
+<div class="mat-h1">Shortcuts</div>
+<mat-divider></mat-divider>
+<div class="grid grid-cols-2 gap-y-3">
+  <div *ngFor="let shortcutSection of categories">
+    <div class="mat-h2">
+      {{ shortcutSection }}
     </div>
     <div
       *ngFor="let shortcut of shortcuts | filterByCategory: shortcutSection"
-      fxFlex="30%"
-      fxLayoutGap="1.5rem"
-      fxLayout="row"
-      fxLayoutAlign="space-between space-between"
-      class="shortcut-entry"
+      class="grid grid-cols-2 py-3 hover:bg-violet-600"
     >
-      <div fxLayout="column" fxLayoutAlign="center" fxLayoutGap="0.5rem">
+      <div class="flex flex-col">
         <div
-          class="trigger mono"
+          class="mono"
           *ngFor="let trig of shortcut.trigger"
           [title]="'Key: \'' + trig + '\''"
         >
           &quot;{{ trig }}&quot;&nbsp;
         </div>
       </div>
-      <span class="shortcut" fxLayoutAlign="center center">{{
-        shortcut.helpText
-      }}</span>
+      <span class="shortcut">{{ shortcut.helpText }}</span>
     </div>
   </div>
 </div>
+
 <mat-dialog-actions align="end">
   <button mat-button mat-dialog-close>Close</button>
 </mat-dialog-actions>

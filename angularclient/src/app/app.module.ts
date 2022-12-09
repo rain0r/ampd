@@ -2,7 +2,6 @@ import { ScrollingModule } from "@angular/cdk/scrolling";
 import { Location } from "@angular/common";
 import { HttpClientModule } from "@angular/common/http";
 import { ErrorHandler, NgModule } from "@angular/core";
-import { FlexLayoutModule } from "@angular/flex-layout";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { MAT_DIALOG_DEFAULT_OPTIONS } from "@angular/material/dialog";
 import { BrowserModule } from "@angular/platform-browser";
@@ -11,7 +10,7 @@ import { LightgalleryModule } from "lightgallery/angular";
 import { FrontendSettingsService } from "src/app/service/frontend-settings.service";
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
-import { AddStreamDialogComponent } from "./browse/add-radio-stream/add-radio-stream.component";
+import { AddStreamComponent } from "./browse/add-radio-stream/add-radio-stream.component";
 import { RadioStreamListComponent } from "./browse/add-radio-stream/radio-stream-list/radio-stream-list.component";
 import { AlbumDialogComponent } from "./browse/albums/album-dialog/album-dialog.component";
 import { AlbumItemComponent } from "./browse/albums/album-item/album-item.component";
@@ -65,6 +64,7 @@ import { ReplaceNullWithTextPipe } from "./shared/pipes/replace-null-with-text.p
 import { SecondsToHhMmSsPipe } from "./shared/pipes/seconds-to-hh-mm-ss.pipe";
 import { SecondsToMmSsPipe } from "./shared/pipes/seconds-to-mm-ss.pipe";
 import { TrackTableDataComponent } from "./shared/track-table-data/track-table-data.component";
+import { AddStreamDialogComponent } from "./add-stream-dialog/add-stream-dialog.component";
 
 function isDarkTheme(service: FrontendSettingsService): unknown {
   return {
@@ -104,7 +104,7 @@ function isDarkTheme(service: FrontendSettingsService): unknown {
     HelpDialogComponent,
     MapEntriesPipe,
     ServerStatisticsComponent,
-    AddStreamDialogComponent,
+    AddStreamComponent,
     UpdateDatabaseComponent,
     DirectoryFilterStartLetterPipe,
     PlaylistEntryComponent,
@@ -125,12 +125,12 @@ function isDarkTheme(service: FrontendSettingsService): unknown {
     CoverImageComponent,
     DynamicFormInputComponent,
     AdvancedSearchComponent,
+    AddStreamDialogComponent,
   ],
   imports: [
     AppRoutingModule,
     BrowserAnimationsModule,
     BrowserModule,
-    FlexLayoutModule,
     FormsModule,
     HttpClientModule,
     ReactiveFormsModule,

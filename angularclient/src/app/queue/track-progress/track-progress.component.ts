@@ -1,10 +1,9 @@
 import { Component } from "@angular/core";
 import { MatSliderChange } from "@angular/material/slider";
-import { delay, Observable } from "rxjs";
+import { Observable, delay } from "rxjs";
 import { ControlPanelService } from "../../service/control-panel.service";
 import { MpdService } from "../../service/mpd.service";
 import { QueueTrack } from "../../shared/model/queue-track";
-import { AmpdRxStompService } from "./../../service/ampd-rx-stomp.service";
 
 @Component({
   selector: "app-track-progress",
@@ -12,17 +11,16 @@ import { AmpdRxStompService } from "./../../service/ampd-rx-stomp.service";
   styleUrls: ["./track-progress.component.scss"],
 })
 export class TrackProgressComponent {
-  connState: Observable<number>;
+  connected$: Observable<boolean>;
   track = new QueueTrack();
   state: Observable<string>;
 
   constructor(
     private controlPanelService: ControlPanelService,
-    private mpdService: MpdService,
-    private rxStompService: AmpdRxStompService
+    private mpdService: MpdService
   ) {
+    this.connected$ = this.mpdService.isConnected$();
     this.state = this.mpdService.currentState$;
-    this.connState = this.rxStompService.connectionState$;
     this.mpdService.currentTrack$.subscribe((track) => (this.track = track));
   }
 

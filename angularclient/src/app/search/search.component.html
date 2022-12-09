@@ -1,83 +1,70 @@
 <div class="mat-display-1 clickable" [routerLink]="['/search']">Search</div>
 
-<div fxLayout="column" fxLayoutGap="1rem">
-  <div
-    fxLayout="row nowrap"
-    fxLayoutAlign="space-between baseline"
-    fxLayoutGap="0.5rem"
-  >
-    <div fxLayout="row nowrap" fxFlex="30%" fxFlex.lt-md="100%">
-      <mat-form-field class="full-width">
-        <input
-          #searchInput
-          autofocus
-          matInput
-          placeholder="Search for tracks"
-          autocomplete="off"
-          type="text"
-          [(ngModel)]="search"
-          (keydown.escape)="search = ''; resetSearch()"
-          (keyup)="applySearch($event.target)"
-        />
-        <button
-          mat-button
-          *ngIf="search"
-          matSuffix
-          mat-icon-button
-          aria-label="Clear"
-          (click)="search = ''; resetSearch()"
-        >
-          <mat-icon>close</mat-icon>
-        </button>
-      </mat-form-field>
-    </div>
-
-    <div
-      *ngIf="advSearchResponse$ | async as advSearchResponse"
-      fxLayout="row nowrap"
-      fxFlex
-      fxFlex.lt-md="100%"
-      fxLayoutGap="0.5rem"
-      fxLayoutAlign="space-between baseline"
+<div class="flex flex-row justify-between gap-x-2">
+  <mat-form-field class="w-full md:w-1/3">
+    <input
+      (keydown.escape)="search = ''; resetSearch()"
+      (keyup)="applySearch($event.target)"
+      [(ngModel)]="search"
+      #searchInput
+      autocomplete="off"
+      autofocus
+      class="w-full"
+      matInput
+      placeholder="Search for tracks"
+      type="text"
+    />
+    <button
+      mat-button
+      *ngIf="search"
+      matSuffix
+      mat-icon-button
+      aria-label="Clear"
+      (click)="search = ''; resetSearch()"
     >
-      <div class="text-muted">
-        {{ advSearchResponse.totalElements }} results
-      </div>
+      <mat-icon>close</mat-icon>
+    </button>
+  </mat-form-field>
 
-      <div fxFlex></div>
-
-      <!--Clear queue-->
+  <div
+    *ngIf="advSearchResponse$ | async as advSearchResponse"
+    class="flex flex-row justify-between flex-grow gap-x-2"
+  >
+    <div class="text-muted self-center">
+      {{ advSearchResponse.totalElements }} results
+    </div>
+    <div class="flex-grow"></div>
+    <!--Clear queue-->
+    <div>
       <button mat-raised-button (click)="onClearQueue()">
         <mat-icon>delete</mat-icon>
-        <span fxHide.lt-md> Clear queue </span>
+        <span> Clear queue </span>
       </button>
+    </div>
 
-      <!--Add all-->
+    <!--Add all-->
+    <div>
       <button mat-raised-button (click)="onAddAll()">
         <mat-icon> add</mat-icon>
-        <span fxHide.lt-md> Add all </span>
-      </button>
-    </div>
-
-    <div fxFlex.lt-md="100%" fxLayoutAlign="end baseline">
-      <!--Advanced Search Link-->
-      <button mat-raised-button [routerLink]="['/adv-search']">
-        <span> Advanced Search</span>
+        <span> Add all </span>
       </button>
     </div>
   </div>
 
-  <div
-    *ngIf="isLoadingResults | async"
-    fxLayout="row"
-    fxLayoutAlign="space-around"
-  >
-    <mat-spinner></mat-spinner>
+  <div>
+    <!--Advanced Search Link-->
+    <button mat-raised-button [routerLink]="['/adv-search']">
+      <span> Advanced Search</span>
+    </button>
   </div>
-
-  <!-- Search results table -->
-  <app-track-data-table
-    *ngIf="(isLoadingResults | async) === false"
-    [trackTableData]="trackTableData"
-  ></app-track-data-table>
 </div>
+
+<div *ngIf="isLoadingResults | async">
+  <mat-spinner></mat-spinner>
+</div>
+
+<!-- Search results table -->
+<app-track-data-table
+  *ngIf="(isLoadingResults | async) === false"
+  [trackTableData]="trackTableData"
+></app-track-data-table>

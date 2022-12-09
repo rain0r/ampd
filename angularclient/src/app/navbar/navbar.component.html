@@ -2,70 +2,85 @@
   class="app-main mat-app-background"
   [ngClass]="{ 'dark-theme': darkTheme | async }"
 >
-  <mat-toolbar class="toolbar" color="primary">
-    <!-- Queue -->
-    <a
-      mat-button
-      [routerLink]="['']"
-      routerLinkActive="mat-accent"
-      [routerLinkActiveOptions]="{ exact: true }"
-    >
-      <mat-icon>format_list_bulleted</mat-icon>
-      <span fxHide.lt-md> Queue </span>
-    </a>
+  <mat-toolbar color="primary">
+    <div class="pl-1 md:px-4 w-full flex flex-row justify-start">
+      <!-- Queue -->
+      <a
+        [routerLink]="['']"
+        [routerLinkActiveOptions]="{ exact: true }"
+        mat-button
+        routerLinkActive="mat-accent"
+      >
+        <mat-icon>format_list_bulleted</mat-icon>
+        <span class="invisible md:visible"> Queue </span>
+      </a>
 
-    <!-- Browse -->
-    <a mat-button [routerLink]="['/browse']" routerLinkActive="mat-accent">
-      <mat-icon>folder_open</mat-icon>
-      <span fxHide.lt-md> Browse </span>
-    </a>
+      <!-- Browse -->
+      <a mat-button [routerLink]="['/browse']" routerLinkActive="mat-accent">
+        <mat-icon>folder_open</mat-icon>
+        <span class="invisible md:visible"> Browse </span>
+      </a>
 
-    <!-- Search -->
-    <button mat-button [routerLink]="['/search']" routerLinkActive="mat-accent">
-      <mat-icon>search</mat-icon>
-      <span fxHide.lt-md> Search </span>
-    </button>
+      <!-- Search -->
+      <button
+        mat-button
+        [routerLink]="['/search']"
+        routerLinkActive="mat-accent"
+      >
+        <mat-icon>search</mat-icon>
+        <span class="invisible md:visible"> Search </span>
+      </button>
 
-    <!-- Settings -->
-    <a mat-button [routerLink]="['/settings']" routerLinkActive="mat-accent">
-      <mat-icon>settings</mat-icon>
-      <span fxHide.lt-md> Settings </span>
-    </a>
+      <!-- Settings -->
+      <a mat-button [routerLink]="['/settings']" routerLinkActive="mat-accent">
+        <mat-icon>settings</mat-icon>
+        <span class="invisible md:visible"> Settings </span>
+      </a>
 
-    <div fxFlex></div>
-    <a
-      [routerLink]="['/']"
-      fxHide.lt-md
-      class="mono space-right clickable"
-      style="color: white !important"
-      >ampd</a
-    >
-    <div [ngSwitch]="connState | async" fxLayoutAlign="center center">
-      <mat-spinner
-        color="accent"
-        diameter="30"
-        *ngSwitchCase="0"
-        title="Connecting..."
-      ></mat-spinner>
-      <mat-icon *ngSwitchCase="1" title="Connected">cloud</mat-icon>
-      <mat-spinner
-        color="accent"
-        diameter="30"
-        *ngSwitchCase="2"
-        title="Closing..."
-      ></mat-spinner>
-      <mat-icon *ngSwitchDefault title="Disconnected">cloud_off</mat-icon>
+      <div class="invisible md:visible flex-grow"></div>
+
+      <div class="px-2">
+        <a
+          [routerLink]="['/']"
+          class="invisible md:visible mono"
+          title="You are using ampd — nice!"
+          >ampd</a
+        >
+      </div>
+
+      <button mat-button [ngSwitch]="connState | async">
+        <mat-spinner
+          color="accent"
+          diameter="30"
+          *ngSwitchCase="0"
+          title="Connecting..."
+        ></mat-spinner>
+        <mat-icon *ngSwitchCase="1" title="Connected">cloud</mat-icon>
+        <mat-spinner
+          color="accent"
+          diameter="30"
+          *ngSwitchCase="2"
+          title="Closing..."
+        ></mat-spinner>
+        <mat-icon *ngSwitchDefault title="Disconnected">cloud_off</mat-icon>
+      </button>
+      <span *ngIf="(connState | async) !== 1" class="not-connected">
+        Not connected to ampd server
+      </span>
+
+      <div class="hidden md:inline">
+        <button mat-button>
+          <mat-icon
+            #helpIcon
+            (click)="openHelpDialog()"
+            title="Show shortcut help"
+            >help</mat-icon
+          >
+        </button>
+      </div>
     </div>
-    <mat-icon
-      #helpIcon
-      fxHide.lt-md
-      class="help-icon"
-      (click)="openHelpDialog()"
-      title="Show shortcut help"
-      >help</mat-icon
-    >
   </mat-toolbar>
-  <div class="app-content" [ngClass]="{ 'dark-theme': darkTheme | async }">
+  <div class="md:py-5 md:px-12" [ngClass]="{ 'dark-theme': darkTheme | async }">
     <router-outlet></router-outlet>
   </div>
 </div>

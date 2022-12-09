@@ -16,12 +16,23 @@ table td * {
   word-break: break-all;
 }
 
-.mobile.mat-column-artist-name {
-  width: 40%;
+.mat-column-artist-name {
+  width: 30%;
   word-break: normal;
 }
 
-.mobile.mat-column-title {
-  width: 40%;
+.mat-column-title {
   word-break: normal;
+}
+
+.mat-column-position,
+.mat-column-add-title,
+.mat-column-add-title,
+.mat-column-info,
+.mat-column-remove {
+  width: 1%;
+}
+
+.mat-column-length {
+  width: 3%;
 }

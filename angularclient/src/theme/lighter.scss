@@ -1,0 +1,43 @@
+@use "@angular/material" as mat;
+
+@include mat.core();
+
+$light-primary-palette: mat.define-palette(mat.$blue-grey-palette, 500);
+$light-accent-palette: mat.define-palette(
+  mat.$orange-palette,
+  A400,
+  A100,
+  A700
+);
+$light-warn-palette: mat.define-palette(mat.$red-palette);
+$light-elem-bg: #eee;
+
+$btn-typography: mat.define-typography-config(
+  $button: mat.define-typography-level(18px, 18px, 500),
+);
+
+// Define a light theme
+$light-theme: mat.define-light-theme(
+  (
+    color: (
+      primary: mat.define-palette(mat.$indigo-palette),
+      accent: mat.define-palette(mat.$pink-palette),
+      warn: mat.define-palette(mat.$red-palette),
+    ),
+    typography: mat.define-typography-config(),
+  )
+);
+
+.mat-accent {
+  color: mat.get-color-from-palette($light-accent-palette) !important;
+}
+
+.ampd-code {
+  @apply font-mono;
+  @extend .mat-accent;
+}
+
+@include mat.all-component-colors($light-theme);
+@include mat.all-component-themes($light-theme);
+// @include mat.button-typography($kids-typography);
+@include mat.button-typography($btn-typography);

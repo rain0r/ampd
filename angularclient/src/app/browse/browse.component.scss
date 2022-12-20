@@ -1,13 +1,7 @@
 .browse-list-item {
   font-size: larger;
-  background: var(--second-background-color);
 }
 
 .browse-list-item:hover {
   cursor: pointer;
-  background: var(--hover-background-color);
-}
-
-.name {
-  padding-left: 0.5rem;
 }

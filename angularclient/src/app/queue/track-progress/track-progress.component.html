@@ -1,22 +1,24 @@
-<div class="flex flex-row place-items-center gap-x-2">
+<div class="flex flex-row place-items-center gap-x-6">
   <div [class.text-muted]="track.length === 0">
     {{ track.elapsed | secondsToMmSs }}
   </div>
   <div class="flex-grow">
     <mat-slider
-      (input)="handleCurrentTrackProgressSlider($event)"
-      [(ngModel)]="track.progress"
-      [disabled]="(connected$ | async) === false || track.length === 0"
       [displayWith]="formatSeconds"
-      [thumbLabel]="true"
-      class="w-full"
-      max="{{ track.length }}"
-      min="0"
-    ></mat-slider>
+      [disabled]="(connected$ | async) === false || track.length === 0"
+      [max]="track.length"
+      [min]="0"
+      [discrete]="true"
+      [showTickMarks]="false"
+    >
+      <input
+        matSliderThumb
+        [(ngModel)]="track.progress"
+        (valueChange)="handleCurrentTrackProgressSlider($event)"
+      />
+    </mat-slider>
   </div>
   <div *ngIf="track.length > 0">
     {{ track.length | secondsToMmSs }}
   </div>
 </div>
-
-<mat-divider *ngIf="(state | async) !== 'stop'"></mat-divider>

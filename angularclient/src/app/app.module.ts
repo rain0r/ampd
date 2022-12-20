@@ -3,11 +3,10 @@ import { Location } from "@angular/common";
 import { HttpClientModule } from "@angular/common/http";
 import { ErrorHandler, NgModule } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { MAT_DIALOG_DEFAULT_OPTIONS } from "@angular/material/dialog";
 import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { LightgalleryModule } from "lightgallery/angular";
-import { FrontendSettingsService } from "src/app/service/frontend-settings.service";
+import { AddStreamDialogComponent } from "./add-stream-dialog/add-stream-dialog.component";
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
 import { AddStreamComponent } from "./browse/add-radio-stream/add-radio-stream.component";
@@ -51,7 +50,6 @@ import { AmpdErrorHandler } from "./shared/ampd-error-handler";
 import { ErrorDialogComponent } from "./shared/error/error-dialog/error-dialog.component";
 import { KeyValueTableComponent } from "./shared/key-value-table/key-value-table.component";
 import { MaterialMetaModule } from "./shared/material-meta/material-meta.module";
-import { SettingKeys } from "./shared/model/internal/frontend-settings";
 import { CamelCaseTitlePipe } from "./shared/pipes/camel-case-title.pipe";
 import { EncodeURIComponentPipe } from "./shared/pipes/encode-uri.pipe";
 import { FileSizePipe } from "./shared/pipes/file-size.pipe";
@@ -64,15 +62,12 @@ import { ReplaceNullWithTextPipe } from "./shared/pipes/replace-null-with-text.p
 import { SecondsToHhMmSsPipe } from "./shared/pipes/seconds-to-hh-mm-ss.pipe";
 import { SecondsToMmSsPipe } from "./shared/pipes/seconds-to-mm-ss.pipe";
 import { TrackTableDataComponent } from "./shared/track-table-data/track-table-data.component";
-import { AddStreamDialogComponent } from "./add-stream-dialog/add-stream-dialog.component";
+import { StyleManager } from "./shared/style-manager";
 
-function isDarkTheme(service: FrontendSettingsService): unknown {
-  return {
-    panelClass: service.getBoolValue(SettingKeys.DARK_THEME)
-      ? "dark-theme"
-      : "",
-  };
-}
+const prefersReducedMotion =
+  typeof matchMedia === "function"
+    ? matchMedia("(prefers-reduced-motion)").matches
+    : false;
 
 @NgModule({
   declarations: [
@@ -129,7 +124,9 @@ function isDarkTheme(service: FrontendSettingsService): unknown {
   ],
   imports: [
     AppRoutingModule,
-    BrowserAnimationsModule,
+    BrowserAnimationsModule.withConfig({
+      disableAnimations: prefersReducedMotion,
+    }),
     BrowserModule,
     FormsModule,
     HttpClientModule,
@@ -143,6 +140,7 @@ function isDarkTheme(service: FrontendSettingsService): unknown {
     CamelCaseTitlePipe,
     SecondsToMmSsPipe,
     ReplaceNullWithTextPipe,
+    StyleManager,
     {
       provide: AmpdRxStompService,
       useFactory: (location: Location, settingsService: SettingsService) => {
@@ -157,11 +155,6 @@ function isDarkTheme(service: FrontendSettingsService): unknown {
     {
       provide: ErrorHandler,
       useClass: AmpdErrorHandler,
-    },
-    {
-      provide: MAT_DIALOG_DEFAULT_OPTIONS,
-      useFactory: isDarkTheme,
-      deps: [FrontendSettingsService],
     },
   ],
   bootstrap: [AppComponent],

@@ -1,9 +1,7 @@
 import { Component, Inject, OnInit } from "@angular/core";
-import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
-import { Observable } from "rxjs";
+import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import { AlbumsService } from "src/app/service/albums.service";
 import { QueueService } from "src/app/service/queue.service";
-import { ResponsiveScreenService } from "src/app/service/responsive-screen.service";
 import { Track } from "src/app/shared/messages/incoming/track";
 import { MpdAlbum } from "src/app/shared/model/http/album";
 import { ClickActions } from "src/app/shared/track-table-data/click-actions.enum";
@@ -15,7 +13,6 @@ import { TrackTableOptions } from "src/app/shared/track-table-data/track-table-o
   styleUrls: ["./album-dialog.component.scss"],
 })
 export class AlbumDialogComponent implements OnInit {
-  coverSizeClass: Observable<string>;
   isLoadingResults = true;
   trackTableData = new TrackTableOptions();
   private isMobile = false;
@@ -24,16 +21,10 @@ export class AlbumDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public album: MpdAlbum,
     private albumService: AlbumsService,
     private queueService: QueueService,
-    private responsiveScreenService: ResponsiveScreenService,
     public dialogRef: MatDialogRef<AlbumDialogComponent>
-  ) {
-    this.coverSizeClass = this.responsiveScreenService.getCoverCssClass();
-  }
+  ) {}
 
   ngOnInit(): void {
-    this.responsiveScreenService
-      .isMobile()
-      .subscribe((isMobile) => (this.isMobile = isMobile));
     this.isLoadingResults = true;
     this.albumService
       .getAlbum(this.album.name, this.album.albumArtist)

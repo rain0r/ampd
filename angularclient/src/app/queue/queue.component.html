@@ -1,6 +1,11 @@
-<div [class.text-muted]="(connected$ | async) === false">
+<div
+  [class.text-muted]="(connected$ | async) === false"
+  class="flex flex-col gap-y-2"
+>
   <!-- Queue header with track info and cover -->
   <app-queue-header></app-queue-header>
+
+  <mat-divider></mat-divider>
 
   <!-- Control panel -->
   <div class="flex flex-col md:flex-row justify-between gap-y-2">

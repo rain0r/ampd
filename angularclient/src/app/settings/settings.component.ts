@@ -36,4 +36,8 @@ export class SettingsComponent {
   onSaveBtnClick(name: string, value: string): void {
     this.fsService.save(name, value);
   }
+
+  resetFrontendSettings(): void {
+    this.fsService.reset();
+  }
 }

@@ -1,5 +1,4 @@
 import { Component } from "@angular/core";
-import { MatSliderChange } from "@angular/material/slider";
 import { Observable, delay } from "rxjs";
 import { ControlPanelService } from "../../service/control-panel.service";
 import { MpdService } from "../../service/mpd.service";
@@ -24,8 +23,8 @@ export class TrackProgressComponent {
     this.mpdService.currentTrack$.subscribe((track) => (this.track = track));
   }
 
-  handleCurrentTrackProgressSlider(event: MatSliderChange): void {
-    this.controlPanelService.seek(event.value);
+  handleCurrentTrackProgressSlider(seconds: number): void {
+    this.controlPanelService.seek(seconds);
     // Prevent jumping back and forth
     this.state.pipe(delay(500));
   }

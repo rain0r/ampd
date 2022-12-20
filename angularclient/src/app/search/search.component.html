@@ -15,12 +15,10 @@
       type="text"
     />
     <button
-      mat-button
+      (click)="search = ''; resetSearch()"
       *ngIf="search"
       matSuffix
       mat-icon-button
-      aria-label="Clear"
-      (click)="search = ''; resetSearch()"
     >
       <mat-icon>close</mat-icon>
     </button>

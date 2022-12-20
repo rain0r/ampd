@@ -2,9 +2,8 @@ import { HttpClient } from "@angular/common/http";
 import { AfterViewChecked, Component, Input, OnInit } from "@angular/core";
 import { InitDetail } from "lightgallery/lg-events";
 import { LightGallery } from "lightgallery/lightgallery";
-import { BehaviorSubject, combineLatest, Observable, Subject } from "rxjs";
+import { BehaviorSubject, Observable, Subject, combineLatest } from "rxjs";
 import { FrontendSettingsService } from "src/app/service/frontend-settings.service";
-import { ResponsiveScreenService } from "src/app/service/responsive-screen.service";
 import { LIGHTBOX_SETTINGS } from "src/app/shared/lightbox";
 import { SettingKeys } from "src/app/shared/model/internal/frontend-settings";
 import { QueueTrack } from "src/app/shared/model/queue-track";
@@ -22,24 +21,21 @@ export class CoverImageComponent implements OnInit, AfterViewChecked {
     this.state$.next(state);
   }
 
-  lightboxSettings = LIGHTBOX_SETTINGS;
-  isDisplayCover: Observable<boolean>;
-  coverSizeClass: Observable<string>;
   currTrack: Observable<QueueTrack>;
+  isDisplayCover: Observable<boolean>;
+  lightboxSettings = LIGHTBOX_SETTINGS;
 
+  private displayCover$ = new BehaviorSubject<boolean>(false);
   private lightGallery!: LightGallery;
   private state$ = new BehaviorSubject<string>("stop");
   private track$ = new Subject<QueueTrack>();
-  private displayCover$ = new BehaviorSubject<boolean>(false);
 
   constructor(
-    private responsiveCoverSizeService: ResponsiveScreenService,
     private frontendSettingsService: FrontendSettingsService,
     private http: HttpClient
   ) {
-    this.isDisplayCover = this.displayCover$.asObservable();
-    this.coverSizeClass = this.responsiveCoverSizeService.getCoverCssClass();
     this.currTrack = this.track$.asObservable();
+    this.isDisplayCover = this.displayCover$.asObservable();
   }
 
   ngAfterViewChecked(): void {

@@ -2,6 +2,7 @@
 
 <mat-tab-group animationDuration="0ms">
   <mat-tab label="Frontend">
+    <!-- frontend -->
     <div class="flex flex-col gap-y-2 pt-1 md:pt-9">
       <mat-card class="w-full md:w-1/2">
         <mat-card-content class="mat-title">
@@ -11,63 +12,82 @@
           </p>
         </mat-card-content>
       </mat-card>
-      <mat-card *ngFor="let setting of feSettings" class="w-full md:w-1/2">
-        <mat-card-header>
-          <mat-card-title>{{ setting.name | camelCaseTitle }}</mat-card-title>
-        </mat-card-header>
-        <mat-card-content [ngSwitch]="setting.type">
-          <!-- Boolean -->
-          <mat-slide-toggle
-            [checked]="setting.value"
-            *ngSwitchCase="'bool'"
-            (change)="toggleFrontendSetting(setting.name, $event)"
-          >
-            <mat-label align="end">{{ setting.description }} </mat-label>
-          </mat-slide-toggle>
-          <!-- Default -->
-          <div *ngSwitchDefault>
-            <mat-form-field appearance="fill" class="w-full">
-              <input
-                matInput
-                [value]="setting.value"
-                #inputField
-                (keyup.enter)="onSaveBtnClick(setting.name, inputField.value)"
-              />
-              <mat-label> {{ setting.description }}</mat-label>
-            </mat-form-field>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+        <mat-card *ngFor="let setting of feSettings">
+          <mat-card-header>
+            <mat-card-title>{{ setting.name | camelCaseTitle }}</mat-card-title>
+          </mat-card-header>
+          <mat-card-content [ngSwitch]="setting.type">
+            <!-- Boolean -->
+            <mat-slide-toggle
+              [checked]="setting.value"
+              *ngSwitchCase="'bool'"
+              (change)="toggleFrontendSetting(setting.name, $event)"
+            >
+              <mat-label align="end">{{ setting.description }} </mat-label>
+            </mat-slide-toggle>
+            <!-- Default -->
+            <div *ngSwitchDefault>
+              <mat-form-field
+                appearance="fill"
+                class="w-full"
+                [title]="setting.description"
+              >
+                <input
+                  matInput
+                  [value]="setting.value"
+                  #inputField
+                  (keyup.enter)="onSaveBtnClick(setting.name, inputField.value)"
+                />
+                <mat-label> {{ setting.description }}</mat-label>
+              </mat-form-field>
+              <mat-card-actions>
+                <button
+                  mat-stroked-button
+                  type="submit"
+                  (click)="onSaveBtnClick(setting.name, inputField.value)"
+                >
+                  Save
+                </button>
+              </mat-card-actions>
+            </div>
+          </mat-card-content>
+        </mat-card>
+        <mat-card>
+          <mat-card-content>
             <mat-card-actions>
               <button
                 mat-stroked-button
                 type="submit"
-                (click)="onSaveBtnClick(setting.name, inputField.value)"
+                (click)="resetFrontendSettings()"
               >
-                Save
-              </button>
-            </mat-card-actions>
-          </div>
-        </mat-card-content>
-      </mat-card>
+                Reset frontend settings
+              </button></mat-card-actions
+            >
+          </mat-card-content>
+        </mat-card>
+      </div>
     </div>
   </mat-tab>
 
   <mat-tab label="Backend">
-    <!-- Backend  -->
+    <!-- backend  -->
     <div
       *ngIf="ampdSettings | async as settings"
-      class="flex flex-col gap-y-2 pt-1 md:pt-9"
+      class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4"
     >
-      <mat-card class="w-full md:w-1/2">
+      <mat-card>
         <mat-card-content class="mat-title">
-          <p>
+          <p class="mb-4">
             These settings are read-only and can be changed with the
-            <span class="mono code">-D</span> when starting ampd.
+            <span class="ampd-code">-D</span> parameter when starting ampd.
           </p>
-          <mat-divider></mat-divider>
           <p>
             To persist your changes, write them to the
-            <span class="mono code">application.properties</span> file. See the
+            <span class="ampd-code">application.properties</span> file. See the
             <a
-              class="no-deco-links mono code"
+              class="ampd-code"
               href="https://github.com/rain0r/ampd/blob/master/docs/install.md"
               target="_blank"
               >install.md</a
@@ -76,7 +96,7 @@
           </p>
         </mat-card-content>
       </mat-card>
-      <mat-card *ngFor="let setting of settings" class="w-full md:w-1/2">
+      <mat-card *ngFor="let setting of settings">
         <mat-card-header>
           <mat-card-title>{{ setting.name }}</mat-card-title>
         </mat-card-header>
@@ -98,12 +118,13 @@
         </mat-card-content>
         <mat-card-footer class="p-0 md:p-2">
           Change this setting with:
-          <span class="mono code">-D{{ setting.key }}=&#60;value&#62;</span>
+          <span class="ampd-code">-D{{ setting.key }}=&#60;value&#62;</span>
         </mat-card-footer>
       </mat-card>
     </div>
   </mat-tab>
   <mat-tab label="Admin">
+    <!-- admin -->
     <div class="pt-1 md:pt-9">
       <!-- Trigger database update -->
       <app-update-database></app-update-database>
@@ -113,9 +134,7 @@
   </mat-tab>
 </mat-tab-group>
 
-<mat-divider></mat-divider>
-
-<div class="mono" *ngIf="mpdSettings | async as settings">
+<div class="mt-8 font-mono" *ngIf="mpdSettings | async as settings">
   ampd version {{ settings.version }}. Source code at:
   <a class="mat-app-background" href="https://github.com/rain0r/ampd"
     >github.com/rain0r/ampd</a

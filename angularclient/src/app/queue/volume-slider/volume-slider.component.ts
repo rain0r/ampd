@@ -1,5 +1,5 @@
 import { Component } from "@angular/core";
-import { MatSliderChange } from "@angular/material/slider";
+
 import { Observable } from "rxjs";
 import { MpdService } from "src/app/service/mpd.service";
 import { VolumeService } from "../../service/volume.service";
@@ -21,11 +21,8 @@ export class VolumeSliderComponent {
     this.connected$ = this.mpdService.isConnected$();
   }
 
-  handleVolumeSlider(event: MatSliderChange): void {
-    if (event.value) {
-      this.volume = event.value;
-    }
-    this.volumeService.setVolume(event.value);
-    event.source.blur();
+  handleVolumeSlider(value: number): void {
+    this.volume = value;
+    this.volumeService.setVolume(value);
   }
 }

@@ -1,9 +1,6 @@
-<div
-  class="app-main mat-app-background"
-  [ngClass]="{ 'dark-theme': darkTheme | async }"
->
+<div>
   <mat-toolbar color="primary">
-    <div class="pl-1 md:px-4 w-full flex flex-row justify-start">
+    <div class="pl-1 md:px-4 w-full flex flex-row justify-start gap-x-4">
       <!-- Queue -->
       <a
         [routerLink]="['']"
@@ -80,7 +77,7 @@
       </div>
     </div>
   </mat-toolbar>
-  <div class="md:py-5 md:px-12" [ngClass]="{ 'dark-theme': darkTheme | async }">
+  <div class="md:py-5 md:px-12">
     <router-outlet></router-outlet>
   </div>
 </div>

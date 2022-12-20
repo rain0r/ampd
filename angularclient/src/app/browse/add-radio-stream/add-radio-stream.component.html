@@ -1,6 +1,6 @@
 <app-browse-navigation [filterDisabled]="true"></app-browse-navigation>
 
-<div class="mat-h1">Radio streams</div>
+<div>Radio streams</div>
 
 <div *ngIf="dataSource$ | async as dataSource">
   <div class="my-4">
@@ -10,7 +10,7 @@
   <mat-divider></mat-divider>
 
   <div class="my-4">
-    <div class="mat-h1">Add a radio stream</div>
+    <div>Add a radio stream</div>
     <form [formGroup]="radioStreamForm" (ngSubmit)="onSubmit()">
       <div class="flex flex-col">
         <mat-form-field>

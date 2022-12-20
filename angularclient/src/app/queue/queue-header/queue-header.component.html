@@ -1,6 +1,6 @@
 <div *ngIf="currentPlay | async as play" class="pb-1 md:pb-4">
   <div *ngIf="play.state === 'stop'" class="grid place-items-center">
-    <span class="mat-display-1"> Stopped. </span>
+    <span>Stopped.</span>
   </div>
 
   <div class="flex flex-row">
@@ -8,13 +8,12 @@
       class="flex flex-grow flex-col basis-[55%]"
       *ngIf="play.state !== 'stop'"
     >
-      <div class="mat-h2 queue-sub-title">
+      <div class="queue-sub-title">
         <a
-          class="no-deco-links"
+          class="text-lg font-bold"
           [routerLink]="['browse']"
           [queryParams]="{ dir: currentPathLink }"
           *ngIf="play.track.title; else trackFile"
-          [class.text-muted]="play.state === 'pause'"
           title="Go to the directory containing this track"
         >
           {{ play.track.title }}
@@ -24,9 +23,8 @@
         </ng-template>
       </div>
       <mat-divider *ngIf="play.track.albumName"></mat-divider>
-      <div class="mat-h3 queue-sub-title" *ngIf="play.track.albumName">
+      <div class="queue-sub-title" *ngIf="play.track.albumName">
         <a
-          class="no-deco-links text-muted"
           [routerLink]="['browse']"
           title="Go to the directory containing this track"
           [queryParams]="{ dir: currentPathLink }"
@@ -35,13 +33,12 @@
         </a>
         <mat-divider></mat-divider>
       </div>
-      <div class="mat-h3 queue-sub-title">
+      <div class="queue-sub-title">
         <a
           class="no-deco-links"
           [routerLink]="['browse']"
           [queryParams]="{ dir: currentPathLink }"
           title="Go to the directory containing this track"
-          [class.text-muted]="play.state === 'pause'"
         >
           {{ play.track.artistName }}
         </a>
@@ -55,5 +52,3 @@
     </div>
   </div>
 </div>
-
-<mat-divider></mat-divider>

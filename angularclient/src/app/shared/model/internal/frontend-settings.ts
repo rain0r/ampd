@@ -16,7 +16,7 @@ export interface FrontendSetting {
 export const darkTheme: FrontendSetting = {
   name: SettingKeys.DARK_THEME,
   type: "bool",
-  value: "true",
+  value: "",
   description: "Toggle the theme from bright to dark and back.",
 };
 

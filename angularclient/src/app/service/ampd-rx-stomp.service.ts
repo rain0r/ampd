@@ -4,4 +4,8 @@ import { RxStomp } from "@stomp/rx-stomp";
 @Injectable({
   providedIn: "root",
 })
-export class AmpdRxStompService extends RxStomp {}
+export class AmpdRxStompService extends RxStomp {
+  constructor() {
+    super();
+  }
+}

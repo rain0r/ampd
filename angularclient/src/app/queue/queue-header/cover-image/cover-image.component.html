@@ -7,10 +7,9 @@
     <a [href]="track.coverUrl">
       <img
         [alt]="'Cover of ' + track.artistName + ' — ' + track.albumName"
-        [ngClass]="coverSizeClass | async"
         [src]="track.coverUrl"
         [title]="track.artistName + ' — ' + track.albumName"
-        class="album-art clickable"
+        class="h-64 w-full object-cover md:h-full md:w-64"
       />
     </a>
   </lightgallery>

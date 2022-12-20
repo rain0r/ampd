@@ -1,5 +1,5 @@
 <div
-  class="flex flex-row place-items-center gap-x-2"
+  class="flex flex-row place-items-center gap-x-6"
   [title]="'Volume: ' + volume"
 >
   <div>
@@ -7,14 +7,19 @@
   </div>
   <div class="flex-grow">
     <mat-slider
-      (input)="handleVolumeSlider($event)"
-      [(ngModel)]="volume"
       [disabled]="(connected$ | async) === false"
-      class="w-full"
       max="100"
       min="0"
       step="1"
-    ></mat-slider>
+      [discrete]="true"
+      [showTickMarks]="false"
+    >
+      <input
+        matSliderThumb
+        [(ngModel)]="volume"
+        (valueChange)="handleVolumeSlider($event)"
+      />
+    </mat-slider>
   </div>
   <div>{{ volume }} &#37;</div>
 </div>

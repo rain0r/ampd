@@ -23,7 +23,9 @@
             "outputPath": "../src/main/resources/static/",
             "index": "src/index.html",
             "main": "src/main.ts",
-            "polyfills": "src/polyfills.ts",
+            "polyfills": [
+              "zone.js"
+            ],
             "tsConfig": "tsconfig.app.json",
             "aot": true,
             "assets": [
@@ -31,8 +33,18 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.scss"
+              "material-icons/iconfont/material-icons.css",
+              "src/styles.scss",
+              {
+                "inject": false,
+                "input": "src/theme/darker.scss"
+              },
+              {
+                "inject": false,
+                "input": "src/theme/lighter.scss"
+              }
             ],
+
             "scripts": []
           },
           "configurations": {
@@ -81,7 +93,7 @@
           "configurations": {
             "development": {
               "browserTarget": "ampd:build:development"
-            },            
+            },
             "production": {
               "browserTarget": "ampd:build:production"
             }
@@ -97,7 +109,10 @@
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
             "main": "src/test.ts",
-            "polyfills": "src/polyfills.ts",
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing"
+            ],
             "tsConfig": "tsconfig.spec.json",
             "karmaConfig": "karma.conf.js",
             "assets": [
@@ -105,8 +120,18 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.scss"
+              "material-icons/iconfont/material-icons.css",
+              "src/styles.scss",
+              {
+                "inject": false,
+                "input": "src/theme/darker.scss"
+              },
+              {
+                "inject": false,
+                "input": "src/theme/lighter.scss"
+              }
             ],
+
             "scripts": []
           }
         },
@@ -118,12 +143,20 @@
               "src/**/*.html"
             ]
           }
-        }       
+        }
       }
     }
   },
   "defaultProject": "ampd",
   "cli": {
     "defaultCollection": "@angular-eslint/schematics"
+  },
+  "schematics": {
+    "@angular-eslint/schematics:application": {
+      "setParserOptionsProject": true
+    },
+    "@angular-eslint/schematics:library": {
+      "setParserOptionsProject": true
+    }
   }
 }

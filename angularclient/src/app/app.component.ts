@@ -1,5 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { interval } from "rxjs";
+import { ThemingService } from "./service/theming.service";
 
 @Component({
   selector: "app-root",
@@ -7,6 +8,12 @@ import { interval } from "rxjs";
   styleUrls: ["./app.component.scss"],
 })
 export class AppComponent implements OnInit {
+  lightThemeEnabled;
+
+  constructor(private ts: ThemingService) {
+    this.lightThemeEnabled = this.ts.onLoad();
+  }
+
   ngOnInit(): void {
     const period =
       1000 * // milliseconds per second

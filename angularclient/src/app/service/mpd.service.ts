@@ -1,7 +1,8 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
+import { RxStompState } from "@stomp/rx-stomp";
 import { Observable, of } from "rxjs";
-import { distinctUntilChanged, filter, map, switchMap } from "rxjs/operators";
+import { filter, map, switchMap } from "rxjs/operators";
 import { MpdModesPanel } from "../shared/messages/incoming/mpd-modes-panel";
 import { StateMsgPayload } from "../shared/messages/incoming/state-msg-payload";
 import { QueueTrack } from "../shared/model/queue-track";
@@ -9,7 +10,6 @@ import { ServerStatistics } from "../shared/model/server-statistics";
 import { AmpdRxStompService } from "./ampd-rx-stomp.service";
 import { QueueService } from "./queue.service";
 import { SettingsService } from "./settings.service";
-import { RxStompState } from "@stomp/rx-stomp";
 @Injectable({
   providedIn: "root",
 })
@@ -80,9 +80,6 @@ export class MpdService {
     return this.rxStompService.watch("/topic/state").pipe(
       map((message) => message.body),
       map((body: string) => <StateMsgPayload>JSON.parse(body)),
-      distinctUntilChanged((prev, curr) => {
-        return JSON.stringify(curr) === JSON.stringify(prev);
-      }),
       switchMap((payload) => {
         return of(payload);
       })

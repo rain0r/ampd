@@ -5,12 +5,90 @@
 html,
 body {
   height: 100%;
+  margin: 0;
+  background: var(--body-background-color);
+  color: var(--primary-text);
 }
 
-body {
-  margin: 0;
+//
+// General ampd specific rules
+//
+
+.text-muted {
+  color: #868e96 !important;
 }
 
 .clickable {
   cursor: pointer;
+}
+
+.mat-accent {
+  @apply dark:text-black;
+}
+
+//
+// Tailwind usages
+//
+
+.heading-1 {
+  @apply mb-4 text-4xl font-bold tracking-tight leading-none  md:text-5xl lg:text-6xl;
+}
+
+.heading-2 {
+  @apply mb-4 text-xl font-bold tracking-tight leading-none  md:text-2xl lg:text-3xl;
+}
+
+.browse-title {
+  @apply flex flex-row gap-x-3 mb-4 pt-4 font-semibold text-lg;
+}
+
+.page-title {
+  @extend .heading-2;
+  @extend .clickable;
+  @apply pb-8;
+}
+
+//
+// Material overrides
+//
+
+.mdc-text-field--filled:not(.mdc-text-field--disabled) {
+  background-color: inherit !important;
+}
+
+.mat-mdc-form-field-focus-overlay {
+  background-color: inherit !important;
+}
+
+.accent-text {
+  color: var(--accent-color) !important;
+}
+
+.accent-text-hover:hover {
+  color: var(--accent-color) !important;
+}
+
+mat-toolbar > div > .mat-mdc-button-base.mat-accent {
+  color: var(--accent-color) !important;
+}
+
+.browse-list-item {
+  @apply flex flex-row justify-between items-center p-2 gap-x-4;
+  font-size: larger;
+  background: var(--second-background-color);
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+}
+
+.browse-list-item:hover {
+  cursor: pointer;
+  background: var(--hover-background-color);
+}
+
+.hover-background-color:hover {
+  background: var(--hover-background-color) !important;
+}
+
+.now-playing-row {
+  background: var(--accent-color) !important;
 }

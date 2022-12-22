@@ -1,6 +1,5 @@
 import { Component, ElementRef, HostListener, ViewChild } from "@angular/core";
 import { Observable } from "rxjs";
-import { FrontendSettingsService } from "../service/frontend-settings.service";
 import { AmpdRxStompService } from "./../service/ampd-rx-stomp.service";
 import { ShortcutService } from "./../service/shortcut.service";
 
@@ -13,18 +12,12 @@ export class NavbarComponent {
   @ViewChild("helpIcon") helpIcon: ElementRef = <ElementRef>{};
 
   connState: Observable<number>;
-  // TODO darkTheme: Observable<boolean>;
 
   constructor(
-    private frontendSettingsService: FrontendSettingsService,
     private rxStompService: AmpdRxStompService,
     private shortcutService: ShortcutService
   ) {
     this.connState = this.rxStompService.connectionState$;
-    // TODO
-    // this.darkTheme = this.frontendSettingsService.getBoolValue$(
-    //   SettingKeys.DARK_THEME
-    // );
   }
 
   @HostListener("document:keydown", ["$event"])

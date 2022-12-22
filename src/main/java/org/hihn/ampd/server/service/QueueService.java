@@ -90,7 +90,6 @@ public class QueueService {
 		Pageable pageable = PageRequest.of(pageIndex, getPageSize(pageSize));
 		pages.setPage(pageIndex);
 		pages.setPageSize(getPageSize(pageSize));
-		// return new CustomPage<MPDPlaylistSong>(pages.getPageList());
 		QueuePageImpl<MPDPlaylistSong> page = new QueuePageImpl<>(pages.getPageList(), pageable, songList.size());
 		page.setTotalPlayTime(sumQueuePlayTime(songList));
 		return page;

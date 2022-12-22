@@ -1,28 +1,32 @@
-<div>Shortcuts</div>
-<mat-divider></mat-divider>
-<div class="grid grid-cols-2 gap-y-3">
-  <div *ngFor="let shortcutSection of categories">
-    <div>
-      {{ shortcutSection }}
-    </div>
-    <div
-      *ngFor="let shortcut of shortcuts | filterByCategory: shortcutSection"
-      class="grid grid-cols-2 py-3 hover:bg-violet-600"
-    >
-      <div class="flex flex-col">
-        <div
-          class="mono"
-          *ngFor="let trig of shortcut.trigger"
-          [title]="'Key: \'' + trig + '\''"
-        >
-          &quot;{{ trig }}&quot;&nbsp;
-        </div>
+<div mat-dialog-title>
+  <span class="heading-2 mb-4">Shortcuts</span>
+</div>
+
+<div mat-dialog-content>
+  <div class="grid grid-cols-2 gap-14">
+    <div *ngFor="let shortcutSection of categories">
+      <div class="text-lg mb-4">
+        {{ shortcutSection }}
       </div>
-      <span class="shortcut">{{ shortcut.helpText }}</span>
+      <div
+        *ngFor="let shortcut of shortcuts | filterByCategory: shortcutSection"
+        class="grid grid-cols-2 hover-background-color"
+      >
+        <div class="flex flex-col text-lg">
+          <div
+            class="font-mono"
+            *ngFor="let trig of shortcut.trigger"
+            [title]="'Key: \'' + trig + '\''"
+          >
+            &quot;{{ trig }}&quot;&nbsp;
+          </div>
+        </div>
+        <span>{{ shortcut.helpText }}</span>
+      </div>
     </div>
   </div>
 </div>
 
-<mat-dialog-actions align="end">
+<div mat-dialog-actions align="end">
   <button mat-button mat-dialog-close>Close</button>
-</mat-dialog-actions>
+</div>

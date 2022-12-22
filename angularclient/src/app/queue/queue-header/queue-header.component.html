@@ -1,6 +1,6 @@
 <div *ngIf="currentPlay | async as play" class="pb-1 md:pb-4">
   <div *ngIf="play.state === 'stop'" class="grid place-items-center">
-    <span>Stopped.</span>
+    <h1 class="heading-1">Stopped.</h1>
   </div>
 
   <div class="flex flex-row">
@@ -8,26 +8,36 @@
       class="flex flex-grow flex-col basis-[55%]"
       *ngIf="play.state !== 'stop'"
     >
-      <div class="queue-sub-title">
+      <div [class.text-muted]="play.state === 'pause'">
+        <div *ngIf="isRadioStream | async">
+          <p class="text-xl font-bold">{{ play.track.title }}</p>
+          <p class="break-all text-muted">{{ play.track.file }}</p>
+          <a
+            *ngIf="radioStreamName | async as name"
+            class="accent-text"
+            routerLink="/browse/radio-streams"
+          >
+            &#91;{{ name }}&#93;
+          </a>
+        </div>
+
         <a
-          class="text-lg font-bold"
-          [routerLink]="['browse']"
           [queryParams]="{ dir: currentPathLink }"
-          *ngIf="play.track.title; else trackFile"
+          [routerLink]="['browse']"
+          *ngIf="(isRadioStream | async) === false"
+          class="text-xl font-bold"
           title="Go to the directory containing this track"
         >
           {{ play.track.title }}
         </a>
-        <ng-template #trackFile>
-          {{ play.track.file }}
-        </ng-template>
       </div>
       <mat-divider *ngIf="play.track.albumName"></mat-divider>
       <div class="queue-sub-title" *ngIf="play.track.albumName">
         <a
+          [class.text-muted]="play.state === 'pause'"
+          [queryParams]="{ dir: currentPathLink }"
           [routerLink]="['browse']"
           title="Go to the directory containing this track"
-          [queryParams]="{ dir: currentPathLink }"
         >
           {{ play.track.albumName }}
         </a>
@@ -35,9 +45,9 @@
       </div>
       <div class="queue-sub-title">
         <a
-          class="no-deco-links"
-          [routerLink]="['browse']"
+          [class.text-muted]="play.state === 'pause'"
           [queryParams]="{ dir: currentPathLink }"
+          [routerLink]="['browse']"
           title="Go to the directory containing this track"
         >
           {{ play.track.artistName }}
@@ -45,10 +55,7 @@
       </div>
     </div>
     <div>
-      <app-cover-image
-        [track]="play.track"
-        [state]="play.state"
-      ></app-cover-image>
+      <app-cover-image></app-cover-image>
     </div>
   </div>
 </div>

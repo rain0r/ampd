@@ -19,10 +19,7 @@ export class ThemingService {
   ) {}
 
   loadTheme(theme: Themes): void {
-    console.log("loading", theme);
     this.styleManager.setStyle("theme", `${theme}.css`);
-
-    // TODO this.feSettings.save(SettingKeys.DARK_THEME, isLightTheme === false);
   }
 
   /**
@@ -39,22 +36,20 @@ export class ThemingService {
       darkModeOn === false ||
       this.feSettings.getBoolValue(SettingKeys.DARK_THEME) === true;
 
+    // Check first, if the user saved a theme in the settings
+    const savedTheme = this.feSettings.getStrValue(SettingKeys.DARK_THEME);
+    if (savedTheme === "") {
+      const theme = darkModeOn ? Themes.Darker : Themes.Lighter;
+      console.log("Setting browser theme", theme);
+      this.feSettings.save(SettingKeys.DARK_THEME, theme === Themes.Darker);
+    }
+
+    // Then subscribe to apply a them dynamically
     this.feSettings
-      .getStrValue$(SettingKeys.DARK_THEME)
-      .subscribe((isDarkTheme) => {
-        // console.log("darkTheme", isDarkTheme)
-        let theme;
-
-        if (isDarkTheme) {
-          console.log("Setting saved theme", isDarkTheme);
-          theme = isDarkTheme === "true" ? Themes.Darker : Themes.Lighter;
-        } else {
-          console.log("Setting browser theme", darkModeOn);
-          theme = darkModeOn ? Themes.Darker : Themes.Lighter;
-        }
-
-        this.loadTheme(theme);
-      });
+      .getBoolValue$(SettingKeys.DARK_THEME)
+      .subscribe((isDarkTheme) =>
+        this.loadTheme(isDarkTheme ? Themes.Darker : Themes.Lighter)
+      );
 
     // Watch for changes of the preference
     window

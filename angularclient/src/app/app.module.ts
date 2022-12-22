@@ -5,8 +5,6 @@ import { ErrorHandler, NgModule } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
-import { LightgalleryModule } from "lightgallery/angular";
-import { AddStreamDialogComponent } from "./add-stream-dialog/add-stream-dialog.component";
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
 import { AddStreamComponent } from "./browse/add-radio-stream/add-radio-stream.component";
@@ -36,6 +34,7 @@ import { QueueHeaderComponent } from "./queue/queue-header/queue-header.componen
 import { QueueComponent } from "./queue/queue.component";
 import { SavePlaylistDialogComponent } from "./queue/save-playlist-dialog/save-playlist-dialog.component";
 import { TrackProgressComponent } from "./queue/track-progress/track-progress.component";
+import { AddStreamDialogComponent } from "./queue/track-table/add-stream-dialog/add-stream-dialog.component";
 import { TrackTableComponent } from "./queue/track-table/track-table.component";
 import { VolumeSliderComponent } from "./queue/volume-slider/volume-slider.component";
 import { AdvancedSearchComponent } from "./search/advanced-search/advanced-search.component";
@@ -46,6 +45,7 @@ import { SettingsService } from "./service/settings.service";
 import { ServerStatisticsComponent } from "./settings/admin/server-statistics/server-statistics.component";
 import { UpdateDatabaseComponent } from "./settings/admin/update-database/update-database.component";
 import { SettingsComponent } from "./settings/settings.component";
+import { AlbumCoverDialogComponent } from "./shared/album-cover-dialog/album-cover-dialog.component";
 import { AmpdErrorHandler } from "./shared/ampd-error-handler";
 import { ErrorDialogComponent } from "./shared/error/error-dialog/error-dialog.component";
 import { KeyValueTableComponent } from "./shared/key-value-table/key-value-table.component";
@@ -61,8 +61,8 @@ import { MapEntriesPipe } from "./shared/pipes/map-entries.pipe";
 import { ReplaceNullWithTextPipe } from "./shared/pipes/replace-null-with-text.pipe";
 import { SecondsToHhMmSsPipe } from "./shared/pipes/seconds-to-hh-mm-ss.pipe";
 import { SecondsToMmSsPipe } from "./shared/pipes/seconds-to-mm-ss.pipe";
-import { TrackTableDataComponent } from "./shared/track-table-data/track-table-data.component";
 import { StyleManager } from "./shared/style-manager";
+import { TrackTableDataComponent } from "./shared/track-table-data/track-table-data.component";
 
 const prefersReducedMotion =
   typeof matchMedia === "function"
@@ -121,6 +121,7 @@ const prefersReducedMotion =
     DynamicFormInputComponent,
     AdvancedSearchComponent,
     AddStreamDialogComponent,
+    AlbumCoverDialogComponent,
   ],
   imports: [
     AppRoutingModule,
@@ -133,7 +134,6 @@ const prefersReducedMotion =
     ReactiveFormsModule,
     ScrollingModule,
     BrowserModule,
-    LightgalleryModule,
     MaterialMetaModule,
   ],
   providers: [

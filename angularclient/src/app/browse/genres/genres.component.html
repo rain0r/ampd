@@ -1,5 +1,7 @@
 <app-browse-navigation [filterDisabled]="true"></app-browse-navigation>
 
+<div class="page-title">Genres</div>
+
 <div class="flex flex-col md:flex-row md:flex-wrap gap-4">
   <a
     [queryParams]="{ genre: genre }"
@@ -13,14 +15,13 @@
   </a>
 </div>
 
-<div *ngIf="isLoadingResults | async">
+<div class="grid place-items-center" *ngIf="isLoadingResults | async">
   <mat-spinner></mat-spinner>
 </div>
 
-<div id="results">
+<div id="results" class="mt-10">
   <div *ngIf="trackTableData !== null && (genrePayload | async) as payload">
-    <mat-divider></mat-divider>
-    <h1 class="genre-header">Genre: {{ payload.genre }}</h1>
+    <h1 class="my-4 heading-2">Genre: {{ payload.genre }}</h1>
     <mat-tab-group
       dynamicHeight
       [(selectedIndex)]="selectedIndex"
@@ -49,7 +50,7 @@
           </mat-paginator>
         </div>
         <ng-template #noAlbums>
-          <div class="not-found">No albums found.</div>
+          <div class="pt-8">No albums found.</div>
         </ng-template>
       </mat-tab>
       <!-- Tracks -->

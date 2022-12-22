@@ -7,7 +7,7 @@ import {
 } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
 import { filter, map } from "rxjs";
-import { AddStreamDialogComponent } from "src/app/add-stream-dialog/add-stream-dialog.component";
+import { AddStreamDialogComponent } from "src/app/queue/track-table/add-stream-dialog/add-stream-dialog.component";
 import { MsgService } from "src/app/service/msg.service";
 import { ResponsiveScreenService } from "src/app/service/responsive-screen.service";
 import { PaginatedResponse } from "src/app/shared/messages/incoming/paginated-response";

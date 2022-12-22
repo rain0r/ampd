@@ -1,14 +1,14 @@
 <div mat-dialog-title>
-  <div class="flex flex-row gap-x-2">
-    <span class="text-muted">Playlist</span>
-    <strong>{{ data.name }}</strong>
-    <span class="text-muted" *ngIf="playlistInfo | async as info"
-      >{{ info.tracks.totalElements }} tracks</span
-    >
+  <div class="flex flex-row gap-x-2 heading-2">
+    <span>Playlist:</span>
+    {{ data.name }}
+  </div>
+  <div *ngIf="playlistInfo | async as info">
+    {{ info.tracks.totalElements }} tracks
   </div>
 
   <div mat-dialog-content>
-    <div *ngIf="isLoadingResults | async">
+    <div class="grid place-items-center" *ngIf="isLoadingResults | async">
       <mat-spinner></mat-spinner>
     </div>
     <app-track-data-table
@@ -17,11 +17,11 @@
     ></app-track-data-table>
   </div>
 
-  <mat-dialog-actions>
+  <div mat-dialog-actions align="end">
     <button mat-stroked-button (click)="onDeletePlaylist()" color="warn">
       Delete
     </button>
     <button mat-stroked-button (click)="onAddPlaylist()">Add</button>
     <button mat-stroked-button matDialogClose>Close</button>
-  </mat-dialog-actions>
+  </div>
 </div>

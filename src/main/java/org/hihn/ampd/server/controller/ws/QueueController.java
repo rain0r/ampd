@@ -47,7 +47,6 @@ public class QueueController {
 	}
 
 	@MessageMapping("/page")
-	// @SendTo("/topic/page")
 	@SendTo("/topic/queue")
 	public QueuePageImpl<MPDPlaylistSong> getPage(PageEvent pageEvent) {
 		return queueService.getQueue(pageEvent.getPageIndex(), pageEvent.getPageSize());

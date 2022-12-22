@@ -6,19 +6,16 @@
   >
     <div class="md:flex">
       <div class="md:shrink-0">
-        <lightgallery *ngIf="coverUrl" [settings]="lightboxSettings">
-          <a [href]="coverUrl">
-            <img
-              (error)="onError()"
-              (load)="onLoad()"
-              [alt]="'Cover of ' + dirQp"
-              [hidden]="!validCoverUrl"
-              [src]="coverUrl"
-              [title]="dirQp"
-              class="h-64 w-full object-cover md:h-full md:w-64"
-            />
-          </a>
-        </lightgallery>
+        <img
+          (click)="openCoverDialog(coverUrl)"
+          (error)="onError()"
+          (load)="onLoad()"
+          [alt]="'Cover of ' + dirQp"
+          [hidden]="!validCoverUrl"
+          [src]="coverUrl"
+          [title]="dirQp"
+          class="clickable h-64 w-full object-cover md:h-full md:w-64"
+        />
       </div>
     </div>
   </div>

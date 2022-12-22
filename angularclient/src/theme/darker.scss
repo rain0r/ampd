@@ -2,25 +2,34 @@
 
 @include mat.core();
 
-$dark-primary-palette: mat.define-palette(mat.$blue-grey-palette, 500);
-$dark-accent-palette: mat.define-palette(mat.$orange-palette, A400, A100, A700);
-$dark-warn-palette: mat.define-palette(mat.$red-palette);
+$primary-palette: mat.define-palette(mat.$blue-grey-palette, 500);
+$accent-palette: mat.define-palette(mat.$orange-palette, A400, A100, A700);
+$warn-palette: mat.define-palette(mat.$red-palette);
 
-$dark-elem-bg: #424242;
+$accent-color: #ff9100;
+$body-background-color: #303030;
+$border-color: #868e96;
+$hover-background-color: #607d8b;
+$primary-text: #fff;
+$second-background-color: #424242;
 
 $dark-theme: mat.define-dark-theme(
   (
     color: (
-      primary: $dark-primary-palette,
-      accent: $dark-accent-palette,
-      warn: $dark-warn-palette,
+      primary: $primary-palette,
+      accent: $accent-palette,
+      warn: $warn-palette,
     ),
   )
 );
 
-// Apply the dark theme by default
 @include mat.all-component-themes($dark-theme);
 
-.mat-accent {
-  color: mat.get-color-from-palette($dark-accent-palette) !important;
+:root {
+  --accent-color: #{$accent-color};
+  --body-background-color: #{$body-background-color};
+  --border-color: #{$border-color};
+  --hover-background-color: #{$hover-background-color};
+  --primary-text: #{$primary-text};
+  --second-background-color: #{$second-background-color};
 }

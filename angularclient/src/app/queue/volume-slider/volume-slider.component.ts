@@ -12,6 +12,7 @@ import { VolumeService } from "../../service/volume.service";
 export class VolumeSliderComponent {
   volume = 0;
   connected$: Observable<boolean>;
+  state$: Observable<string>;
 
   constructor(
     private mpdService: MpdService,
@@ -19,6 +20,7 @@ export class VolumeSliderComponent {
   ) {
     volumeService.volume.subscribe((volume) => (this.volume = volume));
     this.connected$ = this.mpdService.isConnected$();
+    this.state$ = this.mpdService.currentState$;
   }
 
   handleVolumeSlider(value: number): void {

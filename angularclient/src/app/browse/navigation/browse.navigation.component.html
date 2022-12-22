@@ -1,9 +1,13 @@
-<div class="flex flex-wrap justify-between md:justify-start md:gap-x-2">
+<div
+  class="flex flex-wrap justify-between items-center md:justify-start md:gap-x-2"
+>
   <!--Return to top -->
-  <div>
+  <div class="self-center">
     <button
-      mat-raised-button
       [routerLink]="['/browse']"
+      [routerLinkActiveOptions]="{ exact: true }"
+      mat-raised-button
+      routerLinkActive="mat-accent"
       title="Go to base directory"
     >
       <mat-icon>home</mat-icon>
@@ -14,9 +18,9 @@
   <!--Go one dir up -->
   <div *ngIf="getParamDir !== '/'">
     <button
-      mat-raised-button
-      [routerLink]="['/browse']"
       [queryParams]="{ dir: dirUp$ | async }"
+      [routerLink]="['/browse']"
+      mat-raised-button
       title="Go one directory up"
     >
       <mat-icon>expand_less</mat-icon>
@@ -40,19 +44,11 @@
     </button>
   </div>
 
-  <!--Clear queue-->
-  <div>
-    <button mat-raised-button (click)="onClearQueue()" title="Clear the queue">
-      <mat-icon>delete</mat-icon>
-      <span class="hidden md:inline">Clear queue</span>
-    </button>
-  </div>
-
   <!-- Albums -->
   <div *ngIf="getParamDir === '/'">
     <button
-      mat-raised-button
       [routerLink]="['/browse/albums']"
+      mat-raised-button
       routerLinkActive="mat-accent"
       title="Go to albums"
     >
@@ -64,8 +60,8 @@
   <!-- Genres -->
   <div *ngIf="getParamDir === '/'">
     <button
-      mat-raised-button
       [routerLink]="['/browse/genres']"
+      mat-raised-button
       routerLinkActive="mat-accent"
       title="Go to genres"
     >
@@ -77,8 +73,8 @@
   <!-- Radio Streams -->
   <div *ngIf="getParamDir === '/'">
     <button
-      mat-raised-button
       [routerLink]="['/browse/radio-streams']"
+      mat-raised-button
       routerLinkActive="mat-accent"
       title="Go to radio streams"
     >
@@ -87,28 +83,38 @@
     </button>
   </div>
 
+  <!--Clear queue-->
+  <div>
+    <button mat-raised-button (click)="onClearQueue()" title="Clear the queue">
+      <mat-icon>delete</mat-icon>
+      <span class="hidden md:inline">Clear queue</span>
+    </button>
+  </div>
+
   <div class="md:flex-grow"></div>
 
   <!--Filter-->
-  <div class="w-full md:w-1/3">
+  <div
+    class="w-full md:w-1/3"
+    [class.invisible]="(filterDisabled$ | async) === false"
+  >
     <mat-form-field>
       <mat-label>Filter</mat-label>
       <input
-        #filterInputElem
         (keydown.escape)="resetFilter()"
         (keyup)="applyFilter($event.target)"
         [(ngModel)]="filter"
+        [disabled]="(filterDisabled$ | async) === false"
+        #filterInputElem
         autocomplete="off"
         matInput
         placeholder="Press 'f' to jump here"
         type="text"
-        [disabled]="(filterDisabled$ | async) === false"
       />
       <button
         (click)="filter = ''; resetFilter()"
         *ngIf="filter"
         aria-label="Clear"
-        mat-button
         mat-icon-button
         matSuffix
       >
@@ -118,4 +124,6 @@
   </div>
 </div>
 
-<mat-divider></mat-divider>
+<div class="mb-6">
+  <mat-divider></mat-divider>
+</div>

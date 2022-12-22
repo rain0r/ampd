@@ -3,10 +3,10 @@
   [routerLink]="['/browse']"
   [title]="'Go to directory: ' + directory.path"
   *ngIf="directory !== null"
-  class="flex flex-row justify-between items-center browse-list-item p-2"
+  class="browse-list-item"
 >
   <mat-icon>folder_open</mat-icon>
-  <div class="name">
+  <div class="name break-all">
     {{ directory.displayedPath }}
   </div>
   <div class="flex-grow"></div>

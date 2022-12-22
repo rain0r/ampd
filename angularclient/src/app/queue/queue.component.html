@@ -1,6 +1,6 @@
 <div
   [class.text-muted]="(connected$ | async) === false"
-  class="flex flex-col gap-y-2"
+  class="flex flex-col gap-y-4"
 >
   <!-- Queue header with track info and cover -->
   <app-queue-header></app-queue-header>
@@ -8,7 +8,7 @@
   <mat-divider></mat-divider>
 
   <!-- Control panel -->
-  <div class="flex flex-col md:flex-row justify-between gap-y-2">
+  <div class="flex flex-col md:flex-row justify-between gap-y-4">
     <app-control-panel class="flex-grow"></app-control-panel>
     <app-mpd-modes></app-mpd-modes>
   </div>
@@ -16,8 +16,12 @@
   <!-- Current track progress -->
   <app-track-progress></app-track-progress>
 
+  <mat-divider></mat-divider>
+
   <!-- Volume slider -->
   <app-volume-slider></app-volume-slider>
+
+  <mat-divider></mat-divider>
 
   <!-- Track table -->
   <app-track-table></app-track-table>

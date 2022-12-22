@@ -30,16 +30,9 @@ export class FrontendSettingsService {
 
   constructor() {
     this.settingsSub$ = new BehaviorSubject<FrontendSetting[]>(
-      this.loadFrontendSettingsNg()
+      this.loadFrontendSettings()
     );
     this.settings$ = this.settingsSub$.asObservable();
-
-    this.settings$.subscribe((data) =>
-      console.log(
-        new Date(),
-        data.find((s) => s.name === "darkTheme")
-      )
-    );
   }
 
   save(name: string, value: string | number | boolean): void {
@@ -80,7 +73,7 @@ export class FrontendSettingsService {
     return elem ? elem.value === "true" : false;
   }
 
-  loadFrontendSettingsNg(): FrontendSetting[] {
+  loadFrontendSettings(): FrontendSetting[] {
     const lsData = localStorage.getItem(LS_KEY) || "";
     try {
       const savedSettings = <FrontendSetting[]>JSON.parse(lsData);

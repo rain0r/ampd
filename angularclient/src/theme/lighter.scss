@@ -2,42 +2,34 @@
 
 @include mat.core();
 
-$light-primary-palette: mat.define-palette(mat.$blue-grey-palette, 500);
-$light-accent-palette: mat.define-palette(
-  mat.$orange-palette,
-  A400,
-  A100,
-  A700
-);
-$light-warn-palette: mat.define-palette(mat.$red-palette);
-$light-elem-bg: #eee;
+$primary-palette: mat.define-palette(mat.$indigo-palette);
+$accent-palette: mat.define-palette(mat.$pink-palette);
+$warn-palette: mat.define-palette(mat.$red-palette);
 
-$btn-typography: mat.define-typography-config(
-  $button: mat.define-typography-level(18px, 18px, 500),
-);
+$accent-color: #ff4081;
+$body-background-color: #fafafa;
+$border-color: rgba(0, 0, 0, 0.12);
+$hover-background-color: rgba(0, 0, 0, 0.03);
+$primary-text: black;
+$second-background-color: white;
 
-// Define a light theme
 $light-theme: mat.define-light-theme(
   (
     color: (
-      primary: mat.define-palette(mat.$indigo-palette),
-      accent: mat.define-palette(mat.$pink-palette),
-      warn: mat.define-palette(mat.$red-palette),
+      primary: $primary-palette,
+      accent: $accent-palette,
+      warn: $warn-palette,
     ),
-    typography: mat.define-typography-config(),
   )
 );
 
-.mat-accent {
-  color: mat.get-color-from-palette($light-accent-palette) !important;
-}
-
-.ampd-code {
-  @apply font-mono;
-  @extend .mat-accent;
-}
-
-@include mat.all-component-colors($light-theme);
 @include mat.all-component-themes($light-theme);
-// @include mat.button-typography($kids-typography);
-@include mat.button-typography($btn-typography);
+
+:root {
+  --accent-color: #{$accent-color};
+  --body-background-color: #{$body-background-color};
+  --border-color: #{$border-color};
+  --hover-background-color: #{$hover-background-color};
+  --primary-text: #{$primary-text};
+  --second-background-color: #{$second-background-color};
+}

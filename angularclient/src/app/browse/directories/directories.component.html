@@ -1,4 +1,4 @@
-<div class="flex flex-row gap-x-3 text-muted">
+<div class="browse-title">
   <mat-icon>folder_open</mat-icon>
   <span *ngIf="dirQp === '/'; else dirName"> Directories </span>
   <ng-template #dirName>
@@ -16,7 +16,7 @@
 </div>
 <div *ngIf="filterVisible">
   <mat-divider></mat-divider>
-  <div class="flex flex-row justify-between mb-2">
+  <div class="flex flex-row justify-between mb-2 tracking-tight text-sm">
     <mat-icon
       (click)="setStartLetterFilter('')"
       class="clickable accent-text-hover"

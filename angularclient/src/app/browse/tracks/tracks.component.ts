@@ -1,12 +1,11 @@
 import { Component, Input, OnInit } from "@angular/core";
+import { MatDialog } from "@angular/material/dialog";
 import { MatTableDataSource } from "@angular/material/table";
 import { ActivatedRoute } from "@angular/router";
-import { Observable } from "rxjs";
 import { distinctUntilChanged, map } from "rxjs/operators";
-import { LIGHTBOX_SETTINGS } from "src/app/shared/lightbox";
-import { MpdService } from "../../service/mpd.service";
 import { ResponsiveScreenService } from "../../service/responsive-screen.service";
 import { SettingsService } from "../../service/settings.service";
+import { AlbumCoverDialogComponent } from "../../shared/album-cover-dialog/album-cover-dialog.component";
 import { QueueTrack } from "../../shared/model/queue-track";
 import { ClickActions } from "../../shared/track-table-data/click-actions.enum";
 import { TrackTableOptions } from "../../shared/track-table-data/track-table-options";
@@ -18,10 +17,8 @@ import { TrackTableOptions } from "../../shared/track-table-data/track-table-opt
 })
 export class TracksComponent implements OnInit {
   @Input() tracks: QueueTrack[] = [];
-  coverSizeClass: Observable<string>;
   coverUrl = "";
   dirQp = "/";
-  lightboxSettings = LIGHTBOX_SETTINGS;
   queueDuration = 0;
   trackTableData = new TrackTableOptions();
   validCoverUrl = false;
@@ -29,11 +26,10 @@ export class TracksComponent implements OnInit {
 
   constructor(
     private activatedRoute: ActivatedRoute,
-    private mpdService: MpdService,
+    private dialog: MatDialog,
     private responsiveScreenService: ResponsiveScreenService,
     private settingsService: SettingsService
   ) {
-    this.coverSizeClass = this.responsiveScreenService.getCoverCssClass();
     this.responsiveScreenService
       .isMobile()
       .subscribe((isMobile) => (this.isMobile = isMobile));
@@ -53,9 +49,10 @@ export class TracksComponent implements OnInit {
     )}`;
   }
 
-  openCoverDialog(): void {
-    const track = this.tracks[0];
-    track.coverUrl = this.mpdService.buildCoverUrl(track.file);
+  openCoverDialog(coverUrl: string): void {
+    this.dialog.open(AlbumCoverDialogComponent, {
+      data: coverUrl,
+    });
   }
 
   onError(): void {

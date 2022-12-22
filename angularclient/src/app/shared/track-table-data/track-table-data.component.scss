@@ -4,6 +4,7 @@
 
 table {
   width: 100%;
+  border-collapse: collapse;
 }
 
 table td,
@@ -11,18 +12,8 @@ table td * {
   vertical-align: center;
 }
 
-.mobile {
-  padding-right: 0 0 0 2px !important;
-  word-break: break-all;
-}
-
 .mat-column-artist-name {
   width: 30%;
-  word-break: normal;
-}
-
-.mat-column-title {
-  word-break: normal;
 }
 
 .mat-column-position,

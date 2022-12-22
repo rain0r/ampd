@@ -10,23 +10,25 @@ import { QueueTrack } from "../../shared/model/queue-track";
   styleUrls: ["./track-progress.component.scss"],
 })
 export class TrackProgressComponent {
+  isStream$: Observable<boolean>;
   connected$: Observable<boolean>;
   track = new QueueTrack();
-  state: Observable<string>;
+  state$: Observable<string>;
 
   constructor(
     private controlPanelService: ControlPanelService,
     private mpdService: MpdService
   ) {
     this.connected$ = this.mpdService.isConnected$();
-    this.state = this.mpdService.currentState$;
+    this.state$ = this.mpdService.currentState$;
     this.mpdService.currentTrack$.subscribe((track) => (this.track = track));
+    this.isStream$ = this.mpdService.isCurrentTrackRadioStream$();
   }
 
   handleCurrentTrackProgressSlider(seconds: number): void {
     this.controlPanelService.seek(seconds);
     // Prevent jumping back and forth
-    this.state.pipe(delay(500));
+    this.state$.pipe(delay(500));
   }
 
   formatSeconds(value: number): string {

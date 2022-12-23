@@ -1,11 +1,8 @@
 import { HttpClient } from "@angular/common/http";
-import { AfterViewChecked, Component, Input, OnInit } from "@angular/core";
-import { InitDetail } from "lightgallery/lg-events";
-import { LightGallery } from "lightgallery/lightgallery";
-import { BehaviorSubject, combineLatest, Observable, Subject } from "rxjs";
+import { Component, Input, OnInit } from "@angular/core";
+import { BehaviorSubject, Observable, Subject, combineLatest } from "rxjs";
 import { FrontendSettingsService } from "src/app/service/frontend-settings.service";
 import { ResponsiveScreenService } from "src/app/service/responsive-screen.service";
-import { LIGHTBOX_SETTINGS } from "src/app/shared/lightbox";
 import { SettingKeys } from "src/app/shared/model/internal/frontend-settings";
 import { QueueTrack } from "src/app/shared/model/queue-track";
 
@@ -14,7 +11,7 @@ import { QueueTrack } from "src/app/shared/model/queue-track";
   templateUrl: "./cover-image.component.html",
   styleUrls: ["./cover-image.component.scss"],
 })
-export class CoverImageComponent implements OnInit, AfterViewChecked {
+export class CoverImageComponent implements OnInit {
   @Input() set track(track: QueueTrack) {
     this.track$.next(track);
   }
@@ -22,12 +19,10 @@ export class CoverImageComponent implements OnInit, AfterViewChecked {
     this.state$.next(state);
   }
 
-  lightboxSettings = LIGHTBOX_SETTINGS;
   isDisplayCover: Observable<boolean>;
   coverSizeClass: Observable<string>;
   currTrack: Observable<QueueTrack>;
 
-  private lightGallery!: LightGallery;
   private state$ = new BehaviorSubject<string>("stop");
   private track$ = new Subject<QueueTrack>();
   private displayCover$ = new BehaviorSubject<boolean>(false);
@@ -41,16 +36,6 @@ export class CoverImageComponent implements OnInit, AfterViewChecked {
     this.coverSizeClass = this.responsiveCoverSizeService.getCoverCssClass();
     this.currTrack = this.track$.asObservable();
   }
-
-  ngAfterViewChecked(): void {
-    if (this.lightGallery) {
-      this.lightGallery.refresh();
-    }
-  }
-
-  onInit = (detail: InitDetail): void => {
-    this.lightGallery = detail.instance;
-  };
 
   ngOnInit(): void {
     this.buildCover();

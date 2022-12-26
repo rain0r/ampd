@@ -1,4 +1,4 @@
-<div *ngIf="trackTableDataObs | async as trackTableData" class="track-table">
+<div *ngIf="trackTableDataObs | async as trackTableData">
   <table
     (cdkDropListDropped)="onListDrop($event)"
     [cdkDropListData]="trackTableData.dataSource.data"
@@ -6,6 +6,7 @@
     [dataSource]="trackTableData.dataSource"
     *ngIf="trackTableData.dataSource.data.length > 0"
     cdkDropList
+    class="table-auto"
     mat-table
     matSort
     matSortDisableClear
@@ -43,7 +44,7 @@
       <td
         (click)="onRowClick(row)"
         *matCellDef="let row"
-        class="truncate"
+        class=""
         mat-cell
         [title]="row.artistName"
       >
@@ -74,7 +75,7 @@
       <td
         (click)="onRowClick(row)"
         *matCellDef="let row"
-        class="truncate"
+        class=""
         mat-cell
         [title]="row.albumName"
       >
@@ -95,7 +96,7 @@
       <td
         (click)="onRowClick(row)"
         *matCellDef="let row"
-        class="truncate"
+        class=""
         mat-cell
         [title]="row.title"
       >

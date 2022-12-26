@@ -29,8 +29,8 @@
     </button>
     <span
       class="text-muted self-center"
-      *ngIf="trackTableData.dataSource.data.length > 0"
-      >{{ trackTableData.dataSource.data.length }} tracks found.</span
+      *ngIf="trackTableData.totalElements > 0"
+      >{{ trackTableData.totalElements }} tracks found.</span
     >
   </div>
 </form>

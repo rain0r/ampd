@@ -16,7 +16,7 @@
       <span>Search</span>
     </button>
     <button mat-raised-button (click)="form.reset()" type="button">
-      <mat-icon> clear</mat-icon><span>Clear</span>
+      <mat-icon> delete</mat-icon><span>Clear queue</span>
     </button>
     <button
       (click)="onAddAll()"
@@ -27,6 +27,11 @@
       <mat-icon> add</mat-icon>
       <span> Add all </span>
     </button>
+    <span
+      class="text-muted self-center"
+      *ngIf="trackTableData.dataSource.data.length > 0"
+      >{{ trackTableData.dataSource.data.length }} tracks found.</span
+    >
   </div>
 </form>
 

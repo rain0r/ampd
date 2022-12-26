@@ -44,7 +44,6 @@ body {
 
 .page-title {
   @extend .heading-2;
-  @extend .clickable;
   @apply pb-8;
 }
 

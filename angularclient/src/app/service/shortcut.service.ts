@@ -97,6 +97,12 @@ export class ShortcutService {
       "Navigate to radio streams",
       ["u"]
     ),
+    this.build(
+      Category.Navigation,
+      () => void this.router.navigate(["/adv-search"]),
+      "Advanced Search",
+      ["v"]
+    ),
     // MPD modes
     this.build(
       Category.Modes,

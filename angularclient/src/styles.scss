@@ -91,3 +91,7 @@ mat-toolbar > div > .mat-mdc-button-base.mat-accent {
 .now-playing-row {
   background: var(--accent-color) !important;
 }
+
+.album-item-figure:hover {
+  border: 1px solid var(--border-color);
+}

@@ -2,17 +2,9 @@ import { ViewportScroller } from "@angular/common";
 import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import { PageEvent } from "@angular/material/paginator";
 import { ActivatedRoute, Router } from "@angular/router";
-import { BehaviorSubject, combineLatest, Observable, of } from "rxjs";
-import {
-  bufferTime,
-  distinctUntilChanged,
-  filter,
-  map,
-  startWith,
-  switchMap,
-} from "rxjs/operators";
+import { BehaviorSubject, Observable, combineLatest, of } from "rxjs";
+import { filter, map, startWith, switchMap, tap } from "rxjs/operators";
 import { AlbumsService } from "src/app/service/albums.service";
-import { FrontendSettingsService } from "src/app/service/frontend-settings.service";
 import { MsgService } from "src/app/service/msg.service";
 import { PaginatedResponse } from "src/app/shared/messages/incoming/paginated-response";
 import {
@@ -20,7 +12,6 @@ import {
   PaginationMsg,
 } from "src/app/shared/messages/internal/internal-msg";
 import { MpdAlbum } from "src/app/shared/model/http/album";
-import { SettingKeys } from "src/app/shared/model/internal/frontend-settings";
 
 interface SortByKey {
   value: string;
@@ -34,12 +25,11 @@ interface SortByKey {
 })
 export class AlbumsComponent implements OnInit {
   @ViewChild("filterInputElem") filterInputElem?: ElementRef;
-  darkTheme: Observable<boolean>;
   filter = "";
   isLoading = new BehaviorSubject(true);
   pagedAlbums$ = new Observable<PaginatedResponse<MpdAlbum>>();
-  selected = "";
-  sortBy$ = new Observable<string>();
+  sortBy = "";
+  searchTerm = "";
   sortByKeys: SortByKey[] = [
     { value: "artist", viewValue: "Artist" },
     { value: "album", viewValue: "Album" },
@@ -51,18 +41,12 @@ export class AlbumsComponent implements OnInit {
   constructor(
     private activatedRoute: ActivatedRoute,
     private albumService: AlbumsService,
-    private frontendSettingsService: FrontendSettingsService,
     private msgService: MsgService,
     private router: Router,
     private viewportScroller: ViewportScroller
-  ) {
-    this.darkTheme = this.frontendSettingsService.getBoolValue$(
-      SettingKeys.DARK_THEME
-    );
-  }
+  ) {}
 
   ngOnInit(): void {
-    this.buildQueryParamListener();
     this.buildInputListener();
   }
 
@@ -72,7 +56,7 @@ export class AlbumsComponent implements OnInit {
       this.inputSetter$.next(inputValue);
       void this.router.navigate([], {
         relativeTo: this.activatedRoute,
-        queryParams: { search_term: inputValue },
+        queryParams: { searchTerm: inputValue },
         queryParamsHandling: "merge",
       });
     } else {
@@ -95,28 +79,37 @@ export class AlbumsComponent implements OnInit {
   }
 
   private buildInputListener() {
-    const searchInput = this.inputSetter$.asObservable().pipe(
-      bufferTime(1500),
-      distinctUntilChanged(),
-      filter((times: string[]) => times.length > 0),
-      map((input: string[]) => input[input.length - 1])
+    // const searchInput = this.inputSetter$.asObservable().pipe(
+    //   bufferTime(1500),
+    //   distinctUntilChanged(),
+    //   filter((times: string[]) => times.length > 0),
+    //   map((input: string[]) => input[input.length - 1])
+    // );
+
+    const pagination = this.msgService.message.pipe(
+      filter((msg) => msg.type === InternMsgType.PaginationEvent),
+      map((msg) => <PaginationMsg>msg),
+      map((msg) => msg.event)
+    );
+    const sortBy = this.activatedRoute.queryParamMap.pipe(
+      map((queryParamMap) => String(queryParamMap.get("sortBy")) || ""),
+      tap((sortBy) => (this.sortBy = sortBy))
+    );
+    const searchTerm = this.activatedRoute.queryParamMap.pipe(
+      map((queryParamMap) => String(queryParamMap.get("searchTerm")) || ""),
+      tap((searchTerm) => (this.searchTerm = searchTerm))
     );
 
     combineLatest([
-      this.msgService.message.pipe(
-        filter((msg) => msg.type === InternMsgType.PaginationEvent),
-        map((msg) => <PaginationMsg>msg),
-        map((msg) => msg.event),
-        startWith({ pageIndex: null, pageSize: null })
-      ),
-      searchInput,
-      this.sortBy$.pipe(startWith(null)),
+      pagination.pipe(startWith({ pageIndex: null, pageSize: null })),
+      sortBy.pipe(),
+      searchTerm.pipe(),
     ])
       .pipe(
-        switchMap(([pagination, searchInput, sortBy]) => {
+        switchMap(([pagination, sortBy, searchTerm]) => {
           this.isLoading.next(true);
           return this.albumService.getAlbums(
-            searchInput,
+            searchTerm,
             pagination.pageIndex,
             sortBy
           );
@@ -137,13 +130,5 @@ export class AlbumsComponent implements OnInit {
       event: $event,
     } as PaginationMsg);
     this.pagedAlbums$ = new Observable<PaginatedResponse<MpdAlbum>>();
-  }
-
-  private buildQueryParamListener() {
-    this.sortBy$ = this.activatedRoute.queryParamMap.pipe(
-      map((qp) => qp.get("sortBy") || ""),
-      distinctUntilChanged()
-    );
-    this.sortBy$.subscribe((sort) => (this.selected = sort));
   }
 }

@@ -3,13 +3,10 @@
 <div class="page-title">Albums</div>
 
 <div class="flex flex-col md:flex-row justify-between">
-  <mat-form-field
-    appearance="fill"
-    [ngClass]="{ 'dark-theme': darkTheme | async }"
-  >
+  <mat-form-field appearance="fill">
     <mat-label>Sort by</mat-label>
     <mat-select
-      [(ngModel)]="selected"
+      [(ngModel)]="sortBy"
       name="sortByKey"
       (selectionChange)="onSortBy($event.value)"
     >
@@ -26,14 +23,15 @@
   <div>
     <mat-form-field>
       <input
-        #searchInput
-        matInput
-        placeholder="Filter albums"
-        autocomplete="off"
-        type="text"
-        [(ngModel)]="filter"
         (keydown.escape)="resetFilter()"
         (keyup)="applyFilter($event.target)"
+        [(ngModel)]="filter"
+        #searchInput
+        autocomplete="off"
+        matInput
+        placeholder="Filter albums"
+        type="text"
+        [value]="searchTerm"
       />
       <button
         *ngIf="filter"

@@ -43,8 +43,9 @@
       <td
         (click)="onRowClick(row)"
         *matCellDef="let row"
-        class="break-all"
+        class="truncate"
         mat-cell
+        [title]="row.artistName"
       >
         <span
           *ngIf="
@@ -73,8 +74,9 @@
       <td
         (click)="onRowClick(row)"
         *matCellDef="let row"
-        class="break-all"
+        class="truncate"
         mat-cell
+        [title]="row.albumName"
       >
         {{ row.albumName }}
       </td>
@@ -93,8 +95,9 @@
       <td
         (click)="onRowClick(row)"
         *matCellDef="let row"
-        class="break-all"
+        class="truncate"
         mat-cell
+        [title]="row.title"
       >
         {{ row.title }}
       </td>

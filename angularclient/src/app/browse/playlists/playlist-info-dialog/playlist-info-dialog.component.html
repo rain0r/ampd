@@ -6,22 +6,22 @@
   <div *ngIf="playlistInfo | async as info">
     {{ info.tracks.totalElements }} tracks
   </div>
+</div>
 
-  <div mat-dialog-content>
-    <div class="grid place-items-center" *ngIf="isLoadingResults | async">
-      <mat-spinner></mat-spinner>
-    </div>
-    <app-track-data-table
-      *ngIf="(isLoadingResults | async) === false"
-      [trackTableData]="trackTableData"
-    ></app-track-data-table>
+<div mat-dialog-content>
+  <div class="grid place-items-center" *ngIf="isLoadingResults | async">
+    <mat-spinner></mat-spinner>
   </div>
+  <app-track-data-table
+    *ngIf="(isLoadingResults | async) === false"
+    [trackTableData]="trackTableData"
+  ></app-track-data-table>
+</div>
 
-  <div mat-dialog-actions align="end">
-    <button mat-stroked-button (click)="onDeletePlaylist()" color="warn">
-      Delete
-    </button>
-    <button mat-stroked-button (click)="onAddPlaylist()">Add</button>
-    <button mat-stroked-button matDialogClose>Close</button>
-  </div>
+<div mat-dialog-actions align="end">
+  <button mat-stroked-button (click)="onDeletePlaylist()" color="warn">
+    Delete
+  </button>
+  <button mat-stroked-button (click)="onAddPlaylist()">Add</button>
+  <button mat-stroked-button matDialogClose>Close</button>
 </div>

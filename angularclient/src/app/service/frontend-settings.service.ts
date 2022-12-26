@@ -1,14 +1,13 @@
 import { Injectable } from "@angular/core";
-import { BehaviorSubject, map, Observable } from "rxjs";
+import { BehaviorSubject, Observable, map } from "rxjs";
 import {
+  SettingKeys,
   backendAddr,
   darkTheme,
   displayCovers,
   displayInfoBtn,
-  SettingKeys,
   updateTabTitle,
 } from "../shared/model/internal/frontend-settings";
-import { DarkTheme, LightTheme } from "../shared/themes/themes";
 import { FrontendSetting } from "./../shared/model/internal/frontend-settings";
 
 const LS_KEY = "ampd_userSettings";
@@ -31,29 +30,18 @@ export class FrontendSettingsService {
 
   constructor() {
     this.settingsSub$ = new BehaviorSubject<FrontendSetting[]>(
-      this.loadFrontendSettingsNg()
+      this.loadFrontendSettings()
     );
     this.settings$ = this.settingsSub$.asObservable();
-    this.getBoolValue$(SettingKeys.DARK_THEME).subscribe((isDark) =>
-      this.setTheme(isDark)
-    );
   }
 
   save(name: string, value: string | number | boolean): void {
     const index = this.settings.findIndex((s) => s.name === name);
-
     if (index === -1) {
       console.error("Could not find frontend setting with name: ", name);
       return;
     }
-
     this.settings[index].value = String(value);
-
-    if (this.settings[index].name === SettingKeys.DARK_THEME) {
-      // Apply the new theme immediately
-      this.setTheme(value === "true");
-    }
-
     this.persist();
     this.settingsSub$.next(this.settings);
   }
@@ -85,7 +73,7 @@ export class FrontendSettingsService {
     return elem ? elem.value === "true" : false;
   }
 
-  loadFrontendSettingsNg(): FrontendSetting[] {
+  loadFrontendSettings(): FrontendSetting[] {
     const lsData = localStorage.getItem(LS_KEY) || "";
     try {
       const savedSettings = <FrontendSetting[]>JSON.parse(lsData);
@@ -104,6 +92,10 @@ export class FrontendSettingsService {
     return this.settings;
   }
 
+  reset(): void {
+    localStorage.setItem(LS_KEY, "");
+  }
+
   private getValue$(key: SettingKeys): Observable<FrontendSetting> {
     return this.settings$.pipe(
       map((s) => {
@@ -120,12 +112,5 @@ export class FrontendSettingsService {
 
   private persist(): void {
     localStorage.setItem(LS_KEY, JSON.stringify(this.settings));
-  }
-
-  private setTheme(isDarkTheme: boolean): void {
-    const theme = isDarkTheme ? DarkTheme : LightTheme;
-    theme.forEach((value, prop) => {
-      document.documentElement.style.setProperty(prop, value);
-    });
   }
 }

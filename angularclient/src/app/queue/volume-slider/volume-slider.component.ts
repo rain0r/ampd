@@ -1,8 +1,8 @@
 import { Component } from "@angular/core";
-import { MatSliderChange } from "@angular/material/slider";
+
 import { Observable } from "rxjs";
+import { MpdService } from "src/app/service/mpd.service";
 import { VolumeService } from "../../service/volume.service";
-import { AmpdRxStompService } from "./../../service/ampd-rx-stomp.service";
 
 @Component({
   selector: "app-volume-slider",
@@ -11,21 +11,20 @@ import { AmpdRxStompService } from "./../../service/ampd-rx-stomp.service";
 })
 export class VolumeSliderComponent {
   volume = 0;
-  connState: Observable<number>;
+  connected$: Observable<boolean>;
+  state$: Observable<string>;
 
   constructor(
-    private volumeService: VolumeService,
-    private rxStompService: AmpdRxStompService
+    private mpdService: MpdService,
+    private volumeService: VolumeService
   ) {
     volumeService.volume.subscribe((volume) => (this.volume = volume));
-    this.connState = this.rxStompService.connectionState$;
+    this.connected$ = this.mpdService.isConnected$();
+    this.state$ = this.mpdService.currentState$;
   }
 
-  handleVolumeSlider(event: MatSliderChange): void {
-    if (event.value) {
-      this.volume = event.value;
-    }
-    this.volumeService.setVolume(event.value);
-    event.source.blur();
+  handleVolumeSlider(value: number): void {
+    this.volume = value;
+    this.volumeService.setVolume(value);
   }
 }

@@ -1,8 +1,8 @@
 import { Component } from "@angular/core";
-import { MpdModesPanel } from "../../shared/messages/incoming/mpd-modes-panel";
-import { MpdService } from "../../service/mpd.service";
+import { Observable, startWith } from "rxjs";
 import { MpdModeService } from "../../service/mpd-mode.service";
-import { Observable } from "rxjs";
+import { MpdService } from "../../service/mpd.service";
+import { MpdModesPanel } from "../../shared/messages/incoming/mpd-modes-panel";
 
 @Component({
   selector: "app-mpd-modes",
@@ -10,13 +10,23 @@ import { Observable } from "rxjs";
   styleUrls: ["./mpd-mode.component.scss"],
 })
 export class MpdModeComponent {
+  connected$: Observable<boolean>;
   mpdModesPanel: Observable<MpdModesPanel>;
 
   constructor(
     private mpdModeService: MpdModeService,
     private mpdService: MpdService
   ) {
-    this.mpdModesPanel = this.mpdService.mpdModesPanel$;
+    this.connected$ = this.mpdService.isConnected$();
+    this.mpdModesPanel = this.mpdService.mpdModesPanel$.pipe(
+      startWith({
+        consume: false,
+        crossfade: false,
+        random: false,
+        repeat: false,
+        single: false,
+      } as MpdModesPanel)
+    );
   }
 
   toggleCtrl(key: string): void {

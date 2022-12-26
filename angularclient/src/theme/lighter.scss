@@ -1,0 +1,35 @@
+@use "@angular/material" as mat;
+
+@include mat.core();
+
+$primary-palette: mat.define-palette(mat.$indigo-palette);
+$accent-palette: mat.define-palette(mat.$pink-palette);
+$warn-palette: mat.define-palette(mat.$red-palette);
+
+$accent-color: #ff4081;
+$body-background-color: #fafafa;
+$border-color: rgba(0, 0, 0, 0.12);
+$hover-background-color: rgba(0, 0, 0, 0.03);
+$primary-text: black;
+$second-background-color: white;
+
+$light-theme: mat.define-light-theme(
+  (
+    color: (
+      primary: $primary-palette,
+      accent: $accent-palette,
+      warn: $warn-palette,
+    ),
+  )
+);
+
+@include mat.all-component-themes($light-theme);
+
+:root {
+  --accent-color: #{$accent-color};
+  --body-background-color: #{$body-background-color};
+  --border-color: #{$border-color};
+  --hover-background-color: #{$hover-background-color};
+  --primary-text: #{$primary-text};
+  --second-background-color: #{$second-background-color};
+}

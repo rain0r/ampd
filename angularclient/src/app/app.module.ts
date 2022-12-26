@@ -2,16 +2,12 @@ import { ScrollingModule } from "@angular/cdk/scrolling";
 import { Location } from "@angular/common";
 import { HttpClientModule } from "@angular/common/http";
 import { ErrorHandler, NgModule } from "@angular/core";
-import { FlexLayoutModule } from "@angular/flex-layout";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { MAT_DIALOG_DEFAULT_OPTIONS } from "@angular/material/dialog";
 import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
-import { LightgalleryModule } from "lightgallery/angular";
-import { FrontendSettingsService } from "src/app/service/frontend-settings.service";
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
-import { AddStreamDialogComponent } from "./browse/add-radio-stream/add-radio-stream.component";
+import { AddStreamComponent } from "./browse/add-radio-stream/add-radio-stream.component";
 import { RadioStreamListComponent } from "./browse/add-radio-stream/radio-stream-list/radio-stream-list.component";
 import { AlbumDialogComponent } from "./browse/albums/album-dialog/album-dialog.component";
 import { AlbumItemComponent } from "./browse/albums/album-item/album-item.component";
@@ -38,6 +34,7 @@ import { QueueHeaderComponent } from "./queue/queue-header/queue-header.componen
 import { QueueComponent } from "./queue/queue.component";
 import { SavePlaylistDialogComponent } from "./queue/save-playlist-dialog/save-playlist-dialog.component";
 import { TrackProgressComponent } from "./queue/track-progress/track-progress.component";
+import { AddStreamDialogComponent } from "./queue/track-table/add-stream-dialog/add-stream-dialog.component";
 import { TrackTableComponent } from "./queue/track-table/track-table.component";
 import { VolumeSliderComponent } from "./queue/volume-slider/volume-slider.component";
 import { AdvancedSearchComponent } from "./search/advanced-search/advanced-search.component";
@@ -48,11 +45,11 @@ import { SettingsService } from "./service/settings.service";
 import { ServerStatisticsComponent } from "./settings/admin/server-statistics/server-statistics.component";
 import { UpdateDatabaseComponent } from "./settings/admin/update-database/update-database.component";
 import { SettingsComponent } from "./settings/settings.component";
+import { AlbumCoverDialogComponent } from "./shared/album-cover-dialog/album-cover-dialog.component";
 import { AmpdErrorHandler } from "./shared/ampd-error-handler";
 import { ErrorDialogComponent } from "./shared/error/error-dialog/error-dialog.component";
 import { KeyValueTableComponent } from "./shared/key-value-table/key-value-table.component";
 import { MaterialMetaModule } from "./shared/material-meta/material-meta.module";
-import { SettingKeys } from "./shared/model/internal/frontend-settings";
 import { CamelCaseTitlePipe } from "./shared/pipes/camel-case-title.pipe";
 import { EncodeURIComponentPipe } from "./shared/pipes/encode-uri.pipe";
 import { FileSizePipe } from "./shared/pipes/file-size.pipe";
@@ -64,15 +61,13 @@ import { MapEntriesPipe } from "./shared/pipes/map-entries.pipe";
 import { ReplaceNullWithTextPipe } from "./shared/pipes/replace-null-with-text.pipe";
 import { SecondsToHhMmSsPipe } from "./shared/pipes/seconds-to-hh-mm-ss.pipe";
 import { SecondsToMmSsPipe } from "./shared/pipes/seconds-to-mm-ss.pipe";
+import { StyleManager } from "./shared/style-manager";
 import { TrackTableDataComponent } from "./shared/track-table-data/track-table-data.component";
 
-function isDarkTheme(service: FrontendSettingsService): unknown {
-  return {
-    panelClass: service.getBoolValue(SettingKeys.DARK_THEME)
-      ? "dark-theme"
-      : "",
-  };
-}
+const prefersReducedMotion =
+  typeof matchMedia === "function"
+    ? matchMedia("(prefers-reduced-motion)").matches
+    : false;
 
 @NgModule({
   declarations: [
@@ -104,7 +99,7 @@ function isDarkTheme(service: FrontendSettingsService): unknown {
     HelpDialogComponent,
     MapEntriesPipe,
     ServerStatisticsComponent,
-    AddStreamDialogComponent,
+    AddStreamComponent,
     UpdateDatabaseComponent,
     DirectoryFilterStartLetterPipe,
     PlaylistEntryComponent,
@@ -125,24 +120,27 @@ function isDarkTheme(service: FrontendSettingsService): unknown {
     CoverImageComponent,
     DynamicFormInputComponent,
     AdvancedSearchComponent,
+    AddStreamDialogComponent,
+    AlbumCoverDialogComponent,
   ],
   imports: [
     AppRoutingModule,
-    BrowserAnimationsModule,
+    BrowserAnimationsModule.withConfig({
+      disableAnimations: prefersReducedMotion,
+    }),
     BrowserModule,
-    FlexLayoutModule,
     FormsModule,
     HttpClientModule,
     ReactiveFormsModule,
     ScrollingModule,
     BrowserModule,
-    LightgalleryModule,
     MaterialMetaModule,
   ],
   providers: [
     CamelCaseTitlePipe,
     SecondsToMmSsPipe,
     ReplaceNullWithTextPipe,
+    StyleManager,
     {
       provide: AmpdRxStompService,
       useFactory: (location: Location, settingsService: SettingsService) => {
@@ -157,11 +155,6 @@ function isDarkTheme(service: FrontendSettingsService): unknown {
     {
       provide: ErrorHandler,
       useClass: AmpdErrorHandler,
-    },
-    {
-      provide: MAT_DIALOG_DEFAULT_OPTIONS,
-      useFactory: isDarkTheme,
-      deps: [FrontendSettingsService],
     },
   ],
   bootstrap: [AppComponent],

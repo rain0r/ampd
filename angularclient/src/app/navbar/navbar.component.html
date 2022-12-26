@@ -1,46 +1,44 @@
-<div
-  class="app-main mat-app-background"
-  [ngClass]="{ 'dark-theme': darkTheme | async }"
->
-  <mat-toolbar class="toolbar" color="primary">
+<mat-toolbar color="primary">
+  <div class="w-full flex flex-row justify-start md:gap-x-6 md:px-16">
     <!-- Queue -->
     <a
-      mat-button
       [routerLink]="['']"
-      routerLinkActive="mat-accent"
       [routerLinkActiveOptions]="{ exact: true }"
+      mat-button
+      routerLinkActive="mat-accent"
     >
       <mat-icon>format_list_bulleted</mat-icon>
-      <span fxHide.lt-md> Queue </span>
+      <span class="hidden md:inline"> Queue </span>
     </a>
 
     <!-- Browse -->
-    <a mat-button [routerLink]="['/browse']" routerLinkActive="mat-accent">
+    <button mat-button [routerLink]="['/browse']" routerLinkActive="mat-accent">
       <mat-icon>folder_open</mat-icon>
-      <span fxHide.lt-md> Browse </span>
-    </a>
+      <span class="hidden md:inline"> Browse </span>
+    </button>
 
     <!-- Search -->
     <button mat-button [routerLink]="['/search']" routerLinkActive="mat-accent">
       <mat-icon>search</mat-icon>
-      <span fxHide.lt-md> Search </span>
+      <span class="hidden md:inline"> Search </span>
     </button>
 
     <!-- Settings -->
     <a mat-button [routerLink]="['/settings']" routerLinkActive="mat-accent">
       <mat-icon>settings</mat-icon>
-      <span fxHide.lt-md> Settings </span>
+      <span class="hidden md:inline"> Settings </span>
     </a>
 
-    <div fxFlex></div>
-    <a
+    <div class="flex-grow"></div>
+
+    <span
       [routerLink]="['/']"
-      fxHide.lt-md
-      class="mono space-right clickable"
-      style="color: white !important"
-      >ampd</a
+      class="hidden md:inline md:px-2 font-mono self-center"
+      title="You are using ampd — nice!"
+      >ampd</span
     >
-    <div [ngSwitch]="connState | async" fxLayoutAlign="center center">
+
+    <div mat-button [ngSwitch]="connState | async" class="self-center mr-4">
       <mat-spinner
         color="accent"
         diameter="30"
@@ -56,16 +54,17 @@
       ></mat-spinner>
       <mat-icon *ngSwitchDefault title="Disconnected">cloud_off</mat-icon>
     </div>
-    <mat-icon
-      #helpIcon
-      fxHide.lt-md
-      class="help-icon"
-      (click)="openHelpDialog()"
-      title="Show shortcut help"
-      >help</mat-icon
-    >
-  </mat-toolbar>
-  <div class="app-content" [ngClass]="{ 'dark-theme': darkTheme | async }">
-    <router-outlet></router-outlet>
+    <span *ngIf="(connState | async) !== 1" class="not-connected">
+      Not connected to ampd server
+    </span>
+
+    <div class="hidden md:inline self-center clickable">
+      <mat-icon #helpIcon (click)="openHelpDialog()" title="Show shortcut help"
+        >help</mat-icon
+      >
+    </div>
   </div>
+</mat-toolbar>
+<div class="md:py-1 md:px-24">
+  <router-outlet></router-outlet>
 </div>

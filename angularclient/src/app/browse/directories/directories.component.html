@@ -1,72 +1,64 @@
-<div class="mat-h3 text-muted">
-  <!-- Root directory -->
-  <div fxLayout="row" fxLayoutGap="0.5rem" fxLayoutAlign="baseline center">
-    <div
-      fxLayout="row"
-      fxFlex
-      fxLayoutGap="0.5rem"
-      fxLayoutAlign.lt-md="center center"
-    >
-      <mat-icon>folder_open</mat-icon>
-      <span *ngIf="dirQp === '/'; else dirName"> Directories </span>
-      <ng-template #dirName>
-        <span class="dir-prefix">Directory</span>
-        <span class="dir-qp">{{ dirQpLabel }}</span>
-      </ng-template>
-    </div>
-    <div fxHide.lt-md></div>
+<div class="browse-title">
+  <mat-icon>folder_open</mat-icon>
+  <span *ngIf="dirQp === '/'; else dirName"> Directories </span>
+  <ng-template #dirName>
+    <span class="dir-prefix">Directory</span>
+    <span class="dir-qp">{{ dirQpLabel }}</span>
+  </ng-template>
+  <div class="flex-grow"></div>
+  <mat-icon
+    (click)="toggleFilter()"
+    *ngIf="dirQp === '/'"
+    class="clickable"
+    title="Filter directories by their starting letter"
+    >filter_list
+  </mat-icon>
+</div>
+<div *ngIf="filterVisible">
+  <mat-divider></mat-divider>
+  <div class="flex flex-row justify-between mb-2 tracking-tight text-sm">
     <mat-icon
-      class="clickable"
-      (click)="toggleFilter()"
-      *ngIf="dirQp === '/'"
-      title="Filter directories by their starting letter"
-      >filter_list
+      (click)="setStartLetterFilter('')"
+      class="clickable accent-text-hover"
+      >clear
     </mat-icon>
-  </div>
-  <div *ngIf="filterVisible">
-    <mat-divider></mat-divider>
-    <div fxLayout="row wrap" fxLayoutAlign="space-between center">
-      <mat-icon
-        class="clickable accent-text-hover"
-        (click)="setStartLetterFilter('')"
-        >clear
-      </mat-icon>
-      <span
-        class="clickable accent-text-hover"
-        [class.accent-text]="filterByStartCharValue === letter"
-        *ngFor="let letter of letters"
-        (click)="setStartLetterFilter(letter)"
-        >{{ letter }}</span
-      >
-    </div>
+    <span
+      (click)="setStartLetterFilter(letter)"
+      [class.accent-text]="filterByStartCharValue === letter"
+      *ngFor="let letter of letters"
+      class="clickable accent-text-hover"
+      >{{ letter }}</span
+    >
   </div>
 </div>
 
-<app-directory-entry
-  *ngFor="
-    let directory of directories
-      | directoryFilter: filterValue
-      | directoryFilterStartLetterPipe: filterByStartCharValue
-      | slice: paginationFrom:paginationTo
-  "
-  [directory]="directory"
-></app-directory-entry>
+<div class="flex flex-col gap-y-2">
+  <app-directory-entry
+    *ngFor="
+      let directory of directories
+        | directoryFilter: filterValue
+        | directoryFilterStartLetterPipe: filterByStartCharValue
+        | slice: paginationFrom:paginationTo
+    "
+    [directory]="directory"
+  ></app-directory-entry>
 
-<mat-paginator
-  *ngIf="
-    (directories | directoryFilter: filterValue).length > 0 &&
-    paginationTo - paginationFrom <
-      (directories | directoryFilter: filterValue).length
-  "
-  [length]="directories.length"
-  (page)="getPaginatorData($event)"
-  [pageSizeOptions]="pageSizeOptions"
-  showFirstLastButtons="true"
-  [pageSize]="paginationTo - paginationFrom"
->
-</mat-paginator>
-
-<mat-divider class="divider"></mat-divider>
+  <mat-paginator
+    *ngIf="
+      (directories | directoryFilter: filterValue).length > 0 &&
+      paginationTo - paginationFrom <
+        (directories | directoryFilter: filterValue).length
+    "
+    [length]="directories.length"
+    (page)="getPaginatorData($event)"
+    [pageSizeOptions]="pageSizeOptions"
+    showFirstLastButtons="true"
+    [pageSize]="paginationTo - paginationFrom"
+  >
+  </mat-paginator>
+</div>
 
 <!-- Cover grid -->
-<app-cover-grid [directories]="directories" [dirQp]="dirQp"></app-cover-grid>
+<div class="pt-4">
+  <app-cover-grid [directories]="directories" [dirQp]="dirQp"></app-cover-grid>
+</div>

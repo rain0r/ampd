@@ -1,27 +1,30 @@
 <div
-  fxLayout="row wrap"
-  fxLayoutAlign="center center"
-  fxLayoutAlign.lt-md="space-between"
-  fxFlex.lt-md="100%"
-  fxLayoutGap.gt-md="0.75rem"
+  class="flex flex-wrap justify-between items-center md:justify-start md:gap-x-2"
 >
   <!--Return to top -->
-  <div>
-    <button mat-raised-button [routerLink]="['/browse']">
+  <div class="self-center">
+    <button
+      [routerLink]="['/browse']"
+      [routerLinkActiveOptions]="{ exact: true }"
+      mat-raised-button
+      routerLinkActive="mat-accent"
+      title="Go to base directory"
+    >
       <mat-icon>home</mat-icon>
-      <span fxHide.lt-md>Top</span>
+      <span class="hidden md:inline">Top</span>
     </button>
   </div>
 
   <!--Go one dir up -->
   <div *ngIf="getParamDir !== '/'">
     <button
-      mat-raised-button
-      [routerLink]="['/browse']"
       [queryParams]="{ dir: dirUp$ | async }"
+      [routerLink]="['/browse']"
+      mat-raised-button
+      title="Go one directory up"
     >
       <mat-icon>expand_less</mat-icon>
-      <span fxHide.lt-md>Return</span>
+      <span class="hidden md:inline">Return</span>
     </button>
   </div>
 
@@ -29,84 +32,89 @@
   <div *ngIf="getParamDir !== '/'">
     <button mat-raised-button (click)="onAddDir(getParamDir)">
       <mat-icon> add</mat-icon>
-      <span fxHide.lt-md>Add all</span>
+      <span class="hidden md:inline">Add all</span>
     </button>
   </div>
 
   <!--Play all-->
   <div *ngIf="getParamDir !== '/'">
-    <button mat-raised-button (click)="onPlayDir(getParamDir)">
+    <button mat-raised-button (click)="onPlayDir(getParamDir)" title="Play all">
       <mat-icon> play_arrow</mat-icon>
-      <span fxHide.lt-md>Play all</span>
-    </button>
-  </div>
-
-  <!--Clear queue-->
-  <div>
-    <button mat-raised-button (click)="onClearQueue()">
-      <mat-icon>delete</mat-icon>
-      <span fxHide.lt-md>Clear queue</span>
+      <span class="hidden md:inline">Play all</span>
     </button>
   </div>
 
   <!-- Albums -->
   <div *ngIf="getParamDir === '/'">
     <button
-      mat-raised-button
       [routerLink]="['/browse/albums']"
+      mat-raised-button
       routerLinkActive="mat-accent"
+      title="Go to albums"
     >
       <mat-icon>album</mat-icon>
-      <span fxHide.lt-md> Albums </span>
+      <span class="hidden md:inline"> Albums </span>
     </button>
   </div>
 
   <!-- Genres -->
   <div *ngIf="getParamDir === '/'">
     <button
-      mat-raised-button
       [routerLink]="['/browse/genres']"
+      mat-raised-button
       routerLinkActive="mat-accent"
+      title="Go to genres"
     >
       <mat-icon>local_offer</mat-icon>
-      <span fxHide.lt-md> Genres </span>
+      <span class="hidden md:inline"> Genres </span>
     </button>
   </div>
 
   <!-- Radio Streams -->
   <div *ngIf="getParamDir === '/'">
     <button
-      mat-raised-button
       [routerLink]="['/browse/radio-streams']"
+      mat-raised-button
       routerLinkActive="mat-accent"
+      title="Go to radio streams"
     >
       <mat-icon>radio</mat-icon>
-      <span fxHide.lt-md> Radio </span>
+      <span class="hidden md:inline"> Radio </span>
     </button>
   </div>
 
-  <div fxFlex fxFlex.lt-md="100%"></div>
+  <!--Clear queue-->
+  <div>
+    <button mat-raised-button (click)="onClearQueue()" title="Clear the queue">
+      <mat-icon>delete</mat-icon>
+      <span class="hidden md:inline">Clear queue</span>
+    </button>
+  </div>
+
+  <div class="md:flex-grow"></div>
 
   <!--Filter-->
-  <div fxLayoutAlign="center center" fxFlex="30%" fxFlex.lt-md="100%">
+  <div
+    class="w-full md:w-1/3"
+    [class.invisible]="(filterDisabled$ | async) === false"
+  >
     <mat-form-field>
       <mat-label>Filter</mat-label>
       <input
-        #filterInputElem
         (keydown.escape)="resetFilter()"
         (keyup)="applyFilter($event.target)"
         [(ngModel)]="filter"
+        [disabled]="(filterDisabled$ | async) === false"
+        #filterInputElem
         autocomplete="off"
         matInput
         placeholder="Press 'f' to jump here"
         type="text"
-        [disabled]="(filterDisabled$ | async) === false"
       />
       <button
         (click)="filter = ''; resetFilter()"
         *ngIf="filter"
         aria-label="Clear"
-        mat-button
         mat-icon-button
         matSuffix
       >
@@ -115,4 +123,7 @@
     </mat-form-field>
   </div>
 </div>
-<mat-divider></mat-divider>
+
+<div class="mb-6">
+  <mat-divider></mat-divider>
+</div>

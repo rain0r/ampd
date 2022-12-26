@@ -1,11 +1,11 @@
 import { Component, OnInit } from "@angular/core";
-import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
+import { MatDialog } from "@angular/material/dialog";
 import {
   BehaviorSubject,
+  Observable,
   combineLatest,
   first,
   map,
-  Observable,
   of,
   switchMap,
 } from "rxjs";
@@ -24,10 +24,11 @@ import { QueueService } from "../../service/queue.service";
   styleUrls: ["./control-panel.component.scss"],
 })
 export class ControlPanelComponent implements OnInit {
+  connected$: Observable<boolean>;
   currentState: Observable<string>;
+  displayInfoBtn: Observable<boolean>;
   isMobile = new Observable<boolean>();
   queueTrackCount: Observable<number>;
-  displayInfoBtn: Observable<boolean>;
   private trackInfoDialogOpen = new BehaviorSubject(false);
 
   constructor(
@@ -39,6 +40,7 @@ export class ControlPanelComponent implements OnInit {
     private queueService: QueueService,
     private responsiveScreenService: ResponsiveScreenService
   ) {
+    this.connected$ = this.mpdService.isConnected$();
     this.currentState = this.mpdService.currentState$;
     this.queueTrackCount = this.mpdService.getQueueTrackCount$();
     this.displayInfoBtn = combineLatest([
@@ -104,19 +106,10 @@ export class ControlPanelComponent implements OnInit {
         first()
       )
       .subscribe((result) => {
-        const width = result.isMobile ? "100%" : "70%";
-        const options: MatDialogConfig = {
-          maxWidth: "100vw",
-          height: "90%",
-          width: width,
-          data: result.track,
-        };
-        if (result.isMobile) {
-          options["height"] = "75%";
-          options["maxHeight"] = "75vh";
-        }
         if (!result.errorDialogOpen) {
-          const dialogRef = this.dialog.open(TrackInfoDialogComponent, options);
+          const dialogRef = this.dialog.open(TrackInfoDialogComponent, {
+            data: result.track,
+          });
           this.trackInfoDialogOpen.next(true);
           dialogRef
             .afterClosed()

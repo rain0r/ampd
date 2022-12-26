@@ -26,7 +26,7 @@ export class SettingsComponent {
     this.titleService.setTitle("ampd — Settings");
     this.ampdSettings = this.settingsService.getAmpdSettings();
     this.mpdSettings = this.settingsService.getMpdSettings();
-    this.feSettings = this.fsService.loadFrontendSettingsNg();
+    this.feSettings = this.fsService.loadFrontendSettings();
   }
 
   toggleFrontendSetting(name: string, event: MatSlideToggleChange): void {
@@ -35,5 +35,10 @@ export class SettingsComponent {
 
   onSaveBtnClick(name: string, value: string): void {
     this.fsService.save(name, value);
+  }
+
+  resetFrontendSettings(): void {
+    this.fsService.reset();
+    window.location.reload();
   }
 }

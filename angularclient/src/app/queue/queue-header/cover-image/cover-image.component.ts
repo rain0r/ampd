@@ -1,8 +1,10 @@
 import { HttpClient } from "@angular/common/http";
-import { Component, Input, OnInit } from "@angular/core";
-import { BehaviorSubject, Observable, Subject, combineLatest } from "rxjs";
+import { Component, OnInit } from "@angular/core";
+import { MatDialog } from "@angular/material/dialog";
+import { BehaviorSubject, Observable, combineLatest } from "rxjs";
 import { FrontendSettingsService } from "src/app/service/frontend-settings.service";
-import { ResponsiveScreenService } from "src/app/service/responsive-screen.service";
+import { MpdService } from "src/app/service/mpd.service";
+import { AlbumCoverDialogComponent } from "src/app/shared/album-cover-dialog/album-cover-dialog.component";
 import { SettingKeys } from "src/app/shared/model/internal/frontend-settings";
 import { QueueTrack } from "src/app/shared/model/queue-track";
 
@@ -12,38 +14,34 @@ import { QueueTrack } from "src/app/shared/model/queue-track";
   styleUrls: ["./cover-image.component.scss"],
 })
 export class CoverImageComponent implements OnInit {
-  @Input() set track(track: QueueTrack) {
-    this.track$.next(track);
-  }
-  @Input() set state(state: string) {
-    this.state$.next(state);
-  }
-
   isDisplayCover: Observable<boolean>;
-  coverSizeClass: Observable<string>;
-  currTrack: Observable<QueueTrack>;
+  queueTrack: Observable<QueueTrack>;
 
-  private state$ = new BehaviorSubject<string>("stop");
-  private track$ = new Subject<QueueTrack>();
   private displayCover$ = new BehaviorSubject<boolean>(false);
 
   constructor(
-    private responsiveCoverSizeService: ResponsiveScreenService,
+    private dialog: MatDialog,
     private frontendSettingsService: FrontendSettingsService,
-    private http: HttpClient
+    private http: HttpClient,
+    private mpdService: MpdService
   ) {
     this.isDisplayCover = this.displayCover$.asObservable();
-    this.coverSizeClass = this.responsiveCoverSizeService.getCoverCssClass();
-    this.currTrack = this.track$.asObservable();
+    this.queueTrack = this.mpdService.currentTrack$;
   }
 
   ngOnInit(): void {
     this.buildCover();
   }
 
+  openCoverDialog(coverUrl: string): void {
+    this.dialog.open(AlbumCoverDialogComponent, {
+      data: coverUrl,
+    });
+  }
+
   private buildCover(): void {
     let first = true;
-    this.track$.asObservable().subscribe((track) => {
+    this.mpdService.currentTrack$.subscribe((track) => {
       if (first || track.changed) {
         first = false;
         this.updateCover(track);
@@ -60,12 +58,14 @@ export class CoverImageComponent implements OnInit {
 
   coverAvailable(): void {
     combineLatest([
-      this.state$.asObservable(),
+      this.mpdService.currentState$,
       this.frontendSettingsService.getBoolValue$(SettingKeys.DISPLAY_COVERS),
-      this.currTrack,
-    ]).subscribe(([state, displayCovers, currTrack]) => {
+      this.mpdService.currentTrack$,
+      this.mpdService.isCurrentTrackRadioStream$(),
+    ]).subscribe(([state, displayCovers, currTrack, isRadioStream]) => {
       this.displayCover$.next(
-        state !== "stop" && // Check state, we don't change the cover if the player has stopped
+        isRadioStream === false && // We don't look for covers when a radio stream is playing
+          state !== "stop" && // Check state, we don't change the cover if the player has stopped
           displayCovers === true && // Check if cover-display is active in the frontend-settings
           typeof currTrack.albumName === "string" // No need to check for a cover, if there is no album name
       );

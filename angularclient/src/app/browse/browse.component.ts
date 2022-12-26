@@ -12,8 +12,8 @@ import { AmpdBrowsePayload } from "../shared/model/ampd-browse-payload";
 })
 export class BrowseComponent {
   browsePayload: Observable<AmpdBrowsePayload>;
-  isLoading = true;
   dirQp = "/";
+  isLoading = true;
   private browsePayload$: BehaviorSubject<AmpdBrowsePayload>;
 
   constructor(

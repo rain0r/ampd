@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
+import java.util.regex.Pattern;
 
 /**
  * Methods to load album artworks from the music directory.
@@ -64,7 +65,10 @@ public class AlbumArtService {
 			track = mpd.getMusicDatabase().getSongDatabase().searchFileName(trackFilePath).iterator().next();
 		}
 		catch (NoSuchElementException e) {
-			LOG.warn("Could not find MPDSong for file: {}", trackFilePath);
+			// Don't log if a radio stream is playing
+			if (!Pattern.compile("http.+").matcher(trackFilePath.toLowerCase()).matches()) {
+				LOG.warn("Could not find MPDSong for file: {}", trackFilePath);
+			}
 			return Optional.empty();
 		}
 

@@ -1,33 +1,29 @@
-<div class="mat-h3 text-muted">
-  <div
-    fxLayout="row"
-    fxLayoutGap="0.5rem"
-    fxLayoutAlign="baseline center"
-    fxLayoutAlign.lt-md="center center"
-  >
-    <mat-icon>folder_open</mat-icon>
-    <div>Playlists</div>
-  </div>
+<div class="browse-title">
+  <mat-icon>format_list_bulleted</mat-icon>
+  <div>Playlists</div>
 </div>
 
-<app-playlist-entry
-  *ngFor="
-    let playlist of playlists
-      | playlistFilter: filterValue
-      | slice: paginationFrom:paginationTo
-  "
-  [playlist]="playlist"
-></app-playlist-entry>
+<div class="flex flex-col gap-y-2">
+  <app-playlist-entry
+    class="clickable"
+    *ngFor="
+      let playlist of playlists
+        | playlistFilter: filterValue
+        | slice: paginationFrom:paginationTo
+    "
+    [playlist]="playlist"
+  ></app-playlist-entry>
 
-<mat-paginator
-  *ngIf="
-    (playlists | playlistFilter: filterValue).length > 0 &&
-    paginationTo - paginationFrom <
-      (playlists | playlistFilter: filterValue).length
-  "
-  [length]="playlists.length"
-  (page)="getPaginatorData($event)"
-  [pageSizeOptions]="pageSizeOptions"
-  showFirstLastButtons="true"
->
-</mat-paginator>
+  <mat-paginator
+    *ngIf="
+      (playlists | playlistFilter: filterValue).length > 0 &&
+      paginationTo - paginationFrom <
+        (playlists | playlistFilter: filterValue).length
+    "
+    [length]="playlists.length"
+    (page)="getPaginatorData($event)"
+    [pageSizeOptions]="pageSizeOptions"
+    showFirstLastButtons="true"
+  >
+  </mat-paginator>
+</div>

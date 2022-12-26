@@ -1,20 +1,18 @@
-<mat-card fxLayout="column" *ngIf="directory !== null">
+<div *ngIf="directory !== null" class="flex flex-col gap-y-1">
   <img
-    [ngClass]="[coverSizeClass | async]"
     [queryParams]="{ dir: pathLink }"
     [routerLink]="['/browse']"
+    [title]="directory.displayedPath"
     alt="Cover of {{ directory.displayedPath }}"
     class="clickable"
-    mat-card-image
     src="{{ directory.albumCoverUrl }}"
-    [title]="directory.displayedPath"
   />
-  <mat-card-actions fxLayout="row wrap" fxLayoutAlign="space-between baseline">
+  <div class="flex flex-col md:flex-row md:gap-x-2">
     <button mat-stroked-button (click)="onPlayDir($event, directory.path)">
       Play
     </button>
     <button mat-stroked-button (click)="onAddDir($event, directory.path)">
       Add
     </button>
-  </mat-card-actions>
-</mat-card>
+  </div>
+</div>

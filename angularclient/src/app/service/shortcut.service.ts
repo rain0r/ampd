@@ -3,6 +3,7 @@ import { MatDialog } from "@angular/material/dialog";
 import { Router } from "@angular/router";
 import { BehaviorSubject, first } from "rxjs";
 import { HelpDialogComponent } from "../navbar/help-dialog/help-dialog.component";
+import { AddStreamDialogComponent } from "../queue/track-table/add-stream-dialog/add-stream-dialog.component";
 import { Category } from "../shared/shortcuts/shortcut";
 import { ShortCut } from "./../shared/shortcuts/shortcut";
 import { ControlPanelService } from "./control-panel.service";
@@ -57,32 +58,44 @@ export class ShortcutService {
     this.build(
       Category.Navigation,
       () => void this.router.navigate(["/"]),
-      "Queue view",
+      "Queue",
       ["1"]
     ),
     this.build(
       Category.Navigation,
       () => void this.router.navigate(["/browse"]),
-      "Browse view",
+      "Browse",
       ["2"]
     ),
     this.build(
       Category.Navigation,
       () => void this.router.navigate(["/search"]),
-      "Search view",
+      "Search",
       ["3", "S"]
     ),
     this.build(
       Category.Navigation,
       () => void this.router.navigate(["/settings"]),
-      "Settings view",
+      "Settings",
       ["4"]
+    ),
+    this.build(
+      Category.Navigation,
+      () => void this.router.navigate(["/browse/albums"]),
+      "Albums",
+      ["A"]
+    ),
+    this.build(
+      Category.Navigation,
+      () => void this.router.navigate(["/browse/genres"]),
+      "Genres",
+      ["G"]
     ),
     this.build(
       Category.General,
       () => void this.router.navigate(["/browse/radio-streams"]),
       "Navigate to radio streams",
-      ["W"]
+      ["u"]
     ),
     // MPD modes
     this.build(
@@ -126,10 +139,17 @@ export class ShortcutService {
       "Clear queue",
       ["C"]
     ),
+    this.build(
+      Category.General,
+      this.openAddStreamDialog,
+      "Open add stream dialog",
+      ["a"]
+    ),
   ];
 
   private currentState = "stop";
   private helpDialogOpen = new BehaviorSubject(false);
+  private addStreamDialog = new BehaviorSubject(false);
 
   constructor(
     private controlPanelService: ControlPanelService,
@@ -187,14 +207,28 @@ export class ShortcutService {
       .subscribe((open) => {
         if (!open) {
           this.helpDialogOpen.next(true);
-          const dialogRef = this.dialog.open(HelpDialogComponent, {
-            autoFocus: true,
-            height: "90%",
-            width: "75%",
-          });
+          const dialogRef = this.dialog.open(HelpDialogComponent);
           dialogRef
             .afterClosed()
             .subscribe(() => this.helpDialogOpen.next(false));
+        }
+      });
+  }
+
+  private openAddStreamDialog(): void {
+    this.addStreamDialog
+      .asObservable()
+      .pipe(first())
+      .subscribe((open) => {
+        if (!open) {
+          this.addStreamDialog.next(true);
+          const dialogRef = this.dialog.open(AddStreamDialogComponent, {
+            autoFocus: true,
+            width: "50%",
+          });
+          dialogRef
+            .afterClosed()
+            .subscribe(() => this.addStreamDialog.next(false));
         }
       });
   }

@@ -1,0 +1,19 @@
+<h1 mat-dialog-title>Add stream url to the queue</h1>
+<div mat-dialog-content>
+  <mat-form-field class="w-full">
+    <mat-label>URL</mat-label>
+    <input
+      (keyup.enter)="onEnterPressed()"
+      [(ngModel)]="streamUrl"
+      autocomplete="off"
+      focus
+      matInput
+      required
+      type="url"
+    />
+  </mat-form-field>
+</div>
+<div mat-dialog-actions align="end">
+  <button mat-stroked-button mat-dialog-close>Cancel</button>
+  <button mat-stroked-button (click)="onEnterPressed()">Ok</button>
+</div>

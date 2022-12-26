@@ -10,7 +10,7 @@ import { RadioStream } from "../../shared/model/db/radio-stream";
   templateUrl: "./add-radio-stream.component.html",
   styleUrls: ["./add-radio-stream.component.scss"],
 })
-export class AddStreamDialogComponent implements OnInit {
+export class AddStreamComponent implements OnInit {
   dataSource$ = new Observable<MatTableDataSource<RadioStream>>();
   radioStreamForm = new FormGroup({
     // eslint-disable-next-line  @typescript-eslint/unbound-method

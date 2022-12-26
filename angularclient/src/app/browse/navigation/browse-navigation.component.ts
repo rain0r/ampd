@@ -20,7 +20,7 @@ import { QueueService } from "../../service/queue.service";
 import { AmpdBrowsePayload } from "../../shared/model/ampd-browse-payload";
 
 @Component({
-  selector: "app-navigation",
+  selector: "app-browse-navigation",
   templateUrl: "./browse.navigation.component.html",
   styleUrls: ["./browse.navigation.component.scss"],
 })

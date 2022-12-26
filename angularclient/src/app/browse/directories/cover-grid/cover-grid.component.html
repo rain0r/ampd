@@ -1,14 +1,8 @@
 <div
-  fxLayout="row wrap"
-  fxLayoutAlign="space-between"
-  fxLayoutGap="1rem grid"
-  fxLayoutGap.lt-md="0.25rem grid"
+  class="grid grid-cols-1 md:grid-cols-4 gap-6"
   *ngIf="dirQp !== '/' && directories.length < maxCoversDisplayed"
 >
-  <div
-    fxLayoutAlign="center center"
-    *ngFor="let dir of directories | directoryFilter: filterValue"
-  >
+  <div *ngFor="let dir of directories | directoryFilter: filterValue">
     <app-cover-grid-entry [directory]="dir"></app-cover-grid-entry>
   </div>
 </div>

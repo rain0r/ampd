@@ -1,12 +1,6 @@
 import { CdkDragDrop } from "@angular/cdk/drag-drop";
-import {
-  ChangeDetectorRef,
-  Component,
-  Input,
-  OnInit,
-  ViewChild,
-} from "@angular/core";
-import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
+import { ChangeDetectorRef, Component, Input, ViewChild } from "@angular/core";
+import { MatDialog } from "@angular/material/dialog";
 import {
   MatPaginator,
   MatPaginatorIntl,
@@ -17,7 +11,6 @@ import { BehaviorSubject, Observable } from "rxjs";
 import { TrackInfoDialogComponent } from "src/app/browse/tracks/track-info-dialog/track-info-dialog.component";
 import { MsgService } from "src/app/service/msg.service";
 import { QueueService } from "../../service/queue.service";
-import { ResponsiveScreenService } from "../../service/responsive-screen.service";
 import { Track } from "../messages/incoming/track";
 import { QueueTrack } from "../model/queue-track";
 import {
@@ -32,14 +25,13 @@ import { TrackTableOptions } from "./track-table-options";
   templateUrl: "./track-table-data.component.html",
   styleUrls: ["./track-table-data.component.scss"],
 })
-export class TrackTableDataComponent implements OnInit {
+export class TrackTableDataComponent {
   @Input() set trackTableData(trackTableData: TrackTableOptions) {
     this.trackTableData$.next(trackTableData);
   }
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator =
     new MatPaginator(new MatPaginatorIntl(), ChangeDetectorRef.prototype);
   @ViewChild(MatSort, { static: true }) sort: MatSort = new MatSort();
-  isMobile = new Observable<boolean>();
   trackTableDataObs: Observable<TrackTableOptions>;
 
   private trackTableData$ = new BehaviorSubject<TrackTableOptions>(
@@ -49,14 +41,9 @@ export class TrackTableDataComponent implements OnInit {
   constructor(
     private dialog: MatDialog,
     private msgService: MsgService,
-    private queueService: QueueService,
-    private responsiveScreenService: ResponsiveScreenService
+    private queueService: QueueService
   ) {
     this.trackTableDataObs = this.trackTableData$.asObservable();
-  }
-
-  ngOnInit(): void {
-    this.isMobile = this.responsiveScreenService.isMobile();
   }
 
   handlePage($event: PageEvent): void {
@@ -116,20 +103,7 @@ export class TrackTableDataComponent implements OnInit {
   }
 
   onShowTrackInfo(track: Track): void {
-    this.isMobile.subscribe((isMobile) => {
-      const width = isMobile ? "100%" : "70%";
-      const options: MatDialogConfig = {
-        maxWidth: "100vw",
-        height: "90%",
-        width: width,
-        data: track,
-      };
-      if (isMobile) {
-        options["height"] = "75%";
-        options["maxHeight"] = "75vh";
-      }
-      this.dialog.open(TrackInfoDialogComponent, options);
-    });
+    this.dialog.open(TrackInfoDialogComponent, { data: track });
   }
 
   private addPlayTrack(track: QueueTrack): void {

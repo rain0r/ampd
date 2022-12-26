@@ -1,6 +1,6 @@
 import { Component, HostListener, OnInit } from "@angular/core";
 import { Title } from "@angular/platform-browser";
-import { combineLatest } from "rxjs";
+import { Observable, combineLatest } from "rxjs";
 import { map } from "rxjs/operators";
 import { FrontendSettingsService } from "../service/frontend-settings.service";
 import { MpdService } from "../service/mpd.service";
@@ -12,11 +12,15 @@ import { SettingKeys } from "../shared/model/internal/frontend-settings";
   styleUrls: ["./queue.component.scss"],
 })
 export class QueueComponent implements OnInit {
+  connected$: Observable<boolean>;
+
   constructor(
     private frontendSettingsService: FrontendSettingsService,
     private mpdService: MpdService,
     private titleService: Title
-  ) {}
+  ) {
+    this.connected$ = this.mpdService.isConnected$();
+  }
 
   @HostListener("document:visibilitychange", ["$event"])
   onKeyUp(): void {

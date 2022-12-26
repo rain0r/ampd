@@ -1,11 +1,10 @@
 <div [formGroup]="form">
   <div [ngSwitch]="input.controlType">
     <div *ngSwitchCase="'textbox'">
-      <mat-form-field class="full-width" appearance="fill">
+      <mat-form-field appearance="fill" class="w-full">
         <mat-label [attr.for]="input.key">{{ input.label }}</mat-label>
         <input
           matInput
-          class="full-width"
           [formControlName]="input.key"
           [id]="input.key"
           [type]="input.type"

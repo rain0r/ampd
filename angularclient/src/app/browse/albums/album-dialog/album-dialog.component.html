@@ -1,53 +1,46 @@
-<div fxLayout="column" fxLayoutAlign="space-between">
-  <div *ngIf="isLoadingResults" fxLayout="row" fxLayoutAlign="space-around">
+<div mat-dialog-content>
+  <div class="grid place-items-center" *ngIf="isLoadingResults">
     <mat-spinner></mat-spinner>
   </div>
-  <div mat-dialog-title fxLayout="row wrap" fxLayoutAlign="space-between">
-    <div fxLayoutAlign="start center" fxFlex fxFlex.lt-md="100%">
-      <img
-        mat-card-image
-        [ngClass]="[coverSizeClass | async]"
-        [title]="album.name"
-        alt="Cover of {{ album.name }}"
-        [src]="album.albumCoverUrl"
-      />
-    </div>
-    <div
-      fxLayout="column"
-      fxLayoutAlign="start center"
-      fxFlex
-      fxFlex.lt-md="100%"
-    >
-      <div class="mat-h2">
+  <div class="flex flex-col md:flex-row">
+    <div class="flex flex-col flex-grow gap-y-2 md:gap-y-4">
+      <div>
         {{ album.name }}
       </div>
       <div class="text-muted">
         {{ album.albumArtist }}
       </div>
-    </div>
-    <div fxLayoutAlign="end center" fxFlex fxFlex.lt-md="100%">
-      <!--Add all-->
-      <button mat-raised-button (click)="onAddDir()">
-        <mat-icon> add</mat-icon>
-        <span fxHide.lt-md>Add all</span>
-      </button>
+      <div class="flex flex-col md:flex-row gap-x-2">
+        <!--Add all-->
+        <button mat-raised-button (click)="onAddDir()">
+          <mat-icon> add</mat-icon>
+          <span>Add all</span>
+        </button>
 
-      <!--Play all-->
-      <button mat-raised-button (click)="onPlayDir()">
-        <mat-icon> play_arrow</mat-icon>
-        <span fxHide.lt-md>Play all</span>
-      </button>
+        <!--Play all-->
+        <button mat-raised-button (click)="onPlayDir()">
+          <mat-icon> play_arrow</mat-icon>
+          <span>Play all</span>
+        </button>
+      </div>
+    </div>
+    <div>
+      <img
+        [src]="album.albumCoverUrl"
+        [title]="album.name"
+        alt="Cover of {{ album.name }}"
+        class="h-64 w-full object-cover md:h-full md:w-64"
+        mat-card-image
+      />
     </div>
   </div>
 
   <!-- Tracks in this dir -->
-  <mat-dialog-content>
-    <app-track-data-table
-      [trackTableData]="trackTableData"
-    ></app-track-data-table>
-  </mat-dialog-content>
+  <app-track-data-table
+    [trackTableData]="trackTableData"
+  ></app-track-data-table>
+</div>
 
-  <mat-dialog-actions fxLayout="row nowrap" fxLayoutAlign="end">
-    <button mat-stroked-button matDialogClose>Close</button>
-  </mat-dialog-actions>
+<div mat-dialog-actions align="end">
+  <button mat-stroked-button mat-dialog-close>Close</button>
 </div>

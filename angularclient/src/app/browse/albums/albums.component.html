@@ -1,19 +1,8 @@
-<app-navigation [filterDisabled]="true"></app-navigation>
+<app-browse-navigation [filterDisabled]="true"></app-browse-navigation>
 
-<div
-  fxLayout="row wrap"
-  fxLayoutAlign="space-between"
-  fxLayoutGap="1rem grid"
-  fxLayoutGap.lt-md="0.25rem grid"
->
-  <div
-    class="mat-h2 clickable"
-    fxLayoutAlign="center center"
-    [routerLink]="['/browse/albums']"
-    (click)="resetFilter()"
-  >
-    Albums
-  </div>
+<div class="page-title">Albums</div>
+
+<div class="flex flex-col md:flex-row justify-between">
   <mat-form-field
     appearance="fill"
     [ngClass]="{ 'dark-theme': darkTheme | async }"
@@ -34,8 +23,8 @@
   </mat-form-field>
 
   <!--Filter-->
-  <div fxLayoutAlign="center center" fxFlex="30%" fxFlex.lt-md="100%">
-    <mat-form-field class="full-width">
+  <div>
+    <mat-form-field>
       <input
         #searchInput
         matInput
@@ -47,7 +36,6 @@
         (keyup)="applyFilter($event.target)"
       />
       <button
-        mat-button
         *ngIf="filter"
         matSuffix
         mat-icon-button
@@ -62,17 +50,18 @@
 
 <mat-divider></mat-divider>
 
-<div id="loading" fxLayout="row" fxLayoutAlign="space-around">
+<div class="grid place-items-center">
   <mat-spinner *ngIf="isLoading | async"></mat-spinner>
 </div>
 
-<div *ngIf="pagedAlbums$ | async as pagedAlbums" fxLayout="column">
-  <div class="gallery-grid">
+<div *ngIf="pagedAlbums$ | async as pagedAlbums">
+  <div class="grid grid-cols-1 md:grid-cols-4 gap-x-6 gap-y-12">
     <app-album-item
       *ngFor="let album of pagedAlbums.content"
       [album]="album"
     ></app-album-item>
   </div>
+
   <div
     [hidden]="pagedAlbums.content.length === 0 || pagedAlbums.totalPages < 2"
   >

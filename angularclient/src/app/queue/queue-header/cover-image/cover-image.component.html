@@ -1,17 +1,11 @@
-<div *ngIf="currTrack | async as track">
-  <lightgallery
-    [settings]="lightboxSettings"
-    [onInit]="onInit"
-    *ngIf="isDisplayCover | async"
-  >
-    <a [href]="track.coverUrl">
-      <img
-        [alt]="'Cover of ' + track.artistName + ' — ' + track.albumName"
-        [ngClass]="coverSizeClass | async"
-        [src]="track.coverUrl"
-        [title]="track.artistName + ' — ' + track.albumName"
-        class="album-art clickable"
-      />
-    </a>
-  </lightgallery>
+<div *ngIf="queueTrack | async as track">
+  <div *ngIf="isDisplayCover | async">
+    <img
+      (click)="openCoverDialog(track.coverUrl)"
+      [alt]="'Cover of ' + track.artistName + ' — ' + track.albumName"
+      [src]="track.coverUrl"
+      [title]="track.artistName + ' — ' + track.albumName"
+      class="h-64 w-full object-cover md:h-full md:w-64"
+    />
+  </div>
 </div>

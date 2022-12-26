@@ -1,10 +1,8 @@
 import { Component, Input, OnInit } from "@angular/core";
-import { Observable } from "rxjs";
-import { Directory } from "../../../../shared/messages/incoming/directory";
 import { ControlPanelService } from "../../../../service/control-panel.service";
 import { NotificationService } from "../../../../service/notification.service";
 import { QueueService } from "../../../../service/queue.service";
-import { ResponsiveScreenService } from "../../../../service/responsive-screen.service";
+import { Directory } from "../../../../shared/messages/incoming/directory";
 
 @Component({
   selector: "app-cover-grid-entry",
@@ -13,17 +11,13 @@ import { ResponsiveScreenService } from "../../../../service/responsive-screen.s
 })
 export class CoverGridEntryComponent implements OnInit {
   @Input() directory: Directory | null = null;
-  coverSizeClass: Observable<string>;
   pathLink = "";
 
   constructor(
     private controlPanelService: ControlPanelService,
     private notificationService: NotificationService,
-    private queueService: QueueService,
-    private responsiveCoverSizeService: ResponsiveScreenService
-  ) {
-    this.coverSizeClass = this.responsiveCoverSizeService.getCoverCssClass();
-  }
+    private queueService: QueueService
+  ) {}
 
   ngOnInit(): void {
     if (this.directory) {

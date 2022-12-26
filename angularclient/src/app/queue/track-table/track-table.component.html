@@ -1,15 +1,11 @@
-<div fxLayout="column">
-  <div
-    fxLayout="row nowrap"
-    fxLayoutAlign="center"
-    *ngIf="trackTableData.dataSource.data.length > 0"
-  >
-    <mat-form-field class="full-width">
+<div>
+  <div *ngIf="trackTableData.dataSource.data.length > 0">
+    <mat-form-field class="w-full">
       <input
-        #filterInputElem
         (keydown.escape)="resetFilter()"
         (keyup)="applyFilter($event.target)"
         [(ngModel)]="trackTableData.dataSource.filter"
+        #filterInputElem
         autocomplete="off"
         matInput
         placeholder="Filter queue"
@@ -26,8 +22,11 @@
     </mat-form-field>
   </div>
 
-  <div *ngIf="trackTableData.dataSource.data.length === 0">
-    <div fxLayout="row" fxLayoutAlign="space-around">The queue is empty.</div>
+  <div
+    *ngIf="trackTableData.dataSource.data.length === 0"
+    class="grid place-items-center border-separate border-spacing-2 border border-slate-500 p-4"
+  >
+    <div>The queue is empty.</div>
   </div>
 
   <app-track-data-table
@@ -36,9 +35,9 @@
 
   <mat-divider *ngIf="trackTableData.dataSource.data.length > 0"></mat-divider>
 
-  <div fxLayout="row wrap" fxLayoutAlign="space-between center">
-    <span fxFlex.lt-md="100%" *ngIf="trackTableData.dataSource.data.length > 0">
-      <span [ngPlural]="trackTableData.dataSource.data.length">
+  <div class="flex flex-col md:flex-row gap-2 mt-5">
+    <span *ngIf="trackTableData.dataSource.data.length > 0" class="self-end">
+      <span [ngPlural]="trackTableData.dataSource.data.length" class="self-end">
         <ng-template ngPluralCase="=1">1 track </ng-template>
         <ng-template ngPluralCase="other"
           >{{ trackTableData.totalElements }} tracks</ng-template
@@ -50,11 +49,8 @@
         {{ trackTableData.totalPlayTime | secondsToHhMmSs }}
       </span>
     </span>
-    <button
-      mat-stroked-button
-      (click)="openAddStreamDialog()"
-      fxFlex.lt-md="100%"
-    >
+    <div class="flex-grow"></div>
+    <button mat-stroked-button (click)="openAddStreamDialog()">
       <mat-icon>add</mat-icon>
       Add stream
     </button>
@@ -62,7 +58,6 @@
       mat-stroked-button
       (click)="openSavePlaylistDialog()"
       *ngIf="trackTableData.dataSource.data.length > 0"
-      fxFlex.lt-md="100%"
     >
       <mat-icon>save</mat-icon>
       Save playlist

@@ -1,20 +1,13 @@
 <div
-  *ngIf="playlist !== null"
   (click)="onRowClick(playlist.name)"
-  fxLayout="row nowrap"
-  fxLayoutAlign="space-between center"
-  fxLayoutGap="0.25rem"
-  class="list-item"
+  class="browse-list-item"
   title="Click to add this playlist"
 >
   <mat-icon>list</mat-icon>
-  <div fxFlex class="dont-break-out name">
+  <div class="flex-grow dont-break-out name">
     {{ playlist.name }}
   </div>
-  <div
-    class="text-muted space-right"
-    [title]="playlist.count + 'tracks in this playlist'"
-  >
+  <div class="text-muted" [title]="playlist.count + 'tracks in this playlist'">
     {{ playlist.count }}
   </div>
   <button

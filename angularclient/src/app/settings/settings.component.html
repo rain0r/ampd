@@ -1,154 +1,137 @@
-<div fxLayout="column" fxLayoutGap="1rem" fxFlex.gt-md="75%">
-  <div class="mat-display-1">Settings</div>
-  <mat-tab-group animationDuration="0ms">
-    <mat-tab label="Frontend">
-      <div
-        class="flex-col"
-        fxLayout="column"
-        fxLayoutGap="1rem"
-        fxFlex.gt-md="75%"
-      >
-        <mat-card>
-          <mat-card-content class="mat-title">
-            <p>
-              These settings are stored in the browser. That means, each device
-              can have their own settings.
-            </p>
-          </mat-card-content>
-        </mat-card>
-        <mat-card *ngFor="let setting of feSettings">
-          <mat-card-header>
-            <mat-card-title>{{ setting.name | camelCaseTitle }}</mat-card-title>
-          </mat-card-header>
-          <mat-card-content [ngSwitch]="setting.type">
-            <!-- Boolean -->
-            <mat-slide-toggle
-              class="space-right"
-              [checked]="setting.value"
-              *ngSwitchCase="'bool'"
-              (change)="toggleFrontendSetting(setting.name, $event)"
+<div class="page-title">Settings</div>
+
+<mat-tab-group animationDuration="0ms" dynamicHeight>
+  <mat-tab label="Frontend">
+    <!-- frontend -->
+    <div>
+      <mat-card class="w-full mt-4">
+        <mat-card-content>
+          <p>
+            These settings are stored in the browser. That means, each device
+            can have their own settings.
+          </p>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+      <mat-card *ngFor="let setting of feSettings">
+        <mat-card-header>
+          <mat-card-title>{{ setting.name | camelCaseTitle }}</mat-card-title>
+        </mat-card-header>
+        <mat-card-content [ngSwitch]="setting.type">
+          <!-- Boolean -->
+          <mat-slide-toggle
+            [checked]="setting.value !== '' && setting.value"
+            *ngSwitchCase="'bool'"
+            (change)="toggleFrontendSetting(setting.name, $event)"
+          >
+            <mat-label align="end">{{ setting.description }} </mat-label>
+          </mat-slide-toggle>
+          <!-- Default -->
+          <div *ngSwitchDefault>
+            <mat-form-field
+              appearance="fill"
+              class="w-full"
+              [title]="setting.description"
             >
-              <mat-label align="end">{{ setting.description }} </mat-label>
-            </mat-slide-toggle>
-            <!-- Default -->
-            <div *ngSwitchDefault>
-              <mat-form-field appearance="fill" class="full-width">
-                <input
-                  matInput
-                  [value]="setting.value"
-                  #inputField
-                  (keyup.enter)="onSaveBtnClick(setting.name, inputField.value)"
-                />
-                <mat-label> {{ setting.description }}</mat-label>
-              </mat-form-field>
-              <mat-card-actions>
-                <button
-                  mat-stroked-button
-                  type="submit"
-                  (click)="onSaveBtnClick(setting.name, inputField.value)"
-                >
-                  Save
-                </button>
-              </mat-card-actions>
-            </div>
-          </mat-card-content>
-        </mat-card>
-      </div>
-    </mat-tab>
+              <input
+                matInput
+                [value]="setting.value"
+                #inputField
+                (keyup.enter)="onSaveBtnClick(setting.name, inputField.value)"
+              />
+              <mat-label> {{ setting.description }}</mat-label>
+            </mat-form-field>
+            <mat-card-actions>
+              <button
+                mat-stroked-button
+                type="submit"
+                (click)="onSaveBtnClick(setting.name, inputField.value)"
+              >
+                Save
+              </button>
+            </mat-card-actions>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
 
-    <mat-tab label="Backend">
-      <!-- Backend  -->
-      <div
-        class="flex-col"
-        fxLayout="column"
-        fxLayoutGap="1rem"
-        fxFlex.gt-md="75%"
-        *ngIf="ampdSettings | async as settings"
+    <div class="pt-8 mt-8">
+      <button
+        mat-stroked-button
+        type="submit"
+        (click)="resetFrontendSettings()"
       >
-        <mat-card>
-          <mat-card-content class="mat-title">
-            <p>
-              These settings are read-only and can be changed with the
-              <span class="mono code">-D</span> when starting ampd.
-            </p>
-            <mat-divider></mat-divider>
-            <p>
-              To persist your changes, write them to the
-              <span class="mono code">application.properties</span> file. See
-              the
-              <a
-                class="no-deco-links mono code"
-                href="https://github.com/rain0r/ampd/blob/master/docs/install.md"
-                target="_blank"
-                >install.md</a
-              >
-              for more information.
-            </p>
-          </mat-card-content>
-        </mat-card>
+        Reset frontend settings
+      </button>
+    </div>
+  </mat-tab>
 
-        <!-- Backend  -->
-        <div
-          class="flex-col"
-          fxLayout="column"
-          fxLayoutGap="1rem"
-          fxFlex.gt-md="75%"
-          *ngIf="ampdSettings | async as settings"
-        >
-          <mat-card *ngFor="let setting of settings">
-            <mat-card-header>
-              <mat-card-title>{{ setting.name }}</mat-card-title>
-            </mat-card-header>
-            <mat-card-content [ngSwitch]="setting.type">
-              <!-- Boolean -->
-              <mat-slide-toggle
-                class="space-right"
-                [checked]="setting.value"
-                disabled
-                *ngSwitchCase="'bool'"
-              >
-                <mat-hint align="end">{{ setting.hint }}</mat-hint>
-              </mat-slide-toggle>
-              <!-- Default -->
-              <mat-form-field
-                appearance="fill"
-                class="full-width"
-                *ngSwitchDefault
-              >
-                <mat-label>{{ setting.value }}</mat-label>
-                <input matInput />
-                <mat-hint>{{ setting.hint }}</mat-hint>
-              </mat-form-field>
-            </mat-card-content>
-            <mat-card-footer class="card-footer">
-              Change this setting with:
-              <span class="mono code">-D{{ setting.key }}=&#60;value&#62;</span>
-            </mat-card-footer>
-          </mat-card>
-        </div>
-      </div>
-    </mat-tab>
-    <mat-tab label="Admin">
-      <div
-        class="flex-col"
-        fxLayout="column"
-        fxLayoutGap="1rem"
-        fxFlex.gt-md="75%"
-      >
-        <!-- Trigger database update -->
-        <app-update-database></app-update-database>
-        <!-- Server statistics -->
-        <app-server-statistics></app-server-statistics>
-      </div>
-    </mat-tab>
-  </mat-tab-group>
-
-  <mat-divider></mat-divider>
-
-  <div class="mono" *ngIf="mpdSettings | async as settings">
-    ampd version {{ settings.version }}. Source code at:
-    <a class="mat-app-background" href="https://github.com/rain0r/ampd"
-      >github.com/rain0r/ampd</a
+  <mat-tab label="Backend">
+    <!-- backend  -->
+    <div
+      *ngIf="ampdSettings | async as settings"
+      class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4"
     >
-  </div>
+      <mat-card>
+        <mat-card-content>
+          <p class="mb-4">
+            These settings are read-only and can be changed with the
+            <span class="ampd-code">-D</span> parameter when starting ampd.
+          </p>
+          <p>
+            To persist your changes, write them to the
+            <span class="ampd-code">application.properties</span> file. See the
+            <a
+              class="ampd-code"
+              href="https://github.com/rain0r/ampd/blob/master/docs/install.md"
+              target="_blank"
+              >install.md</a
+            >
+            for more information.
+          </p>
+        </mat-card-content>
+      </mat-card>
+      <mat-card *ngFor="let setting of settings">
+        <mat-card-header>
+          <mat-card-title>{{ setting.name }}</mat-card-title>
+        </mat-card-header>
+        <mat-card-content [ngSwitch]="setting.type">
+          <!-- Boolean -->
+          <mat-slide-toggle
+            [checked]="setting.value"
+            disabled
+            *ngSwitchCase="'bool'"
+          >
+            <mat-hint align="end">{{ setting.hint }}</mat-hint>
+          </mat-slide-toggle>
+          <!-- Default -->
+          <mat-form-field appearance="fill" *ngSwitchDefault class="w-full">
+            <mat-label>{{ setting.value }}</mat-label>
+            <input matInput />
+            <mat-hint>{{ setting.hint }}</mat-hint>
+          </mat-form-field>
+        </mat-card-content>
+        <mat-card-footer class="p-0 md:p-2">
+          Change this setting with:
+          <span class="ampd-code">-D{{ setting.key }}=&#60;value&#62;</span>
+        </mat-card-footer>
+      </mat-card>
+    </div>
+  </mat-tab>
+  <mat-tab label="Admin">
+    <!-- admin -->
+    <div class="pt-1 md:pt-9">
+      <!-- Trigger database update -->
+      <app-update-database></app-update-database>
+      <!-- Server statistics -->
+      <app-server-statistics></app-server-statistics>
+    </div>
+  </mat-tab>
+</mat-tab-group>
+
+<div class="pt-8 mt-8 font-mono" *ngIf="mpdSettings | async as settings">
+  ampd version {{ settings.version }}. Source code at:
+  <a href="https://github.com/rain0r/ampd">github.com/rain0r/ampd</a>
 </div>

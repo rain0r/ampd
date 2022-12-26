@@ -7,6 +7,7 @@ import {
 } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
 import { filter, map } from "rxjs";
+import { AddStreamDialogComponent } from "src/app/queue/track-table/add-stream-dialog/add-stream-dialog.component";
 import { MsgService } from "src/app/service/msg.service";
 import { ResponsiveScreenService } from "src/app/service/responsive-screen.service";
 import { PaginatedResponse } from "src/app/shared/messages/incoming/paginated-response";
@@ -15,7 +16,6 @@ import {
   InternMsgType,
   PaginationMsg,
 } from "src/app/shared/messages/internal/internal-msg";
-import { AddStreamDialogComponent } from "../../browse/add-radio-stream/add-radio-stream.component";
 import { MpdService } from "../../service/mpd.service";
 import { QueueService } from "../../service/queue.service";
 import { QueueTrack } from "../../shared/model/queue-track";
@@ -66,7 +66,9 @@ export class TrackTableComponent implements AfterContentInit {
   }
 
   openSavePlaylistDialog(): void {
-    this.dialog.open(SavePlaylistDialogComponent);
+    this.dialog.open(SavePlaylistDialogComponent, {
+      width: "50%",
+    });
   }
 
   applyFilter(eventTarget: EventTarget | null): void {
@@ -82,7 +84,9 @@ export class TrackTableComponent implements AfterContentInit {
   }
 
   openAddStreamDialog(): void {
-    this.dialog.open(AddStreamDialogComponent);
+    this.dialog.open(AddStreamDialogComponent, {
+      width: "50%",
+    });
   }
 
   private getDisplayedColumns(): string[] {

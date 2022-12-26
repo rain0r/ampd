@@ -1,210 +1,94 @@
-@import "material-icons/iconfont/material-icons.css";
-@import "./styles/material-theme";
-@import "~lightgallery/scss/lightgallery";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 html,
 body {
-  font-family: "Segoe UI", Candara, "Bitstream Vera Sans", "DejaVu Sans",
-    "Bitstream Vera Sans", "Trebuchet MS", Verdana, "Verdana Ref", sans-serif;
   height: 100%;
-  background: var(--body-background-color);
-}
-
-* {
   margin: 0;
-  padding: 0;
+  background: var(--body-background-color);
+  color: var(--primary-text);
 }
 
-.mono {
-  // font-family: Monaco, monospace;
-  font-family: Courier New, Courier, Lucida Sans Typewriter, Lucida Typewriter,
-    monospace;
-  color: var(--font-color) !important;
-}
+//
+// General ampd specific rules
+//
 
-mat-toolbar {
-  justify-content: center;
-  padding-bottom: 0;
-}
-
-.space-right {
-  padding-right: 0.5em;
+.text-muted {
+  color: #868e96 !important;
 }
 
 .clickable {
   cursor: pointer;
 }
 
-.text-muted {
-  color: #868e96 !important;
+.mat-accent {
+  @apply dark:text-black;
 }
 
-table {
-  width: 100%;
+//
+// Tailwind usages
+//
+
+.heading-1 {
+  @apply mb-4 text-4xl font-bold tracking-tight leading-none  md:text-5xl lg:text-6xl;
 }
 
-.full-width {
-  width: 100%;
+.heading-2 {
+  @apply mb-4 text-xl font-bold tracking-tight leading-none  md:text-2xl lg:text-3xl;
 }
 
-.mat-button-toggle-label-content {
-  line-height: 34px !important;
+.browse-title {
+  @apply flex flex-row gap-x-3 mb-4 pt-4 font-semibold text-lg;
 }
 
-.mat-divider-horizontal {
-  /* top | right | bottom | left */
-  padding: 0.25rem 0 0.25rem 0;
-  margin: 0.25rem 0 0.25rem 0;
+.page-title {
+  @extend .heading-2;
+  @extend .clickable;
+  @apply pb-8;
 }
 
-.dir-prefix {
-  color: #868e96 !important;
-  margin-right: 0.4rem;
+//
+// Material overrides
+//
+
+.mdc-text-field--filled:not(.mdc-text-field--disabled) {
+  background-color: inherit !important;
 }
 
-// Global themed classes
-$hover-background-color: var(--hover-background-color);
-$background-color: var(--background-color);
-$border-color: var(--border-color);
-$font-color: var(--font-color);
-
-// "Normal" hyperlinks
-.no-deco-links {
-  text-decoration: none;
-  color: var(--font-color);
+.mat-mdc-form-field-focus-overlay {
+  background-color: inherit !important;
 }
 
-.no-deco-links:hover {
-  text-decoration: underline;
-  color: var(--font-color);
+.accent-text {
+  color: var(--accent-color) !important;
 }
 
-// Track table
-.table-row:hover {
+.accent-text-hover:hover {
+  color: var(--accent-color) !important;
+}
+
+mat-toolbar > div > .mat-mdc-button-base.mat-accent {
+  color: var(--accent-color) !important;
+}
+
+.browse-list-item {
+  @apply flex flex-row justify-between items-center p-2 gap-x-4;
+  font-size: larger;
+  background: var(--second-background-color);
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+}
+
+.browse-list-item:hover {
   cursor: pointer;
   background: var(--hover-background-color);
 }
 
-// Track table
-.themedbg {
-  background: var(--background-color) !important;
+.hover-background-color:hover {
+  background: var(--hover-background-color) !important;
 }
 
-// Browse
-.mat-list-item-content {
-  border: 1px solid var(--border-color);
-}
-
-.mat-list-item-content:hover {
-  background: var(--hover-background-color);
-}
-
-.themed-border {
-  border: 1px solid var(--border-color);
-}
-
-.cut-text div {
-  overflow-wrap: break-word;
-}
-
-@media only screen and (max-width: 1280px) {
-  // Needs to be here to override Angular's own padding
-  .browse-list-item > .mat-list-item-content {
-    padding-right: 5px !important;
-    padding-left: 5px !important;
-  }
-}
-
-/**
-      Breakpoints.XSmall,
-      Breakpoints.Small,
-      Breakpoints.Medium,
-      Breakpoints.Large,
-      Breakpoints.XLarge
- */
-
-.cover-xsmall {
-  height: 150px !important;
-  width: 150px !important;
-}
-
-.cover-small {
-  height: 175px !important;
-  width: 175px !important;
-}
-
-.cover-medium {
-  height: 200px !important;
-  width: 200px !important;
-}
-
-.cover-large {
-  height: 350px !important;
-  width: 350px !important;
-}
-
-.cover-xlarge {
-  height: 500px !important;
-  width: 500px !important;
-}
-
-.code {
-  border: 1px solid var(--border-color);
-  background: var(--background-color);
-  padding-left: 0.1rem;
-  padding-right: 0.1rem;
-  margin-left: 0.1rem;
-  margin-right: 0.1rem;
-}
-
-.smaller-font {
-  font-size: smaller !important;
-}
-
-.mat-sort-header-container {
-  justify-content: center !important;
-}
-
-.dont-break-out {
-  /* These are technically the same, but use both */
-  overflow-wrap: break-word;
-  word-wrap: break-word;
-
-  -ms-word-break: break-all;
-  /* This is the dangerous one in WebKit, as it breaks things wherever */
-  word-break: break-all;
-  /* Instead use this non-standard one: */
-  word-break: break-word;
-
-  /* Adds a hyphen where the word breaks, if supported (No Blink) */
-  -ms-hyphens: auto;
-  -moz-hyphens: auto;
-  -webkit-hyphens: auto;
-  hyphens: auto;
-}
-
-.mat-icon {
-  padding-right: 0.5rem;
-}
-
-.mat-column-remove,
-.mat-column-info,
-.mat-column-add-title,
-.mat-column-play-title {
-  width: 1%;
-}
-
-.mat-dialog-content {
-  max-height: unset !important;
-}
-
-/* Albums grid */
-.gallery-grid {
-  display: -ms-grid;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  grid-gap: 1.5rem;
-  justify-items: center;
-  margin: 0;
-  padding: 0;
+.now-playing-row {
+  background: var(--accent-color) !important;
 }

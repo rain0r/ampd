@@ -110,12 +110,7 @@
       >
         Duration
       </th>
-      <td
-        (click)="onRowClick(row)"
-        [class.mobile]="isMobile | async"
-        *matCellDef="let row"
-        mat-cell
-      >
+      <td (click)="onRowClick(row)" *matCellDef="let row" mat-cell>
         {{ row.length | secondsToMmSs }}
       </td>
     </ng-container>

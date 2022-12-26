@@ -1,11 +1,11 @@
 import { Component, OnInit } from "@angular/core";
-import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
+import { MatDialog } from "@angular/material/dialog";
 import {
   BehaviorSubject,
+  Observable,
   combineLatest,
   first,
   map,
-  Observable,
   of,
   switchMap,
 } from "rxjs";
@@ -106,19 +106,10 @@ export class ControlPanelComponent implements OnInit {
         first()
       )
       .subscribe((result) => {
-        const width = result.isMobile ? "100%" : "70%";
-        const options: MatDialogConfig = {
-          maxWidth: "100vw",
-          height: "90%",
-          width: width,
-          data: result.track,
-        };
-        if (result.isMobile) {
-          options["height"] = "75%";
-          options["maxHeight"] = "75vh";
-        }
         if (!result.errorDialogOpen) {
-          const dialogRef = this.dialog.open(TrackInfoDialogComponent, options);
+          const dialogRef = this.dialog.open(TrackInfoDialogComponent, {
+            data: result.track,
+          });
           this.trackInfoDialogOpen.next(true);
           dialogRef
             .afterClosed()

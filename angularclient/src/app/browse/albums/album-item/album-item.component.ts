@@ -1,6 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { Component, Input, OnInit } from "@angular/core";
-import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
+import { MatDialog } from "@angular/material/dialog";
 import { BehaviorSubject, first } from "rxjs";
 import { MpdAlbum } from "src/app/shared/model/http/album";
 import { AlbumDialogComponent } from "../album-dialog/album-dialog.component";
@@ -27,10 +27,9 @@ export class AlbumItemComponent implements OnInit {
       .subscribe((open) => {
         if (!open) {
           this.albumDialogOpen.next(true);
-          const options: MatDialogConfig = {
+          const dialogRef = this.dialog.open(AlbumDialogComponent, {
             data: this.album,
-          };
-          const dialogRef = this.dialog.open(AlbumDialogComponent, options);
+          });
           dialogRef
             .afterClosed()
             .subscribe(() => this.albumDialogOpen.next(false));

@@ -95,7 +95,7 @@ export class ShortcutService {
       Category.General,
       () => void this.router.navigate(["/browse/radio-streams"]),
       "Navigate to radio streams",
-      ["W"]
+      ["u"]
     ),
     // MPD modes
     this.build(

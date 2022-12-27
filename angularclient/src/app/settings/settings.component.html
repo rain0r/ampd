@@ -14,7 +14,7 @@
       </mat-card>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+    <div class="settings-grid">
       <mat-card *ngFor="let setting of feSettings">
         <mat-card-header>
           <mat-card-title>{{ setting.name | camelCaseTitle }}</mat-card-title>
@@ -70,10 +70,7 @@
 
   <mat-tab label="Backend">
     <!-- backend  -->
-    <div
-      *ngIf="ampdSettings | async as settings"
-      class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4"
-    >
+    <div *ngIf="ampdSettings | async as settings" class="settings-grid">
       <mat-card>
         <mat-card-content>
           <p class="mb-4">

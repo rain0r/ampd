@@ -33,7 +33,7 @@
       </div>
       <mat-divider *ngIf="play.track.albumName"></mat-divider>
       <div class="text-muted" *ngIf="play.track.albumName">
-        <a          
+        <a
           [queryParams]="{ dir: currentPathLink }"
           [routerLink]="['browse']"
           title="Go to the directory containing this track"

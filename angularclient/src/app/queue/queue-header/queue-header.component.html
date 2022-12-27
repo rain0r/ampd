@@ -32,9 +32,8 @@
         </a>
       </div>
       <mat-divider *ngIf="play.track.albumName"></mat-divider>
-      <div class="queue-sub-title" *ngIf="play.track.albumName">
-        <a
-          [class.text-muted]="play.state === 'pause'"
+      <div class="text-muted" *ngIf="play.track.albumName">
+        <a          
           [queryParams]="{ dir: currentPathLink }"
           [routerLink]="['browse']"
           title="Go to the directory containing this track"
@@ -43,7 +42,7 @@
         </a>
         <mat-divider></mat-divider>
       </div>
-      <div class="queue-sub-title">
+      <div>
         <a
           [class.text-muted]="play.state === 'pause'"
           [queryParams]="{ dir: currentPathLink }"

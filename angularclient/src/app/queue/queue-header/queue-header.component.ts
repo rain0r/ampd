@@ -27,7 +27,7 @@ export class QueueHeaderComponent {
     this.isRadioStream = this.mpdService.isCurrentTrackRadioStream$();
     this.currentPlay = combineLatest([
       this.mpdService.currentState$.pipe(startWith("stop")),
-      this.mpdService.currentTrack$,
+      this.mpdService.currentTrack$.pipe(startWith(<QueueTrack>{})),
     ]).pipe(
       map(([state, track]) => {
         return {

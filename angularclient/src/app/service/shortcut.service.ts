@@ -92,7 +92,7 @@ export class ShortcutService {
       ["G"]
     ),
     this.build(
-      Category.General,
+      Category.Navigation,
       () => void this.router.navigate(["/browse/radio-streams"]),
       "Navigate to radio streams",
       ["u"]

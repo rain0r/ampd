@@ -23,18 +23,18 @@ export class AlbumsService {
    * @returns
    */
   getAlbums(
-    searchTerm: string | null,
+    searchTerm: string,
     pageIndex: number | null,
-    sortBy: string | null
+    sortBy: string
   ): Observable<PaginatedResponse<MpdAlbum>> {
     let params = new HttpParams();
-    if (!!pageIndex) {
+    if (pageIndex) {
       params = params.append("pageIndex", pageIndex);
     }
-    if (!!searchTerm) {
+    if (searchTerm) {
       params = params.append("searchTerm", searchTerm);
     }
-    if (!!sortBy) {
+    if (sortBy) {
       params = params.append("sortBy", sortBy);
     }
     const url = `${this.settingsService.getBackendContextAddr()}api/albums`;

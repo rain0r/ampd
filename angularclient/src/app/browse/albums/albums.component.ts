@@ -79,31 +79,27 @@ export class AlbumsComponent implements OnInit {
   }
 
   private buildInputListener() {
-    // const searchInput = this.inputSetter$.asObservable().pipe(
-    //   bufferTime(1500),
-    //   distinctUntilChanged(),
-    //   filter((times: string[]) => times.length > 0),
-    //   map((input: string[]) => input[input.length - 1])
-    // );
-
     const pagination = this.msgService.message.pipe(
       filter((msg) => msg.type === InternMsgType.PaginationEvent),
       map((msg) => <PaginationMsg>msg),
       map((msg) => msg.event)
     );
-    const sortBy = this.activatedRoute.queryParamMap.pipe(
-      map((queryParamMap) => String(queryParamMap.get("sortBy")) || ""),
+    const sortBy: Observable<string> = this.activatedRoute.queryParamMap.pipe(
+      map((queryParamMap) => queryParamMap.get("sortBy") || ""),
+      startWith(""),
       tap((sortBy) => (this.sortBy = sortBy))
     );
-    const searchTerm = this.activatedRoute.queryParamMap.pipe(
-      map((queryParamMap) => String(queryParamMap.get("searchTerm")) || ""),
-      tap((searchTerm) => (this.searchTerm = searchTerm))
-    );
+    const searchTerm: Observable<string> =
+      this.activatedRoute.queryParamMap.pipe(
+        map((queryParamMap) => queryParamMap.get("searchTerm") || ""),
+        startWith(""),
+        tap((searchTerm) => (this.searchTerm = searchTerm))
+      );
 
     combineLatest([
       pagination.pipe(startWith({ pageIndex: null, pageSize: null })),
-      sortBy.pipe(),
-      searchTerm.pipe(),
+      sortBy,
+      searchTerm,
     ])
       .pipe(
         switchMap(([pagination, sortBy, searchTerm]) => {
@@ -115,7 +111,9 @@ export class AlbumsComponent implements OnInit {
           );
         })
       )
-      .subscribe((data) => this.processSearchResults(data));
+      .subscribe((data) => {
+        this.processSearchResults(data);
+      });
   }
 
   processSearchResults(data: PaginatedResponse<MpdAlbum>): void {

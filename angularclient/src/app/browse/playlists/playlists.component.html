@@ -8,17 +8,17 @@
     class="clickable"
     *ngFor="
       let playlist of playlists
-        | playlistFilter: filterValue
-        | slice: paginationFrom:paginationTo
+        | playlistFilter : filterValue
+        | slice : paginationFrom : paginationTo
     "
     [playlist]="playlist"
   ></app-playlist-entry>
 
   <mat-paginator
     *ngIf="
-      (playlists | playlistFilter: filterValue).length > 0 &&
+      (playlists | playlistFilter : filterValue).length > 0 &&
       paginationTo - paginationFrom <
-        (playlists | playlistFilter: filterValue).length
+        (playlists | playlistFilter : filterValue).length
     "
     [length]="playlists.length"
     (page)="getPaginatorData($event)"

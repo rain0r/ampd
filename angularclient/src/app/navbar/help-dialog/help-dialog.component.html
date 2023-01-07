@@ -9,7 +9,7 @@
         {{ shortcutSection }}
       </div>
       <div
-        *ngFor="let shortcut of shortcuts | filterByCategory: shortcutSection"
+        *ngFor="let shortcut of shortcuts | filterByCategory : shortcutSection"
         class="grid grid-cols-2 hover-background-color"
       >
         <div class="flex flex-col text-lg">

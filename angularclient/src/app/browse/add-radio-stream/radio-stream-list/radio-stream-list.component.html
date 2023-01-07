@@ -8,14 +8,16 @@
   <div class="inline md:hidden">
     <!-- Show on mobile -->
     <mat-card *ngFor="let stream of dataSource.data" class="stream-card">
-      <mat-card-title>{{ stream.name }}</mat-card-title>
+      <mat-card-title class="text-center pb-3">{{
+        stream.name
+      }}</mat-card-title>
 
-      <mat-card-content class="text-muted break-all">
+      <mat-card-content class="text-muted break-all mb-3">
         {{ stream.url }}
       </mat-card-content>
 
       <mat-card-actions>
-        <div class="flex flex-row justify-between">
+        <div class="flex flex-row flex-grow justify-end">
           <button
             mat-button
             (click)="onPlayStream(stream)"

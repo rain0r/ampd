@@ -96,7 +96,7 @@
   <!--Filter-->
   <div
     class="w-full md:w-1/3"
-    [class.invisible]="(filterDisabled$ | async) === false"
+    [class.collapse]="(filterDisabled$ | async) === false"
   >
     <mat-form-field>
       <mat-label>Filter</mat-label>

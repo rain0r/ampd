@@ -44,7 +44,8 @@ body {
 
 .page-title {
   @extend .heading-2;
-  @apply pb-8;
+  @apply p-4;
+  @apply mb-8;
 }
 
 .ampd-code {

@@ -1,12 +1,8 @@
 import { Injectable } from "@angular/core";
 import { BehaviorSubject, Observable, map } from "rxjs";
 import {
+  FrontendSettings,
   SettingKeys,
-  backendAddr,
-  darkTheme,
-  displayCovers,
-  displayInfoBtn,
-  updateTabTitle,
 } from "../shared/model/internal/frontend-settings";
 import { FrontendSetting } from "./../shared/model/internal/frontend-settings";
 
@@ -18,13 +14,7 @@ const LS_KEY = "ampd_userSettings";
 export class FrontendSettingsService {
   pageSizeOptions = [20, 50, 100];
 
-  private settings: FrontendSetting[] = [
-    darkTheme,
-    displayCovers,
-    updateTabTitle,
-    displayInfoBtn,
-    backendAddr,
-  ];
+  private settings: FrontendSetting[] = FrontendSettings;
   private settings$: Observable<FrontendSetting[]>;
   private settingsSub$: BehaviorSubject<FrontendSetting[]>;
 
@@ -71,6 +61,10 @@ export class FrontendSettingsService {
   getBoolValue(key: SettingKeys): boolean {
     const elem = this.settings.find((s) => s.name === key);
     return elem ? elem.value === "true" : false;
+  }
+
+  loadFrontendSettings$(): Observable<FrontendSetting[]> {
+    return this.settings$;
   }
 
   loadFrontendSettings(): FrontendSetting[] {

@@ -45,7 +45,7 @@
   </div>
 
   <!-- Albums -->
-  <div *ngIf="getParamDir === '/'">
+  <div *ngIf="getParamDir === '/' && (displayAlbums$ | async) === true">
     <button
       [routerLink]="['/browse/albums']"
       mat-raised-button
@@ -58,7 +58,7 @@
   </div>
 
   <!-- Genres -->
-  <div *ngIf="getParamDir === '/'">
+  <div *ngIf="getParamDir === '/' && (displayGenres$ | async) === true">
     <button
       [routerLink]="['/browse/genres']"
       mat-raised-button
@@ -71,7 +71,7 @@
   </div>
 
   <!-- Radio Streams -->
-  <div *ngIf="getParamDir === '/'">
+  <div *ngIf="getParamDir === '/' && (displayRadio$ | async) === true">
     <button
       [routerLink]="['/browse/radio-streams']"
       mat-raised-button
@@ -85,7 +85,11 @@
 
   <!--Clear queue-->
   <div>
-    <button mat-raised-button (click)="onClearQueue()" title="Clear the queue">
+    <button
+      *ngIf="(displayBrowseClearQueue$ | async) === true"
+      mat-raised-button
+      (click)="onClearQueue()"
+    >
       <mat-icon>delete</mat-icon>
       <span class="hidden md:inline">Clear queue</span>
     </button>

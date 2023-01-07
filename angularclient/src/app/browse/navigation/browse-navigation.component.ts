@@ -9,10 +9,12 @@ import {
 import { ActivatedRoute } from "@angular/router";
 import { BehaviorSubject, Observable } from "rxjs";
 import { distinctUntilChanged, map } from "rxjs/operators";
+import { FrontendSettingsService } from "src/app/service/frontend-settings.service";
 import {
   FilterMsg,
   InternMsgType,
 } from "src/app/shared/messages/internal/internal-msg";
+import { SettingKeys } from "src/app/shared/model/internal/frontend-settings";
 import { ControlPanelService } from "../../service/control-panel.service";
 import { MsgService } from "../../service/msg.service";
 import { NotificationService } from "../../service/notification.service";
@@ -33,14 +35,32 @@ export class BrowseNavigationComponent implements OnInit {
   filterDisabled$ = new BehaviorSubject<boolean>(true);
   filter = "";
   getParamDir = "/";
+  displayAlbums$: Observable<boolean>;
+  displayGenres$: Observable<boolean>;
+  displayRadio$: Observable<boolean>;
+  displayBrowseClearQueue$: Observable<boolean>;
 
   constructor(
     private activatedRoute: ActivatedRoute,
     private controlPanelService: ControlPanelService,
+    private fsService: FrontendSettingsService,
     private messageService: MsgService,
     private notificationService: NotificationService,
     private queueService: QueueService
   ) {
+    this.displayAlbums$ = this.fsService.getBoolValue$(
+      SettingKeys.DISPLAY_ALBUMS
+    );
+    this.displayGenres$ = this.fsService.getBoolValue$(
+      SettingKeys.DISPLAY_GENRES
+    );
+    this.displayRadio$ = this.fsService.getBoolValue$(
+      SettingKeys.DISPLAY_RADIO
+    );
+    this.displayBrowseClearQueue$ = this.fsService.getBoolValue$(
+      SettingKeys.DISPLAY_BROWSE_CLEAR_QUEUE
+    );
+
     this.activatedRoute.queryParamMap
       .pipe(
         map((qp) => <string>qp.get("dir") || "/"),

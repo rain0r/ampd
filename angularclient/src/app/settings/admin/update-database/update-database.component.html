@@ -1,19 +1,11 @@
-<div class="flex flex-col gap-y-2">
-  <mat-card class="w-full md:w-1/2">
-    <mat-card-header>
-      <mat-card-title>Update database</mat-card-title>
-    </mat-card-header>
-    <mat-card-content>
+<mat-card class="w-full md:w-1/2 mt-2">
+  <mat-card-content class="w-full">
+    <div class="grid grid-cols-2 gap-y-4">
+      <span>Update database</span>
       <button mat-stroked-button (click)="updateDatabase()">Update</button>
-    </mat-card-content>
-  </mat-card>
 
-  <mat-card class="w-full md:w-1/2">
-    <mat-card-header>
-      <mat-card-title>Rescan database</mat-card-title>
-    </mat-card-header>
-    <mat-card-content>
+      <span>Rescan database</span>
       <button mat-stroked-button (click)="rescanDatabase()">Rescan</button>
-    </mat-card-content>
-  </mat-card>
-</div>
+    </div>
+  </mat-card-content>
+</mat-card>

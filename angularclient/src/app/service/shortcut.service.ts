@@ -94,7 +94,7 @@ export class ShortcutService {
     this.build(
       Category.Navigation,
       () => void this.router.navigate(["/browse/radio-streams"]),
-      "Navigate to radio streams",
+      "Radio streams",
       ["u"]
     ),
     this.build(

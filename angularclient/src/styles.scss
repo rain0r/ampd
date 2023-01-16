@@ -39,7 +39,7 @@ body {
 }
 
 .browse-title {
-  @apply flex flex-row gap-x-3 mb-4 pt-4 font-semibold text-lg;
+  @apply flex flex-row gap-x-3 mb-4 pt-4 font-semibold text-lg justify-center md:justify-start;
 }
 
 .page-title {

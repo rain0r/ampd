@@ -86,7 +86,7 @@ public class PlaylistService {
 			ret = Optional.of(new PlaylistInfo(name, page));
 		}
 		catch (Exception e) {
-			LOG.warn("Could not get info about playlist: {}", name);
+			LOG.error("Could not get info about playlist: {}", name, e);
 		}
 		return ret;
 	}

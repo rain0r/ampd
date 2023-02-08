@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { BehaviorSubject, combineLatest, Observable, of, Subject } from "rxjs";
+import { BehaviorSubject, Observable, Subject, combineLatest, of } from "rxjs";
 import {
   debounceTime,
   distinctUntilChanged,
@@ -69,11 +69,9 @@ export class SearchComponent implements OnInit {
   }
 
   onAddAll(): void {
-    const filePaths: string[] = [];
-    this.searchResultTracks.forEach((file: QueueTrack) => {
-      filePaths.push(file.file);
-    });
-    this.queueService.addTracks(filePaths);
+    this.queueService.addTracks(
+      this.trackTableData.dataSource.data.map((qt: QueueTrack) => qt.file)
+    );
   }
 
   onClearQueue(): void {

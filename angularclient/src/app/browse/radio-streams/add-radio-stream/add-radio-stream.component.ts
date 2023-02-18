@@ -1,17 +1,14 @@
-import { Component, OnInit } from "@angular/core";
+import { Component } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
-import { MatTableDataSource } from "@angular/material/table";
-import { map, Observable } from "rxjs";
-import { RadioStreamService } from "../../service/radio-stream.service";
-import { RadioStream } from "../../shared/model/db/radio-stream";
+import { RadioStreamService } from "../../../service/radio-stream.service";
+import { RadioStream } from "../../../shared/model/db/radio-stream";
 
 @Component({
   selector: "app-add-radio-stream",
   templateUrl: "./add-radio-stream.component.html",
   styleUrls: ["./add-radio-stream.component.scss"],
 })
-export class AddStreamComponent implements OnInit {
-  dataSource$ = new Observable<MatTableDataSource<RadioStream>>();
+export class AddStreamComponent {
   radioStreamForm = new FormGroup({
     // eslint-disable-next-line  @typescript-eslint/unbound-method
     name: new FormControl("", Validators.required),
@@ -21,10 +18,6 @@ export class AddStreamComponent implements OnInit {
 
   constructor(private radioService: RadioStreamService) {}
 
-  ngOnInit(): void {
-    this.loadData();
-  }
-
   onSubmit(): void {
     this.radioService
       .addRadioStream({
@@ -33,7 +26,7 @@ export class AddStreamComponent implements OnInit {
       } as RadioStream)
       .subscribe(() => {
         this.radioStreamForm.reset();
-        this.loadData();
+        window.location.reload();
       });
   }
 
@@ -43,11 +36,5 @@ export class AddStreamComponent implements OnInit {
 
   get url(): FormControl {
     return this.radioStreamForm.get("url") as FormControl;
-  }
-
-  private loadData(): void {
-    this.dataSource$ = this.radioService
-      .getRadioStreams()
-      .pipe(map((data) => new MatTableDataSource<RadioStream>(data)));
   }
 }

@@ -7,8 +7,6 @@ import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
-import { AddStreamComponent } from "./browse/add-radio-stream/add-radio-stream.component";
-import { RadioStreamListComponent } from "./browse/add-radio-stream/radio-stream-list/radio-stream-list.component";
 import { AlbumDialogComponent } from "./browse/albums/album-dialog/album-dialog.component";
 import { AlbumItemComponent } from "./browse/albums/album-item/album-item.component";
 import { AlbumsComponent } from "./browse/albums/albums.component";
@@ -22,6 +20,10 @@ import { BrowseNavigationComponent } from "./browse/navigation/browse-navigation
 import { PlaylistEntryComponent } from "./browse/playlists/playlist-entry/playlist-entry.component";
 import { PlaylistInfoDialogComponent } from "./browse/playlists/playlist-info-dialog/playlist-info-dialog.component";
 import { PlaylistsComponent } from "./browse/playlists/playlists.component";
+import { AddStreamComponent } from "./browse/radio-streams/add-radio-stream/add-radio-stream.component";
+import { ImportRadioStreamsComponent } from "./browse/radio-streams/import-radio-streams/import-radio-streams.component";
+import { RadioStreamListComponent } from "./browse/radio-streams/radio-stream-list/radio-stream-list.component";
+import { RadioStreamsComponent } from "./browse/radio-streams/radio-streams.component";
 import { TrackInfoDialogComponent } from "./browse/tracks/track-info-dialog/track-info-dialog.component";
 import { TracksComponent } from "./browse/tracks/tracks.component";
 import { DynamicFormInputComponent } from "./dynamic-form-input/dynamic-form-input.component";
@@ -122,6 +124,8 @@ const prefersReducedMotion =
     AdvancedSearchComponent,
     AddStreamDialogComponent,
     AlbumCoverDialogComponent,
+    ImportRadioStreamsComponent,
+    RadioStreamsComponent,
   ],
   imports: [
     AppRoutingModule,

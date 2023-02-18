@@ -3,7 +3,9 @@ package org.hihn.ampd.server.controller;
 import org.hihn.ampd.server.model.db.RadioStream;
 import org.hihn.ampd.server.service.RadioService;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -35,6 +37,14 @@ public class RadioStreamController {
 	@ResponseStatus(HttpStatus.OK)
 	public List<RadioStream> delete(@PathVariable("id") int streamId) {
 		return radioService.deleteStream(streamId);
+	}
+
+	@PostMapping("/import")
+	public ResponseEntity<String> handleFileUpload(@RequestParam("radio-stations") MultipartFile file) {
+		if (radioService.importRadioStations(file)) {
+			return ResponseEntity.ok().build();
+		}
+		return ResponseEntity.badRequest().build();
 	}
 
 }

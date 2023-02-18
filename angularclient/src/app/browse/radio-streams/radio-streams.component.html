@@ -1,0 +1,13 @@
+<app-browse-navigation [filterDisabled]="true"></app-browse-navigation>
+
+<div class="page-title">Radio Streams</div>
+
+<div *ngIf="dataSource$ | async as dataSource">
+  <div class="my-4">
+    <app-radio-stream-list [dataSource]="dataSource"></app-radio-stream-list>
+    <mat-divider></mat-divider>
+    <app-add-radio-stream></app-add-radio-stream>
+    <mat-divider></mat-divider>
+    <app-import-radio-streams></app-import-radio-streams>
+  </div>
+</div>

@@ -1,0 +1,34 @@
+<div class="my-8">
+  <div class="page-sub-title">Import radio streams</div>
+  <input
+    type="file"
+    class="file-input"
+    [accept]="requiredFileType"
+    (change)="onFileSelected($event)"
+    #fileUpload
+  />
+
+  <div class="my-3">
+    <div class="file-upload">
+      <span *ngIf="fileName; else selectFile">fileName</span>
+      <ng-template #selectFile>
+        Select a <span class="font-mono">JSON</span> file that contains radio
+        streams:
+      </ng-template>
+
+      <button
+        mat-mini-fab
+        color="primary"
+        class="upload-btn"
+        (click)="fileUpload.click()"
+      >
+        <mat-icon>attach_file</mat-icon>
+      </button>
+    </div>
+  </div>
+
+  <div class="my-8 w-full md:w-1/2">
+    Example:
+    <pre class="border p-2"><code [innerHTML]="exampleJson"></code></pre>
+  </div>
+</div>

@@ -64,7 +64,8 @@ If you plan to run `ampd` as a service behind another webserver, please see [dep
 
 `ampd` has some shortcuts built in:
 
-* `<space>` or `p`: Pauses the current running song. If the browser focus is on another button, that button may be triggered.
+* `<space>` or `p`: Pauses the current running song. If the browser focus is on another button, that button may be
+  triggered.
 * `<arrow left>`: Previous song.
 * `<arrow right>` Next song.
 * `f`: Sets the focus to the filter. This is enabled on both the `Queue` and `Browse` view.
@@ -74,3 +75,27 @@ If you plan to run `ampd` as a service behind another webserver, please see [dep
 * `4`: Navigate to the settings view
 
 Press `h` to see a list of all shortcuts. Alternatively, click on the question mark-icon in the top right corner.
+
+## Importing radio streams
+
+`ampd` supports the bulk import of radio streams. For that, navigate to the radio streams page
+under `/browse/radio-streams` and scroll down to `Import radio streams`.
+
+From there, select a `JSON`-file with your streams and upload it.
+
+The `JSON`-file has to be in this format:
+
+```json
+{
+  "streams": [
+    {
+      "name": "radio station 1",
+      "url": "https://example.com/1.m3u"
+    },
+    {
+      "name": "another radio station",
+      "url": "https://example.com/2.m3u"
+    }
+  ]
+}
+```

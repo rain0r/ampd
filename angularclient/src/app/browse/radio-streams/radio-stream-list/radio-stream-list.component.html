@@ -1,5 +1,6 @@
 <div *ngIf="dataSource.data.length > 0; else noResults">
-  <div class="flex justify-end my-3">
+  <div class="flex justify-between my-3">
+    <div class="page-sub-title">Saved radio streams</div>
     <button mat-stroked-button color="primary" (click)="onAddAll()">
       Add all to queue
     </button>

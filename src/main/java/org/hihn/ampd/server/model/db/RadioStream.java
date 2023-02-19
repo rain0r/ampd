@@ -1,5 +1,7 @@
 package org.hihn.ampd.server.model.db;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 
@@ -9,6 +11,7 @@ public class RadioStream {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "id")
+	@JsonProperty("id")
 	private Long streamId;
 
 	@NotBlank(message = "Url is mandatory")

@@ -27,4 +27,11 @@ export class RadioStreamService {
     const url = `${this.settingsService.getBackendContextAddr()}api/radio-streams/${id}`;
     return this.http.delete<RadioStream[]>(url);
   }
+
+  uploadImportFile(formData: FormData): Observable<unknown> {
+    return this.http.post<unknown>(
+      `${this.settingsService.getBackendContextAddr()}api/radio-streams/import`,
+      formData
+    );
+  }
 }

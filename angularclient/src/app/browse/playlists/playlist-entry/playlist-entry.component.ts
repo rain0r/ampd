@@ -1,5 +1,7 @@
+import { delay, of } from "rxjs";
 import { Component, Input } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
+import { ControlPanelService } from "src/app/service/control-panel.service";
 import { NotificationService } from "../../../service/notification.service";
 import { QueueService } from "../../../service/queue.service";
 import { Playlist } from "../../../shared/messages/incoming/playlist";
@@ -14,20 +16,34 @@ export class PlaylistEntryComponent {
   @Input() playlist: Playlist = <Playlist>{};
 
   constructor(
+    private controlPanelService: ControlPanelService,
     private dialog: MatDialog,
     private notificationService: NotificationService,
     private queueService: QueueService
   ) {}
-
-  onRowClick(playlistName: string): void {
-    this.queueService.addPlaylist(playlistName);
-    this.notificationService.popUp(`Added playlist: "${playlistName}"`);
-  }
 
   onPlaylistInfo($event: MouseEvent, playlist: Playlist): void {
     $event.stopPropagation();
     this.dialog.open(PlaylistInfoDialogComponent, {
       data: playlist,
     });
+  }
+
+  onPlayDir($event: MouseEvent, playlistName: string): void {
+    $event.stopPropagation();
+    this.queueService.addPlaylist(playlistName);
+    of(null)
+      .pipe(delay(500))
+      .subscribe(
+        // Delay hitting "play" since the tracks might not yet been to the queue
+        () => this.controlPanelService.play()
+      );
+    this.notificationService.popUp(`Playing playlist: "${playlistName}"`);
+  }
+
+  onAddDir($event: MouseEvent, playlistName: string): void {
+    $event.stopPropagation();
+    this.queueService.addPlaylist(playlistName);
+    this.notificationService.popUp(`Playing playlist: "${playlistName}"`);
   }
 }

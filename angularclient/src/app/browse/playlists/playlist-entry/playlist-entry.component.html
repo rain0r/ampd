@@ -1,10 +1,10 @@
 <div
-  (click)="onRowClick(playlist.name)"
   class="browse-list-item"
-  title="Click to add this playlist"
+  [title]="'Click to show playlist: ' + playlist.name"
+  (click)="onPlaylistInfo($event, playlist)"
 >
   <mat-icon>list</mat-icon>
-  <div class="flex-grow dont-break-out name">
+  <div class="flex-grow break-all">
     {{ playlist.name }}
   </div>
   <div class="text-muted" [title]="playlist.count + 'tracks in this playlist'">
@@ -12,9 +12,16 @@
   </div>
   <button
     mat-button
-    [title]="'Click to show playlist: ' + playlist.name"
-    (click)="onPlaylistInfo($event, playlist)"
+    title="Play this playlist"
+    (click)="onPlayDir($event, playlist.name)"
   >
-    <mat-icon>info</mat-icon>
+    <mat-icon> play_arrow</mat-icon>
+  </button>
+  <button
+    (click)="onAddDir($event, playlist.name)"
+    mat-button
+    title="Add directory to the queue"
+  >
+    <mat-icon> add</mat-icon>
   </button>
 </div>

@@ -1,3 +1,4 @@
+import { delay, of } from "rxjs";
 import { Component, Input, OnInit } from "@angular/core";
 import { ControlPanelService } from "../../../service/control-panel.service";
 import { NotificationService } from "../../../service/notification.service";
@@ -28,7 +29,12 @@ export class DirectoryEntryComponent implements OnInit {
   onPlayDir($event: MouseEvent, dir: string): void {
     $event.stopPropagation();
     this.onAddDir($event, dir);
-    this.controlPanelService.play();
+    of(null)
+      .pipe(delay(500))
+      .subscribe(
+        // Delay hitting "play" since the tracks might not yet been to the queue
+        () => this.controlPanelService.play()
+      );
     this.notificationService.popUp(`Playing directory: "${dir}"`);
   }
 

@@ -50,4 +50,16 @@ export class RadioStreamListComponent implements AfterViewInit {
     const streams = this.dataSource.data.map((rs) => rs.url);
     this.queueService.addTracks(streams);
   }
+
+  applyFilter(eventTarget: EventTarget | null): void {
+    if (!eventTarget) {
+      return;
+    }
+    const filterValue = (<HTMLInputElement>eventTarget).value;
+    this.dataSource.filter = filterValue.toLowerCase();
+  }
+
+  resetFilter(): void {
+    this.dataSource.filter = "";
+  }
 }

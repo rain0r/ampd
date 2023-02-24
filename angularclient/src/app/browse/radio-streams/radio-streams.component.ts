@@ -1,3 +1,4 @@
+import { SettingsService } from "./../../service/settings.service";
 import { Component, OnInit } from "@angular/core";
 import { MatTableDataSource } from "@angular/material/table";
 import { Observable, map } from "rxjs";
@@ -11,8 +12,14 @@ import { RadioStream } from "src/app/shared/model/db/radio-stream";
 })
 export class RadioStreamsComponent implements OnInit {
   dataSource$ = new Observable<MatTableDataSource<RadioStream>>();
+  exportRadioStreamsUrls: string;
 
-  constructor(private radioService: RadioStreamService) {}
+  constructor(
+    private radioService: RadioStreamService,
+    private settingsService: SettingsService
+  ) {
+    this.exportRadioStreamsUrls = `${this.settingsService.getBackendContextAddr()}api/radio-streams`;
+  }
 
   ngOnInit(): void {
     this.loadData();

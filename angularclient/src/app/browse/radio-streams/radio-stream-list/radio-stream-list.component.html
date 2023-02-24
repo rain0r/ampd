@@ -1,6 +1,29 @@
 <div *ngIf="dataSource.data.length > 0; else noResults">
   <div class="flex justify-between my-3">
     <div class="page-sub-title">Saved radio streams</div>
+    <div>
+      <mat-form-field class="w-full">
+        <input
+          (keydown.escape)="resetFilter()"
+          (keyup)="applyFilter($event.target)"
+          [(ngModel)]="dataSource.filter"
+          #filterInputElem
+          autocomplete="off"
+          matInput
+          placeholder="Filter queue"
+          type="text"
+        />
+        <mat-icon
+          (click)="resetFilter()"
+          *ngIf="dataSource.filter"
+          aria-label="Clear"
+          matSuffix
+        >
+          close
+        </mat-icon>
+      </mat-form-field>
+    </div>
+
     <button mat-stroked-button color="primary" (click)="onAddAll()">
       Add all to queue
     </button>

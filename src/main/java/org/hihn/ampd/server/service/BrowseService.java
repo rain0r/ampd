@@ -68,8 +68,9 @@ public class BrowseService {
 			}
 			else {
 				String cleanedPath = file.getPath().replaceAll("'", "\\'");
-				Collection<MPDSong> searchResults = mpd.getMusicDatabase().getSongDatabase()
-						.searchFileName(cleanedPath);
+				Collection<MPDSong> searchResults = mpd.getMusicDatabase()
+					.getSongDatabase()
+					.searchFileName(cleanedPath);
 				if (!searchResults.isEmpty()) {
 					browsePayload.addTrack(searchResults.iterator().next());
 				}

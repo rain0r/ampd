@@ -86,8 +86,10 @@ public class PlaylistService {
 		try {
 			// Retrieve list of audio files in the playlist
 			List<String> response = mpd.getCommandExecutor().sendCommand(new DatabaseProperties().getListSongs(), name);
-			List<MPDSong> plTracks = songConverter.getSongFileNameList(response).stream()
-					.map((filePath) -> MPDSong.builder().file(filePath).build()).collect(Collectors.toList());
+			List<MPDSong> plTracks = songConverter.getSongFileNameList(response)
+				.stream()
+				.map((filePath) -> MPDSong.builder().file(filePath).build())
+				.collect(Collectors.toList());
 			PageImpl<MPDSong> page = getPage(plTracks, pageIndex, pageSize);
 			ret = Optional.of(new PlaylistInfo(name, page));
 		}

@@ -55,17 +55,20 @@ public class GenreService {
 
 	private PageImpl<MPDAlbum> getAlbums(String genre, int pageIndex, Integer pageSize) {
 		List<MPDAlbum> albums = new ArrayList<>();
-		mpd.getMusicDatabase().getAlbumDatabase().listAllAlbums().stream()
-				.filter(mpdAlbum -> !mpdAlbum.getGenres().isEmpty() && !StringUtils.isNullOrEmpty(mpdAlbum.getName())
-						&& !StringUtils.isNullOrEmpty(mpdAlbum.getAlbumArtist()))
-				.forEach(mpdAlbum -> {
-					Set<String> genres = new TreeSet<>();
-					mpdAlbum.getGenres()
-							.forEach(foo -> Arrays.stream(foo.split(",")).forEach(bar -> genres.add(bar.trim())));
-					if (genres.contains(genre)) {
-						albums.add(mpdAlbum);
-					}
-				});
+		mpd.getMusicDatabase()
+			.getAlbumDatabase()
+			.listAllAlbums()
+			.stream()
+			.filter(mpdAlbum -> !mpdAlbum.getGenres().isEmpty() && !StringUtils.isNullOrEmpty(mpdAlbum.getName())
+					&& !StringUtils.isNullOrEmpty(mpdAlbum.getAlbumArtist()))
+			.forEach(mpdAlbum -> {
+				Set<String> genres = new TreeSet<>();
+				mpdAlbum.getGenres()
+					.forEach(foo -> Arrays.stream(foo.split(",")).forEach(bar -> genres.add(bar.trim())));
+				if (genres.contains(genre)) {
+					albums.add(mpdAlbum);
+				}
+			});
 		Pageable pageable = PageRequest.of(pageIndex, getPageSize(pageSize));
 		PagedListHolder<MPDAlbum> pages = new PagedListHolder<>(albums);
 		pages.setPage(pageIndex);
@@ -79,8 +82,8 @@ public class GenreService {
 		List<MPDSong> tracks = new ArrayList<>(songSearcher.search(crit));
 
 		Comparator<MPDSong> trackComp = Comparator
-				.comparing(MPDSong::getAlbumArtist, Comparator.nullsLast(Comparator.naturalOrder()))
-				.thenComparing(MPDSong::getName, Comparator.nullsLast(Comparator.naturalOrder()));
+			.comparing(MPDSong::getAlbumArtist, Comparator.nullsLast(Comparator.naturalOrder()))
+			.thenComparing(MPDSong::getName, Comparator.nullsLast(Comparator.naturalOrder()));
 
 		tracks.sort(trackComp);
 

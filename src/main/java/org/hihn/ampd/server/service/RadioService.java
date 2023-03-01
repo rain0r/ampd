@@ -43,7 +43,7 @@ public class RadioService {
 		ObjectMapper objectMapper = new ObjectMapper();
 		try {
 			String result = new BufferedReader(new InputStreamReader(file.getInputStream())).lines()
-					.collect(Collectors.joining("\n"));
+				.collect(Collectors.joining("\n"));
 			ImportJsonFile car = objectMapper.readValue(result, ImportJsonFile.class);
 			car.getStreams().forEach(this::addRadioStream);
 		}

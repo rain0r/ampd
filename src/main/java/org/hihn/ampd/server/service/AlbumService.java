@@ -57,45 +57,47 @@ public class AlbumService {
 	@Cacheable
 	public PageImpl<MPDAlbum> listAllAlbums(String searchTermP, int pageIndex, Integer pageSize, String sortBy) {
 		String searchTerm = searchTermP.toLowerCase().trim();
-		List<MPDAlbum> filteredAlbums = mpd.getMusicDatabase().getAlbumDatabase().listAllAlbums().stream()
-				.filter(album -> {
-					if (album.getName().isBlank()) {
-						// No album title
-						return false;
-					}
-					if (album.getArtistNames().isEmpty() && StringUtils.isNullOrEmpty(album.getAlbumArtist())) {
-						// No info about the album artist
-						return false;
-					}
-					if (album.getArtistNames().isEmpty()) {
-						album.getArtistNames().add(album.getAlbumArtist());
-					}
-					else {
-						album.setAlbumArtist(album.getArtistNames().get(0));
-					}
+		List<MPDAlbum> filteredAlbums = mpd.getMusicDatabase()
+			.getAlbumDatabase()
+			.listAllAlbums()
+			.stream()
+			.filter(album -> {
+				if (album.getName().isBlank()) {
+					// No album title
+					return false;
+				}
+				if (album.getArtistNames().isEmpty() && StringUtils.isNullOrEmpty(album.getAlbumArtist())) {
+					// No info about the album artist
+					return false;
+				}
+				if (album.getArtistNames().isEmpty()) {
+					album.getArtistNames().add(album.getAlbumArtist());
+				}
+				else {
+					album.setAlbumArtist(album.getArtistNames().get(0));
+				}
 
-					try {
-						int albumContains = mpd.getMusicDatabase().getSongDatabase().findAlbum(album).size();
-						if (albumContains < 2) {
-							// Some tracks have the album attribute set but are not
-							// actually
-							// part of an album but a singleton. Only use albums with at
-							// least
-							// 2 tracks
-							return false;
-						}
-					}
-					catch (MPDConnectionException e) {
+				try {
+					int albumContains = mpd.getMusicDatabase().getSongDatabase().findAlbum(album).size();
+					if (albumContains < 2) {
+						// Some tracks have the album attribute set but are not
+						// actually
+						// part of an album but a singleton. Only use albums with at
+						// least
+						// 2 tracks
 						return false;
 					}
+				}
+				catch (MPDConnectionException e) {
+					return false;
+				}
 
-					return album.getName().toLowerCase().contains(searchTerm)
-							|| album.getAlbumArtist().toLowerCase().contains(searchTerm)
-							|| album.getArtistNames().get(0).toLowerCase().contains(searchTerm);
-				})
-				.sorted(Comparator
-						.comparing(a -> sortBy.equals(SortBy.NAME.getKey()) ? a.getName() : a.getAlbumArtist()))
-				.collect(Collectors.toList());
+				return album.getName().toLowerCase().contains(searchTerm)
+						|| album.getAlbumArtist().toLowerCase().contains(searchTerm)
+						|| album.getArtistNames().get(0).toLowerCase().contains(searchTerm);
+			})
+			.sorted(Comparator.comparing(a -> sortBy.equals(SortBy.NAME.getKey()) ? a.getName() : a.getAlbumArtist()))
+			.collect(Collectors.toList());
 
 		if (sortBy.equals(SortBy.RANDOM.getKey())) {
 			Collections.shuffle(filteredAlbums);

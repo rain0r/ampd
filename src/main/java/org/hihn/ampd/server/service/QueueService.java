@@ -53,8 +53,8 @@ public class QueueService {
 	 * @param tracks The path of the tracks.
 	 */
 	public void addTracks(ArrayList<String> tracks) {
-		mpd.getPlaylist().addSongs(
-				tracks.stream().map(track -> MPDSong.builder().file(track).build()).collect(Collectors.toList()));
+		mpd.getPlaylist()
+			.addSongs(tracks.stream().map(track -> MPDSong.builder().file(track).build()).collect(Collectors.toList()));
 	}
 
 	/**
@@ -62,9 +62,13 @@ public class QueueService {
 	 * @param path The path of the track.
 	 */
 	public void playTrack(String path) {
-		mpd.getPlaylist().getSongList().stream().filter(song -> song.getFile().equals(path)).findFirst()
-				.ifPresentOrElse(song -> mpd.getPlayer().playSong(song),
-						() -> LOG.info("Could not find playlist track: {}", path));
+		mpd.getPlaylist()
+			.getSongList()
+			.stream()
+			.filter(song -> song.getFile().equals(path))
+			.findFirst()
+			.ifPresentOrElse(song -> mpd.getPlayer().playSong(song),
+					() -> LOG.info("Could not find playlist track: {}", path));
 	}
 
 	/**
@@ -96,8 +100,8 @@ public class QueueService {
 	}
 
 	public void addAlbum(AddPlayAlbum addPlayAlbum) {
-		mpd.getPlaylist().insertAlbum(
-				MPDAlbum.builder(addPlayAlbum.getName()).albumArtist(addPlayAlbum.getAlbumArtist()).build());
+		mpd.getPlaylist()
+			.insertAlbum(MPDAlbum.builder(addPlayAlbum.getName()).albumArtist(addPlayAlbum.getAlbumArtist()).build());
 	}
 
 	public void addPlayAlbum(AddPlayAlbum addPlayAlbum) {

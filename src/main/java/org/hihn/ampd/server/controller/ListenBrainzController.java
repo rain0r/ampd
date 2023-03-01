@@ -25,7 +25,7 @@ public class ListenBrainzController {
 	public Listens filterListens(@PathVariable String username, @RequestParam() int maxTs, @RequestParam() int minTs,
 			@RequestParam() int count) {
 		return service.getListens(username, maxTs, minTs, count)
-				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+			.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 	}
 
 }

@@ -32,7 +32,7 @@ public class CoverController {
 	@RequestMapping(value = { "/find-dir-cover" }, produces = MediaType.IMAGE_JPEG_VALUE)
 	public @ResponseBody byte[] findAlbumCoverForDir(@RequestParam("path") String dirPath) {
 		return albumArtService.loadArtworkForDir(dirPath)
-				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+			.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 	}
 
 	/**
@@ -43,14 +43,14 @@ public class CoverController {
 	@RequestMapping(value = { "/find-track-cover" }, produces = MediaType.IMAGE_JPEG_VALUE)
 	public @ResponseBody byte[] findAlbumCoverForTrack(@RequestParam("path") String trackFilePath) {
 		return albumArtService.findAlbumCoverForTrack(trackFilePath)
-				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+			.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 	}
 
 	@RequestMapping(value = { "/find-album-cover" }, produces = MediaType.IMAGE_JPEG_VALUE)
 	public @ResponseBody byte[] findAlbumCoverForArtistAndName(@RequestParam("albumName") String albumName,
 			@RequestParam("artistName") String artistName) {
 		return albumArtService.findAlbumCoverForAlbum(albumName, artistName)
-				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+			.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 	}
 
 }

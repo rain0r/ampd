@@ -71,16 +71,16 @@ public class Publisher {
 		mpd.getStandAloneMonitor().start();
 
 		mpd.getStandAloneMonitor()
-				.addTrackPositionChangeListener(event -> template.convertAndSend(QUEUE_URL, queueService.getQueue()));
+			.addTrackPositionChangeListener(event -> template.convertAndSend(QUEUE_URL, queueService.getQueue()));
 
 		mpd.getStandAloneMonitor()
-				.addBitrateChangeListener(event -> template.convertAndSend(QUEUE_URL, queueService.getQueue()));
+			.addBitrateChangeListener(event -> template.convertAndSend(QUEUE_URL, queueService.getQueue()));
 
 		mpd.getStandAloneMonitor()
-				.addVolumeChangeListener(event -> template.convertAndSend(QUEUE_URL, queueService.getQueue()));
+			.addVolumeChangeListener(event -> template.convertAndSend(QUEUE_URL, queueService.getQueue()));
 
 		mpd.getStandAloneMonitor()
-				.addPlayerChangeListener(event -> template.convertAndSend(QUEUE_URL, queueService.getQueue()));
+			.addPlayerChangeListener(event -> template.convertAndSend(QUEUE_URL, queueService.getQueue()));
 
 		mpd.getStandAloneMonitor().addPlaylistChangeListener(event ->
 

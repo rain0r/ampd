@@ -25,8 +25,11 @@ public class MpdConfig {
 			return MPD.builder().server(ampdSettings.getMpdServer()).port(ampdSettings.getMpdPort()).build();
 		}
 		else {
-			return MPD.builder().server(ampdSettings.getMpdServer()).port(ampdSettings.getMpdPort())
-					.password(ampdSettings.getMpdPassword()).build();
+			return MPD.builder()
+				.server(ampdSettings.getMpdServer())
+				.port(ampdSettings.getMpdPort())
+				.password(ampdSettings.getMpdPassword())
+				.build();
 		}
 	}
 

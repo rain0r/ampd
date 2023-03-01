@@ -31,7 +31,7 @@ public class PlaylistController {
 	public PlaylistInfo getPlaylist(@PathVariable("name") String playlistName,
 			@RequestParam(defaultValue = "0") int pageIndex, @RequestParam(required = false) Integer pageSize) {
 		return playlistService.getPlaylistInfo(playlistName, pageIndex, pageSize)
-				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+			.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 	}
 
 	@PostMapping("/")

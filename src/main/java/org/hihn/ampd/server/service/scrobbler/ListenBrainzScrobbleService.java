@@ -83,7 +83,7 @@ public class ListenBrainzScrobbleService implements AmpdScrobbler {
 		extractTrackMapKey(song.getTagMap().get("MUSICBRAINZ_RELEASETRACKID")).ifPresent(info::setTrackMbid);
 		extractTrackMapKey(song.getTagMap().get("MUSICBRAINZ_ALBUMID")).ifPresent(info::setReleaseMbid);
 		extractTrackMapKey(song.getTagMap().get("MUSICBRAINZ_ARTISTID"))
-				.ifPresent(artistMbId -> info.setArtistMbids(List.of(artistMbId)));
+			.ifPresent(artistMbId -> info.setArtistMbids(List.of(artistMbId)));
 		return info;
 	}
 

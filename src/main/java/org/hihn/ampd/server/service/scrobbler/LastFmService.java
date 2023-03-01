@@ -64,9 +64,9 @@ public class LastFmService implements AmpdScrobbler {
 
 			// Only attempt authentication if all fields are set
 			boolean valid = Stream
-					.of(ampdSettings.getLastfmApiUsername(), ampdSettings.getLastfmApiPassword(),
-							ampdSettings.getLastfmApiKey(), ampdSettings.getLastfmApiSecret())
-					.noneMatch(String::isBlank);
+				.of(ampdSettings.getLastfmApiUsername(), ampdSettings.getLastfmApiPassword(),
+						ampdSettings.getLastfmApiKey(), ampdSettings.getLastfmApiSecret())
+				.noneMatch(String::isBlank);
 
 			if (!valid) {
 				return;

@@ -25,8 +25,9 @@ public class JsonExceptionHandler {
 			LOG.error(exception.getMessage(), exception);
 		}
 
-		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).contentType(MediaType.APPLICATION_JSON)
-				.body(new ErrorResponse(exception.getMessage()));
+		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+			.contentType(MediaType.APPLICATION_JSON)
+			.body(new ErrorResponse(exception.getMessage()));
 	}
 
 }

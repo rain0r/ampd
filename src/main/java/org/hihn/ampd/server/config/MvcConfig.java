@@ -17,7 +17,7 @@ public class MvcConfig {
 	@Bean
 	public Jackson2ObjectMapperBuilder jackson2ObjectMapperBuilder() {
 		Jackson2ObjectMapperBuilder builder = new Jackson2ObjectMapperBuilder()
-				.serializationInclusion(JsonInclude.Include.NON_NULL);
+			.serializationInclusion(JsonInclude.Include.NON_NULL);
 		builder.mixIn(ServerStatus.class, AbstractServerStatusMixIn.class);
 		return builder;
 	}

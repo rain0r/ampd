@@ -29,7 +29,9 @@ public class SearchService {
 	private final AmpdSettings ampdSettings;
 
 	private static final List<String> SEARCH_FIELDS = Arrays.stream(SongSearcher.ScopeType.values())
-			.map(SongSearcher.ScopeType::toString).map(String::toLowerCase).collect(Collectors.toList());
+		.map(SongSearcher.ScopeType::toString)
+		.map(String::toLowerCase)
+		.collect(Collectors.toList());
 
 	@Autowired
 	private final MPD mpd;
@@ -68,8 +70,10 @@ public class SearchService {
 	}
 
 	private SongSearcher.ScopeType scopeTypeForStr(String typeName) {
-		return Arrays.stream(SongSearcher.ScopeType.values()).filter(scopeType -> scopeType.getType().equals(typeName))
-				.findFirst().orElseThrow();
+		return Arrays.stream(SongSearcher.ScopeType.values())
+			.filter(scopeType -> scopeType.getType().equals(typeName))
+			.findFirst()
+			.orElseThrow();
 	}
 
 	public void addTracks(Map<String, String> searchParams) {

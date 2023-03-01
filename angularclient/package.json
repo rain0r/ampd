@@ -37,7 +37,7 @@
     "@angular/cli": "~15.2.0",
     "@angular/compiler-cli": "~15.2.0",
     "@typescript-eslint/eslint-plugin": "^5.47.1",
-    "@typescript-eslint/parser": "^5.47.1",
+    "@typescript-eslint/parser": "^5.54.0",
     "autoprefixer": "^10.4.13",
     "eslint": "^8.31.0",
     "eslint-config-prettier": "~8.6.0",

@@ -1,11 +1,8 @@
 package org.hihn.ampd.server.service;
 
-import org.bff.javampd.database.DatabaseProperties;
 import org.bff.javampd.server.MPD;
 import org.bff.javampd.server.MPDConnectionException;
 import org.bff.javampd.song.MPDSong;
-import org.bff.javampd.song.MPDSongConverter;
-import org.bff.javampd.song.SongConverter;
 import org.hihn.ampd.server.message.outgoing.SavePlaylistResponse;
 import org.hihn.ampd.server.model.AmpdSettings;
 import org.hihn.ampd.server.model.PlaylistInfo;
@@ -17,9 +14,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 /**
  * Provides methods to manage playlists.
@@ -82,15 +79,10 @@ public class PlaylistService {
 	 */
 	public Optional<PlaylistInfo> getPlaylistInfo(String name, int pageIndex, Integer pageSize) {
 		Optional<PlaylistInfo> ret = Optional.empty();
-		SongConverter songConverter = new MPDSongConverter();
 		try {
-			// Retrieve list of audio files in the playlist
-			List<String> response = mpd.getCommandExecutor().sendCommand(new DatabaseProperties().getListSongs(), name);
-			List<MPDSong> plTracks = songConverter.getSongFileNameList(response)
-				.stream()
-				.map((filePath) -> MPDSong.builder().file(filePath).build())
-				.collect(Collectors.toList());
-			PageImpl<MPDSong> page = getPage(plTracks, pageIndex, pageSize);
+			PageImpl<MPDSong> page = getPage(
+					new ArrayList<>(mpd.getMusicDatabase().getPlaylistDatabase().listPlaylistSongs(name)), pageIndex,
+					pageSize);
 			ret = Optional.of(new PlaylistInfo(name, page));
 		}
 		catch (Exception e) {

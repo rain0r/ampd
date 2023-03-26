@@ -20,10 +20,15 @@
 
 <div mat-dialog-actions align="end">
   <button mat-stroked-button (click)="onDeletePlaylist()" color="warn">
-    Delete playlist
+    <mat-icon>delete</mat-icon>
+    <span class="hidden md:inline"> Delete playlist </span>
   </button>
   <button mat-stroked-button (click)="onAddPlaylist()">
-    Add playlist to the queue
+    <mat-icon>add</mat-icon>
+    <span class="hidden md:inline"> Add playlist </span>
   </button>
-  <button mat-stroked-button matDialogClose>Close</button>
+  <button mat-stroked-button matDialogClose>
+    <mat-icon>close</mat-icon>
+    <span class="hidden md:inline"> Close </span>
+  </button>
 </div>

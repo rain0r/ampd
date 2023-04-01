@@ -18,7 +18,7 @@
     "@angular/material": "^15.2.4",
     "@angular/platform-browser": "~15.2.4",
     "@angular/platform-browser-dynamic": "~15.2.4",
-    "@angular/router": "~15.2.4",
+    "@angular/router": "~15.2.5",
     "@stomp/rx-stomp": "^2.0.0",
     "@stomp/stompjs": "^7.0.0",
     "filesize": "^10.0.6",

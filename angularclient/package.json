@@ -21,7 +21,7 @@
     "@angular/router": "~15.2.8",
     "@stomp/rx-stomp": "^2.0.0",
     "@stomp/stompjs": "^7.0.0",
-    "filesize": "^10.0.6",
+    "filesize": "^10.0.7",
     "material-icons": "1.13.3",
     "rxjs": "~7.8.1",
     "tslib": "^2.5.0",

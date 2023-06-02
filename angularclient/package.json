@@ -24,7 +24,7 @@
     "filesize": "^10.0.7",
     "material-icons": "1.13.3",
     "rxjs": "~7.8.1",
-    "tslib": "^2.5.0",
+    "tslib": "^2.5.2",
     "zone.js": "~0.13.0"
   },
   "devDependencies": {

@@ -38,9 +38,9 @@ public class ScrobbleService {
 		mpd.getStandAloneMonitor().start();
 
 		mpd.getStandAloneMonitor().addPlayerChangeListener(pcl -> {
-			LOG.trace("PlayerChangeListener: {}", pcl.getStatus());
+			LOG.debug("PlayerChangeListener: {}", pcl.getStatus());
 			if (pcl.getStatus().equals(PlayerBasicChangeEvent.Status.PLAYER_STARTED)) {
-				LOG.trace("Status: {}", pcl.getStatus());
+				LOG.debug("Status: {}", pcl.getStatus());
 				mpd.getPlayer().getCurrentSong().ifPresent(song -> currentSong = song);
 			}
 		});
@@ -51,7 +51,7 @@ public class ScrobbleService {
 					if (songChanged(currentSong, song)) {
 						scrobbled = false;
 						currentSong = song;
-						LOG.trace("Song changed to: {}", currentSong);
+						LOG.debug("Song changed to: {}", currentSong);
 						scrobblePlayingNow(song);
 					}
 				});

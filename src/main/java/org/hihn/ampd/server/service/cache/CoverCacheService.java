@@ -80,7 +80,7 @@ public class CoverCacheService {
 	 */
 	public Optional<byte[]> loadCover(MPDSong track) {
 		if (!cacheEnabled) {
-			LOG.trace("Cache is disabled, not looking for a locally saved cover.");
+			LOG.debug("Cache is disabled, not looking for a locally saved cover.");
 			return Optional.empty();
 		}
 		Optional<Path> fullPath = buildCacheFullPath(track);

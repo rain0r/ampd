@@ -37,7 +37,7 @@ public class LastFmService implements AmpdScrobbler {
 		}
 		int now = (int) (System.currentTimeMillis() / 1000);
 		ScrobbleResult result = Track.scrobble(song.getArtistName(), song.getTitle(), now, session);
-		LOG.trace("ok: " + (result.isSuccessful() && !result.isIgnored()));
+		LOG.debug("ok: " + (result.isSuccessful() && !result.isIgnored()));
 	}
 
 	@Override
@@ -47,7 +47,7 @@ public class LastFmService implements AmpdScrobbler {
 			return;
 		}
 		ScrobbleResult result = Track.updateNowPlaying(song.getArtistName(), song.getTitle(), session);
-		LOG.trace("ok: " + (result.isSuccessful() && !result.isIgnored()));
+		LOG.debug("ok: " + (result.isSuccessful() && !result.isIgnored()));
 	}
 
 	public LastFmSimilarTracks getSimilarTracks(String artist, String title) {

@@ -4,7 +4,7 @@
   <mat-tab label="Frontend">
     <!-- frontend -->
     <div>
-      <mat-card class="w-full mt-4">
+      <mat-card class="w-full my-8">
         <mat-card-content>
           <p>
             These settings are stored in the browser. That means, each device
@@ -14,49 +14,76 @@
       </mat-card>
     </div>
 
-    <div class="settings-grid">
-      <mat-card *ngFor="let setting of feSettings">
-        <mat-card-header>
-          <mat-card-title>{{ setting.name | camelCaseTitle }}</mat-card-title>
-        </mat-card-header>
-        <mat-card-content [ngSwitch]="setting.type">
-          <!-- Boolean -->
-          <mat-slide-toggle
-            [checked]="setting.value !== '' && setting.value"
-            *ngSwitchCase="'bool'"
-            (change)="toggleFrontendSetting(setting.name, $event)"
-          >
-            <mat-label align="end">{{ setting.description }} </mat-label>
-          </mat-slide-toggle>
-          <!-- Default -->
-          <div *ngSwitchDefault>
-            <mat-form-field
-              appearance="fill"
-              class="w-full"
-              [title]="setting.description"
-            >
-              <input
-                matInput
-                [value]="setting.value"
-                #inputField
-                (keyup.enter)="onSaveBtnClick(setting.name, inputField.value)"
-              />
-              <mat-label> {{ setting.description }}</mat-label>
-            </mat-form-field>
-            <mat-card-actions>
-              <button
-                mat-stroked-button
-                type="submit"
-                (click)="onSaveBtnClick(setting.name, inputField.value)"
-              >
-                Save
-              </button>
-            </mat-card-actions>
-          </div>
-        </mat-card-content>
-      </mat-card>
-    </div>
+    <div>
+      <div *ngFor="let category of feSettings | keyvalue">
+        <div class="heading-2 my-8">{{ category.key }}</div>
 
+        <div class="settings-grid">
+          <mat-card *ngFor="let setting of category.value">
+            <mat-card-header>
+              <mat-card-title>{{ setting.label }}</mat-card-title>
+            </mat-card-header>
+            <mat-card-content [ngSwitch]="setting.type">
+              <!-- Boolean -->
+              <mat-slide-toggle
+                [checked]="setting.value !== '' && setting.value"
+                *ngSwitchCase="'bool'"
+                (change)="toggleFrontendSetting(setting.name, $event)"
+              >
+                <mat-label class="text-muted"
+                  >{{ setting.description }}
+                </mat-label>
+              </mat-slide-toggle>
+              <!-- Number -->
+              <div *ngSwitchCase="'int'">
+                <mat-form-field appearance="fill" class="w-full">
+                  <input
+                    matInput
+                    #inputField
+                    type="number"
+                    min="0"
+                    [value]="setting.value"
+                  />
+                </mat-form-field>
+                <div class="fe-setting-label">{{ setting.description }}</div>
+                <mat-card-actions>
+                  <button
+                    mat-stroked-button
+                    type="submit"
+                    (click)="onSaveBtnClick(setting.name, inputField.value)"
+                  >
+                    Save
+                  </button>
+                </mat-card-actions>
+              </div>
+              <!-- Default -->
+              <div *ngSwitchDefault>
+                <mat-form-field appearance="fill" class="w-full">
+                  <input
+                    matInput
+                    [value]="setting.value"
+                    #inputField
+                    (keyup.enter)="
+                      onSaveBtnClick(setting.name, inputField.value)
+                    "
+                  />
+                  <mat-label> {{ setting.description }}</mat-label>
+                </mat-form-field>
+                <mat-card-actions>
+                  <button
+                    mat-stroked-button
+                    type="submit"
+                    (click)="onSaveBtnClick(setting.name, inputField.value)"
+                  >
+                    Save
+                  </button>
+                </mat-card-actions>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </div>
+    </div>
     <div class="pt-8 mt-8">
       <button
         mat-stroked-button

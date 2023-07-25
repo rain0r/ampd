@@ -11,6 +11,16 @@
   <button
     (click)="handleControlButton($event)"
     [disabled]="(connected$ | async) === false"
+    id="btn-seek-backwards"
+    mat-stroked-button
+    title="Jump backwards"
+    *ngIf="displayJumpBtn"
+  >
+    <mat-icon>navigate_before</mat-icon>
+  </button>
+  <button
+    (click)="handleControlButton($event)"
+    [disabled]="(connected$ | async) === false"
     id="btn-stop"
     mat-stroked-button
     title="Stop"
@@ -36,6 +46,16 @@
     title="Play"
   >
     <mat-icon>play_arrow</mat-icon>
+  </button>
+  <button
+    (click)="handleControlButton($event)"
+    [disabled]="(connected$ | async) === false"
+    id="btn-seek-forward"
+    mat-stroked-button
+    title="Jump forward"
+    *ngIf="displayJumpBtn"
+  >
+    <mat-icon>navigate_next</mat-icon>
   </button>
   <button
     (click)="handleControlButton($event)"

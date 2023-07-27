@@ -35,7 +35,6 @@ export class SearchComponent implements OnInit {
   search = "";
 
   trackTableData = new TrackTableOptions();
-  private searchResultTracks: QueueTrack[] = [];
   private inputSetter$ = new Subject<string>();
 
   constructor(

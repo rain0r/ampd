@@ -31,11 +31,11 @@ body {
 //
 
 .heading-1 {
-  @apply mb-4 text-4xl font-bold tracking-tight leading-none md:text-5xl lg:text-6xl;
+  @apply mb-6 text-4xl font-bold tracking-tight leading-none md:text-5xl lg:text-6xl;
 }
 
 .heading-2 {
-  @apply mb-4 text-xl font-bold tracking-tight leading-none md:text-2xl lg:text-3xl;
+  @apply mb-6 text-xl font-bold tracking-tight leading-none md:text-2xl lg:text-3xl;
 }
 
 .browse-title {
@@ -59,6 +59,11 @@ body {
 
 .settings-grid {
   @apply grid grid-cols-1 md:grid-cols-2 gap-6 mt-4;
+}
+
+.fe-setting-label {
+  @apply my-2;
+  @apply text-muted;
 }
 
 //

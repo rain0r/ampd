@@ -27,6 +27,7 @@ export class ControlPanelComponent implements OnInit {
   connected$: Observable<boolean>;
   currentState: Observable<string>;
   displayInfoBtn: Observable<boolean>;
+  displayJumpBtn: boolean;
   isMobile = new Observable<boolean>();
   queueTrackCount: Observable<number>;
   private trackInfoDialogOpen = new BehaviorSubject(false);
@@ -43,7 +44,16 @@ export class ControlPanelComponent implements OnInit {
     this.connected$ = this.mpdService.isConnected$();
     this.currentState = this.mpdService.currentState$;
     this.queueTrackCount = this.mpdService.getQueueTrackCount$();
-    this.displayInfoBtn = combineLatest([
+    this.displayInfoBtn = this.isDisplayInfoBtn();
+    this.displayJumpBtn = this.isDisplayJumpBtn();
+  }
+
+  ngOnInit(): void {
+    this.isMobile = this.responsiveScreenService.isMobile();
+  }
+
+  isDisplayInfoBtn(): Observable<boolean> {
+    return combineLatest([
       this.fsSettings.getBoolValue$(SettingKeys.DISPLAY_INFO_BTN),
       this.currentState,
       this.mpdService.isCurrentTrackRadioStream$(),
@@ -58,8 +68,8 @@ export class ControlPanelComponent implements OnInit {
     );
   }
 
-  ngOnInit(): void {
-    this.isMobile = this.responsiveScreenService.isMobile();
+  isDisplayJumpBtn(): boolean {
+    return this.fsSettings.getIntValue(SettingKeys.JUMP_SEEK) > 0;
   }
 
   handleControlButton(event: MouseEvent): void {
@@ -79,6 +89,12 @@ export class ControlPanelComponent implements OnInit {
         break;
       case "btn-next":
         this.controlPanelService.next();
+        break;
+      case "btn-seek-backwards":
+        this.controlPanelService.seekJumpBtnListener(true);
+        break;
+      case "btn-seek-forward":
+        this.controlPanelService.seekJumpBtnListener(false);
         break;
       default:
         // Ignore it

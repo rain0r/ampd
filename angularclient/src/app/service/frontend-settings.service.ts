@@ -83,7 +83,8 @@ export class FrontendSettingsService {
         }
       }
     } catch (err) {}
-    return this.settings;
+
+    return this.settings.sort((a, b) => a.category.localeCompare(b.category));
   }
 
   reset(): void {

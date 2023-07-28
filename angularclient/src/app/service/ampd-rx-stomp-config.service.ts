@@ -3,7 +3,6 @@ import { Injectable } from "@angular/core";
 import { RxStompConfig } from "@stomp/rx-stomp";
 import { environment } from "./../../environments/environment";
 import { SettingsService } from "./settings.service";
-import { LoggerService } from "./logger.service";
 
 @Injectable({
   providedIn: "root",
@@ -11,7 +10,7 @@ import { LoggerService } from "./logger.service";
 export class AmpdRxStompConfigService extends RxStompConfig {
   constructor(
     private location: Location,
-    private logger: LoggerService,
+
     private settingsService: SettingsService
   ) {
     super();
@@ -33,7 +32,7 @@ export class AmpdRxStompConfigService extends RxStompConfig {
     // Skip this key to stop logging to console
     this.debug = (msg: string): void => {
       if (environment.wsLog) {
-        this.logger.debug(new Date(), msg);
+        console.debug(new Date(), msg);
       }
     };
     this.splitLargeFrames = true;

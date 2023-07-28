@@ -15,6 +15,10 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.reloadTab();
+  }
+
+  private reloadTab(): void {
     const period =
       1000 * // milliseconds per second
       60 * // seconds per minute

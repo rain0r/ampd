@@ -6,7 +6,7 @@ import {
   ViewChild,
 } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
-import { filter, map } from "rxjs";
+import { filter, from, fromEvent, map, mergeMap } from "rxjs";
 import { AddStreamDialogComponent } from "src/app/queue/track-table/add-stream-dialog/add-stream-dialog.component";
 import { MsgService } from "src/app/service/msg.service";
 import { ResponsiveScreenService } from "src/app/service/responsive-screen.service";
@@ -63,6 +63,7 @@ export class TrackTableComponent implements AfterContentInit {
 
   ngAfterContentInit(): void {
     this.queueService.getQueue();
+    this.visibilityChanged();
   }
 
   openSavePlaylistDialog(): void {
@@ -157,5 +158,31 @@ export class TrackTableComponent implements AfterContentInit {
       .subscribe((msg) => {
         this.queueService.getPage(msg.event.pageIndex, msg.event.pageSize);
       });
+  }
+
+  /**
+   * Fetch queue if visibility changed. This should speed up the reconnection.
+   */
+  private visibilityChanged(): void {
+    const actionEventNames = [
+      "visibilitychange",
+      "webkitvisibilitychange",
+      "msvisibilitychange",
+    ];
+
+    from(actionEventNames)
+      .pipe(
+        mergeMap((eventName) =>
+          fromEvent(document, eventName).pipe(
+            map((evt) => {
+              return {
+                name: eventName,
+                evt: evt,
+              };
+            })
+          )
+        )
+      )
+      .subscribe(() => this.queueService.getQueue());
   }
 }

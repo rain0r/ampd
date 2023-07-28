@@ -5,6 +5,7 @@ import {
   SettingKeys,
 } from "../shared/model/internal/frontend-settings";
 import { FrontendSetting } from "./../shared/model/internal/frontend-settings";
+import { LoggerService } from "./logger.service";
 
 const LS_KEY = "ampd_userSettings";
 
@@ -18,7 +19,7 @@ export class FrontendSettingsService {
   private settings$: Observable<FrontendSetting[]>;
   private settingsSub$: BehaviorSubject<FrontendSetting[]>;
 
-  constructor() {
+  constructor(private logger: LoggerService) {
     this.settingsSub$ = new BehaviorSubject<FrontendSetting[]>(
       this.loadFrontendSettings()
     );
@@ -28,7 +29,7 @@ export class FrontendSettingsService {
   save(name: string, value: string | number | boolean): void {
     const index = this.settings.findIndex((s) => s.name === name);
     if (index === -1) {
-      console.error("Could not find frontend setting with name: ", name);
+      this.logger.error("Could not find frontend setting with name: ", name);
       return;
     }
     this.settings[index].value = String(value);
@@ -76,7 +77,7 @@ export class FrontendSettingsService {
           (s) => s.name === setting.name && s.value !== setting.value
         );
         if (elem) {
-          console.log(
+          this.logger.debug(
             `Changing ${elem.name} from "${elem.value}" (default value) to "${setting.value}" (user setting)`
           );
           elem.value = setting.value;
@@ -98,7 +99,7 @@ export class FrontendSettingsService {
         if (elem) {
           return elem;
         } else {
-          console.error("Could not find setting: ", key);
+          this.logger.error("Could not find setting: ", key);
           return <FrontendSetting>{};
         }
       })

@@ -47,7 +47,7 @@ export class TrackTableComponent implements AfterContentInit {
     this.responsiveScreenService
       .isMobile()
       .subscribe((isMobile) => (this.isMobile = isMobile));
-    this.mpdService.getQueue();
+    this.queueService.getQueue();
   }
 
   @HostListener("document:keydown.f", ["$event"])
@@ -62,7 +62,7 @@ export class TrackTableComponent implements AfterContentInit {
   }
 
   ngAfterContentInit(): void {
-    this.mpdService.getQueue();
+    this.queueService.getQueue();
   }
 
   openSavePlaylistDialog(): void {

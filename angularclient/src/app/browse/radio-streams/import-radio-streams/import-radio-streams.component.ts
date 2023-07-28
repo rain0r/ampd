@@ -1,4 +1,5 @@
 import { Component, Input } from "@angular/core";
+import { LoggerService } from "src/app/service/logger.service";
 import { RadioStreamService } from "src/app/service/radio-stream.service";
 
 @Component({
@@ -23,11 +24,14 @@ export class ImportRadioStreamsComponent {
     ]
  }`;
 
-  constructor(private radioStreamService: RadioStreamService) {}
+  constructor(
+    private radioStreamService: RadioStreamService,
+    private logger: LoggerService
+  ) {}
 
   onFileSelected(event: Event): void {
     if (!event.target) {
-      console.error("No or invalid event: ", event);
+      this.logger.error("No or invalid event: ", event);
       return;
     }
 

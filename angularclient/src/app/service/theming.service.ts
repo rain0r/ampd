@@ -2,6 +2,7 @@ import { ApplicationRef, Injectable } from "@angular/core";
 import { SettingKeys } from "../shared/model/internal/frontend-settings";
 import { StyleManager } from "../shared/style-manager";
 import { FrontendSettingsService } from "./frontend-settings.service";
+import { LoggerService } from "./logger.service";
 
 enum Themes {
   Lighter = "lighter",
@@ -14,6 +15,7 @@ enum Themes {
 export class ThemingService {
   constructor(
     private feSettings: FrontendSettingsService,
+    private logger: LoggerService,
     private ref: ApplicationRef,
     private styleManager: StyleManager
   ) {}
@@ -40,7 +42,7 @@ export class ThemingService {
     const savedTheme = this.feSettings.getStrValue(SettingKeys.DARK_THEME);
     if (savedTheme === "") {
       const theme = darkModeOn ? Themes.Darker : Themes.Lighter;
-      console.log("Setting browser theme", theme);
+      this.logger.debug("Setting browser theme", theme);
       this.feSettings.save(SettingKeys.DARK_THEME, theme === Themes.Darker);
     }
 

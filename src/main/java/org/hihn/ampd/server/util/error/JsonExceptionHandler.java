@@ -20,7 +20,7 @@ public class JsonExceptionHandler {
 	public ResponseEntity<Object> handleAllOtherErrors(Exception exception) {
 
 		if (!(exception instanceof ResponseStatusException
-				&& ((ResponseStatusException) exception).getStatus().equals(HttpStatus.NOT_FOUND))) {
+				&& ((ResponseStatusException) exception).getStatusCode().equals(HttpStatus.NOT_FOUND))) {
 			// Don't log 404 errors
 			LOG.error(exception.getMessage(), exception);
 		}

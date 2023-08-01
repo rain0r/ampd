@@ -3,11 +3,11 @@ package org.hihn.ampd.server.model;
 import org.hihn.ampd.server.serializer.HelpText;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ReflectionUtils;
 
-import javax.annotation.PostConstruct;
 import java.util.Arrays;
 import java.util.Set;
 import java.util.TreeSet;
@@ -16,7 +16,7 @@ import java.util.TreeSet;
  * Represents all possible ampd settings. Can't be changed during runtime.
  */
 @Component
-public class AmpdSettings {
+public class AmpdSettings implements InitializingBean {
 
 	private static final Logger LOG = LoggerFactory.getLogger(AmpdSettings.class);
 
@@ -176,9 +176,7 @@ public class AmpdSettings {
 	/**
 	 * Prints the applied properties to the console.
 	 */
-	@PostConstruct
-
-	public void printProperties() {
+	public void afterPropertiesSet() {
 		Set<String> output = new TreeSet<>();
 		ReflectionUtils.doWithFields(AmpdSettings.class, field -> {
 			field.setAccessible(true);

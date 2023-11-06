@@ -11,7 +11,7 @@
       <div [class.text-muted]="play.state === 'pause'">
         <div *ngIf="isRadioStream | async">
           <p class="text-xl font-bold">{{ play.track.title }}</p>
-          <p class="break-all text-muted">{{ play.track.file }}</p>
+          <p class="truncate text-muted">{{ play.track.file }}</p>
           <a
             *ngIf="radioStreamName | async as name"
             class="accent-text"

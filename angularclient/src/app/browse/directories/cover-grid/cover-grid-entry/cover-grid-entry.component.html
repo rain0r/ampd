@@ -1,13 +1,33 @@
 <div *ngIf="directory !== null" class="flex flex-col gap-y-1">
-  <img
+  <div
+    class="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl"
+  >
+    <div class="md:flex">
+      <div class="md:shrink-0">
+        <img
+          [queryParams]="{ dir: pathLink }"
+          [routerLink]="['/browse']"
+          [src]="directory.albumCoverUrl"
+          [title]="directory.displayedPath"
+          alt="Cover of {{ directory.displayedPath }}"
+          class="clickable h-64 w-full object-cover md:h-full md:w-64"
+        />
+      </div>
+    </div>
+  </div>
+
+  <!-- <img
     [queryParams]="{ dir: pathLink }"
     [routerLink]="['/browse']"
     [title]="directory.displayedPath"
     alt="Cover of {{ directory.displayedPath }}"
     class="clickable"
     src="{{ directory.albumCoverUrl }}"
-  />
-  <div class="flex flex-col md:flex-row gap-y-2 md:gap-x-2 my-2">
+  /> -->
+
+  <div
+    class="flex flex-col md:flex-row gap-y-2 md:gap-x-2 md:justify-center my-2"
+  >
     <button mat-stroked-button (click)="onPlayDir($event, directory.path)">
       Play
     </button>

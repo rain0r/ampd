@@ -2,8 +2,10 @@
   <mat-icon>folder_open</mat-icon>
   <span *ngIf="dirQp === '/'; else dirName"> Directories </span>
   <ng-template #dirName>
-    <span class="dir-prefix">Directory</span>
-    <span class="dir-qp">{{ dirQpLabel }}</span>
+    <div class="flex flex-col md:flex-row gap-x-2">
+      <span class="dir-prefix">Directory &#8260;</span>
+      <span class="dir-qp">{{ dirQpLabel }}</span>
+    </div>
   </ng-template>
   <div class="flex-grow"></div>
   <mat-icon

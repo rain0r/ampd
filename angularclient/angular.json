@@ -88,21 +88,21 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "ampd:build"
+            "buildTarget": "ampd:build"
           },
           "configurations": {
             "development": {
-              "browserTarget": "ampd:build:development"
+              "buildTarget": "ampd:build:development"
             },
             "production": {
-              "browserTarget": "ampd:build:production"
+              "buildTarget": "ampd:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "ampd:build"
+            "buildTarget": "ampd:build"
           }
         },
         "test": {

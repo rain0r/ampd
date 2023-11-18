@@ -57,7 +57,7 @@ export class AdvancedSearchComponent implements OnInit, AfterViewInit {
     private queueService: QueueService,
     private responsiveScreenService: ResponsiveScreenService,
     private scroller: ViewportScroller,
-    private searchService: SearchService
+    private searchService: SearchService,
   ) {
     this.formFields = this.getFormFields();
     this.responsiveScreenService
@@ -78,7 +78,7 @@ export class AdvancedSearchComponent implements OnInit, AfterViewInit {
         filter((msg) => msg.type === InternMsgType.PaginationEvent),
         map((msg) => <PaginationMsg>msg),
         map((msg) => msg.event),
-        startWith({ pageIndex: 0, pageSize: 30 })
+        startWith({ pageIndex: 0, pageSize: 30 }),
       ),
     ])
       .pipe(
@@ -88,9 +88,9 @@ export class AdvancedSearchComponent implements OnInit, AfterViewInit {
           return this.searchService.advSearch(
             fd,
             pagination.pageIndex,
-            pagination.pageSize
+            pagination.pageSize,
           );
-        })
+        }),
       )
       .subscribe((data) => this.processSearchResults(data));
   }
@@ -113,7 +113,7 @@ export class AdvancedSearchComponent implements OnInit, AfterViewInit {
   }
 
   private processSearchResults(
-    advSearchResponse: PaginatedResponse<Track>
+    advSearchResponse: PaginatedResponse<Track>,
   ): void {
     this.isLoadingResults.next(false);
     this.scroller.scrollToAnchor("results");
@@ -140,7 +140,7 @@ export class AdvancedSearchComponent implements OnInit, AfterViewInit {
   }
 
   private buildTableData(
-    advSearchResponse: PaginatedResponse<Track>
+    advSearchResponse: PaginatedResponse<Track>,
   ): TrackTableOptions {
     const trackTable = new TrackTableOptions();
     trackTable.addTracks(advSearchResponse.content);

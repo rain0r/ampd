@@ -11,13 +11,13 @@ import { SettingsService } from "./settings.service";
 export class SearchService {
   constructor(
     private http: HttpClient,
-    private settingsService: SettingsService
+    private settingsService: SettingsService,
   ) {}
 
   search(
     term: string,
     pageIndex: number | null,
-    pageSize: number | null
+    pageSize: number | null,
   ): Observable<PaginatedResponse<Track>> {
     let params = new HttpParams();
     if (!!pageIndex) {
@@ -34,7 +34,7 @@ export class SearchService {
   advSearch(
     formData: Record<string, string>,
     pageIndex: number,
-    pageSize: number
+    pageSize: number,
   ): Observable<PaginatedResponse<Track>> {
     let params = new HttpParams();
     params = params.append("pageIndex", pageIndex);
@@ -55,7 +55,7 @@ export class SearchService {
   addAll(formData: Record<string, string>): Observable<void> {
     return this.http.post<void>(
       `${this.settingsService.getBackendContextAddr()}api/adv-search`,
-      formData
+      formData,
     );
   }
 }

@@ -46,25 +46,25 @@ export class BrowseNavigationComponent implements OnInit {
     private fsService: FrontendSettingsService,
     private messageService: MsgService,
     private notificationService: NotificationService,
-    private queueService: QueueService
+    private queueService: QueueService,
   ) {
     this.displayAlbums$ = this.fsService.getBoolValue$(
-      SettingKeys.DISPLAY_ALBUMS
+      SettingKeys.DISPLAY_ALBUMS,
     );
     this.displayGenres$ = this.fsService.getBoolValue$(
-      SettingKeys.DISPLAY_GENRES
+      SettingKeys.DISPLAY_GENRES,
     );
     this.displayRadio$ = this.fsService.getBoolValue$(
-      SettingKeys.DISPLAY_RADIO
+      SettingKeys.DISPLAY_RADIO,
     );
     this.displayBrowseClearQueue$ = this.fsService.getBoolValue$(
-      SettingKeys.DISPLAY_BROWSE_CLEAR_QUEUE
+      SettingKeys.DISPLAY_BROWSE_CLEAR_QUEUE,
     );
 
     this.activatedRoute.queryParamMap
       .pipe(
         map((qp) => <string>qp.get("dir") || "/"),
-        distinctUntilChanged()
+        distinctUntilChanged(),
       )
       .subscribe((dir) => {
         this.buildDirUp(dir);
@@ -89,7 +89,7 @@ export class BrowseNavigationComponent implements OnInit {
       this.filterDisabled$.next(false);
     } else {
       this.browsePayload.subscribe((payload) =>
-        this.filterDisabled$.next(!this.isTracksOnlyDir(payload))
+        this.filterDisabled$.next(!this.isTracksOnlyDir(payload)),
       );
     }
   }

@@ -17,7 +17,7 @@ export class TrackProgressComponent {
 
   constructor(
     private controlPanelService: ControlPanelService,
-    private mpdService: MpdService
+    private mpdService: MpdService,
   ) {
     this.connected$ = this.mpdService.isConnected$();
     this.state$ = this.mpdService.currentState$;
@@ -36,7 +36,7 @@ export class TrackProgressComponent {
     const seconds = value - minutes * 60;
     return `${minutes}  :  ${seconds < 10 ? "0" : ""} ${seconds}`.replace(
       / /g,
-      ""
+      "",
     );
   }
 }

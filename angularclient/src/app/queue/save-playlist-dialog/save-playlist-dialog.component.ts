@@ -16,20 +16,20 @@ export class SavePlaylistDialogComponent {
     @Inject(MAT_DIALOG_DATA) public data: string,
     private notificationService: NotificationService,
     private playlistService: PlaylistService,
-    public dialogRef: MatDialogRef<SavePlaylistDialogComponent>
+    public dialogRef: MatDialogRef<SavePlaylistDialogComponent>,
   ) {}
 
   onEnterPressed(): void {
     this.playlistService.savePlaylist(this.data).subscribe((playlist) => {
       if (playlist.success) {
         this.notificationService.popUp(
-          `Saved queue as playlist '${playlist.playlistName}'`
+          `Saved queue as playlist '${playlist.playlistName}'`,
         );
         this.dialogRef.close();
       } else {
         this.notificationService.popUp(
           `Error saving queue as playlist '${playlist.playlistName}': ${playlist.message}`,
-          true
+          true,
         );
       }
     });

@@ -17,7 +17,7 @@ export class ThemingService {
     private feSettings: FrontendSettingsService,
     private logger: LoggerService,
     private ref: ApplicationRef,
-    private styleManager: StyleManager
+    private styleManager: StyleManager,
   ) {}
 
   loadTheme(theme: Themes): void {
@@ -50,7 +50,7 @@ export class ThemingService {
     this.feSettings
       .getBoolValue$(SettingKeys.DARK_THEME)
       .subscribe((isDarkTheme) =>
-        this.loadTheme(isDarkTheme ? Themes.Darker : Themes.Lighter)
+        this.loadTheme(isDarkTheme ? Themes.Darker : Themes.Lighter),
       );
 
     // Watch for changes of the preference

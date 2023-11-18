@@ -43,7 +43,7 @@ export class AlbumsComponent implements OnInit {
     private albumService: AlbumsService,
     private msgService: MsgService,
     private router: Router,
-    private viewportScroller: ViewportScroller
+    private viewportScroller: ViewportScroller,
   ) {}
 
   ngOnInit(): void {
@@ -82,18 +82,18 @@ export class AlbumsComponent implements OnInit {
     const pagination = this.msgService.message.pipe(
       filter((msg) => msg.type === InternMsgType.PaginationEvent),
       map((msg) => <PaginationMsg>msg),
-      map((msg) => msg.event)
+      map((msg) => msg.event),
     );
     const sortBy: Observable<string> = this.activatedRoute.queryParamMap.pipe(
       map((queryParamMap) => queryParamMap.get("sortBy") || ""),
       startWith(""),
-      tap((sortBy) => (this.sortBy = sortBy))
+      tap((sortBy) => (this.sortBy = sortBy)),
     );
     const searchTerm: Observable<string> =
       this.activatedRoute.queryParamMap.pipe(
         map((queryParamMap) => queryParamMap.get("searchTerm") || ""),
         startWith(""),
-        tap((searchTerm) => (this.searchTerm = searchTerm))
+        tap((searchTerm) => (this.searchTerm = searchTerm)),
       );
 
     combineLatest([
@@ -107,9 +107,9 @@ export class AlbumsComponent implements OnInit {
           return this.albumService.getAlbums(
             searchTerm,
             pagination.pageIndex,
-            sortBy
+            sortBy,
           );
-        })
+        }),
       )
       .subscribe((data) => {
         this.processSearchResults(data);

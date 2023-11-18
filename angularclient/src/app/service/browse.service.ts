@@ -13,7 +13,7 @@ import { SettingsService } from "./settings.service";
 export class BrowseService {
   constructor(
     private http: HttpClient,
-    private settingsService: SettingsService
+    private settingsService: SettingsService,
   ) {}
 
   buildEmptyPayload(): AmpdBrowsePayload {
@@ -40,14 +40,14 @@ export class BrowseService {
       }),
       playlists: payload.playlists,
       tracks: payload.tracks.map(
-        (track, index) => new QueueTrack(track, index)
+        (track, index) => new QueueTrack(track, index),
       ),
     } as AmpdBrowsePayload;
   }
 
   private getAlbumCoverUrl(path: string): string {
     return `${this.settingsService.getFindDirCoverUrl()}?path=${encodeURIComponent(
-      path
+      path,
     )}`;
   }
 

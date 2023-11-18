@@ -8,7 +8,7 @@ export class DirectoryFilterPipe implements PipeTransform {
     return filterBy
       ? value.filter(
           (dir: Directory) =>
-            dir.path.toLocaleLowerCase().indexOf(filterBy) !== -1
+            dir.path.toLocaleLowerCase().indexOf(filterBy) !== -1,
         )
       : value;
   }

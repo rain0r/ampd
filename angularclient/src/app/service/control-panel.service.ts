@@ -30,7 +30,7 @@ export class ControlPanelService {
   constructor(
     private fsSettings: FrontendSettingsService,
     private mpdService: MpdService,
-    private rxStompService: AmpdRxStompService
+    private rxStompService: AmpdRxStompService,
   ) {
     this.buildSeekJumpListener();
   }
@@ -85,7 +85,7 @@ export class ControlPanelService {
     this.mpdService.currentTrack$
       .pipe(
         map((track) => track.elapsed),
-        first()
+        first(),
       )
       .subscribe((elapsed) => {
         let to = 0;
@@ -109,7 +109,7 @@ export class ControlPanelService {
   private buildSeekJumpListener(): void {
     const elapsed = this.mpdService.currentTrack$.pipe(
       take(1),
-      map((track) => track.elapsed)
+      map((track) => track.elapsed),
     );
 
     const seek = this.seekJump$.asObservable().pipe(
@@ -128,7 +128,7 @@ export class ControlPanelService {
         const tmp = Object.assign({}, previous, current);
         tmp.counter = (current.counter || 0) - (previous.counter || 0);
         return tmp;
-      })
+      }),
     );
     seek.subscribe((seekData) => {
       elapsed.subscribe((elapsedData) => {

@@ -16,7 +16,7 @@ export class FormField {
       controlType?: string;
       type?: string;
       options?: { key: string; value: string }[];
-    } = {}
+    } = {},
   ) {
     this.key = options.key || "";
     this.label = options.label || "";

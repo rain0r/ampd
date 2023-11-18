@@ -9,6 +9,6 @@ import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 export class ErrorDialogComponent {
   constructor(
     public dialogRef: MatDialogRef<ErrorDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public error: object
+    @Inject(MAT_DIALOG_DATA) public error: object,
   ) {}
 }

@@ -41,7 +41,7 @@ export class TrackTableComponent implements AfterContentInit {
     private mpdService: MpdService,
     private msgService: MsgService,
     private queueService: QueueService,
-    private responsiveScreenService: ResponsiveScreenService
+    private responsiveScreenService: ResponsiveScreenService,
   ) {
     this.buildReceiver();
     this.responsiveScreenService
@@ -105,7 +105,7 @@ export class TrackTableComponent implements AfterContentInit {
   }
 
   private buildTableData(
-    queueResponse: PaginatedResponse<Track>
+    queueResponse: PaginatedResponse<Track>,
   ): TrackTableOptions {
     const trackTable = new TrackTableOptions();
     trackTable.addTracks(queueResponse.content);
@@ -128,7 +128,7 @@ export class TrackTableComponent implements AfterContentInit {
       .getQueueSubscription()
       .subscribe(
         (queueResponse: PaginatedResponse<Track>) =>
-          (this.trackTableData = this.buildTableData(queueResponse))
+          (this.trackTableData = this.buildTableData(queueResponse)),
       );
 
     // State
@@ -153,7 +153,7 @@ export class TrackTableComponent implements AfterContentInit {
     this.msgService.message
       .pipe(
         filter((msg) => msg.type === InternMsgType.PaginationEvent),
-        map((msg) => <PaginationMsg>msg)
+        map((msg) => <PaginationMsg>msg),
       )
       .subscribe((msg) => {
         this.queueService.getPage(msg.event.pageIndex, msg.event.pageSize);
@@ -179,9 +179,9 @@ export class TrackTableComponent implements AfterContentInit {
                 name: eventName,
                 evt: evt,
               };
-            })
-          )
-        )
+            }),
+          ),
+        ),
       )
       .subscribe(() => this.queueService.getQueue());
   }

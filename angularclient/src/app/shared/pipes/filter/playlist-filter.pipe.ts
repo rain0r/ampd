@@ -7,7 +7,8 @@ export class PlaylistFilterPipe implements PipeTransform {
     filterBy = filterBy ? filterBy.toLocaleLowerCase() : "";
     return filterBy
       ? value.filter(
-          (pl: Playlist) => pl.name.toLocaleLowerCase().indexOf(filterBy) !== -1
+          (pl: Playlist) =>
+            pl.name.toLocaleLowerCase().indexOf(filterBy) !== -1,
         )
       : value;
   }

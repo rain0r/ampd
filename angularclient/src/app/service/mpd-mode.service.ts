@@ -16,11 +16,11 @@ export class MpdModeService {
     private router: Router,
     private controlPanelService: ControlPanelService,
     private mpdService: MpdService,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
   ) {
     this.mpdModesPanel = mpdService.initEmptyControlPanel();
     this.mpdService.mpdModesPanel$.subscribe(
-      (panel) => (this.mpdModesPanel = panel)
+      (panel) => (this.mpdModesPanel = panel),
     );
   }
 

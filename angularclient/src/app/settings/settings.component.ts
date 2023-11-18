@@ -27,7 +27,7 @@ export class SettingsComponent {
     private fsService: FrontendSettingsService,
     private settingsService: SettingsService,
     private titleService: Title,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
   ) {
     this.titleService.setTitle("ampd — Settings");
     this.ampdSettings = this.settingsService.getAmpdSettings();

@@ -16,7 +16,7 @@ export class CoverGridEntryComponent implements OnInit {
   constructor(
     private controlPanelService: ControlPanelService,
     private notificationService: NotificationService,
-    private queueService: QueueService
+    private queueService: QueueService,
   ) {}
 
   ngOnInit(): void {

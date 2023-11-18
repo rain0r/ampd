@@ -28,111 +28,111 @@ export class ShortcutService {
       Category.PlayerControls,
       () => this.controlPanelService.prev(),
       "Previous song",
-      ["<", "ArrowLeft"]
+      ["<", "ArrowLeft"],
     ),
     this.build(
       Category.PlayerControls,
       () => this.controlPanelService.next(),
       "Next song",
-      [">", "ArrowRight"]
+      [">", "ArrowRight"],
     ),
     this.build(
       Category.PlayerControls,
       () => this.controlPanelService.stop(),
       "Stop",
-      ["s"]
+      ["s"],
     ),
     this.build(
       Category.PlayerControls,
       () => this.volumeService.decreaseVolume(),
       "Decrease volume",
-      ["-"]
+      ["-"],
     ),
     this.build(
       Category.PlayerControls,
       () => this.volumeService.increaseVolume(),
       "Increase volume",
-      ["+"]
+      ["+"],
     ),
     // Navigation
     this.build(
       Category.Navigation,
       () => void this.router.navigate(["/"]),
       "Queue",
-      ["1"]
+      ["1"],
     ),
     this.build(
       Category.Navigation,
       () => void this.router.navigate(["/browse"]),
       "Browse",
-      ["2"]
+      ["2"],
     ),
     this.build(
       Category.Navigation,
       () => void this.router.navigate(["/search"]),
       "Search",
-      ["3", "S"]
+      ["3", "S"],
     ),
     this.build(
       Category.Navigation,
       () => void this.router.navigate(["/settings"]),
       "Settings",
-      ["4"]
+      ["4"],
     ),
     this.build(
       Category.Navigation,
       () => void this.router.navigate(["/browse/albums"]),
       "Albums",
-      ["A"]
+      ["A"],
     ),
     this.build(
       Category.Navigation,
       () => void this.router.navigate(["/browse/genres"]),
       "Genres",
-      ["G"]
+      ["G"],
     ),
     this.build(
       Category.Navigation,
       () => void this.router.navigate(["/browse/radio-streams"]),
       "Radio streams",
-      ["u"]
+      ["u"],
     ),
     this.build(
       Category.Navigation,
       () => void this.router.navigate(["/adv-search"]),
       "Advanced Search",
-      ["v"]
+      ["v"],
     ),
     // MPD modes
     this.build(
       Category.Modes,
       () => this.mpdModeService.toggleCtrlFromInput("repeat"),
       "Toggle repeat",
-      ["r"]
+      ["r"],
     ),
     this.build(
       Category.Modes,
       () => this.mpdModeService.toggleCtrlFromInput("random"),
       "Toggle shuffle",
-      ["z"]
+      ["z"],
     ),
     this.build(
       Category.Modes,
       () => this.mpdModeService.toggleCtrlFromInput("single"),
       "Toggle single",
-      ["y"]
+      ["y"],
     ),
     this.build(
       Category.Modes,
       () => this.mpdModeService.toggleCtrlFromInput("consume"),
       "Toggle consume",
-      ["R"]
+      ["R"],
     ),
     this.build(
       Category.Modes,
       () => this.mpdModeService.toggleCtrlFromInput("crossfade"),
       "Toggle crossfade",
-      ["x"]
+      ["x"],
     ),
     // General
     this.build(Category.General, this.openHelpDialog, "Open search dialog", [
@@ -143,13 +143,13 @@ export class ShortcutService {
       Category.General,
       () => this.queueService.clearQueue(),
       "Clear queue",
-      ["C"]
+      ["C"],
     ),
     this.build(
       Category.General,
       this.openAddStreamDialog,
       "Open add stream dialog",
-      ["a"]
+      ["a"],
     ),
   ];
 
@@ -164,10 +164,10 @@ export class ShortcutService {
     private mpdService: MpdService,
     private queueService: QueueService,
     private router: Router,
-    private volumeService: VolumeService
+    private volumeService: VolumeService,
   ) {
     this.mpdService.currentState$.subscribe(
-      (state) => (this.currentState = state)
+      (state) => (this.currentState = state),
     );
   }
 
@@ -175,7 +175,7 @@ export class ShortcutService {
     category: Category,
     action: (this: ShortcutService) => void,
     helpText: string,
-    trigger: string[]
+    trigger: string[],
   ): ShortCut {
     return {
       category: category,
@@ -193,7 +193,7 @@ export class ShortcutService {
 
   categories(): Set<string> {
     const ret = new Set(
-      this.shortcuts.map((shortcut) => Category[shortcut.category])
+      this.shortcuts.map((shortcut) => Category[shortcut.category]),
     );
     return ret;
   }

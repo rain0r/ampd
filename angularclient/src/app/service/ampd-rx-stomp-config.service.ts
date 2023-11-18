@@ -11,7 +11,7 @@ export class AmpdRxStompConfigService extends RxStompConfig {
   constructor(
     private location: Location,
 
-    private settingsService: SettingsService
+    private settingsService: SettingsService,
   ) {
     super();
     // Which server?
@@ -44,7 +44,7 @@ export class AmpdRxStompConfigService extends RxStompConfig {
    */
   private getBrokerUrl(): string {
     let brokerUrl = `${this.settingsService.getBackendAddr()}${this.location.prepareExternalUrl(
-      "mpd"
+      "mpd",
     )}`;
     if (brokerUrl.includes("https")) {
       brokerUrl = brokerUrl.replace("https", "wss");

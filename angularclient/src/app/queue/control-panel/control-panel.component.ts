@@ -39,7 +39,7 @@ export class ControlPanelComponent implements OnInit {
     private mpdService: MpdService,
     private notificationService: NotificationService,
     private queueService: QueueService,
-    private responsiveScreenService: ResponsiveScreenService
+    private responsiveScreenService: ResponsiveScreenService,
   ) {
     this.connected$ = this.mpdService.isConnected$();
     this.currentState = this.mpdService.currentState$;
@@ -62,9 +62,9 @@ export class ControlPanelComponent implements OnInit {
         of(
           displayInfoBtn === true &&
             (status === "play" || status === "pause") &&
-            isStream === false
-        )
-      )
+            isStream === false,
+        ),
+      ),
     );
   }
 
@@ -119,7 +119,7 @@ export class ControlPanelComponent implements OnInit {
           track: results[1],
           errorDialogOpen: results[2],
         })),
-        first()
+        first(),
       )
       .subscribe((result) => {
         if (!result.errorDialogOpen) {

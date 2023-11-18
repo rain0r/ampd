@@ -18,10 +18,10 @@ export class BrowseComponent {
 
   constructor(
     private activatedRoute: ActivatedRoute,
-    private browseService: BrowseService
+    private browseService: BrowseService,
   ) {
     this.browsePayload$ = new BehaviorSubject<AmpdBrowsePayload>(
-      browseService.buildEmptyPayload()
+      browseService.buildEmptyPayload(),
     );
     this.browsePayload = this.browsePayload$.asObservable();
 
@@ -29,7 +29,7 @@ export class BrowseComponent {
     this.activatedRoute.queryParamMap
       .pipe(
         map((qp) => <string>qp.get("dir") || "/"),
-        distinctUntilChanged()
+        distinctUntilChanged(),
       )
       .subscribe((dir) => {
         // Turn the loading animation on
@@ -44,7 +44,7 @@ export class BrowseComponent {
           .sendBrowseReq(dir)
           .pipe(finalize(() => (this.isLoading = false)))
           .subscribe((browsePayload) =>
-            this.browsePayload$.next(browsePayload)
+            this.browsePayload$.next(browsePayload),
           );
       });
   }

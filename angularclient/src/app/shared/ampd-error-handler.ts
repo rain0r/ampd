@@ -8,7 +8,10 @@ import { ErrorDialogComponent } from "./error/error-dialog/error-dialog.componen
 export class AmpdErrorHandler implements ErrorHandler {
   private errorDialogOpen = new BehaviorSubject(false);
 
-  constructor(private dialog: MatDialog, private zone: NgZone) {}
+  constructor(
+    private dialog: MatDialog,
+    private zone: NgZone,
+  ) {}
 
   handleError(error: unknown): void {
     this.zone.run(() => {

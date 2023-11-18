@@ -15,7 +15,7 @@ export class NavbarComponent {
 
   constructor(
     private rxStompService: AmpdRxStompService,
-    private shortcutService: ShortcutService
+    private shortcutService: ShortcutService,
   ) {
     this.connState = this.rxStompService.connectionState$;
   }

@@ -10,7 +10,7 @@ import { NotificationService } from "../../../service/notification.service";
 export class UpdateDatabaseComponent {
   constructor(
     private notificationService: NotificationService,
-    private mpdService: MpdService
+    private mpdService: MpdService,
   ) {}
 
   rescanDatabase(): void {

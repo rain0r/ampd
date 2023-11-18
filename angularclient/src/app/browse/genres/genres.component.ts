@@ -47,7 +47,7 @@ export class GenresComponent implements OnInit, OnDestroy {
     private genreService: GenreService,
     private msgService: MsgService,
     private responsiveScreenService: ResponsiveScreenService,
-    private viewportScroller: ViewportScroller
+    private viewportScroller: ViewportScroller,
   ) {
     this.responsiveScreenService
       .isMobile()
@@ -67,7 +67,7 @@ export class GenresComponent implements OnInit, OnDestroy {
         filter((msg) => msg.type === InternMsgType.PaginationEvent),
         map((msg) => <PaginationMsg>msg),
         map((msg) => msg.event),
-        startWith({ pageIndex: null, pageSize: null })
+        startWith({ pageIndex: null, pageSize: null }),
       ),
     ])
       .pipe(
@@ -76,9 +76,9 @@ export class GenresComponent implements OnInit, OnDestroy {
           return this.genreService.listGenre(
             qp.get("genre") || "",
             pagination.pageIndex,
-            pagination.pageSize
+            pagination.pageSize,
           );
-        })
+        }),
       )
       .subscribe((data) => this.processSearchResults(data));
   }
@@ -113,7 +113,7 @@ export class GenresComponent implements OnInit, OnDestroy {
   }
 
   private buildTableData(
-    paginatedTracks: PaginatedResponse<Track>
+    paginatedTracks: PaginatedResponse<Track>,
   ): TrackTableOptions {
     const trackTable = new TrackTableOptions();
     trackTable.addTracks(paginatedTracks.content);

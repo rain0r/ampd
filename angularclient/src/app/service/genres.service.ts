@@ -12,7 +12,7 @@ import { SettingsService } from "./settings.service";
 export class GenresService {
   constructor(
     private http: HttpClient,
-    private settingsService: SettingsService
+    private settingsService: SettingsService,
   ) {}
 
   listGenres(): Observable<string[]> {
@@ -23,7 +23,7 @@ export class GenresService {
   listGenre(
     genre: string,
     pageIndex: number | null,
-    pageSize: number | null
+    pageSize: number | null,
   ): Observable<GenreResponse> {
     let params = new HttpParams();
     if (!!genre) {
@@ -41,11 +41,11 @@ export class GenresService {
         payload.albums.content.map(
           (album) =>
             (album.albumCoverUrl = `${this.settingsService.getBackendContextAddr()}api/find-album-cover?albumName=${encodeURIComponent(
-              album.name
-            )}&artistName=${encodeURIComponent(album.albumArtist)}`)
+              album.name,
+            )}&artistName=${encodeURIComponent(album.albumArtist)}`),
         );
         return payload;
-      })
+      }),
     );
   }
 }

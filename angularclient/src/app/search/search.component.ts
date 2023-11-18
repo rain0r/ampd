@@ -42,7 +42,7 @@ export class SearchComponent implements OnInit {
     private notificationService: NotificationService,
     private queueService: QueueService,
     private responsiveScreenService: ResponsiveScreenService,
-    private searchService: SearchService
+    private searchService: SearchService,
   ) {
     this.buildInputListener();
     this.responsiveScreenService
@@ -69,7 +69,7 @@ export class SearchComponent implements OnInit {
 
   onAddAll(): void {
     this.queueService.addTracks(
-      this.trackTableData.dataSource.data.map((qt: QueueTrack) => qt.file)
+      this.trackTableData.dataSource.data.map((qt: QueueTrack) => qt.file),
     );
   }
 
@@ -79,7 +79,7 @@ export class SearchComponent implements OnInit {
   }
 
   private buildTableData(
-    advSearchResponse: PaginatedResponse<Track>
+    advSearchResponse: PaginatedResponse<Track>,
   ): TrackTableOptions {
     const trackTable = new TrackTableOptions();
     trackTable.addTracks(advSearchResponse.content);
@@ -116,7 +116,7 @@ export class SearchComponent implements OnInit {
         filter((msg) => msg.type === InternMsgType.PaginationEvent),
         map((msg) => <PaginationMsg>msg),
         map((msg) => msg.event),
-        startWith({ pageIndex: null, pageSize: null })
+        startWith({ pageIndex: null, pageSize: null }),
       ),
     ])
       .pipe(
@@ -127,15 +127,15 @@ export class SearchComponent implements OnInit {
           return this.searchService.search(
             searchText,
             pagination.pageIndex,
-            pagination.pageSize
+            pagination.pageSize,
           );
-        })
+        }),
       )
       .subscribe((data) => this.processSearchResults(data));
   }
 
   private processSearchResults(
-    advSearchResponse: PaginatedResponse<Track>
+    advSearchResponse: PaginatedResponse<Track>,
   ): void {
     this.trackTableData = this.buildTableData(advSearchResponse);
     this.isLoadingResults.next(false);

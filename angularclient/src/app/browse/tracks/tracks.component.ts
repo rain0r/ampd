@@ -28,7 +28,7 @@ export class TracksComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private dialog: MatDialog,
     private responsiveScreenService: ResponsiveScreenService,
-    private settingsService: SettingsService
+    private settingsService: SettingsService,
   ) {
     this.responsiveScreenService
       .isMobile()
@@ -36,7 +36,7 @@ export class TracksComponent implements OnInit {
     this.activatedRoute.queryParamMap
       .pipe(
         map((qp) => <string>qp.get("dir") || "/"),
-        distinctUntilChanged()
+        distinctUntilChanged(),
       )
       .subscribe((dir) => (this.dirQp = decodeURIComponent(dir)));
   }
@@ -45,7 +45,7 @@ export class TracksComponent implements OnInit {
     this.trackTableData = this.buildTableData();
     this.queueDuration = this.sumTrackDuration();
     this.coverUrl = `${this.settingsService.getFindDirCoverUrl()}?path=${encodeURIComponent(
-      this.dirQp
+      this.dirQp,
     )}`;
   }
 

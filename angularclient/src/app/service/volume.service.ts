@@ -17,7 +17,7 @@ export class VolumeService {
 
   constructor(
     private rxStompService: AmpdRxStompService,
-    private mpdService: MpdService
+    private mpdService: MpdService,
   ) {
     this.volume = this.volume$.asObservable();
     this.volumeSetter = this.volumeSetter$.asObservable();
@@ -52,7 +52,7 @@ export class VolumeService {
   private buildVolumeSetter(): void {
     const volInput = this.volumeSetter$.asObservable().pipe(
       bufferTime(500),
-      filter((times) => times.length > 0)
+      filter((times) => times.length > 0),
     );
     volInput.pipe(withLatestFrom(this.volume)).subscribe(([times, volume]) => {
       const newVol = times[0].increase

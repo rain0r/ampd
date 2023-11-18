@@ -9,7 +9,7 @@ export class DirectoryFilterStartLetterPipe implements PipeTransform {
     filterBy = filterBy ? filterBy.substring(0, 1).toUpperCase() : "";
     return filterBy
       ? value.filter((dir: Directory) =>
-          dir.path.toUpperCase().startsWith(filterBy)
+          dir.path.toUpperCase().startsWith(filterBy),
         )
       : value;
   }

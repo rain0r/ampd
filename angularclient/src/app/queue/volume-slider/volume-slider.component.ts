@@ -16,7 +16,7 @@ export class VolumeSliderComponent {
 
   constructor(
     private mpdService: MpdService,
-    private volumeService: VolumeService
+    private volumeService: VolumeService,
   ) {
     volumeService.volume.subscribe((volume) => (this.volume = volume));
     this.connected$ = this.mpdService.isConnected$();

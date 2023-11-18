@@ -7,7 +7,7 @@ export class SecondsToMmSsPipe implements PipeTransform {
     const seconds = value - minutes * 60;
     return `${minutes}  :  ${seconds < 10 ? "0" : ""} ${seconds}`.replace(
       / /g,
-      ""
+      "",
     );
   }
 }

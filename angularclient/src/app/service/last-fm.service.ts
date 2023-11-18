@@ -10,12 +10,12 @@ import { SettingsService } from "./settings.service";
 export class LastFmService {
   constructor(
     private http: HttpClient,
-    private settingsService: SettingsService
+    private settingsService: SettingsService,
   ) {}
 
   getSimilarTracks(
     artist: string,
-    title: string
+    title: string,
   ): Observable<LastFmSimilarTracks> {
     const url = `${this.settingsService.getBackendContextAddr()}api/last-fm/similar-tracks?artist=${artist}&title=${title}`;
     return this.http.get<LastFmSimilarTracks>(url);

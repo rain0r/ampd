@@ -9,7 +9,7 @@ export class FilterByCategoryPipe implements PipeTransform {
     filterBy = filterBy ? filterBy : "";
     return filterBy
       ? value.filter(
-          (shortcut: ShortCut) => Category[shortcut.category] === filterBy
+          (shortcut: ShortCut) => Category[shortcut.category] === filterBy,
         )
       : value;
   }

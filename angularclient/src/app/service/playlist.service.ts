@@ -15,7 +15,7 @@ export class PlaylistService {
 
   constructor(
     private http: HttpClient,
-    private settingsService: SettingsService
+    private settingsService: SettingsService,
   ) {
     this.playlistSaved = this.playlistSaved$.asObservable();
   }
@@ -23,7 +23,7 @@ export class PlaylistService {
   getPlaylistInfo(
     playlistName: string,
     pageIndex: number | null,
-    pageSize: number | null
+    pageSize: number | null,
   ): Observable<PlaylistInfo> {
     let params = new HttpParams();
     if (!!pageIndex) {
@@ -39,7 +39,7 @@ export class PlaylistService {
   savePlaylist(playlistName: string): Observable<SavePlaylistResponse> {
     return this.http.post<SavePlaylistResponse>(
       this.settingsService.getPlaylistRootUrl(),
-      playlistName
+      playlistName,
     );
   }
 

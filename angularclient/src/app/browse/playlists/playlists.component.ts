@@ -19,7 +19,7 @@ export class PlaylistsComponent extends Filterable {
 
   constructor(
     private frontendSettingsService: FrontendSettingsService,
-    private messageService: MsgService
+    private messageService: MsgService,
   ) {
     super(messageService);
     this.pageSizeOptions = this.frontendSettingsService.pageSizeOptions;

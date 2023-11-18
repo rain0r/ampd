@@ -25,7 +25,7 @@ export class RadioStreamListComponent implements AfterViewInit {
 
   constructor(
     private radioService: RadioStreamService,
-    private queueService: QueueService
+    private queueService: QueueService,
   ) {}
 
   ngAfterViewInit(): void {

@@ -17,7 +17,7 @@ export class QueueComponent implements OnInit {
   constructor(
     private frontendSettingsService: FrontendSettingsService,
     private mpdService: MpdService,
-    private titleService: Title
+    private titleService: Title,
   ) {
     this.connected$ = this.mpdService.isConnected$();
   }
@@ -47,7 +47,7 @@ export class QueueComponent implements OnInit {
           state: results[0],
           track: results[1],
           tabTitle: results[2],
-        }))
+        })),
       )
       .subscribe((result) => {
         if (
@@ -62,7 +62,7 @@ export class QueueComponent implements OnInit {
         } else {
           if (result.track.artistName && result.track.title) {
             this.titleService.setTitle(
-              `${result.track.artistName} — ${result.track.title}`
+              `${result.track.artistName} — ${result.track.title}`,
             );
           }
         }

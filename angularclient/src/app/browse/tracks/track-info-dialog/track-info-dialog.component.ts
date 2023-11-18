@@ -24,7 +24,7 @@ export class TrackInfoDialogComponent {
     @Inject(MAT_DIALOG_DATA) public track: Track,
     private camelCaseTitlePipe: CamelCaseTitlePipe,
     private replaceNullWithTextPipe: ReplaceNullWithTextPipe,
-    private lastFmService: LastFmService
+    private lastFmService: LastFmService,
   ) {
     this.trackSource = this.buildTableData(track);
     this.tagSource = this.buildTableData(track.tagMap);
@@ -46,7 +46,7 @@ export class TrackInfoDialogComponent {
             ret.push(data);
           });
           return ret;
-        })
+        }),
       );
   }
 

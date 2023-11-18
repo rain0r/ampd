@@ -35,13 +35,13 @@ export class TrackTableDataComponent {
   trackTableDataObs: Observable<TrackTableOptions>;
 
   private trackTableData$ = new BehaviorSubject<TrackTableOptions>(
-    new TrackTableOptions()
+    new TrackTableOptions(),
   );
 
   constructor(
     private dialog: MatDialog,
     private msgService: MsgService,
-    private queueService: QueueService
+    private queueService: QueueService,
   ) {
     this.trackTableDataObs = this.trackTableData$.asObservable();
   }

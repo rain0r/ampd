@@ -23,7 +23,7 @@ export class CoverImageComponent implements OnInit {
     private dialog: MatDialog,
     private frontendSettingsService: FrontendSettingsService,
     private http: HttpClient,
-    private mpdService: MpdService
+    private mpdService: MpdService,
   ) {
     this.isDisplayCover = this.displayCover$.asObservable();
     this.queueTrack = this.mpdService.currentTrack$;
@@ -67,7 +67,7 @@ export class CoverImageComponent implements OnInit {
         isRadioStream === false && // We don't look for covers when a radio stream is playing
           state !== "stop" && // Check state, we don't change the cover if the player has stopped
           displayCovers === true && // Check if cover-display is active in the frontend-settings
-          typeof currTrack.albumName === "string" // No need to check for a cover, if there is no album name
+          typeof currTrack.albumName === "string", // No need to check for a cover, if there is no album name
       );
     });
   }

@@ -21,7 +21,7 @@ export class AlbumDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public album: MpdAlbum,
     private albumService: AlbumsService,
     private queueService: QueueService,
-    public dialogRef: MatDialogRef<AlbumDialogComponent>
+    public dialogRef: MatDialogRef<AlbumDialogComponent>,
   ) {}
 
   ngOnInit(): void {

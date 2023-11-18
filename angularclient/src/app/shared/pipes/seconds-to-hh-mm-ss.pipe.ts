@@ -19,7 +19,7 @@ export class SecondsToHhMmSsPipe implements PipeTransform {
 
     return `${daysStr}${hoursStr}${minutesStr}${secondsStr}`.replace(
       /,\s*$/,
-      ""
+      "",
     );
   }
 

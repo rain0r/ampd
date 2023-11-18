@@ -15,7 +15,7 @@ export class MpdModeComponent {
 
   constructor(
     private mpdModeService: MpdModeService,
-    private mpdService: MpdService
+    private mpdService: MpdService,
   ) {
     this.connected$ = this.mpdService.isConnected$();
     this.mpdModesPanel = this.mpdService.mpdModesPanel$.pipe(
@@ -25,7 +25,7 @@ export class MpdModeComponent {
         random: false,
         repeat: false,
         single: false,
-      } as MpdModesPanel)
+      } as MpdModesPanel),
     );
   }
 

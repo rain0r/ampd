@@ -21,7 +21,7 @@ export class FrontendSettingsService {
 
   constructor(private logger: LoggerService) {
     this.settingsSub$ = new BehaviorSubject<FrontendSetting[]>(
-      this.loadFrontendSettings()
+      this.loadFrontendSettings(),
     );
     this.settings$ = this.settingsSub$.asObservable();
   }
@@ -74,11 +74,11 @@ export class FrontendSettingsService {
       const savedSettings = <FrontendSetting[]>JSON.parse(lsData);
       for (const setting of savedSettings) {
         const elem = this.settings.find(
-          (s) => s.name === setting.name && s.value !== setting.value
+          (s) => s.name === setting.name && s.value !== setting.value,
         );
         if (elem) {
           this.logger.debug(
-            `Changing ${elem.name} from "${elem.value}" (default value) to "${setting.value}" (user setting)`
+            `Changing ${elem.name} from "${elem.value}" (default value) to "${setting.value}" (user setting)`,
           );
           elem.value = setting.value;
         }
@@ -102,7 +102,7 @@ export class FrontendSettingsService {
           this.logger.error("Could not find setting: ", key);
           return <FrontendSetting>{};
         }
-      })
+      }),
     );
   }
 

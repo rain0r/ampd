@@ -46,7 +46,7 @@ export class PlaylistInfoDialogComponent implements AfterViewInit, OnDestroy {
     private queueService: QueueService,
     private responsiveScreenService: ResponsiveScreenService,
     private router: Router,
-    public dialogRef: MatDialogRef<PlaylistInfoDialogComponent>
+    public dialogRef: MatDialogRef<PlaylistInfoDialogComponent>,
   ) {
     this.playlistInfo = this.playlistInfo$.asObservable();
     this.responsiveScreenService
@@ -62,7 +62,7 @@ export class PlaylistInfoDialogComponent implements AfterViewInit, OnDestroy {
         filter((msg) => msg.type === InternMsgType.PaginationEvent),
         map((msg) => <PaginationMsg>msg),
         map((msg) => msg.event),
-        startWith({ pageIndex: null, pageSize: null })
+        startWith({ pageIndex: null, pageSize: null }),
       )
       .pipe(
         switchMap((pagination) => {
@@ -70,9 +70,9 @@ export class PlaylistInfoDialogComponent implements AfterViewInit, OnDestroy {
           return this.playlistService.getPlaylistInfo(
             this.data.name,
             pagination.pageIndex,
-            pagination.pageSize
+            pagination.pageSize,
           );
-        })
+        }),
       )
       .subscribe((info) => {
         this.trackTableData = this.buildTable(info);

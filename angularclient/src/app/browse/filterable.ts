@@ -12,13 +12,13 @@ export abstract class Filterable {
     messageService.message
       .pipe(
         filter((msg) => msg.type === InternMsgType.BrowseFilter),
-        map((msg) => msg as FilterMsg)
+        map((msg) => msg as FilterMsg),
       )
       .subscribe(
         (message) =>
           (this.filterValue = message.filterValue
             ? message.filterValue.trim()
-            : "")
+            : ""),
       );
   }
 }

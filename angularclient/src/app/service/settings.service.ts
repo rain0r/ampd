@@ -17,7 +17,7 @@ export class SettingsService {
   constructor(
     private http: HttpClient,
     private location: Location,
-    private fesService: FrontendSettingsService
+    private fesService: FrontendSettingsService,
   ) {}
 
   getAmpdSettings(): Observable<AmpdSetting[]> {
@@ -53,7 +53,7 @@ export class SettingsService {
     const re = /\/\/$/;
     // Replace a double slash at the end with a single one.
     return `${this.getBackendAddr()}${this.location.prepareExternalUrl(
-      ""
+      "",
     )}`.replace(re, "/");
   }
 

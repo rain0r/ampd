@@ -17,7 +17,7 @@ export class DirectoryEntryComponent implements OnInit {
   constructor(
     private controlPanelService: ControlPanelService,
     private notificationService: NotificationService,
-    private queueService: QueueService
+    private queueService: QueueService,
   ) {}
 
   ngOnInit(): void {
@@ -33,7 +33,7 @@ export class DirectoryEntryComponent implements OnInit {
       .pipe(delay(500))
       .subscribe(
         // Delay hitting "play" since the tracks might not yet been to the queue
-        () => this.controlPanelService.play()
+        () => this.controlPanelService.play(),
       );
     this.notificationService.popUp(`Playing directory: "${dir}"`);
   }

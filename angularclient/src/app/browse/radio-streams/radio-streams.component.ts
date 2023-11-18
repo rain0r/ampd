@@ -16,7 +16,7 @@ export class RadioStreamsComponent implements OnInit {
 
   constructor(
     private radioService: RadioStreamService,
-    private settingsService: SettingsService
+    private settingsService: SettingsService,
   ) {
     this.exportRadioStreamsUrls = `${this.settingsService.getBackendContextAddr()}api/radio-streams`;
   }

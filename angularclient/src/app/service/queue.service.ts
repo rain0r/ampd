@@ -15,7 +15,7 @@ export class QueueService {
 
   constructor(
     private rxStompService: AmpdRxStompService,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
   ) {}
 
   /**
@@ -74,21 +74,21 @@ export class QueueService {
   addPlayQueueTrack(track: QueueTrack): void {
     this.addPlayTrack(track.file);
     this.notificationService.popUp(
-      `Playing: ${track.title ? track.title : track.file}`
+      `Playing: ${track.title ? track.title : track.file}`,
     );
   }
 
   playQueueTrack(track: QueueTrack): void {
     this.playTrack(track.file);
     this.notificationService.popUp(
-      `Playing: ${track.title ? track.title : track.file}`
+      `Playing: ${track.title ? track.title : track.file}`,
     );
   }
 
   addQueueTrack(track: QueueTrack): void {
     this.addTrack(track.file);
     this.notificationService.popUp(
-      `Added: ${track.title ? track.title : track.file}`
+      `Added: ${track.title ? track.title : track.file}`,
     );
   }
 
@@ -156,7 +156,7 @@ export class QueueService {
           prev.content.length == curr.content.length &&
           JSON.stringify(curr) === JSON.stringify(prev)
         );
-      })
+      }),
     );
   }
 }

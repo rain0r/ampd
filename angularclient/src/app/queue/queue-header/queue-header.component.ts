@@ -22,7 +22,7 @@ export class QueueHeaderComponent {
 
   constructor(
     private mpdService: MpdService,
-    private radioService: RadioStreamService
+    private radioService: RadioStreamService,
   ) {
     this.isRadioStream = this.mpdService.isCurrentTrackRadioStream$();
     this.currentPlay = combineLatest([
@@ -34,7 +34,7 @@ export class QueueHeaderComponent {
           state: state,
           track: track,
         } as CurrentPlay;
-      })
+      }),
     );
     this.currentPlay.subscribe((data) => this.processCurrentPlay(data));
 
@@ -53,7 +53,7 @@ export class QueueHeaderComponent {
         }
         const result = radioStreams.find((rs) => rs.url === currentTrack.file);
         return result === undefined ? "" : result.name;
-      })
+      }),
     );
   }
 

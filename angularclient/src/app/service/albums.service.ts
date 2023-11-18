@@ -13,7 +13,7 @@ import { SettingsService } from "./settings.service";
 export class AlbumsService {
   constructor(
     private http: HttpClient,
-    private settingsService: SettingsService
+    private settingsService: SettingsService,
   ) {}
 
   /**
@@ -25,7 +25,7 @@ export class AlbumsService {
   getAlbums(
     searchTerm: string,
     pageIndex: number | null,
-    sortBy: string
+    sortBy: string,
   ): Observable<PaginatedResponse<MpdAlbum>> {
     let params = new HttpParams();
     if (pageIndex) {
@@ -44,12 +44,12 @@ export class AlbumsService {
         map((albums) => {
           albums.content.map((album) => {
             album.albumCoverUrl = `${this.settingsService.getBackendContextAddr()}api/find-album-cover?albumName=${encodeURIComponent(
-              album.name
+              album.name,
             )}&artistName=${encodeURIComponent(album.albumArtist)}`;
             return album;
           });
           return albums;
-        })
+        }),
       );
   }
 
@@ -62,7 +62,7 @@ export class AlbumsService {
    */
   getAlbum(name: string, artistName: string): Observable<QueueTrack[]> {
     const url = `${this.settingsService.getBackendContextAddr()}api/album/?name=${encodeURIComponent(
-      name
+      name,
     )}&artistName=${encodeURIComponent(artistName)}`;
     return this.http.get<QueueTrack[]>(url);
   }

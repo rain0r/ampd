@@ -24,7 +24,7 @@ export class DirectoriesComponent extends Filterable implements OnInit {
 
   constructor(
     private frontendSettingsService: FrontendSettingsService,
-    private messageService: MsgService
+    private messageService: MsgService,
   ) {
     super(messageService);
     this.pageSizeOptions = this.frontendSettingsService.pageSizeOptions;

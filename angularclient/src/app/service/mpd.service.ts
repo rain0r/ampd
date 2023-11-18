@@ -24,21 +24,21 @@ export class MpdService {
     private http: HttpClient,
     private rxStompService: AmpdRxStompService,
     private settingsService: SettingsService,
-    private queueService: QueueService
+    private queueService: QueueService,
   ) {
     this.currentTrack$ = this.getStateSubscription$().pipe(
       map((payload) => this.buildCurrentQueueTrack(payload)),
       filter(
         (queueTrack: QueueTrack) =>
           (queueTrack.artistName !== "" && queueTrack.title !== "") ||
-          queueTrack.file !== ""
-      )
+          queueTrack.file !== "",
+      ),
     );
     this.mpdModesPanel$ = this.getStateSubscription$().pipe(
-      map((state) => state.mpdModesPanelMsg)
+      map((state) => state.mpdModesPanelMsg),
     );
     this.currentState$ = this.getStateSubscription$().pipe(
-      map((state) => state.serverStatus.state)
+      map((state) => state.serverStatus.state),
     );
   }
 
@@ -78,7 +78,7 @@ export class MpdService {
       map((body: string) => <StateMsgPayload>JSON.parse(body)),
       switchMap((payload) => {
         return of(payload);
-      })
+      }),
     );
   }
 
@@ -95,7 +95,7 @@ export class MpdService {
 
   isConnected$(): Observable<boolean> {
     return this.rxStompService.connectionState$.pipe(
-      map((state) => state === RxStompState.OPEN)
+      map((state) => state === RxStompState.OPEN),
     );
   }
 
@@ -127,7 +127,7 @@ export class MpdService {
 
   private buildQueueTrack(
     payload: StateMsgPayload,
-    trackChanged: boolean
+    trackChanged: boolean,
   ): QueueTrack {
     const queueTrack = new QueueTrack(payload.currentTrack);
     queueTrack.coverUrl = this.buildCoverUrl(payload.currentTrack.file);

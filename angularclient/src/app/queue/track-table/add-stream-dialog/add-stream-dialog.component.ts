@@ -11,7 +11,7 @@ export class AddStreamDialogComponent {
   constructor(
     public dialogRef: MatDialogRef<AddStreamDialogComponent>,
     private queueService: QueueService,
-    @Inject(MAT_DIALOG_DATA) public streamUrl: string
+    @Inject(MAT_DIALOG_DATA) public streamUrl: string,
   ) {}
 
   onEnterPressed(): void {

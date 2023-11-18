@@ -10,7 +10,7 @@ import { SettingsService } from "./settings.service";
 export class RadioStreamService {
   constructor(
     private http: HttpClient,
-    private settingsService: SettingsService
+    private settingsService: SettingsService,
   ) {}
 
   addRadioStream(radioStream: RadioStream): Observable<RadioStream[]> {
@@ -31,7 +31,7 @@ export class RadioStreamService {
   uploadImportFile(formData: FormData): Observable<unknown> {
     return this.http.post<unknown>(
       `${this.settingsService.getBackendContextAddr()}api/radio-streams/import`,
-      formData
+      formData,
     );
   }
 }

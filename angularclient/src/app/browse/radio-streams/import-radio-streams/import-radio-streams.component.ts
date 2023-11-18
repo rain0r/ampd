@@ -26,7 +26,7 @@ export class ImportRadioStreamsComponent {
 
   constructor(
     private radioStreamService: RadioStreamService,
-    private logger: LoggerService
+    private logger: LoggerService,
   ) {}
 
   onFileSelected(event: Event): void {

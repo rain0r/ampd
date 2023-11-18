@@ -14,7 +14,10 @@ export class AlbumItemComponent implements OnInit {
   @Input() album: MpdAlbum | null = null;
   private albumDialogOpen = new BehaviorSubject(false);
 
-  constructor(private dialog: MatDialog, private http: HttpClient) {}
+  constructor(
+    private dialog: MatDialog,
+    private http: HttpClient,
+  ) {}
 
   ngOnInit(): void {
     this.updateCover();

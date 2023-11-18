@@ -19,7 +19,7 @@ export class PlaylistEntryComponent {
     private controlPanelService: ControlPanelService,
     private dialog: MatDialog,
     private notificationService: NotificationService,
-    private queueService: QueueService
+    private queueService: QueueService,
   ) {}
 
   onPlaylistInfo($event: MouseEvent, playlist: Playlist): void {
@@ -36,7 +36,7 @@ export class PlaylistEntryComponent {
       .pipe(delay(500))
       .subscribe(
         // Delay hitting "play" since the tracks might not yet been to the queue
-        () => this.controlPanelService.play()
+        () => this.controlPanelService.play(),
       );
     this.notificationService.popUp(`Playing playlist: "${playlistName}"`);
   }

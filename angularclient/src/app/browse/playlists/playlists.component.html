@@ -1,4 +1,7 @@
-<div class="browse-title">
+<div
+  class="browse-title"
+  *ngIf="(playlists | playlistFilter: filterValue).length"
+>
   <mat-icon>format_list_bulleted</mat-icon>
   <div>Playlists</div>
 </div>

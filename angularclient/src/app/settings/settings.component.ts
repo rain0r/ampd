@@ -6,7 +6,10 @@ import { FrontendSettingsService } from "src/app/service/frontend-settings.servi
 import { NotificationService } from "../service/notification.service";
 import { SettingsService } from "../service/settings.service";
 import { AmpdSetting } from "../shared/model/ampd-setting";
-import { FrontendSetting } from "../shared/model/internal/frontend-settings";
+import {
+  FrontendSetting,
+  SettingKeys,
+} from "../shared/model/internal/frontend-settings";
 import { MpdSettings } from "../shared/model/mpd-settings";
 
 interface SettingMap {
@@ -35,11 +38,11 @@ export class SettingsComponent {
     this.feSettings = this.buildFeSettingCategories();
   }
 
-  toggleFrontendSetting(name: string, event: MatSlideToggleChange): void {
+  toggleFrontendSetting(name: SettingKeys, event: MatSlideToggleChange): void {
     this.fsService.save(name, event.checked);
   }
 
-  onSaveBtnClick(name: string, value: string): void {
+  onSaveBtnClick(name: SettingKeys, value: string): void {
     this.fsService.save(name, value);
     this.notificationService.popUp("Saved settings.");
   }

@@ -11,7 +11,9 @@ label {
   display: inline-block;
   // padding: 10px 20px;
   // border-radius: 4px;
-  -webkit-transition: background-color 0.1s, color 0.1s;
+  -webkit-transition:
+    background-color 0.1s,
+    color 0.1s;
 }
 
 .hidden-container {

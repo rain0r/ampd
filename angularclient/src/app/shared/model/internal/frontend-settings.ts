@@ -12,7 +12,7 @@ export enum SettingKeys {
 }
 
 export interface FrontendSetting {
-  name: string; // Used inside localStorage
+  name: SettingKeys; // Used inside localStorage
   label: string; // Used as heading on the frontend
   type: string; // Primitive type of a setting
   value: string;

@@ -26,7 +26,7 @@ export class FrontendSettingsService {
     this.settings$ = this.settingsSub$.asObservable();
   }
 
-  save(name: string, value: string | number | boolean): void {
+  save(name: SettingKeys, value: string | number | boolean): void {
     const index = this.settings.findIndex((s) => s.name === name);
     if (index === -1) {
       this.logger.error("Could not find frontend setting with name: ", name);

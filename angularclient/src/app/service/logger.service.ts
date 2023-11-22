@@ -6,19 +6,19 @@ import { LogLevel } from "../shared/log-level";
   providedIn: "root",
 })
 export class LoggerService {
-  debug(msg: string, data: unknown | null = null): void {
+  debug(msg: string, data: unknown = ""): void {
     this.logWith(LogLevel.Debug, msg, data);
   }
 
-  info(msg: string, data: unknown | null): void {
+  info(msg: string, data: unknown = ""): void {
     this.logWith(LogLevel.Info, msg, data);
   }
 
-  warn(msg: string, data: unknown | null): void {
+  warn(msg: string, data: unknown = ""): void {
     this.logWith(LogLevel.Warn, msg, data);
   }
 
-  error(msg: string, data: unknown | null): void {
+  error(msg: string, data: unknown = ""): void {
     this.logWith(LogLevel.Error, msg, data);
   }
 

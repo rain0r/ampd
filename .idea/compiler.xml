@@ -10,6 +10,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="javampd" target="17" />
       <module name="listenbrainz-java" target="11" />
       <module name="my-lb-test" target="11" />
     </bytecodeTargetLevel>

@@ -1,5 +1,6 @@
 package org.hihn.ampd.server.model;
 
+import jakarta.annotation.PostConstruct;
 import org.hihn.ampd.server.serializer.HelpText;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -7,7 +8,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ReflectionUtils;
 
-import javax.annotation.PostConstruct;
 import java.util.Arrays;
 import java.util.Set;
 import java.util.TreeSet;
@@ -177,7 +177,6 @@ public class AmpdSettings {
 	 * Prints the applied properties to the console.
 	 */
 	@PostConstruct
-
 	public void printProperties() {
 		Set<String> output = new TreeSet<>();
 		ReflectionUtils.doWithFields(AmpdSettings.class, field -> {

@@ -1,17 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.7.13</version>
-        <relativePath />
+        <version>3.2.3</version>
+        <relativePath/>
     </parent>
     <groupId>org.hihn.ampd</groupId>
     <artifactId>ampd</artifactId>
     <version>1.6.8-SNAPSHOT</version>
     <name>ampd</name>
     <description>Spring Boot server for the ampd-client</description>
+    <url>https://github.com/rain0r/ampd</url>
+    <developers>
+        <developer>
+            <id>rain0r</id>
+            <name>rain0r</name>
+            <email>hihn.rainer@gmail.com</email>
+            <roles>
+                <role>architect</role>
+                <role>developer</role>
+            </roles>
+        </developer>
+    </developers>
+    <issueManagement>
+        <system>GitHub</system>
+        <url>https://github.com/rain0r/ampd/issues</url>
+    </issueManagement>
     <licenses>
         <license>
             <name>GNU General Public License v3.0 only</name>
@@ -20,7 +37,7 @@
         </license>
     </licenses>
     <properties>
-        <java.version>11</java.version>
+        <java.version>17</java.version>
         <project.scm.id>github</project.scm.id>
         <frontend.configuration>production</frontend.configuration>
         <frontend.context>/</frontend.context>
@@ -89,7 +106,7 @@
         <dependency>
             <groupId>com.github.ben-manes.caffeine</groupId>
             <artifactId>caffeine</artifactId>
-            <version>3.1.6</version>
+            <version>3.1.8</version>
         </dependency>
         <dependency>
             <groupId>de.u-mass</groupId>
@@ -102,7 +119,7 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <version>2.7.13</version>
+                <version>3.2.3</version>
                 <executions>
                     <execution>
                         <goals>
@@ -110,14 +127,6 @@
                         </goals>
                     </execution>
                 </executions>
-                <configuration>
-                    <executable>true</executable>
-                    <embeddedLaunchScriptProperties>
-                        <pidFolder>/tmp/</pidFolder>
-                        <pidFilename>ampd-server</pidFilename>
-                        <stopWaitTime>5</stopWaitTime>
-                    </embeddedLaunchScriptProperties>
-                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -125,8 +134,8 @@
                 <version>3.11.0</version>
                 <configuration>
                     <release>${java.version}</release>
-                    <source>11</source>
-                    <target>11</target>
+                    <source>17</source>
+                    <target>17</target>
                     <compilerArgument>-Xlint:all</compilerArgument>
                     <showWarnings>true</showWarnings>
                     <showDeprecation>true</showDeprecation>
@@ -200,19 +209,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-project-info-reports-plugin</artifactId>
-                <version>3.4.5</version>
-            </plugin>
-            <plugin>
-                <groupId>net.nicoulaj.maven.plugins</groupId>
-                <artifactId>checksum-maven-plugin</artifactId>
-                <version>1.11</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>artifacts</goal>
-                        </goals>
-                    </execution>
-                </executions>
+                <version>3.5.0</version>
             </plugin>
             <plugin>
                 <artifactId>maven-clean-plugin</artifactId>
@@ -243,7 +240,7 @@
             <plugin>
                 <groupId>io.spring.javaformat</groupId>
                 <artifactId>spring-javaformat-maven-plugin</artifactId>
-                <version>0.0.39</version>
+                <version>0.0.41</version>
                 <executions>
                     <execution>
                         <phase>validate</phase>
@@ -254,42 +251,61 @@
                     </execution>
                 </executions>
             </plugin>
-            <plugin>
-                <groupId>com.github.spotbugs</groupId>
-                <artifactId>spotbugs-maven-plugin</artifactId>
-                <version>4.7.3.5</version>
-                <dependencies>
-                    <!-- overwrite dependency on spotbugs if you want to specify the version of spotbugs -->
-                    <dependency>
-                        <groupId>com.github.spotbugs</groupId>
-                        <artifactId>spotbugs</artifactId>
-                        <version>4.7.3</version>
-                    </dependency>
-                </dependencies>
-            </plugin>
+            <!--            <plugin>-->
+            <!--                <groupId>org.apache.maven.plugins</groupId>-->
+            <!--                <artifactId>maven-site-plugin</artifactId>-->
+            <!--                <version>3.12.1</version>-->
+            <!--            </plugin>-->
+            <!--            <plugin>-->
+            <!--                <groupId>org.apache.maven.plugins</groupId>-->
+            <!--                <artifactId>maven-project-info-reports-plugin</artifactId>-->
+            <!--                <version>3.5.0</version>-->
+            <!--            </plugin>-->
         </plugins>
     </build>
+    <profiles>
+        <profile>
+            <id>code-analysis</id>
+            <build>
+                <plugins>
+                    <!-- Spotbugs static analysis -->
+                    <plugin>
+                        <groupId>com.github.spotbugs</groupId>
+                        <artifactId>spotbugs-maven-plugin</artifactId>
+                        <version>4.8.3.1</version>
+                        <configuration>
+                            <htmlOutput>true</htmlOutput>
+                            <effort>Max</effort>
+                            <threshold>Exp</threshold>
+                            <excludeFilterFile>src/etc/findbugs-exclude.xml</excludeFilterFile>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>spotbugs</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
     <reporting>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-pmd-plugin</artifactId>
-                <version>3.21.0</version>
-                <configuration>
-                    <excludeRoots>
-                        <excludeRoot>target/generated-sources/jsonschema2pojo</excludeRoot>
-                    </excludeRoots>
-                    <rulesets>
-                        <ruleset>rulesets/java/basic.xml</ruleset>
-                        <ruleset>rulesets/java/empty.xml</ruleset>
-                        <ruleset>rulesets/java/imports.xml</ruleset>
-                        <ruleset>rulesets/java/braces.xml</ruleset>
-                        <ruleset>rulesets/java/naming.xml</ruleset>
-                        <ruleset>rulesets/java/unnecessary.xml</ruleset>
-                        <ruleset>rulesets/java/unusedcode.xml</ruleset>
-                    </rulesets>
-                </configuration>
+                <artifactId>maven-site-plugin</artifactId>
+                <version>3.12.1</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-project-info-reports-plugin</artifactId>
+                <version>3.5.0</version>
             </plugin>
         </plugins>
     </reporting>
+
 </project>

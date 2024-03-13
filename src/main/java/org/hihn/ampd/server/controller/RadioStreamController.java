@@ -1,5 +1,6 @@
 package org.hihn.ampd.server.controller;
 
+import jakarta.validation.Valid;
 import org.hihn.ampd.server.model.db.RadioStream;
 import org.hihn.ampd.server.service.RadioService;
 import org.springframework.http.HttpStatus;
@@ -7,7 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.validation.Valid;
 import java.util.List;
 
 /**

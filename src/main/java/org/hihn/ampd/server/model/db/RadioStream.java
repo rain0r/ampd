@@ -1,9 +1,8 @@
 package org.hihn.ampd.server.model.db;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
-import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 
 @Entity
 public class RadioStream {

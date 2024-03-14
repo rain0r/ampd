@@ -88,10 +88,13 @@ public class ListenBrainzScrobbleService implements AmpdScrobbler {
 	}
 
 	private Optional<UUID> extractTrackMapKey(List<String> tagMap) {
+		if (tagMap.get(0) == null) {
+			return Optional.empty();
+		}
 		try {
 			return Optional.of(UUID.fromString(tagMap.get(0)));
 		}
-		catch (IndexOutOfBoundsException | NullPointerException e) {
+		catch (IndexOutOfBoundsException e) {
 			return Optional.empty();
 		}
 	}

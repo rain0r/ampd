@@ -33,12 +33,13 @@ public class BrowseService {
 	 * @param path The path to browse
 	 * @return Object with the directories, tracks and playlist of the given path.
 	 */
-	public BrowsePayload browse(String path) {
+	public BrowsePayload browse(String pathP) {
+		String path = pathP;
 		/* Remove leading slashes */
 		path = path.replaceAll("^/+", "").trim();
 		/* Outgoing payload */
 		BrowsePayload browsePayload = findDirsAndTracks(path);
-		if (path.equals("/") || path.equals("")) {
+		if ("/".equals(path) || path.isEmpty()) {
 			/* Only look for playlists if we're on the root */
 			browsePayload.addPlaylists(getPlaylists());
 		}

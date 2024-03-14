@@ -21,7 +21,7 @@ public class MpdConfig {
 	 */
 	@Bean
 	public MPD buildMpd() {
-		if (ampdSettings.getMpdPassword().equals("")) {
+		if (ampdSettings.getMpdPassword().isEmpty()) {
 			return MPD.builder().server(ampdSettings.getMpdServer()).port(ampdSettings.getMpdPort()).build();
 		}
 		else {

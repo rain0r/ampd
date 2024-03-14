@@ -26,7 +26,7 @@ public class MvcConfig {
 	 * Exclude mixRampDb until this issue is resolved:
 	 * <a href="https://github.com/finnyb/javampd/issues/73">#73</a>
 	 */
-	private abstract class AbstractServerStatusMixIn {
+	private abstract static class AbstractServerStatusMixIn {
 
 		@JsonIgnore
 		abstract int getMixRampDb(); // we don't need it!

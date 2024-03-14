@@ -12,7 +12,7 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Websocket endpoint to control the queue. Besides getting the current queue, it also
@@ -68,7 +68,7 @@ public class QueueController {
 	}
 
 	@MessageMapping("/add-tracks")
-	public void addTracks(ArrayList<String> tracks) {
+	public void addTracks(List<String> tracks) {
 		queueService.addTracks(tracks);
 	}
 

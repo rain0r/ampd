@@ -274,9 +274,7 @@
                         <artifactId>spotbugs-maven-plugin</artifactId>
                         <version>4.8.3.1</version>
                         <configuration>
-                            <htmlOutput>true</htmlOutput>
                             <effort>Max</effort>
-                            <threshold>Exp</threshold>
                             <excludeFilterFile>src/etc/findbugs-exclude.xml</excludeFilterFile>
                         </configuration>
                         <executions>

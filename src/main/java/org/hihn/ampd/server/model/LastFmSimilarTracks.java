@@ -2,7 +2,7 @@ package org.hihn.ampd.server.model;
 
 import de.umass.lastfm.Track;
 
-import java.util.Collection;
+import java.util.List;
 
 /**
  * Holds info about Last.fm credential settings sent to the frontend.
@@ -11,9 +11,9 @@ public class LastFmSimilarTracks {
 
 	private String apiKey;
 
-	private Collection<Track> similarTracks;
+	private List<Track> similarTracks;
 
-	public LastFmSimilarTracks(String apiKey, Collection<Track> similarTracks) {
+	public LastFmSimilarTracks(String apiKey, List<Track> similarTracks) {
 		this.apiKey = apiKey;
 		this.similarTracks = similarTracks;
 	}
@@ -26,11 +26,11 @@ public class LastFmSimilarTracks {
 		this.apiKey = apiKey;
 	}
 
-	public Collection<Track> getSimilarTracks() {
-		return similarTracks;
+	public List<Track> getSimilarTracks() {
+		return List.copyOf(similarTracks);
 	}
 
-	public void setSimilarTracks(Collection<Track> similarTracks) {
+	public void setSimilarTracks(List<Track> similarTracks) {
 		this.similarTracks = similarTracks;
 	}
 

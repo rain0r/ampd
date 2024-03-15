@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.stream.Stream;
 
 /**
@@ -52,7 +53,7 @@ public class LastFmService implements AmpdScrobbler {
 
 	public LastFmSimilarTracks getSimilarTracks(String artist, String title) {
 		return new LastFmSimilarTracks(ampdSettings.getLastfmApiKey(),
-				Track.getSimilar(artist, title, ampdSettings.getLastfmApiKey()));
+				List.copyOf(Track.getSimilar(artist, title, ampdSettings.getLastfmApiKey())));
 
 	}
 

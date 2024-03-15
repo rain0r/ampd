@@ -1,13 +1,13 @@
 package org.hihn.ampd.server;
 
-public interface Constants {
+public class Constants {
 
-	String ALBUM_CACHE = "AlbumService";
+	public static final String ALBUM_CACHE = "AlbumService";
 
-	String GENRE_CACHE = "GenreService";
+	public static final String GENRE_CACHE = "GenreService";
 
-	String SEARCH_CACHE = "SearchService";
+	public static final String SEARCH_CACHE = "SearchService";
 
-	String PLAYLIST_CACHE = "PlaylistService";
+	public static final String PLAYLIST_CACHE = "PlaylistService";
 
 }

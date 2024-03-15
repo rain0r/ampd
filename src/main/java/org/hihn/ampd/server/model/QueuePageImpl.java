@@ -7,6 +7,8 @@ import java.util.List;
 
 public class QueuePageImpl<T> extends PageImpl {
 
+	private static final long serialVersionUID = -8458526312980512803L;
+
 	private int totalPlayTime = -1;
 
 	public QueuePageImpl(List content, Pageable pageable, long total) {
@@ -19,6 +21,16 @@ public class QueuePageImpl<T> extends PageImpl {
 
 	public void setTotalPlayTime(int totalPlayTime) {
 		this.totalPlayTime = totalPlayTime;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		return super.equals(obj);
+	}
+
+	@Override
+	public int hashCode() {
+		return super.hashCode();
 	}
 
 }

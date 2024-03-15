@@ -137,7 +137,7 @@ public class AlbumArtService {
 	 */
 	private Optional<byte[]> loadMusicDirCover(String trackFilePath) {
 		// Only look for local covers if a music directory is set
-		if (ampdSettings.getMusicDirectory().equals("")) {
+		if (ampdSettings.getMusicDirectory().isEmpty()) {
 			LOG.debug("musicDirectory is empty - not looking for a cover in the track directory.");
 			return Optional.empty();
 		}

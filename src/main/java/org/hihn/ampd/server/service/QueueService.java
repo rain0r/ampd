@@ -14,7 +14,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -52,7 +51,7 @@ public class QueueService {
 	 * Adds tracks to the queue.
 	 * @param tracks The path of the tracks.
 	 */
-	public void addTracks(ArrayList<String> tracks) {
+	public void addTracks(List<String> tracks) {
 		mpd.getPlaylist()
 			.addSongs(tracks.stream().map(track -> MPDSong.builder().file(track).build()).collect(Collectors.toList()));
 	}

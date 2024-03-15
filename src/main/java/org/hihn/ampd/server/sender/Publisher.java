@@ -6,6 +6,8 @@ import org.bff.javampd.server.ServerStatus;
 import org.hihn.ampd.server.message.incoming.MpdModesPanelMsg;
 import org.hihn.ampd.server.message.outgoing.StatePayload;
 import org.hihn.ampd.server.service.QueueService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -16,6 +18,8 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class Publisher {
+
+	private static final Logger LOG = LoggerFactory.getLogger(Publisher.class);
 
 	private static final String QUEUE_URL = "/topic/queue";
 
@@ -34,18 +38,12 @@ public class Publisher {
 		this.template = template;
 		this.queueService = queueService;
 
-		buildChangeListener();
-	}
-
-	/**
-	 * Publishes the queue every second.
-	 */
-	@Scheduled(fixedRateString = "${publisher.delay}")
-	public void publishQueue() {
-		if (!mpd.isConnected()) {
-			return;
+		try {
+			buildChangeListener();
 		}
-
+		catch (Exception e) {
+			LOG.error("Error building change listener", e);
+		}
 	}
 
 	/**

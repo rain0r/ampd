@@ -3,14 +3,14 @@
 <div class="page-title">Radio Streams</div>
 
 <div *ngIf="dataSource$ | async as dataSource">
-  <div class="my-4">
+  <div class="my-8">
     <app-radio-stream-list [dataSource]="dataSource"></app-radio-stream-list>
-    <mat-divider></mat-divider>
+    <mat-divider *ngIf="dataSource.data.length > 0"></mat-divider>
     <app-add-radio-stream></app-add-radio-stream>
     <mat-divider></mat-divider>
     <app-import-radio-streams></app-import-radio-streams>
-    <div>
-      <a mat-stroked-button href="{{ exportRadioStreamsUrls }}">
+    <div class="my-8">
+      <a mat-stroked-button href="{{ exportRadioStreamsUrls }}" target="_blank">
         Export radio stations
       </a>
     </div>

@@ -1,8 +1,8 @@
-<div class="my-4">
+<div class="my-8">
   <div class="page-sub-title">Add a radio stream</div>
   <form [formGroup]="radioStreamForm" (ngSubmit)="onSubmit()">
-    <div class="flex flex-col">
-      <mat-form-field>
+    <div class="flex flex-col md:flex-row gap-x-4">
+      <mat-form-field class="w-full">
         <mat-label for="name">Name</mat-label>
         <input
           autocomplete="off"
@@ -13,7 +13,7 @@
           type="text"
         />
       </mat-form-field>
-      <mat-form-field>
+      <mat-form-field class="w-full">
         <mat-label for="url">URL of the stream</mat-label>
         <input
           autocomplete="off"

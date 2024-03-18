@@ -21,45 +21,47 @@ import java.util.stream.Collectors;
 @Service
 public class RadioService {
 
-    private static final Logger LOG = LoggerFactory.getLogger(RadioService.class);
+	private static final Logger LOG = LoggerFactory.getLogger(RadioService.class);
 
-    private final RadioRepository rsRepo;
+	private final RadioRepository rsRepo;
 
-    public RadioService(RadioRepository rsRepo) {
-        this.rsRepo = rsRepo;
-    }
+	public RadioService(RadioRepository rsRepo) {
+		this.rsRepo = rsRepo;
+	}
 
-    public List<RadioStream> browseRadioStreams() {
-        return rsRepo.findAllByOrderByNameAsc();
-    }
+	public List<RadioStream> browseRadioStreams() {
+		return rsRepo.findAllByOrderByNameAsc();
+	}
 
-    public List<RadioStream> addRadioStream(RadioStream radioStream) {
-        rsRepo.save(radioStream);
-        return rsRepo.findAllByOrderByNameAsc();
-    }
+	public List<RadioStream> addRadioStream(RadioStream radioStream) {
+		rsRepo.save(radioStream);
+		return rsRepo.findAllByOrderByNameAsc();
+	}
 
-    public List<RadioStream> deleteStream(int streamId) {
-        rsRepo.deleteById((long) streamId);
-        return rsRepo.findAllByOrderByNameAsc();
-    }
+	public List<RadioStream> deleteStream(int streamId) {
+		rsRepo.deleteById((long) streamId);
+		return rsRepo.findAllByOrderByNameAsc();
+	}
 
-    public boolean importRadioStations(MultipartFile file) {
-        boolean ret = true;
-        ObjectMapper objectMapper = new ObjectMapper();
+	public boolean importRadioStations(MultipartFile file) {
+		boolean ret = true;
+		ObjectMapper objectMapper = new ObjectMapper();
 
-        try (BufferedReader a = new BufferedReader(
-                new InputStreamReader(file.getInputStream(), StandardCharsets.UTF_8))) {
-            String result = a.lines().collect(Collectors.joining("\n"));
-            RadioStream[] importedStreams = objectMapper.readValue(result, RadioStream[].class);
-            for (RadioStream rs : importedStreams) {
-                rs.setStreamId(null);
-                addRadioStream(rs);
-            }
-        } catch (IOException e) {
-            LOG.error("Error importing radio stations", e);
-            ret = false;
-        }
+		try (BufferedReader a = new BufferedReader(
+				new InputStreamReader(file.getInputStream(), StandardCharsets.UTF_8))) {
+			String result = a.lines().collect(Collectors.joining("\n"));
+			RadioStream[] importedStreams = objectMapper.readValue(result, RadioStream[].class);
+			for (RadioStream rs : importedStreams) {
+				rs.setStreamId(null);
+				addRadioStream(rs);
+			}
+		}
+		catch (IOException e) {
+			LOG.error("Error importing radio stations", e);
+			ret = false;
+		}
 
-        return ret;
-    }
+		return ret;
+	}
+
 }

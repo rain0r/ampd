@@ -28,7 +28,7 @@ public class AmpdServer {
 	 * Show the user a welcome message.
 	 */
 	@EventListener(ApplicationReadyEvent.class)
-	public void doSomethingAfterStartup() {
+	public void printWelcomeMessage() {
 		System.out.println("\n==================================================");
 		System.out.println("ampd is running on: " + address + ":" + port);
 		System.out.println("==================================================");

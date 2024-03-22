@@ -138,10 +138,10 @@ public class AlbumArtService {
 	private Optional<byte[]> loadMusicDirCover(String trackFilePath) {
 		// Only look for local covers if a music directory is set
 		if (ampdSettings.getMusicDirectory().isEmpty()) {
-			LOG.debug("musicDirectory is empty - not looking for a cover in the track directory.");
+			LOG.trace("musicDirectory is empty - not looking for a cover in the track directory.");
 			return Optional.empty();
 		}
-		LOG.debug("Looking for a cover in the directory of file: {}", trackFilePath);
+		LOG.trace("Looking for a cover in the directory of file: {}", trackFilePath);
 		Path path = Paths.get(ampdSettings.getMusicDirectory(), trackFilePath);
 		Path parent = path.getParent();
 		if (parent == null) {
@@ -152,7 +152,7 @@ public class AlbumArtService {
 			stream.forEach(covers::add);
 		}
 		catch (IOException e) {
-			LOG.debug("No covers found in directory: {}", parent);
+			LOG.trace("No covers found in directory: {}", parent);
 			return Optional.empty();
 		}
 		try {

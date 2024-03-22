@@ -1,13 +1,8 @@
-<div class="browse-title">
-  <mat-icon>folder_open</mat-icon>
-  <span *ngIf="dirQp === '/'; else dirName"> Directories </span>
-  <ng-template #dirName>
-    <div class="flex flex-col md:flex-row gap-x-2">
-      <span class="dir-prefix">Directory &#8260;</span>
-      <span class="dir-qp">{{ dirQpLabel }}</span>
-    </div>
-  </ng-template>
-  <div class="flex-grow"></div>
+<div class="browse-title">  
+  <div class="flex-grow tracking-wide text-2xl">
+    <span *ngIf="dirQp === '/'">Directories</span>
+    <span *ngIf="dirQp !== '/'">{{ dirQpLabel }}</span>
+  </div>  
   <mat-icon
     (click)="toggleFilter()"
     *ngIf="dirQp === '/'"
@@ -61,6 +56,6 @@
 </div>
 
 <!-- Cover grid -->
-<div class="pt-4">
+<div class="mt-24">
   <app-cover-grid [directories]="directories" [dirQp]="dirQp"></app-cover-grid>
 </div>

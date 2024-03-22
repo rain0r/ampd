@@ -4,6 +4,7 @@
   *ngIf="mpdModesPanel | async as modesPanel"
   (change)="toggleCtrl($event.value)"
   [disabled]="(connected$ | async) === false"
+  [hideMultipleSelectionIndicator]="true"
 >
   <mat-button-toggle
     (change)="modesPanel.random = $event.source.checked"

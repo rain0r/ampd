@@ -3,7 +3,7 @@
 // The list of file replacements can be found in `angular.json`.
 
 // const AMPD_URL = "localhost:8080";
-const AMPD_URL = "punica:8083/dev-ampd/";
+const AMPD_URL = "punica:8083/dev-ampd";
 
 export const environment = {
   production: false,

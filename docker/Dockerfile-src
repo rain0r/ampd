@@ -1,4 +1,4 @@
-FROM maven:3-jdk-11 as builder
+FROM maven:3-eclipse-temurin-17 as builder
 ARG frontend_context=/
 WORKDIR /srv
 COPY . .
@@ -15,7 +15,7 @@ RUN apt-get install nodejs -y
 
 RUN mvn package -q -Dfrontend.context=$frontend_context
 
-FROM openjdk:11-jre-slim
+FROM eclipse-temurin:17
 WORKDIR /srv
 COPY --from=builder /srv/target/ampd-*.jar ./ampd.jar
 EXPOSE 8080

@@ -89,10 +89,13 @@ public class AlbumArtService {
 
 	public Optional<byte[]> findAlbumCoverForAlbum(String albumName, String artistName) {
 		// Find all tracks with this album and artist
-		ArrayList<MPDSong> xxx = new ArrayList<>(mpd.getSongSearcher()
+		ArrayList<MPDSong> mpdSongs = new ArrayList<>(mpd.getSongSearcher()
 			.search(new SearchCriteria(SongSearcher.ScopeType.ARTIST, artistName),
 					new SearchCriteria(SongSearcher.ScopeType.ALBUM, albumName)));
-		Optional<Optional<byte[]>> ret = xxx.stream().map(MPDSong::getFile).map(this::loadMusicDirCover).findFirst();
+		Optional<Optional<byte[]>> ret = mpdSongs.stream()
+			.map(MPDSong::getFile)
+			.map(this::loadMusicDirCover)
+			.findFirst();
 		return ret.orElseGet(Optional::empty);
 	}
 

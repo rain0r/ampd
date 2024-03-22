@@ -50,8 +50,7 @@
           "configurations": {
             "development": {
               "buildOptimizer": false,
-              "optimization": false,
-              "vendorChunk": true,
+              "optimization": false,              
               "extractLicenses": false,
               "sourceMap": true,
               "namedChunks": true
@@ -68,7 +67,6 @@
               "sourceMap": false,
               "namedChunks": false,
               "extractLicenses": true,
-              "vendorChunk": false,
               "buildOptimizer": true,
               "budgets": [
                 {
@@ -87,6 +85,7 @@
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
+          "forceEsbuild":true,
           "options": {
             "buildTarget": "ampd:build"
           },

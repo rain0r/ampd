@@ -53,6 +53,7 @@ export class CoverImageComponent implements OnInit {
     this.http.head(track.coverUrl, { observe: "response" }).subscribe({
       error: () => this.displayCover$.next(false),
       next: () => this.coverAvailable(),
+      complete: () => console.trace("complete"),
     });
   }
 
@@ -60,14 +61,12 @@ export class CoverImageComponent implements OnInit {
     combineLatest([
       this.mpdService.currentState$,
       this.frontendSettingsService.getBoolValue$(SettingKeys.DISPLAY_COVERS),
-      this.mpdService.currentTrack$,
       this.mpdService.isCurrentTrackRadioStream$(),
-    ]).subscribe(([state, displayCovers, currTrack, isRadioStream]) => {
+    ]).subscribe(([state, displayCovers, isRadioStream]) => {
       this.displayCover$.next(
         isRadioStream === false && // We don't look for covers when a radio stream is playing
           state !== "stop" && // Check state, we don't change the cover if the player has stopped
-          displayCovers === true && // Check if cover-display is active in the frontend-settings
-          typeof currTrack.albumName === "string", // No need to check for a cover, if there is no album name
+          displayCovers === true, // Check if cover-display is active in the frontend-settings
       );
     });
   }

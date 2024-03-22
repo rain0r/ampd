@@ -1,8 +1,8 @@
-<div class="browse-title">  
+<div class="browse-title">
   <div class="flex-grow tracking-wide text-2xl">
     <span *ngIf="dirQp === '/'">Directories</span>
     <span *ngIf="dirQp !== '/'">{{ dirQpLabel }}</span>
-  </div>  
+  </div>
   <mat-icon
     (click)="toggleFilter()"
     *ngIf="dirQp === '/'"

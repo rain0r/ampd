@@ -3,6 +3,7 @@ import { ControlPanelService } from "../../../../service/control-panel.service";
 import { NotificationService } from "../../../../service/notification.service";
 import { QueueService } from "../../../../service/queue.service";
 import { Directory } from "../../../../shared/messages/incoming/directory";
+import { HttpClient } from "@angular/common/http";
 
 @Component({
   selector: "app-cover-grid-entry",
@@ -15,6 +16,7 @@ export class CoverGridEntryComponent implements OnInit {
 
   constructor(
     private controlPanelService: ControlPanelService,
+    private http: HttpClient,
     private notificationService: NotificationService,
     private queueService: QueueService,
   ) {}
@@ -23,6 +25,7 @@ export class CoverGridEntryComponent implements OnInit {
     if (this.directory) {
       this.pathLink = encodeURIComponent(this.directory.path);
     }
+    this.updateCover();
   }
 
   onPlayDir($event: MouseEvent, dir: string): void {
@@ -39,5 +42,20 @@ export class CoverGridEntryComponent implements OnInit {
     }
     this.queueService.addDir(dir);
     this.notificationService.popUp(`Added dir: "${dir}"`);
+  }
+
+  private updateCover(): void {
+    if (!this.directory?.albumCoverUrl) {
+      return;
+    }
+    this.http
+      .head(this.directory.albumCoverUrl, { observe: "response" })
+      .subscribe({
+        error: () => {
+          if (this.directory) {
+            this.directory.albumCoverUrl = "assets/images/no-cover.svg";
+          }
+        },
+      });
   }
 }

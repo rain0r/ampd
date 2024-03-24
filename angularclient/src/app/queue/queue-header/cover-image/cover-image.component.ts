@@ -1,7 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Component, OnInit } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
-import { BehaviorSubject, Observable, combineLatest } from "rxjs";
+import { BehaviorSubject, Observable, combineLatest, filter } from "rxjs";
 import { FrontendSettingsService } from "src/app/service/frontend-settings.service";
 import { MpdService } from "src/app/service/mpd.service";
 import { AlbumCoverDialogComponent } from "src/app/shared/album-cover-dialog/album-cover-dialog.component";
@@ -41,7 +41,11 @@ export class CoverImageComponent implements OnInit {
 
   private buildCover(): void {
     let first = true;
-    this.mpdService.currentTrack$.subscribe((track) => {
+
+    combineLatest([
+      this.mpdService.currentTrack$,
+      this.mpdService.currentState$.pipe(filter((state) => state !== "stop")),
+    ]).subscribe(([track]) => {
       if (first || track.changed) {
         first = false;
         this.updateCover(track);
@@ -53,7 +57,6 @@ export class CoverImageComponent implements OnInit {
     this.http.head(track.coverUrl, { observe: "response" }).subscribe({
       error: () => this.displayCover$.next(false),
       next: () => this.coverAvailable(),
-      complete: () => console.trace("complete"),
     });
   }
 

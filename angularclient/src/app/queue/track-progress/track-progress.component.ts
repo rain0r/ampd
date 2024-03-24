@@ -12,7 +12,7 @@ import { QueueTrack } from "../../shared/model/queue-track";
 export class TrackProgressComponent {
   isStream$: Observable<boolean>;
   connected$: Observable<boolean>;
-  track = new QueueTrack();
+  track$: Observable<QueueTrack>;
   state$: Observable<string>;
 
   constructor(
@@ -21,7 +21,7 @@ export class TrackProgressComponent {
   ) {
     this.connected$ = this.mpdService.isConnected$();
     this.state$ = this.mpdService.currentState$;
-    this.mpdService.currentTrack$.subscribe((track) => (this.track = track));
+    this.track$ = this.mpdService.currentTrack$;
     this.isStream$ = this.mpdService.isCurrentTrackRadioStream$();
   }
 

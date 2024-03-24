@@ -1,36 +1,37 @@
-<div
-  class="flex flex-row place-items-center gap-x-8 px-1"
-  *ngIf="state$ | async as state"
->
-  <div [class.text-muted]="track.length === 0 || state === 'pause'">
-    {{ track.elapsed | secondsToMmSs }}
-  </div>
-
-  <mat-slider
-    class="flex-grow"
-    [disabled]="
-      (connected$ | async) === false ||
-      track.length === 0 ||
-      (isStream$ | async) === true
-    "
-    [discrete]="true"
-    [displayWith]="formatSeconds"
-    [max]="track.length"
-    [min]="0"
-    [showTickMarks]="false"
-    color="accent"
-  >
-    <input
-      matSliderThumb
-      [(ngModel)]="track.progress"
-      (valueChange)="handleCurrentTrackProgressSlider($event)"
-    />
-  </mat-slider>
-
+<ng-container *ngIf="track$ | async as track">
   <div
-    *ngIf="track.length > 0"
-    [class.text-muted]="track.length === 0 || state === 'pause'"
+    class="flex flex-row place-items-center gap-x-8 px-1"
+    *ngIf="state$ | async as state"
   >
-    {{ track.length | secondsToMmSs }}
+    <div [class.text-muted]="state === 'pause'">
+      {{ track.elapsed | secondsToMmSs }}
+    </div>
+
+    <mat-slider
+      class="flex-grow"
+      [disabled]="
+        (connected$ | async) === false ||
+        state === 'stop' ||
+        (isStream$ | async) === true
+      "
+      [discrete]="true"
+      [displayWith]="formatSeconds"
+      [max]="track.length"
+      [min]="0"
+      [showTickMarks]="false"
+      color="accent"
+    >
+      <input
+        matSliderThumb
+        [(ngModel)]="track.progress"
+        (valueChange)="handleCurrentTrackProgressSlider($event)"
+      />
+    </mat-slider>
+    <ng-container *ngIf="state !== 'stop'; else templateA">
+      <div [class.text-muted]="state === 'pause'">
+        {{ track.length | secondsToMmSs }}
+      </div>
+    </ng-container>
+    <ng-template #templateA> — </ng-template>
   </div>
-</div>
+</ng-container>

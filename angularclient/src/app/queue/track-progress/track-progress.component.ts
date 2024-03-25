@@ -1,5 +1,5 @@
 import { Component } from "@angular/core";
-import { Observable, delay } from "rxjs";
+import { Observable, delay, startWith } from "rxjs";
 import { ControlPanelService } from "../../service/control-panel.service";
 import { MpdService } from "../../service/mpd.service";
 import { QueueTrack } from "../../shared/model/queue-track";
@@ -21,7 +21,9 @@ export class TrackProgressComponent {
   ) {
     this.connected$ = this.mpdService.isConnected$();
     this.state$ = this.mpdService.currentState$;
-    this.track$ = this.mpdService.currentTrack$;
+    this.track$ = this.mpdService.currentTrack$.pipe(
+      startWith(new QueueTrack()),
+    );
     this.isStream$ = this.mpdService.isCurrentTrackRadioStream$();
   }
 

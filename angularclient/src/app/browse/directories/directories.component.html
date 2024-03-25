@@ -1,4 +1,13 @@
-<div class="browse-title">
+<div
+  class="browse-title"
+  *ngIf="
+    (
+      directories
+      | directoryFilter: filterValue
+      | directoryFilterStartLetterPipe: filterByStartCharValue
+    ).length
+  "
+>
   <div class="flex-grow tracking-wide text-2xl">
     <span *ngIf="dirQp === '/'">Directories</span>
     <span *ngIf="dirQp !== '/'">{{ dirQpLabel }}</span>

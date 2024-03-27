@@ -20,10 +20,10 @@ export class SearchService {
     pageSize: number | null,
   ): Observable<PaginatedResponse<Track>> {
     let params = new HttpParams();
-    if (!!pageIndex) {
+    if (pageIndex) {
       params = params.append("pageIndex", pageIndex);
     }
-    if (!!pageSize) {
+    if (pageSize) {
       params = params.append("pageSize", pageSize);
     }
     params = params.append("term", term);
@@ -40,7 +40,7 @@ export class SearchService {
     params = params.append("pageIndex", pageIndex);
     params = params.append("pageSize", pageSize);
     for (const key in formData) {
-      if (!!formData[key]) {
+      if (formData[key]) {
         params = params.append(key, formData[key] || "");
       }
     }

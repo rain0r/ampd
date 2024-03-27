@@ -70,7 +70,7 @@ export class FrontendSettingsService {
 
   loadFrontendSettings(): FrontendSetting[] {
     const lsData = localStorage.getItem(LS_KEY) || "";
-    try {
+    
       const savedSettings = <FrontendSetting[]>JSON.parse(lsData);
       for (const setting of savedSettings) {
         const elem = this.settings.find(
@@ -83,7 +83,7 @@ export class FrontendSettingsService {
           elem.value = setting.value;
         }
       }
-    } catch (err) {}
+    
 
     return this.settings.sort((a, b) => a.category.localeCompare(b.category));
   }

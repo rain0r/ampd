@@ -26,10 +26,10 @@ export class PlaylistService {
     pageSize: number | null,
   ): Observable<PlaylistInfo> {
     let params = new HttpParams();
-    if (!!pageIndex) {
+    if (pageIndex) {
       params = params.append("pageIndex", encodeURIComponent(pageIndex));
     }
-    if (!!pageSize) {
+    if (pageSize) {
       params = params.append("pageSize", encodeURIComponent(pageSize));
     }
     const url = `${this.settingsService.getPlaylistRootUrl()}${playlistName}`;

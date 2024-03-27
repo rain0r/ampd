@@ -26,13 +26,13 @@ export class GenresService {
     pageSize: number | null,
   ): Observable<GenreResponse> {
     let params = new HttpParams();
-    if (!!genre) {
+    if (genre) {
       params = params.append("genre", genre);
     }
-    if (!!pageIndex) {
+    if (pageIndex) {
       params = params.append("pageIndex", encodeURIComponent(pageIndex));
     }
-    if (!!pageSize) {
+    if (pageSize) {
       params = params.append("pageSize", encodeURIComponent(pageSize));
     }
     const url = `${this.settingsService.getBackendContextAddr()}api/genre`;

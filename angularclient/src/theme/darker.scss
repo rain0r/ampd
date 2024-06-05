@@ -2,9 +2,9 @@
 
 @include mat.core();
 
-$primary-palette: mat.define-palette(mat.$blue-grey-palette, 500);
-$accent-palette: mat.define-palette(mat.$orange-palette, A400, A100, A700);
-$warn-palette: mat.define-palette(mat.$red-palette);
+$primary-palette: mat.m2-define-palette(mat.$m2-blue-grey-palette, 500);
+$accent-palette: mat.m2-define-palette(mat.$m2-orange-palette, A400, A100, A700);
+$warn-palette: mat.m2-define-palette(mat.$m2-red-palette);
 
 $accent-color: #ff9100;
 $body-background-color: #303030;
@@ -13,7 +13,7 @@ $hover-background-color: #607d8b;
 $primary-text: #fff;
 $second-background-color: #424242;
 
-$dark-theme: mat.define-dark-theme(
+$dark-theme: mat.m2-define-dark-theme(
   (
     color: (
       primary: $primary-palette,

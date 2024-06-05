@@ -15,7 +15,7 @@ body {
 //
 
 .bg {
-  background: linear-gradient(335deg, rgba(255,140,107,1) 0%, rgba(255,228,168,1) 100%);
+  background: var(--body-background-color);
   background-repeat: no-repeat;
   background-position: center;
   height: 100vh;
@@ -24,8 +24,6 @@ body {
   z-index: -1;
 }
  
-
-
 .text-muted {
   color: #868e96 !important;
 }

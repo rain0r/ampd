@@ -2,11 +2,7 @@ package org.hihn.ampd.server.service.scrobbler;
 
 import org.bff.javampd.playlist.MPDPlaylistSong;
 import org.hihn.ampd.server.model.AmpdSettings;
-import org.hihn.listenbrainz.LbService;
-import org.hihn.listenbrainz.lb.SubmitListen;
-import org.hihn.listenbrainz.lb.SubmitListenNow;
-import org.hihn.listenbrainz.lb.SubmitListensAdditionalInfo;
-import org.hihn.listenbrainz.lb.SubmitListensTrackMetadata;
+import org.hihn.listenbrainz.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -14,6 +10,9 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+
+import static org.hihn.listenbrainz.ListenType.PLAYING_NOW;
+import static org.hihn.listenbrainz.ListenType.SINGLE;
 
 /**
  * Service to scrobble songs to ListenBrainz.
@@ -25,20 +24,27 @@ public class ListenBrainzScrobbleService implements AmpdScrobbler {
 
 	private final AmpdSettings ampdSettings;
 
-	private final LbService lbService;
+	private final LbCoreApi lbCoreApi = new LbCoreApi();
 
 	private MPDPlaylistSong currentSong;
 
-	public ListenBrainzScrobbleService(AmpdSettings ampdSettings, LbService lbService) {
+	public ListenBrainzScrobbleService(AmpdSettings ampdSettings) {
 		this.ampdSettings = ampdSettings;
-		this.lbService = lbService;
+		lbCoreApi.getApiClient().setApiKey("Token " + ampdSettings.getListenbrainzToken());
 	}
 
 	@Override
 	public void scrobbleListen(MPDPlaylistSong song) {
 		currentSong = song;
+
 		if (ampdSettings.isScrobbleLb()) {
-			lbService.submitSingleListen(buildPayload());
+			LOG.debug("Submiting listen: {} - {}", song.getArtistName(), song.getTitle());
+			try {
+				lbCoreApi.submitListens(buildSubmitListens(SINGLE)).execute();
+			}
+			catch (ApiException e) {
+				LOG.error("Could not scrobble track: " + e.getMessage(), e);
+			}
 		}
 	}
 
@@ -46,43 +52,52 @@ public class ListenBrainzScrobbleService implements AmpdScrobbler {
 	public void scrobblePlayingNow(MPDPlaylistSong song) {
 		currentSong = song;
 		if (ampdSettings.isScrobbleLb()) {
-			LOG.info("Submiting playing now: {} - {}", song.getArtistName(), song.getTitle());
-			lbService.submitPlayingNow(buildPlayingNowPayload());
+			LOG.debug("Submiting playing now: {} - {}", song.getArtistName(), song.getTitle());
+			try {
+				lbCoreApi.submitListens(buildSubmitListens(PLAYING_NOW)).execute();
+			}
+			catch (ApiException e) {
+				LOG.error("Could not scrobble track: " + e.getMessage(), e);
+			}
 		}
 	}
 
-	private List<SubmitListenNow> buildPlayingNowPayload() {
-		SubmitListenNow submitListenNow = new SubmitListenNow(buildTrackMetadata(currentSong));
-		return List.of(submitListenNow);
+	private SubmitListens buildSubmitListens(ListenType listenType) {
+		SubmitListens submitListens = new SubmitListens();
+		submitListens.setListenType(listenType);
+		submitListens.setPayload(List.of(buildPayload(listenType)));
+		return submitListens;
 	}
 
-	private SubmitListen buildPayload() {
-		SubmitListen payload = new SubmitListen();
-		int unixTime = Math.toIntExact(System.currentTimeMillis() / 1000L);
-		payload.setListenedAt(unixTime);
-		payload.setTrackMetadata(buildTrackMetadata(currentSong));
-		return payload;
+	private SubmitListensPayloadInner buildPayload(ListenType listenType) {
+		SubmitListensPayloadInner SubmitListensPayload = new SubmitListensPayloadInner();
+		SubmitListensPayload.setTrackMetadata(buildTrackMetadata());
+		if (listenType.equals(SINGLE)) {
+			int unixTime = Math.toIntExact(System.currentTimeMillis() / 1000L);
+			SubmitListensPayload.setListenedAt(unixTime);
+		}
+		return SubmitListensPayload;
 	}
 
-	private SubmitListensTrackMetadata buildTrackMetadata(MPDPlaylistSong song) {
-		SubmitListensTrackMetadata data = new SubmitListensTrackMetadata();
-		data.setTrackName(song.getTitle());
-		data.setArtistName(song.getArtistName());
-		data.setReleaseName(song.getAlbumName());
-		data.setAdditionalInfo(buildAdditionalInfo(song));
+	private TrackMetadata buildTrackMetadata() {
+		TrackMetadata data = new TrackMetadata();
+		data.setTrackName(currentSong.getTitle());
+		data.setArtistName(currentSong.getArtistName());
+		data.setReleaseName(currentSong.getAlbumName());
+		data.setAdditionalInfo(buildAdditionalInfo());
 		return data;
 	}
 
-	private SubmitListensAdditionalInfo buildAdditionalInfo(MPDPlaylistSong song) {
-		SubmitListensAdditionalInfo info = new SubmitListensAdditionalInfo();
+	private AdditionalInfo buildAdditionalInfo() {
+		AdditionalInfo info = new AdditionalInfo();
 		info.setMediaPlayer("mpd");
 		info.setSubmissionClient("ampd");
 		info.setSubmissionClientVersion(ampdSettings.getVersion());
-		info.setDurationMs(song.getLength() * 1000);
+		info.setDurationMs(currentSong.getLength() * 1000);
 
-		extractTrackMapKey(song.getTagMap().get("MUSICBRAINZ_RELEASETRACKID")).ifPresent(info::setTrackMbid);
-		extractTrackMapKey(song.getTagMap().get("MUSICBRAINZ_ALBUMID")).ifPresent(info::setReleaseMbid);
-		extractTrackMapKey(song.getTagMap().get("MUSICBRAINZ_ARTISTID"))
+		extractTrackMapKey(currentSong.getTagMap().get("MUSICBRAINZ_RELEASETRACKID")).ifPresent(info::setTrackMbid);
+		extractTrackMapKey(currentSong.getTagMap().get("MUSICBRAINZ_ALBUMID")).ifPresent(info::setReleaseMbid);
+		extractTrackMapKey(currentSong.getTagMap().get("MUSICBRAINZ_ARTISTID"))
 			.ifPresent(artistMbId -> info.setArtistMbids(List.of(artistMbId)));
 		return info;
 	}

@@ -3,7 +3,12 @@
 @include mat.core();
 
 $primary-palette: mat.m2-define-palette(mat.$m2-blue-grey-palette, 500);
-$accent-palette: mat.m2-define-palette(mat.$m2-orange-palette, A400, A100, A700);
+$accent-palette: mat.m2-define-palette(
+  mat.$m2-orange-palette,
+  A400,
+  A100,
+  A700
+);
 $warn-palette: mat.m2-define-palette(mat.$m2-red-palette);
 
 $accent-color: #ff9100;

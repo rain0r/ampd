@@ -28,12 +28,9 @@
     *ngIf="advSearchResponse$ | async as advSearchResponse"
     class="flex flex-col md:flex-row justify-between flex-grow gap-3"
   >
-    <div class="text-muted self-center">
-      {{ advSearchResponse.totalElements }} results
-    </div>
     <div class="flex-grow"></div>
     <!--Clear queue-->
-    <div>
+    <div class="my-5 md:my-1">
       <button mat-raised-button (click)="onClearQueue()">
         <mat-icon>delete</mat-icon>
         <span> Clear queue </span>
@@ -41,7 +38,7 @@
     </div>
 
     <!--Add all-->
-    <div>
+    <div class="my-5 md:my-1">
       <button mat-raised-button (click)="onAddAll()">
         <mat-icon> add</mat-icon>
         <span> Add all </span>

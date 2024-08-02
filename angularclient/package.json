@@ -2,7 +2,7 @@
   "name": "ampd",
   "private": true,
   "scripts": {
-    "format": "ng lint --fix && prettier --write \"src/**/*.scss\" && package-lock-sanitizer",
+    "format": "ng lint --fix && prettier --write \"src/**/*.scss\"",
     "warnings": "ng lint --silent --format=checkstyle > checkstyle-ts-result.xml",
     "lint": "ng lint",
     "ng": "ng",

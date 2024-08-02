@@ -4,7 +4,6 @@
     [cdkDropListData]="trackTableData.dataSource.data"
     [cdkDropListDisabled]="!trackTableData.dragEnabled"
     [dataSource]="trackTableData.dataSource"
-    *ngIf="trackTableData.dataSource.data.length > 0"
     cdkDropList
     class="table-auto"
     mat-table
@@ -175,6 +174,7 @@
       </td>
     </ng-container>
 
+    <!-- Column titles -->
     <tr mat-header-row *matHeaderRowDef="trackTableData.displayedColumns"></tr>
 
     <tr
@@ -184,6 +184,16 @@
       mat-row
       cdkDrag
     ></tr>
+
+    <!-- Displayed, if no items found -->
+    <tr class="mat-row" *matNoDataRow>
+      <td
+        class="mat-cell"
+        [attr.colspan]="trackTableData.displayedColumns.length"
+      >
+        No tracks.
+      </td>
+    </tr>
   </table>
   <div
     [hidden]="

@@ -71,7 +71,7 @@ export class FrontendSettingsService {
   loadFrontendSettings(): FrontendSetting[] {
     const lsData = localStorage.getItem(LS_KEY) || "";
     try {
-      const savedSettings = <FrontendSetting[]>JSON.parse(lsData);
+      const savedSettings = JSON.parse(lsData) as FrontendSetting[];
       for (const setting of savedSettings) {
         const elem = this.settings.find(
           (s) => s.name === setting.name && s.value !== setting.value,
@@ -83,9 +83,8 @@ export class FrontendSettingsService {
           elem.value = setting.value;
         }
       }
-    }
-    catch (err) {
-      console.error("Error loading frontend settings:", err)
+    } catch (err) {
+      console.error("Error loading frontend settings:", err);
     }
 
     return this.settings.sort((a, b) => a.category.localeCompare(b.category));
@@ -103,7 +102,7 @@ export class FrontendSettingsService {
           return elem;
         } else {
           this.logger.error("Could not find setting: ", key);
-          return <FrontendSetting>{};
+          return {} as FrontendSetting;
         }
       }),
     );

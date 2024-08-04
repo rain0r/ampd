@@ -10,9 +10,8 @@ import { RadioStream } from "../../../shared/model/db/radio-stream";
 })
 export class AddStreamComponent {
   radioStreamForm = new FormGroup({
-    // eslint-disable-next-line  @typescript-eslint/unbound-method
     name: new FormControl("", Validators.required),
-    // eslint-disable-next-line  @typescript-eslint/unbound-method
+
     url: new FormControl("", Validators.required),
   });
 

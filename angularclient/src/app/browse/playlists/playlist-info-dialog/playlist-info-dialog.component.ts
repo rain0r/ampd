@@ -35,7 +35,7 @@ export class PlaylistInfoDialogComponent implements AfterViewInit, OnDestroy {
   playlistInfo: Observable<PlaylistInfo>;
   trackTableData = new TrackTableOptions();
   private isMobile = false;
-  private msgSub = <Subscription>{};
+  private msgSub = {} as Subscription;
   private playlistInfo$ = new Subject<PlaylistInfo>();
 
   constructor(
@@ -60,7 +60,7 @@ export class PlaylistInfoDialogComponent implements AfterViewInit, OnDestroy {
     this.msgSub = this.msgService.message
       .pipe(
         filter((msg) => msg.type === InternMsgType.PaginationEvent),
-        map((msg) => <PaginationMsg>msg),
+        map((msg) => msg as PaginationMsg),
         map((msg) => msg.event),
         startWith({ pageIndex: null, pageSize: null }),
       )

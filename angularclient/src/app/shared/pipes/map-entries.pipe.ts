@@ -5,7 +5,7 @@ import { KeyValue } from "@angular/common";
   name: "mapEntries",
 })
 export class MapEntriesPipe implements PipeTransform {
-  transform<K, V>(input: Map<K, V>): ReadonlyArray<KeyValue<K, V>> {
+  transform<K, V>(input: Map<K, V>): readonly KeyValue<K, V>[] {
     return Array.from(input ?? []).map(([key, value]) => ({ key, value }));
   }
 }

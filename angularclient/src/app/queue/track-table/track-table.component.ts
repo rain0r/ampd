@@ -76,7 +76,7 @@ export class TrackTableComponent implements AfterContentInit {
     if (!eventTarget) {
       return;
     }
-    const filterValue = (<HTMLInputElement>eventTarget).value;
+    const filterValue = (eventTarget as HTMLInputElement).value;
     this.trackTableData.dataSource.filter = filterValue.toLowerCase();
   }
 
@@ -153,7 +153,7 @@ export class TrackTableComponent implements AfterContentInit {
     this.msgService.message
       .pipe(
         filter((msg) => msg.type === InternMsgType.PaginationEvent),
-        map((msg) => <PaginationMsg>msg),
+        map((msg) => msg as PaginationMsg),
       )
       .subscribe((msg) => {
         this.queueService.getPage(msg.event.pageIndex, msg.event.pageSize);

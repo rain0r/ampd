@@ -9,7 +9,7 @@ import { ShortcutService } from "./../service/shortcut.service";
   styleUrls: ["./navbar.component.scss"],
 })
 export class NavbarComponent {
-  @ViewChild("helpIcon") helpIcon: ElementRef = <ElementRef>{};
+  @ViewChild("helpIcon") helpIcon: ElementRef = {} as ElementRef;
 
   connState: Observable<number>;
 

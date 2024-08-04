@@ -12,9 +12,7 @@ import {
 } from "../shared/model/internal/frontend-settings";
 import { MpdSettings } from "../shared/model/mpd-settings";
 
-interface SettingMap {
-  [category: string]: FrontendSetting[];
-}
+type SettingMap = Record<string, FrontendSetting[]>;
 
 @Component({
   selector: "app-settings",
@@ -53,7 +51,7 @@ export class SettingsComponent {
   }
 
   buildFeSettingCategories(): SettingMap {
-    const settingMap = <SettingMap>{};
+    const settingMap = {} as SettingMap;
     const settings = this.fsService.loadFrontendSettings();
     for (const setting of settings) {
       if (!(setting.category in settingMap)) {

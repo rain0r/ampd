@@ -125,7 +125,7 @@ export class ControlPanelComponent implements OnInit {
         if (!result.errorDialogOpen) {
           const dialogRef = this.dialog.open(TrackInfoDialogComponent, {
             data: result.track,
-            width: '80%'
+            width: "80%",
           });
           this.trackInfoDialogOpen.next(true);
           dialogRef

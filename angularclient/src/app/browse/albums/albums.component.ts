@@ -51,7 +51,7 @@ export class AlbumsComponent implements OnInit {
   }
 
   applyFilter(eventTarget: EventTarget | null): void {
-    const inputValue = (<HTMLInputElement>eventTarget).value;
+    const inputValue = (eventTarget as HTMLInputElement).value;
     if (inputValue) {
       this.inputSetter$.next(inputValue);
       void this.router.navigate([], {
@@ -81,7 +81,7 @@ export class AlbumsComponent implements OnInit {
   private buildInputListener() {
     const pagination = this.msgService.message.pipe(
       filter((msg) => msg.type === InternMsgType.PaginationEvent),
-      map((msg) => <PaginationMsg>msg),
+      map((msg) => msg as PaginationMsg),
       map((msg) => msg.event),
     );
     const sortBy: Observable<string> = this.activatedRoute.queryParamMap.pipe(

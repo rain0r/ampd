@@ -21,7 +21,7 @@ export class RadioStreamListComponent implements AfterViewInit {
     "playStream",
   ];
 
-  @ViewChild(MatPaginator) paginator: MatPaginator = <MatPaginator>{};
+  @ViewChild(MatPaginator) paginator: MatPaginator = {} as MatPaginator;
 
   constructor(
     private radioService: RadioStreamService,
@@ -55,7 +55,7 @@ export class RadioStreamListComponent implements AfterViewInit {
     if (!eventTarget) {
       return;
     }
-    const filterValue = (<HTMLInputElement>eventTarget).value;
+    const filterValue = (eventTarget as HTMLInputElement).value;
     this.dataSource.filter = filterValue.toLowerCase();
   }
 

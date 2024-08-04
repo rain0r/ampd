@@ -42,7 +42,7 @@ export class AdvancedSearchComponent implements OnInit, AfterViewInit {
     "play-title",
     "add-title",
   ];
-  form: FormGroup = <FormGroup>{};
+  form: FormGroup = {} as FormGroup;
   formFields: FormField[];
   isLoadingResults = new BehaviorSubject(true);
   trackTableData = new TrackTableOptions();
@@ -76,7 +76,7 @@ export class AdvancedSearchComponent implements OnInit, AfterViewInit {
       this.formDataSubmitted,
       this.msgService.message.pipe(
         filter((msg) => msg.type === InternMsgType.PaginationEvent),
-        map((msg) => <PaginationMsg>msg),
+        map((msg) => msg as PaginationMsg),
         map((msg) => msg.event),
         startWith({ pageIndex: 0, pageSize: 30 }),
       ),
@@ -96,7 +96,7 @@ export class AdvancedSearchComponent implements OnInit, AfterViewInit {
   }
 
   onSubmit(): void {
-    const fd = <Record<string, string>>this.form.getRawValue();
+    const fd = this.form.getRawValue() as Record<string, string>;
     this.formDataSubmitted.next(fd);
   }
 

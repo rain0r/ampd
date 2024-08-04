@@ -8,8 +8,8 @@ import { FormField } from "../shared/search/form-field";
   styleUrls: ["./dynamic-form-input.component.scss"],
 })
 export class DynamicFormInputComponent {
-  @Input() input: FormField = <FormField>{};
-  @Input() form: FormGroup = <FormGroup>{};
+  @Input() input: FormField = {} as FormField;
+  @Input() form: FormGroup = {} as FormGroup;
 
   get isValid(): boolean {
     return this.form.controls[this.input.key].valid;

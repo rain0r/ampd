@@ -45,7 +45,7 @@ export class QueueTrack implements Track {
   track = "";
   year = "";
   albumArtist = "";
-  tagMap = <TagMap>{};
+  tagMap = {} as TagMap;
 
   // QueueTrack properties
   coverUrl = "";

@@ -13,7 +13,7 @@ import { PlaylistInfoDialogComponent } from "../playlist-info-dialog/playlist-in
   styleUrls: ["./playlist-entry.component.scss"],
 })
 export class PlaylistEntryComponent {
-  @Input() playlist: Playlist = <Playlist>{};
+  @Input() playlist: Playlist = {} as Playlist;
 
   constructor(
     private controlPanelService: ControlPanelService,

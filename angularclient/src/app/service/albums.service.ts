@@ -61,7 +61,7 @@ export class AlbumsService {
    * @returns
    */
   getAlbum(name: string, artistName: string): Observable<QueueTrack[]> {
-    const url = `${this.settingsService.getBackendContextAddr()}api/album/?name=${encodeURIComponent(
+    const url = `${this.settingsService.getBackendContextAddr()}api/album?name=${encodeURIComponent(
       name,
     )}&artistName=${encodeURIComponent(artistName)}`;
     return this.http.get<QueueTrack[]>(url);

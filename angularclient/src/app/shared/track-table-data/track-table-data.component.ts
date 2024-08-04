@@ -31,9 +31,12 @@ export class TrackTableDataComponent {
   }
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator =
     new MatPaginator(new MatPaginatorIntl(), ChangeDetectorRef.prototype);
-  @ViewChild(MatSort, { static: true }) sort: MatSort = new MatSort();
-  trackTableDataObs: Observable<TrackTableOptions>;
 
+  @ViewChild(MatSort, { static: false }) set content(sort: MatSort) {
+    this.trackTableDataObs.subscribe((d) => (d.dataSource.sort = sort));
+  }
+
+  trackTableDataObs: Observable<TrackTableOptions>;
   private trackTableData$ = new BehaviorSubject<TrackTableOptions>(
     new TrackTableOptions(),
   );

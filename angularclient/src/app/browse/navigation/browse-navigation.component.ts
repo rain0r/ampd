@@ -63,7 +63,7 @@ export class BrowseNavigationComponent implements OnInit {
 
     this.activatedRoute.queryParamMap
       .pipe(
-        map((qp) => <string>qp.get("dir") || "/"),
+        map((qp) => (qp.get("dir") as string) || "/"),
         distinctUntilChanged(),
       )
       .subscribe((dir) => {
@@ -117,7 +117,7 @@ export class BrowseNavigationComponent implements OnInit {
     if (!eventTarget) {
       return;
     }
-    const term = (<HTMLInputElement>eventTarget).value;
+    const term = (eventTarget as HTMLInputElement).value;
     this.filter = term;
     if (term) {
       this.messageService.sendMessage({

@@ -1,6 +1,9 @@
 import { ScrollingModule } from "@angular/cdk/scrolling";
 import { Location } from "@angular/common";
-import { provideHttpClient, withInterceptorsFromDi } from "@angular/common/http";
+import {
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from "@angular/common/http";
 import { ErrorHandler, NgModule } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { BrowserModule } from "@angular/platform-browser";
@@ -71,90 +74,96 @@ const prefersReducedMotion =
     ? matchMedia("(prefers-reduced-motion)").matches
     : false;
 
-@NgModule({ declarations: [
-        AppComponent,
-        BrowseComponent,
-        ControlPanelComponent,
-        DirectoriesComponent,
-        DirectoryFilterPipe,
-        EncodeURIComponentPipe,
-        ReplaceNullWithTextPipe,
-        MpdModeComponent,
-        NavbarComponent,
-        BrowseNavigationComponent,
-        PlaylistFilterPipe,
-        PlaylistsComponent,
-        QueueComponent,
-        QueueHeaderComponent,
-        SearchComponent,
-        SecondsToHhMmSsPipe,
-        SecondsToMmSsPipe,
-        SettingsComponent,
-        TrackProgressComponent,
-        TrackTableComponent,
-        TrackTableDataComponent,
-        TracksComponent,
-        VolumeSliderComponent,
-        SavePlaylistDialogComponent,
-        PlaylistInfoDialogComponent,
-        HelpDialogComponent,
-        MapEntriesPipe,
-        ServerStatisticsComponent,
-        AddStreamComponent,
-        UpdateDatabaseComponent,
-        DirectoryFilterStartLetterPipe,
-        PlaylistEntryComponent,
-        DirectoryEntryComponent,
-        CoverGridComponent,
-        CoverGridEntryComponent,
-        AlbumsComponent,
-        AlbumDialogComponent,
-        AlbumItemComponent,
-        TrackInfoDialogComponent,
-        KeyValueTableComponent,
-        GenresComponent,
-        ErrorDialogComponent,
-        FileSizePipe,
-        CamelCaseTitlePipe,
-        RadioStreamListComponent,
-        FilterByCategoryPipe,
-        CoverImageComponent,
-        DynamicFormInputComponent,
-        AdvancedSearchComponent,
-        AddStreamDialogComponent,
-        AlbumCoverDialogComponent,
-        ImportRadioStreamsComponent,
-        RadioStreamsComponent,
-    ],
-    bootstrap: [AppComponent], imports: [AppRoutingModule,
-        BrowserAnimationsModule.withConfig({
-            disableAnimations: prefersReducedMotion,
-        }),
-        BrowserModule,
-        FormsModule,
-        ReactiveFormsModule,
-        ScrollingModule,
-        BrowserModule,
-        MaterialMetaModule], providers: [
-        CamelCaseTitlePipe,
-        SecondsToMmSsPipe,
-        ReplaceNullWithTextPipe,
-        StyleManager,
-        {
-            provide: AmpdRxStompService,
-            useFactory: (location: Location, settingsService: SettingsService) => {
-                const config = new AmpdRxStompConfigService(location, settingsService);
-                const rxStomp = new AmpdRxStompService();
-                rxStomp.configure(config);
-                rxStomp.activate();
-                return rxStomp;
-            },
-            deps: [Location, SettingsService],
-        },
-        {
-            provide: ErrorHandler,
-            useClass: AmpdErrorHandler,
-        },
-        provideHttpClient(withInterceptorsFromDi()),
-    ] })
+@NgModule({
+  declarations: [
+    AppComponent,
+    BrowseComponent,
+    ControlPanelComponent,
+    DirectoriesComponent,
+    DirectoryFilterPipe,
+    EncodeURIComponentPipe,
+    ReplaceNullWithTextPipe,
+    MpdModeComponent,
+    NavbarComponent,
+    BrowseNavigationComponent,
+    PlaylistFilterPipe,
+    PlaylistsComponent,
+    QueueComponent,
+    QueueHeaderComponent,
+    SearchComponent,
+    SecondsToHhMmSsPipe,
+    SecondsToMmSsPipe,
+    SettingsComponent,
+    TrackProgressComponent,
+    TrackTableComponent,
+    TrackTableDataComponent,
+    TracksComponent,
+    VolumeSliderComponent,
+    SavePlaylistDialogComponent,
+    PlaylistInfoDialogComponent,
+    HelpDialogComponent,
+    MapEntriesPipe,
+    ServerStatisticsComponent,
+    AddStreamComponent,
+    UpdateDatabaseComponent,
+    DirectoryFilterStartLetterPipe,
+    PlaylistEntryComponent,
+    DirectoryEntryComponent,
+    CoverGridComponent,
+    CoverGridEntryComponent,
+    AlbumsComponent,
+    AlbumDialogComponent,
+    AlbumItemComponent,
+    TrackInfoDialogComponent,
+    KeyValueTableComponent,
+    GenresComponent,
+    ErrorDialogComponent,
+    FileSizePipe,
+    CamelCaseTitlePipe,
+    RadioStreamListComponent,
+    FilterByCategoryPipe,
+    CoverImageComponent,
+    DynamicFormInputComponent,
+    AdvancedSearchComponent,
+    AddStreamDialogComponent,
+    AlbumCoverDialogComponent,
+    ImportRadioStreamsComponent,
+    RadioStreamsComponent,
+  ],
+  bootstrap: [AppComponent],
+  imports: [
+    AppRoutingModule,
+    BrowserAnimationsModule.withConfig({
+      disableAnimations: prefersReducedMotion,
+    }),
+    BrowserModule,
+    FormsModule,
+    ReactiveFormsModule,
+    ScrollingModule,
+    BrowserModule,
+    MaterialMetaModule,
+  ],
+  providers: [
+    CamelCaseTitlePipe,
+    SecondsToMmSsPipe,
+    ReplaceNullWithTextPipe,
+    StyleManager,
+    {
+      provide: AmpdRxStompService,
+      useFactory: (location: Location, settingsService: SettingsService) => {
+        const config = new AmpdRxStompConfigService(location, settingsService);
+        const rxStomp = new AmpdRxStompService();
+        rxStomp.configure(config);
+        rxStomp.activate();
+        return rxStomp;
+      },
+      deps: [Location, SettingsService],
+    },
+    {
+      provide: ErrorHandler,
+      useClass: AmpdErrorHandler,
+    },
+    provideHttpClient(withInterceptorsFromDi()),
+  ],
+})
 export class AppModule {}

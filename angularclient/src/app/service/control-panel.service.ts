@@ -122,7 +122,7 @@ export class ControlPanelService {
         return tmp;
       }, {} as JumpSeekCounter),
       debounceTime(750),
-      startWith(<JumpSeekCounter>{}),
+      startWith({} as JumpSeekCounter),
       pairwise(),
       map(([previous, current]) => {
         const tmp = Object.assign({}, previous, current);

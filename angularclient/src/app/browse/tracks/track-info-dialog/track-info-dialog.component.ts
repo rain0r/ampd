@@ -17,7 +17,7 @@ export class TrackInfoDialogComponent {
   displayedColumns: string[] = ["key", "value"];
   trackSource: KeyValue<string, string>[] = [];
   tagSource: KeyValue<string, string>[] = [];
-  similarSource: Observable<KeyValue<string, string>[]> = new Observable();
+  similarSource = new Observable<KeyValue<string, string>[]>();
   lastFmApiKey = "";
 
   constructor(

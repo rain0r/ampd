@@ -65,7 +65,7 @@ export class GenresComponent implements OnInit, OnDestroy {
       this.activatedRoute.queryParamMap.pipe(filter((qp) => qp.has("genre"))),
       this.msgService.message.pipe(
         filter((msg) => msg.type === InternMsgType.PaginationEvent),
-        map((msg) => <PaginationMsg>msg),
+        map((msg) => msg as PaginationMsg),
         map((msg) => msg.event),
         startWith({ pageIndex: null, pageSize: null }),
       ),

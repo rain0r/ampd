@@ -35,7 +35,7 @@ export class TracksComponent implements OnInit {
       .subscribe((isMobile) => (this.isMobile = isMobile));
     this.activatedRoute.queryParamMap
       .pipe(
-        map((qp) => <string>qp.get("dir") || "/"),
+        map((qp) => (qp.get("dir") as string) || "/"),
         distinctUntilChanged(),
       )
       .subscribe((dir) => (this.dirQp = decodeURIComponent(dir)));

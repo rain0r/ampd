@@ -18,7 +18,7 @@ export class MpdService {
   currentState$: Observable<string>;
   mpdModesPanel$: Observable<MpdModesPanel>;
 
-  private prevTrack = <QueueTrack>{};
+  private prevTrack = {} as QueueTrack;
 
   constructor(
     private http: HttpClient,
@@ -75,7 +75,7 @@ export class MpdService {
   getStateSubscription$(): Observable<StateMsgPayload> {
     return this.rxStompService.watch("/topic/state").pipe(
       map((message) => message.body),
-      map((body: string) => <StateMsgPayload>JSON.parse(body)),
+      map((body: string) => JSON.parse(body) as StateMsgPayload),
       switchMap((payload) => {
         return of(payload);
       }),

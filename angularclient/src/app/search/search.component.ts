@@ -55,7 +55,7 @@ export class SearchComponent implements OnInit {
   }
 
   applySearch(eventTarget: EventTarget | null): void {
-    const inputValue = (<HTMLInputElement>eventTarget).value;
+    const inputValue = (eventTarget as HTMLInputElement).value;
     if (inputValue) {
       this.inputSetter$.next(inputValue);
     } else {
@@ -114,7 +114,7 @@ export class SearchComponent implements OnInit {
       this.inputSetter$.asObservable(),
       this.msgService.message.pipe(
         filter((msg) => msg.type === InternMsgType.PaginationEvent),
-        map((msg) => <PaginationMsg>msg),
+        map((msg) => msg as PaginationMsg),
         map((msg) => msg.event),
         startWith({ pageIndex: null, pageSize: null }),
       ),

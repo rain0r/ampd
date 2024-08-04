@@ -150,7 +150,7 @@ export class QueueService {
   getQueueSubscription(): Observable<PaginatedResponse<Track>> {
     return this.rxStompService.watch("/topic/queue").pipe(
       map((message) => message.body),
-      map((body) => <PaginatedResponse<Track>>JSON.parse(body)),
+      map((body) => JSON.parse(body) as PaginatedResponse<Track>),
       distinctUntilChanged((prev, curr) => {
         return (
           prev.content.length == curr.content.length &&

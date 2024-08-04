@@ -12,8 +12,6 @@ import { MpdService } from "./mpd.service";
 import { QueueService } from "./queue.service";
 import { VolumeService } from "./volume.service";
 
-/* eslint-disable @typescript-eslint/unbound-method */
-
 @Injectable({
   providedIn: "root",
 })

@@ -28,7 +28,7 @@ export class BrowseComponent {
     // Read the query parameter identifying the current dir
     this.activatedRoute.queryParamMap
       .pipe(
-        map((qp) => <string>qp.get("dir") || "/"),
+        map((qp) => (qp.get("dir") as string) || "/"),
         distinctUntilChanged(),
       )
       .subscribe((dir) => {

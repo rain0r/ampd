@@ -52,22 +52,20 @@ export class AlbumsComponent implements OnInit {
 
   applyFilter(eventTarget: EventTarget | null): void {
     const inputValue = (eventTarget as HTMLInputElement).value;
-    if (inputValue) {
-      this.inputSetter$.next(inputValue);
-      void this.router.navigate([], {
-        relativeTo: this.activatedRoute,
-        queryParams: { searchTerm: inputValue },
-        queryParamsHandling: "merge",
-      });
-    } else {
-      this.inputSetter$.next("");
-      this.resetFilter();
-    }
+    this.inputSetter$.next(inputValue);
+    void this.router.navigate([], {
+      relativeTo: this.activatedRoute,
+      queryParams: { searchTerm: inputValue },
+      queryParamsHandling: "merge",
+    });
   }
 
   resetFilter(): void {
     this.filter = "";
     this.inputSetter$.next("");
+    void this.router.navigate([], {
+      relativeTo: this.activatedRoute,
+    });
   }
 
   onSortBy($event: string): void {

@@ -1,27 +1,12 @@
+
+<h2 mat-dialog-title>{{ album.albumArtist }} — {{ album.name }}</h2>
 <div mat-dialog-content>
   <div class="grid place-items-center" *ngIf="isLoadingResults">
     <mat-spinner></mat-spinner>
   </div>
   <div class="flex flex-col md:flex-row">
     <div class="flex flex-col flex-grow gap-y-2 md:gap-y-4">
-      <div>
-        {{ album.name }}
-      </div>
-      <div class="text-muted">
-        {{ album.albumArtist }}
-      </div>
       <div class="flex flex-col md:flex-row gap-x-2">
-        <!--Add all-->
-        <button mat-raised-button (click)="onAddDir()">
-          <mat-icon> add</mat-icon>
-          <span>Add all</span>
-        </button>
-
-        <!--Play all-->
-        <button mat-raised-button (click)="onPlayDir()">
-          <mat-icon> play_arrow</mat-icon>
-          <span>Play all</span>
-        </button>
       </div>
     </div>
     <div>
@@ -42,5 +27,16 @@
 </div>
 
 <div mat-dialog-actions align="end">
+        <!--Add all-->
+        <button mat-raised-button (click)="onAddDir()">
+          <mat-icon> add</mat-icon>
+          <span>Add all</span>
+        </button>
+
+        <!--Play all-->
+        <button mat-raised-button (click)="onPlayDir()">
+          <mat-icon> play_arrow</mat-icon>
+          <span>Play all</span>
+        </button>  
   <button mat-stroked-button mat-dialog-close>Close</button>
 </div>

@@ -11,18 +11,16 @@ export class ImportRadioStreamsComponent {
   @Input()
   requiredFileType = "application/json";
   fileName = "";
-  exampleJson = `{
-    "streams":[
-       {
-          "name":"import 1",
-          "url":"https://example.com/1.m3u"
-       },
-       {
-          "name":"import 2",
-          "url":"https://example.com/2.m3u"
-       }
-    ]
- }`;
+  exampleJson = `[
+  {
+    "name": "Radio A",
+    "url": "https://example.com/1.m3u"
+  },
+  {
+    "name": "Radio B",
+    "url": "https://example.com/2.m3u"
+  }
+]`;
 
   constructor(
     private radioStreamService: RadioStreamService,

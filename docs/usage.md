@@ -86,16 +86,15 @@ From there, select a `JSON`-file with your streams and upload it.
 The `JSON`-file has to be in this format:
 
 ```json
-{
-  "streams": [
-    {
-      "name": "radio station 1",
-      "url": "https://example.com/1.m3u"
-    },
-    {
-      "name": "another radio station",
-      "url": "https://example.com/2.m3u"
-    }
-  ]
-}
+[
+  {
+    "name": "radio station 1",
+    "url": "https://example.com/1.m3u"
+  },
+  {
+    "name": "another radio station",
+    "url": "https://example.com/2.m3u"
+  }
+]
+
 ```

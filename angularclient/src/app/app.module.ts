@@ -68,6 +68,7 @@ import { SecondsToHhMmSsPipe } from "./shared/pipes/seconds-to-hh-mm-ss.pipe";
 import { SecondsToMmSsPipe } from "./shared/pipes/seconds-to-mm-ss.pipe";
 import { StyleManager } from "./shared/style-manager";
 import { TrackTableDataComponent } from "./shared/track-table-data/track-table-data.component";
+import { ConfirmDeleteStreamDialogComponent } from "./browse/radio-streams/confirm-delete-stream-dialog/confirm-delete-stream-dialog.component";
 
 const prefersReducedMotion =
   typeof matchMedia === "function"
@@ -129,6 +130,7 @@ const prefersReducedMotion =
     AlbumCoverDialogComponent,
     ImportRadioStreamsComponent,
     RadioStreamsComponent,
+    ConfirmDeleteStreamDialogComponent,
   ],
   bootstrap: [AppComponent],
   imports: [

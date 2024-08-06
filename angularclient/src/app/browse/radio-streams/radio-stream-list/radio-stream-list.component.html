@@ -61,7 +61,7 @@
 
           <button
             mat-button
-            (click)="onDeleteStream(stream)"
+            (click)="onConfirmDeleteStream(stream)"
             title="Delete this stream"
           >
             <mat-icon>delete </mat-icon>
@@ -96,7 +96,7 @@
         <td mat-cell *matCellDef="let stream">
           <button
             mat-button
-            (click)="onDeleteStream(stream)"
+            (click)="onConfirmDeleteStream(stream)"
             title="Delete this stream"
           >
             <mat-icon>delete </mat-icon>

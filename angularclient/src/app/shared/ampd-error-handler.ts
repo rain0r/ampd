@@ -34,7 +34,7 @@ export class AmpdErrorHandler implements ErrorHandler {
 
         if (!open) {
           const dialogRef = this.dialog.open(ErrorDialogComponent, {
-            width: "70%",
+            width: "80%",
             data: error,
           });
           this.errorDialogOpen.next(true);

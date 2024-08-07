@@ -40,7 +40,7 @@ public class AlbumService {
 
 	private enum SortBy {
 
-		NAME("name"), ARTIST("artist"), RANDOM("random");
+		ALBUM("album"), ARTIST("artist"), RANDOM("random");
 
 		private final String key;
 
@@ -104,7 +104,13 @@ public class AlbumService {
 			.filter(album -> album.getName().toLowerCase().contains(searchTerm)
 					|| album.getAlbumArtist().toLowerCase().contains(searchTerm)
 					|| album.getArtistNames().get(0).toLowerCase().contains(searchTerm))
-			.sorted(Comparator.comparing(a -> sortBy.equals(SortBy.NAME.getKey()) ? a.getName() : a.getAlbumArtist()))
+
+			.sorted(Comparator.comparing(album -> {
+				if (sortBy.equals(SortBy.ALBUM.getKey())) {
+					return album.getName();
+				}
+				return album.getAlbumArtist();
+			}))
 			.collect(Collectors.toList());
 
 		if (sortBy.equals(SortBy.RANDOM.getKey())) {

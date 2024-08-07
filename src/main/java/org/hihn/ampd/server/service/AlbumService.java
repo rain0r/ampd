@@ -62,7 +62,7 @@ public class AlbumService {
 	@Scheduled(fixedDelay = 1, timeUnit = TimeUnit.HOURS)
 	public Set<MPDAlbum> fillAlbumsCache() {
 		LOG.trace("START fillAlbumsCache");
-		albums = mpd.getMusicDatabase().getAlbumDatabase().listAllAlbums().stream().filter(album -> {
+		albums = mpd.getMusicDatabase().getAlbumDatabase().listAllAlbums().parallelStream().filter(album -> {
 			if (album.getName().isBlank()) {
 				// No album title
 				return false;

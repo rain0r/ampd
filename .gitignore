@@ -1,5 +1,5 @@
 # ampd
-angularclient/src/environments/environment.ts
+angularclient/src/environments/environment.dev.ts
 src/main/resources/application-dev.properties
 src/main/resources/static/
 angularclient/.angular/

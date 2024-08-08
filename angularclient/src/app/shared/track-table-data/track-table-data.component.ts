@@ -106,7 +106,7 @@ export class TrackTableDataComponent {
   }
 
   onShowTrackInfo(track: Track): void {
-    this.dialog.open(TrackInfoDialogComponent, { data: track });
+    this.dialog.open(TrackInfoDialogComponent, { data: track, width: "80%" });
   }
 
   private addPlayTrack(track: QueueTrack): void {

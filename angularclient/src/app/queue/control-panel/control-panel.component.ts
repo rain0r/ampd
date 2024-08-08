@@ -30,7 +30,6 @@ export class ControlPanelComponent implements OnInit {
   displayJumpBtn: boolean;
   isMobile = new Observable<boolean>();
   queueTrackCount: Observable<number>;
-  private trackInfoDialogOpen = new BehaviorSubject(false);
 
   constructor(
     private controlPanelService: ControlPanelService,
@@ -108,30 +107,19 @@ export class ControlPanelComponent implements OnInit {
   }
 
   onShowTrackInfo(): void {
-    combineLatest([
-      this.isMobile,
-      this.mpdService.currentTrack$,
-      this.trackInfoDialogOpen.asObservable(),
-    ])
+    combineLatest([this.isMobile, this.mpdService.currentTrack$])
       .pipe(
         map((results) => ({
           isMobile: results[0],
           track: results[1],
-          errorDialogOpen: results[2],
         })),
         first(),
       )
       .subscribe((result) => {
-        if (!result.errorDialogOpen) {
-          const dialogRef = this.dialog.open(TrackInfoDialogComponent, {
-            data: result.track,
-            width: "80%",
-          });
-          this.trackInfoDialogOpen.next(true);
-          dialogRef
-            .afterClosed()
-            .subscribe(() => this.trackInfoDialogOpen.next(false));
-        }
+        this.dialog.open(TrackInfoDialogComponent, {
+          data: result.track,
+          width: "80%",
+        });
       });
   }
 }

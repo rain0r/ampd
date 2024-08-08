@@ -1,3 +1,13 @@
+# ampd
+angularclient/src/environments/environment.ts
+src/main/resources/application-dev.properties
+src/main/resources/static/
+angularclient/.angular/
+ampd.log*
+tmp/
+ampd.mv.db
+ampd.trace.db
+
 # Compiled class file
 *.class
 
@@ -263,16 +273,6 @@ buildNumber.properties
 .project
 # JDT-specific (Eclipse Java Development Tools)
 .classpath
-
-
-# ampd
-src/main/resources/application-dev.properties
-src/main/resources/static/
-angularclient/.angular/
-ampd.log*
-tmp/
-ampd.mv.db 
-ampd.trace.db
 
 # General
 .DS_Store

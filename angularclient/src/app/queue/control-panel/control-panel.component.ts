@@ -1,13 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
-import {
-  Observable,
-  combineLatest,
-  first,
-  map,
-  of,
-  switchMap
-} from "rxjs";
+import { Observable, combineLatest, first, map, of, switchMap } from "rxjs";
 import { TrackInfoDialogComponent } from "src/app/browse/tracks/track-info-dialog/track-info-dialog.component";
 import { FrontendSettingsService } from "src/app/service/frontend-settings.service";
 import { ResponsiveScreenService } from "src/app/service/responsive-screen.service";

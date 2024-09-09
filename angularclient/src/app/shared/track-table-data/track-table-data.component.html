@@ -76,7 +76,7 @@
         *matCellDef="let row"
         class=""
         mat-cell
-        [title]="row.albumName"
+        [title]="row.albumName ? row.albumName : ''"
       >
         {{ row.albumName }}
       </td>

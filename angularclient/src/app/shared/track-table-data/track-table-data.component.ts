@@ -77,8 +77,8 @@ export class TrackTableDataComponent {
     });
   }
 
-  onRemoveTrack(position: number): void {
-    this.queueService.removeTrack(position);
+  onRemoveTrack(track: QueueTrack): void {
+    this.queueService.removeTrack(track.position);
   }
 
   onAddTrack(track: QueueTrack): void {

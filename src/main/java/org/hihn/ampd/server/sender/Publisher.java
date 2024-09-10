@@ -67,22 +67,10 @@ public class Publisher {
 		// Tells javampd to get fresh data every second
 		mpd.getServerStatus().setExpiryInterval(1L);
 		mpd.getStandAloneMonitor().start();
-
-		mpd.getStandAloneMonitor()
-			.addTrackPositionChangeListener(event -> template.convertAndSend(QUEUE_URL, queueService.getQueue()));
-
-		mpd.getStandAloneMonitor()
-			.addBitrateChangeListener(event -> template.convertAndSend(QUEUE_URL, queueService.getQueue()));
-
-		mpd.getStandAloneMonitor()
-			.addVolumeChangeListener(event -> template.convertAndSend(QUEUE_URL, queueService.getQueue()));
-
-		mpd.getStandAloneMonitor()
-			.addPlayerChangeListener(event -> template.convertAndSend(QUEUE_URL, queueService.getQueue()));
-
-		mpd.getStandAloneMonitor().addPlaylistChangeListener(event ->
-
-		template.convertAndSend(QUEUE_URL, queueService.getQueue()));
+		mpd.getStandAloneMonitor().addPlaylistChangeListener(event -> {
+			LOG.trace("Event fired: PlaylistChange: {}", event);
+			template.convertAndSend(QUEUE_URL, queueService.getQueue());
+		});
 
 	}
 

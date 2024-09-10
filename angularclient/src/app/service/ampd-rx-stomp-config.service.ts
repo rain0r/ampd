@@ -26,7 +26,7 @@ export class AmpdRxStompConfigService extends RxStompConfig {
     // Wait in milliseconds before attempting auto reconnect
     // Set to 0 to disable
     // Typical value 500 (500 milli seconds)
-    this.reconnectDelay = 1500;
+    this.reconnectDelay = 500;
     // Will log diagnostics on console
     // It can be quite verbose, not recommended in production
     // Skip this key to stop logging to console

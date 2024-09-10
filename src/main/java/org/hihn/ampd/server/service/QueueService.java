@@ -29,6 +29,8 @@ public class QueueService {
 
 	private final MPD mpd;
 
+	private int pageSize;
+
 	/**
 	 * Service to manage the queue.
 	 * @param ampdSettings
@@ -37,6 +39,7 @@ public class QueueService {
 	public QueueService(AmpdSettings ampdSettings, MPD mpd) {
 		this.ampdSettings = ampdSettings;
 		this.mpd = mpd;
+		this.pageSize = ampdSettings.getQueuePageSize();
 	}
 
 	/**
@@ -84,15 +87,16 @@ public class QueueService {
 	}
 
 	public QueuePageImpl<MPDPlaylistSong> getQueue() {
-		return getQueue(0, getPageSize(null));
+		return getQueue(0, pageSize);
 	}
 
-	public QueuePageImpl<MPDPlaylistSong> getQueue(int pageIndex, Integer pageSize) {
+	public QueuePageImpl<MPDPlaylistSong> getQueue(final int pageIndex, final Integer pageSize) {
+		final int sanitizedPageSize = sanitizePageSize(pageSize);
 		List<MPDPlaylistSong> songList = mpd.getPlaylist().getSongList();
-		PagedListHolder<MPDPlaylistSong> pages = new PagedListHolder<>(mpd.getPlaylist().getSongList());
-		Pageable pageable = PageRequest.of(pageIndex, getPageSize(pageSize));
+		PagedListHolder<MPDPlaylistSong> pages = new PagedListHolder<>(songList);
+		Pageable pageable = PageRequest.of(pageIndex, sanitizedPageSize);
 		pages.setPage(pageIndex);
-		pages.setPageSize(getPageSize(pageSize));
+		pages.setPageSize(sanitizedPageSize);
 		QueuePageImpl<MPDPlaylistSong> page = new QueuePageImpl<>(pages.getPageList(), pageable, songList.size());
 		page.setTotalPlayTime(sumQueuePlayTime(songList));
 		return page;
@@ -112,8 +116,10 @@ public class QueueService {
 		return songList.stream().map(MPDPlaylistSong::getLength).mapToInt(Integer::intValue).sum();
 	}
 
-	private int getPageSize(Integer pageSize) {
-		return pageSize == null ? ampdSettings.getQueuePageSize() : pageSize;
+	private int sanitizePageSize(final Integer pageSize) {
+		final int sanitizedPageSize = pageSize == null || pageSize < 1 ? this.pageSize : pageSize;
+		this.pageSize = sanitizedPageSize;
+		return sanitizedPageSize;
 	}
 
 }

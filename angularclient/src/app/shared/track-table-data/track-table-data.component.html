@@ -123,7 +123,7 @@
       <th mat-header-cell *matHeaderCellDef></th>
       <td *matCellDef="let element" mat-cell>
         <mat-icon
-          (click)="onRemoveTrack(element.position)"
+          (click)="onRemoveTrack(element)"
           class="btn-remove-track"
           title="Remove from queue"
           >backspace
@@ -178,6 +178,7 @@
     <tr mat-header-row *matHeaderRowDef="trackTableData.displayedColumns"></tr>
 
     <tr
+      
       [class.now-playing-row]="row.playing === true"
       *matRowDef="let row; columns: trackTableData.displayedColumns"
       class="hover-background-color clickable"

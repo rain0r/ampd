@@ -7,7 +7,10 @@ import org.hihn.ampd.server.message.incoming.AddPlayAlbum;
 import org.hihn.ampd.server.message.incoming.MoveTrackMsg;
 import org.hihn.ampd.server.model.AmpdSettings;
 import org.hihn.ampd.server.model.QueuePageImpl;
+import org.hihn.ampd.server.service.BrowseService;
 import org.hihn.ampd.server.service.QueueService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
@@ -21,6 +24,8 @@ import java.util.List;
 @Controller
 @MessageMapping("/queue")
 public class QueueController {
+
+	private static final Logger LOG = LoggerFactory.getLogger(QueueController.class);
 
 	private final MPD mpd;
 

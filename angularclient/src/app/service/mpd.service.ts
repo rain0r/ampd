@@ -17,6 +17,7 @@ export class MpdService {
   currentTrack$: Observable<QueueTrack>;
   currentState$: Observable<string>;
   mpdModesPanel$: Observable<MpdModesPanel>;
+  state$: Observable<StateMsgPayload>;
 
   private prevTrack = {} as QueueTrack;
 
@@ -26,7 +27,8 @@ export class MpdService {
     private settingsService: SettingsService,
     private queueService: QueueService,
   ) {
-    this.currentTrack$ = this.getStateSubscription$().pipe(
+    this.state$ = this.getStateSubscription$();
+    this.currentTrack$ = this.state$.pipe(
       map((payload) => this.buildCurrentQueueTrack(payload)),
       filter(
         (queueTrack: QueueTrack) =>
@@ -34,10 +36,10 @@ export class MpdService {
           queueTrack.file !== "",
       ),
     );
-    this.mpdModesPanel$ = this.getStateSubscription$().pipe(
+    this.mpdModesPanel$ = this.state$.pipe(
       map((state) => state.mpdModesPanelMsg),
     );
-    this.currentState$ = this.getStateSubscription$().pipe(
+    this.currentState$ = this.state$.pipe(
       map((state) => state.serverStatus.state),
     );
   }
@@ -72,20 +74,10 @@ export class MpdService {
     return this.http.get<ServerStatistics>(url);
   }
 
-  getStateSubscription$(): Observable<StateMsgPayload> {
-    return this.rxStompService.watch("/topic/state").pipe(
-      map((message) => message.body),
-      map((body: string) => JSON.parse(body) as StateMsgPayload),
-      switchMap((payload) => {
-        return of(payload);
-      }),
-    );
-  }
-
   getQueueTrackCount$(): Observable<number> {
-    return this.queueService
-      .getQueueSubscription()
-      .pipe(map((tracks) => tracks.content.length));
+    return this.queueService.queue$.pipe(
+      map((tracks) => tracks.content.length),
+    );
   }
 
   isCurrentTrackRadioStream$(): Observable<boolean> {
@@ -145,5 +137,15 @@ export class MpdService {
     const splitted = file.split("/");
     const ret = splitted.slice(0, splitted.length - 1);
     return ret.join("/");
+  }
+
+  private getStateSubscription$(): Observable<StateMsgPayload> {
+    return this.rxStompService.watch("/topic/state").pipe(
+      map((message) => message.body),
+      map((body: string) => JSON.parse(body) as StateMsgPayload),
+      switchMap((payload) => {
+        return of(payload);
+      }),
+    );
   }
 }

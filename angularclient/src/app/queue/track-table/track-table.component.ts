@@ -1,12 +1,6 @@
-import {
-  AfterContentInit,
-  Component,
-  ElementRef,
-  HostListener,
-  ViewChild,
-} from "@angular/core";
+import { Component, ElementRef, HostListener, ViewChild } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
-import { filter, from, fromEvent, map, mergeMap } from "rxjs";
+import { filter, map } from "rxjs";
 import { AddStreamDialogComponent } from "src/app/queue/track-table/add-stream-dialog/add-stream-dialog.component";
 import { MsgService } from "src/app/service/msg.service";
 import { ResponsiveScreenService } from "src/app/service/responsive-screen.service";
@@ -28,7 +22,7 @@ import { SavePlaylistDialogComponent } from "../save-playlist-dialog/save-playli
   templateUrl: "./track-table.component.html",
   styleUrls: ["./track-table.component.scss"],
 })
-export class TrackTableComponent implements AfterContentInit {
+export class TrackTableComponent {
   @ViewChild("filterInputElem") filterInputElem?: ElementRef;
 
   currentTrack: QueueTrack = new QueueTrack();
@@ -47,7 +41,7 @@ export class TrackTableComponent implements AfterContentInit {
     this.responsiveScreenService
       .isMobile()
       .subscribe((isMobile) => (this.isMobile = isMobile));
-    this.queueService.getQueue();
+    this.queueService.getPage(0, 0);
   }
 
   @HostListener("document:keydown.f", ["$event"])
@@ -59,11 +53,6 @@ export class TrackTableComponent implements AfterContentInit {
     if (this.filterInputElem) {
       (this.filterInputElem.nativeElement as HTMLElement).focus();
     }
-  }
-
-  ngAfterContentInit(): void {
-    this.queueService.getQueue();
-    this.visibilityChanged();
   }
 
   openSavePlaylistDialog(): void {
@@ -124,12 +113,10 @@ export class TrackTableComponent implements AfterContentInit {
 
   private buildReceiver(): void {
     // Queue
-    this.queueService
-      .getQueueSubscription()
-      .subscribe(
-        (queueResponse: PaginatedResponse<Track>) =>
-          (this.trackTableData = this.buildTableData(queueResponse)),
-      );
+    this.queueService.queue$.subscribe(
+      (queueResponse: PaginatedResponse<Track>) =>
+        (this.trackTableData = this.buildTableData(queueResponse)),
+    );
 
     // State
     this.mpdService.currentState$.subscribe((state) => {
@@ -158,31 +145,5 @@ export class TrackTableComponent implements AfterContentInit {
       .subscribe((msg) => {
         this.queueService.getPage(msg.event.pageIndex, msg.event.pageSize);
       });
-  }
-
-  /**
-   * Fetch queue if visibility changed. This should speed up the reconnection.
-   */
-  private visibilityChanged(): void {
-    const actionEventNames = [
-      "visibilitychange",
-      "webkitvisibilitychange",
-      "msvisibilitychange",
-    ];
-
-    from(actionEventNames)
-      .pipe(
-        mergeMap((eventName) =>
-          fromEvent(document, eventName).pipe(
-            map((evt) => {
-              return {
-                name: eventName,
-                evt: evt,
-              };
-            }),
-          ),
-        ),
-      )
-      .subscribe(() => this.queueService.getQueue());
   }
 }

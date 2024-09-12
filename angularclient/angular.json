@@ -23,15 +23,10 @@
             "outputPath": "../src/main/resources/static/",
             "index": "src/index.html",
             "main": "src/main.ts",
-            "polyfills": [
-              "zone.js"
-            ],
+            "polyfills": ["zone.js"],
             "tsConfig": "tsconfig.app.json",
             "aot": true,
-            "assets": [
-              "src/favicon.ico",
-              "src/assets"
-            ],
+            "assets": ["src/favicon.ico", "src/assets"],
             "styles": [
               "material-icons/iconfont/material-icons.css",
               "src/styles.scss",
@@ -54,9 +49,9 @@
                   "replace": "src/environments/environment.ts",
                   "with": "src/environments/environment.dev.ts"
                 }
-              ],              
+              ],
               "buildOptimizer": false,
-              "optimization": false,              
+              "optimization": false,
               "extractLicenses": false,
               "sourceMap": true,
               "namedChunks": true
@@ -91,7 +86,7 @@
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
-          "forceEsbuild":true,
+          "forceEsbuild": true,
           "options": {
             "buildTarget": "ampd:build"
           },
@@ -114,16 +109,10 @@
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
             "main": "src/test.ts",
-            "polyfills": [
-              "zone.js",
-              "zone.js/testing"
-            ],
+            "polyfills": ["zone.js", "zone.js/testing"],
             "tsConfig": "tsconfig.spec.json",
             "karmaConfig": "karma.conf.js",
-            "assets": [
-              "src/favicon.ico",
-              "src/assets"
-            ],
+            "assets": ["src/favicon.ico", "src/assets"],
             "styles": [
               "material-icons/iconfont/material-icons.css",
               "src/styles.scss",
@@ -143,19 +132,14 @@
         "lint": {
           "builder": "@angular-eslint/builder:lint",
           "options": {
-            "lintFilePatterns": [
-              "src/**/*.ts",
-              "src/**/*.html"
-            ]
+            "lintFilePatterns": ["src/**/*.ts", "src/**/*.html"]
           }
         }
       }
     }
   },
   "cli": {
-    "schematicCollections": [
-      "@angular-eslint/schematics"
-    ]
+    "schematicCollections": ["@angular-eslint/schematics"]
   },
   "schematics": {
     "@angular-eslint/schematics:application": {

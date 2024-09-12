@@ -63,8 +63,8 @@ export class VolumeService {
   }
 
   private buildStateSubscription(): void {
-    this.mpdService
-      .getStateSubscription$()
-      .subscribe((payload) => this.volume$.next(payload.serverStatus.volume));
+    this.mpdService.state$.subscribe((payload) =>
+      this.volume$.next(payload.serverStatus.volume),
+    );
   }
 }

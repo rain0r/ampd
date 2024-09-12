@@ -3,7 +3,7 @@
     class="flex flex-row place-items-center gap-x-8 px-1"
     *ngIf="state$ | async as state"
   >
-    <div [class.text-muted]="state === 'pause'">
+    <div [class.text-muted]="state === 'pause'" data-cy="elapsed" [attr.data-elapsed]="track.elapsed">
       {{ track.elapsed | secondsToMmSs }}
     </div>
 

@@ -1,11 +1,10 @@
 <h2 mat-dialog-title>Confirm delete</h2>
 
 <div mat-dialog-content>
-  Really delete the radio stream <span class="font-bold">{{ radioStream }}</span
-  >?
+  Really delete the radio stream <span class="font-bold">{{radioStream}}</span>?
 </div>
-
-<div mat-dialog-actions align="end">
-  <button mat-stroked-button mat-dialog-close>No Thanks</button>
-  <button mat-button [mat-dialog-close]="confirm()" cdkFocusInitial>Ok</button>
+    
+  <div mat-dialog-actions align="end">
+    <button mat-stroked-button mat-dialog-close>No Thanks</button>
+  <button mat-button data-cy="radio-stream-delete-btn" [mat-dialog-close]="confirm()" cdkFocusInitial>Ok</button>
 </div>

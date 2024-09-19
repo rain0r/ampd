@@ -12,7 +12,7 @@ module.exports = tseslint.config(
       ...tseslint.configs.recommended,
       ...tseslint.configs.stylistic,
       ...angular.configs.tsRecommended,
-      eslintPluginPrettierRecommended,
+      eslintPluginPrettierRecommended
     ],
     processor: angular.processInlineTemplates,
     rules: {
@@ -39,10 +39,15 @@ module.exports = tseslint.config(
     extends: [
       ...angular.configs.templateRecommended,
       ...angular.configs.templateAccessibility,
+      eslintPluginPrettierRecommended,
     ],
     rules: {
-      "@angular-eslint/template/click-events-have-key-events": ["off"],
-      "@angular-eslint/template/interactive-supports-focus": ["off"],
+      "prettier/prettier": [
+        "error",
+        {
+          parser: "angular",
+        },
+      ],
     },
   },
 );

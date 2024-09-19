@@ -178,7 +178,6 @@
     <tr mat-header-row *matHeaderRowDef="trackTableData.displayedColumns"></tr>
 
     <tr
-      
       [class.now-playing-row]="row.playing === true"
       *matRowDef="let row; columns: trackTableData.displayedColumns"
       class="hover-background-color clickable"

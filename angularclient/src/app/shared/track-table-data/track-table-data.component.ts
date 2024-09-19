@@ -7,7 +7,7 @@ import {
   PageEvent,
 } from "@angular/material/paginator";
 import { MatSort } from "@angular/material/sort";
-import { BehaviorSubject, Observable } from "rxjs";
+import { BehaviorSubject, Observable, take } from "rxjs";
 import { TrackInfoDialogComponent } from "src/app/browse/tracks/track-info-dialog/track-info-dialog.component";
 import { MsgService } from "src/app/service/msg.service";
 import { QueueService } from "../../service/queue.service";
@@ -57,7 +57,7 @@ export class TrackTableDataComponent {
   }
 
   onRowClick(track: QueueTrack): void {
-    this.trackTableDataObs.subscribe((trackTableData) => {
+    this.trackTableDataObs.pipe(take(1)).subscribe((trackTableData) => {
       if (!trackTableData.clickable) {
         return;
       }
@@ -86,7 +86,7 @@ export class TrackTableDataComponent {
   }
 
   onPlayTrack(track: QueueTrack): void {
-    this.trackTableDataObs.subscribe((trackTableData) => {
+    this.trackTableDataObs.pipe(take(1)).subscribe((trackTableData) => {
       switch (trackTableData.onPlayClick) {
         case ClickActions.PlayTrack:
           this.playTrack(track);

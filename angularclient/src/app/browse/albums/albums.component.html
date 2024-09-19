@@ -46,8 +46,6 @@
   </div>
 </div>
 
-
-
 <div class="grid place-items-center mt-5">
   <mat-spinner *ngIf="isLoading | async"></mat-spinner>
 </div>
@@ -61,7 +59,7 @@
   </div>
 
   <div
-  class="mt-5"
+    class="mt-5"
     [hidden]="pagedAlbums.content.length === 0 || pagedAlbums.totalPages < 2"
   >
     <mat-paginator

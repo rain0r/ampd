@@ -67,6 +67,7 @@
     <mat-icon>skip_next</mat-icon>
   </button>
   <button
+    data-cy="clear-queue-btn"
     (click)="onClearQueue()"
     [disabled]="
       (queueTrackCount | async) === (null || 0) ||

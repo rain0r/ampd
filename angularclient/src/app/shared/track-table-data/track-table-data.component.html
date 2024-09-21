@@ -202,6 +202,7 @@
     class="py-2"
   >
     <mat-paginator
+      data-cy="paginator"
       (page)="handlePage($event)"
       [length]="trackTableData.totalElements"
       [pageIndex]="trackTableData.pageIndex"

@@ -84,7 +84,8 @@ export class FrontendSettingsService {
         }
       }
     } catch (err) {
-      console.error("Error loading frontend settings:", err);
+      // Error loading frontend settings
+      console.trace(err);
     }
 
     return this.settings.sort((a, b) => a.category.localeCompare(b.category));

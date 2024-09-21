@@ -1,0 +1,10 @@
+[
+    {
+      "name": "Test Radio 1",
+      "url": "https://st01.sslstream.dlf.de/dlf/01/128/mp3/stream.mp3?aggregator=web"
+    },
+    {
+        "name": "Test Radio 2",
+      "url": "https://st02.sslstream.dlf.de/dlf/02/128/mp3/stream.mp3?aggregator=web"
+    }
+  ]

@@ -4,7 +4,7 @@
   (click)="onPlaylistInfo($event, playlist)"
 >
   <mat-icon>list</mat-icon>
-  <div class="flex-grow truncate">
+  <div data-cy="playlist-name" class="flex-grow truncate">
     {{ playlist.name }}
   </div>
   <div class="text-muted" [title]="playlist.count + 'tracks in this playlist'">

@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>3.2.4</version>
-        <relativePath />
+        <relativePath/>
     </parent>
     <groupId>org.hihn.ampd</groupId>
     <artifactId>ampd</artifactId>
@@ -40,8 +41,8 @@
         <project.scm.id>github</project.scm.id>
         <frontend.configuration>production</frontend.configuration>
         <frontend.context>/</frontend.context>
+        <npm.exec>npm</npm.exec>
         <skip.npm>false</skip.npm>
-        <skip.npm.warnings>true</skip.npm.warnings>
     </properties>
     <scm>
         <url>https://github.com/rain0r/ampd</url>
@@ -160,26 +161,10 @@
                         </goals>
                         <configuration>
                             <skip>${skip.npm}</skip>
-                            <executable>npm</executable>
+                            <executable>${npm.exec}</executable>
                             <workingDirectory>./angularclient</workingDirectory>
                             <arguments>
                                 <argument>install</argument>
-                            </arguments>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>npm report</id>
-                        <phase>compile</phase>
-                        <goals>
-                            <goal>exec</goal>
-                        </goals>
-                        <configuration>
-                            <skip>${skip.npm.warnings}</skip>
-                            <executable>npm</executable>
-                            <workingDirectory>./angularclient</workingDirectory>
-                            <arguments>
-                                <argument>run</argument>
-                                <argument>warnings</argument>
                             </arguments>
                         </configuration>
                     </execution>

@@ -12,7 +12,7 @@ function addPlaylist(name: string) {
   cy.contains("Directories");
   cy.get('[data-cy="playlist-name"]').contains(name).click();
 
-  cy.contains("Items per page:")  
+  cy.contains("Items per page:");
   cy.contains(`Playlist: ${name}`);
   cy.get('[data-cy="add-playlist"]').contains("Add playlist").click();
 }
@@ -22,7 +22,16 @@ function paginate(pageSize: number) {
   cy.get("mat-option").contains(pageSize).click();
 }
 
+function cleanQueue() {
+  cy.visit("/");
+  cy.get("body").type("{C}");
+}
+
 describe("Browse Test", () => {
+  after("Clean up queue", () => {
+    cleanQueue();
+  });
+
   it("Add playlist and clear queue", () => {
     playlists.forEach((playlistName: string) => {
       addPlaylist(playlistName);
@@ -48,7 +57,8 @@ describe("Radio Test", () => {
   it("Delete radio stations", () => {
     radioStreams.forEach((stream: RadioStream) => {
       cy.visit("/browse/radio-streams");
-      cy.get("td")
+      cy.get("[data-cy='radio-streams-table']")
+        .get("td")
         .contains(stream.name)
         .parent("tr")
         .within(() => {
@@ -56,6 +66,20 @@ describe("Radio Test", () => {
           cy.get("td").eq(2).click();
         });
       cy.get('[data-cy="radio-stream-delete-btn"]').click();
+      cy.get('[data-cy="radio-stream-delete-btn"]').should("not.exist");
+    });
+  });
+
+  it("Should not find deleted radio stations", () => {
+    radioStreams.forEach((stream: RadioStream) => {
+      cy.visit("/browse/radio-streams");
+
+      cy.get("[data-cy='radio-streams-table']").then(($tbody) => {
+        const rows = $tbody.find("tr");
+        if (rows.length) {
+          cy.get("td").contains(stream.name).should("not.exist");
+        }
+      });
     });
   });
 });
@@ -64,6 +88,10 @@ describe("Pagination Test", () => {
   /**
    * Tests issue #594
    */
+
+  after("Clean up queue", () => {
+    cleanQueue();
+  });
 
   it("Add playlist", () => {
     addPlaylist("last_2000");
@@ -81,5 +109,6 @@ describe("Pagination Test", () => {
     paginate(1000);
 
     cy.get('[data-cy="elapsed"]').invoke("data", "elapsed").should("be.gt", 2);
+    cy.get('[data-cy="clear-queue-btn"]').click();
   });
 });

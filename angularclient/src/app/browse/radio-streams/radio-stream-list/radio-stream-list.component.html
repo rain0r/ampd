@@ -1,145 +1,145 @@
-<div *ngIf="dataSource.data.length > 0; else noResults">
-  <div class="flex flex-col md:flex-row justify-between my-3">
-    <div class="page-sub-title">Saved radio streams</div>
-    <div>
-      <mat-form-field class="w-full">
-        <input
-          (keydown.escape)="resetFilter()"
-          (keyup)="applyFilter($event.target)"
-          [(ngModel)]="dataSource.filter"
-          #filterInputElem
-          autocomplete="off"
-          matInput
-          placeholder="Filter queue"
-          type="text"
-        />
-        <mat-icon
-          (click)="resetFilter()"
-          *ngIf="dataSource.filter"
-          aria-label="Clear"
-          matSuffix
-        >
-          close
-        </mat-icon>
-      </mat-form-field>
-    </div>
-    <div>
-      <button mat-stroked-button color="primary" (click)="onAddAll()">
-        Add all to the queue
-      </button>
-    </div>
+<div class="flex flex-col md:flex-row justify-between my-3">
+  <div class="page-sub-title">Saved radio streams</div>
+  <div *ngIf="dataSource.data.length > 0">
+    <span class="text-muted">No saved radio streams</span>
   </div>
-
-  <div class="inline md:hidden">
-    <!-- Show on mobile -->
-    <mat-card *ngFor="let stream of dataSource.data" class="stream-card">
-      <mat-card-title class="text-center pb-3">{{
-        stream.name
-      }}</mat-card-title>
-
-      <mat-card-content class="text-muted truncate mb-3">
-        {{ stream.url }}
-      </mat-card-content>
-
-      <mat-card-actions>
-        <div class="flex flex-row flex-grow justify-end">
-          <button
-            mat-button
-            (click)="onPlayStream(stream)"
-            title="Play this stream"
-          >
-            <mat-icon> play_arrow</mat-icon>
-          </button>
-
-          <button
-            mat-button
-            (click)="onAddStream(stream)"
-            title="Add this stream to the queue"
-          >
-            <mat-icon>add </mat-icon>
-          </button>
-
-          <button
-            mat-button
-            (click)="onConfirmDeleteStream(stream)"
-            title="Delete this stream"
-          >
-            <mat-icon>delete </mat-icon>
-          </button>
-        </div>
-      </mat-card-actions>
-    </mat-card>
+  <div>
+    <mat-form-field class="w-full">
+      <input
+        (keydown.escape)="resetFilter()"
+        (keyup)="applyFilter($event.target)"
+        [(ngModel)]="dataSource.filter"
+        #filterInputElem
+        autocomplete="off"
+        matInput
+        placeholder="Filter queue"
+        type="text"
+      />
+      <mat-icon
+        (click)="resetFilter()"
+        *ngIf="dataSource.filter"
+        aria-label="Clear"
+        matSuffix
+      >
+        close
+      </mat-icon>
+    </mat-form-field>
   </div>
-
-  <div class="hidden md:inline">
-    <!-- Show table on desktop -->
-    <table mat-table [dataSource]="dataSource">
-      <!-- Position Column -->
-      <ng-container matColumnDef="name">
-        <th mat-header-cell *matHeaderCellDef>Name</th>
-        <td mat-cell *matCellDef="let element" class="whitespace-nowrap">
-          {{ element.name }}
-        </td>
-      </ng-container>
-
-      <!-- Name Column -->
-      <ng-container matColumnDef="url">
-        <th mat-header-cell *matHeaderCellDef>URL</th>
-        <td mat-cell *matCellDef="let element" class="break-all">
-          {{ element.url }}
-        </td>
-      </ng-container>
-
-      <!-- Button: Delete saved stream -->
-      <ng-container matColumnDef="deleteStream">
-        <th mat-header-cell *matHeaderCellDef></th>
-        <td mat-cell *matCellDef="let stream">
-          <button
-            mat-button
-            (click)="onConfirmDeleteStream(stream)"
-            title="Delete this stream"
-          >
-            <mat-icon>delete </mat-icon>
-          </button>
-        </td>
-      </ng-container>
-
-      <!-- Button: Add stream to the queue -->
-      <ng-container matColumnDef="addStream">
-        <th mat-header-cell *matHeaderCellDef></th>
-        <td mat-cell *matCellDef="let stream">
-          <button
-            mat-button
-            (click)="onAddStream(stream)"
-            title="Add this stream to the queue"
-          >
-            <mat-icon>add </mat-icon>
-          </button>
-        </td>
-      </ng-container>
-
-      <!-- Button: Play stream -->
-      <ng-container matColumnDef="playStream">
-        <th mat-header-cell *matHeaderCellDef></th>
-        <td mat-cell *matCellDef="let stream">
-          <button
-            mat-button
-            (click)="onPlayStream(stream)"
-            title="Play this stream"
-          >
-            <mat-icon> play_arrow</mat-icon>
-          </button>
-        </td>
-      </ng-container>
-
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-    </table>
-
-    <mat-paginator [pageSizeOptions]="[10, 50]" showFirstLastButtons>
-    </mat-paginator>
+  <div>
+    <button mat-stroked-button color="primary" (click)="onAddAll()">
+      Add all to the queue
+    </button>
   </div>
 </div>
-<ng-template #noResults>
-  <span class="text-muted">No saved radio streams</span>
-</ng-template>
+
+<div class="inline md:hidden">
+  <!-- Show on mobile -->
+  <mat-card *ngFor="let stream of dataSource.data" class="stream-card">
+    <mat-card-title class="text-center pb-3">{{ stream.name }}</mat-card-title>
+
+    <mat-card-content class="text-muted truncate mb-3">
+      {{ stream.url }}
+    </mat-card-content>
+
+    <mat-card-actions>
+      <div class="flex flex-row flex-grow justify-end">
+        <button
+          mat-button
+          (click)="onPlayStream(stream)"
+          title="Play this stream"
+        >
+          <mat-icon> play_arrow</mat-icon>
+        </button>
+
+        <button
+          mat-button
+          (click)="onAddStream(stream)"
+          title="Add this stream to the queue"
+        >
+          <mat-icon>add </mat-icon>
+        </button>
+
+        <button
+          mat-button
+          (click)="onConfirmDeleteStream(stream)"
+          title="Delete this stream"
+        >
+          <mat-icon>delete </mat-icon>
+        </button>
+      </div>
+    </mat-card-actions>
+  </mat-card>
+</div>
+
+<div class="hidden md:inline">
+  <!-- Show table on desktop -->
+  <table data-cy="radio-streams-table" mat-table [dataSource]="dataSource">
+    <!-- Position Column -->
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef>Name</th>
+      <td mat-cell *matCellDef="let element" class="whitespace-nowrap">
+        {{ element.name }}
+      </td>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="url">
+      <th mat-header-cell *matHeaderCellDef>URL</th>
+      <td mat-cell *matCellDef="let element" class="break-all">
+        {{ element.url }}
+      </td>
+    </ng-container>
+
+    <!-- Button: Delete saved stream -->
+    <ng-container matColumnDef="deleteStream">
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td mat-cell *matCellDef="let stream">
+        <button
+          mat-button
+          (click)="onConfirmDeleteStream(stream)"
+          title="Delete this stream"
+        >
+          <mat-icon>delete </mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <!-- Button: Add stream to the queue -->
+    <ng-container matColumnDef="addStream">
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td mat-cell *matCellDef="let stream">
+        <button
+          mat-button
+          (click)="onAddStream(stream)"
+          title="Add this stream to the queue"
+        >
+          <mat-icon>add </mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <!-- Button: Play stream -->
+    <ng-container matColumnDef="playStream">
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td mat-cell *matCellDef="let stream">
+        <button
+          mat-button
+          (click)="onPlayStream(stream)"
+          title="Play this stream"
+        >
+          <mat-icon> play_arrow</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    <!-- Displayed, if no items found -->
+    <tr class="mat-row" *matNoDataRow>
+      <td class="mat-cell p-4" [attr.colspan]="2">No radio stations.</td>
+    </tr>
+  </table>
+
+  <mat-paginator [pageSizeOptions]="[10, 50]" showFirstLastButtons>
+  </mat-paginator>
+</div>

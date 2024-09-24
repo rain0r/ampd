@@ -52,7 +52,7 @@ export class QueueTrack implements Track {
   elapsed = 0; // elapsed time
   playing = false; // if the track is currently played
   progress = 0; // progress in seconds
-  changed = false; // is this a new track
+
   dir = ""; // the directory of this track
 
   constructor(currentTrack?: Track, position = 0) {

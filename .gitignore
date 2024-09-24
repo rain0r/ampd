@@ -1,4 +1,5 @@
 # ampd
+package-lock.json
 angularclient/cypress/screenshots/
 angularclient/cypress/videos/
 angularclient/src/environments/environment.dev.ts

@@ -96,36 +96,19 @@ export class MpdService {
    * @param payload StateMsgPayload
    */
   private buildCurrentQueueTrack(payload: StateMsgPayload): QueueTrack {
-    let trackChanged = this.prevTrack === null;
-
-    // Check if this is the first track. It will have the changed-attr set to true
-    trackChanged =
-      this.prevTrack &&
-      Object.keys(this.prevTrack).length === 0 &&
-      Object.getPrototypeOf(this.prevTrack) === Object.prototype;
-
     let track = new QueueTrack();
     if (payload.currentTrack) {
-      if (!trackChanged && this.prevTrack && this.prevTrack.id) {
-        if (payload.currentTrack.id !== this.prevTrack.id) {
-          trackChanged = true;
-        }
-      }
-      track = this.buildQueueTrack(payload, trackChanged);
+      track = this.buildQueueTrack(payload);
       this.prevTrack = track;
     }
     return track;
   }
 
-  private buildQueueTrack(
-    payload: StateMsgPayload,
-    trackChanged: boolean,
-  ): QueueTrack {
+  private buildQueueTrack(payload: StateMsgPayload): QueueTrack {
     const queueTrack = new QueueTrack(payload.currentTrack);
     queueTrack.coverUrl = this.buildCoverUrl(payload.currentTrack.file);
     queueTrack.elapsed = payload.serverStatus.elapsedTime;
     queueTrack.progress = payload.serverStatus.elapsedTime;
-    queueTrack.changed = trackChanged;
     queueTrack.dir = this.buildDirForTrack(payload.currentTrack.file);
     return queueTrack;
   }

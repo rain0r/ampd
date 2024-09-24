@@ -19,13 +19,13 @@ import java.util.stream.Collectors;
  * Service to manage radio streams.
  */
 @Service
-public class RadioService {
+public class RadioStreamService {
 
-	private static final Logger LOG = LoggerFactory.getLogger(RadioService.class);
+	private static final Logger LOG = LoggerFactory.getLogger(RadioStreamService.class);
 
 	private final RadioRepository rsRepo;
 
-	public RadioService(RadioRepository rsRepo) {
+	public RadioStreamService(RadioRepository rsRepo) {
 		this.rsRepo = rsRepo;
 	}
 

@@ -9,8 +9,6 @@ import org.hihn.ampd.server.util.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.support.PagedListHolder;
-import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -21,13 +19,10 @@ import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
-import static org.hihn.ampd.server.Constants.ALBUM_CACHE;
-
 /**
  * Provides methods to browse through {@link MPDAlbum} of the collection.
  */
 @Service
-@CacheConfig(cacheNames = { ALBUM_CACHE })
 public class AlbumService {
 
 	private static final Logger LOG = LoggerFactory.getLogger(AlbumService.class);
@@ -97,7 +92,6 @@ public class AlbumService {
 		return albums;
 	}
 
-	@Cacheable
 	public PageImpl<MPDAlbum> listAllAlbums(String searchTermP, int pageIndex, Integer pageSize, String sortBy) {
 		String searchTerm = searchTermP.toLowerCase().trim();
 		List<MPDAlbum> filteredAlbums = albums.stream()
@@ -124,7 +118,6 @@ public class AlbumService {
 		return new PageImpl<>(pages.getPageList(), pageable, filteredAlbums.size());
 	}
 
-	@Cacheable
 	public Collection<MPDSong> listAlbum(String album, String artist) {
 		MPDAlbum mpdAlbum = MPDAlbum.builder(album).albumArtist(artist).build();
 		return mpd.getMusicDatabase().getSongDatabase().findAlbum(mpdAlbum);

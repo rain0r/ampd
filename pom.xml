@@ -41,7 +41,7 @@
         <project.scm.id>github</project.scm.id>
         <frontend.configuration>production</frontend.configuration>
         <frontend.context>/</frontend.context>
-        <npm.exec>npm</npm.exec>
+        <npm.exec>bun</npm.exec>
         <skip.npm>false</skip.npm>
     </properties>
     <scm>
@@ -64,10 +64,6 @@
             <artifactId>spring-boot-devtools</artifactId>
             <scope>runtime</scope>
             <optional>true</optional>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-cache</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -102,11 +98,6 @@
             <groupId>org.hihn</groupId>
             <artifactId>listenbrainz-client</artifactId>
             <version>1.0.0</version>
-        </dependency>
-        <dependency>
-            <groupId>com.github.ben-manes.caffeine</groupId>
-            <artifactId>caffeine</artifactId>
-            <version>3.1.8</version>
         </dependency>
         <dependency>
             <groupId>de.u-mass</groupId>

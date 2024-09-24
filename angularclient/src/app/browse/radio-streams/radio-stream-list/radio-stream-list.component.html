@@ -3,7 +3,7 @@
   <div *ngIf="dataSource.data.length > 0">
     <span class="text-muted">No saved radio streams</span>
   </div>
-  <div>
+  <div *ngIf="dataSource.data.length > 0">
     <mat-form-field class="w-full">
       <input
         (keydown.escape)="resetFilter()"
@@ -25,7 +25,7 @@
       </mat-icon>
     </mat-form-field>
   </div>
-  <div>
+  <div *ngIf="dataSource.data.length > 0">
     <button mat-stroked-button color="primary" (click)="onAddAll()">
       Add all to the queue
     </button>

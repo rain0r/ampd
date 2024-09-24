@@ -22,7 +22,7 @@ export class QueueHeaderComponent {
 
   constructor(
     private mpdService: MpdService,
-    private radioService: RadioStreamService,
+    private radioStreamService: RadioStreamService,
   ) {
     this.isRadioStream = this.mpdService.isCurrentTrackRadioStream$();
     this.currentPlay = combineLatest([
@@ -45,7 +45,7 @@ export class QueueHeaderComponent {
     this.radioStreamName = combineLatest([
       this.mpdService.currentTrack$,
       this.mpdService.isCurrentTrackRadioStream$().pipe(startWith(false)),
-      this.radioService.getRadioStreams().pipe(shareReplay(1)),
+      this.radioStreamService.getRadioStreams().pipe(shareReplay(1)),
     ]).pipe(
       map(([currentTrack, isRadio, radioStreams]) => {
         if (!isRadio) {

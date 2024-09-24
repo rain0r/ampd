@@ -9,8 +9,6 @@ import org.hihn.ampd.server.model.PlaylistInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.support.PagedListHolder;
-import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -20,13 +18,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static org.hihn.ampd.server.Constants.PLAYLIST_CACHE;
-
 /**
  * Provides methods to manage playlists.
  */
 @Service
-@CacheConfig(cacheNames = { PLAYLIST_CACHE })
 public class PlaylistService {
 
 	private static final Logger LOG = LoggerFactory.getLogger(PlaylistService.class);
@@ -82,7 +77,6 @@ public class PlaylistService {
 	 * @param name The name of the playlist.
 	 * @return Info about the specified playlist.
 	 */
-	@Cacheable
 	public Optional<PlaylistInfo> getPlaylistInfo(String name, int pageIndex, Integer pageSize) {
 		Optional<PlaylistInfo> ret = Optional.empty();
 		try {
@@ -97,7 +91,6 @@ public class PlaylistService {
 		return ret;
 	}
 
-	@Cacheable
 	private PageImpl<MPDSong> getPage(List<MPDSong> playlists, int pageIndex, Integer pageSize) {
 		Pageable pageable = PageRequest.of(pageIndex, getPageSize(pageSize));
 		PagedListHolder<MPDSong> pages = new PagedListHolder<>(playlists);

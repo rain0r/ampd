@@ -9,8 +9,6 @@ import org.bff.javampd.song.SongSearcher;
 import org.hihn.ampd.server.message.outgoing.GenrePayload;
 import org.hihn.ampd.server.util.StringUtils;
 import org.springframework.beans.support.PagedListHolder;
-import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -18,13 +16,10 @@ import org.springframework.stereotype.Service;
 
 import java.util.*;
 
-import static org.hihn.ampd.server.Constants.GENRE_CACHE;
-
 /**
  * Provides methods to browse through genres of the collection.
  */
 @Service
-@CacheConfig(cacheNames = { GENRE_CACHE })
 public class GenreService {
 
 	private static final int PAGE_SIZE = 30;
@@ -35,7 +30,6 @@ public class GenreService {
 		this.mpd = mpd;
 	}
 
-	@Cacheable
 	public Set<String> listGenres() {
 		Set<String> ret = new TreeSet<>();
 		for (MPDGenre mpdGenre : mpd.getMusicDatabase().getGenreDatabase().listAllGenres()) {
@@ -45,7 +39,6 @@ public class GenreService {
 		return ret;
 	}
 
-	@Cacheable
 	public GenrePayload listGenre(String genre, int pageIndex, Integer pageSize) {
 		if (genre.isBlank()) {
 			return new GenrePayload(genre, null, null);

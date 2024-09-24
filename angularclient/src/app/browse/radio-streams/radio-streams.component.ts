@@ -15,7 +15,7 @@ export class RadioStreamsComponent implements OnInit {
   exportRadioStreamsUrls: string;
 
   constructor(
-    private radioService: RadioStreamService,
+    private radioStreamService: RadioStreamService,
     private settingsService: SettingsService,
   ) {
     this.exportRadioStreamsUrls = `${this.settingsService.getBackendContextAddr()}api/radio-streams`;
@@ -26,7 +26,7 @@ export class RadioStreamsComponent implements OnInit {
   }
 
   private loadData(): void {
-    this.dataSource$ = this.radioService
+    this.dataSource$ = this.radioStreamService
       .getRadioStreams()
       .pipe(map((data) => new MatTableDataSource<RadioStream>(data)));
   }

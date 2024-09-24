@@ -15,10 +15,10 @@ export class AddStreamComponent {
     url: new FormControl("", Validators.required),
   });
 
-  constructor(private radioService: RadioStreamService) {}
+  constructor(private radioStreamService: RadioStreamService) {}
 
   onSubmit(): void {
-    this.radioService
+    this.radioStreamService
       .addRadioStream({
         name: String(this.name.value),
         url: String(this.url.value),

@@ -26,7 +26,7 @@ export class RadioStreamListComponent implements AfterViewInit {
   @ViewChild(MatPaginator) paginator: MatPaginator = {} as MatPaginator;
 
   constructor(
-    private radioService: RadioStreamService,
+    private radioStreamService: RadioStreamService,
     private queueService: QueueService,
     private dialog: MatDialog,
   ) {}
@@ -50,7 +50,7 @@ export class RadioStreamListComponent implements AfterViewInit {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result === true) {
-        this.radioService
+        this.radioStreamService
           .deleteStream(stream.id)
           .subscribe((data) => (this.dataSource.data = data));
       }

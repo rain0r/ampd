@@ -7,8 +7,6 @@ import org.bff.javampd.song.SongSearcher;
 import org.hihn.ampd.server.model.AmpdSettings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.support.PagedListHolder;
-import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -18,12 +16,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
-
-import static org.hihn.ampd.server.Constants.SEARCH_CACHE;
 
 @Service
-@CacheConfig(cacheNames = { SEARCH_CACHE })
 public class SearchService {
 
 	private final AmpdSettings ampdSettings;
@@ -31,7 +25,7 @@ public class SearchService {
 	private static final List<String> SEARCH_FIELDS = Arrays.stream(SongSearcher.ScopeType.values())
 		.map(SongSearcher.ScopeType::toString)
 		.map(String::toLowerCase)
-		.collect(Collectors.toList());
+		.toList();
 
 	@Autowired
 	private final MPD mpd;
@@ -55,7 +49,6 @@ public class SearchService {
 		return new PageImpl<>(pages.getPageList(), pageable, ret.size());
 	}
 
-	@Cacheable
 	public PageImpl<MPDSong> advSearch(Map<String, String> searchParams, int pageIndex, Integer pageSize) {
 		List<MPDSong> ret = searcByParams(searchParams);
 		Pageable pageable = PageRequest.of(pageIndex, getPageSize(pageSize));

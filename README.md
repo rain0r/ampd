@@ -29,8 +29,8 @@ ampd is a web-based client for [MPD](https://www.musicpd.org/). It is build with
 
 ### Caveats
 
-* JRE 11 or higher needed
-* Only one mpd server supported
+* JRE 17 or higher needed
+* Only one mpd server supported simultaneously
 
 ## Screenshots
 

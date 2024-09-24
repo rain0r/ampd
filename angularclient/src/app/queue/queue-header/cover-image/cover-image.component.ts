@@ -1,7 +1,13 @@
 import { HttpClient } from "@angular/common/http";
 import { Component, OnInit } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
-import { BehaviorSubject, Observable, combineLatest, filter } from "rxjs";
+import {
+  BehaviorSubject,
+  Observable,
+  combineLatest,
+  distinctUntilChanged,
+  take,
+} from "rxjs";
 import { FrontendSettingsService } from "src/app/service/frontend-settings.service";
 import { MpdService } from "src/app/service/mpd.service";
 import { AlbumCoverDialogComponent } from "src/app/shared/album-cover-dialog/album-cover-dialog.component";
@@ -40,22 +46,32 @@ export class CoverImageComponent implements OnInit {
   }
 
   private buildCover(): void {
-    let first = true;
-
     combineLatest([
       this.mpdService.currentTrack$,
-      this.mpdService.currentState$.pipe(filter((state) => state !== "stop")),
-    ]).subscribe(([track]) => {
-      if (first || track.changed) {
-        first = false;
-        this.updateCover(track);
-      }
-    });
+      this.mpdService.currentState$,
+    ])
+      .pipe(
+        distinctUntilChanged((prev, curr) => {
+          return (
+            prev[0].file === curr[0].file &&
+            prev[0].albumName === curr[0].albumName &&
+            prev[0].artistName === curr[0].artistName &&
+            prev[0].title === curr[0].title
+          );
+        }),
+      )
+      .subscribe(([track, state]) => {
+        if (state !== "stop") {
+          this.updateCover(track);
+        }
+      });
   }
 
   private updateCover(track: QueueTrack): void {
     this.http.head(track.coverUrl, { observe: "response" }).subscribe({
-      error: () => this.displayCover$.next(false),
+      error: () => {
+        this.displayCover$.next(false);
+      },
       next: () => this.coverAvailable(),
     });
   }
@@ -65,12 +81,14 @@ export class CoverImageComponent implements OnInit {
       this.mpdService.currentState$,
       this.frontendSettingsService.getBoolValue$(SettingKeys.DISPLAY_COVERS),
       this.mpdService.isCurrentTrackRadioStream$(),
-    ]).subscribe(([state, displayCovers, isRadioStream]) => {
-      this.displayCover$.next(
-        isRadioStream === false && // We don't look for covers when a radio stream is playing
-          state !== "stop" && // Check state, we don't change the cover if the player has stopped
-          displayCovers === true, // Check if cover-display is active in the frontend-settings
-      );
-    });
+    ])
+      .pipe(take(1))
+      .subscribe(([state, displayCovers, isRadioStream]) => {
+        this.displayCover$.next(
+          isRadioStream === false && // We don't look for covers when a radio stream is playing
+            state !== "stop" && // Check state, we don't change the cover if the player has stopped
+            displayCovers === true, // Check if cover-display is active in the frontend-settings
+        );
+      });
   }
 }

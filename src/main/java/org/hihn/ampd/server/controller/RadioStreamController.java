@@ -1,5 +1,6 @@
 package org.hihn.ampd.server.controller;
 
+import jakarta.validation.Valid;
 import org.hihn.ampd.server.model.db.RadioStream;
 import org.hihn.ampd.server.service.RadioStreamService;
 import org.springframework.http.HttpStatus;
@@ -28,7 +29,7 @@ public class RadioStreamController {
 	}
 
 	@PostMapping("")
-	public List<RadioStream> addRadioStream(@RequestBody RadioStream radioStream) {
+	public List<RadioStream> addRadioStream(@Valid @RequestBody RadioStream radioStream) {
 		return radioStreamService.addRadioStream(radioStream);
 	}
 

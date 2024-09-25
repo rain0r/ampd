@@ -1,13 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Component, OnInit } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
-import {
-  BehaviorSubject,
-  Observable,
-  combineLatest,
-  distinctUntilChanged,
-  take,
-} from "rxjs";
+import { BehaviorSubject, Observable, combineLatest, filter, take } from "rxjs";
 import { FrontendSettingsService } from "src/app/service/frontend-settings.service";
 import { MpdService } from "src/app/service/mpd.service";
 import { AlbumCoverDialogComponent } from "src/app/shared/album-cover-dialog/album-cover-dialog.component";
@@ -46,37 +40,32 @@ export class CoverImageComponent implements OnInit {
   }
 
   private buildCover(): void {
-    combineLatest([
-      this.mpdService.currentTrack$,
-      this.mpdService.currentState$,
-    ])
-      .pipe(
-        distinctUntilChanged((prev, curr) => {
-          return (
-            prev[0].file === curr[0].file &&
-            prev[0].albumName === curr[0].albumName &&
-            prev[0].artistName === curr[0].artistName &&
-            prev[0].title === curr[0].title
-          );
-        }),
-      )
-      .subscribe(([track, state]) => {
-        if (state !== "stop") {
-          this.updateCover(track);
-        }
-      });
-  }
-
-  private updateCover(track: QueueTrack): void {
-    this.http.head(track.coverUrl, { observe: "response" }).subscribe({
-      error: () => {
-        this.displayCover$.next(false);
-      },
-      next: () => this.coverAvailable(),
+    console.log("buildCover()");
+    this.mpdService.currentTrack$.subscribe((track) => {
+      console.log("Subscribed buildCover()");
+      this.updateCover(track);
     });
   }
 
+  private updateCover(track: QueueTrack): void {
+    console.log("updateCover()", track);
+    this.mpdService.currentState$
+      .pipe(
+        take(1),
+        filter((state) => state !== "stop"),
+      )
+      .subscribe(() => {
+        this.http.head(track.coverUrl, { observe: "response" }).subscribe({
+          error: () => {
+            this.displayCover$.next(false);
+          },
+          next: () => this.coverAvailable(),
+        });
+      });
+  }
+
   coverAvailable(): void {
+    console.log("coverAvailable()");
     combineLatest([
       this.mpdService.currentState$,
       this.frontendSettingsService.getBoolValue$(SettingKeys.DISPLAY_COVERS),
@@ -84,6 +73,9 @@ export class CoverImageComponent implements OnInit {
     ])
       .pipe(take(1))
       .subscribe(([state, displayCovers, isRadioStream]) => {
+        console.log("isRadioStream", isRadioStream);
+        console.log("state", state);
+        console.log("displayCovers", displayCovers);
         this.displayCover$.next(
           isRadioStream === false && // We don't look for covers when a radio stream is playing
             state !== "stop" && // Check state, we don't change the cover if the player has stopped

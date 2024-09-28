@@ -1,7 +1,14 @@
 import { HttpClient } from "@angular/common/http";
 import { Component, OnInit } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
-import { BehaviorSubject, Observable, combineLatest, filter, take } from "rxjs";
+import {
+  BehaviorSubject,
+  Observable,
+  combineLatest,
+  distinctUntilChanged,
+  filter,
+  take,
+} from "rxjs";
 import { FrontendSettingsService } from "src/app/service/frontend-settings.service";
 import { MpdService } from "src/app/service/mpd.service";
 import { AlbumCoverDialogComponent } from "src/app/shared/album-cover-dialog/album-cover-dialog.component";
@@ -41,8 +48,13 @@ export class CoverImageComponent implements OnInit {
 
   private buildCover(): void {
     combineLatest([
-      this.mpdService.currentState$.pipe(filter((state) => state !== "stop")),
-      this.mpdService.currentTrack$,
+      this.mpdService.currentState$.pipe(
+        filter((state) => state !== "stop"),
+        distinctUntilChanged(),
+      ),
+      this.mpdService.currentTrack$.pipe(
+        distinctUntilChanged((prev, curr) => prev.file === curr.file),
+      ),
     ]).subscribe((stateAndTrack) => {
       this.updateCover(stateAndTrack[1]);
     });

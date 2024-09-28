@@ -40,47 +40,44 @@ export class CoverImageComponent implements OnInit {
   }
 
   private buildCover(): void {
-    console.log("buildCover()");
-    this.mpdService.currentTrack$.subscribe((track) => {
-      console.log("Subscribed buildCover()");
-      this.updateCover(track);
+    combineLatest([
+      this.mpdService.currentState$.pipe(filter((state) => state !== "stop")),
+      this.mpdService.currentTrack$,
+    ]).subscribe((stateAndTrack) => {
+      this.updateCover(stateAndTrack[1]);
     });
   }
 
   private updateCover(track: QueueTrack): void {
-    console.log("updateCover()", track);
-    this.mpdService.currentState$
-      .pipe(
-        take(1),
-        filter((state) => state !== "stop"),
-      )
-      .subscribe(() => {
-        this.http.head(track.coverUrl, { observe: "response" }).subscribe({
-          error: () => {
-            this.displayCover$.next(false);
-          },
-          next: () => this.coverAvailable(),
-        });
-      });
+    this.http.head(track.coverUrl, { observe: "response" }).subscribe({
+      error: () => {
+        this.displayCover$.next(false);
+      },
+      next: () => {
+        this.setDisplayCover();
+      },
+    });
   }
 
-  coverAvailable(): void {
-    console.log("coverAvailable()");
+  setDisplayCover(): void {
     combineLatest([
       this.mpdService.currentState$,
       this.frontendSettingsService.getBoolValue$(SettingKeys.DISPLAY_COVERS),
       this.mpdService.isCurrentTrackRadioStream$(),
     ])
-      .pipe(take(1))
+      .pipe(take(3))
       .subscribe(([state, displayCovers, isRadioStream]) => {
-        console.log("isRadioStream", isRadioStream);
-        console.log("state", state);
-        console.log("displayCovers", displayCovers);
-        this.displayCover$.next(
+        const available =
           isRadioStream === false && // We don't look for covers when a radio stream is playing
-            state !== "stop" && // Check state, we don't change the cover if the player has stopped
-            displayCovers === true, // Check if cover-display is active in the frontend-settings
-        );
+          state !== "stop" && // Check state, we don't change the cover if the player has stopped
+          displayCovers === true; // Check if cover-display is active in the frontend-settings
+
+        // console.log("isRadioStream", isRadioStream);
+        // console.log("state", state);
+        // console.log("displayCovers", displayCovers);
+        // console.log("available", available);
+
+        this.displayCover$.next(available);
       });
   }
 }

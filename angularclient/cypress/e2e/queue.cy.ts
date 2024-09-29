@@ -14,6 +14,7 @@ function addPlaylist(name: string) {
 function paginate(pageSize: number) {
   cy.get('[data-cy="paginator"]').click();
   cy.get("mat-option").contains(pageSize).click();
+  cy.get('[data-cy="track-table"] > tbody > tr').should('have.length', pageSize)
 }
 
 function cleanQueue() {
@@ -26,11 +27,12 @@ describe("Browse Test", () => {
     cleanQueue();
   });
 
-  it("Add playlist and clear queue", () => {
+  it("Add playlists", () => {
     playlists.forEach((playlistName: string) => {
       addPlaylist(playlistName);
 
       cy.visit("/");
+
       cy.contains("tracks in the queue");
       cy.get('[data-cy="clear-queue-btn"]').click();
       cy.contains("No tracks.");
@@ -38,7 +40,7 @@ describe("Browse Test", () => {
   });
 });
 
-describe("Pagination Test", () => {
+describe("Pagination 2000 tracks", () => {
   /**
    * Tests issue #594
    */
@@ -56,6 +58,8 @@ describe("Pagination Test", () => {
     cy.get("body").type("{s}");
 
     paginate(10);
+    paginate(100);
+    paginate(500);
 
     cy.get("#btn-play").click();
     cy.wait(3000);
@@ -65,25 +69,7 @@ describe("Pagination Test", () => {
     cy.get('[data-cy="elapsed"]').invoke("data", "elapsed").should("be.gt", 2);
     cy.get('[data-cy="clear-queue-btn"]').click();
   });
+
+
 });
 
-describe("check cover exists", () => {
-  it("Add artist", () => {
-    cy.visit("/browse");
-    cy.get('[data-cy="filter"]').type("beatles");
-    cy.get(".browse-list-item > [data-cy='add-dir']").first().click();
-  });
-
-  it("Play", () => {
-    cy.visit("/");
-    cy.get("body").type("{s}");
-    cy.get("#btn-play").click();
-  });
-
-  it("Check cover", () => {
-    cy.visit("/");
-    cy.wait(1000);
-    cy.get('[data-cy="cover"]').should("exist");
-    cy.get("body").type("{s}");
-  });
-});

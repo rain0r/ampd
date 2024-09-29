@@ -1,5 +1,6 @@
 <div *ngIf="trackTableDataObs | async as trackTableData">
   <table
+    data-cy="track-table"
     (cdkDropListDropped)="onListDrop($event)"
     [cdkDropListData]="trackTableData.dataSource.data"
     [cdkDropListDisabled]="!trackTableData.dragEnabled"

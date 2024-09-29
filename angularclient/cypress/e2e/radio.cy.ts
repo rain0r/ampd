@@ -1,4 +1,3 @@
-const playlists = require("../fixtures/playlists.json");
 const radioStreams = require("../fixtures/radio-streams.json");
 
 interface RadioStream {

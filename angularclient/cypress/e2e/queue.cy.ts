@@ -14,28 +14,37 @@ function addPlaylist(name: string) {
 function paginate(pageSize: number) {
   cy.get('[data-cy="paginator"]').click();
   cy.get("mat-option").contains(pageSize).click();
-  cy.get('[data-cy="track-table"] > tbody > tr').should('have.length', pageSize)
+  cy.get('[data-cy="track-table"] > tbody > tr').should(
+    "have.length",
+    pageSize,
+  );
 }
 
-function cleanQueue() {
+function clearQueue() {
   cy.visit("/");
-  cy.get("body").type("{C}");
+  cy.get('[data-cy="clear-queue-btn"]').then(($btn) => {
+    if ($btn.is(":disabled")) {
+      // Button is disabled, clear queue via keyboard
+      cy.get("body").type("{s}");
+    } else {
+      // Button is enabled, clear queue via button
+      cy.wrap($btn).click();
+    }
+  });
+  cy.get('[data-cy="cover"]').should("not.exist");
+  cy.contains("No tracks.");
 }
 
 describe("Browse Test", () => {
   after("Clean up queue", () => {
-    cleanQueue();
+    clearQueue();
   });
 
   it("Add playlists", () => {
     playlists.forEach((playlistName: string) => {
       addPlaylist(playlistName);
-
       cy.visit("/");
-
       cy.contains("tracks in the queue");
-      cy.get('[data-cy="clear-queue-btn"]').click();
-      cy.contains("No tracks.");
     });
   });
 });
@@ -46,7 +55,7 @@ describe("Pagination 2000 tracks", () => {
    */
 
   after("Clean up queue", () => {
-    cleanQueue();
+    clearQueue();
   });
 
   it("Add playlist", () => {
@@ -62,14 +71,11 @@ describe("Pagination 2000 tracks", () => {
     paginate(500);
 
     cy.get("#btn-play").click();
-    cy.wait(3000);
+    cy.wait(4000);
 
     paginate(1000);
 
     cy.get('[data-cy="elapsed"]').invoke("data", "elapsed").should("be.gt", 2);
-    cy.get('[data-cy="clear-queue-btn"]').click();
+    clearQueue();
   });
-
-
 });
-

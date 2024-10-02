@@ -6,7 +6,6 @@ import {
   Observable,
   combineLatest,
   distinctUntilChanged,
-  filter,
   take,
 } from "rxjs";
 import { FrontendSettingsService } from "src/app/service/frontend-settings.service";
@@ -48,19 +47,19 @@ export class CoverImageComponent implements OnInit {
 
   private buildCover(): void {
     combineLatest([
-      this.mpdService.currentState$.pipe(
-        filter((state) => state !== "stop"),
-        distinctUntilChanged(),
-      ),
+      this.mpdService.currentState$.pipe(distinctUntilChanged()),
       this.mpdService.currentTrack$.pipe(
         distinctUntilChanged((prev, curr) => prev.file === curr.file),
       ),
-    ]).subscribe((stateAndTrack) => {
-      this.updateCover(stateAndTrack[1]);
-    });
+    ]).subscribe(([state, track]) => this.updateCover(state, track));
   }
 
-  private updateCover(track: QueueTrack): void {
+  private updateCover(state: string, track: QueueTrack): void {
+    if (state === "stop") {
+      this.displayCover$.next(false);
+      return;
+    }
+
     this.http.head(track.coverUrl, { observe: "response" }).subscribe({
       error: () => {
         this.displayCover$.next(false);

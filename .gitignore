@@ -1,15 +1,17 @@
 # ampd
-package-lock.json
+ampd.log*
+ampd.mv.db
+ampd.trace.db
+angularclient/.angular/
+angularclient/cypress/results/
 angularclient/cypress/screenshots/
 angularclient/cypress/videos/
+angularclient/mochawesome-report/
+angularclient/mochawesome.json
 angularclient/src/environments/environment.dev.ts
 src/main/resources/application-dev.properties
 src/main/resources/static/
-angularclient/.angular/
-ampd.log*
 tmp/
-ampd.mv.db
-ampd.trace.db
 
 # Compiled class file
 *.class

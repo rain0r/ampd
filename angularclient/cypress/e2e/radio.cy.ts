@@ -5,7 +5,7 @@ interface RadioStream {
   url: string;
 }
 
-describe.skip("Radio Test", () => {
+describe("Radio Test", () => {
   it("Add radio stations", () => {
     radioStreams.forEach((stream: RadioStream) => {
       cy.visit("/browse/radio-streams");

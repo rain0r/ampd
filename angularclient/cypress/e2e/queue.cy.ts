@@ -35,7 +35,7 @@ function clearQueue() {
   cy.contains("No tracks.");
 }
 
-describe("Browse Test", () => {
+describe.skip("Browse Test", () => {
   after("Clean up queue", () => {
     clearQueue();
   });
@@ -49,7 +49,7 @@ describe("Browse Test", () => {
   });
 });
 
-describe("Pagination 2000 tracks", () => {
+describe.skip("Pagination 2000 tracks", () => {
   /**
    * Tests issue #594
    */

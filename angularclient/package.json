@@ -9,7 +9,9 @@
     "start": "ng serve",
     "e2e": "ng e2e",
     "cypress:open": "cypress open",
-    "cypress:run": "cypress run"
+    "cypress:run": "cypress run",
+    "delete:reports": "rm cypress/results/* || true",
+    "generate:reports": "npx mochawesome-merge \"cypress/results/*.json\" > mochawesome.json && marge -o reports/html mochawesome.json && rm mochawesome.json"
   },
   "dependencies": {
     "@angular/animations": "~18.1.3",
@@ -39,9 +41,13 @@
     "angular-eslint": "18.2.0",
     "autoprefixer": "^10.4.20",
     "cypress": "latest",
+    "cypress-multi-reporters": "^1.6.4",
     "eslint": "^9.8.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.2.1",
+    "mochawesome": "^7.1.3",
+    "mochawesome-merge": "^4.3.0",
+    "mochawesome-report-generator": "^6.2.0",
     "npm-check-updates": "^17.0.2",
     "postcss": "^8.4.40",
     "prettier": "3.3.3",

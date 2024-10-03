@@ -5,7 +5,6 @@ export default defineConfig({
     'baseUrl': 'http://localhost:4200'
   },
   video: true,
-  
   reporter: 'mochawesome',
   reporterOptions: {
     reportDir: 'cypress/results',

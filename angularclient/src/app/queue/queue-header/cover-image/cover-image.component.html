@@ -5,7 +5,7 @@
       (click)="openCoverDialog(track.coverUrl)"
       [alt]="'Cover of ' + track.artistName + ' — ' + track.albumName"
       [src]="track.coverUrl"
-      [title]="track.artistName + ' — ' + track.albumName"
+      [matTooltip]="track.artistName + ' — ' + track.albumName"
       class="h-64 w-full object-cover md:h-full md:w-64"
     />
   </div>

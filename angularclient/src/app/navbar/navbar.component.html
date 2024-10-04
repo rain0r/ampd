@@ -6,25 +6,41 @@
       [routerLinkActiveOptions]="{ exact: true }"
       mat-button
       routerLinkActive="mat-accent"
+      matTooltip="Go to the queue"
     >
       <mat-icon>format_list_bulleted</mat-icon>
       <span class="hidden md:inline"> Queue </span>
     </a>
 
     <!-- Browse -->
-    <button mat-button [routerLink]="['/browse']" routerLinkActive="mat-accent">
+    <button
+      mat-button
+      [routerLink]="['/browse']"
+      routerLinkActive="mat-accent"
+      matTooltip="Browse the database"
+    >
       <mat-icon>folder_open</mat-icon>
       <span class="hidden md:inline"> Browse </span>
     </button>
 
     <!-- Search -->
-    <button mat-button [routerLink]="['/search']" routerLinkActive="mat-accent">
+    <button
+      mat-button
+      [routerLink]="['/search']"
+      routerLinkActive="mat-accent"
+      matTooltip="Search the database"
+    >
       <mat-icon>search</mat-icon>
       <span class="hidden md:inline"> Search </span>
     </button>
 
     <!-- Settings -->
-    <a mat-button [routerLink]="['/settings']" routerLinkActive="mat-accent">
+    <a
+      mat-button
+      [routerLink]="['/settings']"
+      routerLinkActive="mat-accent"
+      matTooltip="Configure ampd"
+    >
       <mat-icon>settings</mat-icon>
       <span class="hidden md:inline"> Settings </span>
     </a>
@@ -34,7 +50,7 @@
     <span
       [routerLink]="['/']"
       class="hidden md:inline md:px-2 font-mono self-center"
-      title="You are using ampd — nice!"
+      matTooltip="You are using ampd — nice!"
       >ampd</span
     >
 
@@ -43,23 +59,26 @@
         color="accent"
         diameter="30"
         *ngSwitchCase="0"
-        title="Connecting..."
+        matTooltip="Connecting..."
       ></mat-spinner>
-      <mat-icon *ngSwitchCase="1" title="Connected">cloud</mat-icon>
+      <mat-icon *ngSwitchCase="1" matTooltip="Connected">cloud</mat-icon>
       <mat-spinner
         color="accent"
         diameter="30"
         *ngSwitchCase="2"
-        title="Closing..."
+        matTooltip="Closing..."
       ></mat-spinner>
-      <mat-icon *ngSwitchDefault title="Disconnected">cloud_off</mat-icon>
+      <mat-icon *ngSwitchDefault matTooltip="Disconnected">cloud_off</mat-icon>
     </div>
     <span *ngIf="(connState | async) !== 1" class="not-connected">
       Not connected to ampd server
     </span>
 
     <div class="hidden md:inline self-center clickable">
-      <mat-icon #helpIcon (click)="openHelpDialog()" title="Show shortcut help"
+      <mat-icon
+        #helpIcon
+        (click)="openHelpDialog()"
+        matTooltip="Show shortcut help"
         >help</mat-icon
       >
     </div>

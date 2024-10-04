@@ -7,7 +7,7 @@
     [src]="album.albumCoverUrl"
     alt="{{ album.albumArtist }} — {{ album.name }}"
     class="h-64 w-full object-cover md:h-full md:w-64"
-    title="{{ album.albumArtist }} — {{ album.name }}"
+    matTooltip="{{ album.albumArtist }} — {{ album.name }}"
   />
   <figcaption class="text-center">
     {{ album.albumArtist }} — {{ album.name }}

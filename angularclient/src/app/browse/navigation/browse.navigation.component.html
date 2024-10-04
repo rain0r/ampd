@@ -8,7 +8,7 @@
       [routerLinkActiveOptions]="{ exact: true }"
       mat-raised-button
       routerLinkActive="mat-accent"
-      title="Go to base directory"
+      matTooltip="Go to root directory"
     >
       <mat-icon>home</mat-icon>
       <span class="hidden md:inline">Top</span>
@@ -21,7 +21,7 @@
       [queryParams]="{ dir: dirUp$ | async }"
       [routerLink]="['/browse']"
       mat-raised-button
-      title="Go one directory up"
+      matTooltip="Go one directory up"
     >
       <mat-icon>expand_less</mat-icon>
       <span class="hidden md:inline">Return</span>
@@ -30,7 +30,11 @@
 
   <!--Add all-->
   <div *ngIf="getParamDir !== '/'">
-    <button mat-raised-button (click)="onAddDir(getParamDir)">
+    <button
+      mat-raised-button
+      (click)="onAddDir(getParamDir)"
+      matTooltip="Add all tracks"
+    >
       <mat-icon> add</mat-icon>
       <span class="hidden md:inline">Add all</span>
     </button>
@@ -38,7 +42,11 @@
 
   <!--Play all-->
   <div *ngIf="getParamDir !== '/'">
-    <button mat-raised-button (click)="onPlayDir(getParamDir)" title="Play all">
+    <button
+      mat-raised-button
+      (click)="onPlayDir(getParamDir)"
+      matTooltip="Play all"
+    >
       <mat-icon> play_arrow</mat-icon>
       <span class="hidden md:inline">Play all</span>
     </button>
@@ -50,7 +58,7 @@
       [routerLink]="['/browse/albums']"
       mat-raised-button
       routerLinkActive="mat-accent"
-      title="Go to albums"
+      matTooltip="Browse albums"
     >
       <mat-icon>album</mat-icon>
       <span class="hidden md:inline"> Albums </span>
@@ -63,7 +71,7 @@
       [routerLink]="['/browse/genres']"
       mat-raised-button
       routerLinkActive="mat-accent"
-      title="Go to genres"
+      matTooltip="Show all genres"
     >
       <mat-icon>local_offer</mat-icon>
       <span class="hidden md:inline"> Genres </span>
@@ -76,7 +84,7 @@
       [routerLink]="['/browse/radio-streams']"
       mat-raised-button
       routerLinkActive="mat-accent"
-      title="Go to radio streams"
+      matTooltip="Go to radio streams"
     >
       <mat-icon>radio</mat-icon>
       <span class="hidden md:inline"> Radio </span>
@@ -89,6 +97,7 @@
       *ngIf="(displayBrowseClearQueue$ | async) === true"
       mat-raised-button
       (click)="onClearQueue()"
+      matTooltip="Clear queue"
     >
       <mat-icon>delete</mat-icon>
       <span class="hidden md:inline">Clear queue</span>

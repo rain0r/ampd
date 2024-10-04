@@ -6,6 +6,7 @@ import {
 } from "@angular/common/http";
 import { ErrorHandler, NgModule } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { MAT_TOOLTIP_DEFAULT_OPTIONS } from "@angular/material/tooltip";
 import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { AppRoutingModule } from "./app-routing.module";
@@ -24,6 +25,7 @@ import { PlaylistEntryComponent } from "./browse/playlists/playlist-entry/playli
 import { PlaylistInfoDialogComponent } from "./browse/playlists/playlist-info-dialog/playlist-info-dialog.component";
 import { PlaylistsComponent } from "./browse/playlists/playlists.component";
 import { AddStreamComponent } from "./browse/radio-streams/add-radio-stream/add-radio-stream.component";
+import { ConfirmDeleteStreamDialogComponent } from "./browse/radio-streams/confirm-delete-stream-dialog/confirm-delete-stream-dialog.component";
 import { ImportRadioStreamsComponent } from "./browse/radio-streams/import-radio-streams/import-radio-streams.component";
 import { RadioStreamListComponent } from "./browse/radio-streams/radio-stream-list/radio-stream-list.component";
 import { RadioStreamsComponent } from "./browse/radio-streams/radio-streams.component";
@@ -68,7 +70,6 @@ import { SecondsToHhMmSsPipe } from "./shared/pipes/seconds-to-hh-mm-ss.pipe";
 import { SecondsToMmSsPipe } from "./shared/pipes/seconds-to-mm-ss.pipe";
 import { StyleManager } from "./shared/style-manager";
 import { TrackTableDataComponent } from "./shared/track-table-data/track-table-data.component";
-import { ConfirmDeleteStreamDialogComponent } from "./browse/radio-streams/confirm-delete-stream-dialog/confirm-delete-stream-dialog.component";
 
 const prefersReducedMotion =
   typeof matchMedia === "function"
@@ -166,6 +167,12 @@ const prefersReducedMotion =
       useClass: AmpdErrorHandler,
     },
     provideHttpClient(withInterceptorsFromDi()),
+    {
+      provide: MAT_TOOLTIP_DEFAULT_OPTIONS,
+      useValue: {
+        showDelay: 750,
+      },
+    },
   ],
 })
 export class AppModule {}

@@ -46,7 +46,7 @@
         *matCellDef="let row"
         class=""
         mat-cell
-        [title]="row.artistName"
+        [matTooltip]="row.artistName"
       >
         <span
           *ngIf="
@@ -77,7 +77,7 @@
         *matCellDef="let row"
         class=""
         mat-cell
-        [title]="row.albumName ? row.albumName : ''"
+        [matTooltip]="row.albumName ? row.albumName : ''"
       >
         {{ row.albumName }}
       </td>
@@ -98,7 +98,7 @@
         *matCellDef="let row"
         class=""
         mat-cell
-        [title]="row.title"
+        [matTooltip]="row.title"
       >
         {{ row.title }}
       </td>
@@ -126,7 +126,7 @@
         <mat-icon
           (click)="onRemoveTrack(element)"
           class="btn-remove-track"
-          title="Remove from queue"
+          matTooltip="Remove from queue"
           >backspace
         </mat-icon>
       </td>
@@ -139,7 +139,11 @@
     >
       <th mat-header-cell *matHeaderCellDef></th>
       <td *matCellDef="let track" mat-cell>
-        <button mat-button (click)="onPlayTrack(track)" title="Play this track">
+        <button
+          mat-button
+          (click)="onPlayTrack(track)"
+          matTooltip="Play this track"
+        >
           <mat-icon> play_arrow</mat-icon>
         </button>
       </td>
@@ -155,7 +159,7 @@
         <button
           (click)="onAddTrack(track)"
           mat-button
-          title="Add this track to the queue"
+          matTooltip="Add this track to the queue"
         >
           <mat-icon>add </mat-icon>
         </button>
@@ -168,7 +172,7 @@
         <button
           (click)="onShowTrackInfo(track)"
           mat-button
-          title="Show track info"
+          matTooltip="Show track info"
         >
           <mat-icon>info </mat-icon>
         </button>

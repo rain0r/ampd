@@ -1,18 +1,21 @@
 <div
   class="browse-list-item"
-  [title]="'Click to show playlist: ' + playlist.name"
+  [matTooltip]="'Click to show playlist: ' + playlist.name"
   (click)="onPlaylistInfo($event, playlist)"
 >
   <mat-icon>list</mat-icon>
   <div data-cy="playlist-name" class="flex-grow truncate">
     {{ playlist.name }}
   </div>
-  <div class="text-muted" [title]="playlist.count + 'tracks in this playlist'">
+  <div
+    class="text-muted"
+    [matTooltip]="playlist.count + 'tracks in this playlist'"
+  >
     {{ playlist.count }}
   </div>
   <button
     mat-button
-    title="Play this playlist"
+    matTooltip="Play this playlist"
     (click)="onPlayDir($event, playlist.name)"
   >
     <mat-icon> play_arrow</mat-icon>
@@ -20,7 +23,7 @@
   <button
     (click)="onAddDir($event, playlist.name)"
     mat-button
-    title="Add directory to the queue"
+    matTooltip="Add directory to the queue"
   >
     <mat-icon> add</mat-icon>
   </button>

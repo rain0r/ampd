@@ -1,6 +1,6 @@
 <div
   class="flex flex-row place-items-center gap-x-6"
-  [title]="'Volume: ' + volume"
+  [matTooltip]="'Volume: ' + volume"
   *ngIf="state$ | async as state"
 >
   <div [class.text-muted]="state === 'pause'">

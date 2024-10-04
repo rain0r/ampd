@@ -1,19 +1,25 @@
 <div mat-dialog-title>
-  <div class="flex flex-row gap-x-2 heading-2">
-  Save new playlist
-</div>
+  <div class="flex flex-row gap-x-2 heading-2">Save new playlist</div>
 </div>
 <div mat-dialog-content>
   <mat-form-field class="w-full">
     <mat-label>Playlist name</mat-label>
-    <input matInput [(ngModel)]="data" (keyup.enter)="onEnterPressed()" 
-    
-    data-cy="save-playlist-name"
-    
-    focus />
+    <input
+      matInput
+      [(ngModel)]="data"
+      (keyup.enter)="onEnterPressed()"
+      data-cy="save-playlist-name"
+      focus
+    />
   </mat-form-field>
 </div>
 <div mat-dialog-actions align="end">
   <button mat-stroked-button mat-dialog-close>Cancel</button>
-  <button mat-stroked-button (click)="onEnterPressed()" data-cy="save-playlist-btn">Ok</button>
+  <button
+    mat-stroked-button
+    (click)="onEnterPressed()"
+    data-cy="save-playlist-btn"
+  >
+    Ok
+  </button>
 </div>

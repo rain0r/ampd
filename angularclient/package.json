@@ -8,7 +8,7 @@
     "ng": "ng",
     "start": "ng serve",
     "e2e": "ng e2e",
-    "cypress:open": "cypress open",
+    "cypress:open": "ng run ampd:cypress-open",
     "cypress:run": "cypress run",
     "delete:reports": "rm cypress/results/* || true",
     "generate:reports": "npx mochawesome-merge \"cypress/results/*.json\" > mochawesome.json && marge -o reports/html mochawesome.json && rm mochawesome.json"

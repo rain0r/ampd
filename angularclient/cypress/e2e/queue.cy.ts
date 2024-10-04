@@ -111,6 +111,8 @@ describe("Pagination of a queue with 2000 tracks", () => {
       cy.contains("Items per page:");
       cy.contains(`Playlist: ${TMP_PLAYLIST_NAME}`);
       cy.get('[data-cy="delete-playlist-btn"]').click();
+
+      cy.get('[data-cy="playlist-name"]').contains(TMP_PLAYLIST_NAME).should("not.exist");
     });
   });
 });

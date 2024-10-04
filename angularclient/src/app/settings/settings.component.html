@@ -15,8 +15,8 @@
     </div>
 
     <div>
-      <div *ngFor="let category of feSettings | keyvalue">
-        <div class="heading-2 my-8">{{ category.key }}</div>
+      <div *ngFor="let category of feSettings | keyvalue" class="my-16">
+        <div class="heading-2">{{ category.key }}</div>
 
         <div class="settings-grid">
           <mat-card *ngFor="let setting of category.value">
@@ -97,7 +97,7 @@
 
   <mat-tab label="Backend">
     <!-- backend  -->
-    <div>
+    <div class="mb-16">
       <mat-card class="w-full my-8">
         <mat-card-content>
           <p class="mb-4">
@@ -123,7 +123,7 @@
         <mat-card-header>
           <mat-card-title>{{ setting.name }}</mat-card-title>
         </mat-card-header>
-        <mat-card-content [ngSwitch]="setting.type">
+        <mat-card-content [ngSwitch]="setting.type" class="my-4">
           <!-- Boolean -->
           <mat-slide-toggle
             [checked]="setting.value"
@@ -139,7 +139,7 @@
             <mat-hint>{{ setting.hint }}</mat-hint>
           </mat-form-field>
         </mat-card-content>
-        <mat-card-footer class="p-0 md:p-2">
+        <mat-card-footer class="p-0 md:p-4 md:pt-8">
           Change this setting with:
           <span class="ampd-code">-D{{ setting.key }}=&#60;value&#62;</span>
         </mat-card-footer>

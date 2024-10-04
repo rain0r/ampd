@@ -6,25 +6,41 @@
       [routerLinkActiveOptions]="{ exact: true }"
       mat-button
       routerLinkActive="mat-accent"
+      title="Go to the queue"
     >
       <mat-icon>format_list_bulleted</mat-icon>
       <span class="hidden md:inline"> Queue </span>
     </a>
 
     <!-- Browse -->
-    <button mat-button [routerLink]="['/browse']" routerLinkActive="mat-accent">
+    <button
+      mat-button
+      [routerLink]="['/browse']"
+      routerLinkActive="mat-accent"
+      title="Browse the database"
+    >
       <mat-icon>folder_open</mat-icon>
       <span class="hidden md:inline"> Browse </span>
     </button>
 
     <!-- Search -->
-    <button mat-button [routerLink]="['/search']" routerLinkActive="mat-accent">
+    <button
+      mat-button
+      [routerLink]="['/search']"
+      routerLinkActive="mat-accent"
+      title="Search the database"
+    >
       <mat-icon>search</mat-icon>
       <span class="hidden md:inline"> Search </span>
     </button>
 
     <!-- Settings -->
-    <a mat-button [routerLink]="['/settings']" routerLinkActive="mat-accent">
+    <a
+      mat-button
+      [routerLink]="['/settings']"
+      routerLinkActive="mat-accent"
+      title="Configure ampd"
+    >
       <mat-icon>settings</mat-icon>
       <span class="hidden md:inline"> Settings </span>
     </a>

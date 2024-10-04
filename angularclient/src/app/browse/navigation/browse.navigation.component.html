@@ -8,7 +8,7 @@
       [routerLinkActiveOptions]="{ exact: true }"
       mat-raised-button
       routerLinkActive="mat-accent"
-      title="Go to base directory"
+      title="Go to root directory"
     >
       <mat-icon>home</mat-icon>
       <span class="hidden md:inline">Top</span>
@@ -30,7 +30,11 @@
 
   <!--Add all-->
   <div *ngIf="getParamDir !== '/'">
-    <button mat-raised-button (click)="onAddDir(getParamDir)">
+    <button
+      mat-raised-button
+      (click)="onAddDir(getParamDir)"
+      title="Add all tracks"
+    >
       <mat-icon> add</mat-icon>
       <span class="hidden md:inline">Add all</span>
     </button>
@@ -50,7 +54,7 @@
       [routerLink]="['/browse/albums']"
       mat-raised-button
       routerLinkActive="mat-accent"
-      title="Go to albums"
+      title="Browse albums"
     >
       <mat-icon>album</mat-icon>
       <span class="hidden md:inline"> Albums </span>
@@ -63,7 +67,7 @@
       [routerLink]="['/browse/genres']"
       mat-raised-button
       routerLinkActive="mat-accent"
-      title="Go to genres"
+      title="Show all genres"
     >
       <mat-icon>local_offer</mat-icon>
       <span class="hidden md:inline"> Genres </span>
@@ -89,6 +93,7 @@
       *ngIf="(displayBrowseClearQueue$ | async) === true"
       mat-raised-button
       (click)="onClearQueue()"
+      title="Clear queue"
     >
       <mat-icon>delete</mat-icon>
       <span class="hidden md:inline">Clear queue</span>

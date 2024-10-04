@@ -3,15 +3,15 @@
 // with Intellisense and code completion in your
 // IDE or Text Editor.
 // ***********************************************
-// declare namespace Cypress {
-//   interface Chainable<Subject = any> {
-//     customCommand(param: any): typeof customCommand;
-//   }
-// }
-//
-// function customCommand(param: any): void {
-//   console.warn(param);
-// }
+declare namespace Cypress {
+  interface Chainable<Subject = any> {
+    customCommand(param: any): typeof customCommand;
+  }
+}
+
+function customCommand(param: any): void {
+  console.warn(param);
+}
 //
 // NOTE: You can use it like so:
 // Cypress.Commands.add('customCommand', customCommand);
@@ -41,3 +41,26 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
+
+Cypress.Commands.add("clearQueue", () => {
+  cy.get('[data-cy="clear-queue-btn"]').then(($btn) => {
+    if ($btn.is(":disabled")) {
+      // Button is disabled, clear queue via keyboard
+      cy.get("body").type("{s}");
+    } else {
+      // Button is enabled, clear queue via button
+      cy.wrap($btn).click();
+    }
+  });
+  cy.get('[data-cy="cover"]').should("not.exist");
+  cy.contains("No tracks.");
+});
+
+Cypress.Commands.add("paginate", (pageSize: number) => {
+  cy.get('[data-cy="paginator"]').click();
+  cy.get("mat-option").contains(pageSize).click();
+  cy.get('[data-cy="track-table"] > tbody > tr').should(
+    "have.length",
+    pageSize,
+  );
+});

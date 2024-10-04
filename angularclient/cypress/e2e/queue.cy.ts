@@ -1,5 +1,8 @@
 const playlists = require("../fixtures/playlists.json");
 
+const TMP_PLAYLIST_NAME = "AAA Test Playlist 123";
+
+
 function addPlaylist(name: string) {
   cy.visit("/browse");
   cy.contains("Playlists");
@@ -35,21 +38,19 @@ function clearQueue() {
   cy.contains("No tracks.");
 }
 
-describe("Browse Test", () => {
-  after("Clean up queue", () => {
-    clearQueue();
-  });
-
+describe("Add playlists", () => {
   it("Add playlists", () => {
     playlists.forEach((playlistName: string) => {
       addPlaylist(playlistName);
       cy.visit("/");
       cy.contains("tracks in the queue");
+      cy.get('[data-cy="track-table"] > tbody > tr').should('have.length.greaterThan', 1)
+      clearQueue();
     });
   });
 });
 
-describe("Pagination 2000 tracks", () => {
+describe("Pagination of a queue with 2000 tracks", () => {
   /**
    * Tests issue #594
    */
@@ -78,4 +79,37 @@ describe("Pagination 2000 tracks", () => {
     cy.get('[data-cy="elapsed"]').invoke("data", "elapsed").should("be.gt", 2);
     clearQueue();
   });
+
+  describe("Save and delete a playlist", () => {
+
+    it("Add artist", () => {
+      cy.visit("/browse");
+      cy.get(".browse-list-item > [data-cy='add-dir']").should("be.visible");
+      cy.get('[data-cy="filter"]').type("the");
+      cy.get(".browse-list-item > [data-cy='add-dir']").first().click();
+    });
+
+    it("Save playlist", () => {
+      cy.visit("/");
+      cy.get('[data-cy="save-playlist"]').click()
+      cy.get('[data-cy="save-playlist-name"]').type(TMP_PLAYLIST_NAME);
+      cy.get('[data-cy="save-playlist-btn"]').click()
+      clearQueue();
+    })
+  
+    it("Add playlist", () => {
+      addPlaylist(TMP_PLAYLIST_NAME);
+    })
+
+    it("Delete playlist", () => {
+      cy.visit("/browse");
+      cy.contains("Playlists");
+      cy.contains("Directories");
+      cy.get('[data-cy="playlist-name"]').contains(TMP_PLAYLIST_NAME).click();
+    
+      cy.contains("Items per page:");
+      cy.contains(`Playlist: ${TMP_PLAYLIST_NAME}`);
+      cy.get('[data-cy="delete-playlist-btn"]').click();
+    })
+  })
 });

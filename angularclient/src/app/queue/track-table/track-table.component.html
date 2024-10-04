@@ -51,6 +51,7 @@
       mat-stroked-button
       (click)="openSavePlaylistDialog()"
       *ngIf="trackTableData.dataSource.data.length > 0"
+      data-cy="save-playlist"
     >
       <mat-icon>save</mat-icon>
       Save playlist

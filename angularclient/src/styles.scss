@@ -119,11 +119,3 @@ mat-toolbar > div > .mat-mdc-button-base.mat-accent {
 .now-playing-row {
   background: var(--accent-color) !important;
 }
-
-//
-// Fix for tooltip / scrolling on touch devices
-//
-[mattooltip],
-[mattooltipposition] {
-  touch-action: auto !important;
-}

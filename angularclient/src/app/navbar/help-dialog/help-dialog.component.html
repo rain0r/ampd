@@ -16,7 +16,7 @@
           <div
             class="font-mono"
             *ngFor="let trig of shortcut.trigger"
-            [matTooltip]="'Key: \'' + trig + '\''"
+            [title]="'Key: \'' + trig + '\''"
           >
             &quot;{{ trig }}&quot;&nbsp;
           </div>

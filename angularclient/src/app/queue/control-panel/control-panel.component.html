@@ -4,7 +4,7 @@
     [disabled]="(connected$ | async) === false"
     id="btn-prev"
     mat-stroked-button
-    matTooltip="Previous track"
+    title="Previous track"
   >
     <mat-icon>skip_previous</mat-icon>
   </button>
@@ -13,7 +13,7 @@
     [disabled]="(connected$ | async) === false"
     id="btn-seek-backwards"
     mat-stroked-button
-    matTooltip="Jump backwards"
+    title="Jump backwards"
     *ngIf="displayJumpBtn"
   >
     <mat-icon>navigate_before</mat-icon>
@@ -23,7 +23,7 @@
     [disabled]="(connected$ | async) === false"
     id="btn-stop"
     mat-stroked-button
-    matTooltip="Stop"
+    title="Stop"
   >
     <mat-icon>stop</mat-icon>
   </button>
@@ -33,7 +33,7 @@
     *ngIf="(currentState | async) === 'play'"
     id="btn-pause"
     mat-stroked-button
-    matTooltip="Pause"
+    title="Pause"
   >
     <mat-icon>pause</mat-icon>
   </button>
@@ -43,7 +43,7 @@
     *ngIf="(currentState | async) !== 'play'"
     id="btn-play"
     mat-stroked-button
-    matTooltip="Play"
+    title="Play"
   >
     <mat-icon>play_arrow</mat-icon>
   </button>
@@ -52,7 +52,7 @@
     [disabled]="(connected$ | async) === false"
     id="btn-seek-forward"
     mat-stroked-button
-    matTooltip="Jump forward"
+    title="Jump forward"
     *ngIf="displayJumpBtn"
   >
     <mat-icon>navigate_next</mat-icon>
@@ -62,7 +62,7 @@
     [disabled]="(connected$ | async) === false"
     id="btn-next"
     mat-stroked-button
-    matTooltip="Next track"
+    title="Next track"
   >
     <mat-icon>skip_next</mat-icon>
   </button>
@@ -75,7 +75,7 @@
     "
     class="valign-top clear-queue"
     mat-stroked-button
-    matTooltip="Remove all items from the queue"
+    title="Remove all items from the queue"
   >
     <mat-icon>delete</mat-icon>
   </button>
@@ -87,7 +87,7 @@
     *ngIf="displayInfoBtn | async"
     class="valign-top"
     mat-stroked-button
-    matTooltip="Info about currently playing track"
+    title="Info about currently playing track"
   >
     <mat-icon>info</mat-icon>
   </button>

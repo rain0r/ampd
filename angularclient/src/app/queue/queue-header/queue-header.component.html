@@ -26,7 +26,7 @@
           [routerLink]="['browse']"
           *ngIf="(isRadioStream | async) === false"
           class="text-xl font-bold"
-          matTooltip="Go to the directory containing this track"
+          title="Go to the directory containing this track"
         >
           {{ play.track.title }}
         </a>
@@ -36,7 +36,7 @@
         <a
           [queryParams]="{ dir: currentPathLink }"
           [routerLink]="['browse']"
-          matTooltip="Go to the directory containing this track"
+          title="Go to the directory containing this track"
         >
           {{ play.track.albumName }}
         </a>
@@ -47,7 +47,7 @@
           [class.text-muted]="play.state === 'pause'"
           [queryParams]="{ dir: currentPathLink }"
           [routerLink]="['browse']"
-          matTooltip="Go to the directory containing this track"
+          title="Go to the directory containing this track"
         >
           {{ play.track.artistName }}
         </a>

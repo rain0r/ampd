@@ -43,15 +43,8 @@ function customCommand(param: any): void {
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
 
 Cypress.Commands.add("clearQueue", () => {
-  cy.get('[data-cy="clear-queue-btn"]').then(($btn) => {
-    if ($btn.is(":disabled")) {
-      // Button is disabled, clear queue via keyboard
-      cy.get("body").type("{s}");
-    } else {
-      // Button is enabled, clear queue via button
-      cy.wrap($btn).click();
-    }
-  });
+  cy.visit("/");
+  cy.get('[data-cy="clear-queue-btn"]').click();
   cy.get('[data-cy="cover"]').should("not.exist");
   cy.contains("No tracks.");
 });

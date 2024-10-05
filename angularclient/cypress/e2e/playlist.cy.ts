@@ -15,6 +15,8 @@ function addPlaylist(name: string) {
 
 describe("Save and delete a playlist", () => {
   it("Add artist", () => {
+    cy.clearQueue();
+
     cy.visit("/browse");
     cy.get(".browse-list-item > [data-cy='add-dir']").should("be.visible");
     cy.get('[data-cy="filter"]').type("the");
@@ -57,6 +59,8 @@ describe("Save and delete a playlist", () => {
 
 describe("Add multiple playlists", () => {
   it("Add playlist", () => {
+    cy.clearQueue();
+    
     playlists.forEach((playlistName: string) => {
       addPlaylist(playlistName);
       cy.visit("/");
@@ -66,8 +70,7 @@ describe("Add multiple playlists", () => {
         1,
       );
 
-      const trackCount = parseInt(playlistName.replace("last_", ""));
-      cy.scrollTo(0, 500) // Scroll the window 500px down
+      const trackCount = parseInt(playlistName.replace("last_", ""));      
       cy.scrollTo('bottom')
       cy.get('[data-cy="queue-track-count"]').contains(trackCount);
       cy.contains("tracks in the queue");

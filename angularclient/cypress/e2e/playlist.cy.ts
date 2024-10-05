@@ -3,6 +3,8 @@ const playlists = require("../fixtures/playlists.json");
 const TMP_PLAYLIST_NAME = "AAA Test Playlist 123";
 
 function addPlaylist(name: string) {
+  cy.log(`Adding playlist: ${name}`);
+
   cy.visit("/browse");
   cy.contains("Playlists");
   cy.contains("Directories");
@@ -60,7 +62,7 @@ describe("Save and delete a playlist", () => {
 describe("Add multiple playlists", () => {
   it("Add playlist", () => {
     cy.clearQueue();
-    
+
     playlists.forEach((playlistName: string) => {
       addPlaylist(playlistName);
       cy.visit("/");
@@ -70,8 +72,8 @@ describe("Add multiple playlists", () => {
         1,
       );
 
-      const trackCount = parseInt(playlistName.replace("last_", ""));      
-      cy.scrollTo('bottom')
+      const trackCount = parseInt(playlistName.replace("last_", ""));
+      cy.scrollTo("bottom");
       cy.get('[data-cy="queue-track-count"]').contains(trackCount);
       cy.contains("tracks in the queue");
 

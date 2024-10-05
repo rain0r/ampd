@@ -44,11 +44,7 @@ function customCommand(param: any): void {
 
 Cypress.Commands.add("clearQueue", () => {
   cy.visit("/");
-  cy.get('[data-cy="clear-queue-btn"]').then(($btn) => {
-    if (!$btn.is(":disabled")) {
-      cy.wrap($btn).click();
-    }
-  });
+  cy.get("body").type("{C}");
   cy.get('[data-cy="cover"]').should("not.exist");
   cy.contains("No tracks.");
 });

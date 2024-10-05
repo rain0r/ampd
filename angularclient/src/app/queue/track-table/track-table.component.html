@@ -32,8 +32,11 @@
     <span *ngIf="trackTableData.dataSource.data.length > 0" class="self-end">
       <span [ngPlural]="trackTableData.dataSource.data.length" class="self-end">
         <ng-template ngPluralCase="=1">1 track </ng-template>
-        <ng-template ngPluralCase="other" 
-          ><span cy-data="queue-track-count">{{ trackTableData.totalElements }}</span> tracks</ng-template
+        <ng-template ngPluralCase="other"
+          ><span data-cy="queue-track-count">{{
+            trackTableData.totalElements
+          }}</span>
+          tracks</ng-template
         >
       </span>
       in the queue.

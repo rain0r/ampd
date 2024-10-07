@@ -37,7 +37,6 @@ All `ampd` settings can be configured via this file.
 
 ```sh
 FROM eclipse-temurin:17
-VOLUME /tmp
 COPY ampd.jar ampd.jar
 COPY application.properties application.properties
 ENTRYPOINT ["java", "-jar", "/ampd.jar"]

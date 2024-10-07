@@ -31,7 +31,7 @@ To run a (stable) release of `ampd`, download the latest [release](https://githu
 it to `ampd.jar`.
 Create a file `Dockerfile` (in the same directory) with this content:
 
-Also create an empty file `ampd.properties` (or
+Also create an empty file `application.properties` (or
 copy [application.properties](https://github.com/rain0r/ampd/blob/master/src/main/resources/application.properties)).
 All `ampd` settings can be configured via this file.
 
@@ -39,17 +39,24 @@ All `ampd` settings can be configured via this file.
 FROM eclipse-temurin:17
 VOLUME /tmp
 COPY ampd.jar ampd.jar
-COPY ampd.properties application.properties
+COPY application.properties application.properties
 ENTRYPOINT ["java", "-jar", "/ampd.jar"]
 EXPOSE 8080
 ```
 
-Then create and run the release:
+Then create the docker image:
 
 ```sh
 docker build . -t ampd
+```
+
+And run it with:
+
+```sh
 docker run -p 8080:8080 ampd
 ```
+
+Visit `ampd` on http://localhost:8080/.
 
 # Build from source
 

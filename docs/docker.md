@@ -36,7 +36,7 @@ ENTRYPOINT ["java", "-jar", "/ampd.jar"]
 EXPOSE 8080
 ```
 
-Also create an empty file `ampd.properties` (or copy [applicaiton.properties](https://github.com/rain0r/ampd/blob/master/src/main/resources/application.properties)).
+Also create an empty file `ampd.properties` (or copy [application.properties](https://github.com/rain0r/ampd/blob/master/src/main/resources/application.properties)).
 All `ampd` settings can be configured via this file.
 
 

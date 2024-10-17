@@ -1,0 +1,40 @@
+<div class="py-8">
+  <div
+    *ngIf="
+      pagedAlbums$ | async as pagedAlbums;
+      then albumsTemplate;
+      else loadingTemplate
+    "
+  ></div>
+
+  <ng-container>
+    <ng-template #albumsTemplate let-pagedAlbums>
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-x-6 gap-y-12">
+        <app-album-item
+          *ngFor="let album of pagedAlbums.content"
+          [album]="album"
+        ></app-album-item>
+      </div>
+
+      <div
+        class="mt-5"
+        [hidden]="
+          pagedAlbums.content.length === 0 || pagedAlbums.totalPages < 2
+        "
+      >
+        <mat-paginator
+          [length]="pagedAlbums.totalElements"
+          [pageIndex]="pagedAlbums.number"
+          [pageSize]="pagedAlbums.size"
+          [pageSizeOptions]="[]"
+          [showFirstLastButtons]="pagedAlbums.totalPages > 1"
+          (page)="handlePage($event)"
+        ></mat-paginator>
+      </div>
+    </ng-template>
+
+    <ng-template #loadingTemplate>
+      <mat-spinner></mat-spinner>
+    </ng-template>
+  </ng-container>
+</div>

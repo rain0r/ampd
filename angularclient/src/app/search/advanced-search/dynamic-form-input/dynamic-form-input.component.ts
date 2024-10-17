@@ -1,6 +1,6 @@
 import { Component, Input } from "@angular/core";
 import { FormGroup } from "@angular/forms";
-import { FormField } from "../shared/search/form-field";
+import { FormField } from "../../../shared/search/form-field";
 
 @Component({
   selector: "app-dynamic-form-input",

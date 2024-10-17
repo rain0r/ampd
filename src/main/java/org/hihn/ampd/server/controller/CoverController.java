@@ -1,5 +1,6 @@
 package org.hihn.ampd.server.controller;
 
+import jakarta.servlet.http.HttpServletResponse;
 import org.hihn.ampd.server.service.albumart.AlbumArtService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -48,7 +49,8 @@ public class CoverController {
 
 	@RequestMapping(value = { "/find-album-cover" }, produces = MediaType.IMAGE_JPEG_VALUE)
 	public @ResponseBody byte[] findAlbumCoverForArtistAndName(@RequestParam("albumName") String albumName,
-			@RequestParam("artistName") String artistName) {
+			@RequestParam("artistName") String artistName, HttpServletResponse response) {
+		response.addHeader("Cache-Control", "max-age=604800, immutable");
 		return albumArtService.findAlbumCoverForAlbum(albumName, artistName)
 			.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 	}

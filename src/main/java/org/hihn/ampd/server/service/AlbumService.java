@@ -54,7 +54,12 @@ public class AlbumService {
 		this.ampdSettings = ampdSettings;
 	}
 
-	@Scheduled(fixedDelay = 1, timeUnit = TimeUnit.HOURS)
+	/**
+	 * Loads all albums in a cache. Theses albums can be viewed under
+	 * {@code /browse/albums}.
+	 * @return All albums in the MPD database.
+	 */
+	@Scheduled(fixedDelay = 60, initialDelay = 1, timeUnit = TimeUnit.MINUTES)
 	public Set<MPDAlbum> fillAlbumsCache() {
 		LOG.trace("START fillAlbumsCache");
 		albums = mpd.getMusicDatabase().getAlbumDatabase().listAllAlbums().parallelStream().filter(album -> {
@@ -94,11 +99,11 @@ public class AlbumService {
 
 	public PageImpl<MPDAlbum> listAllAlbums(String searchTermP, int pageIndex, Integer pageSize, String sortBy) {
 		String searchTerm = searchTermP.toLowerCase().trim();
+
 		List<MPDAlbum> filteredAlbums = albums.stream()
 			.filter(album -> album.getName().toLowerCase().contains(searchTerm)
 					|| album.getAlbumArtist().toLowerCase().contains(searchTerm)
-					|| album.getArtistNames().get(0).toLowerCase().contains(searchTerm))
-
+					|| album.getArtistNames().stream().anyMatch(name -> name.toLowerCase().contains(searchTerm)))
 			.sorted(Comparator.comparing(album -> {
 				if (sortBy.equals(SortBy.ALBUM.getKey())) {
 					return album.getName();

@@ -10,6 +10,7 @@ import { ActivatedRoute } from "@angular/router";
 import { BehaviorSubject, Observable } from "rxjs";
 import { distinctUntilChanged, map } from "rxjs/operators";
 import { FrontendSettingsService } from "src/app/service/frontend-settings.service";
+import { SettingsService } from "src/app/service/settings.service";
 import {
   FilterMsg,
   InternMsgType,
@@ -39,6 +40,7 @@ export class BrowseNavigationComponent implements OnInit {
   displayGenres$: Observable<boolean>;
   displayRadio$: Observable<boolean>;
   displayBrowseClearQueue$: Observable<boolean>;
+  displayRecentlyListened$: Observable<boolean>;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -47,6 +49,7 @@ export class BrowseNavigationComponent implements OnInit {
     private messageService: MsgService,
     private notificationService: NotificationService,
     private queueService: QueueService,
+    private settingsService: SettingsService,
   ) {
     this.displayAlbums$ = this.fsService.getBoolValue$(
       SettingKeys.DISPLAY_ALBUMS,
@@ -59,6 +62,9 @@ export class BrowseNavigationComponent implements OnInit {
     );
     this.displayBrowseClearQueue$ = this.fsService.getBoolValue$(
       SettingKeys.DISPLAY_BROWSE_CLEAR_QUEUE,
+    );
+    this.displayRecentlyListened$ = this.fsService.getBoolValue$(
+      SettingKeys.DISPLAY_RECENTLY_LISTENED,
     );
 
     this.activatedRoute.queryParamMap

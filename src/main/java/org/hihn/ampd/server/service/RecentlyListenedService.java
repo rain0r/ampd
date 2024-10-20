@@ -1,21 +1,23 @@
 package org.hihn.ampd.server.service;
 
+import org.bff.javampd.song.MPDSong;
 import org.hihn.ampd.server.model.AmpdSettings;
-import org.hihn.listenbrainz.ApiException;
-import org.hihn.listenbrainz.LbCoreApi;
-import org.hihn.listenbrainz.ListensForUserPayloadListensInner;
-import org.hihn.listenbrainz.ValidateToken;
+import org.hihn.listenbrainz.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class RecentlyListenedService {
 
 	private static final Logger LOG = LoggerFactory.getLogger(RecentlyListenedService.class);
+
+	private final int MAX_RESULTS = 10;
+
+	private final SearchService searchService;
 
 	private final AmpdSettings ampdSettings;
 
@@ -23,20 +25,48 @@ public class RecentlyListenedService {
 
 	private String lbUsername = null;
 
-	public RecentlyListenedService(AmpdSettings ampdSettings) {
+	public RecentlyListenedService(SearchService searchService, AmpdSettings ampdSettings) {
+		this.searchService = searchService;
 		this.ampdSettings = ampdSettings;
 		buildAuth();
 	}
 
-	public List<ListensForUserPayloadListensInner> getRecentlyListened() {
-		List<ListensForUserPayloadListensInner> ret = new ArrayList<>();
+	public LinkedHashSet<String> getRecentlyListened() {
+		LinkedHashSet<String> albums = new LinkedHashSet<>();
+		Set<String> alreadySearched = new TreeSet<>();
+
 		try {
-			ret = lbCoreApi.listensForUser(lbUsername).execute().getPayload().getListens();
+			List<ListensForUserPayloadListensInner> response = Objects
+				.requireNonNull(lbCoreApi.listensForUser(lbUsername).count(200).execute().getPayload().getListens());
+			response.forEach(v -> {
+
+				if (albums.size() == MAX_RESULTS) {
+					return;
+				}
+
+				TrackMetadata metadata = Objects.requireNonNull(v.getTrackMetadata());
+
+				String artist = Objects.requireNonNull(metadata.getArtistName());
+				String album = Objects.requireNonNull(metadata.getReleaseName());
+
+				// Abort if we already searched MPD for this album and artist
+				String pair = artist + "-" + album;
+				if (alreadySearched.contains(pair)) {
+					return;
+				}
+
+				// Check, if we have this song in the database
+				Map<String, String> searchParams = Map.of("album", album, "artist", artist);
+				PageImpl<MPDSong> result = searchService.advSearch(searchParams, 0, 1);
+				result.stream().findFirst().ifPresent(song -> albums.add(song.getAlbumName()));
+
+				alreadySearched.add(pair);
+			});
 		}
-		catch (ApiException e) {
+		catch (Exception e) {
 			LOG.error("Could not get listensForUser, username={}", lbUsername, e);
 		}
-		return ret;
+		return albums;
 	}
 
 	private void buildAuth() {

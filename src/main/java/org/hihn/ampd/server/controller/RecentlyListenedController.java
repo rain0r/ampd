@@ -1,12 +1,11 @@
 package org.hihn.ampd.server.controller;
 
 import org.hihn.ampd.server.service.RecentlyListenedService;
-import org.hihn.listenbrainz.ListensForUserPayloadListensInner;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
+import java.util.LinkedHashSet;
 
 @RestController
 @RequestMapping("/api/recently-listened")
@@ -19,7 +18,7 @@ public class RecentlyListenedController {
 	}
 
 	@GetMapping("/albums")
-	public List<ListensForUserPayloadListensInner> getAlbums() {
+	public LinkedHashSet<String> getAlbums() {
 		return recentlyListenedService.getRecentlyListened();
 	}
 

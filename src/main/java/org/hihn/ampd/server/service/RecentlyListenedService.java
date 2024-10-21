@@ -68,6 +68,9 @@ public class RecentlyListenedService {
 							// Set the first artist name as albumArtist
 							item.setAlbumArtist(item.getArtistNames().get(0));
 						}
+						// Clear artist names so that an album doesn't appear twice if
+						// there is a feature involved
+						item.getArtistNames().clear();
 						return item;
 					});
 

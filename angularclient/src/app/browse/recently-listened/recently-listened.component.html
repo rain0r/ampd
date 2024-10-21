@@ -1,8 +1,8 @@
 <div *ngIf="albums$ | async as albums">
-    <div class="grid grid-cols-1 md:grid-cols-4 gap-x-6 gap-y-12">
-      <app-album-item
-        *ngFor="let album of albums"
-        [album]="album"
-      ></app-album-item>
-    </div>
-    </div>
+  <div class="grid grid-cols-1 md:grid-cols-4 gap-x-6 gap-y-12">
+    <app-album-item
+      *ngFor="let album of albums"
+      [album]="album"
+    ></app-album-item>
+  </div>
+</div>

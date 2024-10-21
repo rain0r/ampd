@@ -14,5 +14,4 @@ export class RecentlyListenedComponent {
   constructor(private recentlyListenedService: RecentlyListenedService) {
     this.albums$ = this.recentlyListenedService.getAlbums();
   }
-
 }

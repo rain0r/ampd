@@ -63,7 +63,8 @@ public class RecentlyListenedService {
 					.filter(item -> item.getName().equals(album))
 					.findFirst()
 					.map(item -> {
-						if (item.getAlbumArtist().isBlank() && !item.getArtistNames().isEmpty()) {
+						if ((item.getAlbumArtist() == null || item.getAlbumArtist().isBlank())
+								&& !item.getArtistNames().isEmpty()) {
 							// Set the first artist name as albumArtist
 							item.setAlbumArtist(item.getArtistNames().get(0));
 						}

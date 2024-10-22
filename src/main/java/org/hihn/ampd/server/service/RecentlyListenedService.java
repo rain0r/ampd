@@ -61,8 +61,13 @@ public class RecentlyListenedService {
 					.listAlbumsByArtist(new MPDArtist(artist))
 					.stream()
 					.filter(item -> item.getName().equals(album))
+					.filter(item -> item.getAlbumArtist() != null && !item.getArtistNames().isEmpty())
 					.findFirst()
 					.map(item -> {
+						if (item.getName().contains("Leaf")) {
+							System.out.println(1);
+						}
+
 						if ((item.getAlbumArtist() == null || item.getAlbumArtist().isBlank())
 								&& !item.getArtistNames().isEmpty()) {
 							// Set the first artist name as albumArtist

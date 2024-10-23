@@ -29,9 +29,9 @@ import { ConfirmDeleteStreamDialogComponent } from "./browse/radio-streams/confi
 import { ImportRadioStreamsComponent } from "./browse/radio-streams/import-radio-streams/import-radio-streams.component";
 import { RadioStreamListComponent } from "./browse/radio-streams/radio-stream-list/radio-stream-list.component";
 import { RadioStreamsComponent } from "./browse/radio-streams/radio-streams.component";
+import { RecentlyListenedComponent } from "./browse/recently-listened/recently-listened.component";
 import { TrackInfoDialogComponent } from "./browse/tracks/track-info-dialog/track-info-dialog.component";
 import { TracksComponent } from "./browse/tracks/tracks.component";
-import { DynamicFormInputComponent } from "./dynamic-form-input/dynamic-form-input.component";
 import { HelpDialogComponent } from "./navbar/help-dialog/help-dialog.component";
 import { NavbarComponent } from "./navbar/navbar.component";
 import { ControlPanelComponent } from "./queue/control-panel/control-panel.component";
@@ -45,6 +45,7 @@ import { AddStreamDialogComponent } from "./queue/track-table/add-stream-dialog/
 import { TrackTableComponent } from "./queue/track-table/track-table.component";
 import { VolumeSliderComponent } from "./queue/volume-slider/volume-slider.component";
 import { AdvancedSearchComponent } from "./search/advanced-search/advanced-search.component";
+import { DynamicFormInputComponent } from "./search/advanced-search/dynamic-form-input/dynamic-form-input.component";
 import { SearchComponent } from "./search/search.component";
 import { AmpdRxStompConfigService } from "./service/ampd-rx-stomp-config.service";
 import { AmpdRxStompService } from "./service/ampd-rx-stomp.service";
@@ -70,7 +71,9 @@ import { SecondsToHhMmSsPipe } from "./shared/pipes/seconds-to-hh-mm-ss.pipe";
 import { SecondsToMmSsPipe } from "./shared/pipes/seconds-to-mm-ss.pipe";
 import { StyleManager } from "./shared/style-manager";
 import { TrackTableDataComponent } from "./shared/track-table-data/track-table-data.component";
-import { RecentlyListenedComponent } from "./browse/recently-listened/recently-listened.component";
+import { RecentlyListenedAlbumsComponent } from "./browse/recently-listened/recently-listened-albums/recently-listened-albums.component";
+import { RecentlyListenedTracksComponent } from "./browse/recently-listened/recently-listened-tracks/recently-listened-tracks.component";
+import { RecentlyListenedArtistsComponent } from "./browse/recently-listened/recently-listened-artists/recently-listened-artists.component";
 
 const prefersReducedMotion =
   typeof matchMedia === "function"
@@ -134,6 +137,9 @@ const prefersReducedMotion =
     RadioStreamsComponent,
     ConfirmDeleteStreamDialogComponent,
     RecentlyListenedComponent,
+    RecentlyListenedAlbumsComponent,
+    RecentlyListenedTracksComponent,
+    RecentlyListenedArtistsComponent,
   ],
   bootstrap: [AppComponent],
   imports: [

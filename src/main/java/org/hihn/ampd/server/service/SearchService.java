@@ -73,7 +73,7 @@ public class SearchService {
 		searchByParams(searchParams).stream().map(MPDSong::getFile).forEach(t -> mpd.getPlaylist().addSong(t));
 	}
 
-	private List<MPDSong> searchByParams(Map<String, String> searchParams) {
+	public List<MPDSong> searchByParams(Map<String, String> searchParams) {
 		ArrayList<SearchCriteria> tmpSp = new ArrayList<>();
 		for (Map.Entry<String, String> entry : searchParams.entrySet()) {
 			if (SEARCH_FIELDS.contains(entry.getKey()) && entry.getValue() != null) {

@@ -3,32 +3,13 @@
 <div class="page-title">Recently Listened</div>
 
 <mat-tab-group animationDuration="0ms" dynamicHeight>
-  <mat-tab label="Artists"></mat-tab>
   <mat-tab label="Albums">
-    <div class="py-8">
-      <div
-        *ngIf="
-          albums$ | async as albums;
-          then courseInfoTemplate;
-          else loadingTemplate
-        "
-      ></div>
-
-      <ng-container>
-        <ng-template #courseInfoTemplate let-albums>
-          <div class="grid grid-cols-1 md:grid-cols-4 gap-x-6 gap-y-12">
-            <app-album-item
-              *ngFor="let album of albums"
-              [album]="album"
-            ></app-album-item>
-          </div>
-        </ng-template>
-
-        <ng-template #loadingTemplate>
-          <mat-spinner></mat-spinner>
-        </ng-template>
-      </ng-container>
-    </div>
+    <app-recently-listened-albums></app-recently-listened-albums>
   </mat-tab>
-  <mat-tab label="Tracks"></mat-tab>
+  <mat-tab label="Artists">
+    <app-recently-listened-artists></app-recently-listened-artists>
+  </mat-tab>
+  <mat-tab label="Tracks">
+    <app-recently-listened-tracks></app-recently-listened-tracks>
+  </mat-tab>
 </mat-tab-group>

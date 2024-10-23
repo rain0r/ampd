@@ -1,6 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { map } from "rxjs";
+import { Observable, map } from "rxjs";
+import { Track } from "../shared/messages/incoming/track";
 import { MpdAlbum } from "../shared/model/http/album";
 import { SettingsService } from "./settings.service";
 
@@ -13,7 +14,7 @@ export class RecentlyListenedService {
     private settingsService: SettingsService,
   ) {}
 
-  getAlbums() {
+  getAlbums(): Observable<MpdAlbum[]> {
     const url = `${this.settingsService.getBackendContextAddr()}api/browse/recently-listened/albums`;
     return this.http.get<MpdAlbum[]>(url).pipe(
       map((albums) => {
@@ -26,5 +27,10 @@ export class RecentlyListenedService {
         return albums;
       }),
     );
+  }
+
+  getTracks(): Observable<Track[]> {
+    const url = `${this.settingsService.getBackendContextAddr()}api/browse/recently-listened/tracks`;
+    return this.http.get<Track[]>(url);
   }
 }

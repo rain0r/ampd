@@ -64,15 +64,6 @@ public class RecentlyListenedService {
 					.filter(item -> item.getAlbumArtist() != null && !item.getArtistNames().isEmpty())
 					.findFirst()
 					.map(item -> {
-						if (item.getName().contains("Leaf")) {
-							System.out.println(1);
-						}
-
-						if ((item.getAlbumArtist() == null || item.getAlbumArtist().isBlank())
-								&& !item.getArtistNames().isEmpty()) {
-							// Set the first artist name as albumArtist
-							item.setAlbumArtist(item.getArtistNames().get(0));
-						}
 						// Clear artist names so that an album doesn't appear twice if
 						// there is a feature involved
 						item.getArtistNames().clear();

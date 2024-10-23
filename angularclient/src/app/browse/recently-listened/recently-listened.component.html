@@ -2,6 +2,12 @@
 
 <div class="page-title">Recently Listened</div>
 
+<mat-tab-group animationDuration="0ms" dynamicHeight>
+  <mat-tab label="Artists"></mat-tab>
+  <mat-tab label="Albums"></mat-tab>
+  <mat-tab label="Tracks"></mat-tab>
+</mat-tab-group>
+
 <div
   *ngIf="
     albums$ | async as albums;

@@ -1,0 +1,24 @@
+<div class="py-8">
+  <div
+    *ngIf="
+      albums$ | async as albums;
+      then courseInfoTemplate;
+      else loadingTemplate
+    "
+  ></div>
+
+  <ng-container>
+    <ng-template #courseInfoTemplate let-albums>
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-x-6 gap-y-12">
+        <app-album-item
+          *ngFor="let album of albums"
+          [album]="album"
+        ></app-album-item>
+      </div>
+    </ng-template>
+
+    <ng-template #loadingTemplate>
+      <mat-spinner></mat-spinner>
+    </ng-template>
+  </ng-container>
+</div>

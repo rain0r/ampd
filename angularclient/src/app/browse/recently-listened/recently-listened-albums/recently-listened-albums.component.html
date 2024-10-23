@@ -1,14 +1,10 @@
 <div class="py-8">
   <div
-    *ngIf="
-      albums$ | async as albums;
-      then courseInfoTemplate;
-      else loadingTemplate
-    "
+    *ngIf="albums$ | async as albums; then albumsTemplate; else loadingTemplate"
   ></div>
 
   <ng-container>
-    <ng-template #courseInfoTemplate let-albums>
+    <ng-template #albumsTemplate let-albums>
       <div class="grid grid-cols-1 md:grid-cols-4 gap-x-6 gap-y-12">
         <app-album-item
           *ngFor="let album of albums"

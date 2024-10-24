@@ -8,6 +8,7 @@ import org.hihn.ampd.server.model.AmpdSettings;
 import org.hihn.listenbrainz.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -41,6 +42,7 @@ public class RecentlyListenedService {
 		buildAuth();
 	}
 
+	@Cacheable
 	public LinkedHashSet<MPDAlbum> getRecentlyListenedAlbums() {
 		LinkedHashSet<MPDAlbum> albums = new LinkedHashSet<>();
 		Set<String> alreadySearched = new TreeSet<>();

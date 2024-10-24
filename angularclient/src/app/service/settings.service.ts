@@ -37,6 +37,11 @@ export class SettingsService {
       .pipe(map((usage) => usage.coverDiskUsage));
   }
 
+  isListenBrainzTokenValid(): Observable<boolean> {
+    const url = `${this.getBackendContextAddr()}api/listenbrainz-token-valid`;
+    return this.http.get<boolean>(url);
+  }
+
   /**
    * Returns the api endpoint of the backend that looks for covers in a directory specified by
    * a directory path.

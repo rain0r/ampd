@@ -29,6 +29,7 @@ import { ConfirmDeleteStreamDialogComponent } from "./browse/radio-streams/confi
 import { ImportRadioStreamsComponent } from "./browse/radio-streams/import-radio-streams/import-radio-streams.component";
 import { RadioStreamListComponent } from "./browse/radio-streams/radio-stream-list/radio-stream-list.component";
 import { RadioStreamsComponent } from "./browse/radio-streams/radio-streams.component";
+import { RecentlyListenedAlbumsComponent } from "./browse/recently-listened/recently-listened-albums/recently-listened-albums.component";
 import { RecentlyListenedComponent } from "./browse/recently-listened/recently-listened.component";
 import { TrackInfoDialogComponent } from "./browse/tracks/track-info-dialog/track-info-dialog.component";
 import { TracksComponent } from "./browse/tracks/tracks.component";
@@ -71,9 +72,6 @@ import { SecondsToHhMmSsPipe } from "./shared/pipes/seconds-to-hh-mm-ss.pipe";
 import { SecondsToMmSsPipe } from "./shared/pipes/seconds-to-mm-ss.pipe";
 import { StyleManager } from "./shared/style-manager";
 import { TrackTableDataComponent } from "./shared/track-table-data/track-table-data.component";
-import { RecentlyListenedAlbumsComponent } from "./browse/recently-listened/recently-listened-albums/recently-listened-albums.component";
-import { RecentlyListenedTracksComponent } from "./browse/recently-listened/recently-listened-tracks/recently-listened-tracks.component";
-import { RecentlyListenedArtistsComponent } from "./browse/recently-listened/recently-listened-artists/recently-listened-artists.component";
 
 const prefersReducedMotion =
   typeof matchMedia === "function"
@@ -138,8 +136,6 @@ const prefersReducedMotion =
     ConfirmDeleteStreamDialogComponent,
     RecentlyListenedComponent,
     RecentlyListenedAlbumsComponent,
-    RecentlyListenedTracksComponent,
-    RecentlyListenedArtistsComponent,
   ],
   bootstrap: [AppComponent],
   imports: [

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * Endpoint to retrieve settings.
@@ -73,6 +74,19 @@ public class SettingsController {
 	@PostMapping("/rescan-database")
 	public void rescanDatabase() {
 		mpd.getAdmin().rescan();
+	}
+
+	@GetMapping("/listenbrainz-token-valid")
+	public boolean isListenBrainzTokenValid() {
+		boolean listenBrainzValid;
+		try {
+			UUID uuid = UUID.fromString(ampdSettings.getListenbrainzToken());
+			listenBrainzValid = !uuid.toString().isBlank();
+		}
+		catch (IllegalArgumentException e) {
+			listenBrainzValid = false;
+		}
+		return listenBrainzValid;
 	}
 
 }

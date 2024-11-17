@@ -1,7 +1,6 @@
 # ampd
 
-ampd is a web-based client for [MPD](https://www.musicpd.org/). It is build with `Angular` and
-`Spring Boot`.
+ampd is a free web-based client for [MPD](https://www.musicpd.org/). 
 
 ## Features
 
@@ -13,19 +12,16 @@ ampd is a web-based client for [MPD](https://www.musicpd.org/). It is build with
 * Support for album cover art
   * Loads and displays image files from the music directory
   * Support for the [MusicBrainz Cover Art Archive/API](https://wiki.musicbrainz.org/Cover_Art_Archive/API)
-* Database support
-  * Directories
-  * Albums
-  * Genres
-  * Search / browse
 * Playlists
-* Customizable front- and backend
+  * View / create / delete
+* Customizable
+  * Multiple features can be switched on and off
 * `ncmcpp`-like shortcuts
-  * `>` for next track etc.
-* Internet radio / streams support
-* Support for scrobbling (Last.fm and ListenBrainz)
-* Shows similar tracks via Last.fm (Api token required)
-* Comes as a single `jar`-file
+* Support for Internet Radio Streams
+* Support for scrobbling 
+  * Last.fm
+  * ListenBrainz
+* Distributed as a single `jar`-file
 
 ### Caveats
 
@@ -36,7 +32,7 @@ ampd is a web-based client for [MPD](https://www.musicpd.org/). It is build with
 
 Desktop (dark theme)             |  Mobile (light heme)
 :-------------------------:|:-------------------------:
-![Screenshot of ampd on a desktop](.github/desktop.png)  | ![Screenshot of ampd on a mobile device](.github/mobile.png)
+![Screenshot of ampd on a desktop](assets/screenshots/desktop.png)  | ![Screenshot of ampd on a mobile device](assets/screenshots/mobile.png)
 
 More screenshots can be found in the [**wiki**](https://github.com/rain0r/ampd/wiki/Screenshots).
 

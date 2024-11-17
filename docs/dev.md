@@ -4,7 +4,7 @@
 
 Dependencies:
 
-- [JDK 11](https://openjdk.java.net/projects/jdk/11/)
+- Java 17
 - [Node.js](https://nodejs.org/)
 
 ---

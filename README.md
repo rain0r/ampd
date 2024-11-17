@@ -44,7 +44,11 @@ To start, just download the latest release start it via:
 java -jar ampd.jar
 ```
 
-For more options, please see: [usage.md](docs/usage.md), [deployment.md](docs/deployment.md) or [docker.md](docs/docker.md)
+For more options, please see: [usage.md](docs/usage.md)
+
+If you want to deploy `ampd` behind another webserver via reverse proxy, please see: [deployment.md](docs/deployment.md) 
+
+To run `ampd` with docker, please see: [docker.md](docs/docker.md)
 
 ## Contributing / hacking / developing
 

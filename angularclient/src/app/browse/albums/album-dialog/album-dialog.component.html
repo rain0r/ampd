@@ -1,27 +1,41 @@
-<h2 mat-dialog-title>{{ album.albumArtist }} — {{ album.name }}</h2>
 <div mat-dialog-content>
-  <div class="grid place-items-center" *ngIf="isLoadingResults">
-    <mat-spinner></mat-spinner>
-  </div>
-  <div class="flex flex-col md:flex-row">
-    <div class="flex flex-col flex-grow gap-y-2 md:gap-y-4">
-      <div class="flex flex-col md:flex-row gap-x-2"></div>
-    </div>
-    <div>
-      <img
-        [src]="album.albumCoverUrl"
-        [title]="album.name"
-        alt="Cover of {{ album.name }}"
-        class="h-64 w-full object-cover md:h-full md:w-64"
-        mat-card-image
-      />
-    </div>
-  </div>
+  <div
+    *ngIf="
+      trackTableData$ | async as trackTableData;
+      then tableTemplate;
+      else loadingTemplate
+    "
+  ></div>
 
-  <!-- Tracks in this dir -->
-  <app-track-data-table
-    [trackTableData]="trackTableData"
-  ></app-track-data-table>
+  <ng-container>
+    <ng-template #loadingTemplate>
+      <mat-spinner></mat-spinner>
+    </ng-template>
+
+    <ng-template #tableTemplate let-trackTableData>
+      <div class="flex flex-col md:flex-row">
+        <div class="flex flex-col self-center flex-grow gap-y-2 md:gap-y-4">
+          <div class="flex flex-col md:flex-row gap-x-2">
+            {{ album.albumArtist }} — {{ album.name }}
+          </div>
+        </div>
+        <div>
+          <img
+            [src]="album.albumCoverUrl"
+            [title]="album.name"
+            alt="Cover of {{ album.name }}"
+            class="h-64 w-full object-cover md:h-full md:w-64"
+            mat-card-image
+          />
+        </div>
+      </div>
+
+      <!-- Tracks in this album -->
+      <app-track-data-table
+        [trackTableData]="trackTableData"
+      ></app-track-data-table>
+    </ng-template>
+  </ng-container>
 </div>
 
 <div mat-dialog-actions align="end">

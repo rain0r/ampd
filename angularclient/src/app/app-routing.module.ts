@@ -8,6 +8,7 @@ import { QueueComponent } from "./queue/queue.component";
 import { AdvancedSearchComponent } from "./search/advanced-search/advanced-search.component";
 import { SearchComponent } from "./search/search.component";
 import { SettingsComponent } from "./settings/settings.component";
+import { RecentlyListenedComponent } from "./browse/recently-listened/recently-listened.component";
 
 const routes: Routes = [
   { path: "", component: QueueComponent },
@@ -15,6 +16,7 @@ const routes: Routes = [
   { path: "browse/albums", component: AlbumsComponent },
   { path: "browse/genres", component: GenresComponent },
   { path: "browse/radio-streams", component: RadioStreamsComponent },
+  { path: "browse/recently-listened", component: RecentlyListenedComponent },
   { path: "search", component: SearchComponent },
   { path: "adv-search", component: AdvancedSearchComponent },
   { path: "settings", component: SettingsComponent },

@@ -106,7 +106,7 @@
           </p>
           <p>
             To persist your changes, write them to the
-            <span class="ampd-code">application.properties</span> file. See the
+            <span class="ampd-code">application.properties</span> file. See
             <a
               class="ampd-code"
               href="https://github.com/rain0r/ampd/blob/master/docs/install.md"
@@ -140,8 +140,14 @@
           </mat-form-field>
         </mat-card-content>
         <mat-card-footer class="p-0 md:p-4 md:pt-8">
-          Change this setting with:
-          <span class="ampd-code">-D{{ setting.key }}=&#60;value&#62;</span>
+          <div class="my-2">
+            Setting in <span class="font-mono">application.properties</span>:
+            <span class="ampd-code">{{ setting.key }}=&#60;value&#62;</span>
+          </div>
+          <div class="my-2">
+            Command line parameter:
+            <span class="ampd-code">-D{{ setting.key }}=&#60;value&#62;</span>
+          </div>
         </mat-card-footer>
       </mat-card>
     </div>

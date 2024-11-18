@@ -24,9 +24,7 @@ public class AlbumController {
 	@GetMapping("/albums")
 	public PageImpl<MPDAlbum> listAllAlbums(@RequestParam(value = "searchTerm", defaultValue = "") String searchTerm,
 			@RequestParam(defaultValue = "0") int pageIndex, @RequestParam(required = false) Integer pageSize,
-			@RequestParam(value = "sortBy", defaultValue = "") String sortBy
-
-	) {
+			@RequestParam(value = "sortBy", defaultValue = "") String sortBy) {
 		return albumService.listAllAlbums(searchTerm, pageIndex, pageSize, sortBy);
 	}
 

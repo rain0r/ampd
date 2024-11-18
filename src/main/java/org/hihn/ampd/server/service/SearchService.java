@@ -50,7 +50,7 @@ public class SearchService {
 	}
 
 	public PageImpl<MPDSong> advSearch(Map<String, String> searchParams, int pageIndex, Integer pageSize) {
-		List<MPDSong> ret = searcByParams(searchParams);
+		List<MPDSong> ret = searchByParams(searchParams);
 		Pageable pageable = PageRequest.of(pageIndex, getPageSize(pageSize));
 		PagedListHolder<MPDSong> pages = new PagedListHolder<>(ret);
 		pages.setPage(pageIndex);
@@ -70,10 +70,10 @@ public class SearchService {
 	}
 
 	public void addTracks(Map<String, String> searchParams) {
-		searcByParams(searchParams).stream().map(MPDSong::getFile).forEach(t -> mpd.getPlaylist().addSong(t));
+		searchByParams(searchParams).stream().map(MPDSong::getFile).forEach(t -> mpd.getPlaylist().addSong(t));
 	}
 
-	private List<MPDSong> searcByParams(Map<String, String> searchParams) {
+	public List<MPDSong> searchByParams(Map<String, String> searchParams) {
 		ArrayList<SearchCriteria> tmpSp = new ArrayList<>();
 		for (Map.Entry<String, String> entry : searchParams.entrySet()) {
 			if (SEARCH_FIELDS.contains(entry.getKey()) && entry.getValue() != null) {

@@ -1,5 +1,5 @@
 <div
-  class="flex flex-wrap justify-between items-center mt-2 md:justify-start md:gap-x-2"
+  class="flex flex-wrap gap-y-2 justify-between items-center mt-2 md:justify-start md:gap-x-2"
 >
   <!--Return to top -->
   <div class="self-center">
@@ -84,6 +84,21 @@
     >
       <mat-icon>radio</mat-icon>
       <span class="hidden md:inline"> Radio </span>
+    </button>
+  </div>
+
+  <!--Recently Listened-->
+  <div
+    *ngIf="getParamDir === '/' && (displayRecentlyListened$ | async) === true"
+  >
+    <button
+      mat-raised-button
+      [routerLink]="['/browse/recently-listened']"
+      routerLinkActive="mat-accent"
+      title="Recently Listened"
+    >
+      <mat-icon>replay</mat-icon>
+      <span class="hidden md:inline">Recent</span>
     </button>
   </div>
 

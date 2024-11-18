@@ -7,6 +7,7 @@ import org.hihn.ampd.server.serializer.HelpText;
 import org.hihn.ampd.server.serializer.Types;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,6 +27,10 @@ public class SettingsService {
 	public List<BackendSettings> getFields() {
 		return FieldUtils.getFieldsListWithAnnotation(AmpdSettings.class, HelpText.class).stream().map(field -> {
 			HelpText annotation = field.getAnnotation(HelpText.class);
+
+			Value property_name = field.getAnnotation(Value.class);
+			String key = property_name.value().split(":")[0].substring(2);
+
 			String value = "";
 			field.setAccessible(true);
 			String type = getType(String.valueOf(field.getType()));
@@ -35,7 +40,7 @@ public class SettingsService {
 			catch (IllegalAccessException e) {
 				LOG.error("Error retrieving value for: {}", field.getName());
 			}
-			return new BackendSettings(annotation.name(), annotation.hint(), field.getName(), type, value);
+			return new BackendSettings(annotation.name(), annotation.hint(), key, type, value);
 		}).collect(Collectors.toList());
 	}
 

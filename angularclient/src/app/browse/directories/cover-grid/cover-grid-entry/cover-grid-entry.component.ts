@@ -1,9 +1,10 @@
+import { HttpClient } from "@angular/common/http";
 import { Component, Input, OnInit } from "@angular/core";
+import { of } from "rxjs";
 import { ControlPanelService } from "../../../../service/control-panel.service";
 import { NotificationService } from "../../../../service/notification.service";
 import { QueueService } from "../../../../service/queue.service";
 import { Directory } from "../../../../shared/messages/incoming/directory";
-import { HttpClient } from "@angular/common/http";
 
 @Component({
   selector: "app-cover-grid-entry",
@@ -12,6 +13,7 @@ import { HttpClient } from "@angular/common/http";
 })
 export class CoverGridEntryComponent implements OnInit {
   @Input() directory: Directory | null = null;
+  isDisplayCover$ = of(false);
   pathLink = "";
 
   constructor(
@@ -52,9 +54,10 @@ export class CoverGridEntryComponent implements OnInit {
       .head(this.directory.albumCoverUrl, { observe: "response" })
       .subscribe({
         error: () => {
-          if (this.directory) {
-            this.directory.albumCoverUrl = "assets/images/no-cover.svg";
-          }
+          this.directory = null;
+        },
+        next: () => {
+          this.isDisplayCover$ = of(true);
         },
       });
   }

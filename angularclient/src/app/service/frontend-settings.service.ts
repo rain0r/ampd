@@ -13,7 +13,7 @@ const LS_KEY = "ampd_userSettings";
   providedIn: "root",
 })
 export class FrontendSettingsService {
-  pageSizeOptions = [20, 50, 100];
+  pageSizeOptions = [5, 20, 50, 100];
 
   private settings: FrontendSetting[] = FrontendSettings;
   private settings$: Observable<FrontendSetting[]>;

@@ -66,5 +66,13 @@
 
 <!-- Cover grid -->
 <div class="mt-24">
-  <app-cover-grid [directories]="directories" [dirQp]="dirQp"></app-cover-grid>
+  <app-cover-grid
+    [directories]="
+      directories
+        | directoryFilter: filterValue
+        | directoryFilterStartLetterPipe: filterByStartCharValue
+        | slice: paginationFrom : paginationTo
+    "
+    [dirQp]="dirQp"
+  ></app-cover-grid>
 </div>

@@ -19,7 +19,6 @@ export class RecentlyListenedAlbumsComponent {
       .pipe(
         startWith({ pageIndex: null, pageSize: null }),
         switchMap((pageEvent) => {
-          console.log("switchMap");
           return this.recentlyListenedService.getAlbums(pageEvent.pageIndex);
         }),
       )

@@ -11,19 +11,19 @@ import { AmpdBrowsePayload } from "../shared/model/ampd-browse-payload";
   styleUrls: ["./browse.component.scss"],
 })
 export class BrowseComponent {
-  browsePayload: Observable<AmpdBrowsePayload>;
+  browsePayload$: Observable<AmpdBrowsePayload>;
   dirQp = "/";
   isLoading = true;
-  private browsePayload$: BehaviorSubject<AmpdBrowsePayload>;
+  private browsePayloadSource: BehaviorSubject<AmpdBrowsePayload>;
 
   constructor(
     private activatedRoute: ActivatedRoute,
     private browseService: BrowseService,
   ) {
-    this.browsePayload$ = new BehaviorSubject<AmpdBrowsePayload>(
+    this.browsePayloadSource = new BehaviorSubject<AmpdBrowsePayload>(
       browseService.buildEmptyPayload(),
     );
-    this.browsePayload = this.browsePayload$.asObservable();
+    this.browsePayload$ = this.browsePayloadSource.asObservable();
 
     // Read the query parameter identifying the current dir
     this.activatedRoute.queryParamMap
@@ -36,7 +36,7 @@ export class BrowseComponent {
         this.isLoading = true;
 
         // Empty the browse info so to prevent displaying the former objects when browsing
-        this.browsePayload$.next(browseService.buildEmptyPayload());
+        this.browsePayloadSource.next(browseService.buildEmptyPayload());
 
         this.dirQp = dir;
 
@@ -44,7 +44,7 @@ export class BrowseComponent {
           .sendBrowseReq(dir)
           .pipe(finalize(() => (this.isLoading = false)))
           .subscribe((browsePayload) =>
-            this.browsePayload$.next(browsePayload),
+            this.browsePayloadSource.next(browsePayload),
           );
       });
   }

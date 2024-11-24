@@ -74,12 +74,9 @@ export class SettingsService {
     }
 
     let backendAddr = this.fesService.getStrValue(SettingKeys.BACKEND_ADDR);
+    console.log("backendAddr", backendAddr);
     if (backendAddr === "") {
-      if (environment.production) {
-        backendAddr = window.location.origin;
-      } else {
-        backendAddr = environment.backendAddr;
-      }
+      backendAddr = window.location.origin;
       if (backendAddr.endsWith("/")) {
         // Remove trailing slash to prevent a wrong websocket address
         backendAddr = backendAddr.substring(0, backendAddr.length - 1);

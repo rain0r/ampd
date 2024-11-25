@@ -40,7 +40,6 @@
         <java.version>17</java.version>
         <project.scm.id>github</project.scm.id>
         <frontend.configuration>production</frontend.configuration>
-        <frontend.context>/</frontend.context>
         <npm.exec>bun</npm.exec>
         <skip.npm>false</skip.npm>
         <cache2k-version>2.6.1.Final</cache2k-version>
@@ -193,7 +192,7 @@
                             <arguments>
                                 <argument>build</argument>
                                 <argument>--configuration=${frontend.configuration}</argument>
-                                <argument>--base-href=${frontend.context}</argument>
+                                <argument>--base-href=./</argument>
                             </arguments>
                         </configuration>
                     </execution>

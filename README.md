@@ -29,7 +29,7 @@ More screenshots can be found in the [**wiki**](https://github.com/rain0r/ampd/w
 
 ## Running
 
-To start, just [download the latest release](https://github.com/rain0r/ampd/releases/latest) start it via: 
+To start, just [download the latest release](https://github.com/rain0r/ampd/releases/latest) and start it via: 
 
 ```sh
 java -jar ampd.jar
@@ -40,6 +40,8 @@ For more options, please see: [usage.md](docs/usage.md)
 If you want to deploy `ampd` behind another webserver via reverse proxy, please see: [deployment.md](docs/deployment.md) 
 
 To run `ampd` with docker, please see: [docker.md](docs/docker.md)
+
+There's also a [faq.md](docs/faq.md)
 
 ## Caveats
 

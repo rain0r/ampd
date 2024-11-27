@@ -1,6 +1,6 @@
 # Docker
 
-# Using Docker hub
+## Using Docker hub
 
 To get the latest version of `ampd` from Docker Hub:
 
@@ -25,39 +25,7 @@ See [env.sample](https://github.com/rain0r/ampd/blob/master/docker/env.template)
 docker run -p 8080:8080 --env-file ./env.list rain0r/ampd
 ```
 
-# Using a release
-
-To run a (stable) release of `ampd`, download the latest [release](https://github.com/rain0r/ampd/releases) and rename
-it to `ampd.jar`.
-Create a file `Dockerfile` (in the same directory) with this content:
-
-Also create an empty file `application.properties` (or
-copy [application.properties](https://github.com/rain0r/ampd/blob/master/src/main/resources/application.properties)).
-All `ampd` settings can be configured via this file.
-
-```sh
-FROM eclipse-temurin:17
-COPY ampd.jar ampd.jar
-COPY application.properties application.properties
-ENTRYPOINT ["java", "-jar", "/ampd.jar"]
-EXPOSE 8080
-```
-
-Then create the docker image:
-
-```sh
-docker build . -t ampd
-```
-
-And run it with:
-
-```sh
-docker run -p 8080:8080 ampd
-```
-
-Visit `ampd` on http://localhost:8080/.
-
-# Build from source
+## Build from source
 
 To build an image `ampd` form the `master` branch:
 

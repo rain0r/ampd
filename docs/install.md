@@ -1,6 +1,6 @@
 # Installation
 
-Download a release from [here](https://github.com/rain0r/ampd/releases) ([mirror](https://static.hihn.org/dl/ampd/)).
+Download a release from [here](https://github.com/rain0r/ampd/releases/latest)
 
 Since `ampd` is distributed as a single `jar`-file, it doesn't need a traditional installation.
 Just copy it wherever you like. `/opt/ampd` is recommended.
@@ -18,8 +18,7 @@ wget https://raw.githubusercontent.com/rain0r/ampd/master/src/main/resources/app
 Then it would look like:
 
 ```sh
-$ pwd
-/opt/ampd
+$ cd /opt/ampd
 $ ls
 ampd.jar  application.properties
 $ cat application.properties

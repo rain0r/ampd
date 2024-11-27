@@ -17,12 +17,12 @@ Please see the
 There are multiple ways to start `ampd` with different settings:
 
 * Using the `-D` parameter
-* Writing the setting to `application.properties`
-* Using the environment variables
+* Modify `application.properties`
+* Environment variables
 
 ### Using the `-D` parameter
 
-To start `ampd` on a port other than 8080:
+All settings in `application.properties` can be set via `-D`.  To start `ampd` on port 8003:
 
 ```sh
 java -jar -Dserver.port=8003 ampd.jar
@@ -41,13 +41,20 @@ echo "mpd.music.directory=/home/foo/music" >> application.properties
 java -jar ampd.jar
 ```
 
-### Using the environment variables
+### Using environment variables
+
+All properties from
+the [application.properties](https://github.com/rain0r/ampd/blob/master/src/main/resources/application.properties) can
+be set with environment variables. Replace dots with underscores and use upper case.
 
 ```sh
 MPD_MUSIC_DIRECTORY=/home/foo/music java -jar ampd.jar
 ```
+## Installation
 
----
+If you plan to run `ampd` as a service, please see  [install.md](install.md).
+
+## Reverse proxy
 
 If you plan to run `ampd` as a service behind another webserver, please see [deployment.md](deployment.md).
 

@@ -4,10 +4,7 @@ Here are some example configurations if you like to run `ampd` behind another we
 
 ## Apache
 
-### Address: `http://your-server/ampd`
-
-Please make sure to use the releases named `ampd-with-context-<version>.jar` if you plan to access
-`ampd` via `/ampd` (instead of `/`).
+Accessing `ampd` via `http://your-server/ampd`
 
 ```apache
 <VirtualHost *:80>
@@ -25,12 +22,12 @@ Please make sure to use the releases named `ampd-with-context-<version>.jar` if 
 
 ## Nginx
 
-### Address: `http://ampd.network.local/`
+Accessing `ampd` via `http://ampd.your-server/`
 
 ```nginx
 server {
     listen 80;
-    server_name ampd.network.local;
+    server_name ampd.your-server;
     server_name_in_redirect off;
     location / {
         sendfile off;

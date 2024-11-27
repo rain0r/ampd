@@ -4,7 +4,7 @@
 
 Dependencies:
 
-- Java 17
+- JDK (see `pom.xml` for the right version)
 - [Node.js](https://nodejs.org/)
 
 ---

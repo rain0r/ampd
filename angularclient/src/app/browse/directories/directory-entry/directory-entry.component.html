@@ -5,8 +5,10 @@
   *ngIf="directory !== null"
   class="browse-list-item"
 >
-  <mat-icon>folder_open</mat-icon>
-  <div class="flex-grow truncate">
+  <div class="flex items-center">
+    <mat-icon>folder_open</mat-icon>
+  </div>
+  <div class="flex-grow line-clamp-1">
     {{ directory.displayedPath }}
   </div>
   <button

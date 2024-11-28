@@ -4,7 +4,7 @@
   ></app-browse-navigation>
   <div
     *ngIf="browsePayload$ | async as browsePayload"
-    class="flex flex-col md:flex-row gap-x-4"
+    class="flex flex-col md:flex-row md:flex-wrap md:gap-x-4 md:gap-y-12"
   >
     <!-- playlists -->
     <app-playlists

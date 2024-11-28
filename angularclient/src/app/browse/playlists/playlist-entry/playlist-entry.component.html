@@ -3,7 +3,7 @@
   [title]="'Click to show playlist: ' + playlist.name"
   (click)="onPlaylistInfo($event, playlist)"
 >
-  <mat-icon>list</mat-icon>
+  <div class="flex items-center"><mat-icon>list</mat-icon></div>
   <div data-cy="playlist-name" class="flex-grow truncate">
     {{ playlist.name }}
   </div>

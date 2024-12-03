@@ -1,4 +1,4 @@
-<div *ngIf="currentPlay | async as play" class="pb-1 md:pb-4">
+<div *ngIf="currentPlay$ | async as play" class="pb-1 md:pb-4">
   <div *ngIf="play.state === 'stop'" class="grid place-items-center">
     <h1 class="heading-2">Stopped.</h1>
   </div>
@@ -9,11 +9,11 @@
       *ngIf="play.state !== 'stop'"
     >
       <div [class.text-muted]="play.state === 'pause'">
-        <div *ngIf="isRadioStream | async">
+        <div *ngIf="isRadioStream$ | async">
           <p class="text-xl font-bold">{{ play.track.title }}</p>
           <p class="break-all text-muted">{{ play.track.file }}</p>
           <a
-            *ngIf="radioStreamName | async as name"
+            *ngIf="radioStreamName$ | async as name"
             class="accent-text"
             routerLink="/browse/radio-streams"
           >
@@ -24,11 +24,15 @@
         <a
           [queryParams]="{ dir: currentPathLink }"
           [routerLink]="['browse']"
-          *ngIf="(isRadioStream | async) === false"
+          *ngIf="(isRadioStream$ | async) === false"
           class="text-xl font-bold"
           title="Go to the directory containing this track"
         >
-          {{ play.track.title }}
+          @if (play.track.title === "") {
+            {{ play.track.file }}
+          } @else {
+            {{ play.track.title }}
+          }
         </a>
       </div>
       <mat-divider *ngIf="play.track.albumName"></mat-divider>

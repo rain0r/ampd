@@ -15,17 +15,17 @@ interface CurrentPlay {
   styleUrls: ["./queue-header.component.scss"],
 })
 export class QueueHeaderComponent {
-  currentPlay: Observable<CurrentPlay>;
+  currentPlay$: Observable<CurrentPlay>;
   currentPathLink = ""; // encoded dir of the current playing track
-  radioStreamName = new Observable<string>().pipe(startWith("")); // If we found a name to the stream url
-  isRadioStream: Observable<boolean>;
+  radioStreamName$ = new Observable<string>().pipe(startWith("")); // If we found a name to the stream url
+  isRadioStream$: Observable<boolean>;
 
   constructor(
     private mpdService: MpdService,
     private radioStreamService: RadioStreamService,
   ) {
-    this.isRadioStream = this.mpdService.isCurrentTrackRadioStream$();
-    this.currentPlay = combineLatest([
+    this.isRadioStream$ = this.mpdService.isCurrentTrackRadioStream$();
+    this.currentPlay$ = combineLatest([
       this.mpdService.currentState$.pipe(startWith("stop")),
       this.mpdService.currentTrack$.pipe(startWith({} as QueueTrack)),
     ]).pipe(
@@ -36,13 +36,13 @@ export class QueueHeaderComponent {
         } as CurrentPlay;
       }),
     );
-    this.currentPlay.subscribe((data) => this.processCurrentPlay(data));
+    this.currentPlay$.subscribe((data) => this.processCurrentPlay(data));
 
     this.handleRadioStream();
   }
 
   private handleRadioStream(): void {
-    this.radioStreamName = combineLatest([
+    this.radioStreamName$ = combineLatest([
       this.mpdService.currentTrack$,
       this.mpdService.isCurrentTrackRadioStream$().pipe(startWith(false)),
       this.radioStreamService.getRadioStreams().pipe(shareReplay(1)),

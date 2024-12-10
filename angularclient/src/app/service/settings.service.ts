@@ -74,7 +74,6 @@ export class SettingsService {
     }
 
     let backendAddr = this.fesService.getStrValue(SettingKeys.BACKEND_ADDR);
-    console.log("backendAddr", backendAddr);
     if (backendAddr === "") {
       backendAddr = window.location.origin;
       if (backendAddr.endsWith("/")) {

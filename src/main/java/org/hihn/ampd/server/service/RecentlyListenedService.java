@@ -34,6 +34,10 @@ public class RecentlyListenedService {
 
 	private final MPD mpd;
 
+	/**
+	 * To enable caching when called from class methods. See "Transactions, Caching and
+	 * AOP: understanding proxy usage in Spring".
+	 */
 	@Autowired
 	private RecentlyListenedService self;
 

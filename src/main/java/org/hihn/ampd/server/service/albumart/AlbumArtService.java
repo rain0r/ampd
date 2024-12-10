@@ -5,6 +5,7 @@ import org.bff.javampd.server.MPD;
 import org.bff.javampd.song.MPDSong;
 import org.bff.javampd.song.SearchCriteria;
 import org.bff.javampd.song.SongSearcher;
+import org.hihn.ampd.server.javampd.EmbeddedCoverService;
 import org.hihn.ampd.server.model.AmpdSettings;
 import org.hihn.ampd.server.service.cache.CoverCacheService;
 import org.slf4j.Logger;
@@ -38,6 +39,8 @@ public class AlbumArtService {
 
 	private final MbCoverService mbCoverService;
 
+	private final EmbeddedCoverService myMpd;
+
 	/**
 	 * Methods to load album artworks from the music directory.
 	 * @param ampdSettings Settings of this ampd instance.
@@ -46,11 +49,12 @@ public class AlbumArtService {
 	 * @param mbCoverService Service to download cover from MusicBrainz.
 	 */
 	public AlbumArtService(AmpdSettings ampdSettings, MPD mpd, CoverCacheService coverCacheService,
-			MbCoverService mbCoverService) {
+			MbCoverService mbCoverService, EmbeddedCoverService myMpd) {
 		this.ampdSettings = ampdSettings;
 		this.mpd = mpd;
 		this.coverCacheService = coverCacheService;
 		this.mbCoverService = mbCoverService;
+		this.myMpd = myMpd;
 	}
 
 	/**
@@ -60,6 +64,8 @@ public class AlbumArtService {
 	 */
 	public Optional<byte[]> findAlbumCoverForTrack(String trackFilePath) {
 		MPDSong track;
+		Optional<byte[]> cover;
+
 		try {
 			// Map the track file path to a MPDSong
 			track = mpd.getMusicDatabase().getSongDatabase().searchFileName(trackFilePath).iterator().next();
@@ -73,7 +79,7 @@ public class AlbumArtService {
 		}
 
 		// Try to load the cover from the Mpd music directory
-		Optional<byte[]> cover = loadArtworkForTrack(track);
+		cover = loadArtworkForTrack(track);
 
 		if (cover.isEmpty()) {
 			// Try to load the cover from cache
@@ -84,6 +90,16 @@ public class AlbumArtService {
 			// Load the cover from MusicBrainz
 			cover = mbCoverService.getMbCover(track);
 		}
+
+		if (cover.isEmpty()) {
+			try {
+				cover = Optional.of(myMpd.getEmbeddedCover(trackFilePath));
+			}
+			catch (Exception e) {
+				LOG.error("Error loading embedded cover: {} - {}", trackFilePath, e.getMessage());
+			}
+		}
+
 		return cover;
 	}
 
@@ -113,7 +129,7 @@ public class AlbumArtService {
 			return Optional.of(artwork.getBytes());
 		}
 		catch (Exception e) {
-			LOG.error("Could not load filename for Track: {}", dirPath);
+			LOG.debug("Could not load filename for Track: {} - {}", dirPath, e.getMessage());
 		}
 		return Optional.empty();
 	}

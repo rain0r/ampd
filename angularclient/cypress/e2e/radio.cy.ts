@@ -6,6 +6,7 @@ interface RadioStream {
 }
 
 describe("Radio Test", () => {
+  
   it("Add radio stations", () => {
     radioStreams.forEach((stream: RadioStream) => {
       cy.visit("/browse-radio-streams");

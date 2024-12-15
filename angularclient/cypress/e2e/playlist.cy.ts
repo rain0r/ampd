@@ -16,6 +16,7 @@ function addPlaylist(name: string) {
 }
 
 describe("Save and delete a playlist", () => {
+  
   it("Add artist", () => {
     cy.clearQueue();
 

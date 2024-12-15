@@ -8,7 +8,7 @@ interface RadioStream {
 describe("Radio Test", () => {
   it("Add radio stations", () => {
     radioStreams.forEach((stream: RadioStream) => {
-      cy.visit("/browse/radio-streams");
+      cy.visit("/browse-radio-streams");
       cy.get("#name").type(stream.name);
       cy.get("#url").type(stream.url);
       cy.get("#save").click();
@@ -17,7 +17,7 @@ describe("Radio Test", () => {
 
   it("Delete radio stations", () => {
     radioStreams.forEach((stream: RadioStream) => {
-      cy.visit("/browse/radio-streams");
+      cy.visit("/browse-radio-streams");
       cy.get("[data-cy='radio-streams-table']")
         .get("td")
         .contains(stream.name)
@@ -33,7 +33,7 @@ describe("Radio Test", () => {
 
   it("Should not find deleted radio stations", () => {
     radioStreams.forEach((stream: RadioStream) => {
-      cy.visit("/browse/radio-streams");
+      cy.visit("/browse-radio-streams");
 
       cy.get("[data-cy='radio-streams-table']").then(($tbody) => {
         const rows = $tbody.find("tr");

@@ -1,5 +1,4 @@
 describe("Check cover exists", () => {
-  
   it("Add artist", () => {
     cy.visit("/browse");
     cy.get(".browse-list-item > [data-cy='add-dir']").should("be.visible");

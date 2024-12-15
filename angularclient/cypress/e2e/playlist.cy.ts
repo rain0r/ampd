@@ -16,7 +16,6 @@ function addPlaylist(name: string) {
 }
 
 describe("Save and delete a playlist", () => {
-  
   it("Add artist", () => {
     cy.clearQueue();
 
@@ -26,7 +25,7 @@ describe("Save and delete a playlist", () => {
     cy.get(".browse-list-item > [data-cy='add-dir']").first().click();
 
     cy.visit("/");
-    
+
     cy.get('[data-cy="track-table"] > tbody > tr').should(
       "have.length.greaterThan",
       1,

@@ -5,7 +5,7 @@
 <div class="flex flex-col md:flex-row md:flex-wrap gap-4">
   <a
     [queryParams]="{ genre: genre }"
-    [routerLink]="['/browse/genres']"
+    [routerLink]="['/browse-genres']"
     *ngFor="let genre of genres | async"
     class="genre"
     color="primary"

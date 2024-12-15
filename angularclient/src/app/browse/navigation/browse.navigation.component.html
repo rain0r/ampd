@@ -51,7 +51,7 @@
   <!-- Albums -->
   <div *ngIf="getParamDir === '/' && (displayAlbums$ | async) === true">
     <button
-      [routerLink]="['/browse/albums']"
+      [routerLink]="['/browse-albums']"
       mat-raised-button
       routerLinkActive="mat-accent"
       title="Browse albums"
@@ -64,7 +64,7 @@
   <!-- Genres -->
   <div *ngIf="getParamDir === '/' && (displayGenres$ | async) === true">
     <button
-      [routerLink]="['/browse/genres']"
+      [routerLink]="['/browse-genres']"
       mat-raised-button
       routerLinkActive="mat-accent"
       title="Show all genres"
@@ -77,7 +77,7 @@
   <!-- Radio Streams -->
   <div *ngIf="getParamDir === '/' && (displayRadio$ | async) === true">
     <button
-      [routerLink]="['/browse/radio-streams']"
+      [routerLink]="['/browse-radio-streams']"
       mat-raised-button
       routerLinkActive="mat-accent"
       title="Go to radio streams"
@@ -93,7 +93,7 @@
   >
     <button
       mat-raised-button
-      [routerLink]="['/browse/recently-listened']"
+      [routerLink]="['/browse-recently-listened']"
       routerLinkActive="mat-accent"
       title="Recently Listened"
     >

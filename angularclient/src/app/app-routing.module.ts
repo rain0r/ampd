@@ -4,19 +4,19 @@ import { AlbumsComponent } from "./browse/albums/albums.component";
 import { BrowseComponent } from "./browse/browse.component";
 import { GenresComponent } from "./browse/genres/genres.component";
 import { RadioStreamsComponent } from "./browse/radio-streams/radio-streams.component";
+import { RecentlyListenedComponent } from "./browse/recently-listened/recently-listened.component";
 import { QueueComponent } from "./queue/queue.component";
 import { AdvancedSearchComponent } from "./search/advanced-search/advanced-search.component";
 import { SearchComponent } from "./search/search.component";
 import { SettingsComponent } from "./settings/settings.component";
-import { RecentlyListenedComponent } from "./browse/recently-listened/recently-listened.component";
 
 const routes: Routes = [
   { path: "", component: QueueComponent },
   { path: "browse", component: BrowseComponent },
-  { path: "browse/albums", component: AlbumsComponent },
-  { path: "browse/genres", component: GenresComponent },
-  { path: "browse/radio-streams", component: RadioStreamsComponent },
-  { path: "browse/recently-listened", component: RecentlyListenedComponent },
+  { path: "browse-albums", component: AlbumsComponent },
+  { path: "browse-genres", component: GenresComponent },
+  { path: "browse-radio-streams", component: RadioStreamsComponent },
+  { path: "browse-recently-listened", component: RecentlyListenedComponent },
   { path: "search", component: SearchComponent },
   { path: "adv-search", component: AdvancedSearchComponent },
   { path: "settings", component: SettingsComponent },
@@ -27,6 +27,7 @@ const routes: Routes = [
   imports: [
     RouterModule.forRoot(routes, {
       anchorScrolling: "enabled",
+      enableTracing: true,
     }),
   ],
   exports: [RouterModule],

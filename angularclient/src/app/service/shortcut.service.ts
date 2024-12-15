@@ -79,7 +79,7 @@ export class ShortcutService {
     ),
     this.build(
       Category.Navigation,
-      () => void this.router.navigate(["/browse/albums"]),
+      () => void this.router.navigate(["/browse-albums"]),
       "Albums",
       ["A"],
     ),
@@ -91,7 +91,7 @@ export class ShortcutService {
     ),
     this.build(
       Category.Navigation,
-      () => void this.router.navigate(["/browse/radio-streams"]),
+      () => void this.router.navigate(["/browse-radio-streams"]),
       "Radio streams",
       ["u"],
     ),

@@ -57,7 +57,7 @@ public class RecentlyListenedService {
 		int pageSize = 12;
 
 		Pageable pageable = PageRequest.of(pageIndex, pageSize);
-		LinkedHashSet<MPDAlbum> recentlyListenedAlbums = self.getRecentlyListenedAlbums();
+		Set<MPDAlbum> recentlyListenedAlbums = self.getRecentlyListenedAlbums();
 		PagedListHolder<MPDAlbum> pages = new PagedListHolder<>(new ArrayList<>(recentlyListenedAlbums));
 		pages.setPage(pageIndex);
 		pages.setPageSize(pageSize);
@@ -65,7 +65,7 @@ public class RecentlyListenedService {
 	}
 
 	@Cacheable
-	public LinkedHashSet<MPDAlbum> getRecentlyListenedAlbums() {
+	public Set<MPDAlbum> getRecentlyListenedAlbums() {
 		buildAuth();
 
 		LinkedHashSet<MPDAlbum> recentlyListenedAlbums = new LinkedHashSet<>();
@@ -107,9 +107,7 @@ public class RecentlyListenedService {
 				item.setDates(new ArrayList<>());
 
 				LOG.trace("Adding item={} to return list", item);
-				if (item.getAlbumArtist().contains("Kollegah")) {
-					System.out.println(1);
-				}
+
 				recentlyListenedAlbums.add(item);
 			}, () -> LOG.trace("Did not find an album"));
 		});
@@ -117,7 +115,7 @@ public class RecentlyListenedService {
 		return recentlyListenedAlbums;
 	}
 
-	public LinkedHashSet<MPDArtist> getRecentlyListenedArtists() {
+	public Set<MPDArtist> getRecentlyListenedArtists() {
 		LinkedHashSet<MPDArtist> artists = new LinkedHashSet<>();
 		fetchData().forEach(v -> {
 
@@ -133,7 +131,7 @@ public class RecentlyListenedService {
 		return artists;
 	}
 
-	public LinkedHashSet<MPDSong> getRecentlyListenedTracks() {
+	public Set<MPDSong> getRecentlyListenedTracks() {
 		LinkedHashSet<MPDSong> tracks = new LinkedHashSet<>();
 		fetchData().forEach(v -> {
 

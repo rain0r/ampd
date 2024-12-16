@@ -30,7 +30,7 @@ public class RecentlyListenedService {
 
 	private static final Logger LOG = LoggerFactory.getLogger(RecentlyListenedService.class);
 
-	private final int MAX_RESULTS = 100;
+	private static final int MAX_RESULTS = 100;
 
 	private final MPD mpd;
 

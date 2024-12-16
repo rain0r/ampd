@@ -26,6 +26,7 @@ import { AmpdBrowsePayload } from "../../shared/model/ampd-browse-payload";
   selector: "app-browse-navigation",
   templateUrl: "./browse.navigation.component.html",
   styleUrls: ["./browse.navigation.component.scss"],
+  standalone: false,
 })
 export class BrowseNavigationComponent implements OnInit {
   @ViewChild("filterInputElem") filterInputElem?: ElementRef;

@@ -8,6 +8,7 @@ import { QueueTrack } from "../../shared/model/queue-track";
   selector: "app-track-progress",
   templateUrl: "./track-progress.component.html",
   styleUrls: ["./track-progress.component.scss"],
+  standalone: false,
 })
 export class TrackProgressComponent {
   isStream$: Observable<boolean>;

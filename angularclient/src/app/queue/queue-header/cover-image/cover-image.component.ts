@@ -18,6 +18,7 @@ import { QueueTrack } from "src/app/shared/model/queue-track";
   selector: "app-cover-image",
   templateUrl: "./cover-image.component.html",
   styleUrls: ["./cover-image.component.scss"],
+  standalone: false,
 })
 export class CoverImageComponent implements OnInit {
   isDisplayCover: Observable<boolean>;

@@ -13,6 +13,7 @@ interface CurrentPlay {
   selector: "app-queue-header",
   templateUrl: "./queue-header.component.html",
   styleUrls: ["./queue-header.component.scss"],
+  standalone: false,
 })
 export class QueueHeaderComponent {
   currentPlay$: Observable<CurrentPlay>;

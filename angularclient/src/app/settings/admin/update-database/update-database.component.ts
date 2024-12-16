@@ -6,6 +6,7 @@ import { NotificationService } from "../../../service/notification.service";
   selector: "app-update-database",
   templateUrl: "./update-database.component.html",
   styleUrls: ["./update-database.component.scss"],
+  standalone: false,
 })
 export class UpdateDatabaseComponent {
   constructor(

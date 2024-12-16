@@ -6,6 +6,7 @@ import { ShortcutService } from "src/app/service/shortcut.service";
   selector: "app-help-dialog",
   templateUrl: "./help-dialog.component.html",
   styleUrls: ["./help-dialog.component.scss"],
+  standalone: false,
 })
 export class HelpDialogComponent {
   isDarkTheme: Observable<boolean> = new Observable<boolean>();

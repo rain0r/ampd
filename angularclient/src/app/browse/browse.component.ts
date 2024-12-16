@@ -9,6 +9,7 @@ import { AmpdBrowsePayload } from "../shared/model/ampd-browse-payload";
   selector: "app-browse",
   templateUrl: "./browse.component.html",
   styleUrls: ["./browse.component.scss"],
+  standalone: false,
 })
 export class BrowseComponent {
   browsePayload$: Observable<AmpdBrowsePayload>;

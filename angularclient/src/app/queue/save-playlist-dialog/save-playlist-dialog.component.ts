@@ -8,6 +8,7 @@ import { PlaylistService } from "../../service/playlist.service";
   selector: "app-save-playlist-dialog",
   templateUrl: "./save-playlist-dialog.component.html",
   styleUrls: ["./save-playlist-dialog.component.scss"],
+  standalone: false,
 })
 export class SavePlaylistDialogComponent {
   isDarkTheme: Observable<boolean> = new Observable<boolean>();

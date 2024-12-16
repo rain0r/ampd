@@ -14,6 +14,7 @@ import { TrackTableOptions } from "../../shared/track-table-data/track-table-opt
   selector: "app-tracks",
   templateUrl: "./tracks.component.html",
   styleUrls: ["./tracks.component.scss"],
+  standalone: false,
 })
 export class TracksComponent implements OnInit {
   @Input() tracks: QueueTrack[] = [];

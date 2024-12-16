@@ -3,6 +3,7 @@ import { KeyValue } from "@angular/common";
 
 @Pipe({
   name: "mapEntries",
+  standalone: false,
 })
 export class MapEntriesPipe implements PipeTransform {
   transform<K, V>(input: Map<K, V>): readonly KeyValue<K, V>[] {

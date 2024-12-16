@@ -8,6 +8,7 @@ import { MpdModesPanel } from "../../shared/messages/incoming/mpd-modes-panel";
   selector: "app-mpd-modes",
   templateUrl: "./mpd-mode.component.html",
   styleUrls: ["./mpd-mode.component.scss"],
+  standalone: false,
 })
 export class MpdModeComponent {
   connected$: Observable<boolean>;

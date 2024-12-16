@@ -3,6 +3,7 @@ import { Directory } from "../../messages/incoming/directory";
 
 @Pipe({
   name: "directoryFilterStartLetterPipe",
+  standalone: false,
 })
 export class DirectoryFilterStartLetterPipe implements PipeTransform {
   transform(value: Directory[], filterBy: string): Directory[] {

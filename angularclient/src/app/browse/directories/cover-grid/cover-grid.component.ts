@@ -7,6 +7,7 @@ import { Filterable } from "../../filterable";
   selector: "app-cover-grid",
   templateUrl: "./cover-grid.component.html",
   styleUrls: ["./cover-grid.component.scss"],
+  standalone: false,
 })
 export class CoverGridComponent extends Filterable {
   @Input() directories: Directory[] = [];

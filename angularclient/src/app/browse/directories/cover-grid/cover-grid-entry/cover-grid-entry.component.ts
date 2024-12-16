@@ -10,6 +10,7 @@ import { Directory } from "../../../../shared/messages/incoming/directory";
   selector: "app-cover-grid-entry",
   templateUrl: "./cover-grid-entry.component.html",
   styleUrls: ["./cover-grid-entry.component.scss"],
+  standalone: false,
 })
 export class CoverGridEntryComponent implements OnInit {
   @Input() directory: Directory | null = null;

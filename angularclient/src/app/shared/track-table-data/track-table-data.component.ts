@@ -24,6 +24,7 @@ import { TrackTableOptions } from "./track-table-options";
   selector: "app-track-data-table",
   templateUrl: "./track-table-data.component.html",
   styleUrls: ["./track-table-data.component.scss"],
+  standalone: false,
 })
 export class TrackTableDataComponent {
   @Input() set trackTableData(trackTableData: TrackTableOptions) {

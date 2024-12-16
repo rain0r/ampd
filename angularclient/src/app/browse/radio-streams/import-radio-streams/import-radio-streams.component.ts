@@ -6,6 +6,7 @@ import { RadioStreamService } from "src/app/service/radio-stream.service";
   selector: "app-import-radio-streams",
   templateUrl: "./import-radio-streams.component.html",
   styleUrls: ["./import-radio-streams.component.scss"],
+  standalone: false,
 })
 export class ImportRadioStreamsComponent {
   @Input()

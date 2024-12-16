@@ -9,6 +9,7 @@ import { MpdAlbum } from "src/app/shared/model/http/album";
   selector: "app-recently-listened-albums",
   templateUrl: "./recently-listened-albums.component.html",
   styleUrl: "./recently-listened-albums.component.css",
+  standalone: false,
 })
 export class RecentlyListenedAlbumsComponent {
   pagedAlbums$ = new Observable<PaginatedResponse<MpdAlbum>>();

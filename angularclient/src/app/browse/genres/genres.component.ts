@@ -31,6 +31,7 @@ import { TrackTableOptions } from "../../shared/track-table-data/track-table-opt
   selector: "app-genres",
   templateUrl: "./genres.component.html",
   styleUrls: ["./genres.component.scss"],
+  standalone: false,
 })
 export class GenresComponent implements OnInit, OnDestroy {
   browsePayload = new Observable<AmpdBrowsePayload>();

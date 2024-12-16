@@ -5,6 +5,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
   selector: "app-confirm-delete-stream-dialog",
   templateUrl: "./confirm-delete-stream-dialog.component.html",
   styleUrl: "./confirm-delete-stream-dialog.component.scss",
+  standalone: false,
 })
 export class ConfirmDeleteStreamDialogComponent {
   constructor(

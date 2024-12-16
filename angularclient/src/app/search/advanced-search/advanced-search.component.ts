@@ -32,6 +32,7 @@ import { TrackTableOptions } from "src/app/shared/track-table-data/track-table-o
   selector: "app-advanced-search",
   templateUrl: "./advanced-search.component.html",
   styleUrls: ["./advanced-search.component.scss"],
+  standalone: false,
 })
 export class AdvancedSearchComponent implements OnInit, AfterViewInit {
   advSearchResponse$ = new Observable<PaginatedResponse<Track>>();

@@ -10,6 +10,7 @@ import { SettingKeys } from "../shared/model/internal/frontend-settings";
   selector: "app-queue",
   templateUrl: "./queue.component.html",
   styleUrls: ["./queue.component.scss"],
+  standalone: false,
 })
 export class QueueComponent implements OnInit {
   connected$: Observable<boolean>;

@@ -7,6 +7,7 @@ import { ServerStatistics } from "../../../shared/model/server-statistics";
   selector: "app-server-statistics",
   templateUrl: "./server-statistics.component.html",
   styleUrls: ["./server-statistics.component.scss"],
+  standalone: false,
 })
 export class ServerStatisticsComponent {
   serverStatistics: Observable<ServerStatistics>;

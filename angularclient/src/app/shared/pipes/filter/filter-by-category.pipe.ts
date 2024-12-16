@@ -3,6 +3,7 @@ import { Category, ShortCut } from "../../shortcuts/shortcut";
 
 @Pipe({
   name: "filterByCategory",
+  standalone: false,
 })
 export class FilterByCategoryPipe implements PipeTransform {
   transform(value: ShortCut[], filterBy: string): ShortCut[] {

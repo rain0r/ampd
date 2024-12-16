@@ -12,6 +12,7 @@ import { CamelCaseTitlePipe } from "../../../shared/pipes/camel-case-title.pipe"
   selector: "app-track-info-dialog",
   templateUrl: "./track-info-dialog.component.html",
   styleUrls: ["./track-info-dialog.component.scss"],
+  standalone: false,
 })
 export class TrackInfoDialogComponent {
   displayedColumns: string[] = ["key", "value"];

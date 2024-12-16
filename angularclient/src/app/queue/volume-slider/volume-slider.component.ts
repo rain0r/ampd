@@ -8,6 +8,7 @@ import { VolumeService } from "../../service/volume.service";
   selector: "app-volume-slider",
   templateUrl: "./volume-slider.component.html",
   styleUrls: ["./volume-slider.component.scss"],
+  standalone: false,
 })
 export class VolumeSliderComponent {
   volume = 0;

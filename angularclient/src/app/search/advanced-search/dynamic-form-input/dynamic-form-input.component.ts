@@ -6,6 +6,7 @@ import { FormField } from "../../../shared/search/form-field";
   selector: "app-dynamic-form-input",
   templateUrl: "./dynamic-form-input.component.html",
   styleUrls: ["./dynamic-form-input.component.scss"],
+  standalone: false,
 })
 export class DynamicFormInputComponent {
   @Input() input: FormField = {} as FormField;

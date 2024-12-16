@@ -7,6 +7,7 @@ import { ShortcutService } from "./../service/shortcut.service";
   selector: "app-navbar",
   templateUrl: "./navbar.component.html",
   styleUrls: ["./navbar.component.scss"],
+  standalone: false,
 })
 export class NavbarComponent {
   @ViewChild("helpIcon") helpIcon: ElementRef = {} as ElementRef;

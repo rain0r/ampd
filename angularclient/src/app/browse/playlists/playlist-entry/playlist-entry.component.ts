@@ -11,6 +11,7 @@ import { PlaylistInfoDialogComponent } from "../playlist-info-dialog/playlist-in
   selector: "app-playlist-entry",
   templateUrl: "./playlist-entry.component.html",
   styleUrls: ["./playlist-entry.component.scss"],
+  standalone: false,
 })
 export class PlaylistEntryComponent {
   @Input() playlist: Playlist = {} as Playlist;

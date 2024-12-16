@@ -1,7 +1,10 @@
 import { Pipe, PipeTransform } from "@angular/core";
 import { Directory } from "../../messages/incoming/directory";
 
-@Pipe({ name: "directoryFilter" })
+@Pipe({
+  name: "directoryFilter",
+  standalone: false,
+})
 export class DirectoryFilterPipe implements PipeTransform {
   transform(value: Directory[], filterBy: string): Directory[] {
     filterBy = filterBy ? filterBy.toLocaleLowerCase() : "";

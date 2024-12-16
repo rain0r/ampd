@@ -11,6 +11,7 @@ import { ConfirmDeleteStreamDialogComponent } from "../confirm-delete-stream-dia
   selector: "app-radio-stream-list",
   templateUrl: "./radio-stream-list.component.html",
   styleUrls: ["./radio-stream-list.component.scss"],
+  standalone: false,
 })
 export class RadioStreamListComponent implements AfterViewInit {
   @Input() dataSource = new MatTableDataSource<RadioStream>();

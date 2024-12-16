@@ -12,6 +12,7 @@ import { TrackTableOptions } from "src/app/shared/track-table-data/track-table-o
   selector: "app-album-dialog",
   templateUrl: "./album-dialog.component.html",
   styleUrls: ["./album-dialog.component.scss"],
+  standalone: false,
 })
 export class AlbumDialogComponent {
   trackTableData$: Observable<TrackTableOptions>;

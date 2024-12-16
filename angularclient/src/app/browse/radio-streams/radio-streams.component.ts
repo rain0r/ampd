@@ -9,6 +9,7 @@ import { RadioStream } from "src/app/shared/model/db/radio-stream";
   selector: "app-radio-streams",
   templateUrl: "./radio-streams.component.html",
   styleUrls: ["./radio-streams.component.scss"],
+  standalone: false,
 })
 export class RadioStreamsComponent implements OnInit {
   dataSource$ = new Observable<MatTableDataSource<RadioStream>>();

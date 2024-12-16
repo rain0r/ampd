@@ -6,6 +6,7 @@ import { QueueService } from "../../../service/queue.service";
   selector: "app-add-stream-dialog",
   templateUrl: "./add-stream-dialog.component.html",
   styleUrls: ["./add-stream-dialog.component.scss"],
+  standalone: false,
 })
 export class AddStreamDialogComponent {
   constructor(

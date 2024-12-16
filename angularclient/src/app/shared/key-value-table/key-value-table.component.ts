@@ -5,6 +5,7 @@ import { Component, Input } from "@angular/core";
   selector: "app-key-value-table",
   templateUrl: "./key-value-table.component.html",
   styleUrls: ["./key-value-table.component.scss"],
+  standalone: false,
 })
 export class KeyValueTableComponent {
   @Input() dataSource: KeyValue<string, string>[] = [];

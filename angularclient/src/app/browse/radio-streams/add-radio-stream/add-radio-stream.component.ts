@@ -7,6 +7,7 @@ import { RadioStream } from "../../../shared/model/db/radio-stream";
   selector: "app-add-radio-stream",
   templateUrl: "./add-radio-stream.component.html",
   styleUrls: ["./add-radio-stream.component.scss"],
+  standalone: false,
 })
 export class AddStreamComponent {
   radioStreamForm = new FormGroup({

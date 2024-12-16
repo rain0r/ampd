@@ -14,6 +14,7 @@ import { QueueService } from "../../service/queue.service";
   selector: "app-control-panel",
   templateUrl: "./control-panel.component.html",
   styleUrls: ["./control-panel.component.scss"],
+  standalone: false,
 })
 export class ControlPanelComponent implements OnInit {
   connected$: Observable<boolean>;

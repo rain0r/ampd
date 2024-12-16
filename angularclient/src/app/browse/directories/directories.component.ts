@@ -9,6 +9,7 @@ import { Filterable } from "../filterable";
   selector: "app-directories",
   templateUrl: "./directories.component.html",
   styleUrls: ["./directories.component.scss"],
+  standalone: false,
 })
 export class DirectoriesComponent extends Filterable implements OnInit {
   @Input() directories: Directory[] = [];

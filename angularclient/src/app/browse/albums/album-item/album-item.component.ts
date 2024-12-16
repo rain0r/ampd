@@ -9,6 +9,7 @@ import { AlbumDialogComponent } from "../album-dialog/album-dialog.component";
   selector: "app-album-item",
   templateUrl: "./album-item.component.html",
   styleUrls: ["./album-item.component.scss"],
+  standalone: false,
 })
 export class AlbumItemComponent implements OnInit {
   @Input() album: MpdAlbum | null = null;

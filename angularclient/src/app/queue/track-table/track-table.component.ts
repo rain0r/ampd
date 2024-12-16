@@ -21,6 +21,7 @@ import { SavePlaylistDialogComponent } from "../save-playlist-dialog/save-playli
   selector: "app-track-table",
   templateUrl: "./track-table.component.html",
   styleUrls: ["./track-table.component.scss"],
+  standalone: false,
 })
 export class TrackTableComponent {
   @ViewChild("filterInputElem") filterInputElem?: ElementRef;

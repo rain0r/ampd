@@ -22,6 +22,7 @@ interface SortByKey {
   selector: "app-albums",
   templateUrl: "./albums.component.html",
   styleUrls: ["./albums.component.scss"],
+  standalone: false,
 })
 export class AlbumsComponent implements OnInit {
   @ViewChild("filterInputElem") filterInputElem?: ElementRef;

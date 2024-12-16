@@ -9,6 +9,7 @@ import { Directory } from "../../../shared/messages/incoming/directory";
   selector: "app-directory-entry",
   templateUrl: "./directory-entry.component.html",
   styleUrls: ["./directory-entry.component.scss"],
+  standalone: false,
 })
 export class DirectoryEntryComponent implements OnInit {
   @Input() directory: Directory | null = null;

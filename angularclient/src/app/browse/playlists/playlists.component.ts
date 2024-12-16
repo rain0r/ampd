@@ -9,6 +9,7 @@ import { Filterable } from "../filterable";
   selector: "app-playlists",
   templateUrl: "./playlists.component.html",
   styleUrls: ["./playlists.component.scss"],
+  standalone: false,
 })
 export class PlaylistsComponent extends Filterable {
   @Input() playlists: Playlist[] = [];

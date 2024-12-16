@@ -29,6 +29,7 @@ import { TrackTableOptions } from "../../../shared/track-table-data/track-table-
   selector: "app-playlist-info-dialog",
   templateUrl: "./playlist-info-dialog.component.html",
   styleUrls: ["./playlist-info-dialog.component.scss"],
+  standalone: false,
 })
 export class PlaylistInfoDialogComponent implements AfterViewInit, OnDestroy {
   isLoadingResults = new BehaviorSubject(true);

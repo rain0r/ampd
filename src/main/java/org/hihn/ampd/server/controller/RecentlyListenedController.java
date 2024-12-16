@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.LinkedHashSet;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/api/browse/recently-listened")
@@ -28,12 +28,12 @@ public class RecentlyListenedController {
 	}
 
 	@GetMapping("/artists")
-	public LinkedHashSet<MPDArtist> getArtists() {
+	public Set<MPDArtist> getArtists() {
 		return recentlyListenedService.getRecentlyListenedArtists();
 	}
 
 	@GetMapping("/tracks")
-	public LinkedHashSet<MPDSong> getTracks() {
+	public Set<MPDSong> getTracks() {
 		return recentlyListenedService.getRecentlyListenedTracks();
 	}
 

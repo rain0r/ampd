@@ -57,10 +57,9 @@ public class AlbumService {
 	/**
 	 * Loads all albums in a cache. Theses albums can be viewed under
 	 * {@code /browse/albums}.
-	 * @return All albums in the MPD database.
 	 */
 	@Scheduled(fixedDelay = 60, initialDelay = 1, timeUnit = TimeUnit.MINUTES)
-	public Set<MPDAlbum> fillAlbumsCache() {
+	public void fillAlbumsCache() {
 		albums = mpd.getMusicDatabase().getAlbumDatabase().listAllAlbums().parallelStream().filter(album -> {
 			if (album.getName().isBlank()) {
 				// No album title
@@ -92,7 +91,10 @@ public class AlbumService {
 
 			return true;
 		}).collect(Collectors.toUnmodifiableSet());
-		return albums;
+	}
+
+	public void triggerFillAlbumsCache() {
+		fillAlbumsCache();
 	}
 
 	public PageImpl<MPDAlbum> listAllAlbums(String searchTermP, int pageIndex, Integer pageSize, String sortBy) {

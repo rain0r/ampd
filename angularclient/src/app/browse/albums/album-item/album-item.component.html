@@ -1,4 +1,9 @@
-<figure class="clickable grid" (click)="openDialog()" *ngIf="album">
+<figure
+  class="clickable grid"
+  (click)="openDialog()"
+  *ngIf="album"
+  data-cy="album-item"
+>
   <img
     [src]="album.albumCoverUrl"
     alt="{{ album.albumArtist }} — {{ album.name }}"

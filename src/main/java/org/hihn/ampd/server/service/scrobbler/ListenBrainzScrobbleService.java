@@ -103,7 +103,7 @@ public class ListenBrainzScrobbleService implements AmpdScrobbler {
 	}
 
 	private Optional<UUID> extractTrackMapKey(List<String> tagMap) {
-		if (tagMap.get(0) == null) {
+		if (tagMap == null || tagMap.isEmpty() || tagMap.get(0) == null) {
 			return Optional.empty();
 		}
 		try {

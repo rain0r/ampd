@@ -1,46 +1,67 @@
 import { Injectable } from "@angular/core";
-import { environment } from "src/environments/environment";
-import { LogLevel } from "../shared/log-level";
+import { LogLevel } from "../shared/log/log-level";
+import { LogEntry } from "../shared/log/log-entry";
+import { LogPublisher } from "../shared/log/log-publisher";
+import { LogPublishersService } from "./log-publishers.service";
 
 @Injectable({
   providedIn: "root",
 })
 export class LoggerService {
-  debug(msg: string, data: unknown = ""): void {
-    this.logWith(LogLevel.Debug, msg, data);
+  level: LogLevel = LogLevel.All;
+  logWithDate = true;
+  publishers: LogPublisher[];
+
+  constructor(private publishersService: LogPublishersService) {
+    // Set publishers
+    this.publishers = this.publishersService.publishers;
   }
 
-  info(msg: string, data: unknown = ""): void {
-    this.logWith(LogLevel.Info, msg, data);
+  debug(msg: string, ...optionalParams: unknown[]) {
+    this.writeToLog(msg, LogLevel.Debug, optionalParams);
   }
 
-  warn(msg: string, data: unknown = ""): void {
-    this.logWith(LogLevel.Warn, msg, data);
+  info(msg: string, ...optionalParams: unknown[]) {
+    this.writeToLog(msg, LogLevel.Info, optionalParams);
   }
 
-  error(msg: string, data: unknown = ""): void {
-    this.logWith(LogLevel.Error, msg, data);
+  warn(msg: string, ...optionalParams: unknown[]) {
+    this.writeToLog(msg, LogLevel.Warn, optionalParams);
   }
 
-  private logWith(level: LogLevel, msg: string, data: unknown): void {
-    data = data ? data : " ";
-    switch (level) {
-      case LogLevel.Debug:
-        if (environment.production === false) {
-          console.info("%c" + msg, "color: #6c757d", data);
-        }
-        break;
-      case LogLevel.Info:
-        console.info("%c" + msg, "color: #6495ED", data);
-        break;
-      case LogLevel.Warn:
-        console.warn("%c" + msg, "color: #FF8C00", data);
-        break;
-      case LogLevel.Error:
-        console.error("%c" + msg, data, "color: #DC143C", data);
-        break;
-      default:
-        console.debug(msg);
+  error(msg: string, ...optionalParams: unknown[]) {
+    this.writeToLog(msg, LogLevel.Error, optionalParams);
+  }
+
+  fatal(msg: string, ...optionalParams: unknown[]) {
+    this.writeToLog(msg, LogLevel.Fatal, optionalParams);
+  }
+
+  log(msg: string, ...optionalParams: unknown[]) {
+    this.writeToLog(msg, LogLevel.All, optionalParams);
+  }
+
+  private writeToLog(msg: string, level: LogLevel, params: unknown[]) {
+    if (this.shouldLog(level)) {
+      const entry: LogEntry = new LogEntry();
+      entry.message = msg;
+      entry.level = level;
+      entry.extraInfo = params;
+      entry.logWithDate = this.logWithDate;
+      for (const logger of this.publishers) {
+        logger.log(entry).subscribe(() => void 0);
+      }
     }
+  }
+
+  private shouldLog(level: LogLevel): boolean {
+    let ret = false;
+    if (
+      (level >= this.level && level !== LogLevel.Off) ||
+      this.level === LogLevel.All
+    ) {
+      ret = true;
+    }
+    return ret;
   }
 }

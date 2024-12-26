@@ -1,5 +1,6 @@
 {
     "cSpell.words": [
         "ampd",
-    ]
+    ],
+    "typescript.tsdk": "node_modules/typescript/lib"
 }

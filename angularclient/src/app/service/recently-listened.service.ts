@@ -16,7 +16,6 @@ export class RecentlyListenedService {
   ) {}
 
   getAlbums(pageIndex: number | null): Observable<PaginatedResponse<MpdAlbum>> {
-    console.log("getAlbums()");
     let params = new HttpParams();
     if (pageIndex) {
       params = params.append("pageIndex", pageIndex);

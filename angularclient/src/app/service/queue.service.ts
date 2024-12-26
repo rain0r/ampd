@@ -1,10 +1,11 @@
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
-import { distinctUntilChanged, map } from "rxjs/operators";
+import { distinctUntilChanged, map, tap } from "rxjs/operators";
 import { Track } from "../shared/messages/incoming/track";
 import { QueueTrack } from "../shared/model/queue-track";
 import { PaginatedResponse } from "./../shared/messages/incoming/paginated-response";
 import { AmpdRxStompService } from "./ampd-rx-stomp.service";
+import { LoggerService } from "./logger.service";
 import { NotificationService } from "./notification.service";
 
 @Injectable({
@@ -18,6 +19,7 @@ export class QueueService {
   constructor(
     private rxStompService: AmpdRxStompService,
     private notificationService: NotificationService,
+    private logger: LoggerService,
   ) {
     this.queue$ = this.getQueueSubscription$();
   }
@@ -147,6 +149,7 @@ export class QueueService {
           JSON.stringify(curr) === JSON.stringify(prev)
         );
       }),
+      tap((msg) => this.logger.debug("QueueSubscription: ", msg)),
     );
   }
 }

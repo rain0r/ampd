@@ -53,6 +53,7 @@ import { AmpdRxStompService } from "./service/ampd-rx-stomp.service";
 import { SettingsService } from "./service/settings.service";
 import { ServerStatisticsComponent } from "./settings/admin/server-statistics/server-statistics.component";
 import { UpdateDatabaseComponent } from "./settings/admin/update-database/update-database.component";
+import { LogViewComponent } from "./settings/log-view/log-view.component";
 import { SettingsComponent } from "./settings/settings.component";
 import { AlbumCoverDialogComponent } from "./shared/album-cover-dialog/album-cover-dialog.component";
 import { AmpdErrorHandler } from "./shared/ampd-error-handler";
@@ -72,7 +73,6 @@ import { SecondsToHhMmSsPipe } from "./shared/pipes/seconds-to-hh-mm-ss.pipe";
 import { SecondsToMmSsPipe } from "./shared/pipes/seconds-to-mm-ss.pipe";
 import { StyleManager } from "./shared/style-manager";
 import { TrackTableDataComponent } from "./shared/track-table-data/track-table-data.component";
-import { LogViewComponent } from "./log-view/log-view.component";
 
 const prefersReducedMotion =
   typeof matchMedia === "function"

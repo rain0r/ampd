@@ -6,7 +6,7 @@ import { LogLocalStorage } from "../shared/log/log-local-storage";
 import { LogPublisher } from "../shared/log/log-publisher";
 import { LogPublisherConfig } from "../shared/log/log-publisher-conf";
 
-const PUBLISHERS_FILE = "/assets/log-publishers.json";
+const PUBLISHERS_FILE = "assets/log-publishers.json";
 
 @Injectable({
   providedIn: "root",

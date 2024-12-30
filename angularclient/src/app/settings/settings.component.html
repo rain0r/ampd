@@ -161,7 +161,7 @@
       <app-server-statistics></app-server-statistics>
     </div>
   </mat-tab>
-  <mat-tab label="Log">
+  <mat-tab *ngIf="displayLog" label="Log">
     <app-log-view></app-log-view>
   </mat-tab>
 </mat-tab-group>

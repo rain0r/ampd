@@ -5,6 +5,7 @@ import { Observable } from "rxjs";
 import { FrontendSettingsService } from "src/app/service/frontend-settings.service";
 import { NotificationService } from "../service/notification.service";
 import { SettingsService } from "../service/settings.service";
+import { LS_LOG_NAME } from "../shared/log/log-local-storage";
 import { AmpdSetting } from "../shared/model/ampd-setting";
 import {
   FrontendSetting,
@@ -24,6 +25,7 @@ export class SettingsComponent {
   mpdSettings: Observable<MpdSettings>;
   ampdSettings: Observable<AmpdSetting[]>;
   feSettings: SettingMap;
+  displayLog = false;
 
   constructor(
     private fsService: FrontendSettingsService,
@@ -35,6 +37,8 @@ export class SettingsComponent {
     this.ampdSettings = this.settingsService.getAmpdSettings();
     this.mpdSettings = this.settingsService.getMpdSettings();
     this.feSettings = this.buildFeSettingCategories();
+    this.displayLog =
+      (JSON.parse(localStorage.getItem(LS_LOG_NAME) || "[]") || []).length > 0;
   }
 
   toggleFrontendSetting(name: SettingKeys, event: MatSlideToggleChange): void {

@@ -83,12 +83,6 @@ export class CoverImageComponent implements OnInit {
           isRadioStream === false && // We don't look for covers when a radio stream is playing
           state !== "stop" && // Check state, we don't change the cover if the player has stopped
           displayCovers === true; // Check if cover-display is active in the frontend-settings
-
-        // console.log("isRadioStream", isRadioStream);
-        // console.log("state", state);
-        // console.log("displayCovers", displayCovers);
-        // console.log("available", available);
-
         this.displayCover$.next(available);
       });
   }

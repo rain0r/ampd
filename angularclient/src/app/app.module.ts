@@ -72,6 +72,7 @@ import { SecondsToHhMmSsPipe } from "./shared/pipes/seconds-to-hh-mm-ss.pipe";
 import { SecondsToMmSsPipe } from "./shared/pipes/seconds-to-mm-ss.pipe";
 import { StyleManager } from "./shared/style-manager";
 import { TrackTableDataComponent } from "./shared/track-table-data/track-table-data.component";
+import { LogViewComponent } from "./log-view/log-view.component";
 
 const prefersReducedMotion =
   typeof matchMedia === "function"
@@ -136,6 +137,7 @@ const prefersReducedMotion =
     ConfirmDeleteStreamDialogComponent,
     RecentlyListenedComponent,
     RecentlyListenedAlbumsComponent,
+    LogViewComponent,
   ],
   bootstrap: [AppComponent],
   imports: [

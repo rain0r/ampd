@@ -1,0 +1,38 @@
+<div class="grid justify-items-end my-16">
+  <button mat-stroked-button (click)="clearLogs()">Clear logs</button>
+</div>
+
+<table
+  mat-table
+  [dataSource]="logEntries"
+  class="w-full my-16 mat-elevation-z8"
+>
+  <!-- Entry Date Column -->
+  <ng-container matColumnDef="entryDate">
+    <th mat-header-cell *matHeaderCellDef>Date</th>
+    <td mat-cell *matCellDef="let element">{{ element.entryDate }}</td>
+  </ng-container>
+
+  <!-- Message Column -->
+  <ng-container matColumnDef="message">
+    <th mat-header-cell *matHeaderCellDef>Message</th>
+    <td mat-cell *matCellDef="let element">{{ element.message }}</td>
+  </ng-container>
+
+  <!-- Level Column -->
+  <ng-container matColumnDef="level">
+    <th mat-header-cell *matHeaderCellDef>Level</th>
+    <td mat-cell *matCellDef="let element">{{ element.level }}</td>
+  </ng-container>
+
+  <!-- Extra Info Column -->
+  <ng-container matColumnDef="extraInfo">
+    <th mat-header-cell *matHeaderCellDef>Extra Info</th>
+    <td mat-cell *matCellDef="let element">
+      <code>{{ element.extraInfo | json }}</code>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+</table>

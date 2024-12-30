@@ -5,12 +5,16 @@
 <table
   mat-table
   [dataSource]="logEntries"
-  class="w-full my-16 mat-elevation-z8"
+  class="table-auto my-16 mat-elevation-z8"
 >
   <!-- Entry Date Column -->
   <ng-container matColumnDef="entryDate">
     <th mat-header-cell *matHeaderCellDef>Date</th>
-    <td mat-cell *matCellDef="let element">{{ element.entryDate }}</td>
+    <td mat-cell *matCellDef="let element">
+      <span class="whitespace-nowrap">{{
+        element.entryDate | date: "d-LLL-yyyy HH:mm"
+      }}</span>
+    </td>
   </ng-container>
 
   <!-- Message Column -->
@@ -22,7 +26,7 @@
   <!-- Level Column -->
   <ng-container matColumnDef="level">
     <th mat-header-cell *matHeaderCellDef>Level</th>
-    <td mat-cell *matCellDef="let element">{{ element.level }}</td>
+    <td mat-cell *matCellDef="let element">{{ element.level | logLevel }}</td>
   </ng-container>
 
   <!-- Extra Info Column -->

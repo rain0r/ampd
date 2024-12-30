@@ -10,7 +10,7 @@ import { LS_LOG_NAME } from "../../shared/log/log-local-storage";
 })
 export class LogViewComponent {
   logEntries: LogEntry[] = [];
-  displayedColumns: string[] = ["entryDate", "message", "level", "extraInfo"];
+  displayedColumns: string[] = ["entryDate", "level", "message", "extraInfo"];
 
   constructor() {
     this.localStorageLog();

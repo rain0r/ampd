@@ -71,15 +71,15 @@
 <div class="hidden md:inline">
   <!-- Show table on desktop -->
   <table data-cy="radio-streams-table" mat-table [dataSource]="dataSource">
-    <!-- Position Column -->
+    <!-- Name Column -->
     <ng-container matColumnDef="name">
       <th mat-header-cell *matHeaderCellDef>Name</th>
       <td mat-cell *matCellDef="let element" class="whitespace-nowrap">
-        {{ element.name }}
+        <span class="font-bold">{{ element.name }}</span>
       </td>
     </ng-container>
 
-    <!-- Name Column -->
+    <!-- URL Column -->
     <ng-container matColumnDef="url">
       <th mat-header-cell *matHeaderCellDef>URL</th>
       <td mat-cell *matCellDef="let element" class="break-all">

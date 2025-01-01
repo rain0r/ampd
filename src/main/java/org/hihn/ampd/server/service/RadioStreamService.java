@@ -34,6 +34,7 @@ public class RadioStreamService {
 	}
 
 	public List<RadioStream> addRadioStream(RadioStream radioStream) {
+		radioStream.setUrl(radioStream.getUrl().trim());
 		rsRepo.save(radioStream);
 		return rsRepo.findAllByOrderByNameAsc();
 	}

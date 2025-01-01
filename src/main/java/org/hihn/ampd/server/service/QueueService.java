@@ -47,7 +47,7 @@ public class QueueService {
 	 * @param file The path of the track.
 	 */
 	public void addTrack(String file) {
-		mpd.getPlaylist().addSong(file);
+		mpd.getPlaylist().addSong(file.trim());
 	}
 
 	/**
@@ -56,7 +56,9 @@ public class QueueService {
 	 */
 	public void addTracks(List<String> tracks) {
 		mpd.getPlaylist()
-			.addSongs(tracks.stream().map(track -> MPDSong.builder().file(track).build()).collect(Collectors.toList()));
+			.addSongs(tracks.stream()
+				.map(track -> MPDSong.builder().file(track.trim()).build())
+				.collect(Collectors.toList()));
 	}
 
 	/**

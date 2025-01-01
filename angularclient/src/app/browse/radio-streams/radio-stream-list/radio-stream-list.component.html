@@ -1,9 +1,6 @@
 <div class="flex flex-col md:flex-row justify-between my-3">
   <div class="page-sub-title">Saved radio streams</div>
   <div *ngIf="dataSource.data.length > 0">
-    <span class="text-muted">No saved radio streams</span>
-  </div>
-  <div *ngIf="dataSource.data.length > 0">
     <mat-form-field class="w-full">
       <input
         (keydown.escape)="resetFilter()"

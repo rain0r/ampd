@@ -9,6 +9,7 @@
           [id]="input.key"
           [type]="input.type"
           autocomplete="off"
+          [attr.data-cy]="'input-field-' + input.key"
         />
       </mat-form-field>
     </div>

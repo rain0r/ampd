@@ -19,9 +19,9 @@ describe("Radio Test", () => {
     radioStreams.forEach((stream: RadioStream) => {
       cy.visit("/browse-radio-streams");
       cy.get("[data-cy='radio-streams-table']")
-        .get("td")
+        .get("td")        
         .contains(stream.name)
-        .parent("tr")
+        .parent().parent("tr")
         .within(() => {
           cy.get("td").eq(1).contains(stream.url);
           cy.get("td").eq(2).click();

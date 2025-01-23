@@ -40,7 +40,7 @@
         <java.version>17</java.version>
         <project.scm.id>github</project.scm.id>
         <frontend.configuration>production</frontend.configuration>
-        <npm.exec>bun</npm.exec>
+        <npm.exec>npm</npm.exec>
         <skip.npm>false</skip.npm>
         <cache2k-version>2.6.1.Final</cache2k-version>
     </properties>

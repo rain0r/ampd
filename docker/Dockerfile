@@ -1,4 +1,4 @@
-FROM maven:3-eclipse-temurin-17 as builder
+FROM maven:3-eclipse-temurin-17 AS builder
 ARG frontend_context=/
 WORKDIR /srv
 COPY . .

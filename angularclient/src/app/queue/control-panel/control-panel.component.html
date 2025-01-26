@@ -70,8 +70,7 @@
     data-cy="clear-queue-btn"
     (click)="onClearQueue()"
     [disabled]="
-      (queueTrackCount | async) === 0 ||
-      (connected$ | async) === false
+      (queueTrackCount | async) === 0 || (connected$ | async) === false
     "
     class="valign-top clear-queue"
     mat-stroked-button

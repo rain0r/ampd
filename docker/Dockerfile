@@ -1,5 +1,4 @@
 FROM maven:3-eclipse-temurin-17 AS builder
-ARG frontend_context=/
 WORKDIR /srv
 COPY . .
 ENV DEBIAN_FRONTEND=noninteractive
@@ -16,10 +15,10 @@ RUN apt-get update && \
     apt-get autoremove -y && \
     rm -rf /var/lib/apt/lists/* && \
     mvn package -q -Dfrontend.context=$frontend_context -Dnpm.exec=npm
-
-FROM eclipse-temurin:17
-WORKDIR /srv
-COPY --from=builder /srv/target/ampd.jar ./ampd.jar
-EXPOSE 8080
-
-CMD ["java", "-jar", "ampd.jar"]
+ENTRYPOINT ["tail", "-f", "/dev/null"]
+# FROM eclipse-temurin:17
+# WORKDIR /srv
+# COPY --from=builder /srv/target/ampd.jar ./ampd.jar
+# EXPOSE 8080
+# 
+# CMD ["java", "-jar", "ampd.jar"]

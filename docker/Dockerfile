@@ -19,7 +19,7 @@ RUN apt-get update && \
 
 FROM eclipse-temurin:17
 WORKDIR /srv
-COPY --from=builder /srv/target/ampd-*.jar ./ampd.jar
+COPY --from=builder /srv/target/ampd.jar ./ampd.jar
 EXPOSE 8080
 
 CMD ["java", "-jar", "ampd.jar"]

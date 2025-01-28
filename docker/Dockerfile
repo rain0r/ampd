@@ -14,7 +14,7 @@ RUN apt-get update && \
     apt-get install -y --no-install-recommends --no-install-suggests nodejs && \
     apt-get autoremove -y && \
     rm -rf /var/lib/apt/lists/* && \
-    mvn package -q -Dskip.npm=true -Dfrontend.context=$frontend_context -Dnpm.exec=npm
+    mvn package -q -Dnpm.exec=npm
 FROM eclipse-temurin:17
 WORKDIR /opt/ampd
 COPY --from=builder /srv/target/ampd.jar ./ampd.jar

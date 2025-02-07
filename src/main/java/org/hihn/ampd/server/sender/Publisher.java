@@ -32,7 +32,6 @@ public class Publisher {
 	private final QueueService queueService;
 
 	@Autowired
-
 	public Publisher(MPD mpd, SimpMessagingTemplate template, QueueService queueService) {
 		this.mpd = mpd;
 		this.template = template;

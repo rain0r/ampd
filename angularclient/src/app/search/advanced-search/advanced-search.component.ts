@@ -1,4 +1,3 @@
-import { ViewportScroller } from "@angular/common";
 import { AfterViewInit, Component, OnInit } from "@angular/core";
 import { AbstractControl, FormControl, FormGroup } from "@angular/forms";
 import {
@@ -57,7 +56,6 @@ export class AdvancedSearchComponent implements OnInit, AfterViewInit {
     private notificationService: NotificationService,
     private queueService: QueueService,
     private responsiveScreenService: ResponsiveScreenService,
-    private scroller: ViewportScroller,
     private searchService: SearchService,
   ) {
     this.formFields = this.getFormFields();
@@ -117,7 +115,6 @@ export class AdvancedSearchComponent implements OnInit, AfterViewInit {
     advSearchResponse: PaginatedResponse<Track>,
   ): void {
     this.isLoadingResults.next(false);
-    this.scroller.scrollToAnchor("results");
     this.advSearchResponse$ = of(advSearchResponse);
     this.trackTableData = this.buildTableData(advSearchResponse);
   }

@@ -12,7 +12,6 @@ import {
   switchMap,
 } from "rxjs";
 import { MsgService } from "src/app/service/msg.service";
-import { NotificationService } from "src/app/service/notification.service";
 import { QueueService } from "src/app/service/queue.service";
 import { ResponsiveScreenService } from "src/app/service/responsive-screen.service";
 import { SearchService } from "src/app/service/search.service";
@@ -53,7 +52,6 @@ export class AdvancedSearchComponent implements OnInit, AfterViewInit {
 
   constructor(
     private msgService: MsgService,
-    private notificationService: NotificationService,
     private queueService: QueueService,
     private responsiveScreenService: ResponsiveScreenService,
     private searchService: SearchService,

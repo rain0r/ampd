@@ -164,7 +164,7 @@ public class EmbeddedCoverService {
 			String c = StringUtils.hexToAscii(Hex.encodeHex(buf));
 			LOG.debug("Received: {}", c);
 
-			if (c.equals("\n")) {
+			if ("\n".equals(c)) {
 
 				// Create a string from the previously received data
 				String text = line.toString(UTF_8);

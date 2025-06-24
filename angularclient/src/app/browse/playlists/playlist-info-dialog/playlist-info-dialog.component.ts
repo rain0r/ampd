@@ -1,5 +1,12 @@
-import { AfterViewInit, Component, Inject, OnDestroy } from "@angular/core";
-import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
+import { AfterViewInit, Component, OnDestroy, inject } from "@angular/core";
+import {
+  MatDialogRef,
+  MAT_DIALOG_DATA,
+  MatDialogTitle,
+  MatDialogContent,
+  MatDialogActions,
+  MatDialogClose,
+} from "@angular/material/dialog";
 import { Router } from "@angular/router";
 import {
   BehaviorSubject,
@@ -24,14 +31,41 @@ import { Playlist } from "../../../shared/messages/incoming/playlist";
 import { PlaylistInfo } from "../../../shared/model/playlist-info";
 import { ClickActions } from "../../../shared/track-table-data/click-actions.enum";
 import { TrackTableOptions } from "../../../shared/track-table-data/track-table-options";
+import { NgIf, AsyncPipe } from "@angular/common";
+import { CdkScrollable } from "@angular/cdk/scrolling";
+import { MatProgressSpinner } from "@angular/material/progress-spinner";
+import { TrackTableDataComponent } from "../../../shared/track-table-data/track-table-data.component";
+import { MatButton } from "@angular/material/button";
+import { MatIcon } from "@angular/material/icon";
 
 @Component({
   selector: "app-playlist-info-dialog",
   templateUrl: "./playlist-info-dialog.component.html",
   styleUrls: ["./playlist-info-dialog.component.scss"],
-  standalone: false,
+  imports: [
+    MatDialogTitle,
+    NgIf,
+    CdkScrollable,
+    MatDialogContent,
+    MatProgressSpinner,
+    TrackTableDataComponent,
+    MatDialogActions,
+    MatButton,
+    MatIcon,
+    MatDialogClose,
+    AsyncPipe,
+  ],
 })
 export class PlaylistInfoDialogComponent implements AfterViewInit, OnDestroy {
+  data = inject<Playlist>(MAT_DIALOG_DATA);
+  private msgService = inject(MsgService);
+  private notificationService = inject(NotificationService);
+  private playlistService = inject(PlaylistService);
+  private queueService = inject(QueueService);
+  private responsiveScreenService = inject(ResponsiveScreenService);
+  private router = inject(Router);
+  dialogRef = inject<MatDialogRef<PlaylistInfoDialogComponent>>(MatDialogRef);
+
   isLoadingResults = new BehaviorSubject(true);
   playlistInfo: Observable<PlaylistInfo>;
   trackTableData = new TrackTableOptions();
@@ -39,16 +73,7 @@ export class PlaylistInfoDialogComponent implements AfterViewInit, OnDestroy {
   private msgSub = {} as Subscription;
   private playlistInfo$ = new Subject<PlaylistInfo>();
 
-  constructor(
-    @Inject(MAT_DIALOG_DATA) public data: Playlist,
-    private msgService: MsgService,
-    private notificationService: NotificationService,
-    private playlistService: PlaylistService,
-    private queueService: QueueService,
-    private responsiveScreenService: ResponsiveScreenService,
-    private router: Router,
-    public dialogRef: MatDialogRef<PlaylistInfoDialogComponent>,
-  ) {
+  constructor() {
     this.playlistInfo = this.playlistInfo$.asObservable();
     this.responsiveScreenService
       .isMobile()

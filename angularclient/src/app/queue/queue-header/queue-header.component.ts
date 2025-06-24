@@ -1,8 +1,12 @@
-import { Component } from "@angular/core";
+import { Component, inject } from "@angular/core";
 import { Observable, combineLatest, map, shareReplay, startWith } from "rxjs";
 import { MpdService } from "../../service/mpd.service";
 import { QueueTrack } from "../../shared/model/queue-track";
 import { RadioStreamService } from "./../../service/radio-stream.service";
+import { NgIf, AsyncPipe } from "@angular/common";
+import { RouterLink } from "@angular/router";
+import { MatDivider } from "@angular/material/divider";
+import { CoverImageComponent } from "./cover-image/cover-image.component";
 
 interface CurrentPlay {
   state: string;
@@ -13,18 +17,18 @@ interface CurrentPlay {
   selector: "app-queue-header",
   templateUrl: "./queue-header.component.html",
   styleUrls: ["./queue-header.component.scss"],
-  standalone: false,
+  imports: [NgIf, RouterLink, MatDivider, CoverImageComponent, AsyncPipe],
 })
 export class QueueHeaderComponent {
+  private mpdService = inject(MpdService);
+  private radioStreamService = inject(RadioStreamService);
+
   currentPlay$: Observable<CurrentPlay>;
   currentPathLink = ""; // encoded dir of the current playing track
   radioStreamName$ = new Observable<string>().pipe(startWith("")); // If we found a name to the stream url
   isRadioStream$: Observable<boolean>;
 
-  constructor(
-    private mpdService: MpdService,
-    private radioStreamService: RadioStreamService,
-  ) {
+  constructor() {
     this.isRadioStream$ = this.mpdService.isCurrentTrackRadioStream$();
     this.currentPlay$ = combineLatest([
       this.mpdService.currentState$.pipe(startWith("stop")),

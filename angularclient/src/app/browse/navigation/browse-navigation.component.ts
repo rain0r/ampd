@@ -5,8 +5,9 @@ import {
   Input,
   OnInit,
   ViewChild,
+  inject,
 } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, RouterLinkActive, RouterLink } from "@angular/router";
 import { BehaviorSubject, Observable } from "rxjs";
 import { distinctUntilChanged, map } from "rxjs/operators";
 import { FrontendSettingsService } from "src/app/service/frontend-settings.service";
@@ -21,14 +22,47 @@ import { MsgService } from "../../service/msg.service";
 import { NotificationService } from "../../service/notification.service";
 import { QueueService } from "../../service/queue.service";
 import { AmpdBrowsePayload } from "../../shared/model/ampd-browse-payload";
+import { MatButton, MatIconButton } from "@angular/material/button";
+import { MatIcon } from "@angular/material/icon";
+import { NgIf, AsyncPipe } from "@angular/common";
+import {
+  MatFormField,
+  MatLabel,
+  MatSuffix,
+} from "@angular/material/form-field";
+import { MatInput } from "@angular/material/input";
+import { FormsModule } from "@angular/forms";
+import { MatDivider } from "@angular/material/divider";
 
 @Component({
   selector: "app-browse-navigation",
   templateUrl: "./browse.navigation.component.html",
   styleUrls: ["./browse.navigation.component.scss"],
-  standalone: false,
+  imports: [
+    MatButton,
+    RouterLinkActive,
+    RouterLink,
+    MatIcon,
+    NgIf,
+    MatFormField,
+    MatLabel,
+    MatInput,
+    FormsModule,
+    MatIconButton,
+    MatSuffix,
+    MatDivider,
+    AsyncPipe,
+  ],
 })
 export class BrowseNavigationComponent implements OnInit {
+  private activatedRoute = inject(ActivatedRoute);
+  private controlPanelService = inject(ControlPanelService);
+  private fsService = inject(FrontendSettingsService);
+  private messageService = inject(MsgService);
+  private notificationService = inject(NotificationService);
+  private queueService = inject(QueueService);
+  private settingsService = inject(SettingsService);
+
   @ViewChild("filterInputElem") filterInputElem?: ElementRef;
   @Input() browsePayload = new Observable<AmpdBrowsePayload>();
   @Input() filterDisabled = false;
@@ -43,15 +77,7 @@ export class BrowseNavigationComponent implements OnInit {
   displayBrowseClearQueue$: Observable<boolean>;
   displayRecentlyListened$: Observable<boolean>;
 
-  constructor(
-    private activatedRoute: ActivatedRoute,
-    private controlPanelService: ControlPanelService,
-    private fsService: FrontendSettingsService,
-    private messageService: MsgService,
-    private notificationService: NotificationService,
-    private queueService: QueueService,
-    private settingsService: SettingsService,
-  ) {
+  constructor() {
     this.displayAlbums$ = this.fsService.getBoolValue$(
       SettingKeys.DISPLAY_ALBUMS,
     );

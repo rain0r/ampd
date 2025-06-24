@@ -1,12 +1,18 @@
-import { Component, Inject } from "@angular/core";
-import { MAT_DIALOG_DATA } from "@angular/material/dialog";
+import { Component, inject } from "@angular/core";
+import {
+  MAT_DIALOG_DATA,
+  MatDialogActions,
+  MatDialogClose,
+} from "@angular/material/dialog";
+import { NgIf } from "@angular/common";
+import { MatButton } from "@angular/material/button";
 
 @Component({
   selector: "app-album-cover-dialog",
   templateUrl: "./album-cover-dialog.component.html",
   styleUrls: ["./album-cover-dialog.component.scss"],
-  standalone: false,
+  imports: [NgIf, MatDialogActions, MatButton, MatDialogClose],
 })
 export class AlbumCoverDialogComponent {
-  constructor(@Inject(MAT_DIALOG_DATA) public coverUrl: string) {}
+  coverUrl = inject(MAT_DIALOG_DATA);
 }

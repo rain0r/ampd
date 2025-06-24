@@ -1,5 +1,5 @@
 import { BreakpointObserver } from "@angular/cdk/layout";
-import { Injectable } from "@angular/core";
+import { Injectable, inject } from "@angular/core";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
 
@@ -7,7 +7,7 @@ import { map } from "rxjs/operators";
   providedIn: "root",
 })
 export class ResponsiveScreenService {
-  constructor(private breakpointObserver: BreakpointObserver) {}
+  private breakpointObserver = inject(BreakpointObserver);
 
   isMobile(): Observable<boolean> {
     return this.breakpointObserver

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from "@angular/core";
+import { Component, Input, OnInit, inject } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
 import { MatTableDataSource } from "@angular/material/table";
 import { ActivatedRoute } from "@angular/router";
@@ -9,14 +9,30 @@ import { AlbumCoverDialogComponent } from "../../shared/album-cover-dialog/album
 import { QueueTrack } from "../../shared/model/queue-track";
 import { ClickActions } from "../../shared/track-table-data/click-actions.enum";
 import { TrackTableOptions } from "../../shared/track-table-data/track-table-options";
+import { NgIf, NgPlural, NgPluralCase } from "@angular/common";
+import { TrackTableDataComponent } from "../../shared/track-table-data/track-table-data.component";
+import { MatDivider } from "@angular/material/divider";
+import { SecondsToHhMmSsPipe } from "../../shared/pipes/seconds-to-hh-mm-ss.pipe";
 
 @Component({
   selector: "app-tracks",
   templateUrl: "./tracks.component.html",
   styleUrls: ["./tracks.component.scss"],
-  standalone: false,
+  imports: [
+    NgIf,
+    TrackTableDataComponent,
+    MatDivider,
+    NgPlural,
+    NgPluralCase,
+    SecondsToHhMmSsPipe,
+  ],
 })
 export class TracksComponent implements OnInit {
+  private activatedRoute = inject(ActivatedRoute);
+  private dialog = inject(MatDialog);
+  private responsiveScreenService = inject(ResponsiveScreenService);
+  private settingsService = inject(SettingsService);
+
   @Input() tracks: QueueTrack[] = [];
   coverUrl = "";
   dirQp = "/";
@@ -25,12 +41,7 @@ export class TracksComponent implements OnInit {
   validCoverUrl = false;
   private isMobile = false;
 
-  constructor(
-    private activatedRoute: ActivatedRoute,
-    private dialog: MatDialog,
-    private responsiveScreenService: ResponsiveScreenService,
-    private settingsService: SettingsService,
-  ) {
+  constructor() {
     this.responsiveScreenService
       .isMobile()
       .subscribe((isMobile) => (this.isMobile = isMobile));

@@ -1,5 +1,11 @@
-import { AfterViewInit, Component, OnInit } from "@angular/core";
-import { AbstractControl, FormControl, FormGroup } from "@angular/forms";
+import { AfterViewInit, Component, OnInit, inject } from "@angular/core";
+import {
+  AbstractControl,
+  FormControl,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+} from "@angular/forms";
 import {
   BehaviorSubject,
   combineLatest,
@@ -25,14 +31,34 @@ import { QueueTrack } from "src/app/shared/model/queue-track";
 import { FormField } from "src/app/shared/search/form-field";
 import { ClickActions } from "src/app/shared/track-table-data/click-actions.enum";
 import { TrackTableOptions } from "src/app/shared/track-table-data/track-table-options";
+import { NgFor, NgIf, AsyncPipe } from "@angular/common";
+import { DynamicFormInputComponent } from "./dynamic-form-input/dynamic-form-input.component";
+import { MatButton } from "@angular/material/button";
+import { MatIcon } from "@angular/material/icon";
+import { TrackTableDataComponent } from "../../shared/track-table-data/track-table-data.component";
 
 @Component({
   selector: "app-advanced-search",
   templateUrl: "./advanced-search.component.html",
   styleUrls: ["./advanced-search.component.scss"],
-  standalone: false,
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    NgFor,
+    DynamicFormInputComponent,
+    MatButton,
+    MatIcon,
+    NgIf,
+    TrackTableDataComponent,
+    AsyncPipe,
+  ],
 })
 export class AdvancedSearchComponent implements OnInit, AfterViewInit {
+  private msgService = inject(MsgService);
+  private queueService = inject(QueueService);
+  private responsiveScreenService = inject(ResponsiveScreenService);
+  private searchService = inject(SearchService);
+
   advSearchResponse$ = new Observable<PaginatedResponse<Track>>();
   displayedColumns: string[] = [
     "artist-name",
@@ -50,12 +76,7 @@ export class AdvancedSearchComponent implements OnInit, AfterViewInit {
   private formDataSubmitted = new Subject<Record<string, string>>();
   private isMobile = false;
 
-  constructor(
-    private msgService: MsgService,
-    private queueService: QueueService,
-    private responsiveScreenService: ResponsiveScreenService,
-    private searchService: SearchService,
-  ) {
+  constructor() {
     this.formFields = this.getFormFields();
     this.responsiveScreenService
       .isMobile()

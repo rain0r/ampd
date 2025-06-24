@@ -1,27 +1,27 @@
 import { delay, of } from "rxjs";
-import { Component, Input } from "@angular/core";
+import { Component, Input, inject } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
 import { ControlPanelService } from "src/app/service/control-panel.service";
 import { NotificationService } from "../../../service/notification.service";
 import { QueueService } from "../../../service/queue.service";
 import { Playlist } from "../../../shared/messages/incoming/playlist";
 import { PlaylistInfoDialogComponent } from "../playlist-info-dialog/playlist-info-dialog.component";
+import { MatIcon } from "@angular/material/icon";
+import { MatButton } from "@angular/material/button";
 
 @Component({
   selector: "app-playlist-entry",
   templateUrl: "./playlist-entry.component.html",
   styleUrls: ["./playlist-entry.component.scss"],
-  standalone: false,
+  imports: [MatIcon, MatButton],
 })
 export class PlaylistEntryComponent {
-  @Input() playlist: Playlist = {} as Playlist;
+  private controlPanelService = inject(ControlPanelService);
+  private dialog = inject(MatDialog);
+  private notificationService = inject(NotificationService);
+  private queueService = inject(QueueService);
 
-  constructor(
-    private controlPanelService: ControlPanelService,
-    private dialog: MatDialog,
-    private notificationService: NotificationService,
-    private queueService: QueueService,
-  ) {}
+  @Input() playlist: Playlist = {} as Playlist;
 
   onPlaylistInfo($event: MouseEvent, playlist: Playlist): void {
     $event.stopPropagation();

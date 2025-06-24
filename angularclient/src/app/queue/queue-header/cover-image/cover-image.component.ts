@@ -1,5 +1,5 @@
 import { HttpClient } from "@angular/common/http";
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, inject } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
 import {
   BehaviorSubject,
@@ -13,25 +13,26 @@ import { MpdService } from "src/app/service/mpd.service";
 import { AlbumCoverDialogComponent } from "src/app/shared/album-cover-dialog/album-cover-dialog.component";
 import { SettingKeys } from "src/app/shared/model/internal/frontend-settings";
 import { QueueTrack } from "src/app/shared/model/queue-track";
+import { NgIf, AsyncPipe } from "@angular/common";
 
 @Component({
   selector: "app-cover-image",
   templateUrl: "./cover-image.component.html",
   styleUrls: ["./cover-image.component.scss"],
-  standalone: false,
+  imports: [NgIf, AsyncPipe],
 })
 export class CoverImageComponent implements OnInit {
+  private dialog = inject(MatDialog);
+  private frontendSettingsService = inject(FrontendSettingsService);
+  private http = inject(HttpClient);
+  private mpdService = inject(MpdService);
+
   isDisplayCover: Observable<boolean>;
   queueTrack: Observable<QueueTrack>;
 
   private displayCover$ = new BehaviorSubject<boolean>(false);
 
-  constructor(
-    private dialog: MatDialog,
-    private frontendSettingsService: FrontendSettingsService,
-    private http: HttpClient,
-    private mpdService: MpdService,
-  ) {
+  constructor() {
     this.isDisplayCover = this.displayCover$.asObservable();
     this.queueTrack = this.mpdService.currentTrack$;
   }

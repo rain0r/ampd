@@ -1,4 +1,4 @@
-import { Injectable } from "@angular/core";
+import { Injectable, inject } from "@angular/core";
 import { Observable } from "rxjs";
 import { distinctUntilChanged, map, tap } from "rxjs/operators";
 import { Track } from "../shared/messages/incoming/track";
@@ -12,15 +12,15 @@ import { NotificationService } from "./notification.service";
   providedIn: "root",
 })
 export class QueueService {
+  private rxStompService = inject(AmpdRxStompService);
+  private notificationService = inject(NotificationService);
+  private logger = inject(LoggerService);
+
   queue$: Observable<PaginatedResponse<Track>>;
 
   private queuePath = "/app/queue/";
 
-  constructor(
-    private rxStompService: AmpdRxStompService,
-    private notificationService: NotificationService,
-    private logger: LoggerService,
-  ) {
+  constructor() {
     this.queue$ = this.getQueueSubscription$();
   }
 

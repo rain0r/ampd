@@ -1,5 +1,5 @@
 import { HttpClient } from "@angular/common/http";
-import { Injectable } from "@angular/core";
+import { Injectable, inject } from "@angular/core";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
 import { AmpdBrowsePayload } from "../shared/model/ampd-browse-payload";
@@ -11,10 +11,8 @@ import { SettingsService } from "./settings.service";
   providedIn: "root",
 })
 export class BrowseService {
-  constructor(
-    private http: HttpClient,
-    private settingsService: SettingsService,
-  ) {}
+  private http = inject(HttpClient);
+  private settingsService = inject(SettingsService);
 
   buildEmptyPayload(): AmpdBrowsePayload {
     return {

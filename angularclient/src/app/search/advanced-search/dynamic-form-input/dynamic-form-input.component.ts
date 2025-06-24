@@ -1,12 +1,23 @@
 import { Component, Input } from "@angular/core";
-import { FormGroup } from "@angular/forms";
+import { FormGroup, FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { FormField } from "../../../shared/search/form-field";
+import { NgSwitch, NgSwitchCase } from "@angular/common";
+import { MatFormField, MatLabel } from "@angular/material/form-field";
+import { MatInput } from "@angular/material/input";
 
 @Component({
   selector: "app-dynamic-form-input",
   templateUrl: "./dynamic-form-input.component.html",
   styleUrls: ["./dynamic-form-input.component.scss"],
-  standalone: false,
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    NgSwitch,
+    NgSwitchCase,
+    MatFormField,
+    MatLabel,
+    MatInput,
+  ],
 })
 export class DynamicFormInputComponent {
   @Input() input: FormField = {} as FormField;

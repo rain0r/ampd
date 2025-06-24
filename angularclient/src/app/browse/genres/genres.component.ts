@@ -1,7 +1,7 @@
-import { ViewportScroller } from "@angular/common";
-import { Component, OnDestroy, OnInit } from "@angular/core";
-import { PageEvent } from "@angular/material/paginator";
-import { ActivatedRoute } from "@angular/router";
+import { ViewportScroller, NgFor, NgIf, AsyncPipe } from "@angular/common";
+import { Component, OnDestroy, OnInit, inject } from "@angular/core";
+import { PageEvent, MatPaginator } from "@angular/material/paginator";
+import { ActivatedRoute, RouterLink } from "@angular/router";
 import {
   BehaviorSubject,
   combineLatest,
@@ -26,14 +26,39 @@ import { GenresService as GenreService } from "../../service/genres.service";
 import { ResponsiveScreenService } from "../../service/responsive-screen.service";
 import { ClickActions } from "../../shared/track-table-data/click-actions.enum";
 import { TrackTableOptions } from "../../shared/track-table-data/track-table-options";
+import { BrowseNavigationComponent } from "../navigation/browse-navigation.component";
+import { MatButton } from "@angular/material/button";
+import { MatProgressSpinner } from "@angular/material/progress-spinner";
+import { MatTabGroup, MatTab } from "@angular/material/tabs";
+import { AlbumItemComponent } from "../albums/album-item/album-item.component";
+import { TrackTableDataComponent } from "../../shared/track-table-data/track-table-data.component";
 
 @Component({
   selector: "app-genres",
   templateUrl: "./genres.component.html",
   styleUrls: ["./genres.component.scss"],
-  standalone: false,
+  imports: [
+    BrowseNavigationComponent,
+    NgFor,
+    MatButton,
+    RouterLink,
+    NgIf,
+    MatProgressSpinner,
+    MatTabGroup,
+    MatTab,
+    AlbumItemComponent,
+    MatPaginator,
+    TrackTableDataComponent,
+    AsyncPipe,
+  ],
 })
 export class GenresComponent implements OnInit, OnDestroy {
+  private activatedRoute = inject(ActivatedRoute);
+  private genreService = inject(GenreService);
+  private msgService = inject(MsgService);
+  private responsiveScreenService = inject(ResponsiveScreenService);
+  private viewportScroller = inject(ViewportScroller);
+
   browsePayload = new Observable<AmpdBrowsePayload>();
   genrePayload = new Observable<GenreResponse>();
   genres = new Observable<string[]>();
@@ -43,13 +68,7 @@ export class GenresComponent implements OnInit, OnDestroy {
   sub = new Subscription();
   trackTableData = new TrackTableOptions();
 
-  constructor(
-    private activatedRoute: ActivatedRoute,
-    private genreService: GenreService,
-    private msgService: MsgService,
-    private responsiveScreenService: ResponsiveScreenService,
-    private viewportScroller: ViewportScroller,
-  ) {
+  constructor() {
     this.responsiveScreenService
       .isMobile()
       .subscribe((isMobile) => (this.isMobile = isMobile));

@@ -1,5 +1,5 @@
 import { Location } from "@angular/common";
-import { Injectable } from "@angular/core";
+import { Injectable, inject } from "@angular/core";
 import { RxStompConfig } from "@stomp/rx-stomp";
 import { environment } from "./../../environments/environment";
 import { SettingsService } from "./settings.service";
@@ -8,14 +8,14 @@ import { SettingsService } from "./settings.service";
   providedIn: "root",
 })
 export class AmpdRxStompConfigService extends RxStompConfig {
-  constructor(
-    private location: Location,
+  private location = inject(Location);
+  private settingsService = inject(SettingsService);
 
-    private settingsService: SettingsService,
-  ) {
+  constructor() {
     super();
     // Which server?
     this.brokerURL = this.getBrokerUrl();
+    console.debug("brokerURL", this.brokerURL);
     // Headers
     // Typical keys: login, passcode, host
     this.connectHeaders = {};

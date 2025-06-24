@@ -1,4 +1,4 @@
-import { Injectable } from "@angular/core";
+import { Injectable, inject } from "@angular/core";
 import { BehaviorSubject, Observable, map } from "rxjs";
 import {
   FrontendSettings,
@@ -13,13 +13,15 @@ const LS_KEY = "ampd_userSettings";
   providedIn: "root",
 })
 export class FrontendSettingsService {
+  private logger = inject(LoggerService);
+
   pageSizeOptions = [5, 20, 50, 100];
 
   private settings: FrontendSetting[] = FrontendSettings;
   private settings$: Observable<FrontendSetting[]>;
   private settingsSub$: BehaviorSubject<FrontendSetting[]>;
 
-  constructor(private logger: LoggerService) {
+  constructor() {
     this.settingsSub$ = new BehaviorSubject<FrontendSetting[]>(
       this.loadFrontendSettings(),
     );

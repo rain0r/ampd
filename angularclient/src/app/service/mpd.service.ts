@@ -1,5 +1,5 @@
 import { HttpClient } from "@angular/common/http";
-import { Injectable } from "@angular/core";
+import { Injectable, inject } from "@angular/core";
 import { RxStompState } from "@stomp/rx-stomp";
 import { Observable, of } from "rxjs";
 import { filter, map, switchMap } from "rxjs/operators";
@@ -14,6 +14,11 @@ import { SettingsService } from "./settings.service";
   providedIn: "root",
 })
 export class MpdService {
+  private http = inject(HttpClient);
+  private rxStompService = inject(AmpdRxStompService);
+  private settingsService = inject(SettingsService);
+  private queueService = inject(QueueService);
+
   currentTrack$: Observable<QueueTrack>;
   currentState$: Observable<string>;
   mpdModesPanel$: Observable<MpdModesPanel>;
@@ -21,12 +26,7 @@ export class MpdService {
 
   private prevTrack = {} as QueueTrack;
 
-  constructor(
-    private http: HttpClient,
-    private rxStompService: AmpdRxStompService,
-    private settingsService: SettingsService,
-    private queueService: QueueService,
-  ) {
+  constructor() {
     this.state$ = this.getStateSubscription$();
     this.currentTrack$ = this.state$.pipe(
       map((payload) => this.buildCurrentQueueTrack(payload)),

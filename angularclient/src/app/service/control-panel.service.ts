@@ -1,4 +1,4 @@
-import { Injectable } from "@angular/core";
+import { Injectable, inject } from "@angular/core";
 import {
   Subject,
   debounceTime,
@@ -24,14 +24,14 @@ interface JumpSeekCounter {
   providedIn: "root",
 })
 export class ControlPanelService {
+  private fsSettings = inject(FrontendSettingsService);
+  private mpdService = inject(MpdService);
+  private rxStompService = inject(AmpdRxStompService);
+
   private path = "/app/control-panel/";
   private seekJump$ = new Subject<JumpSeekCounter>();
 
-  constructor(
-    private fsSettings: FrontendSettingsService,
-    private mpdService: MpdService,
-    private rxStompService: AmpdRxStompService,
-  ) {
+  constructor() {
     this.buildSeekJumpListener();
   }
 

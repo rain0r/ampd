@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, inject } from "@angular/core";
 import { BehaviorSubject, Observable, Subject, combineLatest, of } from "rxjs";
 import {
   debounceTime,
@@ -22,14 +22,42 @@ import {
 import { QueueTrack } from "../shared/model/queue-track";
 import { ClickActions } from "../shared/track-table-data/click-actions.enum";
 import { TrackTableOptions } from "../shared/track-table-data/track-table-options";
+import { MatFormField, MatSuffix } from "@angular/material/form-field";
+import { MatInput } from "@angular/material/input";
+import { FormsModule } from "@angular/forms";
+import { NgIf, AsyncPipe } from "@angular/common";
+import { MatIconButton, MatButton } from "@angular/material/button";
+import { MatIcon } from "@angular/material/icon";
+import { RouterLink } from "@angular/router";
+import { MatProgressSpinner } from "@angular/material/progress-spinner";
+import { TrackTableDataComponent } from "../shared/track-table-data/track-table-data.component";
 
 @Component({
   selector: "app-search",
   templateUrl: "./search.component.html",
   styleUrls: ["./search.component.scss"],
-  standalone: false,
+  imports: [
+    MatFormField,
+    MatInput,
+    FormsModule,
+    NgIf,
+    MatIconButton,
+    MatSuffix,
+    MatIcon,
+    MatButton,
+    RouterLink,
+    MatProgressSpinner,
+    TrackTableDataComponent,
+    AsyncPipe,
+  ],
 })
 export class SearchComponent implements OnInit {
+  private msgService = inject(MsgService);
+  private notificationService = inject(NotificationService);
+  private queueService = inject(QueueService);
+  private responsiveScreenService = inject(ResponsiveScreenService);
+  private searchService = inject(SearchService);
+
   advSearchResponse$ = new Observable<PaginatedResponse<Track>>();
   isLoadingResults = new BehaviorSubject(true);
   isMobile = false;
@@ -38,13 +66,7 @@ export class SearchComponent implements OnInit {
   trackTableData = new TrackTableOptions();
   private inputSetter$ = new Subject<string>();
 
-  constructor(
-    private msgService: MsgService,
-    private notificationService: NotificationService,
-    private queueService: QueueService,
-    private responsiveScreenService: ResponsiveScreenService,
-    private searchService: SearchService,
-  ) {
+  constructor() {
     this.buildInputListener();
     this.responsiveScreenService
       .isMobile()

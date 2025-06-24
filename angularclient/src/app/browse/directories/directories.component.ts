@@ -1,17 +1,38 @@
-import { Component, Input, OnInit } from "@angular/core";
-import { PageEvent } from "@angular/material/paginator";
+import { Component, Input, OnInit, inject } from "@angular/core";
+import { PageEvent, MatPaginator } from "@angular/material/paginator";
 import { FrontendSettingsService } from "../../service/frontend-settings.service";
 import { MsgService } from "../../service/msg.service";
 import { Directory } from "../../shared/messages/incoming/directory";
 import { Filterable } from "../filterable";
+import { NgIf, NgFor, SlicePipe } from "@angular/common";
+import { MatIcon } from "@angular/material/icon";
+import { MatDivider } from "@angular/material/divider";
+import { DirectoryEntryComponent } from "./directory-entry/directory-entry.component";
+import { CoverGridComponent } from "./cover-grid/cover-grid.component";
+import { DirectoryFilterPipe } from "../../shared/pipes/filter/directory-filter.pipe";
+import { DirectoryFilterStartLetterPipe } from "../../shared/pipes/filter/directory-filter-start-letter-pipe";
 
 @Component({
   selector: "app-directories",
   templateUrl: "./directories.component.html",
   styleUrls: ["./directories.component.scss"],
-  standalone: false,
+  imports: [
+    NgIf,
+    MatIcon,
+    MatDivider,
+    NgFor,
+    DirectoryEntryComponent,
+    MatPaginator,
+    CoverGridComponent,
+    SlicePipe,
+    DirectoryFilterPipe,
+    DirectoryFilterStartLetterPipe,
+  ],
 })
 export class DirectoriesComponent extends Filterable implements OnInit {
+  private frontendSettingsService = inject(FrontendSettingsService);
+  private messageService: MsgService;
+
   @Input() directories: Directory[] = [];
   @Input() dirQp = "/";
 
@@ -23,11 +44,12 @@ export class DirectoriesComponent extends Filterable implements OnInit {
   paginationFrom = 0;
   paginationTo = 30;
 
-  constructor(
-    private frontendSettingsService: FrontendSettingsService,
-    private messageService: MsgService,
-  ) {
+  constructor() {
+    const messageService = inject(MsgService);
+
     super(messageService);
+    this.messageService = messageService;
+
     this.pageSizeOptions = this.frontendSettingsService.pageSizeOptions;
   }
 

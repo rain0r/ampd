@@ -1,5 +1,5 @@
 import { HttpClient, HttpParams } from "@angular/common/http";
-import { Injectable } from "@angular/core";
+import { Injectable, inject } from "@angular/core";
 import { Observable } from "rxjs";
 import { PaginatedResponse } from "../shared/messages/incoming/paginated-response";
 import { Track } from "../shared/messages/incoming/track";
@@ -9,10 +9,8 @@ import { SettingsService } from "./settings.service";
   providedIn: "root",
 })
 export class SearchService {
-  constructor(
-    private http: HttpClient,
-    private settingsService: SettingsService,
-  ) {}
+  private http = inject(HttpClient);
+  private settingsService = inject(SettingsService);
 
   search(
     term: string,

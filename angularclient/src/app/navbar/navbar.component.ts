@@ -1,23 +1,54 @@
-import { Component, ElementRef, HostListener, ViewChild } from "@angular/core";
+import {
+  Component,
+  ElementRef,
+  HostListener,
+  ViewChild,
+  inject,
+} from "@angular/core";
 import { Observable } from "rxjs";
 import { AmpdRxStompService } from "./../service/ampd-rx-stomp.service";
 import { ShortcutService } from "./../service/shortcut.service";
+import { MatToolbar } from "@angular/material/toolbar";
+import { MatButton } from "@angular/material/button";
+import { RouterLinkActive, RouterLink, RouterOutlet } from "@angular/router";
+import { MatIcon } from "@angular/material/icon";
+import {
+  NgSwitch,
+  NgSwitchCase,
+  NgSwitchDefault,
+  NgIf,
+  AsyncPipe,
+} from "@angular/common";
+import { MatProgressSpinner } from "@angular/material/progress-spinner";
 
 @Component({
   selector: "app-navbar",
   templateUrl: "./navbar.component.html",
   styleUrls: ["./navbar.component.scss"],
-  standalone: false,
+  imports: [
+    MatToolbar,
+    MatButton,
+    RouterLinkActive,
+    RouterLink,
+    MatIcon,
+    NgSwitch,
+    NgSwitchCase,
+    MatProgressSpinner,
+    NgSwitchDefault,
+    NgIf,
+    RouterOutlet,
+    AsyncPipe,
+  ],
 })
 export class NavbarComponent {
+  private rxStompService = inject(AmpdRxStompService);
+  private shortcutService = inject(ShortcutService);
+
   @ViewChild("helpIcon") helpIcon: ElementRef = {} as ElementRef;
 
   connState: Observable<number>;
 
-  constructor(
-    private rxStompService: AmpdRxStompService,
-    private shortcutService: ShortcutService,
-  ) {
+  constructor() {
     this.connState = this.rxStompService.connectionState$;
   }
 

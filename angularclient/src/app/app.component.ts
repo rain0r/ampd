@@ -1,17 +1,20 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, inject } from "@angular/core";
 import { interval } from "rxjs";
 import { ThemingService } from "./service/theming.service";
+import { NavbarComponent } from "./navbar/navbar.component";
 
 @Component({
   selector: "app-root",
   templateUrl: "./app.component.html",
   styleUrls: ["./app.component.scss"],
-  standalone: false,
+  imports: [NavbarComponent],
 })
 export class AppComponent implements OnInit {
+  private ts = inject(ThemingService);
+
   lightThemeEnabled;
 
-  constructor(private ts: ThemingService) {
+  constructor() {
     this.lightThemeEnabled = this.ts.onLoad();
   }
 

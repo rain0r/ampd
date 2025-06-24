@@ -1,4 +1,4 @@
-import { ApplicationRef, Injectable } from "@angular/core";
+import { ApplicationRef, Injectable, inject } from "@angular/core";
 import { SettingKeys } from "../shared/model/internal/frontend-settings";
 import { StyleManager } from "../shared/style-manager";
 import { FrontendSettingsService } from "./frontend-settings.service";
@@ -13,12 +13,10 @@ enum Themes {
   providedIn: "root",
 })
 export class ThemingService {
-  constructor(
-    private feSettings: FrontendSettingsService,
-    private logger: LoggerService,
-    private ref: ApplicationRef,
-    private styleManager: StyleManager,
-  ) {}
+  private feSettings = inject(FrontendSettingsService);
+  private logger = inject(LoggerService);
+  private ref = inject(ApplicationRef);
+  private styleManager = inject(StyleManager);
 
   loadTheme(theme: Themes): void {
     this.styleManager.setStyle("theme", `${theme}.css`);

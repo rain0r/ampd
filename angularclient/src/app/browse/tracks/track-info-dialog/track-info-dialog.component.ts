@@ -1,32 +1,58 @@
-import { KeyValue } from "@angular/common";
-import { Component, Inject } from "@angular/core";
-import { MAT_DIALOG_DATA } from "@angular/material/dialog";
+import { KeyValue, NgIf, AsyncPipe } from "@angular/common";
+import { Component, inject } from "@angular/core";
+import {
+  MAT_DIALOG_DATA,
+  MatDialogTitle,
+  MatDialogContent,
+  MatDialogActions,
+  MatDialogClose,
+} from "@angular/material/dialog";
 import { map, Observable, tap } from "rxjs";
 import { LastFmService } from "src/app/service/last-fm.service";
 import { Track } from "src/app/shared/messages/incoming/track";
 import { ReplaceNullWithTextPipe } from "src/app/shared/pipes/replace-null-with-text.pipe";
 import { TagMap } from "../../../shared/messages/incoming/track";
 import { CamelCaseTitlePipe } from "../../../shared/pipes/camel-case-title.pipe";
+import { CdkScrollable } from "@angular/cdk/scrolling";
+import { MatTabGroup, MatTab } from "@angular/material/tabs";
+import { KeyValueTableComponent } from "../../../shared/key-value-table/key-value-table.component";
+import { MatProgressSpinner } from "@angular/material/progress-spinner";
+import { MatButton } from "@angular/material/button";
 
 @Component({
   selector: "app-track-info-dialog",
   templateUrl: "./track-info-dialog.component.html",
   styleUrls: ["./track-info-dialog.component.scss"],
-  standalone: false,
+  imports: [
+    MatDialogTitle,
+    CdkScrollable,
+    MatDialogContent,
+    NgIf,
+    MatTabGroup,
+    MatTab,
+    KeyValueTableComponent,
+    MatProgressSpinner,
+    MatDialogActions,
+    MatButton,
+    MatDialogClose,
+    AsyncPipe,
+  ],
 })
 export class TrackInfoDialogComponent {
+  track = inject<Track>(MAT_DIALOG_DATA);
+  private camelCaseTitlePipe = inject(CamelCaseTitlePipe);
+  private replaceNullWithTextPipe = inject(ReplaceNullWithTextPipe);
+  private lastFmService = inject(LastFmService);
+
   displayedColumns: string[] = ["key", "value"];
   trackSource: KeyValue<string, string>[] = [];
   tagSource: KeyValue<string, string>[] = [];
   similarSource = new Observable<KeyValue<string, string>[]>();
   lastFmApiKey = "";
 
-  constructor(
-    @Inject(MAT_DIALOG_DATA) public track: Track,
-    private camelCaseTitlePipe: CamelCaseTitlePipe,
-    private replaceNullWithTextPipe: ReplaceNullWithTextPipe,
-    private lastFmService: LastFmService,
-  ) {
+  constructor() {
+    const track = this.track;
+
     this.trackSource = this.buildTableData(track);
     this.tagSource = this.buildTableData(track.tagMap);
     this.similarSource = this.buildSimilarTracks(track);

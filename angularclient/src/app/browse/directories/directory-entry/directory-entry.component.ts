@@ -1,25 +1,27 @@
 import { delay, of } from "rxjs";
-import { Component, Input, OnInit } from "@angular/core";
+import { Component, Input, OnInit, inject } from "@angular/core";
 import { ControlPanelService } from "../../../service/control-panel.service";
 import { NotificationService } from "../../../service/notification.service";
 import { QueueService } from "../../../service/queue.service";
 import { Directory } from "../../../shared/messages/incoming/directory";
+import { NgIf } from "@angular/common";
+import { RouterLink } from "@angular/router";
+import { MatIcon } from "@angular/material/icon";
+import { MatButton } from "@angular/material/button";
 
 @Component({
   selector: "app-directory-entry",
   templateUrl: "./directory-entry.component.html",
   styleUrls: ["./directory-entry.component.scss"],
-  standalone: false,
+  imports: [NgIf, RouterLink, MatIcon, MatButton],
 })
 export class DirectoryEntryComponent implements OnInit {
+  private controlPanelService = inject(ControlPanelService);
+  private notificationService = inject(NotificationService);
+  private queueService = inject(QueueService);
+
   @Input() directory: Directory | null = null;
   pathLink = "";
-
-  constructor(
-    private controlPanelService: ControlPanelService,
-    private notificationService: NotificationService,
-    private queueService: QueueService,
-  ) {}
 
   ngOnInit(): void {
     if (this.directory) {

@@ -1,5 +1,5 @@
 import { HttpClient, HttpParams } from "@angular/common/http";
-import { Injectable } from "@angular/core";
+import { Injectable, inject } from "@angular/core";
 import { Observable, map } from "rxjs";
 import { PaginatedResponse } from "../shared/messages/incoming/paginated-response";
 import { Track } from "../shared/messages/incoming/track";
@@ -10,10 +10,8 @@ import { SettingsService } from "./settings.service";
   providedIn: "root",
 })
 export class RecentlyListenedService {
-  constructor(
-    private http: HttpClient,
-    private settingsService: SettingsService,
-  ) {}
+  private http = inject(HttpClient);
+  private settingsService = inject(SettingsService);
 
   getAlbums(pageIndex: number | null): Observable<PaginatedResponse<MpdAlbum>> {
     let params = new HttpParams();

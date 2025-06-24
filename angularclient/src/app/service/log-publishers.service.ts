@@ -1,5 +1,5 @@
 import { HttpClient } from "@angular/common/http";
-import { Injectable } from "@angular/core";
+import { Injectable, inject } from "@angular/core";
 import { Observable } from "rxjs";
 import { LogConsole } from "../shared/log/log-console";
 import { LogLocalStorage } from "../shared/log/log-local-storage";
@@ -12,9 +12,11 @@ const PUBLISHERS_FILE = "assets/log-publishers.json";
   providedIn: "root",
 })
 export class LogPublishersService {
+  private http = inject(HttpClient);
+
   publishers: LogPublisher[] = [];
 
-  constructor(private http: HttpClient) {
+  constructor() {
     this.buildPublishers();
   }
 

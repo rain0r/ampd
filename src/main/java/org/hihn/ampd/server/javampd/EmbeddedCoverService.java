@@ -16,6 +16,7 @@ import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketAddress;
 import java.util.List;
+import java.util.Optional;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.hihn.ampd.server.util.StringUtils.bytesToHex;
@@ -45,7 +46,7 @@ public class EmbeddedCoverService {
 	 * @return The embedded cover image as byte array.
 	 */
 	@Cacheable
-	public synchronized byte[] getEmbeddedCover(String file) {
+	public synchronized Optional<byte[]> getEmbeddedCover(String file) {
 		connectSocket();
 
 		Picture ret = new Picture();
@@ -87,7 +88,10 @@ public class EmbeddedCoverService {
 		}
 		while (size > ret.getBinary().size());
 
-		return ret.getBinary().toByteArray();
+		if (ret.getBinary().size() > 0) {
+			return Optional.of(ret.getBinary().toByteArray());
+		}
+		return Optional.empty();
 	}
 
 	/**

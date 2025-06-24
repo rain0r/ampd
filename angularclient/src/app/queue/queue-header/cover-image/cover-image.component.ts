@@ -62,11 +62,12 @@ export class CoverImageComponent implements OnInit {
     }
 
     this.http.head(track.coverUrl, { observe: "response" }).subscribe({
+      next: (data: unknown) => {
+        console.log("data", data);
+        this.setDisplayCover();
+      },
       error: () => {
         this.displayCover$.next(false);
-      },
-      next: () => {
-        this.setDisplayCover();
       },
     });
   }

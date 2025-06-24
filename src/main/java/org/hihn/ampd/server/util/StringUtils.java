@@ -7,7 +7,7 @@ public class StringUtils {
 		return input == null || input.trim().isEmpty();
 	}
 
-	public static String hexToAscii(char[] hexStr) {
+	public static String hexToAscii(char... hexStr) {
 		return hexToAscii(String.valueOf(hexStr));
 	}
 

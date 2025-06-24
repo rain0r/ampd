@@ -94,7 +94,6 @@ public class AlbumArtService {
 		if (cover.isEmpty()) {
 			try {
 				cover = myMpd.getEmbeddedCover(trackFilePath);
-				System.out.println(1);
 			}
 			catch (Exception e) {
 				LOG.error("Error loading embedded cover: {} - {}", trackFilePath, e.getMessage());

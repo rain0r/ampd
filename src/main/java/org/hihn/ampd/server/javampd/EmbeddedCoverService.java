@@ -251,8 +251,8 @@ public class EmbeddedCoverService {
 	private static String convertCommand(String command, List<String> params) {
 		var sb = new StringBuilder(command);
 		for (String param : params) {
-			param = param.replace("\"", "\\\\\"");
-			sb.append(" \"").append(param).append("\"");
+			String cleanedParam = param.replace("\"", "\\\\\"");
+			sb.append(" \"").append(cleanedParam).append("\"");
 		}
 
 		return sb.append("\n").toString();

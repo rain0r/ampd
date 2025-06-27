@@ -1,5 +1,8 @@
-import { Component } from "@angular/core";
-import { MatSlideToggleChange } from "@angular/material/slide-toggle";
+import { Component, inject } from "@angular/core";
+import {
+  MatSlideToggleChange,
+  MatSlideToggle,
+} from "@angular/material/slide-toggle";
 import { Title } from "@angular/platform-browser";
 import { Observable } from "rxjs";
 import { FrontendSettingsService } from "src/app/service/frontend-settings.service";
@@ -12,6 +15,30 @@ import {
   SettingKeys,
 } from "../shared/model/internal/frontend-settings";
 import { MpdSettings } from "../shared/model/mpd-settings";
+import { MatTabGroup, MatTab } from "@angular/material/tabs";
+import {
+  MatCard,
+  MatCardContent,
+  MatCardHeader,
+  MatCardTitle,
+  MatCardActions,
+  MatCardFooter,
+} from "@angular/material/card";
+import {
+  NgFor,
+  NgSwitch,
+  NgSwitchCase,
+  NgSwitchDefault,
+  NgIf,
+  AsyncPipe,
+  KeyValuePipe,
+} from "@angular/common";
+import { MatLabel, MatFormField, MatHint } from "@angular/material/form-field";
+import { MatInput } from "@angular/material/input";
+import { MatButton } from "@angular/material/button";
+import { UpdateDatabaseComponent } from "./admin/update-database/update-database.component";
+import { ServerStatisticsComponent } from "./admin/server-statistics/server-statistics.component";
+import { LogViewComponent } from "./log-view/log-view.component";
 
 type SettingMap = Record<string, FrontendSetting[]>;
 
@@ -19,20 +46,45 @@ type SettingMap = Record<string, FrontendSetting[]>;
   selector: "app-settings",
   templateUrl: "./settings.component.html",
   styleUrls: ["./settings.component.scss"],
-  standalone: false,
+  imports: [
+    MatTabGroup,
+    MatTab,
+    MatCard,
+    MatCardContent,
+    NgFor,
+    MatCardHeader,
+    MatCardTitle,
+    NgSwitch,
+    NgSwitchCase,
+    MatSlideToggle,
+    MatLabel,
+    MatFormField,
+    MatInput,
+    MatCardActions,
+    MatButton,
+    NgSwitchDefault,
+    NgIf,
+    MatHint,
+    MatCardFooter,
+    UpdateDatabaseComponent,
+    ServerStatisticsComponent,
+    LogViewComponent,
+    AsyncPipe,
+    KeyValuePipe,
+  ],
 })
 export class SettingsComponent {
+  private fsService = inject(FrontendSettingsService);
+  private settingsService = inject(SettingsService);
+  private titleService = inject(Title);
+  private notificationService = inject(NotificationService);
+
   mpdSettings: Observable<MpdSettings>;
   ampdSettings: Observable<AmpdSetting[]>;
   feSettings: SettingMap;
   displayLog = false;
 
-  constructor(
-    private fsService: FrontendSettingsService,
-    private settingsService: SettingsService,
-    private titleService: Title,
-    private notificationService: NotificationService,
-  ) {
+  constructor() {
     this.titleService.setTitle("ampd — Settings");
     this.ampdSettings = this.settingsService.getAmpdSettings();
     this.mpdSettings = this.settingsService.getMpdSettings();

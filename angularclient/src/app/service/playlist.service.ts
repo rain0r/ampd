@@ -1,5 +1,5 @@
 import { HttpClient, HttpParams } from "@angular/common/http";
-import { Injectable } from "@angular/core";
+import { Injectable, inject } from "@angular/core";
 import { Observable, Subject } from "rxjs";
 import { PlaylistSaved } from "../shared/messages/incoming/playlist-saved";
 import { SavePlaylistResponse } from "../shared/messages/incoming/save-playlist-response";
@@ -10,13 +10,13 @@ import { SettingsService } from "./settings.service";
   providedIn: "root",
 })
 export class PlaylistService {
+  private http = inject(HttpClient);
+  private settingsService = inject(SettingsService);
+
   playlistSaved: Observable<PlaylistSaved>;
   private playlistSaved$ = new Subject<PlaylistSaved>();
 
-  constructor(
-    private http: HttpClient,
-    private settingsService: SettingsService,
-  ) {
+  constructor() {
     this.playlistSaved = this.playlistSaved$.asObservable();
   }
 

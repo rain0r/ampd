@@ -1,17 +1,15 @@
 import { HttpErrorResponse } from "@angular/common/http";
-import { ErrorHandler, Injectable, NgZone } from "@angular/core";
+import { ErrorHandler, Injectable, NgZone, inject } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
 import { BehaviorSubject, first } from "rxjs";
 import { ErrorDialogComponent } from "./error/error-dialog/error-dialog.component";
 
 @Injectable()
 export class AmpdErrorHandler implements ErrorHandler {
-  private errorDialogOpen = new BehaviorSubject(false);
+  private dialog = inject(MatDialog);
+  private zone = inject(NgZone);
 
-  constructor(
-    private dialog: MatDialog,
-    private zone: NgZone,
-  ) {}
+  private errorDialogOpen = new BehaviorSubject(false);
 
   handleError(error: unknown): void {
     this.zone.run(() => {

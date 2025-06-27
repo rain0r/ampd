@@ -1,28 +1,29 @@
 import { HttpClient } from "@angular/common/http";
-import { Component, Input, OnInit } from "@angular/core";
+import { Component, Input, OnInit, inject } from "@angular/core";
 import { of } from "rxjs";
 import { ControlPanelService } from "../../../../service/control-panel.service";
 import { NotificationService } from "../../../../service/notification.service";
 import { QueueService } from "../../../../service/queue.service";
 import { Directory } from "../../../../shared/messages/incoming/directory";
+import { NgIf, AsyncPipe } from "@angular/common";
+import { RouterLink } from "@angular/router";
+import { MatButton } from "@angular/material/button";
 
 @Component({
   selector: "app-cover-grid-entry",
   templateUrl: "./cover-grid-entry.component.html",
   styleUrls: ["./cover-grid-entry.component.scss"],
-  standalone: false,
+  imports: [NgIf, RouterLink, MatButton, AsyncPipe],
 })
 export class CoverGridEntryComponent implements OnInit {
+  private controlPanelService = inject(ControlPanelService);
+  private http = inject(HttpClient);
+  private notificationService = inject(NotificationService);
+  private queueService = inject(QueueService);
+
   @Input() directory: Directory | null = null;
   isDisplayCover$ = of(false);
   pathLink = "";
-
-  constructor(
-    private controlPanelService: ControlPanelService,
-    private http: HttpClient,
-    private notificationService: NotificationService,
-    private queueService: QueueService,
-  ) {}
 
   ngOnInit(): void {
     if (this.directory) {

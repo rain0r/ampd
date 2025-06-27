@@ -1,22 +1,38 @@
-import { Component } from "@angular/core";
-import { FormControl, FormGroup, Validators } from "@angular/forms";
+import { Component, inject } from "@angular/core";
+import {
+  FormControl,
+  FormGroup,
+  Validators,
+  FormsModule,
+  ReactiveFormsModule,
+} from "@angular/forms";
 import { RadioStreamService } from "../../../service/radio-stream.service";
 import { RadioStream } from "../../../shared/model/db/radio-stream";
+import { MatFormField, MatLabel } from "@angular/material/form-field";
+import { MatInput } from "@angular/material/input";
+import { MatButton } from "@angular/material/button";
 
 @Component({
   selector: "app-add-radio-stream",
   templateUrl: "./add-radio-stream.component.html",
   styleUrls: ["./add-radio-stream.component.scss"],
-  standalone: false,
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    MatFormField,
+    MatLabel,
+    MatInput,
+    MatButton,
+  ],
 })
 export class AddStreamComponent {
+  private radioStreamService = inject(RadioStreamService);
+
   radioStreamForm = new FormGroup({
     name: new FormControl("", Validators.required),
 
     url: new FormControl("", Validators.required),
   });
-
-  constructor(private radioStreamService: RadioStreamService) {}
 
   onSubmit(): void {
     this.radioStreamService

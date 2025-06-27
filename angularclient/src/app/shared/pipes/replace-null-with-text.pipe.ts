@@ -1,9 +1,6 @@
 import { Pipe, PipeTransform } from "@angular/core";
 
-@Pipe({
-  name: "replaceNullWithText",
-  standalone: false,
-})
+@Pipe({ name: "replaceNullWithText" })
 export class ReplaceNullWithTextPipe implements PipeTransform {
   transform(value: string, replaceText = "—"): string {
     if (

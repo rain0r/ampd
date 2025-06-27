@@ -1,4 +1,10 @@
-import { Component, ElementRef, HostListener, ViewChild } from "@angular/core";
+import {
+  Component,
+  ElementRef,
+  HostListener,
+  ViewChild,
+  inject,
+} from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
 import { filter, map } from "rxjs";
 import { AddStreamDialogComponent } from "src/app/queue/track-table/add-stream-dialog/add-stream-dialog.component";
@@ -16,14 +22,42 @@ import { QueueTrack } from "../../shared/model/queue-track";
 import { ClickActions } from "../../shared/track-table-data/click-actions.enum";
 import { TrackTableOptions } from "../../shared/track-table-data/track-table-options";
 import { SavePlaylistDialogComponent } from "../save-playlist-dialog/save-playlist-dialog.component";
+import { NgIf, NgPlural, NgPluralCase } from "@angular/common";
+import { MatFormField, MatSuffix } from "@angular/material/form-field";
+import { MatInput } from "@angular/material/input";
+import { FormsModule } from "@angular/forms";
+import { MatIcon } from "@angular/material/icon";
+import { TrackTableDataComponent } from "../../shared/track-table-data/track-table-data.component";
+import { MatDivider } from "@angular/material/divider";
+import { MatButton } from "@angular/material/button";
+import { SecondsToHhMmSsPipe } from "../../shared/pipes/seconds-to-hh-mm-ss.pipe";
 
 @Component({
   selector: "app-track-table",
   templateUrl: "./track-table.component.html",
   styleUrls: ["./track-table.component.scss"],
-  standalone: false,
+  imports: [
+    NgIf,
+    MatFormField,
+    MatInput,
+    FormsModule,
+    MatIcon,
+    MatSuffix,
+    TrackTableDataComponent,
+    MatDivider,
+    NgPlural,
+    NgPluralCase,
+    MatButton,
+    SecondsToHhMmSsPipe,
+  ],
 })
 export class TrackTableComponent {
+  private dialog = inject(MatDialog);
+  private mpdService = inject(MpdService);
+  private msgService = inject(MsgService);
+  private queueService = inject(QueueService);
+  private responsiveScreenService = inject(ResponsiveScreenService);
+
   @ViewChild("filterInputElem") filterInputElem?: ElementRef;
 
   currentTrack: QueueTrack = new QueueTrack();
@@ -31,13 +65,7 @@ export class TrackTableComponent {
   trackTableData = new TrackTableOptions();
   private isMobile = false;
 
-  constructor(
-    private dialog: MatDialog,
-    private mpdService: MpdService,
-    private msgService: MsgService,
-    private queueService: QueueService,
-    private responsiveScreenService: ResponsiveScreenService,
-  ) {
+  constructor() {
     this.buildReceiver();
     this.responsiveScreenService
       .isMobile()

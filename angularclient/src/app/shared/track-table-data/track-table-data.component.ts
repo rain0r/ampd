@@ -1,12 +1,18 @@
-import { CdkDragDrop } from "@angular/cdk/drag-drop";
-import { ChangeDetectorRef, Component, Input, ViewChild } from "@angular/core";
+import { CdkDragDrop, CdkDropList, CdkDrag } from "@angular/cdk/drag-drop";
+import {
+  ChangeDetectorRef,
+  Component,
+  Input,
+  ViewChild,
+  inject,
+} from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
 import {
   MatPaginator,
   MatPaginatorIntl,
   PageEvent,
 } from "@angular/material/paginator";
-import { MatSort } from "@angular/material/sort";
+import { MatSort, MatSortHeader } from "@angular/material/sort";
 import { BehaviorSubject, Observable, take } from "rxjs";
 import { TrackInfoDialogComponent } from "src/app/browse/tracks/track-info-dialog/track-info-dialog.component";
 import { MsgService } from "src/app/service/msg.service";
@@ -19,14 +25,57 @@ import {
 } from "./../messages/internal/internal-msg";
 import { ClickActions } from "./click-actions.enum";
 import { TrackTableOptions } from "./track-table-options";
+import { NgIf, AsyncPipe } from "@angular/common";
+import {
+  MatTable,
+  MatColumnDef,
+  MatHeaderCellDef,
+  MatHeaderCell,
+  MatCellDef,
+  MatCell,
+  MatHeaderRowDef,
+  MatHeaderRow,
+  MatRowDef,
+  MatRow,
+  MatNoDataRow,
+} from "@angular/material/table";
+import { MatIcon } from "@angular/material/icon";
+import { MatButton } from "@angular/material/button";
+import { SecondsToMmSsPipe } from "../pipes/seconds-to-mm-ss.pipe";
 
 @Component({
   selector: "app-track-data-table",
   templateUrl: "./track-table-data.component.html",
   styleUrls: ["./track-table-data.component.scss"],
-  standalone: false,
+  imports: [
+    NgIf,
+    MatTable,
+    CdkDropList,
+    MatSort,
+    MatColumnDef,
+    MatHeaderCellDef,
+    MatHeaderCell,
+    MatSortHeader,
+    MatCellDef,
+    MatCell,
+    MatIcon,
+    MatButton,
+    MatHeaderRowDef,
+    MatHeaderRow,
+    MatRowDef,
+    MatRow,
+    CdkDrag,
+    MatNoDataRow,
+    MatPaginator,
+    AsyncPipe,
+    SecondsToMmSsPipe,
+  ],
 })
 export class TrackTableDataComponent {
+  private dialog = inject(MatDialog);
+  private msgService = inject(MsgService);
+  private queueService = inject(QueueService);
+
   @Input() set trackTableData(trackTableData: TrackTableOptions) {
     this.trackTableData$.next(trackTableData);
   }
@@ -42,11 +91,7 @@ export class TrackTableDataComponent {
     new TrackTableOptions(),
   );
 
-  constructor(
-    private dialog: MatDialog,
-    private msgService: MsgService,
-    private queueService: QueueService,
-  ) {
+  constructor() {
     this.trackTableDataObs = this.trackTableData$.asObservable();
   }
 

@@ -1,6 +1,12 @@
-import { ViewportScroller } from "@angular/common";
-import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
-import { PageEvent } from "@angular/material/paginator";
+import { ViewportScroller, NgFor, NgIf, AsyncPipe } from "@angular/common";
+import {
+  Component,
+  ElementRef,
+  OnInit,
+  ViewChild,
+  inject,
+} from "@angular/core";
+import { PageEvent, MatPaginator } from "@angular/material/paginator";
 import { ActivatedRoute, Router } from "@angular/router";
 import { BehaviorSubject, Observable, combineLatest, of } from "rxjs";
 import { filter, map, startWith, switchMap, tap } from "rxjs/operators";
@@ -12,6 +18,20 @@ import {
   PaginationMsg,
 } from "src/app/shared/messages/internal/internal-msg";
 import { MpdAlbum } from "src/app/shared/model/http/album";
+import { BrowseNavigationComponent } from "../navigation/browse-navigation.component";
+import {
+  MatFormField,
+  MatLabel,
+  MatSuffix,
+} from "@angular/material/form-field";
+import { MatSelect } from "@angular/material/select";
+import { FormsModule } from "@angular/forms";
+import { MatOption } from "@angular/material/autocomplete";
+import { MatInput } from "@angular/material/input";
+import { MatIconButton } from "@angular/material/button";
+import { MatIcon } from "@angular/material/icon";
+import { MatProgressSpinner } from "@angular/material/progress-spinner";
+import { AlbumItemComponent } from "./album-item/album-item.component";
 
 interface SortByKey {
   value: string;
@@ -22,9 +42,32 @@ interface SortByKey {
   selector: "app-albums",
   templateUrl: "./albums.component.html",
   styleUrls: ["./albums.component.scss"],
-  standalone: false,
+  imports: [
+    BrowseNavigationComponent,
+    MatFormField,
+    MatLabel,
+    MatSelect,
+    FormsModule,
+    NgFor,
+    MatOption,
+    MatInput,
+    NgIf,
+    MatIconButton,
+    MatSuffix,
+    MatIcon,
+    MatProgressSpinner,
+    AlbumItemComponent,
+    MatPaginator,
+    AsyncPipe,
+  ],
 })
 export class AlbumsComponent implements OnInit {
+  private activatedRoute = inject(ActivatedRoute);
+  private albumService = inject(AlbumsService);
+  private msgService = inject(MsgService);
+  private router = inject(Router);
+  private viewportScroller = inject(ViewportScroller);
+
   @ViewChild("filterInputElem") filterInputElem?: ElementRef;
   filter = "";
   isLoading = new BehaviorSubject(true);
@@ -38,14 +81,6 @@ export class AlbumsComponent implements OnInit {
   ];
 
   private inputSetter$ = new BehaviorSubject<string>("");
-
-  constructor(
-    private activatedRoute: ActivatedRoute,
-    private albumService: AlbumsService,
-    private msgService: MsgService,
-    private router: Router,
-    private viewportScroller: ViewportScroller,
-  ) {}
 
   ngOnInit(): void {
     this.buildInputListener();

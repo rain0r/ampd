@@ -1,5 +1,5 @@
 import { HttpClient, HttpParams } from "@angular/common/http";
-import { Injectable } from "@angular/core";
+import { Injectable, inject } from "@angular/core";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
 import { GenreResponse } from "./../shared/messages/incoming/genres-response";
@@ -10,10 +10,8 @@ import { SettingsService } from "./settings.service";
   providedIn: "root",
 })
 export class GenresService {
-  constructor(
-    private http: HttpClient,
-    private settingsService: SettingsService,
-  ) {}
+  private http = inject(HttpClient);
+  private settingsService = inject(SettingsService);
 
   listGenres(): Observable<string[]> {
     const url = `${this.settingsService.getBackendContextAddr()}api/genres`;

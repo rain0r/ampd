@@ -1,18 +1,18 @@
-import { Component } from "@angular/core";
+import { Component, inject } from "@angular/core";
 import { MpdService } from "../../../service/mpd.service";
 import { NotificationService } from "../../../service/notification.service";
+import { MatCard, MatCardContent } from "@angular/material/card";
+import { MatButton } from "@angular/material/button";
 
 @Component({
   selector: "app-update-database",
   templateUrl: "./update-database.component.html",
   styleUrls: ["./update-database.component.scss"],
-  standalone: false,
+  imports: [MatCard, MatCardContent, MatButton],
 })
 export class UpdateDatabaseComponent {
-  constructor(
-    private notificationService: NotificationService,
-    private mpdService: MpdService,
-  ) {}
+  private notificationService = inject(NotificationService);
+  private mpdService = inject(MpdService);
 
   rescanDatabase(): void {
     this.mpdService.rescanDatabase$().subscribe(() => {

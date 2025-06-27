@@ -1,4 +1,4 @@
-import { Injectable } from "@angular/core";
+import { Injectable, inject } from "@angular/core";
 import { Router } from "@angular/router";
 import { MpdModesPanel } from "../shared/messages/incoming/mpd-modes-panel";
 import { ControlPanelService } from "./control-panel.service";
@@ -9,15 +9,17 @@ import { NotificationService } from "./notification.service";
   providedIn: "root",
 })
 export class MpdModeService {
+  private router = inject(Router);
+  private controlPanelService = inject(ControlPanelService);
+  private mpdService = inject(MpdService);
+  private notificationService = inject(NotificationService);
+
   private mpdModesPanel: MpdModesPanel;
   private mpdModesOpts = ["random", "consume", "single", "crossfade", "repeat"];
 
-  constructor(
-    private router: Router,
-    private controlPanelService: ControlPanelService,
-    private mpdService: MpdService,
-    private notificationService: NotificationService,
-  ) {
+  constructor() {
+    const mpdService = this.mpdService;
+
     this.mpdModesPanel = mpdService.initEmptyControlPanel();
     this.mpdService.mpdModesPanel$.subscribe(
       (panel) => (this.mpdModesPanel = panel),

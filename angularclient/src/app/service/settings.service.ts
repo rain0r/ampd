@@ -1,6 +1,6 @@
 import { Location } from "@angular/common";
 import { HttpClient } from "@angular/common/http";
-import { Injectable } from "@angular/core";
+import { Injectable, inject } from "@angular/core";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
 import { FrontendSettingsService } from "src/app/service/frontend-settings.service";
@@ -14,11 +14,9 @@ import { MpdSettings } from "../shared/model/mpd-settings";
   providedIn: "root",
 })
 export class SettingsService {
-  constructor(
-    private http: HttpClient,
-    private location: Location,
-    private fesService: FrontendSettingsService,
-  ) {}
+  private http = inject(HttpClient);
+  private location = inject(Location);
+  private fesService = inject(FrontendSettingsService);
 
   getAmpdSettings(): Observable<AmpdSetting[]> {
     const url = `${this.getBackendContextAddr()}api/backend`;

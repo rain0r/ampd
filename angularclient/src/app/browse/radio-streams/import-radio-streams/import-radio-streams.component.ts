@@ -1,14 +1,20 @@
-import { Component, Input } from "@angular/core";
+import { Component, Input, inject } from "@angular/core";
 import { LoggerService } from "src/app/service/logger.service";
 import { RadioStreamService } from "src/app/service/radio-stream.service";
+import { NgIf } from "@angular/common";
+import { MatMiniFabButton } from "@angular/material/button";
+import { MatIcon } from "@angular/material/icon";
 
 @Component({
   selector: "app-import-radio-streams",
   templateUrl: "./import-radio-streams.component.html",
   styleUrls: ["./import-radio-streams.component.scss"],
-  standalone: false,
+  imports: [NgIf, MatMiniFabButton, MatIcon],
 })
 export class ImportRadioStreamsComponent {
+  private radioStreamService = inject(RadioStreamService);
+  private logger = inject(LoggerService);
+
   @Input()
   requiredFileType = "application/json";
   fileName = "";
@@ -22,11 +28,6 @@ export class ImportRadioStreamsComponent {
     "url": "https://example.com/2.m3u"
   }
 ]`;
-
-  constructor(
-    private radioStreamService: RadioStreamService,
-    private logger: LoggerService,
-  ) {}
 
   onFileSelected(event: Event): void {
     if (!event.target) {

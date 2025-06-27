@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, inject } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
 import { Observable, combineLatest, first, map, of, switchMap } from "rxjs";
 import { TrackInfoDialogComponent } from "src/app/browse/tracks/track-info-dialog/track-info-dialog.component";
@@ -9,14 +9,25 @@ import { ControlPanelService } from "../../service/control-panel.service";
 import { MpdService } from "../../service/mpd.service";
 import { NotificationService } from "../../service/notification.service";
 import { QueueService } from "../../service/queue.service";
+import { MatButton } from "@angular/material/button";
+import { MatIcon } from "@angular/material/icon";
+import { NgIf, AsyncPipe } from "@angular/common";
 
 @Component({
   selector: "app-control-panel",
   templateUrl: "./control-panel.component.html",
   styleUrls: ["./control-panel.component.scss"],
-  standalone: false,
+  imports: [MatButton, MatIcon, NgIf, AsyncPipe],
 })
 export class ControlPanelComponent implements OnInit {
+  private controlPanelService = inject(ControlPanelService);
+  private dialog = inject(MatDialog);
+  private fsSettings = inject(FrontendSettingsService);
+  private mpdService = inject(MpdService);
+  private notificationService = inject(NotificationService);
+  private queueService = inject(QueueService);
+  private responsiveScreenService = inject(ResponsiveScreenService);
+
   connected$: Observable<boolean>;
   currentState: Observable<string>;
   displayInfoBtn: Observable<boolean>;
@@ -24,15 +35,7 @@ export class ControlPanelComponent implements OnInit {
   isMobile = new Observable<boolean>();
   queueTrackCount: Observable<number>;
 
-  constructor(
-    private controlPanelService: ControlPanelService,
-    private dialog: MatDialog,
-    private fsSettings: FrontendSettingsService,
-    private mpdService: MpdService,
-    private notificationService: NotificationService,
-    private queueService: QueueService,
-    private responsiveScreenService: ResponsiveScreenService,
-  ) {
+  constructor() {
     this.connected$ = this.mpdService.isConnected$();
     this.currentState = this.mpdService.currentState$;
     this.queueTrackCount = this.mpdService.getQueueTrackCount$();

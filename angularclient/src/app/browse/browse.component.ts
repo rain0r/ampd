@@ -1,26 +1,40 @@
-import { Component } from "@angular/core";
+import { Component, inject } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { BehaviorSubject, Observable } from "rxjs";
 import { distinctUntilChanged, finalize, map } from "rxjs/operators";
 import { BrowseService } from "../service/browse.service";
 import { AmpdBrowsePayload } from "../shared/model/ampd-browse-payload";
+import { BrowseNavigationComponent } from "./navigation/browse-navigation.component";
+import { NgIf, AsyncPipe } from "@angular/common";
+import { PlaylistsComponent } from "./playlists/playlists.component";
+import { DirectoriesComponent } from "./directories/directories.component";
+import { TracksComponent } from "./tracks/tracks.component";
 
 @Component({
   selector: "app-browse",
   templateUrl: "./browse.component.html",
   styleUrls: ["./browse.component.scss"],
-  standalone: false,
+  imports: [
+    BrowseNavigationComponent,
+    NgIf,
+    PlaylistsComponent,
+    DirectoriesComponent,
+    TracksComponent,
+    AsyncPipe,
+  ],
 })
 export class BrowseComponent {
+  private activatedRoute = inject(ActivatedRoute);
+  private browseService = inject(BrowseService);
+
   browsePayload$: Observable<AmpdBrowsePayload>;
   dirQp = "/";
   isLoading = true;
   private browsePayloadSource: BehaviorSubject<AmpdBrowsePayload>;
 
-  constructor(
-    private activatedRoute: ActivatedRoute,
-    private browseService: BrowseService,
-  ) {
+  constructor() {
+    const browseService = this.browseService;
+
     this.browsePayloadSource = new BehaviorSubject<AmpdBrowsePayload>(
       browseService.buildEmptyPayload(),
     );

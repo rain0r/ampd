@@ -1,4 +1,4 @@
-import { Injectable } from "@angular/core";
+import { Injectable, inject } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
 import { Router } from "@angular/router";
 import { BehaviorSubject, first } from "rxjs";
@@ -16,6 +16,14 @@ import { VolumeService } from "./volume.service";
   providedIn: "root",
 })
 export class ShortcutService {
+  private controlPanelService = inject(ControlPanelService);
+  private dialog = inject(MatDialog);
+  private mpdModeService = inject(MpdModeService);
+  private mpdService = inject(MpdService);
+  private queueService = inject(QueueService);
+  private router = inject(Router);
+  private volumeService = inject(VolumeService);
+
   // Player controls
   shortcuts: ShortCut[] = [
     this.build(Category.PlayerControls, this.togglePause, "Play / pause", [
@@ -155,15 +163,7 @@ export class ShortcutService {
   private helpDialogOpen = new BehaviorSubject(false);
   private addStreamDialog = new BehaviorSubject(false);
 
-  constructor(
-    private controlPanelService: ControlPanelService,
-    private dialog: MatDialog,
-    private mpdModeService: MpdModeService,
-    private mpdService: MpdService,
-    private queueService: QueueService,
-    private router: Router,
-    private volumeService: VolumeService,
-  ) {
+  constructor() {
     this.mpdService.currentState$.subscribe(
       (state) => (this.currentState = state),
     );

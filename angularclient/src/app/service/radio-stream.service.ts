@@ -1,5 +1,5 @@
 import { HttpClient } from "@angular/common/http";
-import { Injectable } from "@angular/core";
+import { Injectable, inject } from "@angular/core";
 import { Observable } from "rxjs";
 import { RadioStream } from "../shared/model/db/radio-stream";
 import { SettingsService } from "./settings.service";
@@ -8,10 +8,8 @@ import { SettingsService } from "./settings.service";
   providedIn: "root",
 })
 export class RadioStreamService {
-  constructor(
-    private http: HttpClient,
-    private settingsService: SettingsService,
-  ) {}
+  private http = inject(HttpClient);
+  private settingsService = inject(SettingsService);
 
   addRadioStream(radioStream: RadioStream): Observable<RadioStream[]> {
     const url = `${this.settingsService.getBackendContextAddr()}api/radio-streams`;

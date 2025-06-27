@@ -1,4 +1,4 @@
-import { Injectable } from "@angular/core";
+import { Injectable, inject } from "@angular/core";
 import { BehaviorSubject, Observable, Subject } from "rxjs";
 import { bufferTime, filter, withLatestFrom } from "rxjs/operators";
 import { VolumeSetter } from "../shared/model/volume-setter";
@@ -9,16 +9,16 @@ import { MpdService } from "./mpd.service";
   providedIn: "root",
 })
 export class VolumeService {
+  private rxStompService = inject(AmpdRxStompService);
+  private mpdService = inject(MpdService);
+
   volume: Observable<number>;
   volumeSetter: Observable<VolumeSetter>;
   private path = "/app/control-panel/";
   private volume$ = new BehaviorSubject<number>(0);
   private volumeSetter$ = new Subject<VolumeSetter>();
 
-  constructor(
-    private rxStompService: AmpdRxStompService,
-    private mpdService: MpdService,
-  ) {
+  constructor() {
     this.volume = this.volume$.asObservable();
     this.volumeSetter = this.volumeSetter$.asObservable();
     this.buildStateSubscription();

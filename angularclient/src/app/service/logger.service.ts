@@ -1,4 +1,4 @@
-import { Injectable } from "@angular/core";
+import { Injectable, inject } from "@angular/core";
 import { LogLevel } from "../shared/log/log-level";
 import { LogEntry } from "../shared/log/log-entry";
 import { LogPublisher } from "../shared/log/log-publisher";
@@ -8,11 +8,13 @@ import { LogPublishersService } from "./log-publishers.service";
   providedIn: "root",
 })
 export class LoggerService {
+  private publishersService = inject(LogPublishersService);
+
   level: LogLevel = LogLevel.All;
   logWithDate = true;
   publishers: LogPublisher[];
 
-  constructor(private publishersService: LogPublishersService) {
+  constructor() {
     // Set publishers
     this.publishers = this.publishersService.publishers;
   }

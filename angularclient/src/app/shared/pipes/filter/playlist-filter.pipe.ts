@@ -1,10 +1,7 @@
 import { Pipe, PipeTransform } from "@angular/core";
 import { Playlist } from "../../messages/incoming/playlist";
 
-@Pipe({
-  name: "playlistFilter",
-  standalone: false,
-})
+@Pipe({ name: "playlistFilter" })
 export class PlaylistFilterPipe implements PipeTransform {
   transform(value: Playlist[], filterBy: string): Playlist[] {
     filterBy = filterBy ? filterBy.toLocaleLowerCase() : "";

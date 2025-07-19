@@ -2,7 +2,7 @@ FROM maven:3-eclipse-temurin-17 AS builder
 WORKDIR /srv
 COPY . .
 ENV DEBIAN_FRONTEND=noninteractive
-ENV NODE_MAJOR=20
+ENV NODE_MAJOR=22
 
 RUN apt-get update && \
     apt-get upgrade -y && \

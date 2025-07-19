@@ -26,7 +26,7 @@
     "@angular/router": "~20.1.2",
     "@stomp/rx-stomp": "^2.0.1",
     "@stomp/stompjs": "^7.1.1",
-    "filesize": "^10.1.6",
+    "filesize": "^11.0.2",
     "material-icons": "1.13.14",
     "rxjs": "~7.8.2",
     "tslib": "^2.8.1",
@@ -38,14 +38,14 @@
     "@angular/cli": "~20.1.1",
     "@angular/compiler-cli": "~20.1.2",
     "@cypress/schematic": "3.0.0",
-    "@types/node": "^22.10.10",
+    "@types/node": "^24.0.15",
     "angular-eslint": "20.1.1",
     "autoprefixer": "^10.4.21",
     "cypress": "latest",
     "cypress-multi-reporters": "^2.0.5",
-    "eslint": "^9.29.0",
-    "eslint-config-prettier": "^10.1.5",
-    "eslint-plugin-prettier": "^5.5.1",
+    "eslint": "^9.31.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-prettier": "^5.5.3",
     "mochawesome": "^7.1.3",
     "mochawesome-merge": "^5.0.0",
     "mochawesome-report-generator": "^6.2.0",
@@ -53,6 +53,6 @@
     "postcss": "^8.5.6",
     "prettier": "3.6.2",
     "tailwindcss": "^3.4.7",
-    "typescript-eslint": "^8.35.0"
+    "typescript-eslint": "^8.37.0"
   }
 }

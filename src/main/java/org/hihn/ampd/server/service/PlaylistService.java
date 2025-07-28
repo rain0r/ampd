@@ -15,6 +15,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -55,8 +56,13 @@ public class PlaylistService {
 	public SavePlaylistResponse savePlaylist(String playlistName) {
 		SavePlaylistResponse response = new SavePlaylistResponse();
 		response.setPlaylistName(playlistName);
+
 		if (ampdSettings.isCreatePlaylists()) {
 			try {
+				if (!mpd.getMusicDatabase().getPlaylistDatabase().listPlaylistSongs(playlistName).isEmpty()) {
+					// Playlist already exists - delete it first
+					deleteByName(playlistName);
+				}
 				response.setSuccess(mpd.getPlaylist().savePlaylist(playlistName));
 			}
 			catch (MPDConnectionException e) {

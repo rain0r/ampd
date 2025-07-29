@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 /**
  * Provides methods to manage playlists.
@@ -58,11 +59,21 @@ public class PlaylistService {
 		response.setPlaylistName(playlistName);
 
 		if (ampdSettings.isCreatePlaylists()) {
-			try {
-				if (!mpd.getMusicDatabase().getPlaylistDatabase().listPlaylistSongs(playlistName).isEmpty()) {
+			Optional<String> existing = mpd.getMusicDatabase()
+				.getPlaylistDatabase()
+				.listPlaylists()
+				.stream()
+				.filter(pl -> pl.equals(playlistName))
+				.findFirst();
+
+			existing.ifPresent(playlist -> {
+				if (!mpd.getMusicDatabase().getPlaylistDatabase().listPlaylistSongs(playlist).isEmpty()) {
 					// Playlist already exists - delete it first
-					deleteByName(playlistName);
+					deleteByName(playlist);
 				}
+			});
+
+			try {
 				response.setSuccess(mpd.getPlaylist().savePlaylist(playlistName));
 			}
 			catch (MPDConnectionException e) {

@@ -68,9 +68,11 @@
         *ngSwitchCase="2"
         title="Closing..."
       ></mat-spinner>
-      <mat-icon *ngSwitchDefault title="Disconnected">cloud_off</mat-icon>
+      <mat-icon color="accent" *ngSwitchDefault title="Disconnected"
+        >cloud_off</mat-icon
+      >
     </div>
-    <span *ngIf="(connState | async) !== 1" class="not-connected">
+    <span *ngIf="(connState | async) !== 1" class="not-connected accent-text">
       Not connected to ampd server
     </span>
 

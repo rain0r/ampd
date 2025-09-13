@@ -41,7 +41,7 @@ describe("Save and delete a playlist", () => {
 
     // Test saving the same playlist again
     cy.get('[data-cy="save-playlist"]').click();
-    cy.get('[data-cy="save-playlist-name"]').type(TMP_PLAYLIST_NAME);
+    cy.get('[data-cy="save-playlist-name"]').last().type(TMP_PLAYLIST_NAME);
     cy.get('[data-cy="save-playlist-btn"]').click();
 
     cy.clearQueue();

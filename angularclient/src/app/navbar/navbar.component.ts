@@ -1,25 +1,21 @@
 import {
-  Component,
-  ElementRef,
-  HostListener,
-  ViewChild,
-  inject,
-} from "@angular/core";
-import { Observable } from "rxjs";
-import { AmpdRxStompService } from "./../service/ampd-rx-stomp.service";
-import { ShortcutService } from "./../service/shortcut.service";
-import { MatToolbar } from "@angular/material/toolbar";
-import { MatButton } from "@angular/material/button";
-import { RouterLinkActive, RouterLink, RouterOutlet } from "@angular/router";
-import { MatIcon } from "@angular/material/icon";
-import {
+  AsyncPipe,
+  NgIf,
   NgSwitch,
   NgSwitchCase,
   NgSwitchDefault,
-  NgIf,
-  AsyncPipe,
 } from "@angular/common";
+import { Component, HostListener, inject, OnInit } from "@angular/core";
+import { MatButton } from "@angular/material/button";
+import { MatDialog, MatDialogRef } from "@angular/material/dialog";
+import { MatIcon } from "@angular/material/icon";
 import { MatProgressSpinner } from "@angular/material/progress-spinner";
+import { MatToolbar } from "@angular/material/toolbar";
+import { RouterLink, RouterLinkActive, RouterOutlet } from "@angular/router";
+import { BehaviorSubject, first, Observable } from "rxjs";
+import { ConnectingOverlayComponent } from "../connecting-overlay/connecting-overlay.component";
+import { AmpdRxStompService } from "./../service/ampd-rx-stomp.service";
+import { ShortcutService } from "./../service/shortcut.service";
 
 @Component({
   selector: "app-navbar",
@@ -40,16 +36,24 @@ import { MatProgressSpinner } from "@angular/material/progress-spinner";
     AsyncPipe,
   ],
 })
-export class NavbarComponent {
+export class NavbarComponent implements OnInit {
   private rxStompService = inject(AmpdRxStompService);
   private shortcutService = inject(ShortcutService);
-
-  @ViewChild("helpIcon") helpIcon: ElementRef = {} as ElementRef;
+  readonly dialog = inject(MatDialog);
+  private connDialogRef: MatDialogRef<
+    ConnectingOverlayComponent,
+    unknown
+  > | null = null;
+  private errorDialogOpen = new BehaviorSubject(false);
 
   connState: Observable<number>;
 
   constructor() {
     this.connState = this.rxStompService.connectionState$;
+  }
+
+  ngOnInit(): void {
+    this.connState.subscribe((state) => this.openConnectingDialog(state));
   }
 
   @HostListener("document:keydown", ["$event"])
@@ -80,5 +84,25 @@ export class NavbarComponent {
 
   openHelpDialog(): void {
     document.dispatchEvent(new KeyboardEvent("keydown", { key: "h" }));
+  }
+
+  private openConnectingDialog(state: number): void {
+    this.errorDialogOpen
+      .asObservable()
+      .pipe(first())
+      .subscribe((open) => {
+        if (!open && state !== 1) {
+          this.connDialogRef = this.dialog.open(ConnectingOverlayComponent, {
+            disableClose: true,
+            backdropClass: "backdrop-brightness-50",
+          });
+          this.errorDialogOpen.next(true);
+          this.connDialogRef
+            .afterClosed()
+            .subscribe(() => this.errorDialogOpen.next(false));
+        } else if (state === 1) {
+          this.connDialogRef?.close();
+        }
+      });
   }
 }

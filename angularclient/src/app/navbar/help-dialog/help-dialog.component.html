@@ -1,5 +1,5 @@
 <div mat-dialog-title>
-  <span class="heading-2 mb-4">Shortcuts</span>
+  <span class="heading-2">Shortcuts</span>
 </div>
 
 <div mat-dialog-content>
@@ -8,21 +8,30 @@
       <div class="text-lg mb-4">
         {{ shortcutSection }}
       </div>
-      <div
-        *ngFor="let shortcut of shortcuts | filterByCategory: shortcutSection"
-        class="grid grid-cols-2 hover-background-color"
-      >
-        <div class="flex flex-col text-lg">
-          <div
-            class="font-mono"
-            *ngFor="let trig of shortcut.trigger"
-            [title]="'Key: \'' + trig + '\''"
-          >
-            &quot;{{ trig }}&quot;&nbsp;
+
+      @for (
+        shortcut of shortcuts | filterByCategory: shortcutSection;
+        track shortcut;
+        let first = $first, last = $last, index = $index
+      ) {
+        <div
+          class="grid grid-cols-2 hover-background-color border-x border-b default-border-color"
+          [class.border-t]="$first"
+        >
+          <div class="font-mono">
+            @for (trig of shortcut.trigger; track trig; let last = $last) {
+              &quot;<span class="accent-text">{{ trig }}</span
+              >&quot;
+              @if (!$last) {
+                ,
+              }
+            }
           </div>
+          <span class="border-s default-border-color px-8">{{
+            shortcut.helpText
+          }}</span>
         </div>
-        <span>{{ shortcut.helpText }}</span>
-      </div>
+      }
     </div>
   </div>
 </div>

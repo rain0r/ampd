@@ -119,3 +119,7 @@ mat-toolbar > div > .mat-mdc-button-base.mat-accent {
 .now-playing-row {
   background: var(--accent-color) !important;
 }
+
+.default-border-color {
+  border-color: var(--border-color);
+}

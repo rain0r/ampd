@@ -2,6 +2,7 @@ package org.hihn.ampd.server.service.scrobbler;
 
 import org.bff.javampd.playlist.MPDPlaylistSong;
 import org.hihn.ampd.server.model.AmpdSettings;
+import org.hihn.ampd.server.util.StringUtils;
 import org.hihn.listenbrainz.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,6 +37,11 @@ public class ListenBrainzScrobbleService implements AmpdScrobbler {
 	@Override
 	public void scrobbleListen(MPDPlaylistSong song) {
 		currentSong = song;
+
+		if (StringUtils.isNullOrEmpty(song.getArtistName()) || StringUtils.isNullOrEmpty(song.getTitle())) {
+			// Nothing to submit: abort
+			return;
+		}
 
 		if (ampdSettings.isScrobbleLb()) {
 			LOG.debug("Submiting listen: {} - {}", song.getArtistName(), song.getTitle());

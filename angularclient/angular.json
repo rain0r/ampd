@@ -29,7 +29,6 @@
               "zone.js"
             ],
             "tsConfig": "tsconfig.app.json",
-            "aot": true,
             "assets": [
               "src/favicon.ico",
               "src/assets"
@@ -45,8 +44,7 @@
                 "inject": false,
                 "input": "src/theme/lighter.scss"
               }
-            ],
-            "scripts": [],
+            ],            
             "browser": "src/main.ts"
           },
           "configurations": {
@@ -91,18 +89,15 @@
         },
         "serve": {
           "builder": "@angular/build:dev-server",
-          "forceEsbuild": true,
-          "options": {
-            "buildTarget": "ampd:build"
-          },
           "configurations": {
-            "development": {
-              "buildTarget": "ampd:build:development"
-            },
             "production": {
               "buildTarget": "ampd:build:production"
+            },
+            "development": {
+              "buildTarget": "ampd:build:development"
             }
-          }
+          },
+          "defaultConfiguration": "development"
         },
         "lint": {
           "builder": "@angular-eslint/builder:lint",

@@ -4,35 +4,36 @@
 
 <div mat-dialog-content>
   <div class="grid grid-cols-2 gap-14">
-    <div *ngFor="let shortcutSection of categories">
-      <div class="text-lg mb-4">
-        {{ shortcutSection }}
-      </div>
-
-      @for (
-        shortcut of shortcuts | filterByCategory: shortcutSection;
-        track shortcut;
-        let first = $first, last = $last, index = $index
-      ) {
-        <div
-          class="grid grid-cols-2 hover-background-color border-x border-b default-border-color"
-          [class.border-t]="$first"
-        >
-          <div class="font-mono">
-            @for (trig of shortcut.trigger; track trig; let last = $last) {
-              &quot;<span class="accent-text">{{ trig }}</span
-              >&quot;
-              @if (!$last) {
-                ,
-              }
-            }
-          </div>
-          <span class="border-s default-border-color px-8">{{
-            shortcut.helpText
-          }}</span>
+    @for (shortcutSection of categories; track shortcutSection) {
+      <div>
+        <div class="text-lg mb-4">
+          {{ shortcutSection }}
         </div>
-      }
-    </div>
+        @for (
+          shortcut of shortcuts | filterByCategory: shortcutSection;
+          track shortcut;
+          let first = $first, last = $last, index = $index
+        ) {
+          <div
+            class="grid grid-cols-2 hover-background-color border-x border-b default-border-color"
+            [class.border-t]="$first"
+          >
+            <div class="font-mono">
+              @for (trig of shortcut.trigger; track trig; let last = $last) {
+                &quot;<span class="accent-text">{{ trig }}</span
+                >&quot;
+                @if (!$last) {
+                  ,
+                }
+              }
+            </div>
+            <span class="border-s default-border-color px-8">{{
+              shortcut.helpText
+            }}</span>
+          </div>
+        }
+      </div>
+    }
   </div>
 </div>
 

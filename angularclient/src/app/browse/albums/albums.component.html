@@ -10,12 +10,11 @@
       name="sortByKey"
       (selectionChange)="onSortBy($event.value)"
     >
-      <mat-option
-        *ngFor="let sortByKey of sortByKeys"
-        [value]="sortByKey.value"
-      >
-        {{ sortByKey.viewValue }}
-      </mat-option>
+      @for (sortByKey of sortByKeys; track sortByKey) {
+        <mat-option [value]="sortByKey.value">
+          {{ sortByKey.viewValue }}
+        </mat-option>
+      }
     </mat-select>
   </mat-form-field>
 
@@ -33,42 +32,45 @@
         type="text"
         [value]="searchTerm"
       />
-      <button
-        *ngIf="filter"
-        matSuffix
-        mat-icon-button
-        aria-label="Clear"
-        (click)="resetFilter()"
-      >
-        <mat-icon>close</mat-icon>
-      </button>
+      @if (filter) {
+        <button
+          matSuffix
+          mat-icon-button
+          aria-label="Clear"
+          (click)="resetFilter()"
+        >
+          <mat-icon>close</mat-icon>
+        </button>
+      }
     </mat-form-field>
   </div>
 </div>
 
 <div class="grid place-items-center mt-5">
-  <mat-spinner *ngIf="isLoading | async"></mat-spinner>
+  @if (isLoading | async) {
+    <mat-spinner></mat-spinner>
+  }
 </div>
 
-<div *ngIf="pagedAlbums$ | async as pagedAlbums">
-  <div class="grid grid-cols-1 md:grid-cols-4 gap-x-6 gap-y-12">
-    <app-album-item
-      *ngFor="let album of pagedAlbums.content"
-      [album]="album"
-    ></app-album-item>
+@if (pagedAlbums$ | async; as pagedAlbums) {
+  <div>
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-x-6 gap-y-12">
+      @for (album of pagedAlbums.content; track album) {
+        <app-album-item [album]="album"></app-album-item>
+      }
+    </div>
+    <div
+      class="mt-5"
+      [hidden]="pagedAlbums.content.length === 0 || pagedAlbums.totalPages < 2"
+    >
+      <mat-paginator
+        [length]="pagedAlbums.totalElements"
+        [pageIndex]="pagedAlbums.number"
+        [pageSize]="pagedAlbums.size"
+        [pageSizeOptions]="[]"
+        [showFirstLastButtons]="pagedAlbums.totalPages > 1"
+        (page)="handlePage($event)"
+      ></mat-paginator>
+    </div>
   </div>
-
-  <div
-    class="mt-5"
-    [hidden]="pagedAlbums.content.length === 0 || pagedAlbums.totalPages < 2"
-  >
-    <mat-paginator
-      [length]="pagedAlbums.totalElements"
-      [pageIndex]="pagedAlbums.number"
-      [pageSize]="pagedAlbums.size"
-      [pageSizeOptions]="[]"
-      [showFirstLastButtons]="pagedAlbums.totalPages > 1"
-      (page)="handlePage($event)"
-    ></mat-paginator>
-  </div>
-</div>
+}

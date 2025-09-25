@@ -8,7 +8,7 @@ import {
   MatDialogClose,
 } from "@angular/material/dialog";
 import { CdkScrollable } from "@angular/cdk/scrolling";
-import { NgFor } from "@angular/common";
+
 import { MatButton } from "@angular/material/button";
 import { FilterByCategoryPipe } from "../../shared/pipes/filter/filter-by-category.pipe";
 
@@ -20,7 +20,6 @@ import { FilterByCategoryPipe } from "../../shared/pipes/filter/filter-by-catego
     MatDialogTitle,
     CdkScrollable,
     MatDialogContent,
-    NgFor,
     MatDialogActions,
     MatButton,
     MatDialogClose,

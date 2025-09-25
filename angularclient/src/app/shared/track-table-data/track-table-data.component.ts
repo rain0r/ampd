@@ -25,7 +25,7 @@ import {
 } from "./../messages/internal/internal-msg";
 import { ClickActions } from "./click-actions.enum";
 import { TrackTableOptions } from "./track-table-options";
-import { NgIf, AsyncPipe } from "@angular/common";
+import { AsyncPipe } from "@angular/common";
 import {
   MatTable,
   MatColumnDef,
@@ -48,7 +48,6 @@ import { SecondsToMmSsPipe } from "../pipes/seconds-to-mm-ss.pipe";
   templateUrl: "./track-table-data.component.html",
   styleUrls: ["./track-table-data.component.scss"],
   imports: [
-    NgIf,
     MatTable,
     CdkDropList,
     MatSort,

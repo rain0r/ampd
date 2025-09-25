@@ -3,7 +3,7 @@ import { Observable, delay, startWith } from "rxjs";
 import { ControlPanelService } from "../../service/control-panel.service";
 import { MpdService } from "../../service/mpd.service";
 import { QueueTrack } from "../../shared/model/queue-track";
-import { NgIf, AsyncPipe } from "@angular/common";
+import { AsyncPipe } from "@angular/common";
 import { MatSlider, MatSliderThumb } from "@angular/material/slider";
 import { FormsModule } from "@angular/forms";
 import { SecondsToMmSsPipe } from "../../shared/pipes/seconds-to-mm-ss.pipe";
@@ -13,7 +13,6 @@ import { SecondsToMmSsPipe } from "../../shared/pipes/seconds-to-mm-ss.pipe";
   templateUrl: "./track-progress.component.html",
   styleUrls: ["./track-progress.component.scss"],
   imports: [
-    NgIf,
     MatSlider,
     MatSliderThumb,
     FormsModule,

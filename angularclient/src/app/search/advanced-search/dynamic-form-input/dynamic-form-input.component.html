@@ -1,17 +1,21 @@
 <div [formGroup]="form">
-  <div [ngSwitch]="input.controlType">
-    <div *ngSwitchCase="'textbox'">
-      <mat-form-field appearance="fill" class="w-full">
-        <mat-label [attr.for]="input.key">{{ input.label }}</mat-label>
-        <input
-          matInput
-          [formControlName]="input.key"
-          [id]="input.key"
-          [type]="input.type"
-          autocomplete="off"
-          [attr.data-cy]="'input-field-' + input.key"
-        />
-      </mat-form-field>
-    </div>
+  <div>
+    @switch (input.controlType) {
+      @case ("textbox") {
+        <div>
+          <mat-form-field appearance="fill" class="w-full">
+            <mat-label [attr.for]="input.key">{{ input.label }}</mat-label>
+            <input
+              matInput
+              [formControlName]="input.key"
+              [id]="input.key"
+              [type]="input.type"
+              autocomplete="off"
+              [attr.data-cy]="'input-field-' + input.key"
+            />
+          </mat-form-field>
+        </div>
+      }
+    }
   </div>
 </div>

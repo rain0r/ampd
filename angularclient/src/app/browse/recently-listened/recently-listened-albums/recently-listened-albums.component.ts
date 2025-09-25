@@ -4,7 +4,7 @@ import { Observable, Subject, of, startWith, switchMap } from "rxjs";
 import { RecentlyListenedService } from "src/app/service/recently-listened.service";
 import { PaginatedResponse } from "src/app/shared/messages/incoming/paginated-response";
 import { MpdAlbum } from "src/app/shared/model/http/album";
-import { NgIf, NgFor, AsyncPipe } from "@angular/common";
+import { AsyncPipe } from "@angular/common";
 import { AlbumItemComponent } from "../../albums/album-item/album-item.component";
 import { MatProgressSpinner } from "@angular/material/progress-spinner";
 
@@ -12,14 +12,7 @@ import { MatProgressSpinner } from "@angular/material/progress-spinner";
   selector: "app-recently-listened-albums",
   templateUrl: "./recently-listened-albums.component.html",
   styleUrl: "./recently-listened-albums.component.css",
-  imports: [
-    NgIf,
-    NgFor,
-    AlbumItemComponent,
-    MatPaginator,
-    MatProgressSpinner,
-    AsyncPipe,
-  ],
+  imports: [AlbumItemComponent, MatPaginator, MatProgressSpinner, AsyncPipe],
 })
 export class RecentlyListenedAlbumsComponent {
   private recentlyListenedService = inject(RecentlyListenedService);

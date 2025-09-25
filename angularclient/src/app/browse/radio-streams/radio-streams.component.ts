@@ -5,7 +5,7 @@ import { Observable, map } from "rxjs";
 import { RadioStreamService } from "src/app/service/radio-stream.service";
 import { RadioStream } from "src/app/shared/model/db/radio-stream";
 import { BrowseNavigationComponent } from "../navigation/browse-navigation.component";
-import { NgIf, AsyncPipe } from "@angular/common";
+import { AsyncPipe } from "@angular/common";
 import { RadioStreamListComponent } from "./radio-stream-list/radio-stream-list.component";
 import { MatDivider } from "@angular/material/divider";
 import { AddStreamComponent } from "./add-radio-stream/add-radio-stream.component";
@@ -18,7 +18,6 @@ import { MatButton } from "@angular/material/button";
   styleUrls: ["./radio-streams.component.scss"],
   imports: [
     BrowseNavigationComponent,
-    NgIf,
     RadioStreamListComponent,
     MatDivider,
     AddStreamComponent,

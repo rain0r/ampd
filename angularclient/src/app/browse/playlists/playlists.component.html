@@ -1,31 +1,33 @@
-<div
-  class="browse-title"
-  *ngIf="(playlists | playlistFilter: filterValue).length"
->
-  <div class="text-2xl">Playlists</div>
-</div>
+@if ((playlists | playlistFilter: filterValue).length) {
+  <div class="browse-title">
+    <div class="text-2xl">Playlists</div>
+  </div>
+}
 
 <div class="flex flex-col gap-y-2">
-  <app-playlist-entry
-    class="clickable"
-    *ngFor="
-      let playlist of playlists
-        | playlistFilter: filterValue
-        | slice: paginationFrom : paginationTo
-    "
-    [playlist]="playlist"
-  ></app-playlist-entry>
+  @for (
+    playlist of playlists
+      | playlistFilter: filterValue
+      | slice: paginationFrom : paginationTo;
+    track playlist
+  ) {
+    <app-playlist-entry
+      class="clickable"
+      [playlist]="playlist"
+    ></app-playlist-entry>
+  }
 
-  <mat-paginator
-    *ngIf="
-      (playlists | playlistFilter: filterValue).length > 0 &&
-      paginationTo - paginationFrom <
-        (playlists | playlistFilter: filterValue).length
-    "
-    [length]="playlists.length"
-    (page)="getPaginatorData($event)"
-    [pageSizeOptions]="pageSizeOptions"
-    showFirstLastButtons="true"
-  >
-  </mat-paginator>
+  @if (
+    (playlists | playlistFilter: filterValue).length > 0 &&
+    paginationTo - paginationFrom <
+      (playlists | playlistFilter: filterValue).length
+  ) {
+    <mat-paginator
+      [length]="playlists.length"
+      (page)="getPaginatorData($event)"
+      [pageSizeOptions]="pageSizeOptions"
+      showFirstLastButtons="true"
+    >
+    </mat-paginator>
+  }
 </div>

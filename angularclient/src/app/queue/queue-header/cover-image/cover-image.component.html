@@ -1,12 +1,16 @@
-<div *ngIf="queueTrack | async as track">
-  <div *ngIf="isDisplayCover | async">
-    <img
-      data-cy="cover"
-      (click)="openCoverDialog(track.coverUrl)"
-      [alt]="'Cover of ' + track.artistName + ' — ' + track.albumName"
-      [src]="track.coverUrl"
-      [title]="track.artistName + ' — ' + track.albumName"
-      class="h-64 w-full object-cover md:h-full md:w-64"
-    />
+@if (queueTrack | async; as track) {
+  <div>
+    @if (isDisplayCover | async) {
+      <div>
+        <img
+          data-cy="cover"
+          (click)="openCoverDialog(track.coverUrl)"
+          [alt]="'Cover of ' + track.artistName + ' — ' + track.albumName"
+          [src]="track.coverUrl"
+          [title]="track.artistName + ' — ' + track.albumName"
+          class="h-64 w-full object-cover md:h-full md:w-64"
+        />
+      </div>
+    }
   </div>
-</div>
+}

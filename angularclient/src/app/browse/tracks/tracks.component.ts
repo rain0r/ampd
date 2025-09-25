@@ -9,7 +9,7 @@ import { AlbumCoverDialogComponent } from "../../shared/album-cover-dialog/album
 import { QueueTrack } from "../../shared/model/queue-track";
 import { ClickActions } from "../../shared/track-table-data/click-actions.enum";
 import { TrackTableOptions } from "../../shared/track-table-data/track-table-options";
-import { NgIf, NgPlural, NgPluralCase } from "@angular/common";
+import { NgPlural, NgPluralCase } from "@angular/common";
 import { TrackTableDataComponent } from "../../shared/track-table-data/track-table-data.component";
 import { MatDivider } from "@angular/material/divider";
 import { SecondsToHhMmSsPipe } from "../../shared/pipes/seconds-to-hh-mm-ss.pipe";
@@ -19,7 +19,6 @@ import { SecondsToHhMmSsPipe } from "../../shared/pipes/seconds-to-hh-mm-ss.pipe
   templateUrl: "./tracks.component.html",
   styleUrls: ["./tracks.component.scss"],
   imports: [
-    NgIf,
     TrackTableDataComponent,
     MatDivider,
     NgPlural,

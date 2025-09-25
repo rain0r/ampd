@@ -1,4 +1,4 @@
-import { ViewportScroller, NgFor, NgIf, AsyncPipe } from "@angular/common";
+import { ViewportScroller, AsyncPipe } from "@angular/common";
 import { Component, OnDestroy, OnInit, inject } from "@angular/core";
 import { PageEvent, MatPaginator } from "@angular/material/paginator";
 import { ActivatedRoute, RouterLink } from "@angular/router";
@@ -39,10 +39,8 @@ import { TrackTableDataComponent } from "../../shared/track-table-data/track-tab
   styleUrls: ["./genres.component.scss"],
   imports: [
     BrowseNavigationComponent,
-    NgFor,
     MatButton,
     RouterLink,
-    NgIf,
     MatProgressSpinner,
     MatTabGroup,
     MatTab,

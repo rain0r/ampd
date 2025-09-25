@@ -54,27 +54,35 @@
       >ampd</span
     >
 
-    <div mat-button [ngSwitch]="connState | async" class="self-center mr-4">
-      <mat-spinner
-        color="accent"
-        diameter="30"
-        *ngSwitchCase="0"
-        title="Connecting..."
-      ></mat-spinner>
-      <mat-icon *ngSwitchCase="1" title="Connected">cloud</mat-icon>
-      <mat-spinner
-        color="accent"
-        diameter="30"
-        *ngSwitchCase="2"
-        title="Closing..."
-      ></mat-spinner>
-      <mat-icon color="accent" *ngSwitchDefault title="Disconnected"
-        >cloud_off</mat-icon
-      >
+    <div mat-button class="self-center mr-4">
+      @switch (connState | async) {
+        @case (0) {
+          <mat-spinner
+            color="accent"
+            diameter="30"
+            title="Connecting..."
+          ></mat-spinner>
+        }
+        @case (1) {
+          <mat-icon title="Connected">cloud</mat-icon>
+        }
+        @case (2) {
+          <mat-spinner
+            color="accent"
+            diameter="30"
+            title="Closing..."
+          ></mat-spinner>
+        }
+        @default {
+          <mat-icon color="accent" title="Disconnected">cloud_off</mat-icon>
+        }
+      }
     </div>
-    <span *ngIf="(connState | async) !== 1" class="not-connected accent-text">
-      Not connected to ampd server
-    </span>
+    @if ((connState | async) !== 1) {
+      <span class="not-connected accent-text">
+        Not connected to ampd server
+      </span>
+    }
 
     <div class="hidden md:inline self-center clickable">
       <mat-icon #helpIcon (click)="openHelpDialog()" title="Show shortcut help"

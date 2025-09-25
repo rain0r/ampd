@@ -13,13 +13,13 @@ import { MpdService } from "src/app/service/mpd.service";
 import { AlbumCoverDialogComponent } from "src/app/shared/album-cover-dialog/album-cover-dialog.component";
 import { SettingKeys } from "src/app/shared/model/internal/frontend-settings";
 import { QueueTrack } from "src/app/shared/model/queue-track";
-import { NgIf, AsyncPipe } from "@angular/common";
+import { AsyncPipe } from "@angular/common";
 
 @Component({
   selector: "app-cover-image",
   templateUrl: "./cover-image.component.html",
   styleUrls: ["./cover-image.component.scss"],
-  imports: [NgIf, AsyncPipe],
+  imports: [AsyncPipe],
 })
 export class CoverImageComponent implements OnInit {
   private dialog = inject(MatDialog);

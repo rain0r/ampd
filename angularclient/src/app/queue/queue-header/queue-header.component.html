@@ -1,64 +1,70 @@
-<div *ngIf="currentPlay$ | async as play" class="pb-1 md:pb-4">
-  <div *ngIf="play.state === 'stop'" class="grid place-items-center">
-    <h1 class="heading-2">Stopped.</h1>
-  </div>
-
-  <div class="flex flex-col md:flex-row">
-    <div
-      class="flex flex-grow flex-col basis-[55%]"
-      *ngIf="play.state !== 'stop'"
-    >
-      <div [class.text-muted]="play.state === 'pause'">
-        <div *ngIf="isRadioStream$ | async">
-          <p class="text-xl font-bold">{{ play.track.title }}</p>
-          <p class="break-all text-muted">{{ play.track.file }}</p>
-          <a
-            *ngIf="radioStreamName$ | async as name"
-            class="accent-text"
-            routerLink="/browse/radio-streams"
-          >
-            &#91;{{ name }}&#93;
-          </a>
-        </div>
-
-        <a
-          [queryParams]="{ dir: currentPathLink }"
-          [routerLink]="['browse']"
-          *ngIf="(isRadioStream$ | async) === false"
-          class="text-xl font-bold"
-          title="Go to the directory containing this track"
-        >
-          @if (play.track.title === "") {
-            {{ play.track.file }}
-          } @else {
-            {{ play.track.title }}
+@if (currentPlay$ | async; as play) {
+  <div class="pb-1 md:pb-4">
+    @if (play.state === "stop") {
+      <div class="grid place-items-center">
+        <h1 class="heading-2">Stopped.</h1>
+      </div>
+    }
+    <div class="flex flex-col md:flex-row">
+      @if (play.state !== "stop") {
+        <div class="flex flex-grow flex-col basis-[55%]">
+          <div [class.text-muted]="play.state === 'pause'">
+            @if (isRadioStream$ | async) {
+              <div>
+                <p class="text-xl font-bold">{{ play.track.title }}</p>
+                <p class="break-all text-muted">{{ play.track.file }}</p>
+                @if (radioStreamName$ | async; as name) {
+                  <a class="accent-text" routerLink="/browse/radio-streams">
+                    &#91;{{ name }}&#93;
+                  </a>
+                }
+              </div>
+            }
+            @if ((isRadioStream$ | async) === false) {
+              <a
+                [queryParams]="{ dir: currentPathLink }"
+                [routerLink]="['browse']"
+                class="text-xl font-bold"
+                title="Go to the directory containing this track"
+              >
+                @if (play.track.title === "") {
+                  {{ play.track.file }}
+                } @else {
+                  {{ play.track.title }}
+                }
+              </a>
+            }
+          </div>
+          @if (play.track.albumName) {
+            <mat-divider></mat-divider>
           }
-        </a>
-      </div>
-      <mat-divider *ngIf="play.track.albumName"></mat-divider>
-      <div class="text-muted" *ngIf="play.track.albumName">
-        <a
-          [queryParams]="{ dir: currentPathLink }"
-          [routerLink]="['browse']"
-          title="Go to the directory containing this track"
-        >
-          {{ play.track.albumName }}
-        </a>
-        <mat-divider></mat-divider>
-      </div>
+          @if (play.track.albumName) {
+            <div class="text-muted">
+              <a
+                [queryParams]="{ dir: currentPathLink }"
+                [routerLink]="['browse']"
+                title="Go to the directory containing this track"
+              >
+                {{ play.track.albumName }}
+              </a>
+              <mat-divider></mat-divider>
+            </div>
+          }
+          <div>
+            <a
+              [class.text-muted]="play.state === 'pause'"
+              [queryParams]="{ dir: currentPathLink }"
+              [routerLink]="['browse']"
+              title="Go to the directory containing this track"
+            >
+              {{ play.track.artistName }}
+            </a>
+          </div>
+        </div>
+      }
       <div>
-        <a
-          [class.text-muted]="play.state === 'pause'"
-          [queryParams]="{ dir: currentPathLink }"
-          [routerLink]="['browse']"
-          title="Go to the directory containing this track"
-        >
-          {{ play.track.artistName }}
-        </a>
+        <app-cover-image></app-cover-image>
       </div>
-    </div>
-    <div>
-      <app-cover-image></app-cover-image>
     </div>
   </div>
-</div>
+}

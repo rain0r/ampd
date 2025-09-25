@@ -1,17 +1,14 @@
-<figure
-  class="clickable grid"
-  (click)="openDialog()"
-  *ngIf="album"
-  data-cy="album-item"
->
-  <img
-    [src]="album.albumCoverUrl"
-    alt="{{ album.albumArtist }} — {{ album.name }}"
-    class="object-scale-down h-64 w-full"
-    title="{{ album.albumArtist }} — {{ album.name }}"
-  />
-  <figcaption class="p-4">
-    <div class="line-clamp-3">{{ album.name }}</div>
-    <div class="text-muted text-sm line-clamp-3">{{ album.albumArtist }}</div>
-  </figcaption>
-</figure>
+@if (album) {
+  <figure class="clickable grid" (click)="openDialog()" data-cy="album-item">
+    <img
+      [src]="album.albumCoverUrl"
+      alt="{{ album.albumArtist }} — {{ album.name }}"
+      class="object-scale-down h-64 w-full"
+      title="{{ album.albumArtist }} — {{ album.name }}"
+    />
+    <figcaption class="p-4">
+      <div class="line-clamp-3">{{ album.name }}</div>
+      <div class="text-muted text-sm line-clamp-3">{{ album.albumArtist }}</div>
+    </figcaption>
+  </figure>
+}

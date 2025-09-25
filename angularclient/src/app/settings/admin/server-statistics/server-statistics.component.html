@@ -1,31 +1,24 @@
-<mat-card
-  *ngIf="serverStatistics | async as statistics"
-  class="w-full md:w-1/2 mt-2"
->
-  <mat-card-content class="w-full">
-    <div class="grid grid-cols-2">
-      <span>Artist count</span>
-      <span>{{ statistics.artists }}</span>
-
-      <span>Album count</span>
-      <span>{{ statistics.albums }}</span>
-
-      <span>Database playtime</span>
-      <span>{{ statistics.databasePlaytime | secondsToHhMmSs }}</span>
-
-      <span>Last update time</span>
-      <span>{{
-        statistics.lastUpdateTime * 1000 | date: "d-LLL-yyyy HH:mm"
-      }}</span>
-
-      <span>Playtime</span>
-      <span>{{ statistics.playtime | secondsToHhMmSs }}</span>
-
-      <span>Song count</span>
-      <span>{{ statistics.tracks }}</span>
-
-      <span>Uptime</span>
-      <span>{{ statistics.uptime | secondsToHhMmSs }}</span>
-    </div>
-  </mat-card-content>
-</mat-card>
+@if (serverStatistics | async; as statistics) {
+  <mat-card class="w-full md:w-1/2 mt-2">
+    <mat-card-content class="w-full">
+      <div class="grid grid-cols-2">
+        <span>Artist count</span>
+        <span>{{ statistics.artists }}</span>
+        <span>Album count</span>
+        <span>{{ statistics.albums }}</span>
+        <span>Database playtime</span>
+        <span>{{ statistics.databasePlaytime | secondsToHhMmSs }}</span>
+        <span>Last update time</span>
+        <span>{{
+          statistics.lastUpdateTime * 1000 | date: "d-LLL-yyyy HH:mm"
+        }}</span>
+        <span>Playtime</span>
+        <span>{{ statistics.playtime | secondsToHhMmSs }}</span>
+        <span>Song count</span>
+        <span>{{ statistics.tracks }}</span>
+        <span>Uptime</span>
+        <span>{{ statistics.uptime | secondsToHhMmSs }}</span>
+      </div>
+    </mat-card-content>
+  </mat-card>
+}

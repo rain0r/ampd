@@ -3,19 +3,22 @@
     <span>Playlist:</span>
     {{ data.name }}
   </div>
-  <div *ngIf="playlistInfo | async as info">
-    {{ info.tracks.totalElements }} tracks
-  </div>
+  @if (playlistInfo | async; as info) {
+    <div>{{ info.tracks.totalElements }} tracks</div>
+  }
 </div>
 
 <div mat-dialog-content>
-  <div class="grid place-items-center" *ngIf="isLoadingResults | async">
-    <mat-spinner></mat-spinner>
-  </div>
-  <app-track-data-table
-    *ngIf="(isLoadingResults | async) === false"
-    [trackTableData]="trackTableData"
-  ></app-track-data-table>
+  @if (isLoadingResults | async) {
+    <div class="grid place-items-center">
+      <mat-spinner></mat-spinner>
+    </div>
+  }
+  @if ((isLoadingResults | async) === false) {
+    <app-track-data-table
+      [trackTableData]="trackTableData"
+    ></app-track-data-table>
+  }
 </div>
 
 <div mat-dialog-actions align="end">

@@ -1,10 +1,4 @@
-import {
-  AsyncPipe,
-  NgIf,
-  NgSwitch,
-  NgSwitchCase,
-  NgSwitchDefault,
-} from "@angular/common";
+import { AsyncPipe } from "@angular/common";
 import { Component, HostListener, inject, OnInit } from "@angular/core";
 import { MatButton } from "@angular/material/button";
 import { MatDialog, MatDialogRef } from "@angular/material/dialog";
@@ -27,11 +21,7 @@ import { ShortcutService } from "./../service/shortcut.service";
     RouterLinkActive,
     RouterLink,
     MatIcon,
-    NgSwitch,
-    NgSwitchCase,
     MatProgressSpinner,
-    NgSwitchDefault,
-    NgIf,
     RouterOutlet,
     AsyncPipe,
   ],

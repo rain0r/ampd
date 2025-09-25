@@ -5,7 +5,7 @@ import { ControlPanelService } from "../../../../service/control-panel.service";
 import { NotificationService } from "../../../../service/notification.service";
 import { QueueService } from "../../../../service/queue.service";
 import { Directory } from "../../../../shared/messages/incoming/directory";
-import { NgIf, AsyncPipe } from "@angular/common";
+import { AsyncPipe } from "@angular/common";
 import { RouterLink } from "@angular/router";
 import { MatButton } from "@angular/material/button";
 
@@ -13,7 +13,7 @@ import { MatButton } from "@angular/material/button";
   selector: "app-cover-grid-entry",
   templateUrl: "./cover-grid-entry.component.html",
   styleUrls: ["./cover-grid-entry.component.scss"],
-  imports: [NgIf, RouterLink, MatButton, AsyncPipe],
+  imports: [RouterLink, MatButton, AsyncPipe],
 })
 export class CoverGridEntryComponent implements OnInit {
   private controlPanelService = inject(ControlPanelService);

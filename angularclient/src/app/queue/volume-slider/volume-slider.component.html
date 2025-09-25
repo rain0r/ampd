@@ -1,27 +1,28 @@
-<div
-  class="flex flex-row place-items-center gap-x-6"
-  [title]="'Volume: ' + volume"
-  *ngIf="state$ | async as state"
->
-  <div [class.text-muted]="state === 'pause'">
-    <mat-icon>volume_down</mat-icon>
+@if (state$ | async; as state) {
+  <div
+    class="flex flex-row place-items-center gap-x-6"
+    [title]="'Volume: ' + volume"
+  >
+    <div [class.text-muted]="state === 'pause'">
+      <mat-icon>volume_down</mat-icon>
+    </div>
+    <div class="flex-grow">
+      <mat-slider
+        [disabled]="(connected$ | async) === false || state === 'stop'"
+        [discrete]="true"
+        [showTickMarks]="false"
+        color="accent"
+        max="100"
+        min="0"
+        step="1"
+      >
+        <input
+          matSliderThumb
+          [(ngModel)]="volume"
+          (valueChange)="handleVolumeSlider($event)"
+        />
+      </mat-slider>
+    </div>
+    <div [class.text-muted]="state === 'pause'">{{ volume }} &#37;</div>
   </div>
-  <div class="flex-grow">
-    <mat-slider
-      [disabled]="(connected$ | async) === false || state === 'stop'"
-      [discrete]="true"
-      [showTickMarks]="false"
-      color="accent"
-      max="100"
-      min="0"
-      step="1"
-    >
-      <input
-        matSliderThumb
-        [(ngModel)]="volume"
-        (valueChange)="handleVolumeSlider($event)"
-      />
-    </mat-slider>
-  </div>
-  <div [class.text-muted]="state === 'pause'">{{ volume }} &#37;</div>
-</div>
+}

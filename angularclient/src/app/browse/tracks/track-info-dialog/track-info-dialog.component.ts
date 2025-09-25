@@ -1,4 +1,4 @@
-import { KeyValue, NgIf, AsyncPipe } from "@angular/common";
+import { KeyValue, AsyncPipe } from "@angular/common";
 import { Component, inject } from "@angular/core";
 import {
   MAT_DIALOG_DATA,
@@ -27,7 +27,6 @@ import { MatButton } from "@angular/material/button";
     MatDialogTitle,
     CdkScrollable,
     MatDialogContent,
-    NgIf,
     MatTabGroup,
     MatTab,
     KeyValueTableComponent,

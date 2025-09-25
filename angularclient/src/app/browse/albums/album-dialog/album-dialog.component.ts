@@ -14,7 +14,7 @@ import { MpdAlbum } from "src/app/shared/model/http/album";
 import { ClickActions } from "src/app/shared/track-table-data/click-actions.enum";
 import { TrackTableOptions } from "src/app/shared/track-table-data/track-table-options";
 import { CdkScrollable } from "@angular/cdk/scrolling";
-import { NgIf, AsyncPipe } from "@angular/common";
+import { AsyncPipe } from "@angular/common";
 import { MatProgressSpinner } from "@angular/material/progress-spinner";
 import { MatCardImage } from "@angular/material/card";
 import { TrackTableDataComponent } from "../../../shared/track-table-data/track-table-data.component";
@@ -28,7 +28,6 @@ import { MatIcon } from "@angular/material/icon";
   imports: [
     CdkScrollable,
     MatDialogContent,
-    NgIf,
     MatProgressSpinner,
     MatCardImage,
     TrackTableDataComponent,

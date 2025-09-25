@@ -3,7 +3,7 @@ import { Component, inject } from "@angular/core";
 import { Observable } from "rxjs";
 import { MpdService } from "src/app/service/mpd.service";
 import { VolumeService } from "../../service/volume.service";
-import { NgIf, AsyncPipe } from "@angular/common";
+import { AsyncPipe } from "@angular/common";
 import { MatIcon } from "@angular/material/icon";
 import { MatSlider, MatSliderThumb } from "@angular/material/slider";
 import { FormsModule } from "@angular/forms";
@@ -12,7 +12,7 @@ import { FormsModule } from "@angular/forms";
   selector: "app-volume-slider",
   templateUrl: "./volume-slider.component.html",
   styleUrls: ["./volume-slider.component.scss"],
-  imports: [NgIf, MatIcon, MatSlider, MatSliderThumb, FormsModule, AsyncPipe],
+  imports: [MatIcon, MatSlider, MatSliderThumb, FormsModule, AsyncPipe],
 })
 export class VolumeSliderComponent {
   private mpdService = inject(MpdService);

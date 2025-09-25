@@ -1,37 +1,37 @@
 <div mat-dialog-title>{{ track.artistName }} — {{ track.title }}</div>
 
 <div mat-dialog-content>
-  <mat-tab-group
-    animationDuration="0ms"
-    *ngIf="similarSource | async as similar; else loading"
-  >
-    <mat-tab label="Track">
-      <div class="pt-1 md:pt-9">
-        <app-key-value-table [dataSource]="trackSource"></app-key-value-table>
-      </div>
-    </mat-tab>
-    <mat-tab label="Tags">
-      <div class="pt-1 md:pt-9">
-        <app-key-value-table [dataSource]="tagSource"></app-key-value-table>
-      </div>
-    </mat-tab>
-    <mat-tab label="Similar Tracks">
-      <div class="pt-1 md:pt-9">
-        <div *ngIf="lastFmApiKey === ''" class="last-fm-help">
-          To retrieve similar tracks from Last.fm, please get yourself an api
-          key and start ampd with the parameter
-          <span class="mono code">-Dlastfm.api.key=&#60;value&#62;</span>
+  @if (similarSource | async; as similar) {
+    <mat-tab-group animationDuration="0ms">
+      <mat-tab label="Track">
+        <div class="pt-1 md:pt-9">
+          <app-key-value-table [dataSource]="trackSource"></app-key-value-table>
         </div>
-        <app-key-value-table [dataSource]="similar"></app-key-value-table>
-      </div>
-    </mat-tab>
-  </mat-tab-group>
+      </mat-tab>
+      <mat-tab label="Tags">
+        <div class="pt-1 md:pt-9">
+          <app-key-value-table [dataSource]="tagSource"></app-key-value-table>
+        </div>
+      </mat-tab>
+      <mat-tab label="Similar Tracks">
+        <div class="pt-1 md:pt-9">
+          @if (lastFmApiKey === "") {
+            <div class="last-fm-help">
+              To retrieve similar tracks from Last.fm, please get yourself an
+              api key and start ampd with the parameter
+              <span class="mono code">-Dlastfm.api.key=&#60;value&#62;</span>
+            </div>
+          }
+          <app-key-value-table [dataSource]="similar"></app-key-value-table>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+  } @else {
+    <div #loading class="grid place-items-center">
+      <mat-spinner></mat-spinner>
+    </div>
+  }
 </div>
-
-<ng-template #loading
-  ><div #loading class="grid place-items-center">
-    <mat-spinner></mat-spinner></div
-></ng-template>
 
 <div mat-dialog-actions align="end">
   <button mat-stroked-button mat-dialog-close>Close</button>

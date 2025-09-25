@@ -31,7 +31,7 @@ import { QueueTrack } from "src/app/shared/model/queue-track";
 import { FormField } from "src/app/shared/search/form-field";
 import { ClickActions } from "src/app/shared/track-table-data/click-actions.enum";
 import { TrackTableOptions } from "src/app/shared/track-table-data/track-table-options";
-import { NgFor, NgIf, AsyncPipe } from "@angular/common";
+import { AsyncPipe } from "@angular/common";
 import { DynamicFormInputComponent } from "./dynamic-form-input/dynamic-form-input.component";
 import { MatButton } from "@angular/material/button";
 import { MatIcon } from "@angular/material/icon";
@@ -44,11 +44,9 @@ import { TrackTableDataComponent } from "../../shared/track-table-data/track-tab
   imports: [
     FormsModule,
     ReactiveFormsModule,
-    NgFor,
     DynamicFormInputComponent,
     MatButton,
     MatIcon,
-    NgIf,
     TrackTableDataComponent,
     AsyncPipe,
   ],

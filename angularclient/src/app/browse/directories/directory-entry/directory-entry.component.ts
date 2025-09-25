@@ -4,7 +4,7 @@ import { ControlPanelService } from "../../../service/control-panel.service";
 import { NotificationService } from "../../../service/notification.service";
 import { QueueService } from "../../../service/queue.service";
 import { Directory } from "../../../shared/messages/incoming/directory";
-import { NgIf } from "@angular/common";
+
 import { RouterLink } from "@angular/router";
 import { MatIcon } from "@angular/material/icon";
 import { MatButton } from "@angular/material/button";
@@ -13,7 +13,7 @@ import { MatButton } from "@angular/material/button";
   selector: "app-directory-entry",
   templateUrl: "./directory-entry.component.html",
   styleUrls: ["./directory-entry.component.scss"],
-  imports: [NgIf, RouterLink, MatIcon, MatButton],
+  imports: [RouterLink, MatIcon, MatButton],
 })
 export class DirectoryEntryComponent implements OnInit {
   private controlPanelService = inject(ControlPanelService);

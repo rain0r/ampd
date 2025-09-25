@@ -1,59 +1,60 @@
-<mat-button-toggle-group
-  multiple
-  class="w-full"
-  *ngIf="mpdModesPanel | async as modesPanel"
-  (change)="toggleCtrl($event.value)"
-  [disabled]="(connected$ | async) === false"
-  [hideMultipleSelectionIndicator]="true"
->
-  <mat-button-toggle
-    (change)="modesPanel.random = $event.source.checked"
-    [checked]="modesPanel.random"
-    class="flex-grow"
-    title="Random. Toggle with 'z'"
-    value="random"
+@if (mpdModesPanel | async; as modesPanel) {
+  <mat-button-toggle-group
+    multiple
+    class="w-full"
+    (change)="toggleCtrl($event.value)"
+    [disabled]="(connected$ | async) === false"
+    [hideMultipleSelectionIndicator]="true"
   >
-    <mat-icon> shuffle </mat-icon>
-    <span class="hidden md:inline"> random </span>
-  </mat-button-toggle>
-  <mat-button-toggle
-    (change)="modesPanel.consume = $event.source.checked"
-    [checked]="modesPanel.consume"
-    class="flex-grow"
-    title="Consume. Toggle with 'R'"
-    value="consume"
-  >
-    <mat-icon> whatshot </mat-icon>
-    <span class="hidden md:inline"> consume </span>
-  </mat-button-toggle>
-  <mat-button-toggle
-    (change)="modesPanel.single = $event.source.checked"
-    [checked]="modesPanel.single"
-    class="flex-grow"
-    title="Single. Toggle with 'y'"
-    value="single"
-  >
-    <mat-icon> star_border </mat-icon>
-    <span class="hidden md:inline"> single </span>
-  </mat-button-toggle>
-  <mat-button-toggle
-    (change)="modesPanel.crossfade = $event.source.checked"
-    [checked]="modesPanel.crossfade"
-    class="flex-grow"
-    title="Crossfade. Toggle with 'x'"
-    value="crossfade"
-  >
-    <mat-icon> compare_arrows </mat-icon>
-    <span class="hidden md:inline"> crossfade </span>
-  </mat-button-toggle>
-  <mat-button-toggle
-    (change)="modesPanel.repeat = $event.source.checked"
-    [checked]="modesPanel.repeat"
-    class="flex-grow"
-    title="Repeat. Toggle with 'r'"
-    value="repeat"
-  >
-    <mat-icon> repeat </mat-icon>
-    <span class="hidden md:inline"> repeat </span>
-  </mat-button-toggle>
-</mat-button-toggle-group>
+    <mat-button-toggle
+      (change)="modesPanel.random = $event.source.checked"
+      [checked]="modesPanel.random"
+      class="flex-grow"
+      title="Random. Toggle with 'z'"
+      value="random"
+    >
+      <mat-icon> shuffle </mat-icon>
+      <span class="hidden md:inline"> random </span>
+    </mat-button-toggle>
+    <mat-button-toggle
+      (change)="modesPanel.consume = $event.source.checked"
+      [checked]="modesPanel.consume"
+      class="flex-grow"
+      title="Consume. Toggle with 'R'"
+      value="consume"
+    >
+      <mat-icon> whatshot </mat-icon>
+      <span class="hidden md:inline"> consume </span>
+    </mat-button-toggle>
+    <mat-button-toggle
+      (change)="modesPanel.single = $event.source.checked"
+      [checked]="modesPanel.single"
+      class="flex-grow"
+      title="Single. Toggle with 'y'"
+      value="single"
+    >
+      <mat-icon> star_border </mat-icon>
+      <span class="hidden md:inline"> single </span>
+    </mat-button-toggle>
+    <mat-button-toggle
+      (change)="modesPanel.crossfade = $event.source.checked"
+      [checked]="modesPanel.crossfade"
+      class="flex-grow"
+      title="Crossfade. Toggle with 'x'"
+      value="crossfade"
+    >
+      <mat-icon> compare_arrows </mat-icon>
+      <span class="hidden md:inline"> crossfade </span>
+    </mat-button-toggle>
+    <mat-button-toggle
+      (change)="modesPanel.repeat = $event.source.checked"
+      [checked]="modesPanel.repeat"
+      class="flex-grow"
+      title="Repeat. Toggle with 'r'"
+      value="repeat"
+    >
+      <mat-icon> repeat </mat-icon>
+      <span class="hidden md:inline"> repeat </span>
+    </mat-button-toggle>
+  </mat-button-toggle-group>
+}

@@ -4,7 +4,7 @@ import { FrontendSettingsService } from "../../service/frontend-settings.service
 import { MsgService } from "../../service/msg.service";
 import { Playlist } from "../../shared/messages/incoming/playlist";
 import { Filterable } from "../filterable";
-import { NgIf, NgFor, SlicePipe } from "@angular/common";
+import { SlicePipe } from "@angular/common";
 import { PlaylistEntryComponent } from "./playlist-entry/playlist-entry.component";
 import { PlaylistFilterPipe } from "../../shared/pipes/filter/playlist-filter.pipe";
 
@@ -13,8 +13,6 @@ import { PlaylistFilterPipe } from "../../shared/pipes/filter/playlist-filter.pi
   templateUrl: "./playlists.component.html",
   styleUrls: ["./playlists.component.scss"],
   imports: [
-    NgIf,
-    NgFor,
     PlaylistEntryComponent,
     MatPaginator,
     SlicePipe,

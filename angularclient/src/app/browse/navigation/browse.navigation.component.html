@@ -16,103 +16,116 @@
   </div>
 
   <!--Go one dir up -->
-  <div *ngIf="getParamDir !== '/'">
-    <button
-      [queryParams]="{ dir: dirUp$ | async }"
-      [routerLink]="['/browse']"
-      mat-raised-button
-      title="Go one directory up"
-    >
-      <mat-icon>expand_less</mat-icon>
-      <span class="hidden md:inline">Return</span>
-    </button>
-  </div>
+  @if (getParamDir !== "/") {
+    <div>
+      <button
+        [queryParams]="{ dir: dirUp$ | async }"
+        [routerLink]="['/browse']"
+        mat-raised-button
+        title="Go one directory up"
+      >
+        <mat-icon>expand_less</mat-icon>
+        <span class="hidden md:inline">Return</span>
+      </button>
+    </div>
+  }
 
   <!--Add all-->
-  <div *ngIf="getParamDir !== '/'">
-    <button
-      mat-raised-button
-      (click)="onAddDir(getParamDir)"
-      title="Add all tracks"
-    >
-      <mat-icon> add</mat-icon>
-      <span class="hidden md:inline">Add all</span>
-    </button>
-  </div>
+  @if (getParamDir !== "/") {
+    <div>
+      <button
+        mat-raised-button
+        (click)="onAddDir(getParamDir)"
+        title="Add all tracks"
+      >
+        <mat-icon> add</mat-icon>
+        <span class="hidden md:inline">Add all</span>
+      </button>
+    </div>
+  }
 
   <!--Play all-->
-  <div *ngIf="getParamDir !== '/'">
-    <button mat-raised-button (click)="onPlayDir(getParamDir)" title="Play all">
-      <mat-icon> play_arrow</mat-icon>
-      <span class="hidden md:inline">Play all</span>
-    </button>
-  </div>
+  @if (getParamDir !== "/") {
+    <div>
+      <button
+        mat-raised-button
+        (click)="onPlayDir(getParamDir)"
+        title="Play all"
+      >
+        <mat-icon> play_arrow</mat-icon>
+        <span class="hidden md:inline">Play all</span>
+      </button>
+    </div>
+  }
 
   <!-- Albums -->
-  <div *ngIf="getParamDir === '/' && (displayAlbums$ | async) === true">
-    <button
-      [routerLink]="['/browse-albums']"
-      mat-raised-button
-      routerLinkActive="mat-accent"
-      title="Browse albums"
-    >
-      <mat-icon>album</mat-icon>
-      <span class="hidden md:inline"> Albums </span>
-    </button>
-  </div>
+  @if (getParamDir === "/" && (displayAlbums$ | async) === true) {
+    <div>
+      <button
+        [routerLink]="['/browse-albums']"
+        mat-raised-button
+        routerLinkActive="mat-accent"
+        title="Browse albums"
+      >
+        <mat-icon>album</mat-icon>
+        <span class="hidden md:inline"> Albums </span>
+      </button>
+    </div>
+  }
 
   <!-- Genres -->
-  <div *ngIf="getParamDir === '/' && (displayGenres$ | async) === true">
-    <button
-      [routerLink]="['/browse-genres']"
-      mat-raised-button
-      routerLinkActive="mat-accent"
-      title="Show all genres"
-    >
-      <mat-icon>local_offer</mat-icon>
-      <span class="hidden md:inline"> Genres </span>
-    </button>
-  </div>
+  @if (getParamDir === "/" && (displayGenres$ | async) === true) {
+    <div>
+      <button
+        [routerLink]="['/browse-genres']"
+        mat-raised-button
+        routerLinkActive="mat-accent"
+        title="Show all genres"
+      >
+        <mat-icon>local_offer</mat-icon>
+        <span class="hidden md:inline"> Genres </span>
+      </button>
+    </div>
+  }
 
   <!-- Radio Streams -->
-  <div *ngIf="getParamDir === '/' && (displayRadio$ | async) === true">
-    <button
-      [routerLink]="['/browse-radio-streams']"
-      mat-raised-button
-      routerLinkActive="mat-accent"
-      title="Go to radio streams"
-    >
-      <mat-icon>radio</mat-icon>
-      <span class="hidden md:inline"> Radio </span>
-    </button>
-  </div>
+  @if (getParamDir === "/" && (displayRadio$ | async) === true) {
+    <div>
+      <button
+        [routerLink]="['/browse-radio-streams']"
+        mat-raised-button
+        routerLinkActive="mat-accent"
+        title="Go to radio streams"
+      >
+        <mat-icon>radio</mat-icon>
+        <span class="hidden md:inline"> Radio </span>
+      </button>
+    </div>
+  }
 
   <!--Recently Listened-->
-  <div
-    *ngIf="getParamDir === '/' && (displayRecentlyListened$ | async) === true"
-  >
-    <button
-      mat-raised-button
-      [routerLink]="['/browse-recently-listened']"
-      routerLinkActive="mat-accent"
-      title="Recently Listened"
-    >
-      <mat-icon>replay</mat-icon>
-      <span class="hidden md:inline">Recent</span>
-    </button>
-  </div>
+  @if (getParamDir === "/" && (displayRecentlyListened$ | async) === true) {
+    <div>
+      <button
+        mat-raised-button
+        [routerLink]="['/browse-recently-listened']"
+        routerLinkActive="mat-accent"
+        title="Recently Listened"
+      >
+        <mat-icon>replay</mat-icon>
+        <span class="hidden md:inline">Recent</span>
+      </button>
+    </div>
+  }
 
   <!--Clear queue-->
   <div>
-    <button
-      *ngIf="(displayBrowseClearQueue$ | async) === true"
-      mat-raised-button
-      (click)="onClearQueue()"
-      title="Clear queue"
-    >
-      <mat-icon>delete</mat-icon>
-      <span class="hidden md:inline">Clear queue</span>
-    </button>
+    @if ((displayBrowseClearQueue$ | async) === true) {
+      <button mat-raised-button (click)="onClearQueue()" title="Clear queue">
+        <mat-icon>delete</mat-icon>
+        <span class="hidden md:inline">Clear queue</span>
+      </button>
+    }
   </div>
 
   <div class="md:flex-grow"></div>
@@ -136,15 +149,16 @@
         placeholder="Press 'f' to jump here"
         type="text"
       />
-      <button
-        (click)="filter = ''; resetFilter()"
-        *ngIf="filter"
-        aria-label="Clear"
-        mat-icon-button
-        matSuffix
-      >
-        <mat-icon>close</mat-icon>
-      </button>
+      @if (filter) {
+        <button
+          (click)="filter = ''; resetFilter()"
+          aria-label="Clear"
+          mat-icon-button
+          matSuffix
+        >
+          <mat-icon>close</mat-icon>
+        </button>
+      }
     </mat-form-field>
   </div>
 </div>

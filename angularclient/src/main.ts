@@ -13,7 +13,6 @@ import {
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { MAT_TOOLTIP_DEFAULT_OPTIONS } from "@angular/material/tooltip";
 import { bootstrapApplication, BrowserModule } from "@angular/platform-browser";
-import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { AppRoutingModule } from "./app/app-routing.module";
 import { AppComponent } from "./app/app.component";
 import { AmpdRxStompConfigService } from "./app/service/ampd-rx-stomp-config.service";
@@ -26,11 +25,6 @@ import { SecondsToMmSsPipe } from "./app/shared/pipes/seconds-to-mm-ss.pipe";
 import { StyleManager } from "./app/shared/style-manager";
 import { environment } from "./environments/environment";
 
-const prefersReducedMotion =
-  typeof matchMedia === "function"
-    ? matchMedia("(prefers-reduced-motion)").matches
-    : false;
-
 if (environment.production) {
   enableProdMode();
 }
@@ -39,9 +33,6 @@ bootstrapApplication(AppComponent, {
   providers: [
     importProvidersFrom(
       AppRoutingModule,
-      BrowserAnimationsModule.withConfig({
-        disableAnimations: prefersReducedMotion,
-      }),
       BrowserModule,
       FormsModule,
       ReactiveFormsModule,

@@ -1,4 +1,4 @@
-import { AsyncPipe, NgIf } from "@angular/common";
+import { AsyncPipe } from "@angular/common";
 import { Component, inject } from "@angular/core";
 import {
   MatDialogActions,
@@ -12,13 +12,7 @@ import { interval, map, Observable, take } from "rxjs";
   selector: "app-connecting-overlay",
   templateUrl: "./connecting-overlay.component.html",
   styleUrl: "./connecting-overlay.component.css",
-  imports: [
-    MatProgressSpinner,
-    MatDialogContent,
-    MatDialogActions,
-    AsyncPipe,
-    NgIf,
-  ],
+  imports: [MatProgressSpinner, MatDialogContent, MatDialogActions, AsyncPipe],
 })
 export class ConnectingOverlayComponent {
   private dialogRef = inject(MatDialogRef<ConnectingOverlayComponent>);

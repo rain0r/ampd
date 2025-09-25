@@ -1,4 +1,4 @@
-import { ViewportScroller, NgFor, NgIf, AsyncPipe } from "@angular/common";
+import { ViewportScroller, AsyncPipe } from "@angular/common";
 import {
   Component,
   ElementRef,
@@ -48,10 +48,8 @@ interface SortByKey {
     MatLabel,
     MatSelect,
     FormsModule,
-    NgFor,
     MatOption,
     MatInput,
-    NgIf,
     MatIconButton,
     MatSuffix,
     MatIcon,

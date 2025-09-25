@@ -15,74 +15,90 @@
     </div>
 
     <div>
-      <div *ngFor="let category of feSettings | keyvalue" class="my-16">
-        <div class="heading-2">{{ category.key }}</div>
-
-        <div class="settings-grid">
-          <mat-card *ngFor="let setting of category.value">
-            <mat-card-header>
-              <mat-card-title>{{ setting.label }}</mat-card-title>
-            </mat-card-header>
-            <mat-card-content [ngSwitch]="setting.type">
-              <!-- Boolean -->
-              <mat-slide-toggle
-                [checked]="setting.value !== '' && setting.value"
-                *ngSwitchCase="'bool'"
-                (change)="toggleFrontendSetting(setting.name, $event)"
-              >
-                <mat-label class="text-muted"
-                  >{{ setting.description }}
-                </mat-label>
-              </mat-slide-toggle>
-              <!-- Number -->
-              <div *ngSwitchCase="'int'">
-                <mat-form-field appearance="fill" class="w-full">
-                  <input
-                    matInput
-                    #inputField
-                    type="number"
-                    min="0"
-                    [value]="setting.value"
-                  />
-                </mat-form-field>
-                <div class="fe-setting-label">{{ setting.description }}</div>
-                <mat-card-actions>
-                  <button
-                    mat-stroked-button
-                    type="submit"
-                    (click)="onSaveBtnClick(setting.name, inputField.value)"
-                  >
-                    Save
-                  </button>
-                </mat-card-actions>
-              </div>
-              <!-- Default -->
-              <div *ngSwitchDefault>
-                <mat-form-field appearance="fill" class="w-full">
-                  <input
-                    matInput
-                    [value]="setting.value"
-                    #inputField
-                    (keyup.enter)="
-                      onSaveBtnClick(setting.name, inputField.value)
-                    "
-                  />
-                  <mat-label> {{ setting.description }}</mat-label>
-                </mat-form-field>
-                <mat-card-actions>
-                  <button
-                    mat-stroked-button
-                    type="submit"
-                    (click)="onSaveBtnClick(setting.name, inputField.value)"
-                  >
-                    Save
-                  </button>
-                </mat-card-actions>
-              </div>
-            </mat-card-content>
-          </mat-card>
+      @for (category of feSettings | keyvalue; track category) {
+        <div class="my-16">
+          <div class="heading-2">{{ category.key }}</div>
+          <div class="settings-grid">
+            @for (setting of category.value; track setting) {
+              <mat-card>
+                <mat-card-header>
+                  <mat-card-title>{{ setting.label }}</mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                  @switch (setting.type) {
+                    <!-- Boolean -->
+                    @case ("bool") {
+                      <mat-slide-toggle
+                        [checked]="setting.value !== '' && setting.value"
+                        (change)="toggleFrontendSetting(setting.name, $event)"
+                      >
+                        <mat-label class="text-muted"
+                          >{{ setting.description }}
+                        </mat-label>
+                      </mat-slide-toggle>
+                    }
+                    <!-- Number -->
+                    @case ("int") {
+                      <div>
+                        <mat-form-field appearance="fill" class="w-full">
+                          <input
+                            matInput
+                            #inputField
+                            type="number"
+                            min="0"
+                            [value]="setting.value"
+                          />
+                        </mat-form-field>
+                        <div class="fe-setting-label">
+                          {{ setting.description }}
+                        </div>
+                        <mat-card-actions>
+                          <button
+                            mat-stroked-button
+                            type="submit"
+                            (click)="
+                              onSaveBtnClick(setting.name, inputField.value)
+                            "
+                          >
+                            Save
+                          </button>
+                        </mat-card-actions>
+                      </div>
+                    }
+                    <!-- Default -->
+                    @default {
+                      <div>
+                        <mat-form-field appearance="fill" class="w-full">
+                          <input
+                            matInput
+                            [value]="setting.value"
+                            #inputField
+                            (keyup.enter)="
+                              onSaveBtnClick(setting.name, inputField.value)
+                            "
+                          />
+                          <mat-label> {{ setting.description }}</mat-label>
+                        </mat-form-field>
+                        <mat-card-actions>
+                          <button
+                            mat-stroked-button
+                            type="submit"
+                            (click)="
+                              onSaveBtnClick(setting.name, inputField.value)
+                            "
+                          >
+                            Save
+                          </button>
+                        </mat-card-actions>
+                      </div>
+                    }
+                  }
+                </mat-card-content>
+              </mat-card>
+            }
+          </div>
         </div>
-      </div>
+      }
     </div>
     <div class="pt-8 mt-8">
       <button
@@ -118,39 +134,48 @@
         </mat-card-content>
       </mat-card>
     </div>
-    <div *ngIf="ampdSettings | async as settings" class="settings-grid">
-      <mat-card *ngFor="let setting of settings">
-        <mat-card-header>
-          <mat-card-title>{{ setting.name }}</mat-card-title>
-        </mat-card-header>
-        <mat-card-content [ngSwitch]="setting.type" class="my-4">
-          <!-- Boolean -->
-          <mat-slide-toggle
-            [checked]="setting.value"
-            disabled
-            *ngSwitchCase="'bool'"
-          >
-            <mat-hint align="end">{{ setting.hint }}</mat-hint>
-          </mat-slide-toggle>
-          <!-- Default -->
-          <mat-form-field appearance="fill" *ngSwitchDefault class="w-full">
-            <mat-label>{{ setting.value }}</mat-label>
-            <input matInput />
-            <mat-hint>{{ setting.hint }}</mat-hint>
-          </mat-form-field>
-        </mat-card-content>
-        <mat-card-footer class="p-0 md:p-4 md:pt-8">
-          <div class="my-2">
-            Setting in <span class="font-mono">application.properties</span>:
-            <span class="ampd-code">{{ setting.key }}=&#60;value&#62;</span>
-          </div>
-          <div class="my-2">
-            Command line parameter:
-            <span class="ampd-code">-D{{ setting.key }}=&#60;value&#62;</span>
-          </div>
-        </mat-card-footer>
-      </mat-card>
-    </div>
+    @if (ampdSettings | async; as settings) {
+      <div class="settings-grid">
+        @for (setting of settings; track setting) {
+          <mat-card>
+            <mat-card-header>
+              <mat-card-title>{{ setting.name }}</mat-card-title>
+            </mat-card-header>
+            <mat-card-content class="my-4">
+              @switch (setting.type) {
+                <!-- Boolean -->
+                @case ("bool") {
+                  <mat-slide-toggle [checked]="setting.value" disabled>
+                    <mat-hint align="end">{{ setting.hint }}</mat-hint>
+                  </mat-slide-toggle>
+                }
+                <!-- Default -->
+                @default {
+                  <mat-form-field appearance="fill" class="w-full">
+                    <mat-label>{{ setting.value }}</mat-label>
+                    <input matInput />
+                    <mat-hint>{{ setting.hint }}</mat-hint>
+                  </mat-form-field>
+                }
+              }
+            </mat-card-content>
+            <mat-card-footer class="p-0 md:p-4 md:pt-8">
+              <div class="my-2">
+                Setting in
+                <span class="font-mono">application.properties</span>:
+                <span class="ampd-code">{{ setting.key }}=&#60;value&#62;</span>
+              </div>
+              <div class="my-2">
+                Command line parameter:
+                <span class="ampd-code"
+                  >-D{{ setting.key }}=&#60;value&#62;</span
+                >
+              </div>
+            </mat-card-footer>
+          </mat-card>
+        }
+      </div>
+    }
   </mat-tab>
   <mat-tab label="Admin">
     <!-- admin -->
@@ -161,12 +186,16 @@
       <app-server-statistics></app-server-statistics>
     </div>
   </mat-tab>
-  <mat-tab *ngIf="displayLog" label="Log">
-    <app-log-view></app-log-view>
-  </mat-tab>
+  @if (displayLog) {
+    <mat-tab label="Log">
+      <app-log-view></app-log-view>
+    </mat-tab>
+  }
 </mat-tab-group>
 
-<div class="pt-8 mt-8 font-mono" *ngIf="mpdSettings | async as settings">
-  ampd version {{ settings.version }}. Source code at:
-  <a href="https://github.com/rain0r/ampd">github.com/rain0r/ampd</a>
-</div>
+@if (mpdSettings | async; as settings) {
+  <div class="pt-8 mt-8 font-mono">
+    ampd version {{ settings.version }}. Source code at:
+    <a href="https://github.com/rain0r/ampd">github.com/rain0r/ampd</a>
+  </div>
+}

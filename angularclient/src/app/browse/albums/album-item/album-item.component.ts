@@ -4,13 +4,12 @@ import { MatDialog } from "@angular/material/dialog";
 import { BehaviorSubject, first } from "rxjs";
 import { MpdAlbum } from "src/app/shared/model/http/album";
 import { AlbumDialogComponent } from "../album-dialog/album-dialog.component";
-import { NgIf } from "@angular/common";
 
 @Component({
   selector: "app-album-item",
   templateUrl: "./album-item.component.html",
   styleUrls: ["./album-item.component.scss"],
-  imports: [NgIf],
+  imports: [],
 })
 export class AlbumItemComponent implements OnInit {
   private dialog = inject(MatDialog);

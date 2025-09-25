@@ -22,7 +22,7 @@ import { QueueTrack } from "../../shared/model/queue-track";
 import { ClickActions } from "../../shared/track-table-data/click-actions.enum";
 import { TrackTableOptions } from "../../shared/track-table-data/track-table-options";
 import { SavePlaylistDialogComponent } from "../save-playlist-dialog/save-playlist-dialog.component";
-import { NgIf, NgPlural, NgPluralCase } from "@angular/common";
+import { NgPlural, NgPluralCase } from "@angular/common";
 import { MatFormField, MatSuffix } from "@angular/material/form-field";
 import { MatInput } from "@angular/material/input";
 import { FormsModule } from "@angular/forms";
@@ -37,7 +37,6 @@ import { SecondsToHhMmSsPipe } from "../../shared/pipes/seconds-to-hh-mm-ss.pipe
   templateUrl: "./track-table.component.html",
   styleUrls: ["./track-table.component.scss"],
   imports: [
-    NgIf,
     MatFormField,
     MatInput,
     FormsModule,

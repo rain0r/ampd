@@ -25,7 +25,7 @@ import { QueueService } from "src/app/service/queue.service";
 import { RadioStreamService } from "src/app/service/radio-stream.service";
 import { RadioStream } from "../../../shared/model/db/radio-stream";
 import { ConfirmDeleteStreamDialogComponent } from "../confirm-delete-stream-dialog/confirm-delete-stream-dialog.component";
-import { NgIf, NgFor } from "@angular/common";
+
 import { MatFormField, MatSuffix } from "@angular/material/form-field";
 import { MatInput } from "@angular/material/input";
 import { FormsModule } from "@angular/forms";
@@ -43,14 +43,12 @@ import {
   templateUrl: "./radio-stream-list.component.html",
   styleUrls: ["./radio-stream-list.component.scss"],
   imports: [
-    NgIf,
     MatFormField,
     MatInput,
     FormsModule,
     MatIcon,
     MatSuffix,
     MatButton,
-    NgFor,
     MatCard,
     MatCardTitle,
     MatCardContent,

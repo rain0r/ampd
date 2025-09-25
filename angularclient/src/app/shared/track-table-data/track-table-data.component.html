@@ -1,217 +1,212 @@
-<div *ngIf="trackTableDataObs | async as trackTableData">
-  <table
-    data-cy="track-table"
-    (cdkDropListDropped)="onListDrop($event)"
-    [cdkDropListData]="trackTableData.dataSource.data"
-    [cdkDropListDisabled]="!trackTableData.dragEnabled"
-    [dataSource]="trackTableData.dataSource"
-    cdkDropList
-    class="table-auto"
-    mat-table
-    matSort
-    matSortDisableClear
-  >
-    <!-- Track number on the queue or album / directory -->
-    <ng-container matColumnDef="position">
-      <th
-        [disabled]="!trackTableData.sortable"
-        *matHeaderCellDef
-        mat-header-cell
-        mat-sort-header
-      >
-        #
-      </th>
-      <td
-        (click)="onRowClick(row)"
-        *matCellDef="let row"
-        class="text-muted"
-        mat-cell
-      >
-        {{ row.position + 1 }}
-      </td>
-    </ng-container>
-
-    <!-- Artist column. Shows the file name if none of artist/album/title is present -->
-    <ng-container matColumnDef="artist-name">
-      <th
-        [disabled]="!trackTableData.sortable"
-        *matHeaderCellDef
-        mat-header-cell
-        mat-sort-header
-      >
-        Artist
-      </th>
-      <td
-        (click)="onRowClick(row)"
-        *matCellDef="let row"
-        class=""
-        mat-cell
-        [title]="row.artistName"
-      >
-        <span
-          *ngIf="
-            !row.artistName && !row.albumName && !row.title;
-            else hasArtistName
-          "
-        >
-          {{ row.file }}
-        </span>
-        <ng-template #hasArtistName>
-          {{ row.artistName }}
-        </ng-template>
-      </td>
-    </ng-container>
-
-    <!-- Album column -->
-    <ng-container matColumnDef="album-name">
-      <th
-        [disabled]="!trackTableData.sortable"
-        *matHeaderCellDef
-        mat-header-cell
-        mat-sort-header
-      >
-        Album
-      </th>
-      <td
-        (click)="onRowClick(row)"
-        *matCellDef="let row"
-        class=""
-        mat-cell
-        [title]="row.albumName ? row.albumName : ''"
-      >
-        {{ row.albumName }}
-      </td>
-    </ng-container>
-
-    <!-- Title column -->
-    <ng-container matColumnDef="title">
-      <th
-        [disabled]="!trackTableData.sortable"
-        *matHeaderCellDef
-        mat-header-cell
-        mat-sort-header
-      >
-        Title
-      </th>
-      <td
-        (click)="onRowClick(row)"
-        *matCellDef="let row"
-        class=""
-        mat-cell
-        [title]="row.title"
-      >
-        {{ row.title }}
-      </td>
-    </ng-container>
-
-    <!-- Length column -->
-    <ng-container matColumnDef="length">
-      <th
-        [disabled]="!trackTableData.sortable"
-        *matHeaderCellDef
-        mat-header-cell
-        mat-sort-header
-      >
-        Duration
-      </th>
-      <td (click)="onRowClick(row)" *matCellDef="let row" mat-cell>
-        {{ row.length | secondsToMmSs }}
-      </td>
-    </ng-container>
-
-    <!-- Button: Remove track from queue -->
-    <ng-container matColumnDef="remove">
-      <th mat-header-cell *matHeaderCellDef></th>
-      <td *matCellDef="let element" mat-cell>
-        <mat-icon
-          (click)="onRemoveTrack(element)"
-          class="btn-remove-track"
-          title="Remove from queue"
-          >backspace
-        </mat-icon>
-      </td>
-    </ng-container>
-
-    <!-- Button: Play track -->
-    <ng-container
-      *ngIf="trackTableData.playTitleColumn"
-      matColumnDef="play-title"
+@if (trackTableDataObs | async; as trackTableData) {
+  <div>
+    <table
+      data-cy="track-table"
+      (cdkDropListDropped)="onListDrop($event)"
+      [cdkDropListData]="trackTableData.dataSource.data"
+      [cdkDropListDisabled]="!trackTableData.dragEnabled"
+      [dataSource]="trackTableData.dataSource"
+      cdkDropList
+      class="table-auto"
+      mat-table
+      matSort
+      matSortDisableClear
     >
-      <th mat-header-cell *matHeaderCellDef></th>
-      <td *matCellDef="let track" mat-cell>
-        <button mat-button (click)="onPlayTrack(track)" title="Play this track">
-          <mat-icon> play_arrow</mat-icon>
-        </button>
-      </td>
-    </ng-container>
-
-    <!-- Button: Add track to the queue -->
-    <ng-container
-      *ngIf="trackTableData.addTitleColumn"
-      matColumnDef="add-title"
-    >
-      <th mat-header-cell *matHeaderCellDef></th>
-      <td *matCellDef="let track" mat-cell>
-        <button
-          (click)="onAddTrack(track)"
-          mat-button
-          title="Add this track to the queue"
+      <!-- Track number on the queue or album / directory -->
+      <ng-container matColumnDef="position">
+        <th
+          [disabled]="!trackTableData.sortable"
+          *matHeaderCellDef
+          mat-header-cell
+          mat-sort-header
         >
-          <mat-icon>add </mat-icon>
-        </button>
-      </td>
-    </ng-container>
-
-    <ng-container matColumnDef="info">
-      <th mat-header-cell *matHeaderCellDef></th>
-      <td mat-cell *matCellDef="let track">
-        <button
-          (click)="onShowTrackInfo(track)"
-          mat-button
-          title="Show track info"
+          #
+        </th>
+        <td
+          (click)="onRowClick(row)"
+          *matCellDef="let row"
+          class="text-muted"
+          mat-cell
         >
-          <mat-icon>info </mat-icon>
-        </button>
-      </td>
-    </ng-container>
-
-    <!-- Column titles -->
-    <tr mat-header-row *matHeaderRowDef="trackTableData.displayedColumns"></tr>
-
-    <tr
-      [class.now-playing-row]="row.playing === true"
-      *matRowDef="let row; columns: trackTableData.displayedColumns"
-      class="hover-background-color clickable"
-      mat-row
-      cdkDrag
-    ></tr>
-
-    <!-- Displayed, if no items found -->
-    <tr class="mat-row" *matNoDataRow>
-      <td
-        class="mat-cell p-4"
-        [attr.colspan]="trackTableData.displayedColumns.length"
-      >
-        No tracks.
-      </td>
-    </tr>
-  </table>
-  <div
-    [hidden]="
-      trackTableData.dataSource.data.length === 0 || trackTableData.pageSize < 2
-    "
-    class="py-2"
-  >
-    <mat-paginator
-      data-cy="paginator"
-      (page)="handlePage($event)"
-      [length]="trackTableData.totalElements"
-      [pageIndex]="trackTableData.pageIndex"
-      [pageSize]="trackTableData.pageSize"
-      [pageSizeOptions]="
-        trackTableData.showPageSizeOptions ? trackTableData.pageSizeOptions : []
+          {{ row.position + 1 }}
+        </td>
+      </ng-container>
+      <!-- Artist column. Shows the file name if none of artist/album/title is present -->
+      <ng-container matColumnDef="artist-name">
+        <th
+          [disabled]="!trackTableData.sortable"
+          *matHeaderCellDef
+          mat-header-cell
+          mat-sort-header
+        >
+          Artist
+        </th>
+        <td
+          (click)="onRowClick(row)"
+          *matCellDef="let row"
+          class=""
+          mat-cell
+          [title]="row.artistName"
+        >
+          @if (!row.artistName && !row.albumName && !row.title) {
+            <span>
+              {{ row.file }}
+            </span>
+          } @else {
+            {{ row.artistName }}
+          }
+        </td>
+      </ng-container>
+      <!-- Album column -->
+      <ng-container matColumnDef="album-name">
+        <th
+          [disabled]="!trackTableData.sortable"
+          *matHeaderCellDef
+          mat-header-cell
+          mat-sort-header
+        >
+          Album
+        </th>
+        <td
+          (click)="onRowClick(row)"
+          *matCellDef="let row"
+          class=""
+          mat-cell
+          [title]="row.albumName ? row.albumName : ''"
+        >
+          {{ row.albumName }}
+        </td>
+      </ng-container>
+      <!-- Title column -->
+      <ng-container matColumnDef="title">
+        <th
+          [disabled]="!trackTableData.sortable"
+          *matHeaderCellDef
+          mat-header-cell
+          mat-sort-header
+        >
+          Title
+        </th>
+        <td
+          (click)="onRowClick(row)"
+          *matCellDef="let row"
+          class=""
+          mat-cell
+          [title]="row.title"
+        >
+          {{ row.title }}
+        </td>
+      </ng-container>
+      <!-- Length column -->
+      <ng-container matColumnDef="length">
+        <th
+          [disabled]="!trackTableData.sortable"
+          *matHeaderCellDef
+          mat-header-cell
+          mat-sort-header
+        >
+          Duration
+        </th>
+        <td (click)="onRowClick(row)" *matCellDef="let row" mat-cell>
+          {{ row.length | secondsToMmSs }}
+        </td>
+      </ng-container>
+      <!-- Button: Remove track from queue -->
+      <ng-container matColumnDef="remove">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td *matCellDef="let element" mat-cell>
+          <mat-icon
+            (click)="onRemoveTrack(element)"
+            class="btn-remove-track"
+            title="Remove from queue"
+            >backspace
+          </mat-icon>
+        </td>
+      </ng-container>
+      <!-- Button: Play track -->
+      @if (trackTableData.playTitleColumn) {
+        <ng-container matColumnDef="play-title">
+          <th mat-header-cell *matHeaderCellDef></th>
+          <td *matCellDef="let track" mat-cell>
+            <button
+              mat-button
+              (click)="onPlayTrack(track)"
+              title="Play this track"
+            >
+              <mat-icon> play_arrow</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+      }
+      <!-- Button: Add track to the queue -->
+      @if (trackTableData.addTitleColumn) {
+        <ng-container matColumnDef="add-title">
+          <th mat-header-cell *matHeaderCellDef></th>
+          <td *matCellDef="let track" mat-cell>
+            <button
+              (click)="onAddTrack(track)"
+              mat-button
+              title="Add this track to the queue"
+            >
+              <mat-icon>add </mat-icon>
+            </button>
+          </td>
+        </ng-container>
+      }
+      <ng-container matColumnDef="info">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let track">
+          <button
+            (click)="onShowTrackInfo(track)"
+            mat-button
+            title="Show track info"
+          >
+            <mat-icon>info </mat-icon>
+          </button>
+        </td>
+      </ng-container>
+      <!-- Column titles -->
+      <tr
+        mat-header-row
+        *matHeaderRowDef="trackTableData.displayedColumns"
+      ></tr>
+      <tr
+        [class.now-playing-row]="row.playing === true"
+        *matRowDef="let row; columns: trackTableData.displayedColumns"
+        class="hover-background-color clickable"
+        mat-row
+        cdkDrag
+      ></tr>
+      <!-- Displayed, if no items found -->
+      <tr class="mat-row" *matNoDataRow>
+        <td
+          class="mat-cell p-4"
+          [attr.colspan]="trackTableData.displayedColumns.length"
+        >
+          No tracks.
+        </td>
+      </tr>
+    </table>
+    <div
+      [hidden]="
+        trackTableData.dataSource.data.length === 0 ||
+        trackTableData.pageSize < 2
       "
-      [showFirstLastButtons]="trackTableData.totalPages > 1"
-    ></mat-paginator>
+      class="py-2"
+    >
+      <mat-paginator
+        data-cy="paginator"
+        (page)="handlePage($event)"
+        [length]="trackTableData.totalElements"
+        [pageIndex]="trackTableData.pageIndex"
+        [pageSize]="trackTableData.pageSize"
+        [pageSizeOptions]="
+          trackTableData.showPageSizeOptions
+            ? trackTableData.pageSizeOptions
+            : []
+        "
+        [showFirstLastButtons]="trackTableData.totalPages > 1"
+      ></mat-paginator>
+    </div>
   </div>
-</div>
+}

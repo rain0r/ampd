@@ -1,4 +1,6 @@
-<span *ngIf="dataSource.length === 0">No data</span>
+@if (dataSource.length === 0) {
+  <span>No data</span>
+}
 
 <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
   <ng-container matColumnDef="key">

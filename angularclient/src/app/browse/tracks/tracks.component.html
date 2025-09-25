@@ -2,25 +2,26 @@
   <div class="flex-grow tracking-wide text-2xl text-justify md:text-left">
     {{ dirQp }}
   </div>
-  <div
-    *ngIf="coverUrl"
-    class="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl"
-  >
-    <div class="md:flex">
-      <div class="md:shrink-0">
-        <img
-          (click)="openCoverDialog(coverUrl)"
-          (error)="onError()"
-          (load)="onLoad()"
-          [alt]="'Cover of ' + dirQp"
-          [hidden]="!validCoverUrl"
-          [src]="coverUrl"
-          [title]="dirQp"
-          class="clickable h-64 w-full object-cover md:h-full md:w-64"
-        />
+  @if (coverUrl) {
+    <div
+      class="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl"
+    >
+      <div class="md:flex">
+        <div class="md:shrink-0">
+          <img
+            (click)="openCoverDialog(coverUrl)"
+            (error)="onError()"
+            (load)="onLoad()"
+            [alt]="'Cover of ' + dirQp"
+            [hidden]="!validCoverUrl"
+            [src]="coverUrl"
+            [title]="dirQp"
+            class="clickable h-64 w-full object-cover md:h-full md:w-64"
+          />
+        </div>
       </div>
     </div>
-  </div>
+  }
 </div>
 
 <!-- Tracks in this dir -->
@@ -28,12 +29,14 @@
 
 <mat-divider></mat-divider>
 
-<div *ngIf="trackTableData.dataSource.data.length > 0" class="bottom-divider">
-  <span [ngPlural]="trackTableData.dataSource.data.length">
-    <ng-template ngPluralCase="=1">1 track </ng-template>
-    <ng-template ngPluralCase="other"
-      >{{ trackTableData.dataSource.data.length }} tracks</ng-template
-    >
-  </span>
-  in this directory. Total playtime: {{ queueDuration | secondsToHhMmSs }}
-</div>
+@if (trackTableData.dataSource.data.length > 0) {
+  <div class="bottom-divider">
+    <span [ngPlural]="trackTableData.dataSource.data.length">
+      <ng-template ngPluralCase="=1">1 track </ng-template>
+      <ng-template ngPluralCase="other"
+        >{{ trackTableData.dataSource.data.length }} tracks</ng-template
+      >
+    </span>
+    in this directory. Total playtime: {{ queueDuration | secondsToHhMmSs }}
+  </div>
+}

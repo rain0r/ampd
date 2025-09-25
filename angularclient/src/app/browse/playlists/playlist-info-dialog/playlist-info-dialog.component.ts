@@ -31,7 +31,7 @@ import { Playlist } from "../../../shared/messages/incoming/playlist";
 import { PlaylistInfo } from "../../../shared/model/playlist-info";
 import { ClickActions } from "../../../shared/track-table-data/click-actions.enum";
 import { TrackTableOptions } from "../../../shared/track-table-data/track-table-options";
-import { NgIf, AsyncPipe } from "@angular/common";
+import { AsyncPipe } from "@angular/common";
 import { CdkScrollable } from "@angular/cdk/scrolling";
 import { MatProgressSpinner } from "@angular/material/progress-spinner";
 import { TrackTableDataComponent } from "../../../shared/track-table-data/track-table-data.component";
@@ -44,7 +44,6 @@ import { MatIcon } from "@angular/material/icon";
   styleUrls: ["./playlist-info-dialog.component.scss"],
   imports: [
     MatDialogTitle,
-    NgIf,
     CdkScrollable,
     MatDialogContent,
     MatProgressSpinner,

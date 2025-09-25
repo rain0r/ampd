@@ -3,72 +3,74 @@
 <div class="page-title">Genres</div>
 
 <div class="flex flex-col md:flex-row md:flex-wrap gap-4">
-  <a
-    [queryParams]="{ genre: genre }"
-    [routerLink]="['/browse-genres']"
-    *ngFor="let genre of genres | async"
-    class="genre"
-    color="primary"
-    mat-stroked-button
-    data-cy="genre"
-  >
-    {{ genre }}
-  </a>
+  @for (genre of genres | async; track genre) {
+    <a
+      [queryParams]="{ genre: genre }"
+      [routerLink]="['/browse-genres']"
+      class="genre"
+      color="primary"
+      mat-stroked-button
+      data-cy="genre"
+    >
+      {{ genre }}
+    </a>
+  }
 </div>
 
-<div class="grid place-items-center" *ngIf="isLoadingResults | async">
-  <mat-spinner></mat-spinner>
-</div>
+@if (isLoadingResults | async) {
+  <div class="grid place-items-center">
+    <mat-spinner></mat-spinner>
+  </div>
+}
 
 <div id="results" class="mt-10">
-  <div *ngIf="trackTableData !== null && (genrePayload | async) as payload">
-    <h1 class="my-4 heading-2">Genre: {{ payload.genre }}</h1>
-    <mat-tab-group
-      dynamicHeight
-      [(selectedIndex)]="selectedIndex"
-      (selectedTabChange)="scrollDown()"
-    >
-      <!-- Albums -->
-      <mat-tab label="Albums">
-        <div
-          *ngIf="payload.albums.content.length > 0; else noAlbums"
-          class="pt-1 md:pt-9"
-        >
-          <div class="grid grid-cols-1 md:grid-cols-5 gap-x-5">
-            <app-album-item
-              *ngFor="let album of payload.albums.content"
-              [album]="album"
-            ></app-album-item>
-          </div>
-          <mat-paginator
-            *ngIf="payload.albums.totalPages > 1"
-            [length]="payload.albums.totalElements"
-            [pageIndex]="payload.albums.number"
-            [pageSize]="payload.albums.numberOfElements"
-            (page)="onAlbumPageChange($event)"
-            showFirstLastButtons="true"
-          >
-          </mat-paginator>
-        </div>
-        <ng-template #noAlbums>
-          <div class="pt-8">No albums found.</div>
-        </ng-template>
-      </mat-tab>
-      <!-- Tracks -->
-      <mat-tab label="Tracks">
-        <div
-          *ngIf="payload.tracks.content.length > 0; else noTracks"
-          class="pt-1 md:pt-9"
-        >
-          <app-track-data-table
-            *ngIf="payload"
-            [trackTableData]="trackTableData"
-          ></app-track-data-table>
-        </div>
-        <ng-template #noTracks
-          ><div class="not-found">No tracks found.</div></ng-template
-        >
-      </mat-tab>
-    </mat-tab-group>
-  </div>
+  @if (trackTableData !== null && (genrePayload | async); as payload) {
+    <div>
+      <h1 class="my-4 heading-2">Genre: {{ payload.genre }}</h1>
+      <mat-tab-group
+        dynamicHeight
+        [(selectedIndex)]="selectedIndex"
+        (selectedTabChange)="scrollDown()"
+      >
+        <!-- Albums -->
+        <mat-tab label="Albums">
+          @if (payload.albums.content.length > 0) {
+            <div class="pt-1 md:pt-9">
+              <div class="grid grid-cols-1 md:grid-cols-5 gap-x-5">
+                @for (album of payload.albums.content; track album) {
+                  <app-album-item [album]="album"></app-album-item>
+                }
+              </div>
+              @if (payload.albums.totalPages > 1) {
+                <mat-paginator
+                  [length]="payload.albums.totalElements"
+                  [pageIndex]="payload.albums.number"
+                  [pageSize]="payload.albums.numberOfElements"
+                  (page)="onAlbumPageChange($event)"
+                  showFirstLastButtons="true"
+                >
+                </mat-paginator>
+              }
+            </div>
+          } @else {
+            <div class="pt-8">No albums found.</div>
+          }
+        </mat-tab>
+        <!-- Tracks -->
+        <mat-tab label="Tracks">
+          @if (payload.tracks.content.length > 0) {
+            <div class="pt-1 md:pt-9">
+              @if (payload) {
+                <app-track-data-table
+                  [trackTableData]="trackTableData"
+                ></app-track-data-table>
+              }
+            </div>
+          } @else {
+            <div class="not-found">No tracks found.</div>
+          }
+        </mat-tab>
+      </mat-tab-group>
+    </div>
+  }
 </div>

@@ -4,7 +4,7 @@ import { FrontendSettingsService } from "../../service/frontend-settings.service
 import { MsgService } from "../../service/msg.service";
 import { Directory } from "../../shared/messages/incoming/directory";
 import { Filterable } from "../filterable";
-import { NgIf, NgFor, SlicePipe } from "@angular/common";
+import { SlicePipe } from "@angular/common";
 import { MatIcon } from "@angular/material/icon";
 import { MatDivider } from "@angular/material/divider";
 import { DirectoryEntryComponent } from "./directory-entry/directory-entry.component";
@@ -17,10 +17,8 @@ import { DirectoryFilterStartLetterPipe } from "../../shared/pipes/filter/direct
   templateUrl: "./directories.component.html",
   styleUrls: ["./directories.component.scss"],
   imports: [
-    NgIf,
     MatIcon,
     MatDivider,
-    NgFor,
     DirectoryEntryComponent,
     MatPaginator,
     CoverGridComponent,

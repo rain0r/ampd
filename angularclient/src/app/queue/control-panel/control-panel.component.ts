@@ -11,13 +11,13 @@ import { NotificationService } from "../../service/notification.service";
 import { QueueService } from "../../service/queue.service";
 import { MatButton } from "@angular/material/button";
 import { MatIcon } from "@angular/material/icon";
-import { NgIf, AsyncPipe } from "@angular/common";
+import { AsyncPipe } from "@angular/common";
 
 @Component({
   selector: "app-control-panel",
   templateUrl: "./control-panel.component.html",
   styleUrls: ["./control-panel.component.scss"],
-  imports: [MatButton, MatIcon, NgIf, AsyncPipe],
+  imports: [MatButton, MatIcon, AsyncPipe],
 })
 export class ControlPanelComponent implements OnInit {
   private controlPanelService = inject(ControlPanelService);

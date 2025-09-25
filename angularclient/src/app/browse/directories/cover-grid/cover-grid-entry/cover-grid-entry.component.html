@@ -1,37 +1,36 @@
-<div
-  *ngIf="(isDisplayCover$ | async) && directory !== null"
-  class="flex flex-col gap-y-1"
->
-  <div class="max-w-md mx-auto shadow-md overflow-hidden md:max-w-2xl">
-    <div class="md:flex">
-      <div class="md:shrink-0">
-        <img
-          [queryParams]="{ dir: pathLink }"
-          [routerLink]="['/browse']"
-          [src]="directory.albumCoverUrl"
-          [title]="directory.displayedPath"
-          alt="Cover of {{ directory.displayedPath }}"
-          class="clickable h-64 w-full object-cover md:h-full md:w-64"
-        />
+@if ((isDisplayCover$ | async) && directory !== null) {
+  <div class="flex flex-col gap-y-1">
+    <div class="max-w-md mx-auto shadow-md overflow-hidden md:max-w-2xl">
+      <div class="md:flex">
+        <div class="md:shrink-0">
+          <img
+            [queryParams]="{ dir: pathLink }"
+            [routerLink]="['/browse']"
+            [src]="directory.albumCoverUrl"
+            [title]="directory.displayedPath"
+            alt="Cover of {{ directory.displayedPath }}"
+            class="clickable h-64 w-full object-cover md:h-full md:w-64"
+          />
+        </div>
       </div>
     </div>
-  </div>
-  <div
-    class="flex flex-col md:flex-row gap-y-2 md:gap-x-2 md:justify-center my-2"
-  >
-    <button
-      mat-stroked-button
-      (click)="onPlayDir($event, directory.path)"
-      class="md:flex-grow"
+    <div
+      class="flex flex-col md:flex-row gap-y-2 md:gap-x-2 md:justify-center my-2"
     >
-      Play
-    </button>
-    <button
-      mat-stroked-button
-      (click)="onAddDir($event, directory.path)"
-      class="md:flex-grow"
-    >
-      Add
-    </button>
+      <button
+        mat-stroked-button
+        (click)="onPlayDir($event, directory.path)"
+        class="md:flex-grow"
+      >
+        Play
+      </button>
+      <button
+        mat-stroked-button
+        (click)="onAddDir($event, directory.path)"
+        class="md:flex-grow"
+      >
+        Add
+      </button>
+    </div>
   </div>
-</div>
+}

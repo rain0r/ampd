@@ -10,11 +10,12 @@
 
   <div class="my-3">
     <div class="file-upload">
-      <span *ngIf="fileName; else selectFile">fileName</span>
-      <ng-template #selectFile>
+      @if (fileName) {
+        <span>fileName</span>
+      } @else {
         Select a <span class="font-mono">JSON</span> file that contains radio
         streams:
-      </ng-template>
+      }
 
       <div class="my-4">
         <button

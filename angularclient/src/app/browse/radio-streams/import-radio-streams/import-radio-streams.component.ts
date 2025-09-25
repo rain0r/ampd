@@ -1,7 +1,7 @@
 import { Component, Input, inject } from "@angular/core";
 import { LoggerService } from "src/app/service/logger.service";
 import { RadioStreamService } from "src/app/service/radio-stream.service";
-import { NgIf } from "@angular/common";
+
 import { MatMiniFabButton } from "@angular/material/button";
 import { MatIcon } from "@angular/material/icon";
 
@@ -9,7 +9,7 @@ import { MatIcon } from "@angular/material/icon";
   selector: "app-import-radio-streams",
   templateUrl: "./import-radio-streams.component.html",
   styleUrls: ["./import-radio-streams.component.scss"],
-  imports: [NgIf, MatMiniFabButton, MatIcon],
+  imports: [MatMiniFabButton, MatIcon],
 })
 export class ImportRadioStreamsComponent {
   private radioStreamService = inject(RadioStreamService);

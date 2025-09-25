@@ -1,8 +1,9 @@
-<div
-  class="grid grid-cols-1 md:grid-cols-4 gap-6"
-  *ngIf="dirQp !== '/' && directories.length < maxCoversDisplayed"
->
-  <div *ngFor="let dir of directories">
-    <app-cover-grid-entry [directory]="dir"></app-cover-grid-entry>
+@if (dirQp !== "/" && directories.length < maxCoversDisplayed) {
+  <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+    @for (dir of directories; track dir) {
+      <div>
+        <app-cover-grid-entry [directory]="dir"></app-cover-grid-entry>
+      </div>
+    }
   </div>
-</div>
+}

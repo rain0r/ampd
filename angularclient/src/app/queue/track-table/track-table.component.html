@@ -1,63 +1,72 @@
 <div>
-  <div *ngIf="trackTableData.dataSource.data.length > 0">
-    <mat-form-field class="w-full">
-      <input
-        (keydown.escape)="resetFilter()"
-        (keyup)="applyFilter($event.target)"
-        [(ngModel)]="trackTableData.dataSource.filter"
-        #filterInputElem
-        autocomplete="off"
-        matInput
-        placeholder="Filter queue"
-        type="text"
-      />
-      <mat-icon
-        (click)="resetFilter()"
-        *ngIf="trackTableData.dataSource.filter"
-        aria-label="Clear"
-        matSuffix
-      >
-        close
-      </mat-icon>
-    </mat-form-field>
-  </div>
+  @if (trackTableData.dataSource.data.length > 0) {
+    <div>
+      <mat-form-field class="w-full">
+        <input
+          (keydown.escape)="resetFilter()"
+          (keyup)="applyFilter($event.target)"
+          [(ngModel)]="trackTableData.dataSource.filter"
+          #filterInputElem
+          autocomplete="off"
+          matInput
+          placeholder="Filter queue"
+          type="text"
+        />
+        @if (trackTableData.dataSource.filter) {
+          <mat-icon (click)="resetFilter()" aria-label="Clear" matSuffix>
+            close
+          </mat-icon>
+        }
+      </mat-form-field>
+    </div>
+  }
 
   <app-track-data-table
     [trackTableData]="trackTableData"
   ></app-track-data-table>
 
-  <mat-divider *ngIf="trackTableData.dataSource.data.length > 0"></mat-divider>
+  @if (trackTableData.dataSource.data.length > 0) {
+    <mat-divider></mat-divider>
+  }
 
   <div class="flex flex-col md:flex-row gap-2 mt-5">
-    <span *ngIf="trackTableData.dataSource.data.length > 0" class="self-end">
-      <span [ngPlural]="trackTableData.dataSource.data.length" class="self-end">
-        <ng-template ngPluralCase="=1">1 track </ng-template>
-        <ng-template ngPluralCase="other"
-          ><span data-cy="queue-track-count">{{
-            trackTableData.totalElements
-          }}</span>
-          tracks</ng-template
+    @if (trackTableData.dataSource.data.length > 0) {
+      <span class="self-end">
+        <span
+          [ngPlural]="trackTableData.dataSource.data.length"
+          class="self-end"
         >
+          <ng-template ngPluralCase="=1">1 track </ng-template>
+          <ng-template ngPluralCase="other"
+            ><span data-cy="queue-track-count">{{
+              trackTableData.totalElements
+            }}</span>
+            tracks</ng-template
+          >
+        </span>
+        in the queue.
+        @if (trackTableData.totalPlayTime > 0) {
+          <span>
+            Duration:
+            {{ trackTableData.totalPlayTime | secondsToHhMmSs }}
+          </span>
+        }
       </span>
-      in the queue.
-      <span *ngIf="trackTableData.totalPlayTime > 0">
-        Duration:
-        {{ trackTableData.totalPlayTime | secondsToHhMmSs }}
-      </span>
-    </span>
+    }
     <div class="flex-grow"></div>
     <button mat-stroked-button (click)="openAddStreamDialog()">
       <mat-icon>add</mat-icon>
       Add stream
     </button>
-    <button
-      mat-stroked-button
-      (click)="openSavePlaylistDialog()"
-      *ngIf="trackTableData.dataSource.data.length > 0"
-      data-cy="save-playlist"
-    >
-      <mat-icon>save</mat-icon>
-      Save playlist
-    </button>
+    @if (trackTableData.dataSource.data.length > 0) {
+      <button
+        mat-stroked-button
+        (click)="openSavePlaylistDialog()"
+        data-cy="save-playlist"
+      >
+        <mat-icon>save</mat-icon>
+        Save playlist
+      </button>
+    }
   </div>
 </div>

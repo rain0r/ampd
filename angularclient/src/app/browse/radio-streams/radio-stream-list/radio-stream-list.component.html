@@ -1,71 +1,72 @@
 <div class="flex flex-col md:flex-row justify-between my-3">
   <div class="page-sub-title">Saved radio streams</div>
-  <div *ngIf="dataSource.data.length > 0">
-    <mat-form-field class="w-full">
-      <input
-        (keydown.escape)="resetFilter()"
-        (keyup)="applyFilter($event.target)"
-        [(ngModel)]="dataSource.filter"
-        #filterInputElem
-        autocomplete="off"
-        matInput
-        placeholder="Filter queue"
-        type="text"
-      />
-      <mat-icon
-        (click)="resetFilter()"
-        *ngIf="dataSource.filter"
-        aria-label="Clear"
-        matSuffix
-      >
-        close
-      </mat-icon>
-    </mat-form-field>
-  </div>
-  <div *ngIf="dataSource.data.length > 0">
-    <button mat-stroked-button color="primary" (click)="onAddAll()">
-      Add all to the queue
-    </button>
-  </div>
+  @if (dataSource.data.length > 0) {
+    <div>
+      <mat-form-field class="w-full">
+        <input
+          (keydown.escape)="resetFilter()"
+          (keyup)="applyFilter($event.target)"
+          [(ngModel)]="dataSource.filter"
+          #filterInputElem
+          autocomplete="off"
+          matInput
+          placeholder="Filter queue"
+          type="text"
+        />
+        @if (dataSource.filter) {
+          <mat-icon (click)="resetFilter()" aria-label="Clear" matSuffix>
+            close
+          </mat-icon>
+        }
+      </mat-form-field>
+    </div>
+  }
+  @if (dataSource.data.length > 0) {
+    <div>
+      <button mat-stroked-button color="primary" (click)="onAddAll()">
+        Add all to the queue
+      </button>
+    </div>
+  }
 </div>
 
 <div class="inline md:hidden">
   <!-- Show on mobile -->
-  <mat-card *ngFor="let stream of dataSource.data" class="stream-card">
-    <mat-card-title class="text-center pb-3">{{ stream.name }}</mat-card-title>
-
-    <mat-card-content class="text-muted truncate mb-3">
-      {{ stream.url }}
-    </mat-card-content>
-
-    <mat-card-actions>
-      <div class="flex flex-row flex-grow justify-end">
-        <button
-          mat-button
-          (click)="onPlayStream(stream)"
-          title="Play this stream"
-        >
-          <mat-icon> play_arrow</mat-icon>
-        </button>
-
-        <button
-          mat-button
-          (click)="onAddStream(stream)"
-          title="Add this stream to the queue"
-        >
-          <mat-icon>add </mat-icon>
-        </button>
-
-        <button
-          mat-button
-          (click)="onConfirmDeleteStream(stream)"
-          title="Delete this stream"
-        >
-          <mat-icon>delete </mat-icon>
-        </button>
-      </div>
-    </mat-card-actions>
-  </mat-card>
+  @for (stream of dataSource.data; track stream) {
+    <mat-card class="stream-card">
+      <mat-card-title class="text-center pb-3">{{
+        stream.name
+      }}</mat-card-title>
+      <mat-card-content class="text-muted truncate mb-3">
+        {{ stream.url }}
+      </mat-card-content>
+      <mat-card-actions>
+        <div class="flex flex-row flex-grow justify-end">
+          <button
+            mat-button
+            (click)="onPlayStream(stream)"
+            title="Play this stream"
+          >
+            <mat-icon> play_arrow</mat-icon>
+          </button>
+          <button
+            mat-button
+            (click)="onAddStream(stream)"
+            title="Add this stream to the queue"
+          >
+            <mat-icon>add </mat-icon>
+          </button>
+          <button
+            mat-button
+            (click)="onConfirmDeleteStream(stream)"
+            title="Delete this stream"
+          >
+            <mat-icon>delete </mat-icon>
+          </button>
+        </div>
+      </mat-card-actions>
+    </mat-card>
+  }
 </div>
 
 <div class="hidden md:inline">

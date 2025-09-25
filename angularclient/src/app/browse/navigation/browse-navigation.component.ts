@@ -24,7 +24,7 @@ import { QueueService } from "../../service/queue.service";
 import { AmpdBrowsePayload } from "../../shared/model/ampd-browse-payload";
 import { MatButton, MatIconButton } from "@angular/material/button";
 import { MatIcon } from "@angular/material/icon";
-import { NgIf, AsyncPipe } from "@angular/common";
+import { AsyncPipe } from "@angular/common";
 import {
   MatFormField,
   MatLabel,
@@ -43,7 +43,6 @@ import { MatDivider } from "@angular/material/divider";
     RouterLinkActive,
     RouterLink,
     MatIcon,
-    NgIf,
     MatFormField,
     MatLabel,
     MatInput,

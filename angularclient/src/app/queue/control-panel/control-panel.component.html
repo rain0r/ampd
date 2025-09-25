@@ -8,16 +8,17 @@
   >
     <mat-icon>skip_previous</mat-icon>
   </button>
-  <button
-    (click)="handleControlButton($event)"
-    [disabled]="(connected$ | async) === false"
-    id="btn-seek-backwards"
-    mat-stroked-button
-    title="Jump backwards"
-    *ngIf="displayJumpBtn"
-  >
-    <mat-icon>navigate_before</mat-icon>
-  </button>
+  @if (displayJumpBtn) {
+    <button
+      (click)="handleControlButton($event)"
+      [disabled]="(connected$ | async) === false"
+      id="btn-seek-backwards"
+      mat-stroked-button
+      title="Jump backwards"
+    >
+      <mat-icon>navigate_before</mat-icon>
+    </button>
+  }
   <button
     (click)="handleControlButton($event)"
     [disabled]="(connected$ | async) === false"
@@ -27,36 +28,39 @@
   >
     <mat-icon>stop</mat-icon>
   </button>
-  <button
-    (click)="handleControlButton($event)"
-    [disabled]="(connected$ | async) === false"
-    *ngIf="(currentState | async) === 'play'"
-    id="btn-pause"
-    mat-stroked-button
-    title="Pause"
-  >
-    <mat-icon>pause</mat-icon>
-  </button>
-  <button
-    (click)="handleControlButton($event)"
-    [disabled]="(connected$ | async) === false"
-    *ngIf="(currentState | async) !== 'play'"
-    id="btn-play"
-    mat-stroked-button
-    title="Play"
-  >
-    <mat-icon>play_arrow</mat-icon>
-  </button>
-  <button
-    (click)="handleControlButton($event)"
-    [disabled]="(connected$ | async) === false"
-    id="btn-seek-forward"
-    mat-stroked-button
-    title="Jump forward"
-    *ngIf="displayJumpBtn"
-  >
-    <mat-icon>navigate_next</mat-icon>
-  </button>
+  @if ((currentState | async) === "play") {
+    <button
+      (click)="handleControlButton($event)"
+      [disabled]="(connected$ | async) === false"
+      id="btn-pause"
+      mat-stroked-button
+      title="Pause"
+    >
+      <mat-icon>pause</mat-icon>
+    </button>
+  }
+  @if ((currentState | async) !== "play") {
+    <button
+      (click)="handleControlButton($event)"
+      [disabled]="(connected$ | async) === false"
+      id="btn-play"
+      mat-stroked-button
+      title="Play"
+    >
+      <mat-icon>play_arrow</mat-icon>
+    </button>
+  }
+  @if (displayJumpBtn) {
+    <button
+      (click)="handleControlButton($event)"
+      [disabled]="(connected$ | async) === false"
+      id="btn-seek-forward"
+      mat-stroked-button
+      title="Jump forward"
+    >
+      <mat-icon>navigate_next</mat-icon>
+    </button>
+  }
   <button
     (click)="handleControlButton($event)"
     [disabled]="(connected$ | async) === false"
@@ -78,16 +82,17 @@
   >
     <mat-icon>delete</mat-icon>
   </button>
-  <button
-    (click)="onShowTrackInfo()"
-    [disabled]="
-      (currentState | async) === 'stop' || (connected$ | async) === false
-    "
-    *ngIf="displayInfoBtn | async"
-    class="valign-top"
-    mat-stroked-button
-    title="Info about currently playing track"
-  >
-    <mat-icon>info</mat-icon>
-  </button>
+  @if (displayInfoBtn | async) {
+    <button
+      (click)="onShowTrackInfo()"
+      [disabled]="
+        (currentState | async) === 'stop' || (connected$ | async) === false
+      "
+      class="valign-top"
+      mat-stroked-button
+      title="Info about currently playing track"
+    >
+      <mat-icon>info</mat-icon>
+    </button>
+  }
 </div>

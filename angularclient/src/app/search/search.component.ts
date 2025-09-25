@@ -25,7 +25,7 @@ import { TrackTableOptions } from "../shared/track-table-data/track-table-option
 import { MatFormField, MatSuffix } from "@angular/material/form-field";
 import { MatInput } from "@angular/material/input";
 import { FormsModule } from "@angular/forms";
-import { NgIf, AsyncPipe } from "@angular/common";
+import { AsyncPipe } from "@angular/common";
 import { MatIconButton, MatButton } from "@angular/material/button";
 import { MatIcon } from "@angular/material/icon";
 import { RouterLink } from "@angular/router";
@@ -40,7 +40,6 @@ import { TrackTableDataComponent } from "../shared/track-table-data/track-table-
     MatFormField,
     MatInput,
     FormsModule,
-    NgIf,
     MatIconButton,
     MatSuffix,
     MatIcon,

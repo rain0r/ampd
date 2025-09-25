@@ -24,15 +24,7 @@ import {
   MatCardActions,
   MatCardFooter,
 } from "@angular/material/card";
-import {
-  NgFor,
-  NgSwitch,
-  NgSwitchCase,
-  NgSwitchDefault,
-  NgIf,
-  AsyncPipe,
-  KeyValuePipe,
-} from "@angular/common";
+import { AsyncPipe, KeyValuePipe } from "@angular/common";
 import { MatLabel, MatFormField, MatHint } from "@angular/material/form-field";
 import { MatInput } from "@angular/material/input";
 import { MatButton } from "@angular/material/button";
@@ -51,19 +43,14 @@ type SettingMap = Record<string, FrontendSetting[]>;
     MatTab,
     MatCard,
     MatCardContent,
-    NgFor,
     MatCardHeader,
     MatCardTitle,
-    NgSwitch,
-    NgSwitchCase,
     MatSlideToggle,
     MatLabel,
     MatFormField,
     MatInput,
     MatCardActions,
     MatButton,
-    NgSwitchDefault,
-    NgIf,
     MatHint,
     MatCardFooter,
     UpdateDatabaseComponent,

@@ -2,8 +2,8 @@
   <h2 mat-dialog-title class="pb-8 font-bold">Connecting to ampd server...</h2>
   <mat-dialog-content> <mat-spinner></mat-spinner> </mat-dialog-content>
   <mat-dialog-actions align="end">
-    <div class="text-muted" *ngIf="counter$ | async as counter">
-      Closing in {{ counter }}
-    </div>
+    @if (counter$ | async; as counter) {
+      <div class="text-muted">Closing in {{ counter }}</div>
+    }
   </mat-dialog-actions>
 </div>

@@ -3,7 +3,7 @@ import { Observable, startWith } from "rxjs";
 import { MpdModeService } from "../../service/mpd-mode.service";
 import { MpdService } from "../../service/mpd.service";
 import { MpdModesPanel } from "../../shared/messages/incoming/mpd-modes-panel";
-import { NgIf, AsyncPipe } from "@angular/common";
+import { AsyncPipe } from "@angular/common";
 import {
   MatButtonToggleGroup,
   MatButtonToggle,
@@ -14,7 +14,7 @@ import { MatIcon } from "@angular/material/icon";
   selector: "app-mpd-modes",
   templateUrl: "./mpd-mode.component.html",
   styleUrls: ["./mpd-mode.component.scss"],
-  imports: [NgIf, MatButtonToggleGroup, MatButtonToggle, MatIcon, AsyncPipe],
+  imports: [MatButtonToggleGroup, MatButtonToggle, MatIcon, AsyncPipe],
 })
 export class MpdModeComponent {
   private mpdModeService = inject(MpdModeService);

@@ -5,7 +5,7 @@ import { distinctUntilChanged, finalize, map } from "rxjs/operators";
 import { BrowseService } from "../service/browse.service";
 import { AmpdBrowsePayload } from "../shared/model/ampd-browse-payload";
 import { BrowseNavigationComponent } from "./navigation/browse-navigation.component";
-import { NgIf, AsyncPipe } from "@angular/common";
+import { AsyncPipe } from "@angular/common";
 import { PlaylistsComponent } from "./playlists/playlists.component";
 import { DirectoriesComponent } from "./directories/directories.component";
 import { TracksComponent } from "./tracks/tracks.component";
@@ -16,7 +16,6 @@ import { TracksComponent } from "./tracks/tracks.component";
   styleUrls: ["./browse.component.scss"],
   imports: [
     BrowseNavigationComponent,
-    NgIf,
     PlaylistsComponent,
     DirectoriesComponent,
     TracksComponent,

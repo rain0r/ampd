@@ -46,19 +46,16 @@
   </div>
 </div>
 
-<div class="grid place-items-center mt-5">
-  @if (isLoading | async) {
-    <mat-spinner></mat-spinner>
-  }
-</div>
-
 @if (pagedAlbums$ | async; as pagedAlbums) {
   <div>
-    <div class="grid grid-cols-1 md:grid-cols-4 gap-x-6 gap-y-12">
-      @for (album of pagedAlbums.content; track album) {
-        <app-album-item [album]="album"></app-album-item>
-      }
-    </div>
+    @defer {
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-x-6 gap-y-12">
+        @for (album of pagedAlbums.content; track album) {
+          <app-album-item [album]="album"></app-album-item>
+        }
+      </div>
+    }
+
     <div
       class="mt-5"
       [hidden]="pagedAlbums.content.length === 0 || pagedAlbums.totalPages < 2"
@@ -73,4 +70,6 @@
       ></mat-paginator>
     </div>
   </div>
+} @else {
+  <mat-spinner></mat-spinner>
 }

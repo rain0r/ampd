@@ -1,4 +1,4 @@
-import { ViewportScroller, AsyncPipe } from "@angular/common";
+import { AsyncPipe, ViewportScroller } from "@angular/common";
 import {
   Component,
   ElementRef,
@@ -6,7 +6,19 @@ import {
   ViewChild,
   inject,
 } from "@angular/core";
-import { PageEvent, MatPaginator } from "@angular/material/paginator";
+import { FormsModule } from "@angular/forms";
+import { MatOption } from "@angular/material/autocomplete";
+import { MatIconButton } from "@angular/material/button";
+import {
+  MatFormField,
+  MatLabel,
+  MatSuffix,
+} from "@angular/material/form-field";
+import { MatIcon } from "@angular/material/icon";
+import { MatInput } from "@angular/material/input";
+import { MatPaginator, PageEvent } from "@angular/material/paginator";
+import { MatProgressSpinner } from "@angular/material/progress-spinner";
+import { MatSelect } from "@angular/material/select";
 import { ActivatedRoute, Router } from "@angular/router";
 import { BehaviorSubject, Observable, combineLatest, of } from "rxjs";
 import { filter, map, startWith, switchMap, tap } from "rxjs/operators";
@@ -19,18 +31,6 @@ import {
 } from "src/app/shared/messages/internal/internal-msg";
 import { MpdAlbum } from "src/app/shared/model/http/album";
 import { BrowseNavigationComponent } from "../navigation/browse-navigation.component";
-import {
-  MatFormField,
-  MatLabel,
-  MatSuffix,
-} from "@angular/material/form-field";
-import { MatSelect } from "@angular/material/select";
-import { FormsModule } from "@angular/forms";
-import { MatOption } from "@angular/material/autocomplete";
-import { MatInput } from "@angular/material/input";
-import { MatIconButton } from "@angular/material/button";
-import { MatIcon } from "@angular/material/icon";
-import { MatProgressSpinner } from "@angular/material/progress-spinner";
 import { AlbumItemComponent } from "./album-item/album-item.component";
 
 interface SortByKey {
@@ -68,7 +68,6 @@ export class AlbumsComponent implements OnInit {
 
   @ViewChild("filterInputElem") filterInputElem?: ElementRef;
   filter = "";
-  isLoading = new BehaviorSubject(true);
   pagedAlbums$ = new Observable<PaginatedResponse<MpdAlbum>>();
   sortBy = "";
   searchTerm = "";
@@ -135,7 +134,6 @@ export class AlbumsComponent implements OnInit {
     ])
       .pipe(
         switchMap(([pagination, sortBy, searchTerm]) => {
-          this.isLoading.next(true);
           return this.albumService.getAlbums(
             searchTerm,
             pagination.pageIndex,
@@ -144,13 +142,8 @@ export class AlbumsComponent implements OnInit {
         }),
       )
       .subscribe((data) => {
-        this.processSearchResults(data);
+        this.pagedAlbums$ = of(data);
       });
-  }
-
-  processSearchResults(data: PaginatedResponse<MpdAlbum>): void {
-    this.isLoading.next(false);
-    this.pagedAlbums$ = of(data);
   }
 
   handlePage($event: PageEvent): void {

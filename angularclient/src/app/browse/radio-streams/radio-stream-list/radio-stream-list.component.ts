@@ -8,35 +8,35 @@ import {
 import { MatDialog } from "@angular/material/dialog";
 import { MatPaginator } from "@angular/material/paginator";
 import {
-  MatTableDataSource,
-  MatTable,
-  MatColumnDef,
-  MatHeaderCellDef,
-  MatHeaderCell,
-  MatCellDef,
   MatCell,
-  MatHeaderRowDef,
+  MatCellDef,
+  MatColumnDef,
+  MatHeaderCell,
+  MatHeaderCellDef,
   MatHeaderRow,
-  MatRowDef,
-  MatRow,
+  MatHeaderRowDef,
   MatNoDataRow,
+  MatRow,
+  MatRowDef,
+  MatTable,
+  MatTableDataSource,
 } from "@angular/material/table";
 import { QueueService } from "src/app/service/queue.service";
 import { RadioStreamService } from "src/app/service/radio-stream.service";
 import { RadioStream } from "../../../shared/model/db/radio-stream";
 import { ConfirmDeleteStreamDialogComponent } from "../confirm-delete-stream-dialog/confirm-delete-stream-dialog.component";
 
-import { MatFormField, MatSuffix } from "@angular/material/form-field";
-import { MatInput } from "@angular/material/input";
 import { FormsModule } from "@angular/forms";
-import { MatIcon } from "@angular/material/icon";
 import { MatButton } from "@angular/material/button";
 import {
   MatCard,
-  MatCardTitle,
-  MatCardContent,
   MatCardActions,
+  MatCardContent,
+  MatCardTitle,
 } from "@angular/material/card";
+import { MatFormField, MatSuffix } from "@angular/material/form-field";
+import { MatIcon } from "@angular/material/icon";
+import { MatInput } from "@angular/material/input";
 
 @Component({
   selector: "app-radio-stream-list",
@@ -93,7 +93,7 @@ export class RadioStreamListComponent implements AfterViewInit {
   }
 
   onAddStream(stream: RadioStream): void {
-    this.queueService.addTrack(stream.url);
+    this.queueService.addTrackFile(stream.url);
   }
 
   onConfirmDeleteStream(stream: RadioStream): void {
@@ -112,7 +112,7 @@ export class RadioStreamListComponent implements AfterViewInit {
 
   onAddAll(): void {
     const streams = this.dataSource.data.map((rs) => rs.url);
-    this.queueService.addTracks(streams);
+    this.queueService.addTrackFiles(streams);
   }
 
   applyFilter(eventTarget: EventTarget | null): void {

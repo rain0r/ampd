@@ -36,6 +36,12 @@ body {
   @apply dark:text-black;
 }
 
+.navbar-link {
+  @apply font-semibold;
+  @apply hidden; 
+  @apply md:inline;
+}
+
 //
 // Tailwind usages
 //

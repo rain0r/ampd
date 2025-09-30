@@ -1,4 +1,4 @@
-package org.hihn.ampd.server;
+package org.hihn.ampd.server.util;
 
 public class Constants {
 

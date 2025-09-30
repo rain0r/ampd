@@ -82,23 +82,24 @@ export class QueueService {
   }
 
   addQueueTrack(track: QueueTrack): void {
-    this.addTrack(track.file);
+    this.addTrackFile(track.file, false);
     this.notificationService.popUp(
       `Added: ${track.title ? track.title : track.file}`,
     );
   }
 
-  addTrack(file: string): void {
-    this.addTracks([file]);
+  addTrackFile(file: string, withPopUp = false): void {
+    this.addTrackFiles([file], withPopUp);
   }
 
-  addTracks(filePaths: string[]): void {
+  addTrackFiles(filePaths: string[], withPopUp = false): void {
     this.rxStompService.publish({
       destination: `${this.queuePath}add-tracks`,
       body: JSON.stringify(filePaths),
     });
-
-    this.notificationService.popUp(`Added ${filePaths.length} tracks`);
+    if (withPopUp) {
+      this.notificationService.popUp(`Added ${filePaths.length} tracks`);
+    }
   }
 
   addPlaylist(playlistName: string): void {

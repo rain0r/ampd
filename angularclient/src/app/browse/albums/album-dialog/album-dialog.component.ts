@@ -6,7 +6,7 @@ import {
   MatDialogActions,
   MatDialogClose,
 } from "@angular/material/dialog";
-import { Observable, map } from "rxjs";
+import { Observable, delay, map, of } from "rxjs";
 import { AlbumsService } from "src/app/service/albums.service";
 import { QueueService } from "src/app/service/queue.service";
 import { Track } from "src/app/shared/messages/incoming/track";
@@ -55,12 +55,18 @@ export class AlbumDialogComponent {
 
   onAddDir(): void {
     this.queueService.addAlbum(this.album.albumArtist, this.album.name);
-    this.dialogRef.close();
+    // Delay closing the dialog for a smoother trans
+    of(null)
+      .pipe(delay(250))
+      .subscribe(() => this.dialogRef.close());
   }
 
   onPlayDir(): void {
     this.queueService.playAlbum(this.album.albumArtist, this.album.name);
-    this.dialogRef.close();
+    // Delay closing the dialog for a smoother trans
+    of(null)
+      .pipe(delay(250))
+      .subscribe(() => this.dialogRef.close());
   }
 
   private buildTrackTableOptions(tracks: Track[]): TrackTableOptions {

@@ -1,4 +1,12 @@
+import { AsyncPipe } from "@angular/common";
 import { Component, OnInit, inject } from "@angular/core";
+import { FormsModule } from "@angular/forms";
+import { MatButton, MatIconButton } from "@angular/material/button";
+import { MatFormField, MatSuffix } from "@angular/material/form-field";
+import { MatIcon } from "@angular/material/icon";
+import { MatInput } from "@angular/material/input";
+import { MatProgressSpinner } from "@angular/material/progress-spinner";
+import { RouterLink } from "@angular/router";
 import { BehaviorSubject, Observable, Subject, combineLatest, of } from "rxjs";
 import {
   debounceTime,
@@ -21,16 +29,8 @@ import {
 } from "../shared/messages/internal/internal-msg";
 import { QueueTrack } from "../shared/model/queue-track";
 import { ClickActions } from "../shared/track-table-data/click-actions.enum";
-import { TrackTableOptions } from "../shared/track-table-data/track-table-options";
-import { MatFormField, MatSuffix } from "@angular/material/form-field";
-import { MatInput } from "@angular/material/input";
-import { FormsModule } from "@angular/forms";
-import { AsyncPipe } from "@angular/common";
-import { MatIconButton, MatButton } from "@angular/material/button";
-import { MatIcon } from "@angular/material/icon";
-import { RouterLink } from "@angular/router";
-import { MatProgressSpinner } from "@angular/material/progress-spinner";
 import { TrackTableDataComponent } from "../shared/track-table-data/track-table-data.component";
+import { TrackTableOptions } from "../shared/track-table-data/track-table-options";
 
 @Component({
   selector: "app-search",
@@ -90,7 +90,7 @@ export class SearchComponent implements OnInit {
   }
 
   onAddAll(): void {
-    this.queueService.addTracks(
+    this.queueService.addTrackFiles(
       this.trackTableData.dataSource.data.map((qt: QueueTrack) => qt.file),
     );
   }

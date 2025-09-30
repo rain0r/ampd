@@ -1,13 +1,13 @@
+import { AsyncPipe } from "@angular/common";
 import { Component, inject } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { BehaviorSubject, Observable } from "rxjs";
 import { distinctUntilChanged, finalize, map } from "rxjs/operators";
 import { BrowseService } from "../service/browse.service";
 import { AmpdBrowsePayload } from "../shared/model/ampd-browse-payload";
-import { BrowseNavigationComponent } from "./navigation/browse-navigation.component";
-import { AsyncPipe } from "@angular/common";
-import { PlaylistsComponent } from "./playlists/playlists.component";
 import { DirectoriesComponent } from "./directories/directories.component";
+import { BrowseNavigationComponent } from "./navigation/browse-navigation.component";
+import { PlaylistsComponent } from "./playlists/playlists.component";
 import { TracksComponent } from "./tracks/tracks.component";
 
 @Component({

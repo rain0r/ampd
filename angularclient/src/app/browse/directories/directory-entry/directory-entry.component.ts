@@ -31,22 +31,22 @@ export class DirectoryEntryComponent implements OnInit {
 
   onPlayDir($event: MouseEvent, dir: string): void {
     $event.stopPropagation();
-    this.onAddDir($event, dir);
+    this.onAddDir($event, dir, false);
+    // Delay hitting "play" since the tracks might not yet been to the queue
     of(null)
       .pipe(delay(500))
-      .subscribe(
-        // Delay hitting "play" since the tracks might not yet been to the queue
-        () => this.controlPanelService.play(),
-      );
+      .subscribe(() => this.controlPanelService.play());
     this.notificationService.popUp(`Playing directory: "${dir}"`);
   }
 
-  onAddDir($event: MouseEvent, dir: string): void {
+  onAddDir($event: MouseEvent, dir: string, withPopUp = false): void {
     $event.stopPropagation();
     if (dir.startsWith("/")) {
       dir = dir.substring(1, dir.length);
     }
     this.queueService.addDir(dir);
-    this.notificationService.popUp(`Added dir: "${dir}"`);
+    if (withPopUp) {
+      this.notificationService.popUp(`Added dir: "${dir}"`);
+    }
   }
 }

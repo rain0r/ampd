@@ -21,8 +21,7 @@ public class BrowseController {
 	}
 
 	@GetMapping("")
-	public BrowsePayload browseDir(@RequestParam("path") String dirPath) throws InterruptedException {
-        Thread.sleep(2000);
+	public BrowsePayload browseDir(@RequestParam("path") String dirPath) {
 		return browseService.browse(dirPath);
 	}
 

@@ -1,20 +1,20 @@
+import { DatePipe, JsonPipe } from "@angular/common";
 import { Component } from "@angular/core";
-import { LogEntry } from "../../shared/log/log-entry";
-import { LS_LOG_NAME } from "../../shared/log/log-local-storage";
 import { MatButton } from "@angular/material/button";
 import {
-  MatTable,
-  MatColumnDef,
-  MatHeaderCellDef,
-  MatHeaderCell,
-  MatCellDef,
   MatCell,
-  MatHeaderRowDef,
+  MatCellDef,
+  MatColumnDef,
+  MatHeaderCell,
+  MatHeaderCellDef,
   MatHeaderRow,
-  MatRowDef,
+  MatHeaderRowDef,
   MatRow,
+  MatRowDef,
+  MatTable,
 } from "@angular/material/table";
-import { JsonPipe, DatePipe } from "@angular/common";
+import { LogEntry } from "../../shared/log/log-entry";
+import { LS_LOG_NAME } from "../../shared/log/log-local-storage";
 import { LogLevelPipe } from "../../shared/pipes/log-level.pipe";
 
 @Component({
@@ -48,6 +48,7 @@ export class LogViewComponent {
 
   clearLogs(): void {
     localStorage.removeItem(LS_LOG_NAME);
+    this.logEntries = [];
   }
 
   private localStorageLog(): void {

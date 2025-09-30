@@ -31,6 +31,7 @@ export class AlbumItemComponent implements OnInit {
           this.albumDialogOpen.next(true);
           const dialogRef = this.dialog.open(AlbumDialogComponent, {
             data: this.album,
+            height: "80%",
             width: "80%",
           });
           dialogRef

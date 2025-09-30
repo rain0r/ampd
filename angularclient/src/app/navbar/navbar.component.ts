@@ -84,7 +84,6 @@ export class NavbarComponent implements OnInit {
         if (!open && state !== 1) {
           this.connDialogRef = this.dialog.open(ConnectingOverlayComponent, {
             disableClose: true,
-            backdropClass: "backdrop-brightness-50",
           });
           this.errorDialogOpen.next(true);
           this.connDialogRef

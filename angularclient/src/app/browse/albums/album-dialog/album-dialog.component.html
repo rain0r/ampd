@@ -11,7 +11,7 @@
           [src]="album.albumCoverUrl"
           [title]="album.name"
           alt="Cover of {{ album.name }}"
-          class="h-64 w-full object-cover md:h-full md:w-64"
+          class="h-20 w-full object-cover md:h-full md:w-20"
           mat-card-image
         />
       </div>
@@ -39,5 +39,5 @@
     <mat-icon> play_arrow</mat-icon>
     <span>Play all</span>
   </button>
-  <button mat-stroked-button mat-dialog-close>Close</button>
+  <button mat-raised-button mat-dialog-close>Close</button>
 </div>

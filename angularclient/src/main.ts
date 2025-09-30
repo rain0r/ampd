@@ -24,6 +24,7 @@ import { ReplaceNullWithTextPipe } from "./app/shared/pipes/replace-null-with-te
 import { SecondsToMmSsPipe } from "./app/shared/pipes/seconds-to-mm-ss.pipe";
 import { StyleManager } from "./app/shared/style-manager";
 import { environment } from "./environments/environment";
+import { MAT_DIALOG_DEFAULT_OPTIONS } from "@angular/material/dialog";
 
 if (environment.production) {
   enableProdMode();
@@ -63,6 +64,13 @@ bootstrapApplication(AppComponent, {
       provide: MAT_TOOLTIP_DEFAULT_OPTIONS,
       useValue: {
         showDelay: 750,
+      },
+    },
+    {
+      provide: MAT_DIALOG_DEFAULT_OPTIONS,
+      useValue: {
+        backdropClass: "backdrop-brightness-50",
+        panelClass: "dialog-panel-class",
       },
     },
   ],

@@ -39,3 +39,11 @@ $dark-theme: mat.m2-define-dark-theme(
   --primary-text: #{$primary-text};
   --second-background-color: #{$second-background-color};
 }
+
+:root {
+  @include mat.button-toggle-overrides(
+    (
+      selected-state-background-color: $hover-background-color,
+    )
+  );
+}

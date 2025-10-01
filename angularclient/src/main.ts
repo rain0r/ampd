@@ -37,7 +37,7 @@ bootstrapApplication(AppComponent, {
       BrowserModule,
       FormsModule,
       ReactiveFormsModule,
-      ScrollingModule,      
+      ScrollingModule,
     ),
     CamelCaseTitlePipe,
     ReplaceNullWithTextPipe,

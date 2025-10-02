@@ -1,5 +1,6 @@
 <div
   class="flex flex-wrap gap-y-2 justify-between items-center mt-2 md:justify-start md:gap-x-2"
+  data-cy="browse-navigation"
 >
   <!--Return to top -->
   <div class="self-center">
@@ -16,10 +17,10 @@
   </div>
 
   <!--Go one dir up -->
-  @if (getParamDir !== "/") {
+  @if (dirParam !== "/") {
     <div>
       <button
-        [queryParams]="{ dir: dirUp$ | async }"
+        [queryParams]="{ dir: dirUp }"
         [routerLink]="['/browse']"
         mat-raised-button
         title="Go one directory up"
@@ -31,11 +32,11 @@
   }
 
   <!--Add all-->
-  @if (getParamDir !== "/") {
+  @if (dirParam !== "/") {
     <div>
       <button
         mat-raised-button
-        (click)="onAddDir(getParamDir)"
+        (click)="onAddDir(dirParam)"
         title="Add all tracks"
       >
         <mat-icon> add</mat-icon>
@@ -45,13 +46,9 @@
   }
 
   <!--Play all-->
-  @if (getParamDir !== "/") {
+  @if (dirParam !== "/") {
     <div>
-      <button
-        mat-raised-button
-        (click)="onPlayDir(getParamDir)"
-        title="Play all"
-      >
+      <button mat-raised-button (click)="onPlayDir(dirParam)" title="Play all">
         <mat-icon> play_arrow</mat-icon>
         <span class="hidden md:inline">Play all</span>
       </button>
@@ -59,7 +56,7 @@
   }
 
   <!-- Albums -->
-  @if (getParamDir === "/" && (displayAlbums$ | async) === true) {
+  @if (dirParam === "/" && (displayAlbums$ | async) === true) {
     <div>
       <button
         [routerLink]="['/browse-albums']"
@@ -74,7 +71,7 @@
   }
 
   <!-- Genres -->
-  @if (getParamDir === "/" && (displayGenres$ | async) === true) {
+  @if (dirParam === "/" && (displayGenres$ | async) === true) {
     <div>
       <button
         [routerLink]="['/browse-genres']"
@@ -89,7 +86,7 @@
   }
 
   <!-- Radio Streams -->
-  @if (getParamDir === "/" && (displayRadio$ | async) === true) {
+  @if (dirParam === "/" && (displayRadio$ | async) === true) {
     <div>
       <button
         [routerLink]="['/browse-radio-streams']"
@@ -104,7 +101,7 @@
   }
 
   <!--Recently Listened-->
-  @if (getParamDir === "/" && (displayRecentlyListened$ | async) === true) {
+  @if (dirParam === "/" && (displayRecentlyListened$ | async) === true) {
     <div>
       <button
         mat-raised-button
@@ -133,7 +130,8 @@
   <!--Filter-->
   <div
     class="w-full md:w-1/3"
-    [class.invisible]="(filterDisabled$ | async) === false"
+    [class.invisible]="filterDisabled === false"
+    data-cy="filter-container"
   >
     <mat-form-field>
       <mat-label>Filter</mat-label>
@@ -142,7 +140,7 @@
         (keydown.escape)="resetFilter()"
         (keyup)="applyFilter($event.target)"
         [(ngModel)]="filter"
-        [disabled]="(filterDisabled$ | async) === false"
+        [disabled]="filterDisabled === false"
         #filterInputElem
         autocomplete="off"
         matInput

@@ -1,6 +1,9 @@
-import { ViewportScroller, AsyncPipe } from "@angular/common";
-import { Component, OnDestroy, OnInit, inject } from "@angular/core";
-import { PageEvent, MatPaginator } from "@angular/material/paginator";
+import { AsyncPipe, ViewportScroller } from "@angular/common";
+import { Component, inject, OnDestroy, OnInit } from "@angular/core";
+import { MatButton } from "@angular/material/button";
+import { MatPaginator, PageEvent } from "@angular/material/paginator";
+import { MatProgressSpinner } from "@angular/material/progress-spinner";
+import { MatTab, MatTabGroup } from "@angular/material/tabs";
 import { ActivatedRoute, RouterLink } from "@angular/router";
 import {
   BehaviorSubject,
@@ -21,17 +24,14 @@ import {
   InternMsgType,
   PaginationMsg,
 } from "src/app/shared/messages/internal/internal-msg";
-import { AmpdBrowsePayload } from "src/app/shared/model/ampd-browse-payload";
+import { AmpdBrowsePayload } from "src/app/shared/model/browse-payload";
 import { GenresService as GenreService } from "../../service/genres.service";
 import { ResponsiveScreenService } from "../../service/responsive-screen.service";
 import { ClickActions } from "../../shared/track-table-data/click-actions.enum";
-import { TrackTableOptions } from "../../shared/track-table-data/track-table-options";
-import { BrowseNavigationComponent } from "../navigation/browse-navigation.component";
-import { MatButton } from "@angular/material/button";
-import { MatProgressSpinner } from "@angular/material/progress-spinner";
-import { MatTabGroup, MatTab } from "@angular/material/tabs";
-import { AlbumItemComponent } from "../albums/album-item/album-item.component";
 import { TrackTableDataComponent } from "../../shared/track-table-data/track-table-data.component";
+import { TrackTableOptions } from "../../shared/track-table-data/track-table-options";
+import { AlbumItemComponent } from "../albums/album-item/album-item.component";
+import { BrowseNavigationComponent } from "../navigation/browse-navigation.component";
 
 @Component({
   selector: "app-genres",

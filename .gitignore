@@ -1,6 +1,7 @@
 # ampd
 .idea
 *.log*.gz
+delombok
 angularclient/cypress/results/
 angularclient/cypress/screenshots/
 angularclient/cypress/videos/

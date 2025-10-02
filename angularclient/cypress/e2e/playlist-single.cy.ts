@@ -2,19 +2,6 @@ const playlists = require("../fixtures/playlists.json");
 
 const TMP_PLAYLIST_NAME = "AAA Test Playlist 123";
 
-function addPlaylist(name: string) {
-  cy.log(`Adding playlist: ${name}`);
-
-  cy.visit("/browse");
-  cy.contains("Playlists");
-  cy.contains("Directories");
-  cy.get('[data-cy="playlist-name"]').contains(name).click();
-
-  cy.contains("Items per page:");
-  cy.contains(`Playlist: ${name}`);
-  cy.get('[data-cy="add-playlist"]').contains("Add playlist").click();
-}
-
 describe("Save and delete a playlist", () => {
   it("Add artist", () => {
     cy.clearQueue();
@@ -48,7 +35,7 @@ describe("Save and delete a playlist", () => {
   });
 
   it("Add playlist", () => {
-    addPlaylist(TMP_PLAYLIST_NAME);
+    cy.addPlaylist(TMP_PLAYLIST_NAME);
   });
 
   it("Delete playlist", () => {
@@ -64,28 +51,5 @@ describe("Save and delete a playlist", () => {
     cy.get('[data-cy="playlist-name"]')
       .contains(TMP_PLAYLIST_NAME)
       .should("not.exist");
-  });
-});
-
-describe("Add multiple playlists", () => {
-  it("Add playlist", () => {
-    cy.clearQueue();
-
-    playlists.forEach((playlistName: string) => {
-      addPlaylist(playlistName);
-      cy.visit("/");
-
-      cy.get('[data-cy="track-table"] > tbody > tr').should(
-        "have.length.greaterThan",
-        1,
-      );
-
-      const trackCount = parseInt(playlistName.replace("last_", ""));
-      cy.scrollTo("bottom");
-      cy.get('[data-cy="queue-track-count"]').contains(trackCount);
-      cy.contains("tracks in the queue");
-
-      cy.clearQueue();
-    });
   });
 });

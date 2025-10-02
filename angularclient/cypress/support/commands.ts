@@ -57,3 +57,16 @@ Cypress.Commands.add("paginate", (pageSize: number) => {
     pageSize,
   );
 });
+
+Cypress.Commands.add("addPlaylist", (name: string) => {
+  cy.log(`Adding playlist: ${name}`);
+
+  cy.visit("/browse");
+  cy.contains("Playlists");
+  cy.contains("Directories");
+  cy.get('[data-cy="playlist-name"]').contains(name).click();
+
+  cy.contains("Items per page:");
+  cy.contains(`Playlist: ${name}`);
+  cy.get('[data-cy="add-playlist"]').contains("Add playlist").click();
+});

@@ -1,10 +1,10 @@
 import { AsyncPipe } from "@angular/common";
 import { Component, inject } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
-import { BehaviorSubject, Observable } from "rxjs";
-import { distinctUntilChanged, finalize, map } from "rxjs/operators";
+import { Observable } from "rxjs";
+import { map, mergeMap } from "rxjs/operators";
 import { BrowseService } from "../service/browse.service";
-import { AmpdBrowsePayload } from "../shared/model/ampd-browse-payload";
+import { AmpdBrowsePayload } from "../shared/model/browse-payload";
 import { DirectoriesComponent } from "./directories/directories.component";
 import { BrowseNavigationComponent } from "./navigation/browse-navigation.component";
 import { PlaylistsComponent } from "./playlists/playlists.component";
@@ -23,43 +23,22 @@ import { TracksComponent } from "./tracks/tracks.component";
   ],
 })
 export class BrowseComponent {
-  private activatedRoute = inject(ActivatedRoute);
+  private route = inject(ActivatedRoute);
   private browseService = inject(BrowseService);
 
   browsePayload$: Observable<AmpdBrowsePayload>;
-  dirQp = "/";
-  isLoading = true;
-  private browsePayloadSource: BehaviorSubject<AmpdBrowsePayload>;
 
   constructor() {
-    const browseService = this.browseService;
-
-    this.browsePayloadSource = new BehaviorSubject<AmpdBrowsePayload>(
-      browseService.buildEmptyPayload(),
+    const dir: Observable<string> = this.route.queryParamMap.pipe(
+      map((params) =>
+        params.has("dir") ? (params.get("dir") as string) : "/",
+      ),
     );
-    this.browsePayload$ = this.browsePayloadSource.asObservable();
 
-    // Read the query parameter identifying the current dir
-    this.activatedRoute.queryParamMap
-      .pipe(
-        map((qp) => (qp.get("dir") as string) || "/"),
-        distinctUntilChanged(),
-      )
-      .subscribe((dir) => {
-        // Turn the loading animation on
-        this.isLoading = true;
-
-        // Empty the browse info so to prevent displaying the former objects when browsing
-        this.browsePayloadSource.next(browseService.buildEmptyPayload());
-
-        this.dirQp = dir;
-
-        this.browseService
-          .sendBrowseReq(dir)
-          .pipe(finalize(() => (this.isLoading = false)))
-          .subscribe((browsePayload) =>
-            this.browsePayloadSource.next(browsePayload),
-          );
-      });
+    this.browsePayload$ = dir.pipe(
+      mergeMap((d) => {
+        return this.browseService.sendBrowseReq(d);
+      }),
+    );
   }
 }

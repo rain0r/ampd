@@ -45,14 +45,11 @@ public class SettingsService {
 	}
 
 	private String getType(String type) {
-		switch (type) {
-			case "int":
-				return Types.INT.getType();
-			case "boolean":
-				return Types.BOOL.getType();
-			default:
-				return Types.STR.getType();
-		}
+		return switch (type) {
+			case "int" -> Types.INT.getType();
+			case "boolean" -> Types.BOOL.getType();
+			default -> Types.STR.getType();
+		};
 	}
 
 }

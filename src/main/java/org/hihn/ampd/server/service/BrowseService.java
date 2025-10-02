@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.TreeSet;
 
 /**
@@ -29,20 +30,20 @@ public class BrowseService {
 	}
 
 	/**
-	 * Generell browse request for a path. Includes directories, tracks and playlists.
+	 * General browse request for a path. Includes directories, tracks and playlists.
 	 * @param path The path to browse
 	 * @return Object with the directories, tracks and playlist of the given path.
 	 */
-	public BrowsePayload browse(String pathP) {
-		String path = pathP;
+	public BrowsePayload browse(final String path) {
 		/* Remove leading slashes */
-		path = path.replaceAll("^/+", "").trim();
+		String cleanPath = path.replaceAll("^/+", "").trim();
 		/* Outgoing payload */
 		BrowsePayload browsePayload = findDirsAndTracks(path);
-		if ("/".equals(path) || path.isEmpty()) {
+		if ("/".equals(cleanPath) || cleanPath.isEmpty()) {
 			/* Only look for playlists if we're on the root */
 			browsePayload.addPlaylists(getPlaylists());
 		}
+		browsePayload.setDirParam(path);
 		return browsePayload;
 	}
 
@@ -61,7 +62,7 @@ public class BrowseService {
 			foundFiles = mpd.getMusicDatabase().getFileDatabase().listDirectory(startDir);
 		}
 		catch (Exception e) {
-			LOG.error("Error listing directory '{}'", path, e);
+			LOG.error("Error listing directory for path: '{}'", path);
 		}
 		for (MPDFile file : foundFiles) {
 			if (file.isDirectory()) {
@@ -86,14 +87,20 @@ public class BrowseService {
 	 */
 	private Collection<Playlist> getPlaylists() {
 		TreeSet<Playlist> ret = new TreeSet<>();
-		Collection<String> playlists = mpd.getMusicDatabase().getPlaylistDatabase().listPlaylists();
+		Collection<String> playlists = List.of();
+		try {
+			playlists = mpd.getMusicDatabase().getPlaylistDatabase().listPlaylists();
+		}
+		catch (MPDConnectionException e) {
+			LOG.error("Could not list playlists: {}", e.getMessage());
+		}
 		for (String playlist : playlists) {
 			int count = 0;
 			try {
 				count = mpd.getMusicDatabase().getPlaylistDatabase().countPlaylistSongs(playlist);
 			}
 			catch (MPDConnectionException e) {
-				LOG.error("Could not get song count for playlist: " + playlist, e);
+				LOG.error("Could not get song count for playlist: {}", playlist);
 			}
 			ret.add(new Playlist(playlist, count));
 		}

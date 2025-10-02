@@ -15,7 +15,7 @@ describe("Search Test", () => {
     cy.visit("/adv-search");
 
     // Should be empty at the beginning
-    cy.get('[data-cy="track-table"] > tbody > tr').should("have.length", 1);    
+    cy.get('[data-cy="track-table"] > tbody > tr').should("have.length", 1);
     cy.get('[data-cy="input-field-artist"]').type("Beatles");
     cy.get("[data-cy='search-btn']").click();
     cy.get('[data-cy="track-table"] > tbody > tr').should(

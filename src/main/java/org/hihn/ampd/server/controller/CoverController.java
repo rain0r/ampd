@@ -33,7 +33,7 @@ public class CoverController {
 	@RequestMapping(value = { "/find-dir-cover" }, produces = MediaType.IMAGE_JPEG_VALUE)
 	public @ResponseBody byte[] findAlbumCoverForDir(@RequestParam("path") String dirPath) {
 		return albumArtService.loadArtworkForDir(dirPath)
-			.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+			.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, dirPath));
 	}
 
 	/**

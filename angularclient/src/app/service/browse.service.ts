@@ -2,8 +2,10 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable, inject } from "@angular/core";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
-import { AmpdBrowsePayload } from "../shared/model/ampd-browse-payload";
-import { BrowsePayload } from "../shared/model/browse-payload";
+import {
+  AmpdBrowsePayload,
+  BrowsePayload,
+} from "../shared/model/browse-payload";
 import { QueueTrack } from "../shared/model/queue-track";
 import { SettingsService } from "./settings.service";
 
@@ -14,15 +16,8 @@ export class BrowseService {
   private http = inject(HttpClient);
   private settingsService = inject(SettingsService);
 
-  buildEmptyPayload(): AmpdBrowsePayload {
-    return {
-      directories: [],
-      playlists: [],
-      tracks: [],
-    } as AmpdBrowsePayload;
-  }
-
   sendBrowseReq(path: string): Observable<AmpdBrowsePayload> {
+    console.log(new Date(), `==> sendBrowseReq: ${path}`);
     const url = `${this.settingsService.getBackendContextAddr()}api/browse?path=${path}`;
     return this.http
       .get<BrowsePayload>(url)
@@ -37,9 +32,12 @@ export class BrowseService {
         return dir;
       }),
       playlists: payload.playlists,
-      tracks: payload.tracks.map(
+      queueTracks: payload.tracks.map(
         (track, index) => new QueueTrack(track, index),
       ),
+      dirParam: payload.dirParam,
+      isTracksOnlyDir: this.isTracksOnlyDir(payload),
+      dirUp: this.buildDirUp(payload.dirParam),
     } as AmpdBrowsePayload;
   }
 
@@ -51,5 +49,23 @@ export class BrowseService {
 
   private getDisplayedPath(path: string): string {
     return path.trim().split("/").pop() || "";
+  }
+
+  private isTracksOnlyDir(payload: BrowsePayload): boolean {
+    return (
+      payload.playlists.length === 0 &&
+      payload.directories.length === 0 &&
+      payload.tracks.length > 0
+    );
+  }
+
+  private buildDirUp(dir: string): string {
+    const splitted = decodeURIComponent(dir).split("/");
+    splitted.pop();
+    let targetDir = splitted.join("/");
+    if (targetDir.length === 0) {
+      targetDir = "/";
+    }
+    return encodeURIComponent(targetDir);
   }
 }

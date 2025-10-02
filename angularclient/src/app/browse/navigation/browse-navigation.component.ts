@@ -2,16 +2,13 @@ import {
   Component,
   ElementRef,
   HostListener,
-  Input,
-  OnInit,
-  ViewChild,
   inject,
+  Input,
+  ViewChild,
 } from "@angular/core";
-import { ActivatedRoute, RouterLinkActive, RouterLink } from "@angular/router";
-import { BehaviorSubject, Observable } from "rxjs";
-import { distinctUntilChanged, map } from "rxjs/operators";
+import { RouterLink, RouterLinkActive } from "@angular/router";
+import { Observable } from "rxjs";
 import { FrontendSettingsService } from "src/app/service/frontend-settings.service";
-import { SettingsService } from "src/app/service/settings.service";
 import {
   FilterMsg,
   InternMsgType,
@@ -21,18 +18,18 @@ import { ControlPanelService } from "../../service/control-panel.service";
 import { MsgService } from "../../service/msg.service";
 import { NotificationService } from "../../service/notification.service";
 import { QueueService } from "../../service/queue.service";
-import { AmpdBrowsePayload } from "../../shared/model/ampd-browse-payload";
-import { MatButton, MatIconButton } from "@angular/material/button";
-import { MatIcon } from "@angular/material/icon";
+
 import { AsyncPipe } from "@angular/common";
+import { FormsModule } from "@angular/forms";
+import { MatButton, MatIconButton } from "@angular/material/button";
+import { MatDivider } from "@angular/material/divider";
 import {
   MatFormField,
   MatLabel,
   MatSuffix,
 } from "@angular/material/form-field";
+import { MatIcon } from "@angular/material/icon";
 import { MatInput } from "@angular/material/input";
-import { FormsModule } from "@angular/forms";
-import { MatDivider } from "@angular/material/divider";
 
 @Component({
   selector: "app-browse-navigation",
@@ -53,23 +50,21 @@ import { MatDivider } from "@angular/material/divider";
     AsyncPipe,
   ],
 })
-export class BrowseNavigationComponent implements OnInit {
-  private activatedRoute = inject(ActivatedRoute);
+export class BrowseNavigationComponent {
   private controlPanelService = inject(ControlPanelService);
   private fsService = inject(FrontendSettingsService);
   private messageService = inject(MsgService);
   private notificationService = inject(NotificationService);
   private queueService = inject(QueueService);
-  private settingsService = inject(SettingsService);
 
   @ViewChild("filterInputElem") filterInputElem?: ElementRef;
-  @Input() browsePayload = new Observable<AmpdBrowsePayload>();
-  @Input() filterDisabled = false;
 
-  dirUp$ = new BehaviorSubject<string>("/");
-  filterDisabled$ = new BehaviorSubject<boolean>(true);
+  @Input() filterDisabled = true;
+  @Input() dirParam = "/";
+  @Input() dirUp = "/";
+
   filter = "";
-  getParamDir = "/";
+
   displayAlbums$: Observable<boolean>;
   displayGenres$: Observable<boolean>;
   displayRadio$: Observable<boolean>;
@@ -92,16 +87,6 @@ export class BrowseNavigationComponent implements OnInit {
     this.displayRecentlyListened$ = this.fsService.getBoolValue$(
       SettingKeys.DISPLAY_RECENTLY_LISTENED,
     );
-
-    this.activatedRoute.queryParamMap
-      .pipe(
-        map((qp) => (qp.get("dir") as string) || "/"),
-        distinctUntilChanged(),
-      )
-      .subscribe((dir) => {
-        this.buildDirUp(dir);
-        this.getParamDir = dir;
-      });
   }
 
   @HostListener("document:keydown.f", ["$event"])
@@ -112,17 +97,6 @@ export class BrowseNavigationComponent implements OnInit {
     event.preventDefault();
     if (this.filterInputElem) {
       (this.filterInputElem.nativeElement as HTMLElement).focus();
-    }
-  }
-
-  ngOnInit(): void {
-    if (this.filterDisabled) {
-      // @Input() has precedence over a tracks-only-directory
-      this.filterDisabled$.next(false);
-    } else {
-      this.browsePayload.subscribe((payload) =>
-        this.filterDisabled$.next(!this.isTracksOnlyDir(payload)),
-      );
     }
   }
 
@@ -167,23 +141,5 @@ export class BrowseNavigationComponent implements OnInit {
       type: InternMsgType.BrowseFilter,
       filterValue: "",
     } as FilterMsg);
-  }
-
-  private buildDirUp(dir: string): void {
-    const splitted = decodeURIComponent(dir).split("/");
-    splitted.pop();
-    let targetDir = splitted.join("/");
-    if (targetDir.length === 0) {
-      targetDir = "";
-    }
-    this.dirUp$.next(encodeURIComponent(targetDir));
-  }
-
-  private isTracksOnlyDir(tmpPayload: AmpdBrowsePayload): boolean {
-    return (
-      tmpPayload.playlists.length === 0 &&
-      tmpPayload.directories.length === 0 &&
-      tmpPayload.tracks.length > 0
-    );
   }
 }

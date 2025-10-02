@@ -8,6 +8,8 @@ import org.hihn.ampd.server.message.outgoing.browse.BrowsePayload;
 import org.hihn.ampd.server.message.outgoing.browse.Playlist;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -18,6 +20,7 @@ import java.util.TreeSet;
  * Provides methods to browse the MPD library.
  */
 @Service
+@CacheConfig(cacheNames = "Browse")
 public class BrowseService {
 
 	private static final Logger LOG = LoggerFactory.getLogger(BrowseService.class);
@@ -29,20 +32,21 @@ public class BrowseService {
 	}
 
 	/**
-	 * Generell browse request for a path. Includes directories, tracks and playlists.
+	 * General browse request for a path. Includes directories, tracks and playlists.
 	 * @param path The path to browse
 	 * @return Object with the directories, tracks and playlist of the given path.
 	 */
-	public BrowsePayload browse(String pathP) {
-		String path = pathP;
+	@Cacheable
+	public BrowsePayload browse(final String path) {
 		/* Remove leading slashes */
-		path = path.replaceAll("^/+", "").trim();
+		String cleanPath = path.replaceAll("^/+", "").trim();
 		/* Outgoing payload */
 		BrowsePayload browsePayload = findDirsAndTracks(path);
-		if ("/".equals(path) || path.isEmpty()) {
+		if ("/".equals(cleanPath) || cleanPath.isEmpty()) {
 			/* Only look for playlists if we're on the root */
 			browsePayload.addPlaylists(getPlaylists());
 		}
+		browsePayload.setDirParam(path);
 		return browsePayload;
 	}
 
@@ -61,7 +65,7 @@ public class BrowseService {
 			foundFiles = mpd.getMusicDatabase().getFileDatabase().listDirectory(startDir);
 		}
 		catch (Exception e) {
-			LOG.error("Error listing directory '{}'", path, e);
+			LOG.error("Error listing directory for path: '{}'", path);
 		}
 		for (MPDFile file : foundFiles) {
 			if (file.isDirectory()) {
@@ -93,7 +97,7 @@ public class BrowseService {
 				count = mpd.getMusicDatabase().getPlaylistDatabase().countPlaylistSongs(playlist);
 			}
 			catch (MPDConnectionException e) {
-				LOG.error("Could not get song count for playlist: " + playlist, e);
+				LOG.error("Could not get song count for playlist: {}", playlist);
 			}
 			ret.add(new Playlist(playlist, count));
 		}

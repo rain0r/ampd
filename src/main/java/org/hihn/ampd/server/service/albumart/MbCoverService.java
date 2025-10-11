@@ -54,7 +54,7 @@ public class MbCoverService {
 	 */
 	public Optional<byte[]> getMbCover(MPDSong track) {
 		if (!ampdSettings.isMbCoverService()) {
-			LOG.debug("MusicBrainz is disabled, not downloading a cover");
+			LOG.trace("mb.cover.service is disabled, not downloading a cover");
 			return Optional.empty();
 		}
 		LOG.debug("Trying to load a cover from the MusicBrainz API for file: {}", track.getFile());

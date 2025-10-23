@@ -105,6 +105,12 @@ public class AmpdSettings {
 	@Value("${application.version}")
 	private String version;
 
+    /**
+	 * Least amount of tracks that an album must have to be considered such
+	 */
+	@Value("${albums.qualify.min.tracks}")
+	private int albumsQualifyMinTracks;
+
 	/**
 	 * Page size for the album cover browse view.
 	 */
@@ -234,6 +240,10 @@ public class AmpdSettings {
 	public String getCoverNamePattern() {
 		return coverNamePattern;
 	}
+
+    public int getAlbumsQualifyMinTracks() {
+        return albumsQualifyMinTracks;
+    }
 
 	public String getVersion() {
 		return version;

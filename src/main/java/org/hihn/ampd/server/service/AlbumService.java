@@ -78,10 +78,7 @@ public class AlbumService {
 
 			try {
 				int albumContains = mpd.getMusicDatabase().getSongDatabase().findAlbum(album).size();
-				if (albumContains < 2) {
-					// Some tracks have the album attribute set but are not actually
-					// part of an album but a singleton. Only use albums with at least
-					// 2 tracks
+				if (albumContains < ampdSettings.getAlbumsQualifyMinTracks()) {
 					return false;
 				}
 			}

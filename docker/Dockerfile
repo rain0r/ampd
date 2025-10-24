@@ -1,4 +1,4 @@
-FROM maven:3-eclipse-temurin-17 AS builder
+FROM maven:3-eclipse-temurin-25 AS builder
 WORKDIR /srv
 COPY . .
 ENV DEBIAN_FRONTEND=noninteractive

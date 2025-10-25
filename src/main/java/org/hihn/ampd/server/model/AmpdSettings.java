@@ -105,7 +105,7 @@ public class AmpdSettings {
 	@Value("${application.version}")
 	private String version;
 
-    /**
+	/**
 	 * Least amount of tracks that an album must have to be considered such
 	 */
 	@Value("${albums.qualify.min.tracks}")
@@ -241,9 +241,9 @@ public class AmpdSettings {
 		return coverNamePattern;
 	}
 
-    public int getAlbumsQualifyMinTracks() {
-        return albumsQualifyMinTracks;
-    }
+	public int getAlbumsQualifyMinTracks() {
+		return albumsQualifyMinTracks;
+	}
 
 	public String getVersion() {
 		return version;

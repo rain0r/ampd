@@ -13,7 +13,9 @@ updates:
     directory: "/angularclient" # Location of package manifests
     schedule:
       interval: "weekly"
+    ignore:
+      - dependency-name: "@angular/*"
   - package-ecosystem: "docker" # See documentation for possible values
     directory: "/docker" # Location of package manifests
     schedule:
-      interval: "weekly"      
+      interval: "weekly"

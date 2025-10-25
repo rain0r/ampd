@@ -8,6 +8,9 @@ angularclient/src/environments/environment.dev.ts
 src/main/resources/application-*.properties
 src/main/resources/static/
 
+# MacOs
+.DS_Store
+
 # Logs
 logs
 *.log

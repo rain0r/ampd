@@ -20,6 +20,8 @@ public class BrowsePayload {
 
 	private final List<MPDSong> tracks = new ArrayList<>();
 
+	private String dirParam = "/";
+
 	public void addDirectory(final MPDFile mpdFile) {
 		directories.add(mpdFile);
 	}
@@ -42,6 +44,14 @@ public class BrowsePayload {
 
 	public List<MPDSong> getTracks() {
 		return Collections.unmodifiableList(tracks);
+	}
+
+	public String getDirParam() {
+		return dirParam;
+	}
+
+	public void setDirParam(String dirParam) {
+		this.dirParam = dirParam;
 	}
 
 }

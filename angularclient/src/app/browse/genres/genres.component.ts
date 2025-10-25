@@ -21,7 +21,6 @@ import {
   InternMsgType,
   PaginationMsg,
 } from "src/app/shared/messages/internal/internal-msg";
-import { AmpdBrowsePayload } from "src/app/shared/model/ampd-browse-payload";
 import { GenresService as GenreService } from "../../service/genres.service";
 import { ResponsiveScreenService } from "../../service/responsive-screen.service";
 import { ClickActions } from "../../shared/track-table-data/click-actions.enum";
@@ -32,6 +31,7 @@ import { MatProgressSpinner } from "@angular/material/progress-spinner";
 import { MatTabGroup, MatTab } from "@angular/material/tabs";
 import { AlbumItemComponent } from "../albums/album-item/album-item.component";
 import { TrackTableDataComponent } from "../../shared/track-table-data/track-table-data.component";
+import { AmpdBrowsePayload } from "src/app/shared/model/browse-payload";
 
 @Component({
   selector: "app-genres",

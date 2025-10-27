@@ -72,7 +72,7 @@ public class RecentlyListenedService {
 	public Set<MPDAlbum> getRecentlyListenedAlbums() {
 		buildAuth();
 
-		LinkedHashSet<MPDAlbum> recentlyListenedAlbums = new LinkedHashSet<>();
+		Set<MPDAlbum> recentlyListenedAlbums = new LinkedHashSet<>();
 
 		fetchData().forEach(v -> {
 			if (recentlyListenedAlbums.size() == MAX_RESULTS) {
@@ -120,7 +120,7 @@ public class RecentlyListenedService {
 	}
 
 	public Set<MPDArtist> getRecentlyListenedArtists() {
-		LinkedHashSet<MPDArtist> artists = new LinkedHashSet<>();
+		Set<MPDArtist> artists = new LinkedHashSet<>();
 		fetchData().forEach(v -> {
 
 			if (artists.size() == MAX_RESULTS) {
@@ -136,7 +136,7 @@ public class RecentlyListenedService {
 	}
 
 	public Set<MPDSong> getRecentlyListenedTracks() {
-		LinkedHashSet<MPDSong> tracks = new LinkedHashSet<>();
+		Set<MPDSong> tracks = new LinkedHashSet<>();
 		fetchData().forEach(v -> {
 
 			if (tracks.size() == MAX_RESULTS) {

@@ -10,10 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.TreeSet;
+import java.util.*;
 
 /**
  * Provides methods to browse the MPD library.
@@ -86,7 +83,7 @@ public class BrowseService {
 	 * @return List of saved playlists.
 	 */
 	private Collection<Playlist> getPlaylists() {
-		TreeSet<Playlist> ret = new TreeSet<>();
+		Set<Playlist> ret = new TreeSet<>();
 		Collection<String> playlists = List.of();
 		try {
 			playlists = mpd.getMusicDatabase().getPlaylistDatabase().listPlaylists();

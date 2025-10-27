@@ -74,7 +74,7 @@ public class SearchService {
 	}
 
 	public List<MPDSong> searchByParams(Map<String, String> searchParams) {
-		ArrayList<SearchCriteria> tmpSp = new ArrayList<>();
+		List<SearchCriteria> tmpSp = new ArrayList<>();
 		for (Map.Entry<String, String> entry : searchParams.entrySet()) {
 			if (SEARCH_FIELDS.contains(entry.getKey()) && entry.getValue() != null) {
 				tmpSp.add(new SearchCriteria(scopeTypeForStr(entry.getKey()), entry.getValue()));

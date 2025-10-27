@@ -105,7 +105,7 @@ public class AlbumArtService {
 
 	public Optional<byte[]> findAlbumCoverForAlbum(String albumName, String artistName) {
 		// Find all tracks with this album and artist
-		ArrayList<MPDSong> mpdSongs = new ArrayList<>(mpd.getSongSearcher()
+		List<MPDSong> mpdSongs = new ArrayList<>(mpd.getSongSearcher()
 			.search(new SearchCriteria(SongSearcher.ScopeType.ARTIST, artistName),
 					new SearchCriteria(SongSearcher.ScopeType.ALBUM, albumName)));
 		Optional<Optional<byte[]>> ret = mpdSongs.stream()

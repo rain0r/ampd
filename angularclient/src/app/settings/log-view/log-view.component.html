@@ -2,11 +2,7 @@
   <button mat-stroked-button (click)="clearLogs()">Clear logs</button>
 </div>
 
-<table
-  mat-table
-  [dataSource]="logEntries"
-  class="table-auto my-16 mat-elevation-z8"
->
+<table mat-table [dataSource]="logEntries" class="my-16 mat-elevation-z8">
   <!-- Entry Date Column -->
   <ng-container matColumnDef="entryDate">
     <th mat-header-cell *matHeaderCellDef>Date</th>

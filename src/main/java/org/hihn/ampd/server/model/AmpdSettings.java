@@ -1,5 +1,6 @@
 package org.hihn.ampd.server.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.annotation.PostConstruct;
 import org.hihn.ampd.server.serializer.HelpText;
 import org.slf4j.Logger;
@@ -8,7 +9,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ReflectionUtils;
 
-import java.util.Arrays;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -40,6 +40,7 @@ public class AmpdSettings {
 	 * The password needed to access the MPD server. Optional.
 	 */
 	@Value("${mpd.password:}")
+	@JsonIgnore
 	private String mpdPassword;
 
 	/**
@@ -140,19 +141,21 @@ public class AmpdSettings {
 	 * The ListenBrainz auth token.
 	 */
 	@Value("${listenbrainz.token:}")
+	@JsonIgnore
 	private String listenbrainzToken;
 
 	/**
 	 * API key for the Last.fm api
 	 */
-	@HelpText(name = "Last.fm API key", hint = "Key for the Last.fm api.")
 	@Value("${lastfm.api.key:}")
+	@JsonIgnore
 	private String lastfmApiKey;
 
 	/**
 	 * API secret for the Last.fm api
 	 */
 	@Value("${lastfm.api.secret:}")
+	@JsonIgnore
 	private String lastfmApiSecret;
 
 	/**
@@ -166,6 +169,7 @@ public class AmpdSettings {
 	 * Last.fm password
 	 */
 	@Value("${lastfm.api.password:}")
+	@JsonIgnore
 	private String lastfmApiPassword;
 
 	/**
@@ -189,9 +193,8 @@ public class AmpdSettings {
 			field.setAccessible(true);
 			output.add(field.getName() + ": " + field.get(this));
 		}, field -> {
-			// Field Filter, exclude passwords and tokens
-			String[] excluded = { "listenbrainzToken", "mpdPassword", "lastfmApiPassword", "LOG" };
-			return !Arrays.asList(excluded).contains(field.getName());
+			// Field Filter: exclude passwords and tokens
+			return field.getAnnotation(JsonIgnore.class) == null;
 		});
 		LOG.info("Starting ampd with these settings:");
 		output.forEach(LOG::info);
@@ -289,16 +292,8 @@ public class AmpdSettings {
 		return searchPageSize;
 	}
 
-	public void setSearchPageSize(int searchPageSize) {
-		this.searchPageSize = searchPageSize;
-	}
-
 	public int getQueuePageSize() {
 		return queuePageSize;
-	}
-
-	public void setQueuePageSize(int queuePageSize) {
-		this.queuePageSize = queuePageSize;
 	}
 
 }

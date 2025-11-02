@@ -35,7 +35,7 @@ public class SettingsController {
 	 * @param ampdSettings Settings of this ampd instance.
 	 * @param coverCacheService Handles locally saved album art / covers.
 	 * @param settingsService Provides methods of the ampd settings.
-	 * @param mpd Represents a connection to a MPD server.
+	 * @param mpd Represents a connection to an MPD server.
 	 */
 	public SettingsController(AmpdSettings ampdSettings, CoverCacheService coverCacheService,
 			SettingsService settingsService, MPD mpd) {

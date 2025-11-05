@@ -61,36 +61,40 @@ public class AlbumService {
 	@Scheduled(fixedDelay = 60, initialDelay = 1, timeUnit = TimeUnit.MINUTES)
 	public void fillAlbumsCache() {
 		LOG.info("Begin filling albums cache...");
-		albums = mpd.getMusicDatabase().getAlbumDatabase().listAllAlbumNames().stream()
-		.flatMap(name -> mpd.getMusicDatabase().getAlbumDatabase().findAlbum(name).parallelStream())
-		.filter(album -> {
-			if (album.getName().isBlank()) {
-				// No album title
-				return false;
-			}
-			if (album.getArtistNames().isEmpty() && StringUtils.isNullOrEmpty(album.getAlbumArtist())) {
-				// No info about the album artist
-				return false;
-			}
-			if (album.getArtistNames().isEmpty()) {
-				album.getArtistNames().add(album.getAlbumArtist());
-			}
-			else {
-				album.setAlbumArtist(album.getArtistNames().get(0));
-			}
-
-			try {
-				int albumContains = mpd.getMusicDatabase().getSongDatabase().findAlbum(album).size();
-				if (albumContains < ampdSettings.getAlbumsQualifyMinTracks()) {
+		albums = mpd.getMusicDatabase()
+			.getAlbumDatabase()
+			.listAllAlbumNames()
+			.stream()
+			.flatMap(name -> mpd.getMusicDatabase().getAlbumDatabase().findAlbum(name).parallelStream())
+			.filter(album -> {
+				if (album.getName().isBlank()) {
+					// No album title
 					return false;
 				}
-			}
-			catch (MPDConnectionException e) {
-				return false;
-			}
+				if (album.getArtistNames().isEmpty() && StringUtils.isNullOrEmpty(album.getAlbumArtist())) {
+					// No info about the album artist
+					return false;
+				}
+				if (album.getArtistNames().isEmpty()) {
+					album.getArtistNames().add(album.getAlbumArtist());
+				}
+				else {
+					album.setAlbumArtist(album.getArtistNames().get(0));
+				}
 
-			return true;
-		}).collect(Collectors.toUnmodifiableSet());
+				try {
+					int albumContains = mpd.getMusicDatabase().getSongDatabase().findAlbum(album).size();
+					if (albumContains < ampdSettings.getAlbumsQualifyMinTracks()) {
+						return false;
+					}
+				}
+				catch (MPDConnectionException e) {
+					return false;
+				}
+
+				return true;
+			})
+			.collect(Collectors.toUnmodifiableSet());
 	}
 
 	public void triggerFillAlbumsCache() {

@@ -16,12 +16,12 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
     permissions:
-      contents: write
-      pull-requests: write
-      repository-projects: write
+      contents: read
+      packages: write
+      id-token: write
+      attestations: write
     steps:
     - uses: actions/checkout@v4
     - name: Set up JDK 17

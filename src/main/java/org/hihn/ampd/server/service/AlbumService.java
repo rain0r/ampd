@@ -55,10 +55,11 @@ public class AlbumService {
 	}
 
 	/**
-	 * Loads all albums in a cache. Theses albums can be viewed under
+	 * Loads all albums in a cache. These albums can be viewed under
 	 * {@code /browse/albums}.
 	 */
-	@Scheduled(fixedDelay = 60, initialDelay = 1, timeUnit = TimeUnit.MINUTES)
+	@Scheduled(fixedDelayString = "${album-cache.fixed-delay}", initialDelayString = "${album-cache.initial-delay}",
+			timeUnit = TimeUnit.MINUTES)
 	public void fillAlbumsCache() {
 		LOG.info("Begin filling albums cache...");
 		albums = mpd.getMusicDatabase()

@@ -2,6 +2,7 @@ import {
   enableProdMode,
   ErrorHandler,
   importProvidersFrom,
+  provideZoneChangeDetection,
 } from "@angular/core";
 
 import { ScrollingModule } from "@angular/cdk/scrolling";
@@ -32,6 +33,7 @@ if (environment.production) {
 
 bootstrapApplication(AppComponent, {
   providers: [
+    provideZoneChangeDetection(),
     importProvidersFrom(
       AppRoutingModule,
       BrowserModule,

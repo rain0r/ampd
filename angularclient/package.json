@@ -33,7 +33,7 @@
     "@angular/cli": "21.0.0",
     "@angular/compiler-cli": "21.0.0",
     "@cypress/schematic": "3.0.0",
-    "@types/node": "24.10.0",
+    "@types/node": "24.10.1",
     "angular-eslint": "21.0.1",
     "autoprefixer": "10.4.21",
     "cypress": "latest",

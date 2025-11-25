@@ -3,6 +3,13 @@ import { interval } from "rxjs";
 import { ThemingService } from "./service/theming.service";
 import { NavbarComponent } from "./navbar/navbar.component";
 
+declare global {
+  // Maps a specific event name to an event type
+  interface GlobalEventHandlersEventMap {
+    "keydown.f": KeyboardEvent;
+  }
+}
+
 @Component({
   selector: "app-root",
   templateUrl: "./app.component.html",

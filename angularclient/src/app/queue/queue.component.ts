@@ -1,18 +1,18 @@
-import { Component, HostListener, OnInit, inject } from "@angular/core";
+import { AsyncPipe } from "@angular/common";
+import { Component, OnInit, inject } from "@angular/core";
+import { MatDivider } from "@angular/material/divider";
 import { Title } from "@angular/platform-browser";
 import { Observable, combineLatest } from "rxjs";
 import { map } from "rxjs/operators";
 import { FrontendSettingsService } from "../service/frontend-settings.service";
 import { MpdService } from "../service/mpd.service";
 import { SettingKeys } from "../shared/model/internal/frontend-settings";
-import { QueueHeaderComponent } from "./queue-header/queue-header.component";
-import { MatDivider } from "@angular/material/divider";
 import { ControlPanelComponent } from "./control-panel/control-panel.component";
 import { MpdModeComponent } from "./mpd-modes/mpd-mode.component";
+import { QueueHeaderComponent } from "./queue-header/queue-header.component";
 import { TrackProgressComponent } from "./track-progress/track-progress.component";
-import { VolumeSliderComponent } from "./volume-slider/volume-slider.component";
 import { TrackTableComponent } from "./track-table/track-table.component";
-import { AsyncPipe } from "@angular/common";
+import { VolumeSliderComponent } from "./volume-slider/volume-slider.component";
 
 @Component({
   selector: "app-queue",
@@ -38,13 +38,6 @@ export class QueueComponent implements OnInit {
 
   constructor() {
     this.connected$ = this.mpdService.isConnected$();
-  }
-
-  @HostListener("document:visibilitychange", ["$event"])
-  onKeyUp(): void {
-    if (document.visibilityState === "visible") {
-      this.buildTitle();
-    }
   }
 
   ngOnInit(): void {

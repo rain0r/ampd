@@ -2,7 +2,7 @@ import {
   enableProdMode,
   ErrorHandler,
   importProvidersFrom,
-  provideZoneChangeDetection,
+  provideZonelessChangeDetection,
 } from "@angular/core";
 
 import { ScrollingModule } from "@angular/cdk/scrolling";
@@ -12,6 +12,7 @@ import {
   withInterceptorsFromDi,
 } from "@angular/common/http";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { MAT_DIALOG_DEFAULT_OPTIONS } from "@angular/material/dialog";
 import { MAT_TOOLTIP_DEFAULT_OPTIONS } from "@angular/material/tooltip";
 import { bootstrapApplication, BrowserModule } from "@angular/platform-browser";
 import { AppRoutingModule } from "./app/app-routing.module";
@@ -25,7 +26,6 @@ import { ReplaceNullWithTextPipe } from "./app/shared/pipes/replace-null-with-te
 import { SecondsToMmSsPipe } from "./app/shared/pipes/seconds-to-mm-ss.pipe";
 import { StyleManager } from "./app/shared/style-manager";
 import { environment } from "./environments/environment";
-import { MAT_DIALOG_DEFAULT_OPTIONS } from "@angular/material/dialog";
 
 if (environment.production) {
   enableProdMode();
@@ -33,7 +33,7 @@ if (environment.production) {
 
 bootstrapApplication(AppComponent, {
   providers: [
-    provideZoneChangeDetection(),
+    provideZonelessChangeDetection(),
     importProvidersFrom(
       AppRoutingModule,
       BrowserModule,

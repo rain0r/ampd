@@ -79,7 +79,6 @@ export class TracksComponent implements OnInit {
     trackTable.dataSource = new MatTableDataSource<QueueTrack>(this.tracks);
     trackTable.displayedColumns = this.getDisplayedColumns();
     trackTable.onPlayClick = ClickActions.AddPlayTrack;
-    trackTable.pageSize = this.tracks.length;
     trackTable.totalElements = this.tracks.length;
     trackTable.totalPages = 1;
     trackTable.showPageSizeOptions = false;

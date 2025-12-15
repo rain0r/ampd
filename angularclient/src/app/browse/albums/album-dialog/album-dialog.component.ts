@@ -75,7 +75,6 @@ export class AlbumDialogComponent {
     trackTable.displayedColumns = this.getDisplayedColumns();
     trackTable.onPlayClick = ClickActions.AddPlayTrack;
     trackTable.totalElements = tracks.length;
-    trackTable.pageSize = tracks.length;
     trackTable.showPageSizeOptions = false;
     trackTable.sortable = false;
     return trackTable;

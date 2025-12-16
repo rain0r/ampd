@@ -135,7 +135,6 @@ export class PlaylistInfoDialogComponent implements AfterViewInit, OnDestroy {
     trackTable.totalElements = info.tracks.totalElements;
     trackTable.totalPages = info.tracks.totalPages;
     trackTable.pageIndex = info.tracks.number;
-    trackTable.pageSize = info.tracks.numberOfElements;
     trackTable.showPageSizeOptions = false;
     return trackTable;
   }

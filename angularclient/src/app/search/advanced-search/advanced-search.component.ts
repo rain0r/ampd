@@ -164,7 +164,6 @@ export class AdvancedSearchComponent implements OnInit, AfterViewInit {
     trackTable.totalElements = advSearchResponse.totalElements;
     trackTable.totalPages = advSearchResponse.totalPages;
     trackTable.pageIndex = advSearchResponse.number;
-    trackTable.pageSize = advSearchResponse.numberOfElements;
     return trackTable;
   }
 

@@ -140,7 +140,6 @@ export class GenresComponent implements OnInit, OnDestroy {
     trackTable.totalElements = paginatedTracks.totalElements;
     trackTable.totalPages = paginatedTracks.totalPages;
     trackTable.pageIndex = paginatedTracks.number;
-    trackTable.pageSize = paginatedTracks.numberOfElements;
     return trackTable;
   }
 

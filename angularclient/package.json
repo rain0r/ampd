@@ -44,7 +44,7 @@
     "mochawesome": "7.1.4",
     "mochawesome-merge": "5.1.0",
     "mochawesome-report-generator": "6.3.2",
-    "npm-check-updates": "19.1.2",
+    "npm-check-updates": "19.2.0",
     "postcss": "8.5.6",
     "prettier": "3.7.4",
     "tailwindcss": "3.4.17",

@@ -8,14 +8,14 @@ updates:
   - package-ecosystem: "maven" # See documentation for possible values
     directory: "/" # Location of package manifests
     schedule:
-      interval: "weekly"
+      interval: "monthly"
   - package-ecosystem: "npm" # See documentation for possible values
     directory: "/angularclient" # Location of package manifests
     schedule:
-      interval: "weekly"
+      interval: "monthly"
     ignore:
       - dependency-name: "@angular/*"
   - package-ecosystem: "docker" # See documentation for possible values
     directory: "/docker" # Location of package manifests
     schedule:
-      interval: "weekly"
+      interval: "monthly"

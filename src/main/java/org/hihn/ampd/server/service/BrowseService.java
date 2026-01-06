@@ -49,7 +49,7 @@ public class BrowseService {
 	 * @param path Path relative to the MPD root library.
 	 * @return Object with the directories and tracks of the given path.
 	 */
-	public BrowsePayload findDirsAndTracks(String path) {
+	public BrowsePayload findDirsAndTracks(final String path) {
 		BrowsePayload browsePayload = new BrowsePayload();
 		// Build a MPDFile from the input path
 		MPDFile startDir = MPDFile.builder(path).build();

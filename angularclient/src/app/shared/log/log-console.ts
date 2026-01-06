@@ -5,7 +5,7 @@ import { LogPublisher } from "./log-publisher";
 export class LogConsole extends LogPublisher {
   log(entry: LogEntry): Observable<boolean> {
     // Log to console
-    console.debug(entry.buildLogString());
+    console.debug(entry.message, entry.extraInfo);
     return of(true);
   }
 

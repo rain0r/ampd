@@ -44,7 +44,7 @@ public class SettingsService {
 		}).collect(Collectors.toList());
 	}
 
-	private String getType(String type) {
+	private String getType(final String type) {
 		return switch (type) {
 			case "int" -> Types.INT.getType();
 			case "boolean" -> Types.BOOL.getType();

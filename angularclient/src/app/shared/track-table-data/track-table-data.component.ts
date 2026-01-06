@@ -1,4 +1,5 @@
-import { CdkDragDrop, CdkDropList, CdkDrag } from "@angular/cdk/drag-drop";
+import { CdkDrag, CdkDragDrop, CdkDropList } from "@angular/cdk/drag-drop";
+import { AsyncPipe } from "@angular/common";
 import {
   ChangeDetectorRef,
   Component,
@@ -6,42 +7,42 @@ import {
   ViewChild,
   inject,
 } from "@angular/core";
+import { MatButton } from "@angular/material/button";
 import { MatDialog } from "@angular/material/dialog";
+import { MatIcon } from "@angular/material/icon";
 import {
   MatPaginator,
   MatPaginatorIntl,
   PageEvent,
 } from "@angular/material/paginator";
 import { MatSort, MatSortHeader } from "@angular/material/sort";
+import {
+  MatCell,
+  MatCellDef,
+  MatColumnDef,
+  MatHeaderCell,
+  MatHeaderCellDef,
+  MatHeaderRow,
+  MatHeaderRowDef,
+  MatNoDataRow,
+  MatRow,
+  MatRowDef,
+  MatTable,
+} from "@angular/material/table";
+import { ActivatedRoute, Router } from "@angular/router";
 import { BehaviorSubject, Observable, take } from "rxjs";
 import { TrackInfoDialogComponent } from "src/app/browse/tracks/track-info-dialog/track-info-dialog.component";
 import { MsgService } from "src/app/service/msg.service";
 import { QueueService } from "../../service/queue.service";
 import { Track } from "../messages/incoming/track";
 import { QueueTrack } from "../model/queue-track";
+import { SecondsToMmSsPipe } from "../pipes/seconds-to-mm-ss.pipe";
 import {
   InternMsgType,
   PaginationMsg,
 } from "./../messages/internal/internal-msg";
 import { ClickActions } from "./click-actions.enum";
 import { TrackTableOptions } from "./track-table-options";
-import { AsyncPipe } from "@angular/common";
-import {
-  MatTable,
-  MatColumnDef,
-  MatHeaderCellDef,
-  MatHeaderCell,
-  MatCellDef,
-  MatCell,
-  MatHeaderRowDef,
-  MatHeaderRow,
-  MatRowDef,
-  MatRow,
-  MatNoDataRow,
-} from "@angular/material/table";
-import { MatIcon } from "@angular/material/icon";
-import { MatButton } from "@angular/material/button";
-import { SecondsToMmSsPipe } from "../pipes/seconds-to-mm-ss.pipe";
 
 @Component({
   selector: "app-track-data-table",
@@ -71,9 +72,11 @@ import { SecondsToMmSsPipe } from "../pipes/seconds-to-mm-ss.pipe";
   ],
 })
 export class TrackTableDataComponent {
+  private activatedRoute = inject(ActivatedRoute);
   private dialog = inject(MatDialog);
   private msgService = inject(MsgService);
   private queueService = inject(QueueService);
+  private router = inject(Router);
 
   @Input() set trackTableData(trackTableData: TrackTableOptions) {
     this.trackTableData$.next(trackTableData);
@@ -99,6 +102,12 @@ export class TrackTableDataComponent {
       type: InternMsgType.PaginationEvent,
       event: $event,
     } as PaginationMsg);
+
+    void this.router.navigate([], {
+      relativeTo: this.activatedRoute,
+      queryParams: { pageIndex: $event.pageIndex, pageSize: $event.pageSize },
+      queryParamsHandling: "merge",
+    });
   }
 
   onRowClick(track: QueueTrack): void {

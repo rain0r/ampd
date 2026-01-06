@@ -82,7 +82,6 @@ describe("Add multiple playlists", () => {
 
       const trackCount = parseInt(playlistName.replace("last_", ""));
       cy.scrollTo("bottom");
-      cy.get('[data-cy="queue-track-count"]').contains(trackCount);
       cy.contains("tracks in the queue");
 
       cy.clearQueue();

@@ -5,7 +5,6 @@ import org.bff.javampd.playlist.MPDPlaylistSong;
 import org.bff.javampd.server.MPD;
 import org.bff.javampd.song.MPDSong;
 import org.hihn.ampd.server.message.incoming.AddPlayAlbum;
-import org.hihn.ampd.server.model.AmpdSettings;
 import org.hihn.ampd.server.model.QueuePageImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,30 +22,23 @@ import java.util.stream.Collectors;
 @Service
 public class QueueService {
 
-	private final AmpdSettings ampdSettings;
-
 	private static final Logger LOG = LoggerFactory.getLogger(QueueService.class);
 
 	private final MPD mpd;
 
-	private int pageSize;
-
 	/**
 	 * Service to manage the queue.
-	 * @param ampdSettings
-	 * @param mpd Represents a connection to a MPD server.
+	 * @param mpd Represents a connection to an MPD server.
 	 */
-	public QueueService(AmpdSettings ampdSettings, MPD mpd) {
-		this.ampdSettings = ampdSettings;
+	public QueueService(final MPD mpd) {
 		this.mpd = mpd;
-		this.pageSize = ampdSettings.getQueuePageSize();
 	}
 
 	/**
 	 * Adds a track to the queue.
 	 * @param file The path of the track.
 	 */
-	public void addTrack(String file) {
+	public void addTrack(final String file) {
 		mpd.getPlaylist().addSong(file.trim());
 	}
 
@@ -54,7 +46,7 @@ public class QueueService {
 	 * Adds tracks to the queue.
 	 * @param tracks The path of the tracks.
 	 */
-	public void addTracks(List<String> tracks) {
+	public void addTracks(final List<String> tracks) {
 		mpd.getPlaylist()
 			.addSongs(tracks.stream()
 				.map(track -> MPDSong.builder().file(track.trim()).build())
@@ -65,7 +57,7 @@ public class QueueService {
 	 * Plays a track.
 	 * @param path The path of the track.
 	 */
-	public void playTrack(String path) {
+	public void playTrack(final String path) {
 		mpd.getPlaylist()
 			.getSongList()
 			.stream()
@@ -83,45 +75,36 @@ public class QueueService {
 		mpd.getPlaylist().loadPlaylist(playlist);
 	}
 
-	public void moveTrack(int oldPos, int newPos) {
+	public void moveTrack(final int oldPos, final int newPos) {
 		MPDPlaylistSong track = mpd.getPlaylist().getSongList().get(oldPos);
 		mpd.getPlaylist().move(track, newPos);
 	}
 
-	public QueuePageImpl<MPDPlaylistSong> getQueue() {
-		return getQueue(0, pageSize);
-	}
-
-	public QueuePageImpl<MPDPlaylistSong> getQueue(final int pageIndex, final Integer pageSize) {
-		final int sanitizedPageSize = sanitizePageSize(pageSize);
+	public QueuePageImpl<MPDPlaylistSong> getQueue(final int pageIndex, final int pageSize) {
+		LOG.trace("getQueue pageIndex: {}, pageSize: {}", pageIndex, pageSize);
 		List<MPDPlaylistSong> songList = mpd.getPlaylist().getSongList();
 		PagedListHolder<MPDPlaylistSong> pages = new PagedListHolder<>(songList);
-		Pageable pageable = PageRequest.of(pageIndex, sanitizedPageSize);
 		pages.setPage(pageIndex);
-		pages.setPageSize(sanitizedPageSize);
+		pages.setPageSize(pageSize);
+		Pageable pageable = PageRequest.of(pageIndex, pageSize);
 		QueuePageImpl<MPDPlaylistSong> page = new QueuePageImpl<>(pages.getPageList(), pageable, songList.size());
 		page.setTotalPlayTime(sumQueuePlayTime(songList));
+		LOG.trace("Page size: {}", page.getSize());
 		return page;
 	}
 
-	public void addAlbum(AddPlayAlbum addPlayAlbum) {
+	public void addAlbum(final AddPlayAlbum addPlayAlbum) {
 		mpd.getPlaylist()
 			.insertAlbum(MPDAlbum.builder(addPlayAlbum.getName()).albumArtist(addPlayAlbum.getAlbumArtist()).build());
 	}
 
-	public void addPlayAlbum(AddPlayAlbum addPlayAlbum) {
+	public void addPlayAlbum(final AddPlayAlbum addPlayAlbum) {
 		addAlbum(addPlayAlbum);
 		mpd.getPlayer().play();
 	}
 
-	private Integer sumQueuePlayTime(List<MPDPlaylistSong> songList) {
+	private Integer sumQueuePlayTime(final List<MPDPlaylistSong> songList) {
 		return songList.stream().map(MPDPlaylistSong::getLength).mapToInt(Integer::intValue).sum();
-	}
-
-	private int sanitizePageSize(final Integer pageSize) {
-		final int sanitizedPageSize = pageSize == null || pageSize < 1 ? this.pageSize : pageSize;
-		this.pageSize = sanitizedPageSize;
-		return sanitizedPageSize;
 	}
 
 }

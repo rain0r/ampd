@@ -1,8 +1,9 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable, inject } from "@angular/core";
 import { RxStompState } from "@stomp/rx-stomp";
-import { Observable, of } from "rxjs";
-import { filter, map, switchMap } from "rxjs/operators";
+import objectHash from "object-hash";
+import { Observable } from "rxjs";
+import { distinctUntilChanged, filter, map } from "rxjs/operators";
 import { MpdModesPanel } from "../shared/messages/incoming/mpd-modes-panel";
 import { StateMsgPayload } from "../shared/messages/incoming/state-msg-payload";
 import { QueueTrack } from "../shared/model/queue-track";
@@ -10,6 +11,7 @@ import { ServerStatistics } from "../shared/model/server-statistics";
 import { AmpdRxStompService } from "./ampd-rx-stomp.service";
 import { QueueService } from "./queue.service";
 import { SettingsService } from "./settings.service";
+
 @Injectable({
   providedIn: "root",
 })
@@ -23,11 +25,12 @@ export class MpdService {
   currentState$: Observable<string>;
   mpdModesPanel$: Observable<MpdModesPanel>;
   state$: Observable<StateMsgPayload>;
-
-  private prevTrack = {} as QueueTrack;
+  signals$: Observable<string>;
 
   constructor() {
     this.state$ = this.getStateSubscription$();
+    this.signals$ = this.getSignalsSubscription$();
+
     this.currentTrack$ = this.state$.pipe(
       map((payload) => this.buildCurrentQueueTrack(payload)),
       filter(
@@ -99,7 +102,6 @@ export class MpdService {
     let track = new QueueTrack();
     if (payload.currentTrack) {
       track = this.buildQueueTrack(payload);
-      this.prevTrack = track;
     }
     return track;
   }
@@ -126,9 +128,17 @@ export class MpdService {
     return this.rxStompService.watch("/topic/state").pipe(
       map((message) => message.body),
       map((body: string) => JSON.parse(body) as StateMsgPayload),
-      switchMap((payload) => {
-        return of(payload);
-      }),
+      distinctUntilChanged(
+        (prev, curr) =>
+          objectHash(prev, { algorithm: "md5" }) ===
+          objectHash(curr, { algorithm: "md5" }),
+      ),
     );
+  }
+
+  private getSignalsSubscription$(): Observable<string> {
+    return this.rxStompService
+      .watch("/topic/signals")
+      .pipe(map((message) => message.body));
   }
 }

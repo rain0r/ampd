@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Set;
 
+import static org.hihn.ampd.server.util.Constants.DEFAULT_PAGE_SIZE_REQ_PARAM;
+
 @RestController
 @RequestMapping("/api")
 public class GenreController {
@@ -26,7 +28,7 @@ public class GenreController {
 
 	@GetMapping("/genre")
 	public GenrePayload listGenre(@RequestParam("genre") String genre, @RequestParam(defaultValue = "0") int pageIndex,
-			@RequestParam(required = false) Integer pageSize) {
+			@RequestParam(defaultValue = DEFAULT_PAGE_SIZE_REQ_PARAM) int pageSize) {
 		return genreService.listGenre(genre, pageIndex, pageSize);
 	}
 

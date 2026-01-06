@@ -113,24 +113,6 @@ public class AmpdSettings {
 	private int albumsQualifyMinTracks;
 
 	/**
-	 * Page size for the album cover browse view.
-	 */
-	@HelpText(name = "Albums page size", hint = "Page size for the album cover browse view.")
-	@Value("${albums.page.size:30}")
-	private int albumsPageSize;
-
-	/**
-	 * Page size for advanced search results.
-	 */
-	@HelpText(name = "Albums page size", hint = "Page size for advanced search results.")
-	@Value("${search.page.size:50}")
-	private int searchPageSize;
-
-	@HelpText(name = "Queue page size", hint = "Page size for the queue.")
-	@Value("${queue.page.size:100}")
-	private int queuePageSize;
-
-	/**
 	 * If ListenBrainz scrobbling is enabled.
 	 */
 	@HelpText(name = "ListenBrainz", hint = "If scrobbling to ListenBrainz is enabled.")
@@ -252,10 +234,6 @@ public class AmpdSettings {
 		return version;
 	}
 
-	public int getAlbumsPageSize() {
-		return albumsPageSize;
-	}
-
 	public boolean isScrobbleLb() {
 		return scrobbleLb;
 	}
@@ -286,14 +264,6 @@ public class AmpdSettings {
 
 	public String getHomeDir() {
 		return homeDir;
-	}
-
-	public int getSearchPageSize() {
-		return searchPageSize;
-	}
-
-	public int getQueuePageSize() {
-		return queuePageSize;
 	}
 
 }

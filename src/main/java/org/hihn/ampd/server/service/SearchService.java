@@ -4,7 +4,6 @@ import org.bff.javampd.server.MPD;
 import org.bff.javampd.song.MPDSong;
 import org.bff.javampd.song.SearchCriteria;
 import org.bff.javampd.song.SongSearcher;
-import org.hihn.ampd.server.model.AmpdSettings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.support.PagedListHolder;
 import org.springframework.data.domain.PageImpl;
@@ -20,8 +19,6 @@ import java.util.Map;
 @Service
 public class SearchService {
 
-	private final AmpdSettings ampdSettings;
-
 	private static final List<String> SEARCH_FIELDS = Arrays.stream(SongSearcher.ScopeType.values())
 		.map(SongSearcher.ScopeType::toString)
 		.map(String::toLowerCase)
@@ -30,8 +27,7 @@ public class SearchService {
 	@Autowired
 	private final MPD mpd;
 
-	public SearchService(AmpdSettings ampdSettings, MPD mpd) {
-		this.ampdSettings = ampdSettings;
+	public SearchService(final MPD mpd) {
 		this.mpd = mpd;
 	}
 
@@ -40,40 +36,37 @@ public class SearchService {
 	 * @param query The term to search for.
 	 * @return A payload with the search results.
 	 */
-	public PageImpl<MPDSong> search(String query, int pageIndex, Integer pageSize) {
+	public PageImpl<MPDSong> search(final String query, final int pageIndex, final int pageSize) {
 		List<MPDSong> ret = new ArrayList<>(mpd.getSongSearcher().search(SongSearcher.ScopeType.ANY, query.trim()));
-		Pageable pageable = PageRequest.of(pageIndex, getPageSize(pageSize));
+		Pageable pageable = PageRequest.of(pageIndex, pageSize);
 		PagedListHolder<MPDSong> pages = new PagedListHolder<>(ret);
 		pages.setPage(pageIndex);
-		pages.setPageSize(getPageSize(pageSize));
+		pages.setPageSize(pageSize);
 		return new PageImpl<>(pages.getPageList(), pageable, ret.size());
 	}
 
-	public PageImpl<MPDSong> advSearch(Map<String, String> searchParams, int pageIndex, Integer pageSize) {
+	public PageImpl<MPDSong> advSearch(final Map<String, String> searchParams, final int pageIndex,
+			final int pageSize) {
 		List<MPDSong> ret = searchByParams(searchParams);
-		Pageable pageable = PageRequest.of(pageIndex, getPageSize(pageSize));
+		Pageable pageable = PageRequest.of(pageIndex, pageSize);
 		PagedListHolder<MPDSong> pages = new PagedListHolder<>(ret);
 		pages.setPage(pageIndex);
-		pages.setPageSize(getPageSize(pageSize));
+		pages.setPageSize(pageSize);
 		return new PageImpl<>(pages.getPageList(), pageable, ret.size());
 	}
 
-	private int getPageSize(Integer pageSize) {
-		return pageSize == null ? ampdSettings.getSearchPageSize() : pageSize;
-	}
-
-	private SongSearcher.ScopeType scopeTypeForStr(String typeName) {
+	private SongSearcher.ScopeType scopeTypeForStr(final String typeName) {
 		return Arrays.stream(SongSearcher.ScopeType.values())
 			.filter(scopeType -> scopeType.getType().equals(typeName))
 			.findFirst()
 			.orElseThrow();
 	}
 
-	public void addTracks(Map<String, String> searchParams) {
+	public void addTracks(final Map<String, String> searchParams) {
 		searchByParams(searchParams).stream().map(MPDSong::getFile).forEach(t -> mpd.getPlaylist().addSong(t));
 	}
 
-	public List<MPDSong> searchByParams(Map<String, String> searchParams) {
+	public List<MPDSong> searchByParams(final Map<String, String> searchParams) {
 		List<SearchCriteria> tmpSp = new ArrayList<>();
 		for (Map.Entry<String, String> entry : searchParams.entrySet()) {
 			if (SEARCH_FIELDS.contains(entry.getKey()) && entry.getValue() != null) {

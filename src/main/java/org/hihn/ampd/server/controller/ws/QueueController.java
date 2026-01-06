@@ -7,7 +7,6 @@ import org.hihn.ampd.server.message.incoming.AddPlayAlbum;
 import org.hihn.ampd.server.message.incoming.MoveTrackMsg;
 import org.hihn.ampd.server.model.AmpdSettings;
 import org.hihn.ampd.server.model.QueuePageImpl;
-import org.hihn.ampd.server.service.BrowseService;
 import org.hihn.ampd.server.service.QueueService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,12 +42,6 @@ public class QueueController {
 		this.mpd = mpd;
 		this.ampdSettings = ampdSettings;
 		this.queueService = queueService;
-	}
-
-	@MessageMapping("/")
-	@SendTo("/topic/queue")
-	public QueuePageImpl<MPDPlaylistSong> getQueue() {
-		return queueService.getQueue();
 	}
 
 	@MessageMapping("/page")

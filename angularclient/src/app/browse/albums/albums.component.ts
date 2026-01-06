@@ -20,8 +20,8 @@ import { MatPaginator, PageEvent } from "@angular/material/paginator";
 import { MatProgressSpinner } from "@angular/material/progress-spinner";
 import { MatSelect } from "@angular/material/select";
 import { ActivatedRoute, Router } from "@angular/router";
-import { BehaviorSubject, Observable, combineLatest, of } from "rxjs";
-import { filter, map, startWith, switchMap, tap } from "rxjs/operators";
+import { BehaviorSubject, Observable, combineLatest } from "rxjs";
+import { filter, map, startWith, tap } from "rxjs/operators";
 import { AlbumsService } from "src/app/service/albums.service";
 import { MsgService } from "src/app/service/msg.service";
 import { PaginatedResponse } from "src/app/shared/messages/incoming/paginated-response";
@@ -132,17 +132,12 @@ export class AlbumsComponent implements OnInit {
       sortBy,
       searchTerm,
     ])
-      .pipe(
-        switchMap(([pagination, sortBy, searchTerm]) => {
-          return this.albumService.getAlbums(
+      .subscribe(([pagination, sortBy, searchTerm]) => {
+        this.pagedAlbums$ = this.albumService.getAlbums(
             searchTerm,
             pagination.pageIndex,
             sortBy,
           );
-        }),
-      )
-      .subscribe((data) => {
-        this.pagedAlbums$ = of(data);
       });
   }
 

@@ -32,6 +32,9 @@ export class QueueTrack implements Track {
    */
   name = "";
 
+  /**
+   * Position in the queue.
+   */
   position = 0;
 
   /**
@@ -39,9 +42,6 @@ export class QueueTrack implements Track {
    */
   title = "";
 
-  /**
-   * Position in the queue.
-   */
   track = "";
   year = "";
   albumArtist = "";

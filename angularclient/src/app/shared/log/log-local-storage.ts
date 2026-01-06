@@ -24,7 +24,6 @@ export class LogLocalStorage extends LogPublisher {
       values = JSON.parse(localStorage.getItem(this.location) || "[]") || [];
 
       // Keep max MAX_ENTRIES entries
-
       if (values.length == MAX_ENTRIES) {
         values = values.slice(1);
       }

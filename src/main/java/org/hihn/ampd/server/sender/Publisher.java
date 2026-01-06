@@ -4,8 +4,8 @@ import org.bff.javampd.playlist.MPDPlaylistSong;
 import org.bff.javampd.server.MPD;
 import org.bff.javampd.server.ServerStatus;
 import org.hihn.ampd.server.message.incoming.MpdModesPanelMsg;
+import org.hihn.ampd.server.message.outgoing.Signals;
 import org.hihn.ampd.server.message.outgoing.StatePayload;
-import org.hihn.ampd.server.service.QueueService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +21,7 @@ public class Publisher {
 
 	private static final Logger LOG = LoggerFactory.getLogger(Publisher.class);
 
-	private static final String QUEUE_URL = "/topic/queue";
+	private static final String SIGNALS_URL = "/topic/signals";
 
 	private static final String STATE_URL = "/topic/state";
 
@@ -29,13 +29,10 @@ public class Publisher {
 
 	private final SimpMessagingTemplate template;
 
-	private final QueueService queueService;
-
 	@Autowired
-	public Publisher(MPD mpd, SimpMessagingTemplate template, QueueService queueService) {
+	public Publisher(MPD mpd, SimpMessagingTemplate template) {
 		this.mpd = mpd;
 		this.template = template;
-		this.queueService = queueService;
 
 		try {
 			buildChangeListener();
@@ -67,8 +64,9 @@ public class Publisher {
 		mpd.getServerStatus().setExpiryInterval(1L);
 		mpd.getStandAloneMonitor().start();
 		mpd.getStandAloneMonitor().addPlaylistChangeListener(event -> {
-			LOG.trace("Event fired: PlaylistChange: {}", event);
-			template.convertAndSend(QUEUE_URL, queueService.getQueue());
+			LOG.trace("PlaylistBasicChangeEvent fired");
+			// Send a signal to the clients that the queue should be updated
+			template.convertAndSend(SIGNALS_URL, Signals.UPDATE_QUEUE.getName());
 		});
 
 	}

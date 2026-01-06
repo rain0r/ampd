@@ -127,7 +127,7 @@ public class AmpdSettings {
 	private int searchPageSize;
 
 	@HelpText(name = "Queue page size", hint = "Page size for the queue.")
-	@Value("${queue.page.size:100}")
+	@Value("${queue.page.size:20}")
 	private int queuePageSize;
 
 	/**

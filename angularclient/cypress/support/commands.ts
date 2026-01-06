@@ -43,7 +43,8 @@ function customCommand(param: any): void {
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
 
 Cypress.Commands.add("clearQueue", () => {
-  cy.visit("/");
+  cy.visit("/"); 
+  cy.get(('[data-cy="connecting-overlay"]')).should('not.exist')
   cy.get("body").type("{C}");
   cy.get('[data-cy="cover"]').should("not.exist");
   cy.contains("No tracks.");

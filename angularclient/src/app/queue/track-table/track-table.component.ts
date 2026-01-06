@@ -1,3 +1,4 @@
+import { NgPlural, NgPluralCase } from "@angular/common";
 import {
   Component,
   ElementRef,
@@ -5,8 +6,15 @@ import {
   ViewChild,
   inject,
 } from "@angular/core";
+import { FormsModule } from "@angular/forms";
+import { MatButton } from "@angular/material/button";
 import { MatDialog } from "@angular/material/dialog";
-import { filter, map } from "rxjs";
+import { MatDivider } from "@angular/material/divider";
+import { MatFormField, MatSuffix } from "@angular/material/form-field";
+import { MatIcon } from "@angular/material/icon";
+import { MatInput } from "@angular/material/input";
+import { ActivatedRoute } from "@angular/router";
+import { combineLatest, filter, map } from "rxjs";
 import { AddStreamDialogComponent } from "src/app/queue/track-table/add-stream-dialog/add-stream-dialog.component";
 import { MsgService } from "src/app/service/msg.service";
 import { ResponsiveScreenService } from "src/app/service/responsive-screen.service";
@@ -19,18 +27,11 @@ import {
 import { MpdService } from "../../service/mpd.service";
 import { QueueService } from "../../service/queue.service";
 import { QueueTrack } from "../../shared/model/queue-track";
+import { SecondsToHhMmSsPipe } from "../../shared/pipes/seconds-to-hh-mm-ss.pipe";
 import { ClickActions } from "../../shared/track-table-data/click-actions.enum";
+import { TrackTableDataComponent } from "../../shared/track-table-data/track-table-data.component";
 import { TrackTableOptions } from "../../shared/track-table-data/track-table-options";
 import { SavePlaylistDialogComponent } from "../save-playlist-dialog/save-playlist-dialog.component";
-import { NgPlural, NgPluralCase } from "@angular/common";
-import { MatFormField, MatSuffix } from "@angular/material/form-field";
-import { MatInput } from "@angular/material/input";
-import { FormsModule } from "@angular/forms";
-import { MatIcon } from "@angular/material/icon";
-import { TrackTableDataComponent } from "../../shared/track-table-data/track-table-data.component";
-import { MatDivider } from "@angular/material/divider";
-import { MatButton } from "@angular/material/button";
-import { SecondsToHhMmSsPipe } from "../../shared/pipes/seconds-to-hh-mm-ss.pipe";
 
 @Component({
   selector: "app-track-table",
@@ -56,6 +57,7 @@ export class TrackTableComponent {
   private msgService = inject(MsgService);
   private queueService = inject(QueueService);
   private responsiveScreenService = inject(ResponsiveScreenService);
+  private activatedRoute = inject(ActivatedRoute);
 
   @ViewChild("filterInputElem") filterInputElem?: ElementRef;
 
@@ -172,5 +174,21 @@ export class TrackTableComponent {
       .subscribe((msg) => {
         this.queueService.getPage(msg.event.pageIndex, msg.event.pageSize);
       });
+
+    // Listen for UPDATE_QUEUE Signal
+    // When the backend sends a signal that indicates the queue has changed
+    // we need to send a new request to fetch it
+    // We also need the current page for that to not fetch a wrong page
+    combineLatest([
+      this.mpdService.signals$,
+      this.activatedRoute.queryParamMap,
+    ]).subscribe(([signal, queryParams]) => {
+      if (signal === "UPDATE_QUEUE") {
+        this.queueService.getPage(
+          Number(queryParams.get("pageIndex")),
+          Number(queryParams.get("pageSize")),
+        );
+      }
+    });
   }
 }

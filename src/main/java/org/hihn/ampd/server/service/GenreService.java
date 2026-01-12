@@ -22,11 +22,9 @@ import java.util.*;
 @Service
 public class GenreService {
 
-	private static final int PAGE_SIZE = 30;
-
 	private final MPD mpd;
 
-	public GenreService(MPD mpd) {
+	public GenreService(final MPD mpd) {
 		this.mpd = mpd;
 	}
 
@@ -39,14 +37,14 @@ public class GenreService {
 		return ret;
 	}
 
-	public GenrePayload listGenre(String genre, int pageIndex, Integer pageSize) {
+	public GenrePayload listGenre(final String genre, final int pageIndex, final int pageSize) {
 		if (genre.isBlank()) {
 			return new GenrePayload(genre, null, null);
 		}
 		return new GenrePayload(genre, getTracks(genre, pageIndex, pageSize), getAlbums(genre, pageIndex, pageSize));
 	}
 
-	private PageImpl<MPDAlbum> getAlbums(String genre, int pageIndex, Integer pageSize) {
+	private PageImpl<MPDAlbum> getAlbums(final String genre, final int pageIndex, final int pageSize) {
 		List<MPDAlbum> albums = new ArrayList<>();
 		mpd.getMusicDatabase()
 			.getAlbumDatabase()
@@ -62,14 +60,14 @@ public class GenreService {
 					albums.add(mpdAlbum);
 				}
 			});
-		Pageable pageable = PageRequest.of(pageIndex, getPageSize(pageSize));
+		Pageable pageable = PageRequest.of(pageIndex, pageSize);
 		PagedListHolder<MPDAlbum> pages = new PagedListHolder<>(albums);
 		pages.setPage(pageIndex);
-		pages.setPageSize(getPageSize(pageSize));
+		pages.setPageSize(pageSize);
 		return new PageImpl<>(pages.getPageList(), pageable, albums.size());
 	}
 
-	private PageImpl<MPDSong> getTracks(String genre, int pageIndex, Integer pageSize) {
+	private PageImpl<MPDSong> getTracks(final String genre, final int pageIndex, final int pageSize) {
 		SongSearcher songSearcher = mpd.getSongSearcher();
 		SearchCriteria crit = new SearchCriteria(SongSearcher.ScopeType.GENRE, genre);
 		List<MPDSong> tracks = new ArrayList<>(songSearcher.search(crit));
@@ -80,15 +78,11 @@ public class GenreService {
 
 		tracks.sort(trackComp);
 
-		Pageable pageable = PageRequest.of(pageIndex, getPageSize(pageSize));
+		Pageable pageable = PageRequest.of(pageIndex, pageSize);
 		PagedListHolder<MPDSong> pages = new PagedListHolder<>(tracks);
 		pages.setPage(pageIndex);
-		pages.setPageSize(getPageSize(pageSize));
+		pages.setPageSize(pageSize);
 		return new PageImpl<>(pages.getPageList(), pageable, tracks.size());
-	}
-
-	private int getPageSize(Integer pageSize) {
-		return pageSize == null ? PAGE_SIZE : pageSize;
 	}
 
 }

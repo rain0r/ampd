@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
+import static org.hihn.ampd.server.util.Constants.DEFAULT_PAGE_SIZE_REQ_PARAM;
+
 /**
  * Endpoint for search queries.
  */
@@ -28,13 +30,15 @@ public class SearchController {
 	 */
 	@GetMapping("/search")
 	public PageImpl<MPDSong> search(@RequestParam("term") String searchTerm,
-			@RequestParam(defaultValue = "0") int pageIndex, @RequestParam(required = false) Integer pageSize) {
+			@RequestParam(defaultValue = "0") int pageIndex,
+			@RequestParam(defaultValue = DEFAULT_PAGE_SIZE_REQ_PARAM) int pageSize) {
 		return searchService.search(searchTerm, pageIndex, pageSize);
 	}
 
 	@GetMapping("/adv-search")
 	public PageImpl<MPDSong> advSearch(@RequestParam Map<String, String> searchParams,
-			@RequestParam(defaultValue = "0") int pageIndex, @RequestParam(required = false) Integer pageSize) {
+			@RequestParam(defaultValue = "0") int pageIndex,
+			@RequestParam(defaultValue = DEFAULT_PAGE_SIZE_REQ_PARAM) int pageSize) {
 		return searchService.advSearch(searchParams, pageIndex, pageSize);
 	}
 

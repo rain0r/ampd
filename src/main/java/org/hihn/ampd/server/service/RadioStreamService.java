@@ -25,7 +25,7 @@ public class RadioStreamService {
 
 	private final RadioRepository rsRepo;
 
-	public RadioStreamService(RadioRepository rsRepo) {
+	public RadioStreamService(final RadioRepository rsRepo) {
 		this.rsRepo = rsRepo;
 	}
 
@@ -33,18 +33,18 @@ public class RadioStreamService {
 		return rsRepo.findAllByOrderByNameAsc();
 	}
 
-	public List<RadioStream> addRadioStream(RadioStream radioStream) {
+	public List<RadioStream> addRadioStream(final RadioStream radioStream) {
 		radioStream.setUrl(radioStream.getUrl().trim());
 		rsRepo.save(radioStream);
 		return rsRepo.findAllByOrderByNameAsc();
 	}
 
-	public List<RadioStream> deleteStream(int streamId) {
+	public List<RadioStream> deleteStream(final int streamId) {
 		rsRepo.deleteById((long) streamId);
 		return rsRepo.findAllByOrderByNameAsc();
 	}
 
-	public boolean importRadioStations(MultipartFile file) {
+	public boolean importRadioStations(final MultipartFile file) {
 		boolean ret = true;
 		ObjectMapper objectMapper = new ObjectMapper();
 

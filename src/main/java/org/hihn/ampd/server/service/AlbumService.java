@@ -61,7 +61,7 @@ public class AlbumService {
 	@Scheduled(fixedDelayString = "${album-cache.fixed-delay}", initialDelayString = "${album-cache.initial-delay}",
 			timeUnit = TimeUnit.MINUTES)
 	public void fillAlbumsCache() {
-		LOG.info("Begin filling albums cache...");
+		LOG.debug("Begin filling albums cache...");
 		albums = mpd.getMusicDatabase()
 			.getAlbumDatabase()
 			.listAllAlbumNames()
@@ -96,13 +96,13 @@ public class AlbumService {
 				return true;
 			})
 			.collect(Collectors.toUnmodifiableSet());
+		LOG.debug("Done filling albums cache...");
 	}
 
-	public void triggerFillAlbumsCache() {
-		fillAlbumsCache();
-	}
-
-	public PageImpl<MPDAlbum> listAllAlbums(String searchTermP, int pageIndex, Integer pageSize, String sortBy) {
+	public PageImpl<MPDAlbum> listAllAlbums(final String searchTermP, final int pageIndex, final int pageSize,
+			final String sortBy) {
+		LOG.trace("listAllAlbums() searchTermP={}, pageIndex={}, pageSize={}, sortBy={}", searchTermP, pageIndex,
+				pageSize, sortBy);
 		String searchTerm = searchTermP.toLowerCase().trim();
 
 		List<MPDAlbum> filteredAlbums = albums.stream()
@@ -121,20 +121,17 @@ public class AlbumService {
 			Collections.shuffle(filteredAlbums);
 		}
 
-		Pageable pageable = PageRequest.of(pageIndex, getPageSize(pageSize));
+		Pageable pageable = PageRequest.of(pageIndex, pageSize);
 		PagedListHolder<MPDAlbum> pages = new PagedListHolder<>(filteredAlbums);
 		pages.setPage(pageIndex);
-		pages.setPageSize(getPageSize(pageSize));
+		pages.setPageSize(pageSize);
+		LOG.trace("Returning {} albums", pages.getPageList());
 		return new PageImpl<>(pages.getPageList(), pageable, filteredAlbums.size());
 	}
 
-	public Collection<MPDSong> listAlbum(String album, String artist) {
+	public Collection<MPDSong> listAlbum(final String album, final String artist) {
 		MPDAlbum mpdAlbum = MPDAlbum.builder(album).albumArtist(artist).build();
 		return mpd.getMusicDatabase().getSongDatabase().findAlbum(mpdAlbum);
-	}
-
-	private int getPageSize(Integer pageSize) {
-		return pageSize == null ? ampdSettings.getAlbumsPageSize() : pageSize;
 	}
 
 }

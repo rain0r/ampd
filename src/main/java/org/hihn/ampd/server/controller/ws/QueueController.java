@@ -7,15 +7,16 @@ import org.hihn.ampd.server.message.incoming.AddPlayAlbum;
 import org.hihn.ampd.server.message.incoming.MoveTrackMsg;
 import org.hihn.ampd.server.model.AmpdSettings;
 import org.hihn.ampd.server.model.QueuePageImpl;
-import org.hihn.ampd.server.service.BrowseService;
 import org.hihn.ampd.server.service.QueueService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.messaging.simp.annotation.SendToUser;
 import org.springframework.stereotype.Controller;
 
 import java.util.List;
+
+import static org.hihn.ampd.server.util.Constants.DEFAULT_PAGE_SIZE_REQ_PARAM;
 
 /**
  * Websocket endpoint to control the queue. Besides getting the current queue, it also
@@ -45,16 +46,10 @@ public class QueueController {
 		this.queueService = queueService;
 	}
 
-	@MessageMapping("/")
-	@SendTo("/topic/queue")
-	public QueuePageImpl<MPDPlaylistSong> getQueue() {
-		return queueService.getQueue();
-	}
-
 	@MessageMapping("/page")
-	@SendTo("/topic/queue")
+	@SendToUser("/topic/queue")
 	public QueuePageImpl<MPDPlaylistSong> getPage(PageEvent pageEvent) {
-		return queueService.getQueue(pageEvent.getPageIndex(), pageEvent.getPageSize());
+		return queueService.getQueue(pageEvent.pageIndex(), pageEvent.pageSize());
 	}
 
 	/**
@@ -73,22 +68,22 @@ public class QueueController {
 	}
 
 	@MessageMapping("/add-tracks")
-	public void addTracks(List<String> tracks) {
+	public void addTracks(final List<String> tracks) {
 		queueService.addTracks(tracks);
 	}
 
 	@MessageMapping("/add-dir")
-	public void addDir(String dir) {
+	public void addDir(final String dir) {
 		mpd.getPlaylist().addFileOrDirectory(MPDFile.builder(dir).directory(true).build());
 	}
 
 	@MessageMapping("/add-album")
-	public void addAlbum(AddPlayAlbum addPlayAlbum) {
+	public void addAlbum(final AddPlayAlbum addPlayAlbum) {
 		queueService.addAlbum(addPlayAlbum);
 	}
 
 	@MessageMapping("/play-album")
-	public void addPlayAlbum(AddPlayAlbum addPlayAlbum) {
+	public void addPlayAlbum(final AddPlayAlbum addPlayAlbum) {
 		queueService.addPlayAlbum(addPlayAlbum);
 	}
 
@@ -97,53 +92,36 @@ public class QueueController {
 	 * @param playlist The name of the playlist.
 	 */
 	@MessageMapping("/add-playlist")
-	public void addPlaylist(String playlist) {
+	public void addPlaylist(final String playlist) {
 		queueService.addPlaylist(playlist);
 	}
 
 	@MessageMapping("/add-play-track")
-	public void addPlayTrack(String file) {
+	public void addPlayTrack(final String file) {
 		queueService.addTrack(file);
 		queueService.playTrack(file);
 	}
 
 	@MessageMapping("/remove-track")
-	public void removeTrack(int position) {
+	public void removeTrack(final int position) {
 		mpd.getPlaylist().removeSong(position);
 	}
 
 	@MessageMapping("/play-track")
-	public void playTrack(String file) {
+	public void playTrack(final String file) {
 		queueService.playTrack(file);
 	}
 
 	@MessageMapping("/move-track")
-	public void moveTrack(MoveTrackMsg moveTrackMsg) {
+	public void moveTrack(final MoveTrackMsg moveTrackMsg) {
 		queueService.moveTrack(moveTrackMsg.getOldPos(), moveTrackMsg.getNewPos());
 	}
 
-	public static final class PageEvent {
-
-		private int pageIndex;
-
-		private int pageSize;
-
-		public int getPageIndex() {
-			return pageIndex;
+	public record PageEvent(int pageIndex, int pageSize) {
+		public PageEvent(int pageIndex, int pageSize) {
+			this.pageIndex = Math.max(pageIndex, 0);
+			this.pageSize = (pageSize < 20) ? Integer.parseInt(DEFAULT_PAGE_SIZE_REQ_PARAM) : pageSize;
 		}
-
-		public void setPageIndex(int pageIndex) {
-			this.pageIndex = pageIndex;
-		}
-
-		public int getPageSize() {
-			return pageSize;
-		}
-
-		public void setPageSize(int pageSize) {
-			this.pageSize = pageSize;
-		}
-
 	}
 
 }

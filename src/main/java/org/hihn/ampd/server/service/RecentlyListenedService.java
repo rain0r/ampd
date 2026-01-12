@@ -51,13 +51,13 @@ public class RecentlyListenedService {
 
 	private List<ListensForUserPayloadListensInner> response = new ArrayList<>();
 
-	public RecentlyListenedService(MPD mpd, AmpdSettings ampdSettings, SearchService searchService) {
+	public RecentlyListenedService(final MPD mpd, final AmpdSettings ampdSettings, final SearchService searchService) {
 		this.mpd = mpd;
 		this.ampdSettings = ampdSettings;
 		this.searchService = searchService;
 	}
 
-	public PageImpl<MPDAlbum> getPage(int pageIndex) {
+	public PageImpl<MPDAlbum> getPage(final int pageIndex) {
 		int pageSize = 12;
 
 		Pageable pageable = PageRequest.of(pageIndex, pageSize);

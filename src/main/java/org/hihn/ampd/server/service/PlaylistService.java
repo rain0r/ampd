@@ -15,10 +15,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Stream;
 
 /**
  * Provides methods to manage playlists.
@@ -28,13 +26,11 @@ public class PlaylistService {
 
 	private static final Logger LOG = LoggerFactory.getLogger(PlaylistService.class);
 
-	private static final int TABLE_SIZE = 10;
-
 	private final MPD mpd;
 
 	private final AmpdSettings ampdSettings;
 
-	public PlaylistService(MPD mpd, AmpdSettings ampdSettings) {
+	public PlaylistService(final MPD mpd, final AmpdSettings ampdSettings) {
 		this.mpd = mpd;
 		this.ampdSettings = ampdSettings;
 	}
@@ -43,7 +39,7 @@ public class PlaylistService {
 	 * Deletes a playlist.
 	 * @param playlistName Name of the playlist to delete.
 	 */
-	public void deleteByName(String playlistName) {
+	public void deleteByName(final String playlistName) {
 		if (ampdSettings.isDeletePlaylists()) {
 			mpd.getPlaylist().deletePlaylist(playlistName);
 		}
@@ -54,7 +50,7 @@ public class PlaylistService {
 	 * @param playlistName Name of the new playlist.
 	 * @return A {@link SavePlaylistResponse}-object containing the search results.
 	 */
-	public SavePlaylistResponse savePlaylist(String playlistName) {
+	public SavePlaylistResponse savePlaylist(final String playlistName) {
 		SavePlaylistResponse response = new SavePlaylistResponse();
 		response.setPlaylistName(playlistName);
 
@@ -94,7 +90,7 @@ public class PlaylistService {
 	 * @param name The name of the playlist.
 	 * @return Info about the specified playlist.
 	 */
-	public Optional<PlaylistInfo> getPlaylistInfo(String name, int pageIndex, Integer pageSize) {
+	public Optional<PlaylistInfo> getPlaylistInfo(final String name, final int pageIndex, final int pageSize) {
 		Optional<PlaylistInfo> ret = Optional.empty();
 		try {
 			PageImpl<MPDSong> page = getPage(
@@ -108,17 +104,13 @@ public class PlaylistService {
 		return ret;
 	}
 
-	private PageImpl<MPDSong> getPage(List<MPDSong> playlists, int pageIndex, Integer pageSize) {
-		Pageable pageable = PageRequest.of(pageIndex, getPageSize(pageSize));
+	private PageImpl<MPDSong> getPage(final List<MPDSong> playlists, final int pageIndex, final int pageSize) {
+		Pageable pageable = PageRequest.of(pageIndex, pageSize);
 		PagedListHolder<MPDSong> pages = new PagedListHolder<>(playlists);
 		pages.setPage(pageIndex);
-		pages.setPageSize(getPageSize(pageSize));
+		pages.setPageSize(pageSize);
 		return new PageImpl<>(pages.getPageList(), pageable, playlists.size());
 
-	}
-
-	private int getPageSize(Integer pageSize) {
-		return pageSize == null ? TABLE_SIZE : pageSize;
 	}
 
 }

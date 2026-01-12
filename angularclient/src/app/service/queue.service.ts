@@ -1,11 +1,11 @@
 import { Injectable, inject } from "@angular/core";
+import objectHash from "object-hash";
 import { Observable } from "rxjs";
-import { distinctUntilChanged, map, tap } from "rxjs/operators";
+import { distinctUntilChanged, map } from "rxjs/operators";
 import { Track } from "../shared/messages/incoming/track";
 import { QueueTrack } from "../shared/model/queue-track";
 import { PaginatedResponse } from "./../shared/messages/incoming/paginated-response";
 import { AmpdRxStompService } from "./ampd-rx-stomp.service";
-import { LoggerService } from "./logger.service";
 import { NotificationService } from "./notification.service";
 
 @Injectable({
@@ -14,7 +14,6 @@ import { NotificationService } from "./notification.service";
 export class QueueService {
   private rxStompService = inject(AmpdRxStompService);
   private notificationService = inject(NotificationService);
-  private logger = inject(LoggerService);
 
   queue$: Observable<PaginatedResponse<Track>>;
 
@@ -141,16 +140,14 @@ export class QueueService {
   }
 
   private getQueueSubscription$(): Observable<PaginatedResponse<Track>> {
-    return this.rxStompService.watch("/topic/queue").pipe(
+    return this.rxStompService.watch("/user/topic/queue").pipe(
       map((message) => message.body),
       map((body) => JSON.parse(body) as PaginatedResponse<Track>),
-      distinctUntilChanged((prev, curr) => {
-        return (
-          prev.content.length === curr.content.length &&
-          JSON.stringify(curr) === JSON.stringify(prev)
-        );
-      }),
-      tap((msg) => this.logger.debug("QueueSubscription: ", msg)),
+      distinctUntilChanged(
+        (prev, curr) =>
+          objectHash(prev, { algorithm: "md5" }) ===
+          objectHash(curr, { algorithm: "md5" }),
+      ),
     );
   }
 }

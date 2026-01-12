@@ -54,14 +54,14 @@ export class TrackTableOptions {
   sortable = true;
 
   /**
-   * The default page size.
-   */
-  pageSize = 50;
-
-  /**
    * Options for the "Paginate by" select.
    */
-  pageSizeOptions = [10, 100, 500, 1000];
+  pageSizeOptions = [20, 50, 100, 500, 1000];
+
+  /**
+   * The default page size.
+   */
+  pageSize = 100;
 
   /**
    * The length of the total number of items that are being paginated.
@@ -89,7 +89,7 @@ export class TrackTableOptions {
   showPageSizeOptions = true;
 
   addTracks(tracks: Track[]): void {
-    const qt = tracks.map((track, index) => new QueueTrack(track, index));
+    const qt = tracks.map((track) => new QueueTrack(track, track.position));
     this.dataSource.data = qt;
   }
 }

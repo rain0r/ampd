@@ -1,13 +1,12 @@
 package org.hihn.ampd.server.util;
 
+import org.springframework.web.bind.annotation.RequestParam;
+
 public class Constants {
 
-	public static final String ALBUM_CACHE = "AlbumService";
-
-	public static final String GENRE_CACHE = "GenreService";
-
-	public static final String SEARCH_CACHE = "SearchService";
-
-	public static final String PLAYLIST_CACHE = "PlaylistService";
+	/**
+	 * The default value of the {@link RequestParam} <code>pageSize</code>.
+	 */
+	public static final String DEFAULT_PAGE_SIZE_REQ_PARAM = "100";
 
 }

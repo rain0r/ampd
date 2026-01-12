@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import static org.hihn.ampd.server.util.Constants.DEFAULT_PAGE_SIZE_REQ_PARAM;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
 /**
@@ -29,7 +30,8 @@ public class PlaylistController {
 	 */
 	@RequestMapping(value = "/{name}", method = GET)
 	public PlaylistInfo getPlaylist(@PathVariable("name") String playlistName,
-			@RequestParam(defaultValue = "0") int pageIndex, @RequestParam(required = false) Integer pageSize) {
+			@RequestParam(defaultValue = "0") int pageIndex,
+			@RequestParam(defaultValue = DEFAULT_PAGE_SIZE_REQ_PARAM) int pageSize) {
 		return playlistService.getPlaylistInfo(playlistName, pageIndex, pageSize)
 			.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 	}

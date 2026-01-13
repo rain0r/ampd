@@ -5,11 +5,6 @@ export enum InternMsgType {
    * Transports the keyword to filter when browsing directories.
    */
   BrowseFilter,
-
-  /**
-   * Sends a pagination event emitted by MatPaginator (from tables).
-   */
-  PaginationEvent,
 }
 
 export enum InternMsgSrc {

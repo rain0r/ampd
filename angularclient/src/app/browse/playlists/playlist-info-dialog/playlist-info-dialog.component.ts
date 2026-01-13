@@ -1,42 +1,28 @@
-import { AfterViewInit, Component, OnDestroy, inject } from "@angular/core";
+import { CdkScrollable } from "@angular/cdk/scrolling";
+import { AsyncPipe } from "@angular/common";
+import { AfterViewInit, Component, inject } from "@angular/core";
+import { MatButton } from "@angular/material/button";
 import {
-  MatDialogRef,
   MAT_DIALOG_DATA,
-  MatDialogTitle,
-  MatDialogContent,
   MatDialogActions,
   MatDialogClose,
+  MatDialogContent,
+  MatDialogRef,
+  MatDialogTitle,
 } from "@angular/material/dialog";
-import { Router } from "@angular/router";
-import {
-  BehaviorSubject,
-  filter,
-  map,
-  Observable,
-  startWith,
-  Subject,
-  Subscription,
-  switchMap,
-} from "rxjs";
-import { MsgService } from "src/app/service/msg.service";
+import { MatIcon } from "@angular/material/icon";
+import { MatProgressSpinner } from "@angular/material/progress-spinner";
+import { ActivatedRoute, Router } from "@angular/router";
+import { BehaviorSubject, Observable, Subject, switchMap } from "rxjs";
 import { ResponsiveScreenService } from "src/app/service/responsive-screen.service";
-import {
-  InternMsgType,
-  PaginationMsg,
-} from "src/app/shared/messages/internal/internal-msg";
 import { NotificationService } from "../../../service/notification.service";
 import { PlaylistService } from "../../../service/playlist.service";
 import { QueueService } from "../../../service/queue.service";
 import { Playlist } from "../../../shared/messages/incoming/playlist";
 import { PlaylistInfo } from "../../../shared/model/playlist-info";
 import { ClickActions } from "../../../shared/track-table-data/click-actions.enum";
-import { TrackTableOptions } from "../../../shared/track-table-data/track-table-options";
-import { AsyncPipe } from "@angular/common";
-import { CdkScrollable } from "@angular/cdk/scrolling";
-import { MatProgressSpinner } from "@angular/material/progress-spinner";
 import { TrackTableDataComponent } from "../../../shared/track-table-data/track-table-data.component";
-import { MatButton } from "@angular/material/button";
-import { MatIcon } from "@angular/material/icon";
+import { TrackTableOptions } from "../../../shared/track-table-data/track-table-options";
 
 @Component({
   selector: "app-playlist-info-dialog",
@@ -55,21 +41,20 @@ import { MatIcon } from "@angular/material/icon";
     AsyncPipe,
   ],
 })
-export class PlaylistInfoDialogComponent implements AfterViewInit, OnDestroy {
+export class PlaylistInfoDialogComponent implements AfterViewInit {
+  dialogRef = inject<MatDialogRef<PlaylistInfoDialogComponent>>(MatDialogRef);
+  isLoadingResults = new BehaviorSubject(true);
+  playlistInfo: Observable<PlaylistInfo>;
+  trackTableData = new TrackTableOptions();
   data = inject<Playlist>(MAT_DIALOG_DATA);
-  private msgService = inject(MsgService);
+  private activatedRoute = inject(ActivatedRoute);
   private notificationService = inject(NotificationService);
   private playlistService = inject(PlaylistService);
   private queueService = inject(QueueService);
   private responsiveScreenService = inject(ResponsiveScreenService);
   private router = inject(Router);
-  dialogRef = inject<MatDialogRef<PlaylistInfoDialogComponent>>(MatDialogRef);
 
-  isLoadingResults = new BehaviorSubject(true);
-  playlistInfo: Observable<PlaylistInfo>;
-  trackTableData = new TrackTableOptions();
   private isMobile = false;
-  private msgSub = {} as Subscription;
   private playlistInfo$ = new Subject<PlaylistInfo>();
 
   constructor() {
@@ -82,20 +67,14 @@ export class PlaylistInfoDialogComponent implements AfterViewInit, OnDestroy {
   ngAfterViewInit(): void {
     this.isLoadingResults.next(false);
 
-    this.msgSub = this.msgService.message
+    this.activatedRoute.queryParamMap
       .pipe(
-        filter((msg) => msg.type === InternMsgType.PaginationEvent),
-        map((msg) => msg as PaginationMsg),
-        map((msg) => msg.event),
-        startWith({ pageIndex: null, pageSize: null }),
-      )
-      .pipe(
-        switchMap((pagination) => {
+        switchMap((queryParams) => {
           this.isLoadingResults.next(true);
           return this.playlistService.getPlaylistInfo(
             this.data.name,
-            pagination.pageIndex,
-            pagination.pageSize,
+            Number(queryParams.get("pageIndex")),
+            Number(queryParams.get("pageSize")),
           );
         }),
       )
@@ -104,10 +83,6 @@ export class PlaylistInfoDialogComponent implements AfterViewInit, OnDestroy {
         this.playlistInfo$.next(info);
         this.isLoadingResults.next(false);
       });
-  }
-
-  ngOnDestroy(): void {
-    this.msgSub.unsubscribe();
   }
 
   onDeletePlaylist(): void {

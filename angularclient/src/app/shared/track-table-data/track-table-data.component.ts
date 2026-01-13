@@ -37,10 +37,6 @@ import { QueueService } from "../../service/queue.service";
 import { Track } from "../messages/incoming/track";
 import { QueueTrack } from "../model/queue-track";
 import { SecondsToMmSsPipe } from "../pipes/seconds-to-mm-ss.pipe";
-import {
-  InternMsgType,
-  PaginationMsg,
-} from "./../messages/internal/internal-msg";
 import { ClickActions } from "./click-actions.enum";
 import { TrackTableOptions } from "./track-table-options";
 
@@ -98,11 +94,6 @@ export class TrackTableDataComponent {
   }
 
   handlePage($event: PageEvent): void {
-    this.msgService.sendMessage({
-      type: InternMsgType.PaginationEvent,
-      event: $event,
-    } as PaginationMsg);
-
     void this.router.navigate([], {
       relativeTo: this.activatedRoute,
       queryParams: { pageIndex: $event.pageIndex, pageSize: $event.pageSize },

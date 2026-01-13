@@ -5,32 +5,17 @@ import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
-public class QueuePageImpl<T> extends PageImpl<T> {
+public class QueuePageImpl<MPDPlaylistSong> extends PageImpl<MPDPlaylistSong> {
 
-	private static final long serialVersionUID = -8458526312980512803L;
+	private final int totalPlayTime;
 
-	private int totalPlayTime = -1;
-
-	public QueuePageImpl(List<T> content, Pageable pageable, long total) {
+	public QueuePageImpl(List<MPDPlaylistSong> content, Pageable pageable, long total, int totalPlayTime) {
 		super(content, pageable, total);
+		this.totalPlayTime = totalPlayTime;
 	}
 
 	public int getTotalPlayTime() {
 		return totalPlayTime;
-	}
-
-	public void setTotalPlayTime(int totalPlayTime) {
-		this.totalPlayTime = totalPlayTime;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		return super.equals(obj);
-	}
-
-	@Override
-	public int hashCode() {
-		return super.hashCode();
 	}
 
 }

@@ -5,13 +5,13 @@ import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
-public class QueuePageImpl<T> extends PageImpl {
+public class QueuePageImpl<T> extends PageImpl<T> {
 
 	private static final long serialVersionUID = -8458526312980512803L;
 
 	private int totalPlayTime = -1;
 
-	public QueuePageImpl(List content, Pageable pageable, long total) {
+	public QueuePageImpl(List<T> content, Pageable pageable, long total) {
 		super(content, pageable, total);
 	}
 

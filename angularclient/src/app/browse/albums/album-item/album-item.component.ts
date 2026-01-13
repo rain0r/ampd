@@ -1,5 +1,11 @@
 import { HttpClient } from "@angular/common/http";
-import { Component, Input, OnInit, inject } from "@angular/core";
+import {
+  ChangeDetectorRef,
+  Component,
+  Input,
+  OnInit,
+  inject,
+} from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
 import { BehaviorSubject, first } from "rxjs";
 import { MpdAlbum } from "src/app/shared/model/http/album";
@@ -14,6 +20,7 @@ import { AlbumDialogComponent } from "../album-dialog/album-dialog.component";
 export class AlbumItemComponent implements OnInit {
   private dialog = inject(MatDialog);
   private http = inject(HttpClient);
+  private changeDetectorRef = inject(ChangeDetectorRef);
 
   @Input() album: MpdAlbum | null = null;
   private albumDialogOpen = new BehaviorSubject(false);
@@ -51,6 +58,7 @@ export class AlbumItemComponent implements OnInit {
         error: () => {
           if (this.album) {
             this.album.albumCoverUrl = "assets/images/no-cover.svg";
+            this.changeDetectorRef.detectChanges();
           }
         },
       });

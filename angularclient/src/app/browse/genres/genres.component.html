@@ -17,14 +17,8 @@
   }
 </div>
 
-@if (isLoadingResults | async) {
-  <div class="grid place-items-center">
-    <mat-spinner></mat-spinner>
-  </div>
-}
-
 <div id="results" class="mt-10">
-  @if (trackTableData !== null && (genrePayload | async); as payload) {
+  @if (genrePayload | async; as payload) {
     <div>
       <h1 class="my-4 heading-2">Genre: {{ payload.genre }}</h1>
       <mat-tab-group
@@ -46,7 +40,7 @@
                   [length]="payload.albums.totalElements"
                   [pageIndex]="payload.albums.number"
                   [pageSize]="payload.albums.numberOfElements"
-                  (page)="onAlbumPageChange($event)"
+                  (page)="handlePage($event)"
                   showFirstLastButtons="true"
                 >
                 </mat-paginator>

@@ -8,4 +8,5 @@ export const environment = {
   production: true,
   backendAddr: `http://${AMPD_URL}`,
   wsLog: false,
+  defaultPageSizeReqParam: 100,
 };

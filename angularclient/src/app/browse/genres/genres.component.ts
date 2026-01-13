@@ -1,37 +1,22 @@
-import { ViewportScroller, AsyncPipe } from "@angular/common";
-import { Component, OnDestroy, OnInit, inject } from "@angular/core";
-import { PageEvent, MatPaginator } from "@angular/material/paginator";
-import { ActivatedRoute, RouterLink } from "@angular/router";
-import {
-  BehaviorSubject,
-  combineLatest,
-  delay,
-  filter,
-  map,
-  Observable,
-  of,
-  Subscription,
-} from "rxjs";
-import { startWith, switchMap } from "rxjs/operators";
-import { MsgService } from "src/app/service/msg.service";
+import { AsyncPipe, ViewportScroller } from "@angular/common";
+import { ChangeDetectorRef, Component, inject, OnInit } from "@angular/core";
+import { MatButton } from "@angular/material/button";
+import { MatPaginator, PageEvent } from "@angular/material/paginator";
+import { MatTab, MatTabGroup } from "@angular/material/tabs";
+import { ActivatedRoute, Router, RouterLink } from "@angular/router";
+import { delay, Observable, of } from "rxjs";
+import { filter, switchMap } from "rxjs/operators";
 import { GenreResponse } from "src/app/shared/messages/incoming/genres-response";
 import { PaginatedResponse } from "src/app/shared/messages/incoming/paginated-response";
 import { Track } from "src/app/shared/messages/incoming/track";
-import {
-  InternMsgType,
-  PaginationMsg,
-} from "src/app/shared/messages/internal/internal-msg";
+import { AmpdBrowsePayload } from "src/app/shared/model/browse-payload";
 import { GenresService as GenreService } from "../../service/genres.service";
 import { ResponsiveScreenService } from "../../service/responsive-screen.service";
 import { ClickActions } from "../../shared/track-table-data/click-actions.enum";
-import { TrackTableOptions } from "../../shared/track-table-data/track-table-options";
-import { BrowseNavigationComponent } from "../navigation/browse-navigation.component";
-import { MatButton } from "@angular/material/button";
-import { MatProgressSpinner } from "@angular/material/progress-spinner";
-import { MatTabGroup, MatTab } from "@angular/material/tabs";
-import { AlbumItemComponent } from "../albums/album-item/album-item.component";
 import { TrackTableDataComponent } from "../../shared/track-table-data/track-table-data.component";
-import { AmpdBrowsePayload } from "src/app/shared/model/browse-payload";
+import { TrackTableOptions } from "../../shared/track-table-data/track-table-options";
+import { AlbumItemComponent } from "../albums/album-item/album-item.component";
+import { BrowseNavigationComponent } from "../navigation/browse-navigation.component";
 
 @Component({
   selector: "app-genres",
@@ -41,7 +26,6 @@ import { AmpdBrowsePayload } from "src/app/shared/model/browse-payload";
     BrowseNavigationComponent,
     MatButton,
     RouterLink,
-    MatProgressSpinner,
     MatTabGroup,
     MatTab,
     AlbumItemComponent,
@@ -50,20 +34,19 @@ import { AmpdBrowsePayload } from "src/app/shared/model/browse-payload";
     AsyncPipe,
   ],
 })
-export class GenresComponent implements OnInit, OnDestroy {
+export class GenresComponent implements OnInit {
   private activatedRoute = inject(ActivatedRoute);
   private genreService = inject(GenreService);
-  private msgService = inject(MsgService);
   private responsiveScreenService = inject(ResponsiveScreenService);
   private viewportScroller = inject(ViewportScroller);
+  private router = inject(Router);
+  private changeDetectorRef = inject(ChangeDetectorRef);
 
   browsePayload = new Observable<AmpdBrowsePayload>();
   genrePayload = new Observable<GenreResponse>();
   genres = new Observable<string[]>();
-  isLoadingResults = new BehaviorSubject(true);
   isMobile = false;
   selectedIndex = 0;
-  sub = new Subscription();
   trackTableData = new TrackTableOptions();
 
   constructor() {
@@ -72,40 +55,29 @@ export class GenresComponent implements OnInit, OnDestroy {
       .subscribe((isMobile) => (this.isMobile = isMobile));
   }
 
-  ngOnDestroy(): void {
-    this.sub.unsubscribe();
-  }
-
   ngOnInit(): void {
-    this.isLoadingResults.next(false);
     this.genres = this.genreService.listGenres();
-    this.sub = combineLatest([
-      this.activatedRoute.queryParamMap.pipe(filter((qp) => qp.has("genre"))),
-      this.msgService.message.pipe(
-        filter((msg) => msg.type === InternMsgType.PaginationEvent),
-        map((msg) => msg as PaginationMsg),
-        map((msg) => msg.event),
-        startWith({ pageIndex: null, pageSize: null }),
-      ),
-    ])
+
+    this.activatedRoute.queryParamMap
       .pipe(
-        switchMap(([qp, pagination]) => {
-          this.isLoadingResults.next(true);
+        filter((queryParams) => queryParams.has("genre")),
+        switchMap((queryParams) => {
           return this.genreService.listGenre(
-            qp.get("genre") || "",
-            pagination.pageIndex,
-            pagination.pageSize,
+            queryParams.get("genre") || "",
+            Number(queryParams.get("pageIndex")),
+            Number(queryParams.get("pageSize")),
           );
         }),
       )
       .subscribe((data) => this.processSearchResults(data));
   }
 
-  onAlbumPageChange($event: PageEvent): void {
-    this.msgService.sendMessage({
-      type: InternMsgType.PaginationEvent,
-      event: $event,
-    } as PaginationMsg);
+  handlePage($event: PageEvent): void {
+    void this.router.navigate([], {
+      relativeTo: this.activatedRoute,
+      queryParams: { pageIndex: $event.pageIndex },
+      queryParamsHandling: "merge",
+    });
   }
 
   scrollDown(): void {
@@ -126,7 +98,7 @@ export class GenresComponent implements OnInit, OnDestroy {
       this.selectedIndex = 1;
     }
     this.genrePayload = of(genreResponse);
-    this.isLoadingResults.next(false);
+    this.changeDetectorRef.detectChanges();
     this.scrollDown();
   }
 

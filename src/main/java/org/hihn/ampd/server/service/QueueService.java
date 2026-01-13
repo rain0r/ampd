@@ -83,12 +83,16 @@ public class QueueService {
 	public QueuePageImpl<MPDPlaylistSong> getQueue(final int pageIndex, final int pageSize) {
 		LOG.trace("getQueue pageIndex: {}, pageSize: {}", pageIndex, pageSize);
 		List<MPDPlaylistSong> songList = mpd.getPlaylist().getSongList();
+
 		PagedListHolder<MPDPlaylistSong> pages = new PagedListHolder<>(songList);
 		pages.setPage(pageIndex);
 		pages.setPageSize(pageSize);
+
 		Pageable pageable = PageRequest.of(pageIndex, pageSize);
 		QueuePageImpl<MPDPlaylistSong> page = new QueuePageImpl<>(pages.getPageList(), pageable, songList.size());
+
 		page.setTotalPlayTime(sumQueuePlayTime(songList));
+
 		LOG.trace("Page size: {}", page.getSize());
 		return page;
 	}

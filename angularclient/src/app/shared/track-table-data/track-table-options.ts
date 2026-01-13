@@ -1,4 +1,5 @@
 import { MatTableDataSource } from "@angular/material/table";
+import { environment } from "src/environments/environment";
 import { Track } from "../messages/incoming/track";
 import { QueueTrack } from "../model/queue-track";
 import { ClickActions } from "./click-actions.enum";
@@ -61,7 +62,7 @@ export class TrackTableOptions {
   /**
    * The default page size.
    */
-  pageSize = 100;
+  pageSize = environment.defaultPageSizeReqParam;
 
   /**
    * The length of the total number of items that are being paginated.

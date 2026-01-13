@@ -14,16 +14,11 @@ import { MatFormField, MatSuffix } from "@angular/material/form-field";
 import { MatIcon } from "@angular/material/icon";
 import { MatInput } from "@angular/material/input";
 import { ActivatedRoute } from "@angular/router";
-import { combineLatest, filter, map } from "rxjs";
+import { combineLatest, map, startWith } from "rxjs";
 import { AddStreamDialogComponent } from "src/app/queue/track-table/add-stream-dialog/add-stream-dialog.component";
-import { MsgService } from "src/app/service/msg.service";
 import { ResponsiveScreenService } from "src/app/service/responsive-screen.service";
 import { PaginatedResponse } from "src/app/shared/messages/incoming/paginated-response";
 import { Track } from "src/app/shared/messages/incoming/track";
-import {
-  InternMsgType,
-  PaginationMsg,
-} from "src/app/shared/messages/internal/internal-msg";
 import { MpdService } from "../../service/mpd.service";
 import { QueueService } from "../../service/queue.service";
 import { QueueTrack } from "../../shared/model/queue-track";
@@ -32,6 +27,7 @@ import { ClickActions } from "../../shared/track-table-data/click-actions.enum";
 import { TrackTableDataComponent } from "../../shared/track-table-data/track-table-data.component";
 import { TrackTableOptions } from "../../shared/track-table-data/track-table-options";
 import { SavePlaylistDialogComponent } from "../save-playlist-dialog/save-playlist-dialog.component";
+import { environment } from "src/environments/environment";
 
 @Component({
   selector: "app-track-table",
@@ -54,7 +50,6 @@ import { SavePlaylistDialogComponent } from "../save-playlist-dialog/save-playli
 export class TrackTableComponent {
   private dialog = inject(MatDialog);
   private mpdService = inject(MpdService);
-  private msgService = inject(MsgService);
   private queueService = inject(QueueService);
   private responsiveScreenService = inject(ResponsiveScreenService);
   private activatedRoute = inject(ActivatedRoute);
@@ -165,29 +160,25 @@ export class TrackTableComponent {
       }
     });
 
-    // Listen for pagination events
-    this.msgService.message
-      .pipe(
-        filter((msg) => msg.type === InternMsgType.PaginationEvent),
-        map((msg) => msg as PaginationMsg),
-      )
-      .subscribe((msg) => {
-        this.queueService.getPage(msg.event.pageIndex, msg.event.pageSize);
-      });
-
     // Listen for UPDATE_QUEUE Signal
     // When the backend sends a signal that indicates the queue has changed
     // we need to send a new request to fetch it
     // We also need the current page for that to not fetch a wrong page
-    combineLatest([
-      this.mpdService.signals$,
-      this.activatedRoute.queryParamMap,
-    ]).subscribe(([signal, queryParams]) => {
-      if (signal === "UPDATE_QUEUE") {
-        this.queueService.getPage(
+    const pageAttr = this.activatedRoute.queryParamMap.pipe(
+      map((queryParams) => {
+        return [
           Number(queryParams.get("pageIndex")),
           Number(queryParams.get("pageSize")),
-        );
+        ];
+      }),
+      startWith([0, environment.defaultPageSizeReqParam]),
+    );
+    combineLatest([
+      this.mpdService.signals$.pipe(startWith("UPDATE_QUEUE")),
+      pageAttr,
+    ]).subscribe(([signal, pageAttr]) => {
+      if (signal === "UPDATE_QUEUE") {
+        this.queueService.getPage(pageAttr[0], pageAttr[1]);
       }
     });
   }

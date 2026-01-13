@@ -21,14 +21,9 @@ import { MatProgressSpinner } from "@angular/material/progress-spinner";
 import { MatSelect } from "@angular/material/select";
 import { ActivatedRoute, Router } from "@angular/router";
 import { BehaviorSubject, Observable, combineLatest } from "rxjs";
-import { filter, map, startWith, tap } from "rxjs/operators";
+import { map, startWith, tap } from "rxjs/operators";
 import { AlbumsService } from "src/app/service/albums.service";
-import { MsgService } from "src/app/service/msg.service";
 import { PaginatedResponse } from "src/app/shared/messages/incoming/paginated-response";
-import {
-  InternMsgType,
-  PaginationMsg,
-} from "src/app/shared/messages/internal/internal-msg";
 import { MpdAlbum } from "src/app/shared/model/http/album";
 import { BrowseNavigationComponent } from "../navigation/browse-navigation.component";
 import { AlbumItemComponent } from "./album-item/album-item.component";
@@ -62,7 +57,6 @@ interface SortByKey {
 export class AlbumsComponent implements OnInit {
   private activatedRoute = inject(ActivatedRoute);
   private albumService = inject(AlbumsService);
-  private msgService = inject(MsgService);
   private router = inject(Router);
   private viewportScroller = inject(ViewportScroller);
 
@@ -110,11 +104,6 @@ export class AlbumsComponent implements OnInit {
   }
 
   private buildInputListener() {
-    const pagination = this.msgService.message.pipe(
-      filter((msg) => msg.type === InternMsgType.PaginationEvent),
-      map((msg) => msg as PaginationMsg),
-      map((msg) => msg.event),
-    );
     const sortBy: Observable<string> = this.activatedRoute.queryParamMap.pipe(
       map((queryParamMap) => queryParamMap.get("sortBy") || ""),
       startWith(""),
@@ -128,13 +117,13 @@ export class AlbumsComponent implements OnInit {
       );
 
     combineLatest([
-      pagination.pipe(startWith({ pageIndex: null, pageSize: null })),
+      this.activatedRoute.queryParamMap,
       sortBy,
       searchTerm,
-    ]).subscribe(([pagination, sortBy, searchTerm]) => {
+    ]).subscribe(([queryParams, sortBy, searchTerm]) => {
       this.pagedAlbums$ = this.albumService.getAlbums(
         searchTerm,
-        pagination.pageIndex,
+        Number(queryParams.get("pageIndex")),
         sortBy,
       );
     });
@@ -142,10 +131,11 @@ export class AlbumsComponent implements OnInit {
 
   handlePage($event: PageEvent): void {
     this.viewportScroller.scrollToAnchor("loading");
-    this.msgService.sendMessage({
-      type: InternMsgType.PaginationEvent,
-      event: $event,
-    } as PaginationMsg);
-    this.pagedAlbums$ = new Observable<PaginatedResponse<MpdAlbum>>();
+
+    void this.router.navigate([], {
+      relativeTo: this.activatedRoute,
+      queryParams: { pageIndex: $event.pageIndex },
+      queryParamsHandling: "merge",
+    });
   }
 }

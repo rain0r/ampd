@@ -31,12 +31,16 @@ export class SearchService {
 
   advSearch(
     formData: Record<string, string>,
-    pageIndex: number,
-    pageSize: number,
+    pageIndex: number | null,
+    pageSize: number | null,
   ): Observable<PaginatedResponse<Track>> {
     let params = new HttpParams();
-    params = params.append("pageIndex", pageIndex);
-    params = params.append("pageSize", pageSize);
+    if (pageIndex) {
+      params = params.append("pageIndex", pageIndex);
+    }
+    if (pageSize) {
+      params = params.append("pageSize", pageSize);
+    }
     for (const key in formData) {
       if (formData[key]) {
         params = params.append(key, formData[key] || "");

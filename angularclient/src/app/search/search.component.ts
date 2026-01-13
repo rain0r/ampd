@@ -6,27 +6,15 @@ import { MatFormField, MatSuffix } from "@angular/material/form-field";
 import { MatIcon } from "@angular/material/icon";
 import { MatInput } from "@angular/material/input";
 import { MatProgressSpinner } from "@angular/material/progress-spinner";
-import { RouterLink } from "@angular/router";
+import { ActivatedRoute, RouterLink } from "@angular/router";
 import { BehaviorSubject, Observable, Subject, combineLatest, of } from "rxjs";
-import {
-  debounceTime,
-  distinctUntilChanged,
-  filter,
-  map,
-  startWith,
-  switchMap,
-} from "rxjs/operators";
+import { debounceTime, distinctUntilChanged, switchMap } from "rxjs/operators";
 import { ResponsiveScreenService } from "src/app/service/responsive-screen.service";
-import { MsgService } from "../service/msg.service";
 import { NotificationService } from "../service/notification.service";
 import { QueueService } from "../service/queue.service";
 import { SearchService } from "../service/search.service";
 import { PaginatedResponse } from "../shared/messages/incoming/paginated-response";
 import { Track } from "../shared/messages/incoming/track";
-import {
-  InternMsgType,
-  PaginationMsg,
-} from "../shared/messages/internal/internal-msg";
 import { QueueTrack } from "../shared/model/queue-track";
 import { ClickActions } from "../shared/track-table-data/click-actions.enum";
 import { TrackTableDataComponent } from "../shared/track-table-data/track-table-data.component";
@@ -51,7 +39,7 @@ import { TrackTableOptions } from "../shared/track-table-data/track-table-option
   ],
 })
 export class SearchComponent implements OnInit {
-  private msgService = inject(MsgService);
+  private activatedRoute = inject(ActivatedRoute);
   private notificationService = inject(NotificationService);
   private queueService = inject(QueueService);
   private responsiveScreenService = inject(ResponsiveScreenService);
@@ -133,22 +121,17 @@ export class SearchComponent implements OnInit {
   private buildInputListener(): void {
     combineLatest([
       this.inputSetter$.asObservable(),
-      this.msgService.message.pipe(
-        filter((msg) => msg.type === InternMsgType.PaginationEvent),
-        map((msg) => msg as PaginationMsg),
-        map((msg) => msg.event),
-        startWith({ pageIndex: null, pageSize: null }),
-      ),
+      this.activatedRoute.queryParamMap,
     ])
       .pipe(
         debounceTime(750),
         distinctUntilChanged(),
-        switchMap(([searchText, pagination]) => {
+        switchMap(([searchText, queryParams]) => {
           this.isLoadingResults.next(true);
           return this.searchService.search(
             searchText,
-            pagination.pageIndex,
-            pagination.pageSize,
+            Number(queryParams.get("pageIndex")),
+            Number(queryParams.get("pageSize")),
           );
         }),
       )

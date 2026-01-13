@@ -1,4 +1,5 @@
-import { AfterViewInit, Component, OnInit, inject } from "@angular/core";
+import { AsyncPipe } from "@angular/common";
+import { AfterViewInit, Component, inject, OnInit } from "@angular/core";
 import {
   AbstractControl,
   FormControl,
@@ -6,36 +7,28 @@ import {
   FormsModule,
   ReactiveFormsModule,
 } from "@angular/forms";
+import { MatButton } from "@angular/material/button";
+import { MatIcon } from "@angular/material/icon";
+import { ActivatedRoute } from "@angular/router";
 import {
   BehaviorSubject,
   combineLatest,
-  filter,
-  map,
   Observable,
   of,
-  startWith,
   Subject,
   switchMap,
 } from "rxjs";
-import { MsgService } from "src/app/service/msg.service";
 import { QueueService } from "src/app/service/queue.service";
 import { ResponsiveScreenService } from "src/app/service/responsive-screen.service";
 import { SearchService } from "src/app/service/search.service";
 import { PaginatedResponse } from "src/app/shared/messages/incoming/paginated-response";
 import { Track } from "src/app/shared/messages/incoming/track";
-import {
-  InternMsgType,
-  PaginationMsg,
-} from "src/app/shared/messages/internal/internal-msg";
 import { QueueTrack } from "src/app/shared/model/queue-track";
 import { FormField } from "src/app/shared/search/form-field";
 import { ClickActions } from "src/app/shared/track-table-data/click-actions.enum";
 import { TrackTableOptions } from "src/app/shared/track-table-data/track-table-options";
-import { AsyncPipe } from "@angular/common";
-import { DynamicFormInputComponent } from "./dynamic-form-input/dynamic-form-input.component";
-import { MatButton } from "@angular/material/button";
-import { MatIcon } from "@angular/material/icon";
 import { TrackTableDataComponent } from "../../shared/track-table-data/track-table-data.component";
+import { DynamicFormInputComponent } from "./dynamic-form-input/dynamic-form-input.component";
 
 @Component({
   selector: "app-advanced-search",
@@ -52,7 +45,7 @@ import { TrackTableDataComponent } from "../../shared/track-table-data/track-tab
   ],
 })
 export class AdvancedSearchComponent implements OnInit, AfterViewInit {
-  private msgService = inject(MsgService);
+  private activatedRoute = inject(ActivatedRoute);
   private queueService = inject(QueueService);
   private responsiveScreenService = inject(ResponsiveScreenService);
   private searchService = inject(SearchService);
@@ -88,23 +81,15 @@ export class AdvancedSearchComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    combineLatest([
-      this.formDataSubmitted,
-      this.msgService.message.pipe(
-        filter((msg) => msg.type === InternMsgType.PaginationEvent),
-        map((msg) => msg as PaginationMsg),
-        map((msg) => msg.event),
-        startWith({ pageIndex: 0, pageSize: 30 }),
-      ),
-    ])
+    combineLatest([this.formDataSubmitted, this.activatedRoute.queryParamMap])
       .pipe(
-        switchMap(([fd, pagination]) => {
+        switchMap(([fd, queryParams]) => {
           this.isLoadingResults.next(true);
           this.searchParams = fd;
           return this.searchService.advSearch(
             fd,
-            pagination.pageIndex,
-            pagination.pageSize,
+            Number(queryParams.get("pageIndex")),
+            Number(queryParams.get("pageSize")),
           );
         }),
       )

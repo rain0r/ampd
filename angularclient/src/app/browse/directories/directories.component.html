@@ -63,7 +63,7 @@
   ) {
     <mat-paginator
       [length]="directories.length"
-      (page)="getPaginatorData($event)"
+      (page)="handlePage($event)"
       [pageSizeOptions]="pageSizeOptions"
       showFirstLastButtons="true"
       [pageSize]="paginationTo - paginationFrom"

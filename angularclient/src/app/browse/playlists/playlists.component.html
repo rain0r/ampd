@@ -24,7 +24,7 @@
   ) {
     <mat-paginator
       [length]="playlists.length"
-      (page)="getPaginatorData($event)"
+      (page)="handlePage($event)"
       [pageSizeOptions]="pageSizeOptions"
       showFirstLastButtons="true"
     >

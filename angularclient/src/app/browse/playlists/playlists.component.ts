@@ -38,7 +38,7 @@ export class PlaylistsComponent extends Filterable {
     this.pageSizeOptions = this.frontendSettingsService.pageSizeOptions;
   }
 
-  public getPaginatorData(event: PageEvent): PageEvent {
+  public handlePage(event: PageEvent): PageEvent {
     this.paginationFrom = event.pageIndex * event.pageSize;
     this.paginationTo = this.paginationFrom + event.pageSize;
     return event;

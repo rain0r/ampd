@@ -56,7 +56,7 @@ export class DirectoriesComponent extends Filterable implements OnInit {
     this.buildLetters();
   }
 
-  public getPaginatorData(event: PageEvent): PageEvent {
+  public handlePage(event: PageEvent): PageEvent {
     this.paginationFrom = event.pageIndex * event.pageSize;
     this.paginationTo = this.paginationFrom + event.pageSize;
     return event;

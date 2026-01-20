@@ -14,9 +14,6 @@ const LS_KEY = "ampd_userSettings";
 })
 export class FrontendSettingsService {
   private logger = inject(LoggerService);
-
-  pageSizeOptions = [5, 20, 50, 100];
-
   private settings: FrontendSetting[] = FrontendSettings;
   private settings$: Observable<FrontendSetting[]>;
   private settingsSub$: BehaviorSubject<FrontendSetting[]>;
@@ -85,9 +82,8 @@ export class FrontendSettingsService {
           elem.value = setting.value;
         }
       }
-    } catch (err) {
-      // Error loading frontend settings
-      console.trace(err);
+    } catch {
+      // Use default settings
     }
 
     return this.settings.sort((a, b) => a.category.localeCompare(b.category));

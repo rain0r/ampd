@@ -2,13 +2,33 @@ import { MatTableDataSource } from "@angular/material/table";
 import { environment } from "src/environments/environment";
 import { Track } from "../messages/incoming/track";
 import { QueueTrack } from "../model/queue-track";
+import { PAGE_SIZE_OPTIONS } from "../page-size-options";
 import { ClickActions } from "./click-actions.enum";
+
+export interface ITrackTableOptions {
+  addTitleColumn?: boolean;
+  clickable?: boolean;
+  dataSource?: MatTableDataSource<QueueTrack>;
+  dragEnabled?: boolean;
+  displayedColumns?: string[];
+  onRowClick?: ClickActions;
+  onPlayClick?: ClickActions;
+  playTitleColumn?: boolean;
+  sortable?: boolean;
+  pageSizeOptions?: number[];
+  pageSize?: number;
+  totalElements?: number;
+  totalPlayTime?: number;
+  pageIndex?: number;
+  totalPages?: number;
+  showPageSizeOptions?: boolean;
+}
 
 /**
  * When including the track table in a view, some parameters are needed. Too much, to insert them
  * from the template.
  */
-export class TrackTableOptions {
+export class TrackTableOptions implements ITrackTableOptions {
   /**
    * If true, the table as an 'add title' column.
    */
@@ -57,7 +77,7 @@ export class TrackTableOptions {
   /**
    * Options for the "Paginate by" select.
    */
-  pageSizeOptions = [20, 50, 100, 500, 1000];
+  pageSizeOptions = PAGE_SIZE_OPTIONS;
 
   /**
    * The default page size.
@@ -88,6 +108,10 @@ export class TrackTableOptions {
    * Show select to change page size
    */
   showPageSizeOptions = true;
+
+  constructor(options?: ITrackTableOptions) {
+    Object.assign(this, options);
+  }
 
   addTracks(tracks: Track[]): void {
     const qt = tracks.map((track) => new QueueTrack(track, track.position));

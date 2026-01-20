@@ -52,8 +52,8 @@ export class AdvancedSearchComponent implements OnInit, AfterViewInit {
 
   advSearchResponse$ = new Observable<PaginatedResponse<Track>>();
   displayedColumns: string[] = [
-    "artist-name",
-    "album-name",
+    "artistName",
+    "albumName",
     "title",
     "play-title",
     "add-title",
@@ -142,13 +142,14 @@ export class AdvancedSearchComponent implements OnInit, AfterViewInit {
   private buildTableData(
     advSearchResponse: PaginatedResponse<Track>,
   ): TrackTableOptions {
-    const trackTable = new TrackTableOptions();
+    const trackTable = new TrackTableOptions({
+      displayedColumns: this.getDisplayedColumns(),
+      onPlayClick: ClickActions.AddPlayTrack,
+      totalElements: advSearchResponse.totalElements,
+      totalPages: advSearchResponse.totalPages,
+      pageIndex: advSearchResponse.number,
+    });
     trackTable.addTracks(advSearchResponse.content);
-    trackTable.displayedColumns = this.getDisplayedColumns();
-    trackTable.onPlayClick = ClickActions.AddPlayTrack;
-    trackTable.totalElements = advSearchResponse.totalElements;
-    trackTable.totalPages = advSearchResponse.totalPages;
-    trackTable.pageIndex = advSearchResponse.number;
     return trackTable;
   }
 
@@ -172,8 +173,8 @@ export class AdvancedSearchComponent implements OnInit, AfterViewInit {
 
   private getDisplayedColumns(): string[] {
     const displayedColumns = [
-      { name: "artist-name", showMobile: true },
-      { name: "album-name", showMobile: false },
+      { name: "artistName", showMobile: true },
+      { name: "albumName", showMobile: false },
       { name: "title", showMobile: true },
       { name: "length", showMobile: false },
       { name: "play-title", showMobile: true },

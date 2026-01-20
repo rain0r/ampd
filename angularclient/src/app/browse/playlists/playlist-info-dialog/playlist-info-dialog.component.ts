@@ -103,21 +103,22 @@ export class PlaylistInfoDialogComponent implements AfterViewInit {
   }
 
   private buildTable(info: PlaylistInfo): TrackTableOptions {
-    const trackTable = new TrackTableOptions();
+    const trackTable = new TrackTableOptions({
+      displayedColumns: this.getDisplayedColumns(),
+      onPlayClick: ClickActions.AddPlayTrack,
+      totalElements: info.tracks.totalElements,
+      totalPages: info.tracks.totalPages,
+      pageIndex: info.tracks.number,
+      showPageSizeOptions: false,
+    });
     trackTable.addTracks(info.tracks.content);
-    trackTable.displayedColumns = this.getDisplayedColumns();
-    trackTable.onPlayClick = ClickActions.AddPlayTrack;
-    trackTable.totalElements = info.tracks.totalElements;
-    trackTable.totalPages = info.tracks.totalPages;
-    trackTable.pageIndex = info.tracks.number;
-    trackTable.showPageSizeOptions = false;
     return trackTable;
   }
 
   private getDisplayedColumns(): string[] {
     const displayedColumns = [
-      { name: "artist-name", showMobile: true },
-      { name: "album-name", showMobile: false },
+      { name: "artistName", showMobile: true },
+      { name: "albumName", showMobile: false },
       { name: "title", showMobile: true },
       { name: "length", showMobile: false },
       { name: "play-title", showMobile: false },

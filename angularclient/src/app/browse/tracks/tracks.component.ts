@@ -1,5 +1,7 @@
+import { NgPlural, NgPluralCase } from "@angular/common";
 import { Component, Input, OnInit, inject } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
+import { MatDivider } from "@angular/material/divider";
 import { MatTableDataSource } from "@angular/material/table";
 import { ActivatedRoute } from "@angular/router";
 import { distinctUntilChanged, map } from "rxjs/operators";
@@ -7,12 +9,10 @@ import { ResponsiveScreenService } from "../../service/responsive-screen.service
 import { SettingsService } from "../../service/settings.service";
 import { AlbumCoverDialogComponent } from "../../shared/album-cover-dialog/album-cover-dialog.component";
 import { QueueTrack } from "../../shared/model/queue-track";
-import { ClickActions } from "../../shared/track-table-data/click-actions.enum";
-import { TrackTableOptions } from "../../shared/track-table-data/track-table-options";
-import { NgPlural, NgPluralCase } from "@angular/common";
-import { TrackTableDataComponent } from "../../shared/track-table-data/track-table-data.component";
-import { MatDivider } from "@angular/material/divider";
 import { SecondsToHhMmSsPipe } from "../../shared/pipes/seconds-to-hh-mm-ss.pipe";
+import { ClickActions } from "../../shared/track-table-data/click-actions.enum";
+import { TrackTableDataComponent } from "../../shared/track-table-data/track-table-data.component";
+import { TrackTableOptions } from "../../shared/track-table-data/track-table-options";
 
 @Component({
   selector: "app-tracks",
@@ -75,21 +75,22 @@ export class TracksComponent implements OnInit {
   }
 
   private buildTableData(): TrackTableOptions {
-    const trackTable = new TrackTableOptions();
-    trackTable.dataSource = new MatTableDataSource<QueueTrack>(this.tracks);
-    trackTable.displayedColumns = this.getDisplayedColumns();
-    trackTable.onPlayClick = ClickActions.AddPlayTrack;
-    trackTable.totalElements = this.tracks.length;
-    trackTable.totalPages = 1;
-    trackTable.showPageSizeOptions = false;
+    const trackTable = new TrackTableOptions({
+      dataSource: new MatTableDataSource<QueueTrack>(this.tracks),
+      displayedColumns: this.getDisplayedColumns(),
+      onPlayClick: ClickActions.AddPlayTrack,
+      totalElements: this.tracks.length,
+      totalPages: 1,
+      showPageSizeOptions: false,
+    });
     return trackTable;
   }
 
   private getDisplayedColumns(): string[] {
     const displayedColumns = [
       { name: "position", showMobile: false },
-      { name: "artist-name", showMobile: true },
-      { name: "album-name", showMobile: false },
+      { name: "artistName", showMobile: true },
+      { name: "albumName", showMobile: false },
       { name: "title", showMobile: true },
       { name: "length", showMobile: false },
       { name: "play-title", showMobile: false },

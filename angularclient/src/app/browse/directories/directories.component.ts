@@ -1,16 +1,16 @@
-import { Component, Input, OnInit, inject } from "@angular/core";
-import { PageEvent, MatPaginator } from "@angular/material/paginator";
-import { FrontendSettingsService } from "../../service/frontend-settings.service";
-import { MsgService } from "../../service/msg.service";
-import { Directory } from "../../shared/messages/incoming/directory";
-import { Filterable } from "../filterable";
 import { SlicePipe } from "@angular/common";
-import { MatIcon } from "@angular/material/icon";
+import { Component, inject, Input, OnInit } from "@angular/core";
 import { MatDivider } from "@angular/material/divider";
-import { DirectoryEntryComponent } from "./directory-entry/directory-entry.component";
-import { CoverGridComponent } from "./cover-grid/cover-grid.component";
-import { DirectoryFilterPipe } from "../../shared/pipes/filter/directory-filter.pipe";
+import { MatIcon } from "@angular/material/icon";
+import { MatPaginator, PageEvent } from "@angular/material/paginator";
+import { PAGE_SIZE_OPTIONS } from "src/app/shared/page-size-options";
+import { FilterService } from "../../service/msg.service";
+import { Directory } from "../../shared/messages/incoming/directory";
 import { DirectoryFilterStartLetterPipe } from "../../shared/pipes/filter/directory-filter-start-letter-pipe";
+import { DirectoryFilterPipe } from "../../shared/pipes/filter/directory-filter.pipe";
+import { Filterable } from "../filterable";
+import { CoverGridComponent } from "./cover-grid/cover-grid.component";
+import { DirectoryEntryComponent } from "./directory-entry/directory-entry.component";
 
 @Component({
   selector: "app-directories",
@@ -28,9 +28,6 @@ import { DirectoryFilterStartLetterPipe } from "../../shared/pipes/filter/direct
   ],
 })
 export class DirectoriesComponent extends Filterable implements OnInit {
-  private frontendSettingsService = inject(FrontendSettingsService);
-  private messageService: MsgService;
-
   @Input() directories: Directory[] = [];
   @Input() dirQp = "/";
 
@@ -38,17 +35,13 @@ export class DirectoriesComponent extends Filterable implements OnInit {
   filterByStartCharValue = "";
   filterVisible = false;
   letters = new Set<string>();
-  pageSizeOptions: number[];
+  pageSizeOptions = PAGE_SIZE_OPTIONS;
   paginationFrom = 0;
-  paginationTo = 30;
+  paginationTo = PAGE_SIZE_OPTIONS[0];
 
   constructor() {
-    const messageService = inject(MsgService);
-
-    super(messageService);
-    this.messageService = messageService;
-
-    this.pageSizeOptions = this.frontendSettingsService.pageSizeOptions;
+    const filterService = inject(FilterService);
+    super(filterService);
   }
 
   ngOnInit(): void {

@@ -1,12 +1,12 @@
-import { Component, Input, inject } from "@angular/core";
-import { PageEvent, MatPaginator } from "@angular/material/paginator";
-import { FrontendSettingsService } from "../../service/frontend-settings.service";
-import { MsgService } from "../../service/msg.service";
-import { Playlist } from "../../shared/messages/incoming/playlist";
-import { Filterable } from "../filterable";
 import { SlicePipe } from "@angular/common";
-import { PlaylistEntryComponent } from "./playlist-entry/playlist-entry.component";
+import { Component, inject, Input } from "@angular/core";
+import { MatPaginator, PageEvent } from "@angular/material/paginator";
+import { PAGE_SIZE_OPTIONS } from "src/app/shared/page-size-options";
+import { FilterService } from "../../service/msg.service";
+import { Playlist } from "../../shared/messages/incoming/playlist";
 import { PlaylistFilterPipe } from "../../shared/pipes/filter/playlist-filter.pipe";
+import { Filterable } from "../filterable";
+import { PlaylistEntryComponent } from "./playlist-entry/playlist-entry.component";
 
 @Component({
   selector: "app-playlists",
@@ -20,22 +20,15 @@ import { PlaylistFilterPipe } from "../../shared/pipes/filter/playlist-filter.pi
   ],
 })
 export class PlaylistsComponent extends Filterable {
-  private frontendSettingsService = inject(FrontendSettingsService);
-  private messageService: MsgService;
-
   @Input() playlists: Playlist[] = [];
 
-  pageSizeOptions: number[];
+  pageSizeOptions = PAGE_SIZE_OPTIONS;
   paginationFrom = 0;
   paginationTo = 50;
 
   constructor() {
-    const messageService = inject(MsgService);
-
-    super(messageService);
-    this.messageService = messageService;
-
-    this.pageSizeOptions = this.frontendSettingsService.pageSizeOptions;
+    const filterService = inject(FilterService);
+    super(filterService);
   }
 
   public handlePage(event: PageEvent): PageEvent {

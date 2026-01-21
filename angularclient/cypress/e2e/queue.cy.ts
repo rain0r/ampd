@@ -23,12 +23,37 @@ describe("Pagination of a queue with 1000 tracks", () => {
     cy.paginate(500);
 
     cy.get("#btn-play").click();
-    cy.wait(3000);
+    cy.wait(1000);
 
     cy.paginate(1000);
 
     cy.wait(3000);
     cy.get('[data-cy="elapsed"]').invoke("data", "elapsed").should("be.gt", 2);
     cy.clearQueue();
+  });
+
+  it("Check remove track from queue", () => {
+    cy.visit("/");
+
+    // Go to the last page and remove the second-to-last track
+    cy.get('[aria-label="Last page"]').click();
+
+    cy.get('[data-cy="track-table"] > tbody > tr')
+      .its("length")
+      .as("before", { type: "static" });
+
+    cy.get('[data-cy="track-table"] > tbody > tr')
+      .last()
+      .prev()
+      .find(".btn-remove-track")
+      .click();
+
+    cy.wait(1000);
+
+    cy.get("@before").then((oldLength) => {
+      cy.get('[data-cy="track-table"] > tbody > tr')
+        .its("length")
+        .should("be.lt", oldLength);
+    });
   });
 });

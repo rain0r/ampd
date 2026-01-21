@@ -1,6 +1,7 @@
 describe("Check albums", () => {
   it("Click album", () => {
     cy.visit("/browse-albums");
+    cy.get('[aria-label="Next page"]').click();
     cy.get("[data-cy='album-item']").first().click();
     cy.get("[data-cy='add-all-btn']").first().click();
   });

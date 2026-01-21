@@ -1,11 +1,17 @@
+import { CdkScrollable } from "@angular/cdk/scrolling";
+import { AsyncPipe } from "@angular/common";
 import { Component, inject } from "@angular/core";
+import { MatButton } from "@angular/material/button";
+import { MatCardImage } from "@angular/material/card";
 import {
   MAT_DIALOG_DATA,
-  MatDialogRef,
-  MatDialogContent,
   MatDialogActions,
   MatDialogClose,
+  MatDialogContent,
+  MatDialogRef,
 } from "@angular/material/dialog";
+import { MatIcon } from "@angular/material/icon";
+import { MatProgressSpinner } from "@angular/material/progress-spinner";
 import { Observable, delay, map, of } from "rxjs";
 import { AlbumsService } from "src/app/service/albums.service";
 import { QueueService } from "src/app/service/queue.service";
@@ -13,13 +19,7 @@ import { Track } from "src/app/shared/messages/incoming/track";
 import { MpdAlbum } from "src/app/shared/model/http/album";
 import { ClickActions } from "src/app/shared/track-table-data/click-actions.enum";
 import { TrackTableOptions } from "src/app/shared/track-table-data/track-table-options";
-import { CdkScrollable } from "@angular/cdk/scrolling";
-import { AsyncPipe } from "@angular/common";
-import { MatProgressSpinner } from "@angular/material/progress-spinner";
-import { MatCardImage } from "@angular/material/card";
 import { TrackTableDataComponent } from "../../../shared/track-table-data/track-table-data.component";
-import { MatButton } from "@angular/material/button";
-import { MatIcon } from "@angular/material/icon";
 
 @Component({
   selector: "app-album-dialog",
@@ -70,20 +70,21 @@ export class AlbumDialogComponent {
   }
 
   private buildTrackTableOptions(tracks: Track[]): TrackTableOptions {
-    const trackTable = new TrackTableOptions();
+    const trackTable = new TrackTableOptions({
+      displayedColumns: this.getDisplayedColumns(),
+      onPlayClick: ClickActions.AddPlayTrack,
+      totalElements: tracks.length,
+      showPageSizeOptions: false,
+      sortable: false,
+    });
     trackTable.addTracks(tracks);
-    trackTable.displayedColumns = this.getDisplayedColumns();
-    trackTable.onPlayClick = ClickActions.AddPlayTrack;
-    trackTable.totalElements = tracks.length;
-    trackTable.showPageSizeOptions = false;
-    trackTable.sortable = false;
     return trackTable;
   }
 
   private getDisplayedColumns(): string[] {
     const displayedColumns = [
       { name: "position", showMobile: false },
-      { name: "artist-name", showMobile: true },
+      { name: "artistName", showMobile: true },
       { name: "title", showMobile: true },
       { name: "length", showMobile: false },
       { name: "play-title", showMobile: false },

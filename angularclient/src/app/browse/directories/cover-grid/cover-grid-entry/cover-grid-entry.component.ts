@@ -1,5 +1,11 @@
 import { HttpClient } from "@angular/common/http";
-import { Component, Input, OnInit, inject } from "@angular/core";
+import {
+  ChangeDetectorRef,
+  Component,
+  Input,
+  OnInit,
+  inject,
+} from "@angular/core";
 import { of } from "rxjs";
 import { ControlPanelService } from "../../../../service/control-panel.service";
 import { NotificationService } from "../../../../service/notification.service";
@@ -20,6 +26,7 @@ export class CoverGridEntryComponent implements OnInit {
   private http = inject(HttpClient);
   private notificationService = inject(NotificationService);
   private queueService = inject(QueueService);
+  private changeDetectorRef = inject(ChangeDetectorRef);
 
   @Input() directory: Directory | null = null;
   isDisplayCover$ = of(false);
@@ -60,6 +67,7 @@ export class CoverGridEntryComponent implements OnInit {
         },
         next: () => {
           this.isDisplayCover$ = of(true);
+          this.changeDetectorRef.detectChanges();
         },
       });
   }

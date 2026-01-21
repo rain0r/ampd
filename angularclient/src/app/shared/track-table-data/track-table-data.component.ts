@@ -32,7 +32,6 @@ import {
 import { ActivatedRoute, Router } from "@angular/router";
 import { BehaviorSubject, Observable, take } from "rxjs";
 import { TrackInfoDialogComponent } from "src/app/browse/tracks/track-info-dialog/track-info-dialog.component";
-import { MsgService } from "src/app/service/msg.service";
 import { QueueService } from "../../service/queue.service";
 import { Track } from "../messages/incoming/track";
 import { QueueTrack } from "../model/queue-track";
@@ -70,7 +69,6 @@ import { TrackTableOptions } from "./track-table-options";
 export class TrackTableDataComponent {
   private activatedRoute = inject(ActivatedRoute);
   private dialog = inject(MatDialog);
-  private msgService = inject(MsgService);
   private queueService = inject(QueueService);
   private router = inject(Router);
 

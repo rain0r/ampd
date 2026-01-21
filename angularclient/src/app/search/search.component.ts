@@ -91,20 +91,21 @@ export class SearchComponent implements OnInit {
   private buildTableData(
     advSearchResponse: PaginatedResponse<Track>,
   ): TrackTableOptions {
-    const trackTable = new TrackTableOptions();
+    const trackTable = new TrackTableOptions({
+      displayedColumns: this.getDisplayedColumns(),
+      onPlayClick: ClickActions.AddPlayTrack,
+      totalElements: advSearchResponse.totalElements,
+      totalPages: advSearchResponse.totalPages,
+      pageIndex: advSearchResponse.number,
+    });
     trackTable.addTracks(advSearchResponse.content);
-    trackTable.displayedColumns = this.getDisplayedColumns();
-    trackTable.onPlayClick = ClickActions.AddPlayTrack;
-    trackTable.totalElements = advSearchResponse.totalElements;
-    trackTable.totalPages = advSearchResponse.totalPages;
-    trackTable.pageIndex = advSearchResponse.number;
     return trackTable;
   }
 
   private getDisplayedColumns(): string[] {
     const displayedColumns = [
-      { name: "artist-name", showMobile: true },
-      { name: "album-name", showMobile: false },
+      { name: "artistName", showMobile: true },
+      { name: "albumName", showMobile: false },
       { name: "title", showMobile: true },
       { name: "length", showMobile: false },
       { name: "play-title", showMobile: true },

@@ -105,20 +105,21 @@ export class GenresComponent implements OnInit {
   private buildTableData(
     paginatedTracks: PaginatedResponse<Track>,
   ): TrackTableOptions {
-    const trackTable = new TrackTableOptions();
+    const trackTable = new TrackTableOptions({
+      displayedColumns: this.getDisplayedColumns(),
+      onPlayClick: ClickActions.AddPlayTrack,
+      totalElements: paginatedTracks.totalElements,
+      totalPages: paginatedTracks.totalPages,
+      pageIndex: paginatedTracks.number,
+    });
     trackTable.addTracks(paginatedTracks.content);
-    trackTable.displayedColumns = this.getDisplayedColumns();
-    trackTable.onPlayClick = ClickActions.AddPlayTrack;
-    trackTable.totalElements = paginatedTracks.totalElements;
-    trackTable.totalPages = paginatedTracks.totalPages;
-    trackTable.pageIndex = paginatedTracks.number;
     return trackTable;
   }
 
   private getDisplayedColumns(): string[] {
     const displayedColumns = [
-      { name: "artist-name", showMobile: true },
-      { name: "album-name", showMobile: false },
+      { name: "artistName", showMobile: true },
+      { name: "albumName", showMobile: false },
       { name: "title", showMobile: true },
       { name: "length", showMobile: false },
       { name: "play-title", showMobile: true },

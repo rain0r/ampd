@@ -1,30 +1,17 @@
-import { Injectable } from "@angular/core";
-import { Observable, Subject } from "rxjs";
-import {
-  InternMsg,
-  InternMsgType,
-} from "./../shared/messages/internal/internal-msg";
+import { Injectable, signal, WritableSignal } from "@angular/core";
 
 @Injectable({
   providedIn: "root",
 })
-export class MsgService {
-  message: Observable<InternMsg>;
-  private message$ = new Subject<InternMsg>();
+export class FilterService {
+  message: WritableSignal<string> = signal<string>("");
+  exampleArrayOfObjects: WritableSignal<string> = signal<string>("");
 
-  constructor() {
-    this.message = this.message$.asObservable();
+  setMessage(text: string) {
+    this.message.set(text);
   }
 
-  /**
-   * For simple messages without payload
-   * @param {InternMsgType} type
-   */
-  sendMessageType(type: InternMsgType): void {
-    this.message$.next({ type: type } as InternMsg);
-  }
-
-  sendMessage(message: InternMsg): void {
-    this.message$.next(message);
+  getMessage(): string {
+    return this.message();
   }
 }

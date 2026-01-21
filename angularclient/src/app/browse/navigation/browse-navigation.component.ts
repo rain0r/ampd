@@ -9,13 +9,9 @@ import {
 import { RouterLink, RouterLinkActive } from "@angular/router";
 import { Observable } from "rxjs";
 import { FrontendSettingsService } from "src/app/service/frontend-settings.service";
-import {
-  FilterMsg,
-  InternMsgType,
-} from "src/app/shared/messages/internal/internal-msg";
 import { SettingKeys } from "src/app/shared/model/internal/frontend-settings";
 import { ControlPanelService } from "../../service/control-panel.service";
-import { MsgService } from "../../service/msg.service";
+import { FilterService } from "../../service/msg.service";
 import { NotificationService } from "../../service/notification.service";
 import { QueueService } from "../../service/queue.service";
 
@@ -53,7 +49,7 @@ import { MatInput } from "@angular/material/input";
 export class BrowseNavigationComponent {
   private controlPanelService = inject(ControlPanelService);
   private fsService = inject(FrontendSettingsService);
-  private messageService = inject(MsgService);
+  private messageService = inject(FilterService);
   private notificationService = inject(NotificationService);
   private queueService = inject(QueueService);
 
@@ -126,10 +122,7 @@ export class BrowseNavigationComponent {
     const term = (eventTarget as HTMLInputElement).value;
     this.filter = term;
     if (term) {
-      this.messageService.sendMessage({
-        type: InternMsgType.BrowseFilter,
-        filterValue: term,
-      } as FilterMsg);
+      this.messageService.setMessage(term);
     } else {
       this.resetFilter();
     }
@@ -137,9 +130,6 @@ export class BrowseNavigationComponent {
 
   resetFilter(): void {
     this.filter = "";
-    this.messageService.sendMessage({
-      type: InternMsgType.BrowseFilter,
-      filterValue: "",
-    } as FilterMsg);
+    this.messageService.setMessage("");
   }
 }

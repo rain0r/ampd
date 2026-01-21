@@ -19,6 +19,7 @@ import { AddStreamDialogComponent } from "src/app/queue/track-table/add-stream-d
 import { ResponsiveScreenService } from "src/app/service/responsive-screen.service";
 import { PaginatedResponse } from "src/app/shared/messages/incoming/paginated-response";
 import { Track } from "src/app/shared/messages/incoming/track";
+import { environment } from "src/environments/environment";
 import { MpdService } from "../../service/mpd.service";
 import { QueueService } from "../../service/queue.service";
 import { QueueTrack } from "../../shared/model/queue-track";
@@ -27,7 +28,6 @@ import { ClickActions } from "../../shared/track-table-data/click-actions.enum";
 import { TrackTableDataComponent } from "../../shared/track-table-data/track-table-data.component";
 import { TrackTableOptions } from "../../shared/track-table-data/track-table-options";
 import { SavePlaylistDialogComponent } from "../save-playlist-dialog/save-playlist-dialog.component";
-import { environment } from "src/environments/environment";
 
 @Component({
   selector: "app-track-table",
@@ -107,8 +107,8 @@ export class TrackTableComponent {
   private getDisplayedColumns(): string[] {
     const displayedColumns = [
       { name: "position", showMobile: false },
-      { name: "artist-name", showMobile: true },
-      { name: "album-name", showMobile: false },
+      { name: "artistName", showMobile: true },
+      { name: "albumName", showMobile: false },
       { name: "title", showMobile: true },
       { name: "length", showMobile: false },
       { name: "remove", showMobile: true },
@@ -121,17 +121,19 @@ export class TrackTableComponent {
   private buildTableData(
     queueResponse: PaginatedResponse<Track>,
   ): TrackTableOptions {
-    const trackTable = new TrackTableOptions();
+    const trackTable = new TrackTableOptions({
+      addTitleColumn: false,
+      displayedColumns: this.getDisplayedColumns(),
+      dragEnabled: !this.isMobile,
+      onRowClick: ClickActions.PlayTrack,
+      pageIndex: queueResponse.number,
+      pageSize: queueResponse.pageable.pageSize,
+      playTitleColumn: false,
+      totalElements: queueResponse.totalElements,
+      totalPages: queueResponse.totalPages,
+      totalPlayTime: queueResponse.totalPlayTime,
+    });
     trackTable.addTracks(queueResponse.content);
-    trackTable.addTitleColumn = false;
-    trackTable.displayedColumns = this.getDisplayedColumns();
-    trackTable.dragEnabled = !this.isMobile;
-    trackTable.onRowClick = ClickActions.PlayTrack;
-    trackTable.pageIndex = queueResponse.number;
-    trackTable.playTitleColumn = false;
-    trackTable.totalElements = queueResponse.totalElements;
-    trackTable.totalPages = queueResponse.totalPages;
-    trackTable.totalPlayTime = queueResponse.totalPlayTime;
     return trackTable;
   }
 

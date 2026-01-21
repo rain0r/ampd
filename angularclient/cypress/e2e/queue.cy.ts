@@ -27,7 +27,9 @@ describe("Pagination of a queue with 1000 tracks", () => {
 
     cy.paginate(1000);
 
+    cy.scrollTo("top");
     cy.wait(3000);
+
     cy.get('[data-cy="elapsed"]').invoke("data", "elapsed").should("be.gt", 2);
     cy.clearQueue();
   });

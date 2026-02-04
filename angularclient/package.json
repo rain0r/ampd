@@ -37,7 +37,7 @@
     "@cypress/schematic": "5.0.0",
     "@types/node": "25.1.0",
     "angular-eslint": "21.1.0",
-    "autoprefixer": "10.4.21",
+    "autoprefixer": "10.4.24",
     "cypress": "latest",
     "cypress-multi-reporters": "2.0.5",
     "eslint": "9.39.2",

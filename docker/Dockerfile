@@ -16,6 +16,11 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/* && \
     mvn package -q -Dnpm.exec=npm
 FROM eclipse-temurin:25
+RUN apt-get update && \
+    apt-get upgrade -y && \
+    apt-get install -y --no-install-recommends --no-install-suggests curl && \
+    apt-get autoremove -y && \
+    rm -rf /var/lib/apt/lists/*
 WORKDIR /opt/ampd
 COPY --from=builder /srv/target/ampd.jar ./ampd.jar
 CMD ["java", "-jar", "ampd.jar"]

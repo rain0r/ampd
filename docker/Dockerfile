@@ -1,26 +1,18 @@
-FROM maven:3-eclipse-temurin-25 AS builder
-WORKDIR /srv
-COPY . .
-ENV DEBIAN_FRONTEND=noninteractive
-ENV NODE_MAJOR=22
+FROM node as frontend
+WORKDIR /app
+COPY angularclient .
+RUN npm ci \
+    && npx ng build --output-path=dist --configuration=production --base-href=./
 
-RUN apt-get update && \
-    apt-get upgrade -y && \
-    apt-get install -y --no-install-recommends --no-install-suggests ca-certificates curl gnupg && \
-    mkdir -p /etc/apt/keyrings && \
-    curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg && \
-    echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_$NODE_MAJOR.x nodistro main" | tee /etc/apt/sources.list.d/nodesource.list && \
-    apt-get update && \
-    apt-get install -y --no-install-recommends --no-install-suggests nodejs && \
-    apt-get autoremove -y && \
-    rm -rf /var/lib/apt/lists/* && \
-    mvn package -q -Dnpm.exec=npm
+FROM maven AS backend
+WORKDIR /srv
+COPY --exclude=angularclient . .
+COPY --from=frontend /app/dist/browser/* src/main/resources/static/
+RUN rm -rf /var/lib/apt/lists/* \
+    && mvn package -q -Dskip.npm=true
+
 FROM eclipse-temurin:25
-RUN apt-get update && \
-    apt-get upgrade -y && \
-    apt-get install -y --no-install-recommends --no-install-suggests curl && \
-    apt-get autoremove -y && \
-    rm -rf /var/lib/apt/lists/*
 WORKDIR /opt/ampd
-COPY --from=builder /srv/target/ampd.jar ./ampd.jar
+COPY --from=backend /srv/target/ampd.jar .
+RUN rm -rf /var/lib/apt/lists/*
 CMD ["java", "-jar", "ampd.jar"]

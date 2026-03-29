@@ -10,28 +10,28 @@ import org.springframework.context.event.EventListener;
 /**
  * ampd starts here.
  */
-@PropertySource(value = "classpath:application.properties")
+@PropertySource(value = "classpath:application.properties", ignoreResourceNotFound = true)
 @SpringBootApplication
 public class AmpdServer {
 
-	@Value("${server.address}")
-	private String address;
+    @Value("${server.address:0.0.0.0}")
+    private String address;
 
-	@Value("${server.port}")
-	private int port;
+    @Value("${server.port:8080}")
+    private int port;
 
-	public static void main(String[] args) {
-		SpringApplication.run(AmpdServer.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(AmpdServer.class, args);
+    }
 
-	/**
-	 * Show the user a welcome message.
-	 */
-	@EventListener(ApplicationReadyEvent.class)
-	public void printWelcomeMessage() {
-		System.out.println("\n==================================================");
-		System.out.println("ampd is running on: " + address + ":" + port);
-		System.out.println("==================================================");
-	}
+    /**
+     * Show the user a welcome message.
+     */
+    @EventListener(ApplicationReadyEvent.class)
+    public void printWelcomeMessage() {
+        System.out.println("\n==================================================");
+        System.out.println("ampd is running on: " + address + ":" + port);
+        System.out.println("==================================================");
+    }
 
 }

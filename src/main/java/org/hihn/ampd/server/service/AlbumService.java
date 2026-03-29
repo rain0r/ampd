@@ -8,9 +8,7 @@ import org.hihn.ampd.server.model.AmpdSettings;
 import org.hihn.ampd.server.util.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.support.PagedListHolder;
 import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -99,10 +97,9 @@ public class AlbumService {
 		LOG.debug("Done filling albums cache...");
 	}
 
-	public PageImpl<MPDAlbum> listAllAlbums(final String searchTermP, final int pageIndex, final int pageSize,
-			final String sortBy) {
-		LOG.trace("listAllAlbums() searchTermP={}, pageIndex={}, pageSize={}, sortBy={}", searchTermP, pageIndex,
-				pageSize, sortBy);
+	public PageImpl<MPDAlbum> listAllAlbums(final String searchTermP, final Pageable pageable, final String sortBy) {
+		LOG.trace("listAllAlbums() searchTermP={}, pageIndex={}, pageSize={}, sortBy={}", searchTermP,
+				pageable.getPageNumber(), pageable.getPageSize(), sortBy);
 		String searchTerm = searchTermP.toLowerCase().trim();
 
 		List<MPDAlbum> filteredAlbums = albums.stream()
@@ -121,12 +118,10 @@ public class AlbumService {
 			Collections.shuffle(filteredAlbums);
 		}
 
-		Pageable pageable = PageRequest.of(pageIndex, pageSize);
-		PagedListHolder<MPDAlbum> pages = new PagedListHolder<>(filteredAlbums);
-		pages.setPage(pageIndex);
-		pages.setPageSize(pageSize);
-		LOG.trace("Returning {} albums", pages.getPageList());
-		return new PageImpl<>(pages.getPageList(), pageable, filteredAlbums.size());
+		int start = (int) pageable.getOffset(); // page * size
+		int end = Math.min(start + pageable.getPageSize(), filteredAlbums.size());
+		List<MPDAlbum> content = (start <= end) ? filteredAlbums.subList(start, end) : Collections.emptyList();
+		return new PageImpl<>(content, pageable, filteredAlbums.size());
 	}
 
 	public Collection<MPDSong> listAlbum(final String album, final String artist) {

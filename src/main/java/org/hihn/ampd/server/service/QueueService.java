@@ -8,11 +8,10 @@ import org.hihn.ampd.server.message.incoming.AddPlayAlbum;
 import org.hihn.ampd.server.model.QueuePageImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.support.PagedListHolder;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -80,21 +79,13 @@ public class QueueService {
 		mpd.getPlaylist().move(track, newPos);
 	}
 
-	public QueuePageImpl<MPDPlaylistSong> getQueue(final int pageIndex, final int pageSize) {
-		LOG.trace("getQueue pageIndex: {}, pageSize: {}", pageIndex, pageSize);
+	public QueuePageImpl<MPDPlaylistSong> getQueue(final Pageable pageable) {
+		LOG.trace("getQueue pageIndex: {}, pageSize: {}", pageable.getPageNumber(), pageable.getPageSize());
 		List<MPDPlaylistSong> songList = mpd.getPlaylist().getSongList();
-
-		PagedListHolder<MPDPlaylistSong> pagedListHolder = new PagedListHolder<>(songList);
-		pagedListHolder.setPage(pageIndex);
-		pagedListHolder.setPageSize(pageSize);
-
-		Pageable pageable = PageRequest.of(pageIndex, pageSize);
-		QueuePageImpl<MPDPlaylistSong> page = new QueuePageImpl<>(pagedListHolder.getPageList(), pageable,
-				songList.size(), sumQueuePlayTime(songList));
-
-		LOG.trace("Page size: {}", page.getSize());
-
-		return page;
+		int start = (int) pageable.getOffset(); // page * size
+		int end = Math.min(start + pageable.getPageSize(), songList.size());
+		List<MPDPlaylistSong> content = (start <= end) ? songList.subList(start, end) : Collections.emptyList();
+		return new QueuePageImpl<>(content, pageable, songList.size(), sumQueuePlayTime(songList));
 	}
 
 	public void addAlbum(final AddPlayAlbum addPlayAlbum) {

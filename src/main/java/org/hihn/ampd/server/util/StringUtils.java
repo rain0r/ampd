@@ -17,6 +17,10 @@ public class StringUtils {
 	 * @return ASCII representation of the input string.
 	 */
 	public static String hexToAscii(String hexStr) {
+		if (isNullOrEmpty(hexStr)) {
+			return "";
+		}
+
 		StringBuilder output = new StringBuilder();
 
 		for (int i = 0; i < hexStr.length(); i += 2) {

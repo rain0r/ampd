@@ -10,13 +10,13 @@ import org.hihn.ampd.server.model.QueuePageImpl;
 import org.hihn.ampd.server.service.QueueService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.annotation.SendToUser;
 import org.springframework.stereotype.Controller;
 
 import java.util.List;
-
-import static org.hihn.ampd.server.util.Constants.DEFAULT_PAGE_SIZE_REQ_PARAM;
 
 /**
  * Websocket endpoint to control the queue. Besides getting the current queue, it also
@@ -49,7 +49,8 @@ public class QueueController {
 	@MessageMapping("/page")
 	@SendToUser("/topic/queue")
 	public QueuePageImpl<MPDPlaylistSong> getPage(PageEvent pageEvent) {
-		return queueService.getQueue(pageEvent.pageIndex(), pageEvent.pageSize());
+		Pageable pageable = PageRequest.of(pageEvent.pageIndex(), pageEvent.pageSize());
+		return queueService.getQueue(pageable);
 	}
 
 	/**
@@ -115,13 +116,6 @@ public class QueueController {
 	@MessageMapping("/move-track")
 	public void moveTrack(final MoveTrackMsg moveTrackMsg) {
 		queueService.moveTrack(moveTrackMsg.getOldPos(), moveTrackMsg.getNewPos());
-	}
-
-	public record PageEvent(int pageIndex, int pageSize) {
-		public PageEvent(int pageIndex, int pageSize) {
-			this.pageIndex = Math.max(pageIndex, 0);
-			this.pageSize = (pageSize < 20) ? Integer.parseInt(DEFAULT_PAGE_SIZE_REQ_PARAM) : pageSize;
-		}
 	}
 
 }

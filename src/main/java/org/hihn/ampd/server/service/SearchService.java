@@ -5,16 +5,11 @@ import org.bff.javampd.song.MPDSong;
 import org.bff.javampd.song.SearchCriteria;
 import org.bff.javampd.song.SongSearcher;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.support.PagedListHolder;
 import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class SearchService {
@@ -36,23 +31,20 @@ public class SearchService {
 	 * @param query The term to search for.
 	 * @return A payload with the search results.
 	 */
-	public PageImpl<MPDSong> search(final String query, final int pageIndex, final int pageSize) {
-		List<MPDSong> ret = new ArrayList<>(mpd.getSongSearcher().search(SongSearcher.ScopeType.ANY, query.trim()));
-		Pageable pageable = PageRequest.of(pageIndex, pageSize);
-		PagedListHolder<MPDSong> pages = new PagedListHolder<>(ret);
-		pages.setPage(pageIndex);
-		pages.setPageSize(pageSize);
-		return new PageImpl<>(pages.getPageList(), pageable, ret.size());
+	public PageImpl<MPDSong> search(final String query, final Pageable pageable) {
+		List<MPDSong> all = new ArrayList<>(mpd.getSongSearcher().search(SongSearcher.ScopeType.ANY, query.trim()));
+		int start = (int) pageable.getOffset(); // page * size
+		int end = Math.min(start + pageable.getPageSize(), all.size());
+		List<MPDSong> content = (start <= end) ? all.subList(start, end) : Collections.emptyList();
+		return new PageImpl<>(content, pageable, all.size());
 	}
 
-	public PageImpl<MPDSong> advSearch(final Map<String, String> searchParams, final int pageIndex,
-			final int pageSize) {
-		List<MPDSong> ret = searchByParams(searchParams);
-		Pageable pageable = PageRequest.of(pageIndex, pageSize);
-		PagedListHolder<MPDSong> pages = new PagedListHolder<>(ret);
-		pages.setPage(pageIndex);
-		pages.setPageSize(pageSize);
-		return new PageImpl<>(pages.getPageList(), pageable, ret.size());
+	public PageImpl<MPDSong> advSearch(final Map<String, String> searchParams, final Pageable pageable) {
+		List<MPDSong> all = searchByParams(searchParams);
+		int start = (int) pageable.getOffset(); // page * size
+		int end = Math.min(start + pageable.getPageSize(), all.size());
+		List<MPDSong> content = (start <= end) ? all.subList(start, end) : Collections.emptyList();
+		return new PageImpl<>(content, pageable, all.size());
 	}
 
 	private SongSearcher.ScopeType scopeTypeForStr(final String typeName) {

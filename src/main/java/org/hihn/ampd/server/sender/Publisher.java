@@ -55,7 +55,7 @@ public class Publisher {
 		ServerStatus serverStatus = mpd.getServerStatus();
 		MpdModesPanelMsg mpdModesPanelMsg = new MpdModesPanelMsg(serverStatus);
 		MPDPlaylistSong song = mpd.getPlayer().getCurrentSong().orElse(null);
-		StatePayload statePayload = new StatePayload(serverStatus, song, mpdModesPanelMsg);
+		StatePayload statePayload = new StatePayload(mpdModesPanelMsg, song, serverStatus);
 		template.convertAndSend(STATE_URL, statePayload);
 	}
 

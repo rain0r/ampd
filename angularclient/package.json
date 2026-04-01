@@ -44,7 +44,7 @@
     "eslint-config-prettier": "10.1.8",
     "eslint-plugin-prettier": "5.5.5",
     "mochawesome": "7.1.4",
-    "mochawesome-merge": "5.1.0",
+    "mochawesome-merge": "5.1.1",
     "mochawesome-report-generator": "6.3.2",
     "npm-check-updates": "19.6.3",
     "package-lock-sanitizer": "1.0.4",

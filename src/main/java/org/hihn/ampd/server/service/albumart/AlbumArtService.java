@@ -10,6 +10,7 @@ import org.hihn.ampd.server.model.AmpdSettings;
 import org.hihn.ampd.server.service.cache.CoverCacheService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -23,10 +24,13 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.regex.Pattern;
 
+import static org.hihn.ampd.server.config.CachingConfig.MEDIUM_LIVED;
+
 /**
  * Methods to load album artworks from the music directory.
  */
 @Service
+@Cacheable(MEDIUM_LIVED)
 public class AlbumArtService {
 
 	private static final Logger LOG = LoggerFactory.getLogger(AlbumArtService.class);

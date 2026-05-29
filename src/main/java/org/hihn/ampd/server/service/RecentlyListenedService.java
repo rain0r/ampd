@@ -9,7 +9,6 @@ import org.hihn.listenbrainz.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
@@ -20,10 +19,11 @@ import org.springframework.stereotype.Service;
 
 import java.util.*;
 
+import static org.hihn.ampd.server.config.CachingConfig.MEDIUM_LIVED;
 import static org.hihn.ampd.server.util.StringUtils.isNullOrEmpty;
 
 @Service
-@CacheConfig(cacheNames = "RecentlyListenedServiceAlbums")
+@Cacheable(MEDIUM_LIVED)
 @Scope(proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class RecentlyListenedService {
 

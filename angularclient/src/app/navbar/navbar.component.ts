@@ -6,7 +6,12 @@ import { MatIcon } from "@angular/material/icon";
 import { MatProgressSpinner } from "@angular/material/progress-spinner";
 import { MatToolbar } from "@angular/material/toolbar";
 import { RouterLink, RouterLinkActive, RouterOutlet } from "@angular/router";
-import { BehaviorSubject, first, Observable } from "rxjs";
+import {
+  BehaviorSubject,
+  combineLatest,
+  distinctUntilChanged,
+  Observable,
+} from "rxjs";
 import { ConnectingOverlayComponent } from "../connecting-overlay/connecting-overlay.component";
 import { AmpdRxStompService } from "./../service/ampd-rx-stomp.service";
 import { ShortcutService } from "./../service/shortcut.service";
@@ -43,7 +48,7 @@ export class NavbarComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.connState.subscribe((state) => this.openConnectingDialog(state));
+    this.openConnectingDialog();
   }
 
   @HostListener("document:keydown", ["$event"])
@@ -76,12 +81,13 @@ export class NavbarComponent implements OnInit {
     document.dispatchEvent(new KeyboardEvent("keydown", { key: "h" }));
   }
 
-  private openConnectingDialog(state: number): void {
-    this.errorDialogOpen
-      .asObservable()
-      .pipe(first())
-      .subscribe((open) => {
-        if (!open && state !== 1) {
+  private openConnectingDialog(): void {
+    combineLatest([this.connState, this.errorDialogOpen])
+      .pipe(distinctUntilChanged())
+      .subscribe(([connState, errorDialogOpen]) => {
+        if (!errorDialogOpen && connState !== 1) {
+          console.log("connState:", connState);
+          console.log("errorDialogOpen:", errorDialogOpen);
           this.connDialogRef = this.dialog.open(ConnectingOverlayComponent, {
             disableClose: true,
           });
@@ -89,7 +95,7 @@ export class NavbarComponent implements OnInit {
           this.connDialogRef
             .afterClosed()
             .subscribe(() => this.errorDialogOpen.next(false));
-        } else if (state === 1) {
+        } else if (connState === 1) {
           this.connDialogRef?.close();
         }
       });

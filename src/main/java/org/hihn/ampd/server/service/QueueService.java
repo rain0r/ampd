@@ -80,7 +80,6 @@ public class QueueService {
 	}
 
 	public QueuePageImpl<MPDPlaylistSong> getQueue(final Pageable pageable) {
-		LOG.trace("getQueue pageIndex: {}, pageSize: {}", pageable.getPageNumber(), pageable.getPageSize());
 		List<MPDPlaylistSong> songList = mpd.getPlaylist().getSongList();
 		int start = (int) pageable.getOffset(); // page * size
 		int end = Math.min(start + pageable.getPageSize(), songList.size());

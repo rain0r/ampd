@@ -8,9 +8,7 @@ import org.bff.javampd.song.SearchCriteria;
 import org.bff.javampd.song.SongSearcher;
 import org.hihn.ampd.server.message.outgoing.GenrePayload;
 import org.hihn.ampd.server.util.StringUtils;
-import org.springframework.beans.support.PagedListHolder;
 import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -37,14 +35,14 @@ public class GenreService {
 		return ret;
 	}
 
-	public GenrePayload listGenre(final String genre, final int pageIndex, final int pageSize) {
+	public GenrePayload listGenre(final String genre, final Pageable pageable) {
 		if (genre.isBlank()) {
 			return new GenrePayload(genre, null, null);
 		}
-		return new GenrePayload(genre, getTracks(genre, pageIndex, pageSize), getAlbums(genre, pageIndex, pageSize));
+		return new GenrePayload(genre, getTracks(genre, pageable), getAlbums(genre, pageable));
 	}
 
-	private PageImpl<MPDAlbum> getAlbums(final String genre, final int pageIndex, final int pageSize) {
+	private PageImpl<MPDAlbum> getAlbums(final String genre, final Pageable pageable) {
 		List<MPDAlbum> albums = new ArrayList<>();
 		mpd.getMusicDatabase()
 			.getAlbumDatabase()
@@ -60,14 +58,14 @@ public class GenreService {
 					albums.add(mpdAlbum);
 				}
 			});
-		Pageable pageable = PageRequest.of(pageIndex, pageSize);
-		PagedListHolder<MPDAlbum> pages = new PagedListHolder<>(albums);
-		pages.setPage(pageIndex);
-		pages.setPageSize(pageSize);
-		return new PageImpl<>(pages.getPageList(), pageable, albums.size());
+
+		int start = (int) pageable.getOffset(); // page * size
+		int end = Math.min(start + pageable.getPageSize(), albums.size());
+		List<MPDAlbum> content = (start <= end) ? albums.subList(start, end) : Collections.emptyList();
+		return new PageImpl<>(content, pageable, albums.size());
 	}
 
-	private PageImpl<MPDSong> getTracks(final String genre, final int pageIndex, final int pageSize) {
+	private PageImpl<MPDSong> getTracks(final String genre, final Pageable pageable) {
 		SongSearcher songSearcher = mpd.getSongSearcher();
 		SearchCriteria crit = new SearchCriteria(SongSearcher.ScopeType.GENRE, genre);
 		List<MPDSong> tracks = new ArrayList<>(songSearcher.search(crit));
@@ -78,11 +76,10 @@ public class GenreService {
 
 		tracks.sort(trackComp);
 
-		Pageable pageable = PageRequest.of(pageIndex, pageSize);
-		PagedListHolder<MPDSong> pages = new PagedListHolder<>(tracks);
-		pages.setPage(pageIndex);
-		pages.setPageSize(pageSize);
-		return new PageImpl<>(pages.getPageList(), pageable, tracks.size());
+		int start = (int) pageable.getOffset(); // page * size
+		int end = Math.min(start + pageable.getPageSize(), tracks.size());
+		List<MPDSong> content = (start <= end) ? tracks.subList(start, end) : Collections.emptyList();
+		return new PageImpl<>(content, pageable, tracks.size());
 	}
 
 }

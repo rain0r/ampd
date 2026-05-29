@@ -10,14 +10,14 @@ import org.springframework.context.event.EventListener;
 /**
  * ampd starts here.
  */
-@PropertySource(value = "classpath:application.properties")
+@PropertySource(value = "classpath:application.properties", ignoreResourceNotFound = true)
 @SpringBootApplication
 public class AmpdServer {
 
-	@Value("${server.address}")
+	@Value("${server.address:0.0.0.0}")
 	private String address;
 
-	@Value("${server.port}")
+	@Value("${server.port:8080}")
 	private int port;
 
 	public static void main(String[] args) {

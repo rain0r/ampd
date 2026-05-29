@@ -8,13 +8,12 @@ import org.hihn.ampd.server.model.AmpdSettings;
 import org.hihn.ampd.server.model.PlaylistInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.support.PagedListHolder;
 import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -90,27 +89,20 @@ public class PlaylistService {
 	 * @param name The name of the playlist.
 	 * @return Info about the specified playlist.
 	 */
-	public Optional<PlaylistInfo> getPlaylistInfo(final String name, final int pageIndex, final int pageSize) {
+	public Optional<PlaylistInfo> getPlaylistInfo(final String name, final Pageable pageable) {
 		Optional<PlaylistInfo> ret = Optional.empty();
 		try {
-			PageImpl<MPDSong> page = getPage(
-					new ArrayList<>(mpd.getMusicDatabase().getPlaylistDatabase().listPlaylistSongs(name)), pageIndex,
-					pageSize);
-			ret = Optional.of(new PlaylistInfo(name, page));
+			List<MPDSong> all = new ArrayList<>(mpd.getMusicDatabase().getPlaylistDatabase().listPlaylistSongs(name));
+			int start = (int) pageable.getOffset(); // page * size
+			int end = Math.min(start + pageable.getPageSize(), all.size());
+			List<MPDSong> content = (start <= end) ? all.subList(start, end) : Collections.emptyList();
+			PageImpl<MPDSong> pageImpl = new PageImpl<>(content, pageable, all.size());
+			ret = Optional.of(new PlaylistInfo(name, pageImpl));
 		}
 		catch (Exception e) {
 			LOG.error("Could not get info about playlist: {}", name, e);
 		}
 		return ret;
-	}
-
-	private PageImpl<MPDSong> getPage(final List<MPDSong> playlists, final int pageIndex, final int pageSize) {
-		Pageable pageable = PageRequest.of(pageIndex, pageSize);
-		PagedListHolder<MPDSong> pages = new PagedListHolder<>(playlists);
-		pages.setPage(pageIndex);
-		pages.setPageSize(pageSize);
-		return new PageImpl<>(pages.getPageList(), pageable, playlists.size());
-
 	}
 
 }

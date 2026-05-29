@@ -9,7 +9,6 @@ import org.hihn.listenbrainz.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.support.PagedListHolder;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.annotation.Scope;
@@ -58,14 +57,13 @@ public class RecentlyListenedService {
 	}
 
 	public PageImpl<MPDAlbum> getPage(final int pageIndex) {
-		int pageSize = 12;
+		Pageable pageable = PageRequest.of(pageIndex, 12);
 
-		Pageable pageable = PageRequest.of(pageIndex, pageSize);
-		Set<MPDAlbum> recentlyListenedAlbums = self.getRecentlyListenedAlbums();
-		PagedListHolder<MPDAlbum> pages = new PagedListHolder<>(new ArrayList<>(recentlyListenedAlbums));
-		pages.setPage(pageIndex);
-		pages.setPageSize(pageSize);
-		return new PageImpl<>(pages.getPageList(), pageable, recentlyListenedAlbums.size());
+		List<MPDAlbum> all = new ArrayList<>(self.getRecentlyListenedAlbums());
+		int start = (int) pageable.getOffset(); // page * size
+		int end = Math.min(start + pageable.getPageSize(), all.size());
+		List<MPDAlbum> content = (start <= end) ? all.subList(start, end) : Collections.emptyList();
+		return new PageImpl<>(content, pageable, all.size());
 	}
 
 	@Cacheable
@@ -149,7 +147,10 @@ public class RecentlyListenedService {
 			String title = metadata.getReleaseName();
 
 			Map<String, String> params = Map.of("album", album, "albumartist", artist, "title", title);
-			searchService.advSearch(params, 0, 1).get().findFirst().ifPresent(tracks::add);
+
+			Pageable pageable = PageRequest.of(0, 1);
+
+			searchService.advSearch(params, pageable).get().findFirst().ifPresent(tracks::add);
 		});
 		return tracks;
 	}

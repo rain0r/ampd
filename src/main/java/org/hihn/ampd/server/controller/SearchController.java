@@ -4,11 +4,10 @@ import org.bff.javampd.song.MPDSong;
 import org.hihn.ampd.server.message.outgoing.SearchPayload;
 import org.hihn.ampd.server.service.SearchService;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
-
-import static org.hihn.ampd.server.util.Constants.DEFAULT_PAGE_SIZE_REQ_PARAM;
 
 /**
  * Endpoint for search queries.
@@ -29,17 +28,13 @@ public class SearchController {
 	 * @return A {@link SearchPayload}-object contain
 	 */
 	@GetMapping("/search")
-	public PageImpl<MPDSong> search(@RequestParam("term") String searchTerm,
-			@RequestParam(defaultValue = "0") int pageIndex,
-			@RequestParam(defaultValue = DEFAULT_PAGE_SIZE_REQ_PARAM) int pageSize) {
-		return searchService.search(searchTerm, pageIndex, pageSize);
+	public PageImpl<MPDSong> search(@RequestParam("term") String searchTerm, Pageable pageable) {
+		return searchService.search(searchTerm, pageable);
 	}
 
 	@GetMapping("/adv-search")
-	public PageImpl<MPDSong> advSearch(@RequestParam Map<String, String> searchParams,
-			@RequestParam(defaultValue = "0") int pageIndex,
-			@RequestParam(defaultValue = DEFAULT_PAGE_SIZE_REQ_PARAM) int pageSize) {
-		return searchService.advSearch(searchParams, pageIndex, pageSize);
+	public PageImpl<MPDSong> advSearch(@RequestParam Map<String, String> searchParams, Pageable pageable) {
+		return searchService.advSearch(searchParams, pageable);
 	}
 
 	@PostMapping("/adv-search")

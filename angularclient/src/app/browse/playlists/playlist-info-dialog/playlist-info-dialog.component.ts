@@ -87,11 +87,9 @@ export class PlaylistInfoDialogComponent implements AfterViewInit {
 
   onDeletePlaylist(): void {
     this.playlistService.deletePlaylist(this.data.name).subscribe(() => {
+      this.notificationService.popUp(`Deleted playlist: "${this.data.name}"`);
       this.router
-        .navigate(["/browse"])
-        .then(() => {
-          window.location.reload();
-        })
+        .navigate(["/browse"], { queryParams: { dir: "/" } })
         .catch(() => void 0);
     });
     this.dialogRef.close();

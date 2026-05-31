@@ -15,6 +15,7 @@ import org.musicbrainz.model.searchresult.RecordingResultWs2;
 import org.musicbrainz.model.searchresult.ReleaseResultWs2;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.io.InputStream;
@@ -25,10 +26,13 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import static org.hihn.ampd.server.config.CachingConfig.MEDIUM_LIVED;
+
 /**
  * Queries MusicBrainz for covers.
  */
 @Service
+@Cacheable(MEDIUM_LIVED)
 public class MbCoverService {
 
 	private static final Logger LOG = LoggerFactory.getLogger(MbCoverService.class);

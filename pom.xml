@@ -42,7 +42,6 @@
         <frontend.configuration>production</frontend.configuration>
         <npm.exec>npm</npm.exec>
         <skip.npm>false</skip.npm>
-        <cache2k-version>2.6.1.Final</cache2k-version>
     </properties>
     <scm>
         <url>https://github.com/rain0r/ampd</url>
@@ -109,20 +108,9 @@
             <version>0.1.2</version>
         </dependency>
         <dependency>
-            <groupId>org.cache2k</groupId>
-            <artifactId>cache2k-api</artifactId>
-            <version>${cache2k-version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.cache2k</groupId>
-            <artifactId>cache2k-core</artifactId>
-            <version>${cache2k-version}</version>
-            <scope>runtime</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.cache2k</groupId>
-            <artifactId>cache2k-spring</artifactId>
-            <version>${cache2k-version}</version>
+            <groupId>com.github.ben-manes.caffeine</groupId>
+            <artifactId>caffeine</artifactId>
+            <version>3.2.4</version>
         </dependency>
     </dependencies>
     <build>

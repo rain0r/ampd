@@ -8,6 +8,7 @@ import org.hihn.ampd.server.model.AmpdSettings;
 import org.hihn.ampd.server.model.PlaylistInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+
+import static org.hihn.ampd.server.config.CachingConfig.SHORT_LIVED;
 
 /**
  * Provides methods to manage playlists.
@@ -89,6 +92,7 @@ public class PlaylistService {
 	 * @param name The name of the playlist.
 	 * @return Info about the specified playlist.
 	 */
+	@Cacheable(SHORT_LIVED)
 	public Optional<PlaylistInfo> getPlaylistInfo(final String name, final Pageable pageable) {
 		Optional<PlaylistInfo> ret = Optional.empty();
 		try {

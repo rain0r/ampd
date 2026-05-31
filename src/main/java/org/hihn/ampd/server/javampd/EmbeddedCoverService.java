@@ -6,7 +6,6 @@ import org.hihn.ampd.server.model.AmpdSettings;
 import org.hihn.ampd.server.util.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +18,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static org.hihn.ampd.server.config.CachingConfig.LONG_LIVED;
 import static org.hihn.ampd.server.util.StringUtils.bytesToHex;
 import static org.hihn.ampd.server.util.StringUtils.isNullOrEmpty;
 
@@ -27,7 +27,7 @@ import static org.hihn.ampd.server.util.StringUtils.isNullOrEmpty;
  * {@code readpicture}. The MPD server will then reply with the embedded cover art.
  */
 @Service
-@CacheConfig(cacheNames = "EmbeddedCoverServiceCovers")
+@Cacheable(LONG_LIVED)
 public class EmbeddedCoverService {
 
 	private static final Logger LOG = LoggerFactory.getLogger(EmbeddedCoverService.class);

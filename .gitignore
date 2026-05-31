@@ -1,5 +1,6 @@
 # ampd
 .idea
+ampd.iml
 *.log*.gz
 angularclient/cypress/results/
 angularclient/cypress/screenshots/

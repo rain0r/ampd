@@ -8,9 +8,12 @@ import org.hihn.ampd.server.message.outgoing.browse.BrowsePayload;
 import org.hihn.ampd.server.message.outgoing.browse.Playlist;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+
+import static org.hihn.ampd.server.config.CachingConfig.SHORT_LIVED;
 
 /**
  * Provides methods to browse the MPD library.
@@ -49,6 +52,7 @@ public class BrowseService {
 	 * @param path Path relative to the MPD root library.
 	 * @return Object with the directories and tracks of the given path.
 	 */
+	@Cacheable(SHORT_LIVED)
 	public BrowsePayload findDirsAndTracks(final String path) {
 		BrowsePayload browsePayload = new BrowsePayload();
 		// Build a MPDFile from the input path

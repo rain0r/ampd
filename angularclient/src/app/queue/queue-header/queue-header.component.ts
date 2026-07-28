@@ -1,11 +1,12 @@
-import { Component, inject } from "@angular/core";
+import { AsyncPipe } from "@angular/common";
+import { Component, DestroyRef, inject } from "@angular/core";
+import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
+import { MatDivider } from "@angular/material/divider";
+import { RouterLink } from "@angular/router";
 import { Observable, combineLatest, map, shareReplay, startWith } from "rxjs";
 import { MpdService } from "../../service/mpd.service";
 import { QueueTrack } from "../../shared/model/queue-track";
 import { RadioStreamService } from "./../../service/radio-stream.service";
-import { AsyncPipe } from "@angular/common";
-import { RouterLink } from "@angular/router";
-import { MatDivider } from "@angular/material/divider";
 import { CoverImageComponent } from "./cover-image/cover-image.component";
 
 interface CurrentPlay {
@@ -20,6 +21,7 @@ interface CurrentPlay {
   imports: [RouterLink, MatDivider, CoverImageComponent, AsyncPipe],
 })
 export class QueueHeaderComponent {
+  private destroyRef = inject(DestroyRef);
   private mpdService = inject(MpdService);
   private radioStreamService = inject(RadioStreamService);
 
@@ -41,7 +43,9 @@ export class QueueHeaderComponent {
         } as CurrentPlay;
       }),
     );
-    this.currentPlay$.subscribe((data) => this.processCurrentPlay(data));
+    this.currentPlay$
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((data) => this.processCurrentPlay(data));
 
     this.handleRadioStream();
   }

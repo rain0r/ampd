@@ -1,18 +1,18 @@
 <div>
-  @if (trackTableData.dataSource.data.length > 0) {
+  @if (trackTableData().dataSource.data.length > 0) {
     <div>
       <mat-form-field class="w-full">
         <input
           (keydown.escape)="resetFilter()"
           (keyup)="applyFilter($event.target)"
-          [(ngModel)]="trackTableData.dataSource.filter"
+          [(ngModel)]="trackTableData().dataSource.filter"
           #filterInputElem
           autocomplete="off"
           matInput
           placeholder="Filter queue"
           type="text"
         />
-        @if (trackTableData.dataSource.filter) {
+        @if (trackTableData().dataSource.filter) {
           <mat-icon (click)="resetFilter()" aria-label="Clear" matSuffix>
             close
           </mat-icon>
@@ -22,33 +22,33 @@
   }
 
   <app-track-data-table
-    [trackTableData]="trackTableData"
+    [trackTableData]="trackTableData()"
   ></app-track-data-table>
 
-  @if (trackTableData.dataSource.data.length > 0) {
+  @if (trackTableData().dataSource.data.length > 0) {
     <mat-divider></mat-divider>
   }
 
   <div class="flex flex-col md:flex-row gap-2 mt-5">
-    @if (trackTableData.dataSource.data.length > 0) {
+    @if (trackTableData().dataSource.data.length > 0) {
       <span class="self-end">
         <span
-          [ngPlural]="trackTableData.dataSource.data.length"
+          [ngPlural]="trackTableData().dataSource.data.length"
           class="self-end"
         >
           <ng-template ngPluralCase="=1">1 track </ng-template>
           <ng-template ngPluralCase="other"
             ><span data-cy="queue-track-count">{{
-              trackTableData.totalElements
+              trackTableData().totalElements
             }}</span>
             tracks</ng-template
           >
         </span>
         in the queue.
-        @if (trackTableData.totalPlayTime > 0) {
+        @if (trackTableData().totalPlayTime > 0) {
           <span>
             Duration:
-            {{ trackTableData.totalPlayTime | secondsToHhMmSs }}
+            {{ trackTableData().totalPlayTime | secondsToHhMmSs }}
           </span>
         }
       </span>
@@ -58,7 +58,7 @@
       <mat-icon>add</mat-icon>
       Add stream
     </button>
-    @if (trackTableData.dataSource.data.length > 0) {
+    @if (trackTableData().dataSource.data.length > 0) {
       <button
         mat-stroked-button
         (click)="openSavePlaylistDialog()"

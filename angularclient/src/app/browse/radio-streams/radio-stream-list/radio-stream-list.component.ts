@@ -1,6 +1,7 @@
 import {
   AfterViewInit,
   Component,
+  DestroyRef,
   Input,
   ViewChild,
   inject,
@@ -21,11 +22,10 @@ import {
   MatTable,
   MatTableDataSource,
 } from "@angular/material/table";
-import { QueueService } from "src/app/service/queue.service";
-import { RadioStreamService } from "src/app/service/radio-stream.service";
 import { RadioStream } from "../../../shared/model/db/radio-stream";
 import { ConfirmDeleteStreamDialogComponent } from "../confirm-delete-stream-dialog/confirm-delete-stream-dialog.component";
 
+import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { FormsModule } from "@angular/forms";
 import { MatButton } from "@angular/material/button";
 import {
@@ -37,6 +37,8 @@ import {
 import { MatFormField, MatSuffix } from "@angular/material/form-field";
 import { MatIcon } from "@angular/material/icon";
 import { MatInput } from "@angular/material/input";
+import { QueueService } from "../../../service/queue.service";
+import { RadioStreamService } from "../../../service/radio-stream.service";
 
 @Component({
   selector: "app-radio-stream-list",
@@ -68,9 +70,10 @@ import { MatInput } from "@angular/material/input";
   ],
 })
 export class RadioStreamListComponent implements AfterViewInit {
-  private radioStreamService = inject(RadioStreamService);
-  private queueService = inject(QueueService);
+  private destroyRef = inject(DestroyRef);
   private dialog = inject(MatDialog);
+  private queueService = inject(QueueService);
+  private radioStreamService = inject(RadioStreamService);
 
   @Input() dataSource = new MatTableDataSource<RadioStream>();
 
@@ -101,13 +104,17 @@ export class RadioStreamListComponent implements AfterViewInit {
       data: stream.name,
     });
 
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result === true) {
-        this.radioStreamService
-          .deleteStream(stream.id)
-          .subscribe((data) => (this.dataSource.data = data));
-      }
-    });
+    dialogRef
+      .afterClosed()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((result) => {
+        if (result === true) {
+          this.radioStreamService
+            .deleteStream(stream.id)
+            .pipe(takeUntilDestroyed(this.destroyRef))
+            .subscribe((data) => (this.dataSource.data = data));
+        }
+      });
   }
 
   onAddAll(): void {

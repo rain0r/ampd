@@ -1,6 +1,7 @@
 import { CdkScrollable } from "@angular/cdk/scrolling";
 import { AsyncPipe } from "@angular/common";
-import { AfterViewInit, Component, inject } from "@angular/core";
+import { AfterViewInit, Component, DestroyRef, inject } from "@angular/core";
+import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { MatButton } from "@angular/material/button";
 import {
   MAT_DIALOG_DATA,
@@ -14,10 +15,10 @@ import { MatIcon } from "@angular/material/icon";
 import { MatProgressSpinner } from "@angular/material/progress-spinner";
 import { ActivatedRoute, Router } from "@angular/router";
 import { BehaviorSubject, Observable, Subject, switchMap } from "rxjs";
-import { ResponsiveScreenService } from "src/app/service/responsive-screen.service";
 import { NotificationService } from "../../../service/notification.service";
 import { PlaylistService } from "../../../service/playlist.service";
 import { QueueService } from "../../../service/queue.service";
+import { ResponsiveScreenService } from "../../../service/responsive-screen.service";
 import { Playlist } from "../../../shared/messages/incoming/playlist";
 import { PlaylistInfo } from "../../../shared/model/playlist-info";
 import { ClickActions } from "../../../shared/track-table-data/click-actions.enum";
@@ -47,7 +48,9 @@ export class PlaylistInfoDialogComponent implements AfterViewInit {
   playlistInfo: Observable<PlaylistInfo>;
   trackTableData = new TrackTableOptions();
   data = inject<Playlist>(MAT_DIALOG_DATA);
+
   private activatedRoute = inject(ActivatedRoute);
+  private destroyRef = inject(DestroyRef);
   private notificationService = inject(NotificationService);
   private playlistService = inject(PlaylistService);
   private queueService = inject(QueueService);
@@ -61,6 +64,7 @@ export class PlaylistInfoDialogComponent implements AfterViewInit {
     this.playlistInfo = this.playlistInfo$.asObservable();
     this.responsiveScreenService
       .isMobile()
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((isMobile) => (this.isMobile = isMobile));
   }
 
@@ -77,6 +81,7 @@ export class PlaylistInfoDialogComponent implements AfterViewInit {
             Number(queryParams.get("pageSize")),
           );
         }),
+        takeUntilDestroyed(this.destroyRef),
       )
       .subscribe((info) => {
         this.trackTableData = this.buildTable(info);
@@ -86,12 +91,15 @@ export class PlaylistInfoDialogComponent implements AfterViewInit {
   }
 
   onDeletePlaylist(): void {
-    this.playlistService.deletePlaylist(this.data.name).subscribe(() => {
-      this.notificationService.popUp(`Deleted playlist: "${this.data.name}"`);
-      this.router
-        .navigate(["/browse"], { queryParams: { dir: "/" } })
-        .catch(() => void 0);
-    });
+    this.playlistService
+      .deletePlaylist(this.data.name)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => {
+        this.notificationService.popUp(`Deleted playlist: "${this.data.name}"`);
+        this.router
+          .navigate(["/browse"], { queryParams: { dir: "/" } })
+          .catch(() => void 0);
+      });
     this.dialogRef.close();
   }
 

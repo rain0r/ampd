@@ -1,17 +1,24 @@
 import { AsyncPipe, ViewportScroller } from "@angular/common";
-import { ChangeDetectorRef, Component, inject, OnInit } from "@angular/core";
+import {
+  ChangeDetectorRef,
+  Component,
+  DestroyRef,
+  inject,
+  OnInit,
+} from "@angular/core";
+import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { MatButton } from "@angular/material/button";
 import { MatPaginator, PageEvent } from "@angular/material/paginator";
 import { MatTab, MatTabGroup } from "@angular/material/tabs";
 import { ActivatedRoute, Router, RouterLink } from "@angular/router";
 import { delay, Observable, of } from "rxjs";
 import { filter, switchMap } from "rxjs/operators";
-import { GenreResponse } from "src/app/shared/messages/incoming/genres-response";
-import { PaginatedResponse } from "src/app/shared/messages/incoming/paginated-response";
-import { Track } from "src/app/shared/messages/incoming/track";
-import { AmpdBrowsePayload } from "src/app/shared/model/browse-payload";
 import { GenresService as GenreService } from "../../service/genres.service";
 import { ResponsiveScreenService } from "../../service/responsive-screen.service";
+import { GenreResponse } from "../../shared/messages/incoming/genres-response";
+import { PaginatedResponse } from "../../shared/messages/incoming/paginated-response";
+import { Track } from "../../shared/messages/incoming/track";
+import { AmpdBrowsePayload } from "../../shared/model/browse-payload";
 import { ClickActions } from "../../shared/track-table-data/click-actions.enum";
 import { TrackTableDataComponent } from "../../shared/track-table-data/track-table-data.component";
 import { TrackTableOptions } from "../../shared/track-table-data/track-table-options";
@@ -36,6 +43,7 @@ import { BrowseNavigationComponent } from "../navigation/browse-navigation.compo
 })
 export class GenresComponent implements OnInit {
   private activatedRoute = inject(ActivatedRoute);
+  private destroyRef = inject(DestroyRef);
   private genreService = inject(GenreService);
   private responsiveScreenService = inject(ResponsiveScreenService);
   private viewportScroller = inject(ViewportScroller);
@@ -52,6 +60,7 @@ export class GenresComponent implements OnInit {
   constructor() {
     this.responsiveScreenService
       .isMobile()
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((isMobile) => (this.isMobile = isMobile));
   }
 
@@ -68,6 +77,7 @@ export class GenresComponent implements OnInit {
             Number(queryParams.get("pageSize")),
           );
         }),
+        takeUntilDestroyed(this.destroyRef),
       )
       .subscribe((data) => this.processSearchResults(data));
   }
@@ -83,7 +93,7 @@ export class GenresComponent implements OnInit {
   scrollDown(): void {
     // Scrolling to anchor needs to be delayed to work
     of(null)
-      .pipe(delay(150))
+      .pipe(delay(150), takeUntilDestroyed(this.destroyRef))
       .subscribe(() => this.viewportScroller.scrollToAnchor("results"));
   }
 

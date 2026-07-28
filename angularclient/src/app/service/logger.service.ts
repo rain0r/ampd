@@ -1,6 +1,7 @@
-import { Injectable, inject } from "@angular/core";
-import { LogLevel } from "../shared/log/log-level";
+import { DestroyRef, Injectable, inject } from "@angular/core";
+import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { LogEntry } from "../shared/log/log-entry";
+import { LogLevel } from "../shared/log/log-level";
 import { LogPublisher } from "../shared/log/log-publisher";
 import { LogPublishersService } from "./log-publishers.service";
 
@@ -8,6 +9,7 @@ import { LogPublishersService } from "./log-publishers.service";
   providedIn: "root",
 })
 export class LoggerService {
+  private destroyRef = inject(DestroyRef);
   private publishersService = inject(LogPublishersService);
 
   level: LogLevel = LogLevel.All;
@@ -51,7 +53,10 @@ export class LoggerService {
       entry.extraInfo = params;
       entry.logWithDate = this.logWithDate;
       for (const logger of this.publishers) {
-        logger.log(entry).subscribe(() => void 0);
+        logger
+          .log(entry)
+          .pipe(takeUntilDestroyed(this.destroyRef))
+          .subscribe(() => void 0);
       }
     }
   }

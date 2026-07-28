@@ -3,9 +3,10 @@ import { AsyncPipe } from "@angular/common";
 import {
   ChangeDetectorRef,
   Component,
-  Input,
+  DestroyRef,
   ViewChild,
   inject,
+  input,
 } from "@angular/core";
 import { MatButton } from "@angular/material/button";
 import { MatDialog } from "@angular/material/dialog";
@@ -30,8 +31,10 @@ import {
   MatTable,
 } from "@angular/material/table";
 import { ActivatedRoute, Router } from "@angular/router";
-import { BehaviorSubject, Observable, take } from "rxjs";
-import { TrackInfoDialogComponent } from "src/app/browse/tracks/track-info-dialog/track-info-dialog.component";
+
+import { takeUntilDestroyed, toObservable } from "@angular/core/rxjs-interop";
+import { take } from "rxjs";
+import { TrackInfoDialogComponent } from "../../browse/tracks/track-info-dialog/track-info-dialog.component";
 import { QueueService } from "../../service/queue.service";
 import { Track } from "../messages/incoming/track";
 import { QueueTrack } from "../model/queue-track";
@@ -69,26 +72,20 @@ import { TrackTableOptions } from "./track-table-options";
 export class TrackTableDataComponent {
   private activatedRoute = inject(ActivatedRoute);
   private dialog = inject(MatDialog);
+  private destroyRef = inject(DestroyRef);
   private queueService = inject(QueueService);
   private router = inject(Router);
 
-  @Input() set trackTableData(trackTableData: TrackTableOptions) {
-    this.trackTableData$.next(trackTableData);
-  }
+  trackTableData = input.required<TrackTableOptions>();
+  trackTableDataObs = toObservable(this.trackTableData);
+
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator =
     new MatPaginator(new MatPaginatorIntl(), ChangeDetectorRef.prototype);
 
   @ViewChild(MatSort, { static: false }) set content(sort: MatSort) {
-    this.trackTableDataObs.subscribe((d) => (d.dataSource.sort = sort));
-  }
-
-  trackTableDataObs: Observable<TrackTableOptions>;
-  private trackTableData$ = new BehaviorSubject<TrackTableOptions>(
-    new TrackTableOptions(),
-  );
-
-  constructor() {
-    this.trackTableDataObs = this.trackTableData$.asObservable();
+    this.trackTableDataObs
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((d) => (d.dataSource.sort = sort));
   }
 
   handlePage($event: PageEvent): void {
@@ -100,24 +97,26 @@ export class TrackTableDataComponent {
   }
 
   onRowClick(track: QueueTrack): void {
-    this.trackTableDataObs.pipe(take(1)).subscribe((trackTableData) => {
-      if (!trackTableData.clickable) {
-        return;
-      }
-      switch (trackTableData.onRowClick) {
-        case ClickActions.AddTrack:
-          this.addTrack(track);
-          break;
-        case ClickActions.PlayTrack:
-          this.playTrack(track);
-          break;
-        case ClickActions.AddPlayTrack:
-          this.addPlayTrack(track);
-          break;
-        default:
-        // Ignore it
-      }
-    });
+    this.trackTableDataObs
+      .pipe(take(1), takeUntilDestroyed(this.destroyRef))
+      .subscribe((trackTableData) => {
+        if (!trackTableData.clickable) {
+          return;
+        }
+        switch (trackTableData.onRowClick) {
+          case ClickActions.AddTrack:
+            this.addTrack(track);
+            break;
+          case ClickActions.PlayTrack:
+            this.playTrack(track);
+            break;
+          case ClickActions.AddPlayTrack:
+            this.addPlayTrack(track);
+            break;
+          default:
+          // Ignore it
+        }
+      });
   }
 
   onRemoveTrack(track: QueueTrack): void {
@@ -129,18 +128,20 @@ export class TrackTableDataComponent {
   }
 
   onPlayTrack(track: QueueTrack): void {
-    this.trackTableDataObs.pipe(take(1)).subscribe((trackTableData) => {
-      switch (trackTableData.onPlayClick) {
-        case ClickActions.PlayTrack:
-          this.playTrack(track);
-          break;
-        case ClickActions.AddPlayTrack:
-          this.addPlayTrack(track);
-          break;
-        default:
-        // Ignore it
-      }
-    });
+    this.trackTableDataObs
+      .pipe(take(1), takeUntilDestroyed(this.destroyRef))
+      .subscribe((trackTableData) => {
+        switch (trackTableData.onPlayClick) {
+          case ClickActions.PlayTrack:
+            this.playTrack(track);
+            break;
+          case ClickActions.AddPlayTrack:
+            this.addPlayTrack(track);
+            break;
+          default:
+          // Ignore it
+        }
+      });
   }
 
   onListDrop(event: CdkDragDrop<QueueTrack[]>): void {

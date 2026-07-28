@@ -1,9 +1,9 @@
 import { MatTableDataSource } from "@angular/material/table";
-import { environment } from "src/environments/environment";
 import { Track } from "../messages/incoming/track";
 import { QueueTrack } from "../model/queue-track";
 import { PAGE_SIZE_OPTIONS } from "../page-size-options";
 import { ClickActions } from "./click-actions.enum";
+import { environment } from "../../../environments/environment";
 
 export interface ITrackTableOptions {
   addTitleColumn?: boolean;

@@ -1,4 +1,5 @@
-import { ApplicationRef, Injectable, inject } from "@angular/core";
+import { ApplicationRef, DestroyRef, Injectable, inject } from "@angular/core";
+import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { SettingKeys } from "../shared/model/internal/frontend-settings";
 import { StyleManager } from "../shared/style-manager";
 import { FrontendSettingsService } from "./frontend-settings.service";
@@ -13,6 +14,7 @@ enum Themes {
   providedIn: "root",
 })
 export class ThemingService {
+  private destroyRef = inject(DestroyRef);
   private feSettings = inject(FrontendSettingsService);
   private logger = inject(LoggerService);
   private ref = inject(ApplicationRef);
@@ -47,6 +49,7 @@ export class ThemingService {
     // Then subscribe to apply a them dynamically
     this.feSettings
       .getBoolValue$(SettingKeys.DARK_THEME)
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((isDarkTheme) =>
         this.loadTheme(isDarkTheme ? Themes.Darker : Themes.Lighter),
       );

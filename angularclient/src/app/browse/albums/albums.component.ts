@@ -1,11 +1,13 @@
 import { AsyncPipe, ViewportScroller } from "@angular/common";
 import {
   Component,
+  DestroyRef,
   ElementRef,
   OnInit,
   ViewChild,
   inject,
 } from "@angular/core";
+import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { FormsModule } from "@angular/forms";
 import { MatOption } from "@angular/material/autocomplete";
 import { MatIconButton } from "@angular/material/button";
@@ -22,9 +24,9 @@ import { MatSelect } from "@angular/material/select";
 import { ActivatedRoute, Router } from "@angular/router";
 import { BehaviorSubject, Observable, combineLatest } from "rxjs";
 import { map, startWith, tap } from "rxjs/operators";
-import { AlbumsService } from "src/app/service/albums.service";
-import { PaginatedResponse } from "src/app/shared/messages/incoming/paginated-response";
-import { MpdAlbum } from "src/app/shared/model/http/album";
+import { AlbumsService } from "../../service/albums.service";
+import { PaginatedResponse } from "../../shared/messages/incoming/paginated-response";
+import { MpdAlbum } from "../../shared/model/http/album";
 import { BrowseNavigationComponent } from "../navigation/browse-navigation.component";
 import { AlbumItemComponent } from "./album-item/album-item.component";
 
@@ -57,6 +59,7 @@ interface SortByKey {
 export class AlbumsComponent implements OnInit {
   private activatedRoute = inject(ActivatedRoute);
   private albumService = inject(AlbumsService);
+  private destroyRef = inject(DestroyRef);
   private router = inject(Router);
   private viewportScroller = inject(ViewportScroller);
 
@@ -116,17 +119,15 @@ export class AlbumsComponent implements OnInit {
         tap((searchTerm) => (this.searchTerm = searchTerm)),
       );
 
-    combineLatest([
-      this.activatedRoute.queryParamMap,
-      sortBy,
-      searchTerm,
-    ]).subscribe(([queryParams, sortBy, searchTerm]) => {
-      this.pagedAlbums$ = this.albumService.getAlbums(
-        searchTerm,
-        Number(queryParams.get("pageIndex")),
-        sortBy,
-      );
-    });
+    combineLatest([this.activatedRoute.queryParamMap, sortBy, searchTerm])
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(([queryParams, sortBy, searchTerm]) => {
+        this.pagedAlbums$ = this.albumService.getAlbums(
+          searchTerm,
+          Number(queryParams.get("pageIndex")),
+          sortBy,
+        );
+      });
   }
 
   handlePage($event: PageEvent): void {

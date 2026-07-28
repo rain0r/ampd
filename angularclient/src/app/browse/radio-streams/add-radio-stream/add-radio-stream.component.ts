@@ -1,16 +1,17 @@
-import { Component, inject } from "@angular/core";
+import { Component, DestroyRef, inject } from "@angular/core";
+import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import {
   FormControl,
   FormGroup,
-  Validators,
   FormsModule,
   ReactiveFormsModule,
+  Validators,
 } from "@angular/forms";
-import { RadioStreamService } from "../../../service/radio-stream.service";
-import { RadioStream } from "../../../shared/model/db/radio-stream";
+import { MatButton } from "@angular/material/button";
 import { MatFormField, MatLabel } from "@angular/material/form-field";
 import { MatInput } from "@angular/material/input";
-import { MatButton } from "@angular/material/button";
+import { RadioStreamService } from "../../../service/radio-stream.service";
+import { RadioStream } from "../../../shared/model/db/radio-stream";
 
 @Component({
   selector: "app-add-radio-stream",
@@ -26,6 +27,7 @@ import { MatButton } from "@angular/material/button";
   ],
 })
 export class AddStreamComponent {
+  private destroyRef = inject(DestroyRef);
   private radioStreamService = inject(RadioStreamService);
 
   radioStreamForm = new FormGroup({
@@ -40,6 +42,7 @@ export class AddStreamComponent {
         name: String(this.name.value),
         url: String(this.url.value),
       } as RadioStream)
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(() => {
         this.radioStreamForm.reset();
         window.location.reload();

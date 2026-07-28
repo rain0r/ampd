@@ -1,17 +1,18 @@
-import { Component, OnInit, inject } from "@angular/core";
+import { AsyncPipe } from "@angular/common";
+import { Component, DestroyRef, OnInit, inject } from "@angular/core";
+import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
+import { MatButton } from "@angular/material/button";
 import { MatDialog } from "@angular/material/dialog";
+import { MatIcon } from "@angular/material/icon";
 import { Observable, combineLatest, first, map, of, switchMap } from "rxjs";
-import { TrackInfoDialogComponent } from "src/app/browse/tracks/track-info-dialog/track-info-dialog.component";
-import { FrontendSettingsService } from "src/app/service/frontend-settings.service";
-import { ResponsiveScreenService } from "src/app/service/responsive-screen.service";
-import { SettingKeys } from "src/app/shared/model/internal/frontend-settings";
+import { TrackInfoDialogComponent } from "../../browse/tracks/track-info-dialog/track-info-dialog.component";
 import { ControlPanelService } from "../../service/control-panel.service";
+import { FrontendSettingsService } from "../../service/frontend-settings.service";
 import { MpdService } from "../../service/mpd.service";
 import { NotificationService } from "../../service/notification.service";
 import { QueueService } from "../../service/queue.service";
-import { MatButton } from "@angular/material/button";
-import { MatIcon } from "@angular/material/icon";
-import { AsyncPipe } from "@angular/common";
+import { ResponsiveScreenService } from "../../service/responsive-screen.service";
+import { SettingKeys } from "../../shared/model/internal/frontend-settings";
 
 @Component({
   selector: "app-control-panel",
@@ -22,6 +23,7 @@ import { AsyncPipe } from "@angular/common";
 export class ControlPanelComponent implements OnInit {
   private controlPanelService = inject(ControlPanelService);
   private dialog = inject(MatDialog);
+  private destroyRef = inject(DestroyRef);
   private fsSettings = inject(FrontendSettingsService);
   private mpdService = inject(MpdService);
   private notificationService = inject(NotificationService);
@@ -110,6 +112,7 @@ export class ControlPanelComponent implements OnInit {
           track: results[1],
         })),
         first(),
+        takeUntilDestroyed(this.destroyRef),
       )
       .subscribe((result) => {
         this.dialog.open(TrackInfoDialogComponent, {

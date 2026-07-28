@@ -1,9 +1,9 @@
-import { Component, Input, inject } from "@angular/core";
-import { LoggerService } from "src/app/service/logger.service";
-import { RadioStreamService } from "src/app/service/radio-stream.service";
-
+import { Component, DestroyRef, Input, inject } from "@angular/core";
+import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { MatMiniFabButton } from "@angular/material/button";
 import { MatIcon } from "@angular/material/icon";
+import { LoggerService } from "../../../service/logger.service";
+import { RadioStreamService } from "../../../service/radio-stream.service";
 
 @Component({
   selector: "app-import-radio-streams",
@@ -12,8 +12,9 @@ import { MatIcon } from "@angular/material/icon";
   imports: [MatMiniFabButton, MatIcon],
 })
 export class ImportRadioStreamsComponent {
-  private radioStreamService = inject(RadioStreamService);
+  private destroyRef = inject(DestroyRef);
   private logger = inject(LoggerService);
+  private radioStreamService = inject(RadioStreamService);
 
   @Input()
   requiredFileType = "application/json";
@@ -45,6 +46,7 @@ export class ImportRadioStreamsComponent {
 
       this.radioStreamService
         .uploadImportFile(formData)
+        .pipe(takeUntilDestroyed(this.destroyRef))
         .subscribe(() => window.location.reload());
     }
   }

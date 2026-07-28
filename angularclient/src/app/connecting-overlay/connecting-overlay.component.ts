@@ -1,5 +1,6 @@
 import { AsyncPipe } from "@angular/common";
-import { Component, inject } from "@angular/core";
+import { Component, DestroyRef, inject } from "@angular/core";
+import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import {
   MatDialogActions,
   MatDialogContent,
@@ -15,8 +16,11 @@ import { interval, map, Observable, take } from "rxjs";
   imports: [MatProgressSpinner, MatDialogContent, MatDialogActions, AsyncPipe],
 })
 export class ConnectingOverlayComponent {
+  private destroyRef = inject(DestroyRef);
   private dialogRef = inject(MatDialogRef<ConnectingOverlayComponent>);
+
   counter$: Observable<number>;
+
   readonly seconds = 5;
 
   constructor() {
@@ -24,7 +28,7 @@ export class ConnectingOverlayComponent {
       take(this.seconds),
       map((t) => Math.abs(t - this.seconds)),
     );
-    this.counter$.subscribe({
+    this.counter$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       complete: () => this.dialogRef.close(),
     });
   }

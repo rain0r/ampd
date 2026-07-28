@@ -1,14 +1,14 @@
 import { AsyncPipe } from "@angular/common";
 import { Component, inject } from "@angular/core";
-import { DirectoriesComponent } from "./directories/directories.component";
-import { BrowseNavigationComponent } from "./navigation/browse-navigation.component";
-import { PlaylistsComponent } from "./playlists/playlists.component";
-import { TracksComponent } from "./tracks/tracks.component";
 import { MatProgressSpinner } from "@angular/material/progress-spinner";
 import { ActivatedRoute } from "@angular/router";
 import { Observable, map, mergeMap } from "rxjs";
 import { BrowseService } from "../service/browse.service";
 import { AmpdBrowsePayload } from "../shared/model/browse-payload";
+import { DirectoriesComponent } from "./directories/directories.component";
+import { BrowseNavigationComponent } from "./navigation/browse-navigation.component";
+import { PlaylistsComponent } from "./playlists/playlists.component";
+import { TracksComponent } from "./tracks/tracks.component";
 
 @Component({
   selector: "app-browse",
@@ -24,11 +24,11 @@ import { AmpdBrowsePayload } from "../shared/model/browse-payload";
   ],
 })
 export class BrowseComponent {
-  private route = inject(ActivatedRoute);
   private browseService = inject(BrowseService);
+  private route = inject(ActivatedRoute);
 
-  isLoading = this.browseService.isLoading;
   browsePayload$: Observable<AmpdBrowsePayload>;
+  isLoading = this.browseService.isLoading;
 
   constructor() {
     const dir: Observable<string> = this.route.queryParamMap.pipe(

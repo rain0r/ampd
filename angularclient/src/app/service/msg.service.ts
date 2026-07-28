@@ -5,9 +5,9 @@ import { Injectable, signal, WritableSignal } from "@angular/core";
 })
 export class FilterService {
   message: WritableSignal<string> = signal<string>("");
-  exampleArrayOfObjects: WritableSignal<string> = signal<string>("");
 
   setMessage(text: string) {
+    console.log("FilterService:", text);
     this.message.set(text);
   }
 

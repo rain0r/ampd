@@ -1,19 +1,21 @@
+import { AsyncPipe } from "@angular/common";
 import { HttpClient } from "@angular/common/http";
 import {
   ChangeDetectorRef,
   Component,
+  DestroyRef,
   Input,
   OnInit,
   inject,
 } from "@angular/core";
+import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
+import { MatButton } from "@angular/material/button";
+import { RouterLink } from "@angular/router";
 import { of } from "rxjs";
 import { ControlPanelService } from "../../../../service/control-panel.service";
 import { NotificationService } from "../../../../service/notification.service";
 import { QueueService } from "../../../../service/queue.service";
 import { Directory } from "../../../../shared/messages/incoming/directory";
-import { AsyncPipe } from "@angular/common";
-import { RouterLink } from "@angular/router";
-import { MatButton } from "@angular/material/button";
 
 @Component({
   selector: "app-cover-grid-entry",
@@ -23,6 +25,7 @@ import { MatButton } from "@angular/material/button";
 })
 export class CoverGridEntryComponent implements OnInit {
   private controlPanelService = inject(ControlPanelService);
+  private destroyRef = inject(DestroyRef);
   private http = inject(HttpClient);
   private notificationService = inject(NotificationService);
   private queueService = inject(QueueService);
@@ -61,6 +64,7 @@ export class CoverGridEntryComponent implements OnInit {
     }
     this.http
       .head(this.directory.albumCoverUrl, { observe: "response" })
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         error: () => {
           this.directory = null;

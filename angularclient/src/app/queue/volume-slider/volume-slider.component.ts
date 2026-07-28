@@ -1,12 +1,13 @@
-import { Component, inject } from "@angular/core";
+import { Component, DestroyRef, inject } from "@angular/core";
 
-import { Observable } from "rxjs";
-import { MpdService } from "src/app/service/mpd.service";
-import { VolumeService } from "../../service/volume.service";
 import { AsyncPipe } from "@angular/common";
+import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
+import { FormsModule } from "@angular/forms";
 import { MatIcon } from "@angular/material/icon";
 import { MatSlider, MatSliderThumb } from "@angular/material/slider";
-import { FormsModule } from "@angular/forms";
+import { Observable } from "rxjs";
+import { MpdService } from "../../service/mpd.service";
+import { VolumeService } from "../../service/volume.service";
 
 @Component({
   selector: "app-volume-slider",
@@ -15,6 +16,7 @@ import { FormsModule } from "@angular/forms";
   imports: [MatIcon, MatSlider, MatSliderThumb, FormsModule, AsyncPipe],
 })
 export class VolumeSliderComponent {
+  private destroyRef = inject(DestroyRef);
   private mpdService = inject(MpdService);
   private volumeService = inject(VolumeService);
 
@@ -25,7 +27,9 @@ export class VolumeSliderComponent {
   constructor() {
     const volumeService = this.volumeService;
 
-    volumeService.volume.subscribe((volume) => (this.volume = volume));
+    volumeService.volume
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((volume) => (this.volume = volume));
     this.connected$ = this.mpdService.isConnected$();
     this.state$ = this.mpdService.currentState$;
   }

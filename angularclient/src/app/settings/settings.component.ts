@@ -5,7 +5,7 @@ import {
 } from "@angular/material/slide-toggle";
 import { Title } from "@angular/platform-browser";
 import { Observable } from "rxjs";
-import { FrontendSettingsService } from "src/app/service/frontend-settings.service";
+
 import { NotificationService } from "../service/notification.service";
 import { SettingsService } from "../service/settings.service";
 import { LS_LOG_NAME } from "../shared/log/log-local-storage";
@@ -31,6 +31,7 @@ import { MatButton } from "@angular/material/button";
 import { UpdateDatabaseComponent } from "./admin/update-database/update-database.component";
 import { ServerStatisticsComponent } from "./admin/server-statistics/server-statistics.component";
 import { LogViewComponent } from "./log-view/log-view.component";
+import { FrontendSettingsService } from "../service/frontend-settings.service";
 
 type SettingMap = Record<string, FrontendSetting[]>;
 

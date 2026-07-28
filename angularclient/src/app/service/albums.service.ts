@@ -2,10 +2,10 @@ import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable, inject } from "@angular/core";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
-import { PaginatedResponse } from "src/app/shared/messages/incoming/paginated-response";
 import { MpdAlbum } from "../shared/model/http/album";
 import { QueueTrack } from "../shared/model/queue-track";
 import { SettingsService } from "./settings.service";
+import { PaginatedResponse } from "../shared/messages/incoming/paginated-response";
 
 @Injectable({
   providedIn: "root",

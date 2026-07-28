@@ -2,13 +2,15 @@ import { HttpClient } from "@angular/common/http";
 import {
   ChangeDetectorRef,
   Component,
+  DestroyRef,
   Input,
   OnInit,
   inject,
 } from "@angular/core";
+import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { MatDialog } from "@angular/material/dialog";
 import { BehaviorSubject, first } from "rxjs";
-import { MpdAlbum } from "src/app/shared/model/http/album";
+import { MpdAlbum } from "../../../shared/model/http/album";
 import { AlbumDialogComponent } from "../album-dialog/album-dialog.component";
 
 @Component({
@@ -19,6 +21,7 @@ import { AlbumDialogComponent } from "../album-dialog/album-dialog.component";
 })
 export class AlbumItemComponent implements OnInit {
   private dialog = inject(MatDialog);
+  private destroyRef = inject(DestroyRef);
   private http = inject(HttpClient);
   private changeDetectorRef = inject(ChangeDetectorRef);
 
@@ -32,7 +35,7 @@ export class AlbumItemComponent implements OnInit {
   openDialog(): void {
     this.albumDialogOpen
       .asObservable()
-      .pipe(first())
+      .pipe(first(), takeUntilDestroyed(this.destroyRef))
       .subscribe((open) => {
         if (!open) {
           this.albumDialogOpen.next(true);
@@ -43,6 +46,7 @@ export class AlbumItemComponent implements OnInit {
           });
           dialogRef
             .afterClosed()
+            .pipe(takeUntilDestroyed(this.destroyRef))
             .subscribe(() => this.albumDialogOpen.next(false));
         }
       });
@@ -54,6 +58,7 @@ export class AlbumItemComponent implements OnInit {
     }
     this.http
       .head(this.album.albumCoverUrl, { observe: "response" })
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         error: () => {
           if (this.album) {

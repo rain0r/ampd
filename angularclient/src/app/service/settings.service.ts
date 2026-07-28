@@ -3,12 +3,12 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable, inject } from "@angular/core";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
-import { FrontendSettingsService } from "src/app/service/frontend-settings.service";
-import { environment } from "src/environments/environment";
+import { FrontendSettingsService } from "../service/frontend-settings.service";
 import { AmpdSetting } from "../shared/model/ampd-setting";
 import { CoverDiskUsage } from "../shared/model/http/cover-disk-usage";
 import { SettingKeys } from "../shared/model/internal/frontend-settings";
 import { MpdSettings } from "../shared/model/mpd-settings";
+import { environment } from "../../environments/environment";
 
 @Injectable({
   providedIn: "root",

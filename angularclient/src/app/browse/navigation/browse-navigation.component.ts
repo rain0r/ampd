@@ -8,13 +8,10 @@ import {
 } from "@angular/core";
 import { RouterLink, RouterLinkActive } from "@angular/router";
 import { Observable } from "rxjs";
-import { FrontendSettingsService } from "src/app/service/frontend-settings.service";
-import { SettingKeys } from "src/app/shared/model/internal/frontend-settings";
 import { ControlPanelService } from "../../service/control-panel.service";
 import { FilterService } from "../../service/msg.service";
 import { NotificationService } from "../../service/notification.service";
 import { QueueService } from "../../service/queue.service";
-
 import { AsyncPipe } from "@angular/common";
 import { FormsModule } from "@angular/forms";
 import { MatButton, MatIconButton } from "@angular/material/button";
@@ -26,6 +23,8 @@ import {
 } from "@angular/material/form-field";
 import { MatIcon } from "@angular/material/icon";
 import { MatInput } from "@angular/material/input";
+import { FrontendSettingsService } from "../../service/frontend-settings.service";
+import { SettingKeys } from "../../shared/model/internal/frontend-settings";
 
 @Component({
   selector: "app-browse-navigation",

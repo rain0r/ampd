@@ -1,4 +1,5 @@
-import { Injectable, inject } from "@angular/core";
+import { DestroyRef, Injectable, inject } from "@angular/core";
+import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { BehaviorSubject, Observable, Subject } from "rxjs";
 import { bufferTime, filter, withLatestFrom } from "rxjs/operators";
 import { VolumeSetter } from "../shared/model/volume-setter";
@@ -9,8 +10,9 @@ import { MpdService } from "./mpd.service";
   providedIn: "root",
 })
 export class VolumeService {
-  private rxStompService = inject(AmpdRxStompService);
+  private destroyRef = inject(DestroyRef);
   private mpdService = inject(MpdService);
+  private rxStompService = inject(AmpdRxStompService);
 
   volume: Observable<number>;
   volumeSetter: Observable<VolumeSetter>;
@@ -54,17 +56,19 @@ export class VolumeService {
       bufferTime(500),
       filter((times) => times.length > 0),
     );
-    volInput.pipe(withLatestFrom(this.volume)).subscribe(([times, volume]) => {
-      const newVol = times[0].increase
-        ? volume + times.length
-        : volume - times.length;
-      this.setVolume(newVol);
-    });
+    volInput
+      .pipe(withLatestFrom(this.volume), takeUntilDestroyed(this.destroyRef))
+      .subscribe(([times, volume]) => {
+        const newVol = times[0].increase
+          ? volume + times.length
+          : volume - times.length;
+        this.setVolume(newVol);
+      });
   }
 
   private buildStateSubscription(): void {
-    this.mpdService.state$.subscribe((payload) =>
-      this.volume$.next(payload.serverStatus.volume),
-    );
+    this.mpdService.state$
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((payload) => this.volume$.next(payload.serverStatus.volume));
   }
 }

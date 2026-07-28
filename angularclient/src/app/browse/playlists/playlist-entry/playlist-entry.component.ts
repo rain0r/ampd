@@ -1,13 +1,14 @@
-import { delay, of } from "rxjs";
-import { Component, Input, inject } from "@angular/core";
+import { Component, DestroyRef, Input, inject } from "@angular/core";
+import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
+import { MatButton } from "@angular/material/button";
 import { MatDialog } from "@angular/material/dialog";
-import { ControlPanelService } from "src/app/service/control-panel.service";
+import { MatIcon } from "@angular/material/icon";
+import { delay, of } from "rxjs";
+import { ControlPanelService } from "../../../service/control-panel.service";
 import { NotificationService } from "../../../service/notification.service";
 import { QueueService } from "../../../service/queue.service";
 import { Playlist } from "../../../shared/messages/incoming/playlist";
 import { PlaylistInfoDialogComponent } from "../playlist-info-dialog/playlist-info-dialog.component";
-import { MatIcon } from "@angular/material/icon";
-import { MatButton } from "@angular/material/button";
 
 @Component({
   selector: "app-playlist-entry",
@@ -17,6 +18,7 @@ import { MatButton } from "@angular/material/button";
 })
 export class PlaylistEntryComponent {
   private controlPanelService = inject(ControlPanelService);
+  private destroyRef = inject(DestroyRef);
   private dialog = inject(MatDialog);
   private notificationService = inject(NotificationService);
   private queueService = inject(QueueService);
@@ -34,7 +36,7 @@ export class PlaylistEntryComponent {
     $event.stopPropagation();
     this.queueService.addPlaylist(playlistName);
     of(null)
-      .pipe(delay(500))
+      .pipe(delay(500), takeUntilDestroyed(this.destroyRef))
       .subscribe(
         // Delay hitting "play" since the tracks might not yet been to the queue
         () => this.controlPanelService.play(),

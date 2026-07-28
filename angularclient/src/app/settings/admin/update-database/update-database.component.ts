@@ -1,8 +1,9 @@
-import { Component, inject } from "@angular/core";
+import { Component, DestroyRef, inject } from "@angular/core";
+import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
+import { MatButton } from "@angular/material/button";
+import { MatCard, MatCardContent } from "@angular/material/card";
 import { MpdService } from "../../../service/mpd.service";
 import { NotificationService } from "../../../service/notification.service";
-import { MatCard, MatCardContent } from "@angular/material/card";
-import { MatButton } from "@angular/material/button";
 
 @Component({
   selector: "app-update-database",
@@ -11,18 +12,25 @@ import { MatButton } from "@angular/material/button";
   imports: [MatCard, MatCardContent, MatButton],
 })
 export class UpdateDatabaseComponent {
-  private notificationService = inject(NotificationService);
+  private destroyRef = inject(DestroyRef);
   private mpdService = inject(MpdService);
+  private notificationService = inject(NotificationService);
 
   rescanDatabase(): void {
-    this.mpdService.rescanDatabase$().subscribe(() => {
-      this.notificationService.popUp("Triggered database rescan");
-    });
+    this.mpdService
+      .rescanDatabase$()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => {
+        this.notificationService.popUp("Triggered database rescan");
+      });
   }
 
   updateDatabase(): void {
-    this.mpdService.updateDatabase$().subscribe(() => {
-      this.notificationService.popUp("Triggered database update");
-    });
+    this.mpdService
+      .updateDatabase$()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => {
+        this.notificationService.popUp("Triggered database update");
+      });
   }
 }

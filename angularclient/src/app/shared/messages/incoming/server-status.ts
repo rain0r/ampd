@@ -13,5 +13,5 @@ export interface ServerStatus {
   single: boolean;
   status: string[];
   error: string;
-  state: string;
+  state: "stop" | "play" | "pause";
 }

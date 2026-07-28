@@ -19,7 +19,7 @@ declare global {
 export class AppComponent implements OnInit {
   private ts = inject(ThemingService);
 
-  lightThemeEnabled;
+  lightThemeEnabled = false;
 
   constructor() {
     this.lightThemeEnabled = this.ts.onLoad();

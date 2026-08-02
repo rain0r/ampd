@@ -1,5 +1,6 @@
 import { AsyncPipe } from "@angular/common";
-import { Component, OnInit, inject } from "@angular/core";
+import { Component, DestroyRef, OnInit, inject } from "@angular/core";
+import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { FormsModule } from "@angular/forms";
 import { MatButton, MatIconButton } from "@angular/material/button";
 import { MatFormField, MatSuffix } from "@angular/material/form-field";
@@ -9,9 +10,9 @@ import { MatProgressSpinner } from "@angular/material/progress-spinner";
 import { ActivatedRoute, RouterLink } from "@angular/router";
 import { BehaviorSubject, Observable, Subject, combineLatest, of } from "rxjs";
 import { debounceTime, distinctUntilChanged, switchMap } from "rxjs/operators";
-import { ResponsiveScreenService } from "src/app/service/responsive-screen.service";
 import { NotificationService } from "../service/notification.service";
 import { QueueService } from "../service/queue.service";
+import { ResponsiveScreenService } from "../service/responsive-screen.service";
 import { SearchService } from "../service/search.service";
 import { PaginatedResponse } from "../shared/messages/incoming/paginated-response";
 import { Track } from "../shared/messages/incoming/track";
@@ -40,6 +41,7 @@ import { TrackTableOptions } from "../shared/track-table-data/track-table-option
 })
 export class SearchComponent implements OnInit {
   private activatedRoute = inject(ActivatedRoute);
+  private destroyRef = inject(DestroyRef);
   private notificationService = inject(NotificationService);
   private queueService = inject(QueueService);
   private responsiveScreenService = inject(ResponsiveScreenService);
@@ -57,6 +59,7 @@ export class SearchComponent implements OnInit {
     this.buildInputListener();
     this.responsiveScreenService
       .isMobile()
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((isMobile) => (this.isMobile = isMobile));
   }
 
@@ -135,6 +138,7 @@ export class SearchComponent implements OnInit {
             Number(queryParams.get("pageSize")),
           );
         }),
+        takeUntilDestroyed(this.destroyRef),
       )
       .subscribe((data) => this.processSearchResults(data));
   }

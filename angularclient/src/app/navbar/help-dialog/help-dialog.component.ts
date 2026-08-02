@@ -1,13 +1,13 @@
+import { CdkScrollable } from "@angular/cdk/scrolling";
 import { Component, inject } from "@angular/core";
-import { Observable } from "rxjs";
-import { ShortcutService } from "src/app/service/shortcut.service";
 import {
-  MatDialogTitle,
-  MatDialogContent,
   MatDialogActions,
   MatDialogClose,
+  MatDialogContent,
+  MatDialogTitle,
 } from "@angular/material/dialog";
-import { CdkScrollable } from "@angular/cdk/scrolling";
+import { Observable } from "rxjs";
+import { ShortcutService } from "../../service/shortcut.service";
 
 import { MatButton } from "@angular/material/button";
 import { FilterByCategoryPipe } from "../../shared/pipes/filter/filter-by-category.pipe";

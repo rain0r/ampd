@@ -1,11 +1,14 @@
 import { NgPlural, NgPluralCase } from "@angular/common";
 import {
   Component,
+  DestroyRef,
   ElementRef,
   HostListener,
   ViewChild,
   inject,
+  signal,
 } from "@angular/core";
+import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { FormsModule } from "@angular/forms";
 import { MatButton } from "@angular/material/button";
 import { MatDialog } from "@angular/material/dialog";
@@ -15,19 +18,19 @@ import { MatIcon } from "@angular/material/icon";
 import { MatInput } from "@angular/material/input";
 import { ActivatedRoute } from "@angular/router";
 import { combineLatest, map, startWith } from "rxjs";
-import { AddStreamDialogComponent } from "src/app/queue/track-table/add-stream-dialog/add-stream-dialog.component";
-import { ResponsiveScreenService } from "src/app/service/responsive-screen.service";
-import { PaginatedResponse } from "src/app/shared/messages/incoming/paginated-response";
-import { Track } from "src/app/shared/messages/incoming/track";
-import { environment } from "src/environments/environment";
+import { environment } from "../../../environments/environment";
 import { MpdService } from "../../service/mpd.service";
 import { QueueService } from "../../service/queue.service";
+import { ResponsiveScreenService } from "../../service/responsive-screen.service";
+import { PaginatedResponse } from "../../shared/messages/incoming/paginated-response";
+import { Track } from "../../shared/messages/incoming/track";
 import { QueueTrack } from "../../shared/model/queue-track";
 import { SecondsToHhMmSsPipe } from "../../shared/pipes/seconds-to-hh-mm-ss.pipe";
 import { ClickActions } from "../../shared/track-table-data/click-actions.enum";
 import { TrackTableDataComponent } from "../../shared/track-table-data/track-table-data.component";
 import { TrackTableOptions } from "../../shared/track-table-data/track-table-options";
 import { SavePlaylistDialogComponent } from "../save-playlist-dialog/save-playlist-dialog.component";
+import { AddStreamDialogComponent } from "./add-stream-dialog/add-stream-dialog.component";
 
 @Component({
   selector: "app-track-table",
@@ -49,6 +52,7 @@ import { SavePlaylistDialogComponent } from "../save-playlist-dialog/save-playli
 })
 export class TrackTableComponent {
   private dialog = inject(MatDialog);
+  private destroyRef = inject(DestroyRef);
   private mpdService = inject(MpdService);
   private queueService = inject(QueueService);
   private responsiveScreenService = inject(ResponsiveScreenService);
@@ -56,15 +60,17 @@ export class TrackTableComponent {
 
   @ViewChild("filterInputElem") filterInputElem?: ElementRef;
 
-  currentTrack: QueueTrack = new QueueTrack();
-  currentState = "stop";
-  trackTableData = new TrackTableOptions();
+  // currentTrack: QueueTrack = new QueueTrack();
+  currentTrack = signal<QueueTrack>(new QueueTrack());
+  currentState = signal<"stop" | "play" | "pause">("stop");
+  trackTableData = signal<TrackTableOptions>(new TrackTableOptions());
   private isMobile = false;
 
   constructor() {
     this.buildReceiver();
     this.responsiveScreenService
       .isMobile()
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((isMobile) => (this.isMobile = isMobile));
     this.queueService.getPage(0, 0);
   }
@@ -91,11 +97,11 @@ export class TrackTableComponent {
       return;
     }
     const filterValue = (eventTarget as HTMLInputElement).value;
-    this.trackTableData.dataSource.filter = filterValue.toLowerCase();
+    this.trackTableData().dataSource.filter = filterValue.toLowerCase();
   }
 
   resetFilter(): void {
-    this.trackTableData.dataSource.filter = "";
+    this.trackTableData().dataSource.filter = "";
   }
 
   openAddStreamDialog(): void {
@@ -121,6 +127,7 @@ export class TrackTableComponent {
   private buildTableData(
     queueResponse: PaginatedResponse<Track>,
   ): TrackTableOptions {
+    console.log("buildTableData", queueResponse.content.length);
     const trackTable = new TrackTableOptions({
       addTitleColumn: false,
       displayedColumns: this.getDisplayedColumns(),
@@ -139,28 +146,33 @@ export class TrackTableComponent {
 
   private buildReceiver(): void {
     // Queue
-    this.queueService.queue$.subscribe(
-      (queueResponse: PaginatedResponse<Track>) =>
-        (this.trackTableData = this.buildTableData(queueResponse)),
-    );
+    this.queueService.queue$
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((queueResponse: PaginatedResponse<Track>) => {
+        this.trackTableData.set(this.buildTableData(queueResponse));
+      });
 
     // State
-    this.mpdService.currentState$.subscribe((state) => {
-      this.currentState = state;
-      if (state === "stop") {
-        this.currentTrack = new QueueTrack();
-      }
-    });
+    this.mpdService.currentState$
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((state) => {
+        this.currentState.set(state);
+        if (state === "stop") {
+          this.currentTrack.set(new QueueTrack());
+        }
+      });
 
     // Current track
-    this.mpdService.currentTrack$.subscribe((track) => {
-      if (this.currentState !== "stop") {
-        this.currentTrack = track;
-      }
-      for (const track of this.trackTableData.dataSource.data) {
-        track.playing = track.id === this.currentTrack.id;
-      }
-    });
+    this.mpdService.currentTrack$
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((track) => {
+        if (this.currentState() !== "stop") {
+          this.currentTrack.set(track);
+        }
+        for (const track of this.trackTableData().dataSource.data) {
+          track.playing = track.id === this.currentTrack().id;
+        }
+      });
 
     // Listen for UPDATE_QUEUE Signal
     // When the backend sends a signal that indicates the queue has changed

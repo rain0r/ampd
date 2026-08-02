@@ -1,6 +1,7 @@
 import { CdkScrollable } from "@angular/cdk/scrolling";
 import { AsyncPipe } from "@angular/common";
-import { Component, inject } from "@angular/core";
+import { Component, DestroyRef, inject } from "@angular/core";
+import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { MatButton } from "@angular/material/button";
 import { MatCardImage } from "@angular/material/card";
 import {
@@ -13,13 +14,13 @@ import {
 import { MatIcon } from "@angular/material/icon";
 import { MatProgressSpinner } from "@angular/material/progress-spinner";
 import { Observable, delay, map, of } from "rxjs";
-import { AlbumsService } from "src/app/service/albums.service";
-import { QueueService } from "src/app/service/queue.service";
-import { Track } from "src/app/shared/messages/incoming/track";
-import { MpdAlbum } from "src/app/shared/model/http/album";
-import { ClickActions } from "src/app/shared/track-table-data/click-actions.enum";
-import { TrackTableOptions } from "src/app/shared/track-table-data/track-table-options";
+import { AlbumsService } from "../../../service/albums.service";
+import { QueueService } from "../../../service/queue.service";
+import { Track } from "../../../shared/messages/incoming/track";
+import { MpdAlbum } from "../../../shared/model/http/album";
+import { ClickActions } from "../../../shared/track-table-data/click-actions.enum";
 import { TrackTableDataComponent } from "../../../shared/track-table-data/track-table-data.component";
+import { TrackTableOptions } from "../../../shared/track-table-data/track-table-options";
 
 @Component({
   selector: "app-album-dialog",
@@ -41,6 +42,7 @@ import { TrackTableDataComponent } from "../../../shared/track-table-data/track-
 export class AlbumDialogComponent {
   album = inject<MpdAlbum>(MAT_DIALOG_DATA);
   private albumService = inject(AlbumsService);
+  private destroyRef = inject(DestroyRef);
   private queueService = inject(QueueService);
   dialogRef = inject<MatDialogRef<AlbumDialogComponent>>(MatDialogRef);
 
@@ -57,7 +59,7 @@ export class AlbumDialogComponent {
     this.queueService.addAlbum(this.album.albumArtist, this.album.name);
     // Delay closing the dialog for a smoother trans
     of(null)
-      .pipe(delay(250))
+      .pipe(delay(250), takeUntilDestroyed(this.destroyRef))
       .subscribe(() => this.dialogRef.close());
   }
 
@@ -65,7 +67,7 @@ export class AlbumDialogComponent {
     this.queueService.playAlbum(this.album.albumArtist, this.album.name);
     // Delay closing the dialog for a smoother trans
     of(null)
-      .pipe(delay(250))
+      .pipe(delay(250), takeUntilDestroyed(this.destroyRef))
       .subscribe(() => this.dialogRef.close());
   }
 

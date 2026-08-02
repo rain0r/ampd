@@ -1,23 +1,22 @@
-import { KeyValue, AsyncPipe } from "@angular/common";
+import { CdkScrollable } from "@angular/cdk/scrolling";
+import { AsyncPipe, KeyValue } from "@angular/common";
 import { Component, inject } from "@angular/core";
+import { MatButton } from "@angular/material/button";
 import {
   MAT_DIALOG_DATA,
-  MatDialogTitle,
-  MatDialogContent,
   MatDialogActions,
   MatDialogClose,
+  MatDialogContent,
+  MatDialogTitle,
 } from "@angular/material/dialog";
-import { map, Observable, tap } from "rxjs";
-import { LastFmService } from "src/app/service/last-fm.service";
-import { Track } from "src/app/shared/messages/incoming/track";
-import { ReplaceNullWithTextPipe } from "src/app/shared/pipes/replace-null-with-text.pipe";
-import { TagMap } from "../../../shared/messages/incoming/track";
-import { CamelCaseTitlePipe } from "../../../shared/pipes/camel-case-title.pipe";
-import { CdkScrollable } from "@angular/cdk/scrolling";
-import { MatTabGroup, MatTab } from "@angular/material/tabs";
-import { KeyValueTableComponent } from "../../../shared/key-value-table/key-value-table.component";
 import { MatProgressSpinner } from "@angular/material/progress-spinner";
-import { MatButton } from "@angular/material/button";
+import { MatTab, MatTabGroup } from "@angular/material/tabs";
+import { map, Observable, tap } from "rxjs";
+import { KeyValueTableComponent } from "../../../shared/key-value-table/key-value-table.component";
+import { TagMap, Track } from "../../../shared/messages/incoming/track";
+import { CamelCaseTitlePipe } from "../../../shared/pipes/camel-case-title.pipe";
+import { LastFmService } from "../../../service/last-fm.service";
+import { ReplaceNullWithTextPipe } from "../../../shared/pipes/replace-null-with-text.pipe";
 
 @Component({
   selector: "app-track-info-dialog",

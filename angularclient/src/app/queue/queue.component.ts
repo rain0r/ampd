@@ -1,5 +1,5 @@
 import { AsyncPipe } from "@angular/common";
-import { Component, OnInit, inject } from "@angular/core";
+import { Component, DestroyRef, OnInit, inject } from "@angular/core";
 import { MatDivider } from "@angular/material/divider";
 import { Title } from "@angular/platform-browser";
 import { Observable, combineLatest } from "rxjs";
@@ -13,6 +13,7 @@ import { QueueHeaderComponent } from "./queue-header/queue-header.component";
 import { TrackProgressComponent } from "./track-progress/track-progress.component";
 import { TrackTableComponent } from "./track-table/track-table.component";
 import { VolumeSliderComponent } from "./volume-slider/volume-slider.component";
+import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 
 @Component({
   selector: "app-queue",
@@ -30,6 +31,7 @@ import { VolumeSliderComponent } from "./volume-slider/volume-slider.component";
   ],
 })
 export class QueueComponent implements OnInit {
+  private destroyRef = inject(DestroyRef);
   private frontendSettingsService = inject(FrontendSettingsService);
   private mpdService = inject(MpdService);
   private titleService = inject(Title);
@@ -59,6 +61,7 @@ export class QueueComponent implements OnInit {
           track: results[1],
           tabTitle: results[2],
         })),
+        takeUntilDestroyed(this.destroyRef),
       )
       .subscribe((result) => {
         if (

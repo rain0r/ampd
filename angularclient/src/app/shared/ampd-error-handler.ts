@@ -1,5 +1,12 @@
 import { HttpErrorResponse } from "@angular/common/http";
-import { ErrorHandler, Injectable, NgZone, inject } from "@angular/core";
+import {
+  DestroyRef,
+  ErrorHandler,
+  Injectable,
+  NgZone,
+  inject,
+} from "@angular/core";
+import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { MatDialog } from "@angular/material/dialog";
 import { BehaviorSubject, first } from "rxjs";
 import { ErrorDialogComponent } from "./error/error-dialog/error-dialog.component";
@@ -7,6 +14,7 @@ import { ErrorDialogComponent } from "./error/error-dialog/error-dialog.componen
 @Injectable()
 export class AmpdErrorHandler implements ErrorHandler {
   private dialog = inject(MatDialog);
+  private destroyRef = inject(DestroyRef);
   private zone = inject(NgZone);
 
   private errorDialogOpen = new BehaviorSubject(false);
@@ -21,7 +29,7 @@ export class AmpdErrorHandler implements ErrorHandler {
   private openErrorDialog(error: unknown) {
     this.errorDialogOpen
       .asObservable()
-      .pipe(first())
+      .pipe(first(), takeUntilDestroyed(this.destroyRef))
       .subscribe((open) => {
         if (error instanceof HttpErrorResponse) {
           if (error.status === 404) {
@@ -38,6 +46,7 @@ export class AmpdErrorHandler implements ErrorHandler {
           this.errorDialogOpen.next(true);
           dialogRef
             .afterClosed()
+            .pipe(takeUntilDestroyed(this.destroyRef))
             .subscribe(() => this.errorDialogOpen.next(false));
         }
       });

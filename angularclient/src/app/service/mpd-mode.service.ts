@@ -1,4 +1,5 @@
-import { Injectable, inject } from "@angular/core";
+import { DestroyRef, Injectable, inject } from "@angular/core";
+import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { Router } from "@angular/router";
 import { MpdModesPanel } from "../shared/messages/incoming/mpd-modes-panel";
 import { ControlPanelService } from "./control-panel.service";
@@ -9,10 +10,11 @@ import { NotificationService } from "./notification.service";
   providedIn: "root",
 })
 export class MpdModeService {
-  private router = inject(Router);
   private controlPanelService = inject(ControlPanelService);
+  private destroyRef = inject(DestroyRef);
   private mpdService = inject(MpdService);
   private notificationService = inject(NotificationService);
+  private router = inject(Router);
 
   private mpdModesPanel: MpdModesPanel;
   private mpdModesOpts = ["random", "consume", "single", "crossfade", "repeat"];
@@ -21,9 +23,9 @@ export class MpdModeService {
     const mpdService = this.mpdService;
 
     this.mpdModesPanel = mpdService.initEmptyControlPanel();
-    this.mpdService.mpdModesPanel$.subscribe(
-      (panel) => (this.mpdModesPanel = panel),
-    );
+    this.mpdService.mpdModesPanel$
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((panel) => (this.mpdModesPanel = panel));
   }
 
   toggleCtrlFromInput(changedKey: string): void {

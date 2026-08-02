@@ -30,6 +30,9 @@ describe("Save and delete a playlist", () => {
     // Filter for The Beatles
     cy.get('[data-cy="filter"]').type("beatles");
 
+    // Expect only one directory
+    cy.get(".browse-list-item > [data-cy='add-dir']").should("have.length", 1);
+
     // Add The Beatles to the Queue
     cy.get(".browse-list-item > [data-cy='add-dir']").first().click();
 
@@ -51,6 +54,11 @@ describe("Save and delete a playlist", () => {
     cy.get('[data-cy="save-playlist"]').click();
     cy.get('[data-cy="save-playlist-name"]').type(TMP_PLAYLIST_NAME);
     cy.get('[data-cy="save-playlist-btn"]').click();
+  });
+
+  it("Save already existing playlist name", () => {
+    cy.visit("/");
+    cy.get('[data-cy="connecting-overlay"]').should("not.exist");
 
     // Test saving the same playlist again
     cy.get('[data-cy="save-playlist"]').click();
@@ -82,7 +90,7 @@ describe("Add multiple playlists", () => {
 
     playlists.forEach((playlistName: string) => {
       addPlaylist(playlistName);
-      
+
       cy.visit("/");
       cy.get('[data-cy="connecting-overlay"]').should("not.exist");
 

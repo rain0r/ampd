@@ -1,4 +1,4 @@
-import { ShortcutService } from "src/app/service/shortcut.service";
+import { ShortcutService } from "../../service/shortcut.service";
 
 export enum Category {
   PlayerControls,

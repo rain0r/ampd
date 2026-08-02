@@ -1,4 +1,5 @@
-import { Injectable, inject } from "@angular/core";
+import { DestroyRef, Injectable, inject } from "@angular/core";
+import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import {
   Subject,
   debounceTime,
@@ -24,6 +25,7 @@ interface JumpSeekCounter {
   providedIn: "root",
 })
 export class ControlPanelService {
+  private destroyRef = inject(DestroyRef);
   private fsSettings = inject(FrontendSettingsService);
   private mpdService = inject(MpdService);
   private rxStompService = inject(AmpdRxStompService);
@@ -86,6 +88,7 @@ export class ControlPanelService {
       .pipe(
         map((track) => track.elapsed),
         first(),
+        takeUntilDestroyed(this.destroyRef),
       )
       .subscribe((elapsed) => {
         let to = 0;
@@ -110,6 +113,7 @@ export class ControlPanelService {
     const elapsed = this.mpdService.currentTrack$.pipe(
       take(1),
       map((track) => track.elapsed),
+      takeUntilDestroyed(this.destroyRef),
     );
 
     const seek = this.seekJump$.asObservable().pipe(
@@ -129,6 +133,7 @@ export class ControlPanelService {
         tmp.counter = (current.counter || 0) - (previous.counter || 0);
         return tmp;
       }),
+      takeUntilDestroyed(this.destroyRef),
     );
     seek.subscribe((seekData) => {
       elapsed.subscribe((elapsedData) => {

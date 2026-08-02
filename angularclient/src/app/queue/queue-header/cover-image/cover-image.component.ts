@@ -1,5 +1,7 @@
+import { AsyncPipe } from "@angular/common";
 import { HttpClient } from "@angular/common/http";
-import { Component, OnInit, inject } from "@angular/core";
+import { Component, DestroyRef, OnInit, inject } from "@angular/core";
+import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { MatDialog } from "@angular/material/dialog";
 import {
   BehaviorSubject,
@@ -8,12 +10,11 @@ import {
   distinctUntilChanged,
   take,
 } from "rxjs";
-import { FrontendSettingsService } from "src/app/service/frontend-settings.service";
-import { MpdService } from "src/app/service/mpd.service";
-import { AlbumCoverDialogComponent } from "src/app/shared/album-cover-dialog/album-cover-dialog.component";
-import { SettingKeys } from "src/app/shared/model/internal/frontend-settings";
-import { QueueTrack } from "src/app/shared/model/queue-track";
-import { AsyncPipe } from "@angular/common";
+import { FrontendSettingsService } from "../../../service/frontend-settings.service";
+import { MpdService } from "../../../service/mpd.service";
+import { AlbumCoverDialogComponent } from "../../../shared/album-cover-dialog/album-cover-dialog.component";
+import { SettingKeys } from "../../../shared/model/internal/frontend-settings";
+import { QueueTrack } from "../../../shared/model/queue-track";
 
 @Component({
   selector: "app-cover-image",
@@ -23,6 +24,7 @@ import { AsyncPipe } from "@angular/common";
 })
 export class CoverImageComponent implements OnInit {
   private dialog = inject(MatDialog);
+  private destroyRef = inject(DestroyRef);
   private frontendSettingsService = inject(FrontendSettingsService);
   private http = inject(HttpClient);
   private mpdService = inject(MpdService);
@@ -52,6 +54,7 @@ export class CoverImageComponent implements OnInit {
       this.mpdService.currentState$.pipe(distinctUntilChanged()),
       this.mpdService.currentTrack$.pipe(
         distinctUntilChanged((prev, curr) => prev.file === curr.file),
+        takeUntilDestroyed(this.destroyRef),
       ),
     ]).subscribe(([state, track]) => this.updateCover(state, track));
   }
@@ -62,10 +65,13 @@ export class CoverImageComponent implements OnInit {
       return;
     }
 
-    this.http.head(track.coverUrl, { observe: "response" }).subscribe({
-      next: () => this.setDisplayCover(),
-      error: () => this.displayCover$.next(false),
-    });
+    this.http
+      .head(track.coverUrl, { observe: "response" })
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: () => this.setDisplayCover(),
+        error: () => this.displayCover$.next(false),
+      });
   }
 
   setDisplayCover(): void {
@@ -74,7 +80,7 @@ export class CoverImageComponent implements OnInit {
       this.frontendSettingsService.getBoolValue$(SettingKeys.DISPLAY_COVERS),
       this.mpdService.isCurrentTrackRadioStream$(),
     ])
-      .pipe(take(3))
+      .pipe(take(3), takeUntilDestroyed(this.destroyRef))
       .subscribe(([state, displayCovers, isRadioStream]) => {
         const available =
           isRadioStream === false && // We don't look for covers when a radio stream is playing

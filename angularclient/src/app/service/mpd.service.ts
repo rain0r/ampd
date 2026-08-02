@@ -22,7 +22,7 @@ export class MpdService {
   private queueService = inject(QueueService);
 
   currentTrack$: Observable<QueueTrack>;
-  currentState$: Observable<string>;
+  currentState$: Observable<"stop" | "play" | "pause">;
   mpdModesPanel$: Observable<MpdModesPanel>;
   state$: Observable<StateMsgPayload>;
   signals$: Observable<string>;

@@ -1,4 +1,5 @@
-import { Injectable, inject } from "@angular/core";
+import { DestroyRef, Injectable, inject } from "@angular/core";
+import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { MatDialog } from "@angular/material/dialog";
 import { Router } from "@angular/router";
 import { BehaviorSubject, first } from "rxjs";
@@ -18,6 +19,7 @@ import { VolumeService } from "./volume.service";
 export class ShortcutService {
   private controlPanelService = inject(ControlPanelService);
   private dialog = inject(MatDialog);
+  private destroyRef = inject(DestroyRef);
   private mpdModeService = inject(MpdModeService);
   private mpdService = inject(MpdService);
   private queueService = inject(QueueService);
@@ -164,9 +166,9 @@ export class ShortcutService {
   private addStreamDialog = new BehaviorSubject(false);
 
   constructor() {
-    this.mpdService.currentState$.subscribe(
-      (state) => (this.currentState = state),
-    );
+    this.mpdService.currentState$
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((state) => (this.currentState = state));
   }
 
   build(
@@ -207,13 +209,14 @@ export class ShortcutService {
   private openHelpDialog(): void {
     this.helpDialogOpen
       .asObservable()
-      .pipe(first())
+      .pipe(first(), takeUntilDestroyed(this.destroyRef))
       .subscribe((open) => {
         if (!open) {
           this.helpDialogOpen.next(true);
           const dialogRef = this.dialog.open(HelpDialogComponent);
           dialogRef
             .afterClosed()
+            .pipe(takeUntilDestroyed(this.destroyRef))
             .subscribe(() => this.helpDialogOpen.next(false));
         }
       });
@@ -222,7 +225,7 @@ export class ShortcutService {
   private openAddStreamDialog(): void {
     this.addStreamDialog
       .asObservable()
-      .pipe(first())
+      .pipe(first(), takeUntilDestroyed(this.destroyRef))
       .subscribe((open) => {
         if (!open) {
           this.addStreamDialog.next(true);
@@ -232,6 +235,7 @@ export class ShortcutService {
           });
           dialogRef
             .afterClosed()
+            .pipe(takeUntilDestroyed(this.destroyRef))
             .subscribe(() => this.addStreamDialog.next(false));
         }
       });

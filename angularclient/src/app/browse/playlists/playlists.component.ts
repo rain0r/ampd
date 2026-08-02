@@ -1,12 +1,12 @@
 import { SlicePipe } from "@angular/common";
 import { Component, inject, Input } from "@angular/core";
 import { MatPaginator, PageEvent } from "@angular/material/paginator";
-import { PAGE_SIZE_OPTIONS } from "src/app/shared/page-size-options";
 import { FilterService } from "../../service/msg.service";
 import { Playlist } from "../../shared/messages/incoming/playlist";
 import { PlaylistFilterPipe } from "../../shared/pipes/filter/playlist-filter.pipe";
 import { Filterable } from "../filterable";
 import { PlaylistEntryComponent } from "./playlist-entry/playlist-entry.component";
+import { PAGE_SIZE_OPTIONS } from "../../shared/page-size-options";
 
 @Component({
   selector: "app-playlists",

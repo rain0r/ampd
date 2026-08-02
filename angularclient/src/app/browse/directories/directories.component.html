@@ -1,7 +1,7 @@
 @if (
   (
     directories
-    | directoryFilter: filterValue
+    | directoryFilter: filterValue()
     | directoryFilterStartLetterPipe: filterByStartCharValue
   ).length
 ) {
@@ -48,7 +48,7 @@
 <div class="flex flex-col gap-y-2">
   @for (
     directory of directories
-      | directoryFilter: filterValue
+      | directoryFilter: filterValue()
       | directoryFilterStartLetterPipe: filterByStartCharValue
       | slice: paginationFrom : paginationTo;
     track directory
@@ -57,9 +57,9 @@
   }
 
   @if (
-    (directories | directoryFilter: filterValue).length > 0 &&
+    (directories | directoryFilter: filterValue()).length > 0 &&
     paginationTo - paginationFrom <
-      (directories | directoryFilter: filterValue).length
+      (directories | directoryFilter: filterValue()).length
   ) {
     <mat-paginator
       [length]="directories.length"
@@ -77,7 +77,7 @@
   <app-cover-grid
     [directories]="
       directories
-        | directoryFilter: filterValue
+        | directoryFilter: filterValue()
         | directoryFilterStartLetterPipe: filterByStartCharValue
         | slice: paginationFrom : paginationTo
     "

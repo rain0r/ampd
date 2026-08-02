@@ -3,7 +3,6 @@ import { Component, inject, Input, OnInit } from "@angular/core";
 import { MatDivider } from "@angular/material/divider";
 import { MatIcon } from "@angular/material/icon";
 import { MatPaginator, PageEvent } from "@angular/material/paginator";
-import { PAGE_SIZE_OPTIONS } from "src/app/shared/page-size-options";
 import { FilterService } from "../../service/msg.service";
 import { Directory } from "../../shared/messages/incoming/directory";
 import { DirectoryFilterStartLetterPipe } from "../../shared/pipes/filter/directory-filter-start-letter-pipe";
@@ -11,6 +10,7 @@ import { DirectoryFilterPipe } from "../../shared/pipes/filter/directory-filter.
 import { Filterable } from "../filterable";
 import { CoverGridComponent } from "./cover-grid/cover-grid.component";
 import { DirectoryEntryComponent } from "./directory-entry/directory-entry.component";
+import { PAGE_SIZE_OPTIONS } from "../../shared/page-size-options";
 
 @Component({
   selector: "app-directories",

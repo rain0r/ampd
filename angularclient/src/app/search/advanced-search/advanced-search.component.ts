@@ -1,5 +1,12 @@
 import { AsyncPipe } from "@angular/common";
-import { AfterViewInit, Component, inject, OnInit } from "@angular/core";
+import {
+  AfterViewInit,
+  Component,
+  DestroyRef,
+  inject,
+  OnInit,
+} from "@angular/core";
+import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import {
   AbstractControl,
   FormControl,
@@ -18,16 +25,16 @@ import {
   Subject,
   switchMap,
 } from "rxjs";
-import { QueueService } from "src/app/service/queue.service";
-import { ResponsiveScreenService } from "src/app/service/responsive-screen.service";
-import { SearchService } from "src/app/service/search.service";
-import { PaginatedResponse } from "src/app/shared/messages/incoming/paginated-response";
-import { Track } from "src/app/shared/messages/incoming/track";
-import { QueueTrack } from "src/app/shared/model/queue-track";
-import { FormField } from "src/app/shared/search/form-field";
-import { ClickActions } from "src/app/shared/track-table-data/click-actions.enum";
-import { TrackTableOptions } from "src/app/shared/track-table-data/track-table-options";
+import { QueueService } from "../../service/queue.service";
+import { ResponsiveScreenService } from "../../service/responsive-screen.service";
+import { SearchService } from "../../service/search.service";
+import { PaginatedResponse } from "../../shared/messages/incoming/paginated-response";
+import { Track } from "../../shared/messages/incoming/track";
+import { QueueTrack } from "../../shared/model/queue-track";
+import { FormField } from "../../shared/search/form-field";
+import { ClickActions } from "../../shared/track-table-data/click-actions.enum";
 import { TrackTableDataComponent } from "../../shared/track-table-data/track-table-data.component";
+import { TrackTableOptions } from "../../shared/track-table-data/track-table-options";
 import { DynamicFormInputComponent } from "./dynamic-form-input/dynamic-form-input.component";
 
 @Component({
@@ -45,6 +52,7 @@ import { DynamicFormInputComponent } from "./dynamic-form-input/dynamic-form-inp
   ],
 })
 export class AdvancedSearchComponent implements OnInit, AfterViewInit {
+  private destroyRef = inject(DestroyRef);
   private activatedRoute = inject(ActivatedRoute);
   private queueService = inject(QueueService);
   private responsiveScreenService = inject(ResponsiveScreenService);
@@ -71,6 +79,7 @@ export class AdvancedSearchComponent implements OnInit, AfterViewInit {
     this.formFields = this.getFormFields();
     this.responsiveScreenService
       .isMobile()
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((isMobile) => (this.isMobile = isMobile));
     this.displayedColumns = this.getDisplayedColumns();
   }
@@ -92,6 +101,7 @@ export class AdvancedSearchComponent implements OnInit, AfterViewInit {
             Number(queryParams.get("pageSize")),
           );
         }),
+        takeUntilDestroyed(this.destroyRef),
       )
       .subscribe((data) => this.processSearchResults(data));
   }
@@ -110,7 +120,10 @@ export class AdvancedSearchComponent implements OnInit, AfterViewInit {
   }
 
   onAddAll(): void {
-    this.searchService.addAll(this.searchParams).subscribe(() => void 0);
+    this.searchService
+      .addAll(this.searchParams)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => void 0);
   }
 
   private processSearchResults(

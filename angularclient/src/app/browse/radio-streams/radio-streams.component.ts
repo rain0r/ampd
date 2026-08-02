@@ -1,16 +1,16 @@
-import { SettingsService } from "./../../service/settings.service";
+import { AsyncPipe } from "@angular/common";
 import { Component, OnInit, inject } from "@angular/core";
+import { MatButton } from "@angular/material/button";
+import { MatDivider } from "@angular/material/divider";
 import { MatTableDataSource } from "@angular/material/table";
 import { Observable, map } from "rxjs";
-import { RadioStreamService } from "src/app/service/radio-stream.service";
-import { RadioStream } from "src/app/shared/model/db/radio-stream";
 import { BrowseNavigationComponent } from "../navigation/browse-navigation.component";
-import { AsyncPipe } from "@angular/common";
-import { RadioStreamListComponent } from "./radio-stream-list/radio-stream-list.component";
-import { MatDivider } from "@angular/material/divider";
+import { SettingsService } from "./../../service/settings.service";
 import { AddStreamComponent } from "./add-radio-stream/add-radio-stream.component";
 import { ImportRadioStreamsComponent } from "./import-radio-streams/import-radio-streams.component";
-import { MatButton } from "@angular/material/button";
+import { RadioStreamListComponent } from "./radio-stream-list/radio-stream-list.component";
+import { RadioStreamService } from "../../service/radio-stream.service";
+import { RadioStream } from "../../shared/model/db/radio-stream";
 
 @Component({
   selector: "app-radio-streams",

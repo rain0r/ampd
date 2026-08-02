@@ -1,5 +1,6 @@
 import { NgPlural, NgPluralCase } from "@angular/common";
-import { Component, Input, OnInit, inject } from "@angular/core";
+import { Component, DestroyRef, Input, OnInit, inject } from "@angular/core";
+import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { MatDialog } from "@angular/material/dialog";
 import { MatDivider } from "@angular/material/divider";
 import { MatTableDataSource } from "@angular/material/table";
@@ -29,6 +30,7 @@ import { TrackTableOptions } from "../../shared/track-table-data/track-table-opt
 export class TracksComponent implements OnInit {
   private activatedRoute = inject(ActivatedRoute);
   private dialog = inject(MatDialog);
+  private destroyRef = inject(DestroyRef);
   private responsiveScreenService = inject(ResponsiveScreenService);
   private settingsService = inject(SettingsService);
 
@@ -43,12 +45,14 @@ export class TracksComponent implements OnInit {
   constructor() {
     this.responsiveScreenService
       .isMobile()
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((isMobile) => (this.isMobile = isMobile));
     this.activatedRoute.queryParamMap
       .pipe(
         map((qp) => (qp.get("dir") as string) || "/"),
         distinctUntilChanged(),
       )
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((dir) => (this.dirQp = decodeURIComponent(dir)));
   }
 

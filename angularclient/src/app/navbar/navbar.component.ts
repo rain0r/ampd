@@ -1,5 +1,12 @@
 import { AsyncPipe } from "@angular/common";
-import { Component, HostListener, inject, OnInit } from "@angular/core";
+import {
+  Component,
+  DestroyRef,
+  HostListener,
+  inject,
+  OnInit,
+} from "@angular/core";
+import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { MatButton } from "@angular/material/button";
 import { MatDialog, MatDialogRef } from "@angular/material/dialog";
 import { MatIcon } from "@angular/material/icon";
@@ -32,14 +39,16 @@ import { ShortcutService } from "./../service/shortcut.service";
   ],
 })
 export class NavbarComponent implements OnInit {
-  private rxStompService = inject(AmpdRxStompService);
-  private shortcutService = inject(ShortcutService);
   readonly dialog = inject(MatDialog);
+
   private connDialogRef: MatDialogRef<
     ConnectingOverlayComponent,
     unknown
   > | null = null;
+  private destroyRef = inject(DestroyRef);
   private errorDialogOpen = new BehaviorSubject(false);
+  private rxStompService = inject(AmpdRxStompService);
+  private shortcutService = inject(ShortcutService);
 
   connState: Observable<number>;
 
@@ -83,7 +92,7 @@ export class NavbarComponent implements OnInit {
 
   private openConnectingDialog(): void {
     combineLatest([this.connState, this.errorDialogOpen])
-      .pipe(distinctUntilChanged())
+      .pipe(distinctUntilChanged(), takeUntilDestroyed(this.destroyRef))
       .subscribe(([connState, errorDialogOpen]) => {
         if (!errorDialogOpen && connState !== 1) {
           console.log("connState:", connState);
@@ -94,6 +103,7 @@ export class NavbarComponent implements OnInit {
           this.errorDialogOpen.next(true);
           this.connDialogRef
             .afterClosed()
+            .pipe(takeUntilDestroyed(this.destroyRef))
             .subscribe(() => this.errorDialogOpen.next(false));
         } else if (connState === 1) {
           this.connDialogRef?.close();

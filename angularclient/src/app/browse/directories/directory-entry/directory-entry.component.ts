@@ -1,13 +1,14 @@
+import { Component, DestroyRef, Input, OnInit, inject } from "@angular/core";
 import { delay, of } from "rxjs";
-import { Component, Input, OnInit, inject } from "@angular/core";
 import { ControlPanelService } from "../../../service/control-panel.service";
 import { NotificationService } from "../../../service/notification.service";
 import { QueueService } from "../../../service/queue.service";
 import { Directory } from "../../../shared/messages/incoming/directory";
 
-import { RouterLink } from "@angular/router";
-import { MatIcon } from "@angular/material/icon";
+import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { MatButton } from "@angular/material/button";
+import { MatIcon } from "@angular/material/icon";
+import { RouterLink } from "@angular/router";
 
 @Component({
   selector: "app-directory-entry",
@@ -17,6 +18,7 @@ import { MatButton } from "@angular/material/button";
 })
 export class DirectoryEntryComponent implements OnInit {
   private controlPanelService = inject(ControlPanelService);
+  private destroyRef = inject(DestroyRef);
   private notificationService = inject(NotificationService);
   private queueService = inject(QueueService);
 
@@ -34,7 +36,7 @@ export class DirectoryEntryComponent implements OnInit {
     this.onAddDir($event, dir, false);
     // Delay hitting "play" since the tracks might not yet been to the queue
     of(null)
-      .pipe(delay(500))
+      .pipe(delay(500), takeUntilDestroyed(this.destroyRef))
       .subscribe(() => this.controlPanelService.play());
     this.notificationService.popUp(`Playing directory: "${dir}"`);
   }

@@ -59,8 +59,7 @@ export class TrackTableComponent {
   private activatedRoute = inject(ActivatedRoute);
 
   @ViewChild("filterInputElem") filterInputElem?: ElementRef;
-
-  // currentTrack: QueueTrack = new QueueTrack();
+  
   currentTrack = signal<QueueTrack>(new QueueTrack());
   currentState = signal<"stop" | "play" | "pause">("stop");
   trackTableData = signal<TrackTableOptions>(new TrackTableOptions());

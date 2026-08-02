@@ -59,7 +59,7 @@ export class TrackTableComponent {
   private activatedRoute = inject(ActivatedRoute);
 
   @ViewChild("filterInputElem") filterInputElem?: ElementRef;
-  
+
   currentTrack = signal<QueueTrack>(new QueueTrack());
   currentState = signal<"stop" | "play" | "pause">("stop");
   trackTableData = signal<TrackTableOptions>(new TrackTableOptions());
@@ -71,7 +71,10 @@ export class TrackTableComponent {
       .isMobile()
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((isMobile) => (this.isMobile = isMobile));
-    this.queueService.getPage(0, 0);
+    this.queueService.getPage(
+      Number(this.activatedRoute.snapshot.queryParamMap.get("pageIndex")),
+      Number(this.activatedRoute.snapshot.queryParamMap.get("pageSize")),
+    );
   }
 
   @HostListener("document:keydown.f", ["$event"])

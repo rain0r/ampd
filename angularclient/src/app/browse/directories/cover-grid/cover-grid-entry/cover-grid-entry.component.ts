@@ -7,6 +7,7 @@ import {
   Input,
   OnInit,
   inject,
+  ChangeDetectionStrategy,
 } from "@angular/core";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { MatButton } from "@angular/material/button";
@@ -21,6 +22,7 @@ import { Directory } from "../../../../shared/messages/incoming/directory";
   selector: "app-cover-grid-entry",
   templateUrl: "./cover-grid-entry.component.html",
   styleUrls: ["./cover-grid-entry.component.scss"],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [RouterLink, MatButton, AsyncPipe],
 })
 export class CoverGridEntryComponent implements OnInit {

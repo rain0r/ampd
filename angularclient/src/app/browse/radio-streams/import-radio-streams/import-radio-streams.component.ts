@@ -1,4 +1,10 @@
-import { Component, DestroyRef, Input, inject } from "@angular/core";
+import {
+  Component,
+  DestroyRef,
+  Input,
+  inject,
+  ChangeDetectionStrategy,
+} from "@angular/core";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { MatMiniFabButton } from "@angular/material/button";
 import { MatIcon } from "@angular/material/icon";
@@ -9,6 +15,7 @@ import { RadioStreamService } from "../../../service/radio-stream.service";
   selector: "app-import-radio-streams",
   templateUrl: "./import-radio-streams.component.html",
   styleUrls: ["./import-radio-streams.component.scss"],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [MatMiniFabButton, MatIcon],
 })
 export class ImportRadioStreamsComponent {

@@ -1,5 +1,11 @@
 import { AsyncPipe } from "@angular/common";
-import { Component, DestroyRef, OnInit, inject } from "@angular/core";
+import {
+  Component,
+  DestroyRef,
+  OnInit,
+  inject,
+  ChangeDetectionStrategy,
+} from "@angular/core";
 import { MatDivider } from "@angular/material/divider";
 import { Title } from "@angular/platform-browser";
 import { Observable, combineLatest } from "rxjs";
@@ -19,6 +25,7 @@ import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
   selector: "app-queue",
   templateUrl: "./queue.component.html",
   styleUrls: ["./queue.component.scss"],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     QueueHeaderComponent,
     MatDivider,

@@ -1,4 +1,4 @@
-import { Component, Input } from "@angular/core";
+import { Component, Input, ChangeDetectionStrategy } from "@angular/core";
 import { FormGroup, FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { FormField } from "../../../shared/search/form-field";
 
@@ -9,6 +9,7 @@ import { MatInput } from "@angular/material/input";
   selector: "app-dynamic-form-input",
   templateUrl: "./dynamic-form-input.component.html",
   styleUrls: ["./dynamic-form-input.component.scss"],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [FormsModule, ReactiveFormsModule, MatFormField, MatLabel, MatInput],
 })
 export class DynamicFormInputComponent {

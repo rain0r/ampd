@@ -1,5 +1,5 @@
 import { AsyncPipe } from "@angular/common";
-import { Component, inject } from "@angular/core";
+import { Component, inject, ChangeDetectionStrategy } from "@angular/core";
 import { MatProgressSpinner } from "@angular/material/progress-spinner";
 import { ActivatedRoute } from "@angular/router";
 import { Observable, map, mergeMap } from "rxjs";
@@ -14,6 +14,7 @@ import { TracksComponent } from "./tracks/tracks.component";
   selector: "app-browse",
   templateUrl: "./browse.component.html",
   styleUrls: ["./browse.component.scss"],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     BrowseNavigationComponent,
     PlaylistsComponent,

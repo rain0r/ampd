@@ -6,6 +6,7 @@ import {
   OnInit,
   ViewChild,
   inject,
+  ChangeDetectionStrategy,
 } from "@angular/core";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { FormsModule } from "@angular/forms";
@@ -39,6 +40,7 @@ interface SortByKey {
   selector: "app-albums",
   templateUrl: "./albums.component.html",
   styleUrls: ["./albums.component.scss"],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     BrowseNavigationComponent,
     MatFormField,

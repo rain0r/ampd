@@ -1,5 +1,5 @@
 import { DatePipe, JsonPipe } from "@angular/common";
-import { Component } from "@angular/core";
+import { Component, ChangeDetectionStrategy } from "@angular/core";
 import { MatButton } from "@angular/material/button";
 import {
   MatCell,
@@ -21,6 +21,7 @@ import { LogLevelPipe } from "../../shared/pipes/log-level.pipe";
   selector: "app-log-view",
   templateUrl: "./log-view.component.html",
   styleUrl: "./log-view.component.css",
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     MatButton,
     MatTable,

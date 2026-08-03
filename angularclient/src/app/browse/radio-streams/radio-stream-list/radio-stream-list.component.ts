@@ -5,6 +5,7 @@ import {
   Input,
   ViewChild,
   inject,
+  ChangeDetectionStrategy,
 } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
 import { MatPaginator } from "@angular/material/paginator";
@@ -44,6 +45,7 @@ import { RadioStreamService } from "../../../service/radio-stream.service";
   selector: "app-radio-stream-list",
   templateUrl: "./radio-stream-list.component.html",
   styleUrls: ["./radio-stream-list.component.scss"],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     MatFormField,
     MatInput,

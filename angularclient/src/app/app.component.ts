@@ -1,4 +1,9 @@
-import { Component, OnInit, inject } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  inject,
+  ChangeDetectionStrategy,
+} from "@angular/core";
 import { interval } from "rxjs";
 import { ThemingService } from "./service/theming.service";
 import { NavbarComponent } from "./navbar/navbar.component";
@@ -14,6 +19,7 @@ declare global {
   selector: "app-root",
   templateUrl: "./app.component.html",
   styleUrls: ["./app.component.scss"],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [NavbarComponent],
 })
 export class AppComponent implements OnInit {

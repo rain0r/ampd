@@ -1,5 +1,5 @@
 import { KeyValue } from "@angular/common";
-import { Component, Input } from "@angular/core";
+import { Component, Input, ChangeDetectionStrategy } from "@angular/core";
 import {
   MatTable,
   MatColumnDef,
@@ -13,6 +13,7 @@ import {
   selector: "app-key-value-table",
   templateUrl: "./key-value-table.component.html",
   styleUrls: ["./key-value-table.component.scss"],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [MatTable, MatColumnDef, MatCellDef, MatCell, MatRowDef, MatRow],
 })
 export class KeyValueTableComponent {

@@ -1,7 +1,7 @@
 import { CdkDrag, CdkDragDrop, CdkDropList } from "@angular/cdk/drag-drop";
 import { AsyncPipe } from "@angular/common";
 import {
-  ChangeDetectorRef,
+  ChangeDetectionStrategy,
   Component,
   DestroyRef,
   ViewChild,
@@ -11,11 +11,7 @@ import {
 import { MatButton } from "@angular/material/button";
 import { MatDialog } from "@angular/material/dialog";
 import { MatIcon } from "@angular/material/icon";
-import {
-  MatPaginator,
-  MatPaginatorIntl,
-  PageEvent,
-} from "@angular/material/paginator";
+import { MatPaginator, PageEvent } from "@angular/material/paginator";
 import { MatSort, MatSortHeader } from "@angular/material/sort";
 import {
   MatCell,
@@ -46,6 +42,7 @@ import { TrackTableOptions } from "./track-table-options";
   selector: "app-track-data-table",
   templateUrl: "./track-table-data.component.html",
   styleUrls: ["./track-table-data.component.scss"],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     MatTable,
     CdkDropList,
@@ -80,7 +77,7 @@ export class TrackTableDataComponent {
   trackTableDataObs = toObservable(this.trackTableData);
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator =
-    new MatPaginator(new MatPaginatorIntl(), ChangeDetectorRef.prototype);
+    new MatPaginator();
 
   @ViewChild(MatSort, { static: false }) set content(sort: MatSort) {
     this.trackTableDataObs

@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, ChangeDetectionStrategy } from "@angular/core";
 import { BrowseNavigationComponent } from "../navigation/browse-navigation.component";
 import { RecentlyListenedAlbumsComponent } from "./recently-listened-albums/recently-listened-albums.component";
 
@@ -6,6 +6,7 @@ import { RecentlyListenedAlbumsComponent } from "./recently-listened-albums/rece
   selector: "app-recently-listened",
   templateUrl: "./recently-listened.component.html",
   styleUrl: "./recently-listened.component.css",
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [BrowseNavigationComponent, RecentlyListenedAlbumsComponent],
 })
 export class RecentlyListenedComponent {}

@@ -1,5 +1,5 @@
 import { CdkScrollable } from "@angular/cdk/scrolling";
-import { Component, inject } from "@angular/core";
+import { Component, inject, ChangeDetectionStrategy } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { MatButton } from "@angular/material/button";
 import {
@@ -18,6 +18,7 @@ import { QueueService } from "../../../service/queue.service";
   selector: "app-add-stream-dialog",
   templateUrl: "./add-stream-dialog.component.html",
   styleUrls: ["./add-stream-dialog.component.scss"],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     MatDialogTitle,
     CdkScrollable,

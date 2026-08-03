@@ -22,13 +22,16 @@ describe("Pagination of a queue with 1000 tracks", () => {
     cy.paginate(100);
     cy.paginate(500);
 
+    cy.wait(1000);
+
     cy.get("#btn-play").click();
+    
     cy.wait(1000);
 
     cy.paginate(1000);
 
     cy.scrollTo("top");
-    cy.wait(3000);
+    cy.wait(5000);
 
     cy.get('[data-cy="elapsed"]').invoke("data", "elapsed").should("be.gt", 2);
   });

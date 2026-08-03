@@ -1,4 +1,9 @@
-import { Component, DestroyRef, inject } from "@angular/core";
+import {
+  Component,
+  DestroyRef,
+  inject,
+  ChangeDetectionStrategy,
+} from "@angular/core";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import {
   FormControl,
@@ -17,6 +22,7 @@ import { RadioStream } from "../../../shared/model/db/radio-stream";
   selector: "app-add-radio-stream",
   templateUrl: "./add-radio-stream.component.html",
   styleUrls: ["./add-radio-stream.component.scss"],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     FormsModule,
     ReactiveFormsModule,

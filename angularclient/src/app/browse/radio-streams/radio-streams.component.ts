@@ -1,5 +1,10 @@
 import { AsyncPipe } from "@angular/common";
-import { Component, OnInit, inject } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  inject,
+  ChangeDetectionStrategy,
+} from "@angular/core";
 import { MatButton } from "@angular/material/button";
 import { MatDivider } from "@angular/material/divider";
 import { MatTableDataSource } from "@angular/material/table";
@@ -16,6 +21,7 @@ import { RadioStream } from "../../shared/model/db/radio-stream";
   selector: "app-radio-streams",
   templateUrl: "./radio-streams.component.html",
   styleUrls: ["./radio-streams.component.scss"],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     BrowseNavigationComponent,
     RadioStreamListComponent,

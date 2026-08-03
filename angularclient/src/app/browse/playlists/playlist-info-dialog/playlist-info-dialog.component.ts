@@ -1,6 +1,12 @@
 import { CdkScrollable } from "@angular/cdk/scrolling";
 import { AsyncPipe } from "@angular/common";
-import { AfterViewInit, Component, DestroyRef, inject } from "@angular/core";
+import {
+  AfterViewInit,
+  Component,
+  DestroyRef,
+  inject,
+  ChangeDetectionStrategy,
+} from "@angular/core";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { MatButton } from "@angular/material/button";
 import {
@@ -29,6 +35,7 @@ import { TrackTableOptions } from "../../../shared/track-table-data/track-table-
   selector: "app-playlist-info-dialog",
   templateUrl: "./playlist-info-dialog.component.html",
   styleUrls: ["./playlist-info-dialog.component.scss"],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     MatDialogTitle,
     CdkScrollable,

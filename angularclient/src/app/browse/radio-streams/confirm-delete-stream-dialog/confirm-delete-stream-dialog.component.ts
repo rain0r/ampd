@@ -1,4 +1,4 @@
-import { Component, inject } from "@angular/core";
+import { Component, inject, ChangeDetectionStrategy } from "@angular/core";
 import {
   MAT_DIALOG_DATA,
   MatDialogRef,
@@ -14,6 +14,7 @@ import { MatButton } from "@angular/material/button";
   selector: "app-confirm-delete-stream-dialog",
   templateUrl: "./confirm-delete-stream-dialog.component.html",
   styleUrl: "./confirm-delete-stream-dialog.component.scss",
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     MatDialogTitle,
     CdkScrollable,

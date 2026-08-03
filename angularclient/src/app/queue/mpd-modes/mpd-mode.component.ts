@@ -1,4 +1,4 @@
-import { Component, inject } from "@angular/core";
+import { Component, inject, ChangeDetectionStrategy } from "@angular/core";
 import { Observable, startWith } from "rxjs";
 import { MpdModeService } from "../../service/mpd-mode.service";
 import { MpdService } from "../../service/mpd.service";
@@ -14,6 +14,7 @@ import { MatIcon } from "@angular/material/icon";
   selector: "app-mpd-modes",
   templateUrl: "./mpd-mode.component.html",
   styleUrls: ["./mpd-mode.component.scss"],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [MatButtonToggleGroup, MatButtonToggle, MatIcon, AsyncPipe],
 })
 export class MpdModeComponent {

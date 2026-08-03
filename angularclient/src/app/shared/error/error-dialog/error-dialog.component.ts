@@ -1,4 +1,4 @@
-import { Component, inject } from "@angular/core";
+import { Component, inject, ChangeDetectionStrategy } from "@angular/core";
 import {
   MatDialogRef,
   MAT_DIALOG_DATA,
@@ -16,6 +16,7 @@ import { JsonPipe } from "@angular/common";
   selector: "app-error-dialog",
   templateUrl: "./error-dialog.component.html",
   styleUrls: ["./error-dialog.component.scss"],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     MatDialogTitle,
     CdkScrollable,

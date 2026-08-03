@@ -1,5 +1,10 @@
 import { AsyncPipe } from "@angular/common";
-import { Component, DestroyRef, inject } from "@angular/core";
+import {
+  Component,
+  DestroyRef,
+  inject,
+  ChangeDetectionStrategy,
+} from "@angular/core";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { MatDivider } from "@angular/material/divider";
 import { RouterLink } from "@angular/router";
@@ -18,6 +23,7 @@ interface CurrentPlay {
   selector: "app-queue-header",
   templateUrl: "./queue-header.component.html",
   styleUrls: ["./queue-header.component.scss"],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [RouterLink, MatDivider, CoverImageComponent, AsyncPipe],
 })
 export class QueueHeaderComponent {

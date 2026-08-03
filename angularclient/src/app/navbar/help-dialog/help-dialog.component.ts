@@ -1,5 +1,5 @@
 import { CdkScrollable } from "@angular/cdk/scrolling";
-import { Component, inject } from "@angular/core";
+import { Component, inject, ChangeDetectionStrategy } from "@angular/core";
 import {
   MatDialogActions,
   MatDialogClose,
@@ -16,6 +16,7 @@ import { FilterByCategoryPipe } from "../../shared/pipes/filter/filter-by-catego
   selector: "app-help-dialog",
   templateUrl: "./help-dialog.component.html",
   styleUrls: ["./help-dialog.component.scss"],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     MatDialogTitle,
     CdkScrollable,

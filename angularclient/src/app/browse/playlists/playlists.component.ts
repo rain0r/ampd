@@ -1,5 +1,10 @@
 import { SlicePipe } from "@angular/common";
-import { Component, inject, Input } from "@angular/core";
+import {
+  Component,
+  inject,
+  Input,
+  ChangeDetectionStrategy,
+} from "@angular/core";
 import { MatPaginator, PageEvent } from "@angular/material/paginator";
 import { FilterService } from "../../service/msg.service";
 import { Playlist } from "../../shared/messages/incoming/playlist";
@@ -12,6 +17,7 @@ import { PAGE_SIZE_OPTIONS } from "../../shared/page-size-options";
   selector: "app-playlists",
   templateUrl: "./playlists.component.html",
   styleUrls: ["./playlists.component.scss"],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     PlaylistEntryComponent,
     MatPaginator,

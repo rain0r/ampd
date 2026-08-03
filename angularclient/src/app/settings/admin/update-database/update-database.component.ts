@@ -1,4 +1,9 @@
-import { Component, DestroyRef, inject } from "@angular/core";
+import {
+  Component,
+  DestroyRef,
+  inject,
+  ChangeDetectionStrategy,
+} from "@angular/core";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { MatButton } from "@angular/material/button";
 import { MatCard, MatCardContent } from "@angular/material/card";
@@ -9,6 +14,7 @@ import { NotificationService } from "../../../service/notification.service";
   selector: "app-update-database",
   templateUrl: "./update-database.component.html",
   styleUrls: ["./update-database.component.scss"],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [MatCard, MatCardContent, MatButton],
 })
 export class UpdateDatabaseComponent {

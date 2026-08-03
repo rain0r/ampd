@@ -1,5 +1,10 @@
 import { AsyncPipe } from "@angular/common";
-import { Component, DestroyRef, inject } from "@angular/core";
+import {
+  Component,
+  DestroyRef,
+  inject,
+  ChangeDetectionStrategy,
+} from "@angular/core";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import {
   MatDialogActions,
@@ -13,6 +18,7 @@ import { interval, map, Observable, take } from "rxjs";
   selector: "app-connecting-overlay",
   templateUrl: "./connecting-overlay.component.html",
   styleUrl: "./connecting-overlay.component.css",
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [MatProgressSpinner, MatDialogContent, MatDialogActions, AsyncPipe],
 })
 export class ConnectingOverlayComponent {

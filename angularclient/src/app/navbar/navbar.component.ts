@@ -5,6 +5,7 @@ import {
   HostListener,
   inject,
   OnInit,
+  ChangeDetectionStrategy,
 } from "@angular/core";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { MatButton } from "@angular/material/button";
@@ -27,6 +28,7 @@ import { ShortcutService } from "./../service/shortcut.service";
   selector: "app-navbar",
   templateUrl: "./navbar.component.html",
   styleUrls: ["./navbar.component.scss"],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     MatToolbar,
     MatButton,

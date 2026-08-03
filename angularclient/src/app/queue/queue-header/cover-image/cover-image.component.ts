@@ -1,6 +1,12 @@
 import { AsyncPipe } from "@angular/common";
 import { HttpClient } from "@angular/common/http";
-import { Component, DestroyRef, OnInit, inject } from "@angular/core";
+import {
+  Component,
+  DestroyRef,
+  OnInit,
+  inject,
+  ChangeDetectionStrategy,
+} from "@angular/core";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { MatDialog } from "@angular/material/dialog";
 import {
@@ -20,6 +26,7 @@ import { QueueTrack } from "../../../shared/model/queue-track";
   selector: "app-cover-image",
   templateUrl: "./cover-image.component.html",
   styleUrls: ["./cover-image.component.scss"],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [AsyncPipe],
 })
 export class CoverImageComponent implements OnInit {

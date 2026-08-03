@@ -1,4 +1,4 @@
-import { Component, inject } from "@angular/core";
+import { Component, inject, ChangeDetectionStrategy } from "@angular/core";
 import { Observable } from "rxjs";
 import { MpdService } from "../../../service/mpd.service";
 import { ServerStatistics } from "../../../shared/model/server-statistics";
@@ -10,6 +10,7 @@ import { SecondsToHhMmSsPipe } from "../../../shared/pipes/seconds-to-hh-mm-ss.p
   selector: "app-server-statistics",
   templateUrl: "./server-statistics.component.html",
   styleUrls: ["./server-statistics.component.scss"],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [MatCard, MatCardContent, AsyncPipe, DatePipe, SecondsToHhMmSsPipe],
 })
 export class ServerStatisticsComponent {

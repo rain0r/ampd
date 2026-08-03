@@ -6,6 +6,7 @@ import {
   Input,
   OnInit,
   inject,
+  ChangeDetectionStrategy,
 } from "@angular/core";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { MatDialog } from "@angular/material/dialog";
@@ -17,6 +18,7 @@ import { AlbumDialogComponent } from "../album-dialog/album-dialog.component";
   selector: "app-album-item",
   templateUrl: "./album-item.component.html",
   styleUrls: ["./album-item.component.scss"],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [],
 })
 export class AlbumItemComponent implements OnInit {

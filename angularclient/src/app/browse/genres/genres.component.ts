@@ -5,6 +5,7 @@ import {
   DestroyRef,
   inject,
   OnInit,
+  ChangeDetectionStrategy,
 } from "@angular/core";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { MatButton } from "@angular/material/button";
@@ -29,6 +30,7 @@ import { BrowseNavigationComponent } from "../navigation/browse-navigation.compo
   selector: "app-genres",
   templateUrl: "./genres.component.html",
   styleUrls: ["./genres.component.scss"],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     BrowseNavigationComponent,
     MatButton,

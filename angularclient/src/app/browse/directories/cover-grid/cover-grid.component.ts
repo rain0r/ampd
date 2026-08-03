@@ -1,4 +1,9 @@
-import { Component, inject, Input } from "@angular/core";
+import {
+  Component,
+  inject,
+  Input,
+  ChangeDetectionStrategy,
+} from "@angular/core";
 import { FilterService } from "../../../service/msg.service";
 import { Directory } from "../../../shared/messages/incoming/directory";
 import { Filterable } from "../../filterable";
@@ -9,6 +14,7 @@ import { CoverGridEntryComponent } from "./cover-grid-entry/cover-grid-entry.com
   selector: "app-cover-grid",
   templateUrl: "./cover-grid.component.html",
   styleUrls: ["./cover-grid.component.scss"],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [CoverGridEntryComponent],
 })
 export class CoverGridComponent extends Filterable {

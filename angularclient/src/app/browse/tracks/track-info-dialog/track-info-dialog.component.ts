@@ -1,6 +1,6 @@
 import { CdkScrollable } from "@angular/cdk/scrolling";
 import { AsyncPipe, KeyValue } from "@angular/common";
-import { Component, inject } from "@angular/core";
+import { Component, inject, ChangeDetectionStrategy } from "@angular/core";
 import { MatButton } from "@angular/material/button";
 import {
   MAT_DIALOG_DATA,
@@ -22,6 +22,7 @@ import { ReplaceNullWithTextPipe } from "../../../shared/pipes/replace-null-with
   selector: "app-track-info-dialog",
   templateUrl: "./track-info-dialog.component.html",
   styleUrls: ["./track-info-dialog.component.scss"],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     MatDialogTitle,
     CdkScrollable,

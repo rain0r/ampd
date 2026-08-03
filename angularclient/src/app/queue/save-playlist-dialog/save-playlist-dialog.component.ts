@@ -1,5 +1,10 @@
 import { CdkScrollable } from "@angular/cdk/scrolling";
-import { Component, DestroyRef, inject } from "@angular/core";
+import {
+  Component,
+  DestroyRef,
+  inject,
+  ChangeDetectionStrategy,
+} from "@angular/core";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { FormsModule } from "@angular/forms";
 import { MatButton } from "@angular/material/button";
@@ -21,6 +26,7 @@ import { PlaylistService } from "../../service/playlist.service";
   selector: "app-save-playlist-dialog",
   templateUrl: "./save-playlist-dialog.component.html",
   styleUrls: ["./save-playlist-dialog.component.scss"],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     MatDialogTitle,
     CdkScrollable,

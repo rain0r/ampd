@@ -5,6 +5,7 @@ import {
   DestroyRef,
   inject,
   OnInit,
+  ChangeDetectionStrategy,
 } from "@angular/core";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import {
@@ -41,6 +42,7 @@ import { DynamicFormInputComponent } from "./dynamic-form-input/dynamic-form-inp
   selector: "app-advanced-search",
   templateUrl: "./advanced-search.component.html",
   styleUrls: ["./advanced-search.component.scss"],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     FormsModule,
     ReactiveFormsModule,

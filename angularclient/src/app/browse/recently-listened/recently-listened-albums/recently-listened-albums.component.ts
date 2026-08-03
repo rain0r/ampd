@@ -1,5 +1,10 @@
 import { AsyncPipe } from "@angular/common";
-import { Component, DestroyRef, inject } from "@angular/core";
+import {
+  Component,
+  DestroyRef,
+  inject,
+  ChangeDetectionStrategy,
+} from "@angular/core";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { MatPaginator, PageEvent } from "@angular/material/paginator";
 import { MatProgressSpinner } from "@angular/material/progress-spinner";
@@ -13,6 +18,7 @@ import { AlbumItemComponent } from "../../albums/album-item/album-item.component
   selector: "app-recently-listened-albums",
   templateUrl: "./recently-listened-albums.component.html",
   styleUrl: "./recently-listened-albums.component.css",
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [AlbumItemComponent, MatPaginator, MatProgressSpinner, AsyncPipe],
 })
 export class RecentlyListenedAlbumsComponent {

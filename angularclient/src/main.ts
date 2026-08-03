@@ -10,6 +10,7 @@ import { Location } from "@angular/common";
 import {
   provideHttpClient,
   withInterceptorsFromDi,
+  withXhr,
 } from "@angular/common/http";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { MAT_DIALOG_DEFAULT_OPTIONS } from "@angular/material/dialog";
@@ -60,7 +61,7 @@ bootstrapApplication(AppComponent, {
       provide: ErrorHandler,
       useClass: AmpdErrorHandler,
     },
-    provideHttpClient(withInterceptorsFromDi()),
+    provideHttpClient(withXhr(), withInterceptorsFromDi()),
     {
       provide: MAT_TOOLTIP_DEFAULT_OPTIONS,
       useValue: {

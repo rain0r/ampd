@@ -91,7 +91,7 @@ export class ControlPanelService {
         takeUntilDestroyed(this.destroyRef),
       )
       .subscribe((elapsed) => {
-        let to = 0;
+        let to;
         if (backwards) {
           to =
             elapsed - this.fsSettings.getIntValue(SettingKeys.JUMP_SEEK) || 0;
@@ -141,7 +141,7 @@ export class ControlPanelService {
           (seekData.counter || 1) *
           this.fsSettings.getIntValue(SettingKeys.JUMP_SEEK);
 
-        let to = 0;
+        let to;
         if (seekData.backwards) {
           to = elapsedData - seekAmount || 0;
         } else {

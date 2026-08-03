@@ -1,4 +1,4 @@
-import { Component, inject } from "@angular/core";
+import { Component, inject, ChangeDetectionStrategy } from "@angular/core";
 import { Observable, delay, startWith } from "rxjs";
 import { ControlPanelService } from "../../service/control-panel.service";
 import { MpdService } from "../../service/mpd.service";
@@ -12,6 +12,7 @@ import { SecondsToMmSsPipe } from "../../shared/pipes/seconds-to-mm-ss.pipe";
   selector: "app-track-progress",
   templateUrl: "./track-progress.component.html",
   styleUrls: ["./track-progress.component.scss"],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     MatSlider,
     MatSliderThumb,

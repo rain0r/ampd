@@ -1,5 +1,11 @@
 import { SlicePipe } from "@angular/common";
-import { Component, inject, Input, OnInit } from "@angular/core";
+import {
+  Component,
+  inject,
+  Input,
+  OnInit,
+  ChangeDetectionStrategy,
+} from "@angular/core";
 import { MatDivider } from "@angular/material/divider";
 import { MatIcon } from "@angular/material/icon";
 import { MatPaginator, PageEvent } from "@angular/material/paginator";
@@ -16,6 +22,7 @@ import { PAGE_SIZE_OPTIONS } from "../../shared/page-size-options";
   selector: "app-directories",
   templateUrl: "./directories.component.html",
   styleUrls: ["./directories.component.scss"],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     MatIcon,
     MatDivider,

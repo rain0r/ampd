@@ -1,5 +1,11 @@
 import { AsyncPipe } from "@angular/common";
-import { Component, DestroyRef, OnInit, inject } from "@angular/core";
+import {
+  Component,
+  DestroyRef,
+  OnInit,
+  inject,
+  ChangeDetectionStrategy,
+} from "@angular/core";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { MatButton } from "@angular/material/button";
 import { MatDialog } from "@angular/material/dialog";
@@ -18,6 +24,7 @@ import { SettingKeys } from "../../shared/model/internal/frontend-settings";
   selector: "app-control-panel",
   templateUrl: "./control-panel.component.html",
   styleUrls: ["./control-panel.component.scss"],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [MatButton, MatIcon, AsyncPipe],
 })
 export class ControlPanelComponent implements OnInit {

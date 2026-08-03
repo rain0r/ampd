@@ -1,4 +1,11 @@
-import { Component, DestroyRef, Input, OnInit, inject } from "@angular/core";
+import {
+  Component,
+  DestroyRef,
+  Input,
+  OnInit,
+  inject,
+  ChangeDetectionStrategy,
+} from "@angular/core";
 import { delay, of } from "rxjs";
 import { ControlPanelService } from "../../../service/control-panel.service";
 import { NotificationService } from "../../../service/notification.service";
@@ -14,6 +21,7 @@ import { RouterLink } from "@angular/router";
   selector: "app-directory-entry",
   templateUrl: "./directory-entry.component.html",
   styleUrls: ["./directory-entry.component.scss"],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [RouterLink, MatIcon, MatButton],
 })
 export class DirectoryEntryComponent implements OnInit {

@@ -1,5 +1,12 @@
 import { NgPlural, NgPluralCase } from "@angular/common";
-import { Component, DestroyRef, Input, OnInit, inject } from "@angular/core";
+import {
+  Component,
+  DestroyRef,
+  Input,
+  OnInit,
+  inject,
+  ChangeDetectionStrategy,
+} from "@angular/core";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { MatDialog } from "@angular/material/dialog";
 import { MatDivider } from "@angular/material/divider";
@@ -19,6 +26,7 @@ import { TrackTableOptions } from "../../shared/track-table-data/track-table-opt
   selector: "app-tracks",
   templateUrl: "./tracks.component.html",
   styleUrls: ["./tracks.component.scss"],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     TrackTableDataComponent,
     MatDivider,

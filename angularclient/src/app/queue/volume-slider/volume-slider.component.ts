@@ -1,4 +1,9 @@
-import { Component, DestroyRef, inject } from "@angular/core";
+import {
+  Component,
+  DestroyRef,
+  inject,
+  ChangeDetectionStrategy,
+} from "@angular/core";
 
 import { AsyncPipe } from "@angular/common";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
@@ -13,6 +18,7 @@ import { VolumeService } from "../../service/volume.service";
   selector: "app-volume-slider",
   templateUrl: "./volume-slider.component.html",
   styleUrls: ["./volume-slider.component.scss"],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [MatIcon, MatSlider, MatSliderThumb, FormsModule, AsyncPipe],
 })
 export class VolumeSliderComponent {

@@ -5,6 +5,7 @@ import {
   inject,
   Input,
   ViewChild,
+  ChangeDetectionStrategy,
 } from "@angular/core";
 import { RouterLink, RouterLinkActive } from "@angular/router";
 import { Observable } from "rxjs";
@@ -30,6 +31,7 @@ import { SettingKeys } from "../../shared/model/internal/frontend-settings";
   selector: "app-browse-navigation",
   templateUrl: "./browse.navigation.component.html",
   styleUrls: ["./browse.navigation.component.scss"],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     MatButton,
     RouterLinkActive,

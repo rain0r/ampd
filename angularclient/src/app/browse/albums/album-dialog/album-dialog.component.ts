@@ -1,6 +1,11 @@
 import { CdkScrollable } from "@angular/cdk/scrolling";
 import { AsyncPipe } from "@angular/common";
-import { Component, DestroyRef, inject } from "@angular/core";
+import {
+  Component,
+  DestroyRef,
+  inject,
+  ChangeDetectionStrategy,
+} from "@angular/core";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { MatButton } from "@angular/material/button";
 import { MatCardImage } from "@angular/material/card";
@@ -26,6 +31,7 @@ import { TrackTableOptions } from "../../../shared/track-table-data/track-table-
   selector: "app-album-dialog",
   templateUrl: "./album-dialog.component.html",
   styleUrls: ["./album-dialog.component.scss"],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     CdkScrollable,
     MatDialogContent,

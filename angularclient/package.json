@@ -14,7 +14,7 @@
     "generate:reports": "npx mochawesome-merge \"cypress/results/*.json\" > mochawesome.json && marge -o reports/html mochawesome.json && rm mochawesome.json"
   },
   "dependencies": {
-    "@angular-devkit/core": "20.3.32",
+    "@angular-devkit/core": "22.1.2",
     "@angular/cdk": "22.1.0",
     "@angular/common": "22.1.0",
     "@angular/compiler": "22.1.0",

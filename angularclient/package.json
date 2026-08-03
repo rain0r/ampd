@@ -37,7 +37,7 @@
     "@angular/compiler-cli": "22.1.0",
     "@cypress/schematic": "5.0.0",
     "@eslint/js": "^10.0.1",
-    "@types/node": "25.9.1",
+    "@types/node": "26.1.2",
     "angular-eslint": "22.1.0",
     "autoprefixer": "10.5.4",
     "cypress": "latest",

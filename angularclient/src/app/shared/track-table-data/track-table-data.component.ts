@@ -4,9 +4,11 @@ import {
   ChangeDetectionStrategy,
   Component,
   DestroyRef,
+  OnInit,
   ViewChild,
   inject,
   input,
+  signal,
 } from "@angular/core";
 import { MatButton } from "@angular/material/button";
 import { MatDialog } from "@angular/material/dialog";
@@ -29,13 +31,15 @@ import {
 import { ActivatedRoute, Router } from "@angular/router";
 
 import { takeUntilDestroyed, toObservable } from "@angular/core/rxjs-interop";
-import { take } from "rxjs";
+import { combineLatest, map, take } from "rxjs";
 import { TrackInfoDialogComponent } from "../../browse/tracks/track-info-dialog/track-info-dialog.component";
 import { QueueService } from "../../service/queue.service";
+import { ResponsiveScreenService } from "../../service/responsive-screen.service";
 import { Track } from "../messages/incoming/track";
 import { QueueTrack } from "../model/queue-track";
 import { SecondsToMmSsPipe } from "../pipes/seconds-to-mm-ss.pipe";
 import { ClickActions } from "./click-actions.enum";
+import { COLUMNS } from "./columns";
 import { TrackTableOptions } from "./track-table-options";
 
 @Component({
@@ -66,13 +70,15 @@ import { TrackTableOptions } from "./track-table-options";
     SecondsToMmSsPipe,
   ],
 })
-export class TrackTableDataComponent {
+export class TrackTableDataComponent implements OnInit {
   private activatedRoute = inject(ActivatedRoute);
   private dialog = inject(MatDialog);
   private destroyRef = inject(DestroyRef);
   private queueService = inject(QueueService);
+  private responsiveScreenService = inject(ResponsiveScreenService);
   private router = inject(Router);
 
+  displayedColumns = signal<string[]>([]);
   trackTableData = input.required<TrackTableOptions>();
   trackTableDataObs = toObservable(this.trackTableData);
 
@@ -83,6 +89,31 @@ export class TrackTableDataComponent {
     this.trackTableDataObs
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((d) => (d.dataSource.sort = sort));
+  }
+
+  ngOnInit(): void {
+    const tableOpt = this.trackTableDataObs.pipe(
+      takeUntilDestroyed(this.destroyRef),
+    );
+    const isMobile = this.responsiveScreenService.isMobile().pipe(
+      takeUntilDestroyed(this.destroyRef),
+      map((isMobile) => {
+        return COLUMNS.filter((cd) => !isMobile || cd.showMobile).map(
+          (cd) => cd.name,
+        );
+      }),
+    );
+    combineLatest([tableOpt, isMobile]).subscribe(([tableOpt, columns]) => {
+      // Weed out add and play columns since they are specified in TrackTableOptions
+      let ret = columns;
+      if (!tableOpt.addTitleColumn) {
+        ret = ret.filter((name) => name !== "add-title");
+      }
+      if (!tableOpt.playTitleColumn) {
+        ret = ret.filter((name) => name !== "play-title");
+      }
+      this.displayedColumns.set(ret);
+    });
   }
 
   handlePage($event: PageEvent): void {

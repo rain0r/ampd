@@ -1,11 +1,11 @@
 import { AsyncPipe } from "@angular/common";
 import {
+  ChangeDetectionStrategy,
   Component,
   DestroyRef,
   HostListener,
   inject,
   OnInit,
-  ChangeDetectionStrategy,
 } from "@angular/core";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { MatButton } from "@angular/material/button";
@@ -97,8 +97,6 @@ export class NavbarComponent implements OnInit {
       .pipe(distinctUntilChanged(), takeUntilDestroyed(this.destroyRef))
       .subscribe(([connState, errorDialogOpen]) => {
         if (!errorDialogOpen && connState !== 1) {
-          console.log("connState:", connState);
-          console.log("errorDialogOpen:", errorDialogOpen);
           this.connDialogRef = this.dialog.open(ConnectingOverlayComponent, {
             disableClose: true,
           });

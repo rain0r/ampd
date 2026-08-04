@@ -1,10 +1,10 @@
 import { AsyncPipe } from "@angular/common";
 import {
+  ChangeDetectionStrategy,
   Component,
   DestroyRef,
   OnInit,
   inject,
-  ChangeDetectionStrategy,
 } from "@angular/core";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { FormsModule } from "@angular/forms";
@@ -18,7 +18,6 @@ import { BehaviorSubject, Observable, Subject, combineLatest, of } from "rxjs";
 import { debounceTime, distinctUntilChanged, switchMap } from "rxjs/operators";
 import { NotificationService } from "../service/notification.service";
 import { QueueService } from "../service/queue.service";
-import { ResponsiveScreenService } from "../service/responsive-screen.service";
 import { SearchService } from "../service/search.service";
 import { PaginatedResponse } from "../shared/messages/incoming/paginated-response";
 import { Track } from "../shared/messages/incoming/track";
@@ -51,7 +50,6 @@ export class SearchComponent implements OnInit {
   private destroyRef = inject(DestroyRef);
   private notificationService = inject(NotificationService);
   private queueService = inject(QueueService);
-  private responsiveScreenService = inject(ResponsiveScreenService);
   private searchService = inject(SearchService);
 
   advSearchResponse$ = new Observable<PaginatedResponse<Track>>();
@@ -64,10 +62,6 @@ export class SearchComponent implements OnInit {
 
   constructor() {
     this.buildInputListener();
-    this.responsiveScreenService
-      .isMobile()
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((isMobile) => (this.isMobile = isMobile));
   }
 
   ngOnInit(): void {
@@ -102,7 +96,6 @@ export class SearchComponent implements OnInit {
     advSearchResponse: PaginatedResponse<Track>,
   ): TrackTableOptions {
     const trackTable = new TrackTableOptions({
-      displayedColumns: this.getDisplayedColumns(),
       onPlayClick: ClickActions.AddPlayTrack,
       totalElements: advSearchResponse.totalElements,
       totalPages: advSearchResponse.totalPages,
@@ -110,20 +103,6 @@ export class SearchComponent implements OnInit {
     });
     trackTable.addTracks(advSearchResponse.content);
     return trackTable;
-  }
-
-  private getDisplayedColumns(): string[] {
-    const displayedColumns = [
-      { name: "artistName", showMobile: true },
-      { name: "albumName", showMobile: false },
-      { name: "title", showMobile: true },
-      { name: "length", showMobile: false },
-      { name: "play-title", showMobile: true },
-      { name: "add-title", showMobile: true },
-    ];
-    return displayedColumns
-      .filter((cd) => !this.isMobile || cd.showMobile)
-      .map((cd) => cd.name);
   }
 
   /**

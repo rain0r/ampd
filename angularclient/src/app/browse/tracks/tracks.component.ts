@@ -1,11 +1,11 @@
 import { NgPlural, NgPluralCase } from "@angular/common";
 import {
+  ChangeDetectionStrategy,
   Component,
   DestroyRef,
   Input,
   OnInit,
   inject,
-  ChangeDetectionStrategy,
 } from "@angular/core";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { MatDialog } from "@angular/material/dialog";
@@ -13,7 +13,6 @@ import { MatDivider } from "@angular/material/divider";
 import { MatTableDataSource } from "@angular/material/table";
 import { ActivatedRoute } from "@angular/router";
 import { distinctUntilChanged, map } from "rxjs/operators";
-import { ResponsiveScreenService } from "../../service/responsive-screen.service";
 import { SettingsService } from "../../service/settings.service";
 import { AlbumCoverDialogComponent } from "../../shared/album-cover-dialog/album-cover-dialog.component";
 import { QueueTrack } from "../../shared/model/queue-track";
@@ -39,7 +38,6 @@ export class TracksComponent implements OnInit {
   private activatedRoute = inject(ActivatedRoute);
   private dialog = inject(MatDialog);
   private destroyRef = inject(DestroyRef);
-  private responsiveScreenService = inject(ResponsiveScreenService);
   private settingsService = inject(SettingsService);
 
   @Input() tracks: QueueTrack[] = [];
@@ -48,13 +46,8 @@ export class TracksComponent implements OnInit {
   queueDuration = 0;
   trackTableData = new TrackTableOptions();
   validCoverUrl = false;
-  private isMobile = false;
 
   constructor() {
-    this.responsiveScreenService
-      .isMobile()
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((isMobile) => (this.isMobile = isMobile));
     this.activatedRoute.queryParamMap
       .pipe(
         map((qp) => (qp.get("dir") as string) || "/"),
@@ -89,29 +82,12 @@ export class TracksComponent implements OnInit {
   private buildTableData(): TrackTableOptions {
     const trackTable = new TrackTableOptions({
       dataSource: new MatTableDataSource<QueueTrack>(this.tracks),
-      displayedColumns: this.getDisplayedColumns(),
       onPlayClick: ClickActions.AddPlayTrack,
       totalElements: this.tracks.length,
       totalPages: 1,
       showPageSizeOptions: false,
     });
     return trackTable;
-  }
-
-  private getDisplayedColumns(): string[] {
-    const displayedColumns = [
-      { name: "position", showMobile: false },
-      { name: "artistName", showMobile: true },
-      { name: "albumName", showMobile: false },
-      { name: "title", showMobile: true },
-      { name: "length", showMobile: false },
-      { name: "play-title", showMobile: false },
-      { name: "add-title", showMobile: false },
-      { name: "info", showMobile: false },
-    ];
-    return displayedColumns
-      .filter((cd) => !this.isMobile || cd.showMobile)
-      .map((cd) => cd.name);
   }
 
   /**

@@ -2,10 +2,10 @@ import { CdkScrollable } from "@angular/cdk/scrolling";
 import { AsyncPipe } from "@angular/common";
 import {
   AfterViewInit,
+  ChangeDetectionStrategy,
   Component,
   DestroyRef,
   inject,
-  ChangeDetectionStrategy,
 } from "@angular/core";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { MatButton } from "@angular/material/button";
@@ -24,7 +24,6 @@ import { BehaviorSubject, Observable, Subject, switchMap } from "rxjs";
 import { NotificationService } from "../../../service/notification.service";
 import { PlaylistService } from "../../../service/playlist.service";
 import { QueueService } from "../../../service/queue.service";
-import { ResponsiveScreenService } from "../../../service/responsive-screen.service";
 import { Playlist } from "../../../shared/messages/incoming/playlist";
 import { PlaylistInfo } from "../../../shared/model/playlist-info";
 import { ClickActions } from "../../../shared/track-table-data/click-actions.enum";
@@ -61,18 +60,11 @@ export class PlaylistInfoDialogComponent implements AfterViewInit {
   private notificationService = inject(NotificationService);
   private playlistService = inject(PlaylistService);
   private queueService = inject(QueueService);
-  private responsiveScreenService = inject(ResponsiveScreenService);
   private router = inject(Router);
-
-  private isMobile = false;
   private playlistInfo$ = new Subject<PlaylistInfo>();
 
   constructor() {
     this.playlistInfo = this.playlistInfo$.asObservable();
-    this.responsiveScreenService
-      .isMobile()
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((isMobile) => (this.isMobile = isMobile));
   }
 
   ngAfterViewInit(): void {
@@ -117,7 +109,6 @@ export class PlaylistInfoDialogComponent implements AfterViewInit {
 
   private buildTable(info: PlaylistInfo): TrackTableOptions {
     const trackTable = new TrackTableOptions({
-      displayedColumns: this.getDisplayedColumns(),
       onPlayClick: ClickActions.AddPlayTrack,
       totalElements: info.tracks.totalElements,
       totalPages: info.tracks.totalPages,
@@ -126,19 +117,5 @@ export class PlaylistInfoDialogComponent implements AfterViewInit {
     });
     trackTable.addTracks(info.tracks.content);
     return trackTable;
-  }
-
-  private getDisplayedColumns(): string[] {
-    const displayedColumns = [
-      { name: "artistName", showMobile: true },
-      { name: "albumName", showMobile: false },
-      { name: "title", showMobile: true },
-      { name: "length", showMobile: false },
-      { name: "play-title", showMobile: false },
-      { name: "add-title", showMobile: false },
-    ];
-    return displayedColumns
-      .filter((cd) => !this.isMobile || cd.showMobile)
-      .map((cd) => cd.name);
   }
 }

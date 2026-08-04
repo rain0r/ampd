@@ -1,11 +1,11 @@
 import { AsyncPipe, ViewportScroller } from "@angular/common";
 import {
+  ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   DestroyRef,
   inject,
   OnInit,
-  ChangeDetectionStrategy,
 } from "@angular/core";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { MatButton } from "@angular/material/button";
@@ -15,7 +15,6 @@ import { ActivatedRoute, Router, RouterLink } from "@angular/router";
 import { delay, Observable, of } from "rxjs";
 import { filter, switchMap } from "rxjs/operators";
 import { GenresService as GenreService } from "../../service/genres.service";
-import { ResponsiveScreenService } from "../../service/responsive-screen.service";
 import { GenreResponse } from "../../shared/messages/incoming/genres-response";
 import { PaginatedResponse } from "../../shared/messages/incoming/paginated-response";
 import { Track } from "../../shared/messages/incoming/track";
@@ -45,30 +44,20 @@ import { BrowseNavigationComponent } from "../navigation/browse-navigation.compo
 })
 export class GenresComponent implements OnInit {
   private activatedRoute = inject(ActivatedRoute);
+  private changeDetectorRef = inject(ChangeDetectorRef);
   private destroyRef = inject(DestroyRef);
   private genreService = inject(GenreService);
-  private responsiveScreenService = inject(ResponsiveScreenService);
-  private viewportScroller = inject(ViewportScroller);
   private router = inject(Router);
-  private changeDetectorRef = inject(ChangeDetectorRef);
+  private viewportScroller = inject(ViewportScroller);
 
   browsePayload = new Observable<AmpdBrowsePayload>();
   genrePayload = new Observable<GenreResponse>();
   genres = new Observable<string[]>();
-  isMobile = false;
   selectedIndex = 0;
   trackTableData = new TrackTableOptions();
 
-  constructor() {
-    this.responsiveScreenService
-      .isMobile()
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((isMobile) => (this.isMobile = isMobile));
-  }
-
   ngOnInit(): void {
     this.genres = this.genreService.listGenres();
-
     this.activatedRoute.queryParamMap
       .pipe(
         filter((queryParams) => queryParams.has("genre")),
@@ -81,7 +70,7 @@ export class GenresComponent implements OnInit {
         }),
         takeUntilDestroyed(this.destroyRef),
       )
-      .subscribe((data) => this.processSearchResults(data));
+      .subscribe(this.processSearchResults);
   }
 
   handlePage($event: PageEvent): void {
@@ -118,7 +107,6 @@ export class GenresComponent implements OnInit {
     paginatedTracks: PaginatedResponse<Track>,
   ): TrackTableOptions {
     const trackTable = new TrackTableOptions({
-      displayedColumns: this.getDisplayedColumns(),
       onPlayClick: ClickActions.AddPlayTrack,
       totalElements: paginatedTracks.totalElements,
       totalPages: paginatedTracks.totalPages,
@@ -126,19 +114,5 @@ export class GenresComponent implements OnInit {
     });
     trackTable.addTracks(paginatedTracks.content);
     return trackTable;
-  }
-
-  private getDisplayedColumns(): string[] {
-    const displayedColumns = [
-      { name: "artistName", showMobile: true },
-      { name: "albumName", showMobile: false },
-      { name: "title", showMobile: true },
-      { name: "length", showMobile: false },
-      { name: "play-title", showMobile: true },
-      { name: "add-title", showMobile: true },
-    ];
-    return displayedColumns
-      .filter((cd) => !this.isMobile || cd.showMobile)
-      .map((cd) => cd.name);
   }
 }

@@ -1,11 +1,11 @@
 import { AsyncPipe } from "@angular/common";
 import {
   AfterViewInit,
+  ChangeDetectionStrategy,
   Component,
   DestroyRef,
   inject,
   OnInit,
-  ChangeDetectionStrategy,
 } from "@angular/core";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import {
@@ -61,13 +61,6 @@ export class AdvancedSearchComponent implements OnInit, AfterViewInit {
   private searchService = inject(SearchService);
 
   advSearchResponse$ = new Observable<PaginatedResponse<Track>>();
-  displayedColumns: string[] = [
-    "artistName",
-    "albumName",
-    "title",
-    "play-title",
-    "add-title",
-  ];
   form: FormGroup = {} as FormGroup;
   formFields: FormField[];
   isLoadingResults = new BehaviorSubject(true);
@@ -75,15 +68,9 @@ export class AdvancedSearchComponent implements OnInit, AfterViewInit {
 
   private searchParams: Record<string, string> = {};
   private formDataSubmitted = new Subject<Record<string, string>>();
-  private isMobile = false;
 
   constructor() {
     this.formFields = this.getFormFields();
-    this.responsiveScreenService
-      .isMobile()
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((isMobile) => (this.isMobile = isMobile));
-    this.displayedColumns = this.getDisplayedColumns();
   }
 
   ngOnInit(): void {
@@ -158,7 +145,6 @@ export class AdvancedSearchComponent implements OnInit, AfterViewInit {
     advSearchResponse: PaginatedResponse<Track>,
   ): TrackTableOptions {
     const trackTable = new TrackTableOptions({
-      displayedColumns: this.getDisplayedColumns(),
       onPlayClick: ClickActions.AddPlayTrack,
       totalElements: advSearchResponse.totalElements,
       totalPages: advSearchResponse.totalPages,
@@ -184,19 +170,5 @@ export class AdvancedSearchComponent implements OnInit, AfterViewInit {
       group[input.key] = new FormControl();
     });
     return new FormGroup(group);
-  }
-
-  private getDisplayedColumns(): string[] {
-    const displayedColumns = [
-      { name: "artistName", showMobile: true },
-      { name: "albumName", showMobile: false },
-      { name: "title", showMobile: true },
-      { name: "length", showMobile: false },
-      { name: "play-title", showMobile: true },
-      { name: "add-title", showMobile: true },
-    ];
-    return displayedColumns
-      .filter((cd) => !this.isMobile || cd.showMobile)
-      .map((cd) => cd.name);
   }
 }

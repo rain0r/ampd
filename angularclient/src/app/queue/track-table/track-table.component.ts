@@ -1,5 +1,6 @@
 import { NgPlural, NgPluralCase } from "@angular/common";
 import {
+  ChangeDetectionStrategy,
   Component,
   DestroyRef,
   ElementRef,
@@ -7,7 +8,6 @@ import {
   ViewChild,
   inject,
   signal,
-  ChangeDetectionStrategy,
 } from "@angular/core";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { FormsModule } from "@angular/forms";
@@ -53,26 +53,21 @@ import { AddStreamDialogComponent } from "./add-stream-dialog/add-stream-dialog.
   ],
 })
 export class TrackTableComponent {
-  private dialog = inject(MatDialog);
+  private activatedRoute = inject(ActivatedRoute);
   private destroyRef = inject(DestroyRef);
+  private dialog = inject(MatDialog);
   private mpdService = inject(MpdService);
   private queueService = inject(QueueService);
   private responsiveScreenService = inject(ResponsiveScreenService);
-  private activatedRoute = inject(ActivatedRoute);
 
   @ViewChild("filterInputElem") filterInputElem?: ElementRef;
 
   currentTrack = signal<QueueTrack>(new QueueTrack());
   currentState = signal<"stop" | "play" | "pause">("stop");
   trackTableData = signal<TrackTableOptions>(new TrackTableOptions());
-  private isMobile = false;
 
   constructor() {
     this.buildReceiver();
-    this.responsiveScreenService
-      .isMobile()
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((isMobile) => (this.isMobile = isMobile));
     this.queueService.getPage(
       Number(this.activatedRoute.snapshot.queryParamMap.get("pageIndex")),
       Number(this.activatedRoute.snapshot.queryParamMap.get("pageSize")),
@@ -114,28 +109,13 @@ export class TrackTableComponent {
     });
   }
 
-  private getDisplayedColumns(): string[] {
-    const displayedColumns = [
-      { name: "position", showMobile: false },
-      { name: "artistName", showMobile: true },
-      { name: "albumName", showMobile: false },
-      { name: "title", showMobile: true },
-      { name: "length", showMobile: false },
-      { name: "remove", showMobile: true },
-    ];
-    return displayedColumns
-      .filter((cd) => !this.isMobile || cd.showMobile)
-      .map((cd) => cd.name);
-  }
-
   private buildTableData(
     queueResponse: PaginatedResponse<Track>,
+    isMobile: boolean,
   ): TrackTableOptions {
-    console.log("buildTableData", queueResponse.content.length);
     const trackTable = new TrackTableOptions({
       addTitleColumn: false,
-      displayedColumns: this.getDisplayedColumns(),
-      dragEnabled: !this.isMobile,
+      dragEnabled: !isMobile,
       onRowClick: ClickActions.PlayTrack,
       pageIndex: queueResponse.number,
       pageSize: queueResponse.pageable.pageSize,
@@ -150,11 +130,14 @@ export class TrackTableComponent {
 
   private buildReceiver(): void {
     // Queue
-    this.queueService.queue$
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((queueResponse: PaginatedResponse<Track>) => {
-        this.trackTableData.set(this.buildTableData(queueResponse));
-      });
+    const queue = this.queueService.queue$.pipe(
+      takeUntilDestroyed(this.destroyRef),
+    );
+    combineLatest([queue, this.responsiveScreenService.isMobile()]).subscribe(
+      ([queueResponse, isMobile]) => {
+        this.trackTableData.set(this.buildTableData(queueResponse, isMobile));
+      },
+    );
 
     // State
     this.mpdService.currentState$

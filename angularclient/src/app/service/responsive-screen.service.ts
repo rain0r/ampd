@@ -1,5 +1,6 @@
 import { BreakpointObserver } from "@angular/cdk/layout";
-import { Injectable, inject } from "@angular/core";
+import { DestroyRef, Injectable, inject } from "@angular/core";
+import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
 
@@ -8,10 +9,12 @@ import { map } from "rxjs/operators";
 })
 export class ResponsiveScreenService {
   private breakpointObserver = inject(BreakpointObserver);
+  private destroyRef = inject(DestroyRef);
 
   isMobile(): Observable<boolean> {
-    return this.breakpointObserver
-      .observe(["(max-width: 768px)"])
-      .pipe(map((bp) => bp.matches));
+    return this.breakpointObserver.observe(["(max-width: 768px)"]).pipe(
+      takeUntilDestroyed(this.destroyRef),
+      map((bp) => bp.matches),
+    );
   }
 }

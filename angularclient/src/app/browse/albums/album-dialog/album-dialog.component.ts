@@ -1,10 +1,10 @@
 import { CdkScrollable } from "@angular/cdk/scrolling";
 import { AsyncPipe } from "@angular/common";
 import {
+  ChangeDetectionStrategy,
   Component,
   DestroyRef,
   inject,
-  ChangeDetectionStrategy,
 } from "@angular/core";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { MatButton } from "@angular/material/button";
@@ -53,7 +53,6 @@ export class AlbumDialogComponent {
   dialogRef = inject<MatDialogRef<AlbumDialogComponent>>(MatDialogRef);
 
   trackTableData$: Observable<TrackTableOptions>;
-  private isMobile = false;
 
   constructor() {
     this.trackTableData$ = this.albumService
@@ -79,7 +78,6 @@ export class AlbumDialogComponent {
 
   private buildTrackTableOptions(tracks: Track[]): TrackTableOptions {
     const trackTable = new TrackTableOptions({
-      displayedColumns: this.getDisplayedColumns(),
       onPlayClick: ClickActions.AddPlayTrack,
       totalElements: tracks.length,
       showPageSizeOptions: false,
@@ -87,20 +85,5 @@ export class AlbumDialogComponent {
     });
     trackTable.addTracks(tracks);
     return trackTable;
-  }
-
-  private getDisplayedColumns(): string[] {
-    const displayedColumns = [
-      { name: "position", showMobile: false },
-      { name: "artistName", showMobile: true },
-      { name: "title", showMobile: true },
-      { name: "length", showMobile: false },
-      { name: "play-title", showMobile: false },
-      { name: "add-title", showMobile: false },
-    ];
-
-    return displayedColumns
-      .filter((cd) => !this.isMobile || cd.showMobile)
-      .map((cd) => cd.name);
   }
 }

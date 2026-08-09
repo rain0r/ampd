@@ -1,7 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable, inject } from "@angular/core";
 import { RxStompState } from "@stomp/rx-stomp";
-import objectHash from "object-hash";
 import { Observable } from "rxjs";
 import { distinctUntilChanged, filter, map } from "rxjs/operators";
 import { MpdModesPanel } from "../shared/messages/incoming/mpd-modes-panel";
@@ -11,6 +10,7 @@ import { ServerStatistics } from "../shared/model/server-statistics";
 import { AmpdRxStompService } from "./ampd-rx-stomp.service";
 import { QueueService } from "./queue.service";
 import { SettingsService } from "./settings.service";
+import { deepEqual } from "fast-equals";
 
 @Injectable({
   providedIn: "root",
@@ -128,11 +128,7 @@ export class MpdService {
     return this.rxStompService.watch("/topic/state").pipe(
       map((message) => message.body),
       map((body: string) => JSON.parse(body) as StateMsgPayload),
-      distinctUntilChanged(
-        (prev, curr) =>
-          objectHash(prev, { algorithm: "md5" }) ===
-          objectHash(curr, { algorithm: "md5" }),
-      ),
+      distinctUntilChanged(deepEqual),
     );
   }
 

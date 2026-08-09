@@ -1,6 +1,5 @@
 import { NgPlural, NgPluralCase } from "@angular/common";
 import {
-  ChangeDetectionStrategy,
   Component,
   DestroyRef,
   ElementRef,
@@ -37,7 +36,6 @@ import { AddStreamDialogComponent } from "./add-stream-dialog/add-stream-dialog.
   selector: "app-track-table",
   templateUrl: "./track-table.component.html",
   styleUrls: ["./track-table.component.scss"],
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     MatFormField,
     MatInput,

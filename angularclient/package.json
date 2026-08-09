@@ -24,7 +24,6 @@
     "@angular/platform-browser": "22.1.0",
     "@angular/router": "22.1.0",
     "@stomp/rx-stomp": "2.4.0",
-    "@stomp/stompjs": "7.3.0",
     "fast-equals": "6.0.2",
     "material-icons": "1.13.14",
     "rxjs": "7.8.2",

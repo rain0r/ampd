@@ -1,5 +1,4 @@
 import { Injectable, inject } from "@angular/core";
-import objectHash from "object-hash";
 import { Observable } from "rxjs";
 import { distinctUntilChanged, map } from "rxjs/operators";
 import { Track } from "../shared/messages/incoming/track";
@@ -7,6 +6,7 @@ import { QueueTrack } from "../shared/model/queue-track";
 import { PaginatedResponse } from "./../shared/messages/incoming/paginated-response";
 import { AmpdRxStompService } from "./ampd-rx-stomp.service";
 import { NotificationService } from "./notification.service";
+import { deepEqual } from "fast-equals";
 
 @Injectable({
   providedIn: "root",
@@ -143,11 +143,7 @@ export class QueueService {
     return this.rxStompService.watch("/user/topic/queue").pipe(
       map((message) => message.body),
       map((body) => JSON.parse(body) as PaginatedResponse<Track>),
-      distinctUntilChanged(
-        (prev, curr) =>
-          objectHash(prev, { algorithm: "md5" }) ===
-          objectHash(curr, { algorithm: "md5" }),
-      ),
+      distinctUntilChanged(deepEqual),
     );
   }
 }

@@ -10,18 +10,20 @@ import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { MatDialog } from "@angular/material/dialog";
 import { BehaviorSubject, first } from "rxjs";
 import { ErrorDialogComponent } from "./error/error-dialog/error-dialog.component";
+import { LoggerService } from "../service/logger.service";
 
 @Injectable()
 export class AmpdErrorHandler implements ErrorHandler {
   private dialog = inject(MatDialog);
   private destroyRef = inject(DestroyRef);
+  private logger = inject(LoggerService);
   private zone = inject(NgZone);
 
   private errorDialogOpen = new BehaviorSubject(false);
 
   handleError(error: unknown): void {
+    this.logger.error("AmpdErrorHandler:", error);
     this.zone.run(() => {
-      console.error("Error from global error handler", error);
       this.openErrorDialog(error);
     });
   }

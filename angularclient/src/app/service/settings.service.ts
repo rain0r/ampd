@@ -2,7 +2,7 @@ import { Location } from "@angular/common";
 import { HttpClient } from "@angular/common/http";
 import { Injectable, inject } from "@angular/core";
 import { Observable } from "rxjs";
-import { map } from "rxjs/operators";
+import { catchError, map } from "rxjs/operators";
 import { FrontendSettingsService } from "../service/frontend-settings.service";
 import { AmpdSetting } from "../shared/model/ampd-setting";
 import { CoverDiskUsage } from "../shared/model/http/cover-disk-usage";
@@ -14,25 +14,36 @@ import { environment } from "../../environments/environment";
   providedIn: "root",
 })
 export class SettingsService {
+  private fesService = inject(FrontendSettingsService);
   private http = inject(HttpClient);
   private location = inject(Location);
-  private fesService = inject(FrontendSettingsService);
 
   getAmpdSettings(): Observable<AmpdSetting[]> {
     const url = `${this.getBackendContextAddr()}api/backend`;
-    return this.http.get<AmpdSetting[]>(url);
+    return this.http.get<AmpdSetting[]>(url).pipe(
+      catchError((err) => {
+        throw `Failed to fetch ampd settings: ${err.statusText}`;
+      }),
+    );
   }
 
   getMpdSettings(): Observable<MpdSettings> {
     const url = `${this.getBackendContextAddr()}api/settings`;
-    return this.http.get<MpdSettings>(url);
+    return this.http.get<MpdSettings>(url).pipe(
+      catchError((err) => {
+        throw `Failed to fetch mpd settings: ${err.statusText}`;
+      }),
+    );
   }
 
   getCoverCacheDiskUsage(): Observable<number> {
     const url = `${this.getBackendContextAddr()}api/cover-disk-usage`;
-    return this.http
-      .get<CoverDiskUsage>(url)
-      .pipe(map((usage) => usage.coverDiskUsage));
+    return this.http.get<CoverDiskUsage>(url).pipe(
+      catchError((err) => {
+        throw `Failed to fetch cover cache disku usage: ${err.statusText}`;
+      }),
+      map((usage) => usage.coverDiskUsage),
+    );
   }
 
   /**

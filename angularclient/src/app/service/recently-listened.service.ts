@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable, inject } from "@angular/core";
-import { Observable, map } from "rxjs";
+import { Observable, catchError, map } from "rxjs";
 import { PaginatedResponse } from "../shared/messages/incoming/paginated-response";
 import { Track } from "../shared/messages/incoming/track";
 import { MpdAlbum } from "../shared/model/http/album";
@@ -13,19 +13,28 @@ export class RecentlyListenedService {
   private http = inject(HttpClient);
   private settingsService = inject(SettingsService);
 
+  private backendAddress;
+
+  constructor() {
+    this.backendAddress = this.settingsService.getBackendContextAddr();
+  }
+
   getAlbums(pageIndex: number | null): Observable<PaginatedResponse<MpdAlbum>> {
     let params = new HttpParams();
     if (pageIndex) {
       params = params.append("pageIndex", pageIndex);
     }
 
-    const url = `${this.settingsService.getBackendContextAddr()}api/browse/recently-listened/albums`;
+    const url = `${this.backendAddress}api/browse/recently-listened/albums`;
     return this.http
       .get<PaginatedResponse<MpdAlbum>>(url, { params: params })
       .pipe(
+        catchError((err) => {
+          throw `Failed to fetch albums: ${err.statusText}`;
+        }),
         map((albums) => {
           albums.content.map((album) => {
-            album.albumCoverUrl = `${this.settingsService.getBackendContextAddr()}api/find-album-cover?albumName=${encodeURIComponent(
+            album.albumCoverUrl = `${this.backendAddress}api/find-album-cover?albumName=${encodeURIComponent(
               album.name,
             )}&artistName=${encodeURIComponent(album.albumArtist)}`;
             return album;
@@ -36,7 +45,11 @@ export class RecentlyListenedService {
   }
 
   getTracks(): Observable<Track[]> {
-    const url = `${this.settingsService.getBackendContextAddr()}api/browse/recently-listened/tracks`;
-    return this.http.get<Track[]>(url);
+    const url = `${this.backendAddress}api/browse/recently-listened/tracks`;
+    return this.http.get<Track[]>(url).pipe(
+      catchError((err) => {
+        throw `Failed to fetch tracks: ${err.statusText}`;
+      }),
+    );
   }
 }

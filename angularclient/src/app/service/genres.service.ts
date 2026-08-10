@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable, inject } from "@angular/core";
 import { Observable } from "rxjs";
-import { map } from "rxjs/operators";
+import { catchError, map } from "rxjs/operators";
 import { GenreResponse } from "./../shared/messages/incoming/genres-response";
 
 import { SettingsService } from "./settings.service";
@@ -13,9 +13,19 @@ export class GenresService {
   private http = inject(HttpClient);
   private settingsService = inject(SettingsService);
 
+  private backendAddress;
+
+  constructor() {
+    this.backendAddress = this.settingsService.getBackendContextAddr();
+  }
+
   listGenres(): Observable<string[]> {
-    const url = `${this.settingsService.getBackendContextAddr()}api/genres`;
-    return this.http.get<string[]>(url);
+    const url = `${this.backendAddress}api/genres`;
+    return this.http.get<string[]>(url).pipe(
+      catchError((err) => {
+        throw `Failed to fetch genres: ${err.statusText}`;
+      }),
+    );
   }
 
   listGenre(
@@ -33,12 +43,12 @@ export class GenresService {
     if (pageSize) {
       params = params.append("pageSize", encodeURIComponent(pageSize));
     }
-    const url = `${this.settingsService.getBackendContextAddr()}api/genre`;
+    const url = `${this.backendAddress}api/genre`;
     return this.http.get<GenreResponse>(url, { params: params }).pipe(
       map((payload) => {
         payload.albums.content.map(
           (album) =>
-            (album.albumCoverUrl = `${this.settingsService.getBackendContextAddr()}api/find-album-cover?albumName=${encodeURIComponent(
+            (album.albumCoverUrl = `${this.backendAddress}api/find-album-cover?albumName=${encodeURIComponent(
               album.name,
             )}&artistName=${encodeURIComponent(album.albumArtist)}`),
         );

@@ -1,18 +1,25 @@
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable, inject } from "@angular/core";
 import { Observable } from "rxjs";
-import { map } from "rxjs/operators";
+import { catchError, map } from "rxjs/operators";
+import { PaginatedResponse } from "../shared/messages/incoming/paginated-response";
 import { MpdAlbum } from "../shared/model/http/album";
 import { QueueTrack } from "../shared/model/queue-track";
 import { SettingsService } from "./settings.service";
-import { PaginatedResponse } from "../shared/messages/incoming/paginated-response";
 
 @Injectable({
   providedIn: "root",
 })
 export class AlbumsService {
   private http = inject(HttpClient);
+
   private settingsService = inject(SettingsService);
+
+  private backendAddress;
+
+  constructor() {
+    this.backendAddress = this.settingsService.getBackendContextAddr();
+  }
 
   /**
    * Fetch albums from the backend.
@@ -35,13 +42,17 @@ export class AlbumsService {
     if (sortBy) {
       params = params.append("sortBy", sortBy);
     }
-    const url = `${this.settingsService.getBackendContextAddr()}api/albums`;
+    const url = `${this.backendAddress}api/albums`;
+
     return this.http
       .get<PaginatedResponse<MpdAlbum>>(url, { params: params })
       .pipe(
+        catchError((err) => {
+          throw `Failed to fetch albums: ${err.statusText}`;
+        }),
         map((albums) => {
           albums.content.map((album) => {
-            album.albumCoverUrl = `${this.settingsService.getBackendContextAddr()}api/find-album-cover?albumName=${encodeURIComponent(
+            album.albumCoverUrl = `${this.backendAddress}api/find-album-cover?albumName=${encodeURIComponent(
               album.name,
             )}&artistName=${encodeURIComponent(album.albumArtist)}`;
             return album;
@@ -59,7 +70,7 @@ export class AlbumsService {
    * @returns
    */
   getAlbum(name: string, artistName: string): Observable<QueueTrack[]> {
-    const url = `${this.settingsService.getBackendContextAddr()}api/album?name=${encodeURIComponent(
+    const url = `${this.backendAddress}api/album?name=${encodeURIComponent(
       name,
     )}&artistName=${encodeURIComponent(artistName)}`;
     return this.http.get<QueueTrack[]>(url);

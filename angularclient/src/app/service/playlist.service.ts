@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from "@angular/common/http";
-import { Injectable, inject } from "@angular/core";
-import { Observable, Subject } from "rxjs";
+import { inject, Injectable } from "@angular/core";
+import { catchError, Observable, Subject } from "rxjs";
 import { PlaylistSaved } from "../shared/messages/incoming/playlist-saved";
 import { SavePlaylistResponse } from "../shared/messages/incoming/save-playlist-response";
 import { PlaylistInfo } from "../shared/model/playlist-info";
@@ -14,6 +14,7 @@ export class PlaylistService {
   private settingsService = inject(SettingsService);
 
   playlistSaved: Observable<PlaylistSaved>;
+
   private playlistSaved$ = new Subject<PlaylistSaved>();
 
   constructor() {
@@ -33,18 +34,32 @@ export class PlaylistService {
       params = params.append("pageSize", encodeURIComponent(pageSize));
     }
     const url = `${this.settingsService.getPlaylistRootUrl()}${playlistName}`;
-    return this.http.get<PlaylistInfo>(url, { params: params });
+    return this.http.get<PlaylistInfo>(url, { params: params }).pipe(
+      catchError((err) => {
+        throw `Failed to fetch playlist info for playlist=${playlistName}: ${err.statusText}`;
+      }),
+    );
   }
 
-  savePlaylist(playlistName: string): Observable<SavePlaylistResponse> {
-    return this.http.post<SavePlaylistResponse>(
-      this.settingsService.getPlaylistRootUrl(),
-      playlistName,
-    );
+  savePlaylist(name: string): Observable<SavePlaylistResponse> {
+    return this.http
+      .post<SavePlaylistResponse>(
+        this.settingsService.getPlaylistRootUrl(),
+        name,
+      )
+      .pipe(
+        catchError((err) => {
+          throw `Failed to save playlist with name=${name}: ${err.statusText}`;
+        }),
+      );
   }
 
   deletePlaylist(name: string): Observable<unknown> {
     const url = `${this.settingsService.getPlaylistRootUrl()}${name}`;
-    return this.http.delete(url);
+    return this.http.delete(url).pipe(
+      catchError((err) => {
+        throw `Failed to delete playlist with name=${name}: ${err.statusText}`;
+      }),
+    );
   }
 }

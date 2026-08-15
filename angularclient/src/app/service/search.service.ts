@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable, inject } from "@angular/core";
-import { Observable } from "rxjs";
+import { catchError, Observable } from "rxjs";
 import { PaginatedResponse } from "../shared/messages/incoming/paginated-response";
 import { Track } from "../shared/messages/incoming/track";
 import { SettingsService } from "./settings.service";
@@ -11,6 +11,12 @@ import { SettingsService } from "./settings.service";
 export class SearchService {
   private http = inject(HttpClient);
   private settingsService = inject(SettingsService);
+
+  private backendAddress;
+
+  constructor() {
+    this.backendAddress = this.settingsService.getBackendContextAddr();
+  }
 
   search(
     term: string,
@@ -25,8 +31,14 @@ export class SearchService {
       params = params.append("pageSize", pageSize);
     }
     params = params.append("term", term);
-    const url = `${this.settingsService.getBackendContextAddr()}api/search`;
-    return this.http.get<PaginatedResponse<Track>>(url, { params: params });
+    const url = `${this.backendAddress}api/search`;
+    return this.http
+      .get<PaginatedResponse<Track>>(url, { params: params })
+      .pipe(
+        catchError((err) => {
+          throw `Failed to execute search: ${err.statusText}`;
+        }),
+      );
   }
 
   advSearch(
@@ -46,8 +58,14 @@ export class SearchService {
         params = params.append(key, formData[key] || "");
       }
     }
-    const url = `${this.settingsService.getBackendContextAddr()}api/adv-search`;
-    return this.http.get<PaginatedResponse<Track>>(url, { params: params });
+    const url = `${this.backendAddress}api/adv-search`;
+    return this.http
+      .get<PaginatedResponse<Track>>(url, { params: params })
+      .pipe(
+        catchError((err) => {
+          throw `Failed to execute advanced search: ${err.statusText}`;
+        }),
+      );
   }
 
   /**
@@ -55,9 +73,12 @@ export class SearchService {
    * @param formData
    */
   addAll(formData: Record<string, string>): Observable<void> {
-    return this.http.post<void>(
-      `${this.settingsService.getBackendContextAddr()}api/adv-search`,
-      formData,
-    );
+    return this.http
+      .post<void>(`${this.backendAddress}api/adv-search`, formData)
+      .pipe(
+        catchError((err) => {
+          throw `Failed to add tracks: ${err.statusText}`;
+        }),
+      );
   }
 }

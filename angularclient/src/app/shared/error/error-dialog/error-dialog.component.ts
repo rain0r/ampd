@@ -10,7 +10,6 @@ import {
 import { CdkScrollable } from "@angular/cdk/scrolling";
 import { MatDivider } from "@angular/material/divider";
 import { MatButton } from "@angular/material/button";
-import { JsonPipe } from "@angular/common";
 
 @Component({
   selector: "app-error-dialog",
@@ -25,7 +24,6 @@ import { JsonPipe } from "@angular/common";
     MatDialogActions,
     MatButton,
     MatDialogClose,
-    JsonPipe,
   ],
 })
 export class ErrorDialogComponent {

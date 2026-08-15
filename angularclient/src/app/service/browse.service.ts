@@ -1,7 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable, inject, signal } from "@angular/core";
 import { Observable } from "rxjs";
-import { map, tap } from "rxjs/operators";
+import { catchError, map, tap } from "rxjs/operators";
 import {
   AmpdBrowsePayload,
   BrowsePayload,
@@ -15,13 +15,23 @@ import { SettingsService } from "./settings.service";
 export class BrowseService {
   private http = inject(HttpClient);
   private settingsService = inject(SettingsService);
+  private backendAddress;
+  private findDirCoverUrl;
 
   isLoading = signal(true);
 
+  constructor() {
+    this.backendAddress = this.settingsService.getBackendContextAddr();
+    this.findDirCoverUrl = this.settingsService.getFindDirCoverUrl();
+  }
+
   sendBrowseReq(path: string): Observable<AmpdBrowsePayload> {
-    const url = `${this.settingsService.getBackendContextAddr()}api/browse?path=${path}`;
+    const url = `${this.backendAddress}api/browse?path=${path}`;
     this.isLoading.set(true);
     return this.http.get<BrowsePayload>(url).pipe(
+      catchError((err) => {
+        throw `Failed to fetch albums for path=${path}: ${err.statusText}`;
+      }),
       map((payload) => this.convertPayload(payload)),
       tap(() => this.isLoading.set(false)),
     );
@@ -45,9 +55,7 @@ export class BrowseService {
   }
 
   private getAlbumCoverUrl(path: string): string {
-    return `${this.settingsService.getFindDirCoverUrl()}?path=${encodeURIComponent(
-      path,
-    )}`;
+    return `${this.findDirCoverUrl}?path=${encodeURIComponent(path)}`;
   }
 
   private getDisplayedPath(path: string): string {

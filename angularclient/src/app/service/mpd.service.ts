@@ -2,7 +2,7 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable, inject } from "@angular/core";
 import { RxStompState } from "@stomp/rx-stomp";
 import { Observable } from "rxjs";
-import { distinctUntilChanged, filter, map } from "rxjs/operators";
+import { catchError, distinctUntilChanged, filter, map } from "rxjs/operators";
 import { MpdModesPanel } from "../shared/messages/incoming/mpd-modes-panel";
 import { StateMsgPayload } from "../shared/messages/incoming/state-msg-payload";
 import { QueueTrack } from "../shared/model/queue-track";
@@ -27,7 +27,10 @@ export class MpdService {
   state$: Observable<StateMsgPayload>;
   signals$: Observable<string>;
 
+  private backendAddress;
+
   constructor() {
+    this.backendAddress = this.settingsService.getBackendContextAddr();
     this.state$ = this.getStateSubscription$();
     this.signals$ = this.getSignalsSubscription$();
 
@@ -58,23 +61,35 @@ export class MpdService {
   }
 
   buildCoverUrl(file: string): string {
-    const url = `${this.settingsService.getBackendContextAddr()}api/find-track-cover`;
+    const url = `${this.backendAddress}api/find-track-cover`;
     return `${url}?path=${encodeURIComponent(file)}`;
   }
 
   updateDatabase$(): Observable<void> {
-    const url = `${this.settingsService.getBackendContextAddr()}api/update-database`;
-    return this.http.post<void>(url, {});
+    const url = `${this.backendAddress}api/update-database`;
+    return this.http.post<void>(url, {}).pipe(
+      catchError((err) => {
+        throw `Failed to update database: ${err.statusText}`;
+      }),
+    );
   }
 
   rescanDatabase$(): Observable<void> {
-    const url = `${this.settingsService.getBackendContextAddr()}api/rescan-database`;
-    return this.http.post<void>(url, {});
+    const url = `${this.backendAddress}api/rescan-database`;
+    return this.http.post<void>(url, {}).pipe(
+      catchError((err) => {
+        throw `Failed to rescan database: ${err.statusText}`;
+      }),
+    );
   }
 
   getServerStatistics$(): Observable<ServerStatistics> {
-    const url = `${this.settingsService.getBackendContextAddr()}api/server-statistics`;
-    return this.http.get<ServerStatistics>(url);
+    const url = `${this.backendAddress}api/server-statistics`;
+    return this.http.get<ServerStatistics>(url).pipe(
+      catchError((err) => {
+        throw `Failed to fetch server statistics: ${err.statusText}`;
+      }),
+    );
   }
 
   getQueueTrackCount$(): Observable<number> {

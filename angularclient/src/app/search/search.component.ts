@@ -14,7 +14,7 @@ import { MatIcon } from "@angular/material/icon";
 import { MatInput } from "@angular/material/input";
 import { MatProgressSpinner } from "@angular/material/progress-spinner";
 import { ActivatedRoute, RouterLink } from "@angular/router";
-import { BehaviorSubject, Observable, Subject, combineLatest, of } from "rxjs";
+import { BehaviorSubject, Subject, combineLatest } from "rxjs";
 import { debounceTime, distinctUntilChanged, switchMap } from "rxjs/operators";
 import { NotificationService } from "../service/notification.service";
 import { QueueService } from "../service/queue.service";
@@ -52,7 +52,9 @@ export class SearchComponent implements OnInit {
   private queueService = inject(QueueService);
   private searchService = inject(SearchService);
 
-  advSearchResponse$ = new Observable<PaginatedResponse<Track>>();
+  advSearchResponse$ = new BehaviorSubject<PaginatedResponse<Track> | null>(
+    null,
+  );
   isLoadingResults = new BehaviorSubject(true);
   isMobile = false;
   search = "";
@@ -134,6 +136,6 @@ export class SearchComponent implements OnInit {
   ): void {
     this.trackTableData = this.buildTableData(advSearchResponse);
     this.isLoadingResults.next(false);
-    this.advSearchResponse$ = of(advSearchResponse);
+    this.advSearchResponse$.next(advSearchResponse);
   }
 }

@@ -16,7 +16,7 @@ export class LastFmService {
   constructor() {
     this.backendAddress = this.settingsService.getBackendContextAddr();
   }
-  
+
   getSimilarTracks(
     artist: string,
     title: string,

@@ -48,7 +48,7 @@
     "mochawesome-report-generator": "6.3.2",
     "npm-check-updates": "23.0.1",
     "package-lock-sanitizer": "1.0.4",
-    "postcss": "8.5.25",
+    "postcss": "8.5.26",
     "prettier": "3.9.6",
     "tailwindcss": "3.4.17",
     "typescript-eslint": "8.65.0"

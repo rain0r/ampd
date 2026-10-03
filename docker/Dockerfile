@@ -1,4 +1,4 @@
-FROM node as frontend
+FROM node AS frontend
 WORKDIR /app
 COPY angularclient .
 RUN npm ci \

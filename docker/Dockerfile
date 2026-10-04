@@ -1,18 +1,16 @@
-FROM node AS frontend
+FROM node:26-alpine3.23 AS frontend
 WORKDIR /app
 COPY angularclient .
-RUN npm ci \
+RUN npm i --no-progress --loglevel=error --no-audit --no-fund --save-exact --prefer-online --ignore-scripts \
     && npx ng build --output-path=dist --configuration=production --base-href=./
 
-FROM maven AS backend
+FROM maven:3-eclipse-temurin-25 AS backend
 WORKDIR /srv
 COPY --exclude=angularclient . .
 COPY --from=frontend /app/dist/browser/* src/main/resources/static/
-RUN rm -rf /var/lib/apt/lists/* \
-    && mvn package -q -Dskip.npm=true
+RUN mvn package -q -Dskip.npm=true
 
 FROM eclipse-temurin:25
 WORKDIR /opt/ampd
 COPY --from=backend /srv/target/ampd.jar .
-RUN rm -rf /var/lib/apt/lists/*
 CMD ["java", "-jar", "ampd.jar"]

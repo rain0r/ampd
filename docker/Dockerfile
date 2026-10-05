@@ -7,8 +7,10 @@ RUN npm i --no-progress --loglevel=error --no-audit --no-fund --save-exact --pre
 FROM maven:3-eclipse-temurin-25 AS backend
 WORKDIR /srv
 COPY --exclude=angularclient . .
-COPY --from=frontend /app/dist/browser/* src/main/resources/static/
-RUN mvn package -q -Dskip.npm=true
+# Ensure static is fresh
+RUN mvn -q clean && rm -rf src/main/resources/static/*
+COPY --from=frontend /app/dist/browser/. src/main/resources/static/
+RUN mvn -q -Dskip.npm=true -DskipTests package
 
 FROM eclipse-temurin:25
 WORKDIR /opt/ampd

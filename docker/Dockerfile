@@ -4,7 +4,7 @@ COPY angularclient .
 RUN npm i --no-progress --loglevel=error --no-audit --no-fund --save-exact --prefer-online --ignore-scripts \
     && npx ng build --output-path=dist --configuration=production --base-href=./
 
-FROM maven:3-eclipse-temurin-25 AS backend
+FROM maven:3-eclipse-temurin-27 AS backend
 WORKDIR /srv
 COPY --exclude=angularclient . .
 # Ensure static is fresh

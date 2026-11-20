@@ -45,10 +45,22 @@ services:
     restart: always
     container_name: "ampd"
     network_mode: "host"
-    env_file: .env
+    env_file: env
     volumes:
       - /mnt/music:/mnt/music:ro
       - ./home:/opt/ampd/home
+```
+
+A sample `env` file:
+
+```env
+HOME_DIR=/opt/ampd/home
+LOGGING_FILE_NAME=
+LOGGING_LEVEL_ORG_HIHN_AMPD=DEBUG
+MPD_MUSIC_DIRECTORY=/mnt/music
+MPD_SERVER=hermes
+SERVER_PORT=18449 # or whatever
+SERVER_SERVLET_CONTEXTPATH=/ampd # if you want to access ampd via example.com/ampd
 ```
 
 ## Build from source

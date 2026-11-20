@@ -34,6 +34,7 @@ public class BrowseService {
 	 * @param path The path to browse
 	 * @return Object with the directories, tracks and playlist of the given path.
 	 */
+	@Cacheable(SHORT_LIVED)
 	public BrowsePayload browse(final String path) {
 		/* Remove leading slashes */
 		String cleanPath = path.replaceAll("^/+", "").trim();
@@ -52,7 +53,6 @@ public class BrowseService {
 	 * @param path Path relative to the MPD root library.
 	 * @return Object with the directories and tracks of the given path.
 	 */
-	@Cacheable(SHORT_LIVED)
 	public BrowsePayload findDirsAndTracks(final String path) {
 		BrowsePayload browsePayload = new BrowsePayload();
 		// Build a MPDFile from the input path

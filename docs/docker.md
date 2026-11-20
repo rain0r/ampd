@@ -58,8 +58,7 @@ HOME_DIR=/opt/ampd/home
 LOGGING_FILE_NAME=
 LOGGING_LEVEL_ORG_HIHN_AMPD=DEBUG
 MPD_MUSIC_DIRECTORY=/mnt/music
-MPD_SERVER=hermes
-SERVER_PORT=18449 # or whatever
+MPD_SERVER=name-or-ip-of-my-mpd-server
 SERVER_SERVLET_CONTEXTPATH=/ampd # if you want to access ampd via example.com/ampd
 ```
 

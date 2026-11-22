@@ -52,7 +52,7 @@ public class MbCoverService {
 	}
 
 	/**
-	 * Download a cover from Musicbrainz.
+	 * Download a cover from MusicBrainz.
 	 * @param track A {@link MPDSong}.
 	 * @return The cover.
 	 */

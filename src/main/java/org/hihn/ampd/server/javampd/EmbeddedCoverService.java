@@ -45,7 +45,6 @@ public class EmbeddedCoverService {
 	 * @param file The file passed as argument to {@code readpicture}.
 	 * @return The embedded cover image as byte array.
 	 */
-	@Cacheable
 	public synchronized Optional<byte[]> getEmbeddedCover(String file) {
 		connectSocket();
 

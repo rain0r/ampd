@@ -98,9 +98,9 @@
             </exclusions>
         </dependency>
         <dependency>
-            <groupId>org.hihn</groupId>
-            <artifactId>listenbrainz-client</artifactId>
-            <version>1.8.0</version>
+            <groupId>org.hihn.listenbrainz</groupId>
+            <artifactId>client</artifactId>
+            <version>2026.11.22</version>
         </dependency>
         <dependency>
             <groupId>de.u-mass</groupId>

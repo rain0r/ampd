@@ -3,7 +3,8 @@ package org.hihn.ampd.server.service.scrobbler;
 import org.bff.javampd.playlist.MPDPlaylistSong;
 import org.hihn.ampd.server.model.AmpdSettings;
 import org.hihn.ampd.server.util.StringUtils;
-import org.hihn.listenbrainz.*;
+import org.hihn.listenbrainz.ApiException;
+import org.hihn.listenbrainz.client.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -12,8 +13,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import static org.hihn.listenbrainz.ListenType.PLAYING_NOW;
-import static org.hihn.listenbrainz.ListenType.SINGLE;
+import static org.hihn.listenbrainz.client.ListenType.PLAYING_NOW;
+import static org.hihn.listenbrainz.client.ListenType.SINGLE;
 
 /**
  * Service to scrobble songs to ListenBrainz.

@@ -5,7 +5,11 @@ import org.bff.javampd.artist.MPDArtist;
 import org.bff.javampd.server.MPD;
 import org.bff.javampd.song.MPDSong;
 import org.hihn.ampd.server.model.AmpdSettings;
-import org.hihn.listenbrainz.*;
+import org.hihn.listenbrainz.ApiException;
+import org.hihn.listenbrainz.client.LbCoreApi;
+import org.hihn.listenbrainz.client.ListensForUserPayloadListensInner;
+import org.hihn.listenbrainz.client.TrackMetadata;
+import org.hihn.listenbrainz.client.ValidateToken;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,7 +70,6 @@ public class RecentlyListenedService {
 		return new PageImpl<>(content, pageable, all.size());
 	}
 
-	@Cacheable
 	public Set<MPDAlbum> getRecentlyListenedAlbums() {
 		buildAuth();
 

@@ -1,25 +1,25 @@
 import { AsyncPipe } from "@angular/common";
 import {
+  ChangeDetectionStrategy,
   Component,
   DestroyRef,
   OnInit,
   inject,
-  ChangeDetectionStrategy,
 } from "@angular/core";
+import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { MatDivider } from "@angular/material/divider";
 import { Title } from "@angular/platform-browser";
 import { Observable, combineLatest } from "rxjs";
-import { map } from "rxjs/operators";
 import { FrontendSettingsService } from "../service/frontend-settings.service";
 import { MpdService } from "../service/mpd.service";
 import { SettingKeys } from "../shared/model/internal/frontend-settings";
+import { QueueTrack } from "../shared/model/queue-track";
 import { ControlPanelComponent } from "./control-panel/control-panel.component";
 import { MpdModeComponent } from "./mpd-modes/mpd-mode.component";
 import { QueueHeaderComponent } from "./queue-header/queue-header.component";
 import { TrackProgressComponent } from "./track-progress/track-progress.component";
 import { TrackTableComponent } from "./track-table/track-table.component";
 import { VolumeSliderComponent } from "./volume-slider/volume-slider.component";
-import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 
 @Component({
   selector: "app-queue",
@@ -43,7 +43,7 @@ export class QueueComponent implements OnInit {
   private mpdService = inject(MpdService);
   private titleService = inject(Title);
 
-  connected$: Observable<boolean>;
+  readonly connected$: Observable<boolean>;
 
   constructor() {
     this.connected$ = this.mpdService.isConnected$();
@@ -54,7 +54,7 @@ export class QueueComponent implements OnInit {
   }
 
   /**
-   * Subscribe to both the state and title queue and set the title accordingly.
+   * Combine the playback state, the current track, and the UPDATE_TAB_TITLE setting
    */
   private buildTitle(): void {
     combineLatest([
@@ -62,31 +62,31 @@ export class QueueComponent implements OnInit {
       this.mpdService.currentTrack$,
       this.frontendSettingsService.getBoolValue$(SettingKeys.UPDATE_TAB_TITLE),
     ])
-      .pipe(
-        map((results) => ({
-          state: results[0],
-          track: results[1],
-          tabTitle: results[2],
-        })),
-        takeUntilDestroyed(this.destroyRef),
-      )
-      .subscribe((result) => {
-        if (
-          !result.tabTitle ||
-          /* Empty artist and title (maybe web radio stream?) */
-          (result.track.artistName === "" && result.track.title === "")
-        ) {
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(([state, track, updateTitle]) => {
+        if (!updateTitle) {
           return;
         }
-        if (result.state === "stop") {
-          this.titleService.setTitle("Stopped");
-        } else {
-          if (result.track.artistName && result.track.title) {
-            this.titleService.setTitle(
-              `${result.track.artistName} — ${result.track.title}`,
-            );
-          }
+        const title = this.resolveTitle(state, track);
+        if (title) {
+          this.titleService.setTitle(title);
         }
       });
+  }
+
+  /**
+   * Build the tab title for the currently played track. Returns an empty string when nothing meaningful can be shown (e.g. an untagged file or radio stream).
+   */
+  private resolveTitle(
+    state: "stop" | "play" | "pause",
+    track: QueueTrack,
+  ): string {
+    if (state === "stop") {
+      return "Stopped";
+    }
+    if (track.artistName && track.title) {
+      return `${track.artistName} — ${track.title}`;
+    }
+    return track.title || track.artistName;
   }
 }
